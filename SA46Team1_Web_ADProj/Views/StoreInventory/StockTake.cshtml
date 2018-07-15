@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-storeInventoryStockTake').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>Inventory - Stock Take</h2>
+</div>
+
+
+<table id="dataTable-storeInventoryStockTake" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Available</th>
+            <th>Actual</th>
+            <th>Units</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Clip "2</td>
+            <td>Clip</td>
+            <td>75</td>
+            <td>73</td>
+            <td>Dozen</td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>Clip "2,5</td>
+            <td>Clip</td>
+            <td>75</td>
+            <td>75</td>
+            <td>Box</td>
+        </tr>
+    </tbody>
+</table>
+
+<button class="btn-blue">@Html.ActionLink("Cancel", "Home", "Store")</button>
+<button class="btn-blue">@Html.ActionLink("Update", "Home", "Store")</button>
+
+

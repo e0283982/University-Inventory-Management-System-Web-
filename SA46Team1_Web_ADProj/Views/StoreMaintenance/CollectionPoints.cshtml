@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-storeMaintenanceCollectionPts').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>Maintenance - Collection Point</h2>
+    <button class="btn-blue">@Html.ActionLink("Add New Collection Point", "Home", "Store")</button>
+</div>
+
+
+<table id="dataTable-storeMaintenanceCollectionPts" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Collection Point</th>
+            <th>Time</th>
+            <th>Staff-in-charge</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>Colletion Point A</td>
+            <td>9.30am</td>
+            <td>Ms Irene Tan</td>
+            <td>
+                <input type="checkbox" name="updatCollectionPtStatus" value="collectionPtStatus" checked>
+                <br>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+

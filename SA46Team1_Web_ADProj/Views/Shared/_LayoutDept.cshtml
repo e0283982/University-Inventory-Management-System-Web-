@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Dept</title>
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
+
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <script>
+        $(function () {
+            $("#menu").menu();
+        });
+    </script>
+
+    <style>
+
+        .ui-menu {
+            width: 150px;
+            background-color: lightgray;
+        }
+
+            .ui-menu li {
+                height: 7%;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+    </style>
+</head>
+<body>
+    <div class="container-top-right">
+        <i class="fas fa-bell" style="font-size:20px;"></i>
+        <button id="btn-logout">@Html.ActionLink("Logout", "Login", "Main")</button>
+    </div>
+
+    <div class="main-container">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <ul id="menu">
+                <li>@Html.ActionLink("Home", "Home", "Dept")</li>
+                <li>@Html.ActionLink("Requisition", "Requisition", "Dept")</li>
+                <li>@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</li>
+                <li>@Html.ActionLink("Approval", "Approval", "Dept")</li>
+                <li>@Html.ActionLink("Authorisation", "Authorisation", "Dept")</li>
+            </ul>
+        </nav>
+
+        <div class="container-body-content">
+            @RenderBody()
+        </div>
+    </div>
+    <hr />
+
+    @*<div class="footer">
+        <p>&copy; 2018 - SA46_ADProject</p>
+    </div>*@
+</body>
+</html>

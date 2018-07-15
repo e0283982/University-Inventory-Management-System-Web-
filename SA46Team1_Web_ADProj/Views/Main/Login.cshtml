@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+
+@model SA46Team1_Web_ADProj.Models.UserModel
+
+
+@using (Html.BeginForm())
+{
+<div class="login-form" style="border:2px solid gray;">
+
+    <div class="login-form-group-header">
+        <h1 id="login-title"> Login </h1>
+        @if (ViewBag.IsValid!=null && !ViewBag.IsValid)
+        {
+            <label id="lbl-wrong-pw">Incorrect username or password was entered.</label>
+        }
+
+    </div>
+
+    <div class="login-form-group-username">
+        <label>User Name: </label>
+        @Html.EditorFor(model => model.Username)*
+        @Html.ValidationMessageFor(model => model.Username)
+    </div>
+
+    <div class="login-form-group-password">
+        <label>Password:</label>
+        @Html.EditorFor(model => model.Password)*
+        @Html.ValidationMessageFor(model => model.Password)
+
+    </div>
+    <div class="login-form-group-error">
+        @if (@ViewBag.Failedcount != null)
+        {
+
+            <label> Failed Attempt count is: @ViewBag.Failedcount</label>
+        }
+
+        @if (@ViewBag.NotValidUser != null)
+        {
+
+            <label> @ViewBag.NotValidUser</label>
+        }
+    </div>
+
+    <div class="login-form-btn">
+        <input type="submit" value="Login" class="btn btn-normal" />
+        <br />
+        <label id="login-note">Note: Login with Username: "Store" or "Dept" & Password: ""</label>
+    </div>
+
+</div>
+}
+
+<style>
+
+    .login-form {
+        width: 40vw;
+        height: 70vh;
+        position: fixed;
+        margin-left: 30vw;
+        margin-top: 10vh;
+       
+        font-family: "Segoe UI",Arial,sans-serif;
+        font-size: 1.0vw;
+    
+    }
+
+    .login-form-group-header {
+        margin-left: 7vw;
+    }
+
+    .login-form-group-username {
+        margin-left: 7vw;
+    }
+
+    .login-form-group-password {
+        margin-left: 7vw;
+        margin-top: 2vh;
+    }
+
+    .login-form-btn input[type=submit] {
+        background-color: #1DA1F2; /* Blue */
+        border: none;
+        color: white;
+        padding: 6px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        position: relative;
+        left: 45%;
+        margin: 4px 2px;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+
+    .login-form-btn #login-note{
+        margin-left: 7vw;
+    }
+
+    #lbl-wrong-pw {
+        color:red;
+        font-style: italic;
+    }
+
+    #login-title {
+        margin-left: 10vw;
+    }
+</style>

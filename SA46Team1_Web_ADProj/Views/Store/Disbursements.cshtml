@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutStore.cshtml";
+}
+
+
+<script>
+    $(function () {
+        $("#tabs").tabs();
+    });
+</script>
+
+<div id="tabs">
+    <ul>
+        <li><a href="/StoreDisbursements/Requisition">Requisition List</a></li>
+        <li><a href="/StoreDisbursements/Retrieval">Retrieval List</a></li>
+        <li><a href="/StoreDisbursements/Disbursement">Disbursement List</a></li>
+    </ul>
+</div>

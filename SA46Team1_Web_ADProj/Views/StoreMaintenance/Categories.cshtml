@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-storeMaintenanceCategory').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>Maintenance - Category</h2>
+</div>
+
+
+<table id="dataTable-storeMaintenanceCategory" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>Clip "2</td>
+            <td>
+                <input type="checkbox" name="updateItemStatus" value="itemStatus" checked>
+                <br>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Clip "2.5</td>
+            <td>
+                <input type="checkbox" name="updateItemStatus" value="itemStatus" checked>
+                <br>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<button class="btn-blue">@Html.ActionLink("Add New Category", "Home", "Store")</button>
+

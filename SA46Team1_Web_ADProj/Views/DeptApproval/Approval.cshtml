@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-approval').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>Approval</h2>
+</div>
+
+
+<table id="dataTable-approval" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Requistion Form #</th>
+            <th>Date Requested</th>
+            <th>Requestor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>DDS/100/1</td>
+            <td>01-Jan-2018</td>
+            <td>Sally Wong</td>
+        </tr>
+        <tr>
+            <td>DDS/100/2</td>
+            <td>21-Jan-2018</td>
+            <td>Sally Wong</td>
+        </tr>
+    </tbody>
+</table>
+

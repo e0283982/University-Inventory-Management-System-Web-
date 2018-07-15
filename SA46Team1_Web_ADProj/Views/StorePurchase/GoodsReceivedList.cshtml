@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-goodsReceived').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+
+<div>
+    <h2>List of Goods Receipts</h2>
+</div>
+
+<table id="dataTable-goodsReceived" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Goods Received #</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>GR010</td>
+            <td>22-JAN-2018</td>
+            <td>Open</td>
+        </tr>
+        <tr>
+            <td>GR011</td>
+            <td>22-JAN-2018</td>
+            <td>Outstanding</td>
+        </tr>
+        <tr>
+            <td>GR012</td>
+            <td>23-JAN-2018</td>
+            <td>Complete</td>
+        </tr>
+    </tbody>
+</table>

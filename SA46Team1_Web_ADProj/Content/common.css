@@ -1,0 +1,22 @@
+﻿.btn-blue {
+    background-color: #1DA1F2; /* Blue */
+    color: white;
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    left: 85%;
+    margin: 4px 2px;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none
+}

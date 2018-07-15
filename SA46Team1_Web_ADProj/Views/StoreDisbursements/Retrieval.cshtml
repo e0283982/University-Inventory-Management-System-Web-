@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-storeDisbursementRetrievalList').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>List of Retrievals</h2>
+</div>
+
+
+<table id="dataTable-storeDisbursementRetrievalList" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Bin</th>
+            <th>Item</th>
+            <th>Items to Retrieve</th>
+            <th>Collection Point</th>
+            <th>Report Damaged/Missing items</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>8</td>
+            <td>Stapler Blue "10</td>
+            <td>5</td>
+            <td>Collection Point A</td>
+            <td>
+                <button class="btn-blue-small">Adjust</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>7</td>
+            <td>Stapler Blue "5</td>
+            <td>5</td>
+            <td>Collection Point B</td>
+            <td>
+                <button class="btn-blue-small">Adjust</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button class="btn-blue">@Html.ActionLink("Print List", "Home", "Store")</button>
+<button class="btn-blue">@Html.ActionLink("Disburse Items", "Home", "Store")</button>

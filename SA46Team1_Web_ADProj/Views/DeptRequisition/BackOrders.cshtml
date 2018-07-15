@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-backOrders').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>Back Order</h2>
+</div>
+
+
+<table id="dataTable-backOrders" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Requisition Form #</th>
+            <th>Description</th>
+            <th>Unit of Measure</th>
+            <th>Outstanding Qty</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>001</td>
+            <td>Pad Post it</td>
+            <td>Dozen</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>002</td>
+            <td>Pad Post it 2</td>
+            <td>Dozen</td>
+            <td>11</td>
+        </tr>
+    </tbody>
+</table>
+
+<button class="btn-blue">@Html.ActionLink("Discard Selected Items", "Home", "Dept")</button>

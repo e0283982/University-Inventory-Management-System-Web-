@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-storeMaintenanceSuppliers').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>Maintenance - Supplier</h2>
+    <button class="btn-blue">@Html.ActionLink("Add New Supplier", "Home", "Store")</button>
+</div>
+
+
+<table id="dataTable-storeMaintenanceSuppliers" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Phone No.</th>
+            <th>Fax No.</th>
+            <th>Address</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>Supplier A</td>
+            <td>Ms Irene Tan</td>
+            <td>461 9999</td>
+            <td>461 9992</td>
+            <td>Blk 111 NTU Lost Road</td>
+            <td>
+                <input type="checkbox" name="updateSupplierStatus" value="supplierStatus" checked>
+                <br>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Supplier B</td>
+            <td>Ms Amy Tan</td>
+            <td>461 9899</td>
+            <td>461 9892</td>
+            <td>Blk 111 Chinatown Lost Road</td>
+            <td>
+                <input type="checkbox" name="updateSupplierStatus" value="supplierStatus" checked>
+                <br>
+            </td>
+        </tr>
+    </tbody>
+</table>

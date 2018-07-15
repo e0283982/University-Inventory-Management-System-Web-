@@ -1,0 +1,110 @@
+﻿body {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-family: "Segoe UI",Arial,sans-serif;
+    font-size: 1.0vw;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.container-body-content,
+ #tabs {
+    float: left;
+    width: 85vw;
+    height: 80vh;
+    overflow:hidden;
+}
+
+#btn-submit-new-req {
+    background-color: #1DA1F2; /* Blue */
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    left: 40%;
+    margin: 4px 2px;
+    margin-top: 5vh;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+#btn-submit-discard-backlog-items {
+    background-color: #1DA1F2; /* Blue */
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    left: 40%;
+    margin: 4px 2px;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+#menu {
+    width: 10vw;
+    float: left;
+    margin-left: 1vw;
+    height: 80vh;
+}
+
+.main-container {
+    position: relative;
+    height: 90vh;
+    margin-top: 5vh;
+}
+
+.container-top-right {
+    margin-right: 2vw;
+    float:right;
+}
+
+    .container-top-right #btn-logout {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 6px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: grey;
+    color: white;
+    text-align: center;
+}
+
+
+
