@@ -1,113 +1,57 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/_Login.cshtml";
 }
 
 @model SA46Team1_Web_ADProj.Models.UserModel
 
+<div class="login-clean">
+    <form method="post">
 
-@using (Html.BeginForm())
-{
-<div class="login-form" style="border:2px solid gray;">
+        @*title*@
+        <div>
+            <h2 class="sr-only">Login Form</h2>
+            @if (ViewBag.IsValid != null && !ViewBag.IsValid)
+            {
+                <label id="lbl-wrong-pw">Incorrect username or password was entered.</label>
+            }
+        </div>
 
-    <div class="login-form-group-header">
-        <h1 id="login-title"> Login </h1>
-        @if (ViewBag.IsValid!=null && !ViewBag.IsValid)
-        {
-            <label id="lbl-wrong-pw">Incorrect username or password was entered.</label>
-        }
+        @*image*@
+        @*logo to be designed*@
+        <div class="illustration"><i class="icon ion-ios-navigate"></i></div>
 
-    </div>
+        @*email*@
+        <div class="form-group">
+            @*<input class="form-control" type="email" name="email" placeholder="Email">*@
+            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" }, })
+            @Html.ValidationMessageFor(model => model.Username)
+        </div>
 
-    <div class="login-form-group-username">
-        <label>User Name: </label>
-        @Html.EditorFor(model => model.Username)*
-        @Html.ValidationMessageFor(model => model.Username)
-    </div>
+        @*password*@
+        <div class="form-group">
+            @*<input class="form-control" type="password" name="password" placeholder="Password">*@
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" }, })
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
 
-    <div class="login-form-group-password">
-        <label>Password:</label>
-        @Html.EditorFor(model => model.Password)*
-        @Html.ValidationMessageFor(model => model.Password)
+        @*button*@
+        <div class="form-group">
+            <button class="btn btn-info btn-block" type="submit">Log In</button>
+        </div>
 
-    </div>
-    <div class="login-form-group-error">
-        @if (@ViewBag.Failedcount != null)
-        {
+        @*forgot password*@
+        <a href="#" class="forgot">Forgot your email or password?</a>
 
-            <label> Failed Attempt count is: @ViewBag.Failedcount</label>
-        }
-
-        @if (@ViewBag.NotValidUser != null)
-        {
-
-            <label> @ViewBag.NotValidUser</label>
-        }
-    </div>
-
-    <div class="login-form-btn">
-        <input type="submit" value="Login" class="btn btn-normal" />
-        <br />
-        <label id="login-note">Note: Login with Username: "Store" or "Dept" & Password: ""</label>
-    </div>
-
+        <a class="forgot">Note: Login with Username: "Store" or "Dept" & Password: ""</a>
+    </form>
 </div>
-}
 
-<style>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
-    .login-form {
-        width: 40vw;
-        height: 70vh;
-        position: fixed;
-        margin-left: 30vw;
-        margin-top: 10vh;
-       
-        font-family: "Segoe UI",Arial,sans-serif;
-        font-size: 1.0vw;
-    
-    }
 
-    .login-form-group-header {
-        margin-left: 7vw;
-    }
+@*@using (Html.BeginForm())
+{
+    Not sure what this is for, so I'll leave this in for now
 
-    .login-form-group-username {
-        margin-left: 7vw;
-    }
-
-    .login-form-group-password {
-        margin-left: 7vw;
-        margin-top: 2vh;
-    }
-
-    .login-form-btn input[type=submit] {
-        background-color: #1DA1F2; /* Blue */
-        border: none;
-        color: white;
-        padding: 6px 14px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        position: relative;
-        left: 45%;
-        margin: 4px 2px;
-        margin-top: 5vh;
-        margin-bottom: 5vh;
-        -webkit-transition-duration: 0.4s; /* Safari */
-        transition-duration: 0.4s;
-        cursor: pointer;
-    }
-
-    .login-form-btn #login-note{
-        margin-left: 7vw;
-    }
-
-    #lbl-wrong-pw {
-        color:red;
-        font-style: italic;
-    }
-
-    #login-title {
-        margin-left: 10vw;
-    }
-</style>
+}*@

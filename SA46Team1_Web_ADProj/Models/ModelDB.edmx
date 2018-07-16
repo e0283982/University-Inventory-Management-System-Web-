@@ -1,0 +1,2404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ApprovalDelegation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateAssigned" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+          <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="FromDate" Type="date" Nullable="false" />
+          <Property Name="ToDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bin">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CollectionPoint">
+          <Key>
+            <PropertyRef Name="CollectionPointID" />
+          </Key>
+          <Property Name="CollectionPointID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CollectionTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CollectionPointTrans">
+          <Key>
+            <PropertyRef Name="DepartmentCode" />
+            <PropertyRef Name="CollectionPointID" />
+          </Key>
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="CollectionPointID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentCode" />
+          </Key>
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DepartmentDetails">
+          <Key>
+            <PropertyRef Name="DepartmentCode" />
+          </Key>
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ContactID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="TelephoneNo" Type="int" Nullable="false" />
+          <Property Name="FaxNo" Type="int" />
+          <Property Name="CollectionPointID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="RepresentativeID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ApproverID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DisbursementDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" Nullable="false" />
+          <Property Name="QuantityReceived" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="real" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QuantityAdjusted" Type="int" Nullable="false" />
+          <Property Name="TransactionType" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DisbursementHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="CollectionPointID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="RepresentativeID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Amount" Type="real" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="Signature" Type="image" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="EmployeeEmail" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Designation" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="ContactNo" Type="int" Nullable="false" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Approver" Type="tinyint" Nullable="false" />
+          <Property Name="ReportsTo" Type="nvarchar" MaxLength="12" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="CategoryID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Supplier1" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Supplier2" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Supplier3" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+          <Property Name="AvgUnitCost" Type="real" Nullable="false" />
+          <Property Name="ReOrderLevel" Type="int" Nullable="false" />
+          <Property Name="ReOrderQuantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemTransaction">
+          <Key>
+            <PropertyRef Name="TransDateTime" />
+            <PropertyRef Name="DocumentRefNo" />
+          </Key>
+          <Property Name="TransDateTime" Type="datetime" Nullable="false" />
+          <Property Name="DocumentRefNo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="TransactionType" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="real" Nullable="false" />
+          <Property Name="Amount" Type="real" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="PODetails">
+          <Key>
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="int" Nullable="false" />
+          <Property Name="QuantityBackOrdered" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="real" Nullable="false" />
+          <Property Name="CancelledBackOrdered" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="POHeader">
+          <Key>
+            <PropertyRef Name="PONumber" />
+          </Key>
+          <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ContactName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DeliverTo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TransactionType" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="POReceiptDetails">
+          <Key>
+            <PropertyRef Name="ReceiptNo" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="ReceiptNo" Type="int" Nullable="false" />
+          <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="QuantityReceived" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="real" Nullable="false" />
+          <Property Name="Amount" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="POReceiptHeader">
+          <Key>
+            <PropertyRef Name="ReceiptNo" />
+          </Key>
+          <Property Name="ReceiptNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DeliveryOrderNo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ReceivedDate" Type="date" Nullable="false" />
+          <Property Name="Receiver" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+          <Property Name="TotalAmount" Type="real" Nullable="false" />
+          <Property Name="TransactionType" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Designation" />
+          </Key>
+          <Property Name="Designation" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StaffRequisitionDetails">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="int" Nullable="false" />
+          <Property Name="QuantityBackOrdered" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StaffRequisitionHeader">
+          <Key>
+            <PropertyRef Name="FormID" />
+          </Key>
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="DateRequested" Type="date" Nullable="false" />
+          <Property Name="Approver" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="DateProcessed" Type="date" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="ApprovalStatus" Type="nvarchar" MaxLength="70" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentDetails">
+          <Key>
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ItemQuantity" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="real" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentHeader">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateRequested" Type="date" Nullable="false" />
+          <Property Name="Requestor" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Approver" Type="nvarchar" MaxLength="12" />
+          <Property Name="DateProcessed" Type="date" />
+          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="TransactionType" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockCount">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ItemQuantity" Type="int" Nullable="false" />
+          <Property Name="AverageUnitCost" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockRetrievalDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Bin" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Bin" Type="int" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="QuantityRetrieved" Type="int" Nullable="false" />
+          <Property Name="CollectionPointID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="QuantityAdjusted" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockRetrievalHeader">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockTakeDetails">
+          <Key>
+            <PropertyRef Name="StockTakeID" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="StockTakeID" Type="int" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="QuantityOnHand" Type="int" Nullable="false" />
+          <Property Name="QuantityCounted" Type="int" Nullable="false" />
+          <Property Name="QuantityAdjusted" Type="int" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="StockTakeHeader">
+          <Key>
+            <PropertyRef Name="StockTakeID" />
+          </Key>
+          <Property Name="StockTakeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TransactionType" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierCode" />
+          </Key>
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ContactName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PhoneNo" Type="int" Nullable="false" />
+          <Property Name="FaxNo" Type="int" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="GSTRegistrationNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplierPriceList">
+          <Key>
+            <PropertyRef Name="SupplierCode" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="UnitCost" Type="real" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Active" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Bin__ItemCode__6E01572D">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="Bin" Type="Self.Bin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="Bin">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Appro__7B5B524B">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DepartmentDetails" Type="Self.DepartmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DepartmentDetails">
+              <PropertyRef Name="ApproverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Colle__797309D9">
+          <End Role="CollectionPoint" Type="Self.CollectionPoint" Multiplicity="1" />
+          <End Role="DepartmentDetails" Type="Self.DepartmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollectionPoint">
+              <PropertyRef Name="CollectionPointID" />
+            </Principal>
+            <Dependent Role="DepartmentDetails">
+              <PropertyRef Name="CollectionPointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Conta__787EE5A0">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DepartmentDetails" Type="Self.DepartmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DepartmentDetails">
+              <PropertyRef Name="ContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Repre__7A672E12">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DepartmentDetails" Type="Self.DepartmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DepartmentDetails">
+              <PropertyRef Name="RepresentativeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Colle__3A4CA8FD">
+          <End Role="CollectionPoint" Type="Self.CollectionPoint" Multiplicity="1" />
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollectionPoint">
+              <PropertyRef Name="CollectionPointID" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="CollectionPointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Depar__395884C4">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentCode" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="DepartmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__ItemC__3F115E1A">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="DisbursementDetails" Type="Self.DisbursementDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="DisbursementDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Repre__3B40CD36">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="RepresentativeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursement__Id__3E1D39E1">
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="1" />
+          <End Role="DisbursementDetails" Type="Self.DisbursementDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DisbursementHeader">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DisbursementDetails">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Depart__4316F928">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentCode" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Design__0C50D423">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Designation" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Designation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__CategoryID__5BE2A6F2">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__Supplier1__5CD6CB2B">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Supplier1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__Supplier2__5DCAEF64">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Supplier2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__Supplier3__5EBF139D">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Supplier3" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemTrans__ItemC__6442E2C9">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="ItemTransaction" Type="Self.ItemTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="ItemTransaction">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POHeader__Employ__17036CC0">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="POHeader" Type="Self.POHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="POHeader">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POHeader__Suppli__160F4887">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="POHeader" Type="Self.POHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="POHeader">
+              <PropertyRef Name="SupplierCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POHeaderD__ItemC__1EA48E88">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="PODetails" Type="Self.PODetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="PODetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POHeaderD__PONum__1DB06A4F">
+          <End Role="POHeader" Type="Self.POHeader" Multiplicity="1" />
+          <End Role="PODetails" Type="Self.PODetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POHeader">
+              <PropertyRef Name="PONumber" />
+            </Principal>
+            <Dependent Role="PODetails">
+              <PropertyRef Name="PONumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POReceipt__ItemC__2A164134">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="POReceiptDetails" Type="Self.POReceiptDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="POReceiptDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POReceipt__PONum__2180FB33">
+          <End Role="POHeader" Type="Self.POHeader" Multiplicity="1" />
+          <End Role="POReceiptHeader" Type="Self.POReceiptHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POHeader">
+              <PropertyRef Name="PONumber" />
+            </Principal>
+            <Dependent Role="POReceiptHeader">
+              <PropertyRef Name="PONumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POReceipt__Recei__22751F6C">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="POReceiptHeader" Type="Self.POReceiptHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="POReceiptHeader">
+              <PropertyRef Name="Receiver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POReceipt__Recei__29221CFB">
+          <End Role="POReceiptHeader" Type="Self.POReceiptHeader" Multiplicity="1" />
+          <End Role="POReceiptDetails" Type="Self.POReceiptDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POReceiptHeader">
+              <PropertyRef Name="ReceiptNo" />
+            </Principal>
+            <Dependent Role="POReceiptDetails">
+              <PropertyRef Name="ReceiptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StaffRequ__FormI__57DD0BE4">
+          <End Role="StaffRequisitionHeader" Type="Self.StaffRequisitionHeader" Multiplicity="1" />
+          <End Role="StaffRequisitionDetails" Type="Self.StaffRequisitionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StaffRequisitionHeader">
+              <PropertyRef Name="FormID" />
+            </Principal>
+            <Dependent Role="StaffRequisitionDetails">
+              <PropertyRef Name="FormID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StaffRequ__ItemC__58D1301D">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="StaffRequisitionDetails" Type="Self.StaffRequisitionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StaffRequisitionDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__Appro__43D61337">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="StockAdjustmentHeader">
+              <PropertyRef Name="Approver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__ItemC__47A6A41B">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="StockAdjustmentDetails" Type="Self.StockAdjustmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StockAdjustmentDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__Reque__42E1EEFE">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="StockAdjustmentHeader">
+              <PropertyRef Name="Requestor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__Reque__46B27FE2">
+          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="1" />
+          <End Role="StockAdjustmentDetails" Type="Self.StockAdjustmentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockAdjustmentHeader">
+              <PropertyRef Name="RequestId" />
+            </Principal>
+            <Dependent Role="StockAdjustmentDetails">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetr__Colle__3587F3E0">
+          <End Role="CollectionPoint" Type="Self.CollectionPoint" Multiplicity="1" />
+          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollectionPoint">
+              <PropertyRef Name="CollectionPointID" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetails">
+              <PropertyRef Name="CollectionPointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetr__Depar__367C1819">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentCode" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetails">
+              <PropertyRef Name="DepartmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetr__ItemC__3493CFA7">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetriev__Id__339FAB6E">
+          <End Role="StockRetrievalHeader" Type="Self.StockRetrievalHeader" Multiplicity="1" />
+          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockRetrievalHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetails">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockTake__ItemC__531856C7">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="StockTakeDetails" Type="Self.StockTakeDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StockTakeDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockTake__Stock__5224328E">
+          <End Role="StockTakeHeader" Type="Self.StockTakeHeader" Multiplicity="1" />
+          <End Role="StockTakeDetails" Type="Self.StockTakeDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockTakeHeader">
+              <PropertyRef Name="StockTakeID" />
+            </Principal>
+            <Dependent Role="StockTakeDetails">
+              <PropertyRef Name="StockTakeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SupplierP__ItemC__7F2BE32F">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="SupplierPriceList" Type="Self.SupplierPriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="SupplierPriceList">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SupplierP__Suppl__7E37BEF6">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="SupplierPriceList" Type="Self.SupplierPriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="SupplierPriceList">
+              <PropertyRef Name="SupplierCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SSISdbModelStoreContainer">
+          <EntitySet Name="ApprovalDelegation" EntityType="Self.ApprovalDelegation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bin" EntityType="Self.Bin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CollectionPoint" EntityType="Self.CollectionPoint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CollectionPointTrans" EntityType="Self.CollectionPointTrans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DepartmentDetails" EntityType="Self.DepartmentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DisbursementDetails" EntityType="Self.DisbursementDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DisbursementHeader" EntityType="Self.DisbursementHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemTransaction" EntityType="Self.ItemTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PODetails" EntityType="Self.PODetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="POHeader" EntityType="Self.POHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="POReceiptDetails" EntityType="Self.POReceiptDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="POReceiptHeader" EntityType="Self.POReceiptHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffRequisitionDetails" EntityType="Self.StaffRequisitionDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffRequisitionHeader" EntityType="Self.StaffRequisitionHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockAdjustmentDetails" EntityType="Self.StockAdjustmentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockAdjustmentHeader" EntityType="Self.StockAdjustmentHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockCount" EntityType="Self.StockCount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockRetrievalDetails" EntityType="Self.StockRetrievalDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockRetrievalHeader" EntityType="Self.StockRetrievalHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockTakeDetails" EntityType="Self.StockTakeDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockTakeHeader" EntityType="Self.StockTakeHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupplierPriceList" EntityType="Self.SupplierPriceList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="Bin" EntitySet="Bin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Appro__7B5B524B" Association="Self.FK__Departmen__Appro__7B5B524B">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Colle__797309D9" Association="Self.FK__Departmen__Colle__797309D9">
+            <End Role="CollectionPoint" EntitySet="CollectionPoint" />
+            <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Conta__787EE5A0" Association="Self.FK__Departmen__Conta__787EE5A0">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Repre__7A672E12" Association="Self.FK__Departmen__Repre__7A672E12">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Colle__3A4CA8FD" Association="Self.FK__Disbursem__Colle__3A4CA8FD">
+            <End Role="CollectionPoint" EntitySet="CollectionPoint" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Depar__395884C4" Association="Self.FK__Disbursem__Depar__395884C4">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__ItemC__3F115E1A" Association="Self.FK__Disbursem__ItemC__3F115E1A">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="DisbursementDetails" EntitySet="DisbursementDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Repre__3B40CD36" Association="Self.FK__Disbursem__Repre__3B40CD36">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursement__Id__3E1D39E1" Association="Self.FK__Disbursement__Id__3E1D39E1">
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeader" />
+            <End Role="DisbursementDetails" EntitySet="DisbursementDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Depart__4316F928" Association="Self.FK__Employee__Depart__4316F928">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Design__0C50D423" Association="Self.FK__Employee__Design__0C50D423">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__CategoryID__5BE2A6F2" Association="Self.FK__Item__CategoryID__5BE2A6F2">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__Supplier1__5CD6CB2B" Association="Self.FK__Item__Supplier1__5CD6CB2B">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__Supplier2__5DCAEF64" Association="Self.FK__Item__Supplier2__5DCAEF64">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__Supplier3__5EBF139D" Association="Self.FK__Item__Supplier3__5EBF139D">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemTrans__ItemC__6442E2C9" Association="Self.FK__ItemTrans__ItemC__6442E2C9">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="ItemTransaction" EntitySet="ItemTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POHeader__Employ__17036CC0" Association="Self.FK__POHeader__Employ__17036CC0">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="POHeader" EntitySet="POHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POHeader__Suppli__160F4887" Association="Self.FK__POHeader__Suppli__160F4887">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="POHeader" EntitySet="POHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POHeaderD__ItemC__1EA48E88" Association="Self.FK__POHeaderD__ItemC__1EA48E88">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="PODetails" EntitySet="PODetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POHeaderD__PONum__1DB06A4F" Association="Self.FK__POHeaderD__PONum__1DB06A4F">
+            <End Role="POHeader" EntitySet="POHeader" />
+            <End Role="PODetails" EntitySet="PODetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POReceipt__ItemC__2A164134" Association="Self.FK__POReceipt__ItemC__2A164134">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="POReceiptDetails" EntitySet="POReceiptDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POReceipt__PONum__2180FB33" Association="Self.FK__POReceipt__PONum__2180FB33">
+            <End Role="POHeader" EntitySet="POHeader" />
+            <End Role="POReceiptHeader" EntitySet="POReceiptHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POReceipt__Recei__22751F6C" Association="Self.FK__POReceipt__Recei__22751F6C">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="POReceiptHeader" EntitySet="POReceiptHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POReceipt__Recei__29221CFB" Association="Self.FK__POReceipt__Recei__29221CFB">
+            <End Role="POReceiptHeader" EntitySet="POReceiptHeader" />
+            <End Role="POReceiptDetails" EntitySet="POReceiptDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StaffRequ__FormI__57DD0BE4" Association="Self.FK__StaffRequ__FormI__57DD0BE4">
+            <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeader" />
+            <End Role="StaffRequisitionDetails" EntitySet="StaffRequisitionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StaffRequ__ItemC__58D1301D" Association="Self.FK__StaffRequ__ItemC__58D1301D">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="StaffRequisitionDetails" EntitySet="StaffRequisitionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__Appro__43D61337" Association="Self.FK__StockAdju__Appro__43D61337">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__ItemC__47A6A41B" Association="Self.FK__StockAdju__ItemC__47A6A41B">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__Reque__42E1EEFE" Association="Self.FK__StockAdju__Reque__42E1EEFE">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__Reque__46B27FE2" Association="Self.FK__StockAdju__Reque__46B27FE2">
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeader" />
+            <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__Colle__3587F3E0" Association="Self.FK__StockRetr__Colle__3587F3E0">
+            <End Role="CollectionPoint" EntitySet="CollectionPoint" />
+            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__Depar__367C1819" Association="Self.FK__StockRetr__Depar__367C1819">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__ItemC__3493CFA7" Association="Self.FK__StockRetr__ItemC__3493CFA7">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetriev__Id__339FAB6E" Association="Self.FK__StockRetriev__Id__339FAB6E">
+            <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeader" />
+            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockTake__ItemC__531856C7" Association="Self.FK__StockTake__ItemC__531856C7">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="StockTakeDetails" EntitySet="StockTakeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockTake__Stock__5224328E" Association="Self.FK__StockTake__Stock__5224328E">
+            <End Role="StockTakeHeader" EntitySet="StockTakeHeader" />
+            <End Role="StockTakeDetails" EntitySet="StockTakeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SupplierP__ItemC__7F2BE32F" Association="Self.FK__SupplierP__ItemC__7F2BE32F">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SupplierP__Suppl__7E37BEF6" Association="Self.FK__SupplierP__Suppl__7E37BEF6">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SSISdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ApprovalDelegation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateAssigned" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Bin">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__Bin__ItemCode__6E01572D" FromRole="Bin" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Items" Relationship="Self.FK__Item__CategoryID__5BE2A6F2" FromRole="Category" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="CollectionPoint">
+          <Key>
+            <PropertyRef Name="CollectionPointID" />
+          </Key>
+          <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CollectionPointDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CollectionTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="DepartmentDetails" Relationship="Self.FK__Departmen__Colle__797309D9" FromRole="CollectionPoint" ToRole="DepartmentDetails" />
+          <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Colle__3A4CA8FD" FromRole="CollectionPoint" ToRole="DisbursementHeader" />
+          <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetr__Colle__3587F3E0" FromRole="CollectionPoint" ToRole="StockRetrievalDetails" />
+        </EntityType>
+        <EntityType Name="CollectionPointTran">
+          <Key>
+            <PropertyRef Name="DepartmentCode" />
+            <PropertyRef Name="CollectionPointID" />
+          </Key>
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentCode" />
+          </Key>
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Depar__395884C4" FromRole="Department" ToRole="DisbursementHeader" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Depart__4316F928" FromRole="Department" ToRole="Employee" />
+          <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetr__Depar__367C1819" FromRole="Department" ToRole="StockRetrievalDetails" />
+        </EntityType>
+        <EntityType Name="DepartmentDetail">
+          <Key>
+            <PropertyRef Name="DepartmentCode" />
+          </Key>
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TelephoneNo" Type="Int32" Nullable="false" />
+          <Property Name="FaxNo" Type="Int32" />
+          <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RepresentativeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApproverID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__Departmen__Colle__797309D9" FromRole="DepartmentDetails" ToRole="CollectionPoint" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Departmen__Appro__7B5B524B" FromRole="DepartmentDetails" ToRole="Employee" />
+          <NavigationProperty Name="Employee1" Relationship="Self.FK__Departmen__Conta__787EE5A0" FromRole="DepartmentDetails" ToRole="Employee" />
+          <NavigationProperty Name="Employee2" Relationship="Self.FK__Departmen__Repre__7A672E12" FromRole="DepartmentDetails" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="DisbursementDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
+          <Property Name="TransactionType" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__Disbursem__ItemC__3F115E1A" FromRole="DisbursementDetails" ToRole="Item" />
+          <NavigationProperty Name="DisbursementHeader" Relationship="Self.FK__Disbursement__Id__3E1D39E1" FromRole="DisbursementDetails" ToRole="DisbursementHeader" />
+        </EntityType>
+        <EntityType Name="DisbursementHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RepresentativeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Signature" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__Disbursem__Colle__3A4CA8FD" FromRole="DisbursementHeader" ToRole="CollectionPoint" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Disbursem__Depar__395884C4" FromRole="DisbursementHeader" ToRole="Department" />
+          <NavigationProperty Name="DisbursementDetails" Relationship="Self.FK__Disbursement__Id__3E1D39E1" FromRole="DisbursementHeader" ToRole="DisbursementDetails" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Disbursem__Repre__3B40CD36" FromRole="DisbursementHeader" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeEmail" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Designation" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactNo" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Approver" Type="Byte" Nullable="false" />
+          <Property Name="ReportsTo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Employee__Depart__4316F928" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="DepartmentDetails" Relationship="Self.FK__Departmen__Appro__7B5B524B" FromRole="Employee" ToRole="DepartmentDetails" />
+          <NavigationProperty Name="DepartmentDetails1" Relationship="Self.FK__Departmen__Conta__787EE5A0" FromRole="Employee" ToRole="DepartmentDetails" />
+          <NavigationProperty Name="DepartmentDetails2" Relationship="Self.FK__Departmen__Repre__7A672E12" FromRole="Employee" ToRole="DepartmentDetails" />
+          <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Repre__3B40CD36" FromRole="Employee" ToRole="DisbursementHeader" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__Employee__Design__0C50D423" FromRole="Employee" ToRole="Role" />
+          <NavigationProperty Name="POHeaders" Relationship="Self.FK__POHeader__Employ__17036CC0" FromRole="Employee" ToRole="POHeader" />
+          <NavigationProperty Name="POReceiptHeaders" Relationship="Self.FK__POReceipt__Recei__22751F6C" FromRole="Employee" ToRole="POReceiptHeader" />
+          <NavigationProperty Name="StockAdjustmentHeaders" Relationship="Self.FK__StockAdju__Appro__43D61337" FromRole="Employee" ToRole="StockAdjustmentHeader" />
+          <NavigationProperty Name="StockAdjustmentHeaders1" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="Employee" ToRole="StockAdjustmentHeader" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Supplier1" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Supplier2" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Supplier3" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <Property Name="AvgUnitCost" Type="Single" Nullable="false" />
+          <Property Name="ReOrderLevel" Type="Int32" Nullable="false" />
+          <Property Name="ReOrderQuantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bins" Relationship="Self.FK__Bin__ItemCode__6E01572D" FromRole="Item" ToRole="Bin" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Item__CategoryID__5BE2A6F2" FromRole="Item" ToRole="Category" />
+          <NavigationProperty Name="DisbursementDetails" Relationship="Self.FK__Disbursem__ItemC__3F115E1A" FromRole="Item" ToRole="DisbursementDetails" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK__Item__Supplier1__5CD6CB2B" FromRole="Item" ToRole="Supplier" />
+          <NavigationProperty Name="Supplier4" Relationship="Self.FK__Item__Supplier2__5DCAEF64" FromRole="Item" ToRole="Supplier" />
+          <NavigationProperty Name="Supplier5" Relationship="Self.FK__Item__Supplier3__5EBF139D" FromRole="Item" ToRole="Supplier" />
+          <NavigationProperty Name="ItemTransactions" Relationship="Self.FK__ItemTrans__ItemC__6442E2C9" FromRole="Item" ToRole="ItemTransaction" />
+          <NavigationProperty Name="PODetails" Relationship="Self.FK__POHeaderD__ItemC__1EA48E88" FromRole="Item" ToRole="PODetails" />
+          <NavigationProperty Name="POReceiptDetails" Relationship="Self.FK__POReceipt__ItemC__2A164134" FromRole="Item" ToRole="POReceiptDetails" />
+          <NavigationProperty Name="StaffRequisitionDetails" Relationship="Self.FK__StaffRequ__ItemC__58D1301D" FromRole="Item" ToRole="StaffRequisitionDetails" />
+          <NavigationProperty Name="StockAdjustmentDetails" Relationship="Self.FK__StockAdju__ItemC__47A6A41B" FromRole="Item" ToRole="StockAdjustmentDetails" />
+          <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetr__ItemC__3493CFA7" FromRole="Item" ToRole="StockRetrievalDetails" />
+          <NavigationProperty Name="StockTakeDetails" Relationship="Self.FK__StockTake__ItemC__531856C7" FromRole="Item" ToRole="StockTakeDetails" />
+          <NavigationProperty Name="SupplierPriceLists" Relationship="Self.FK__SupplierP__ItemC__7F2BE32F" FromRole="Item" ToRole="SupplierPriceList" />
+        </EntityType>
+        <EntityType Name="ItemTransaction">
+          <Key>
+            <PropertyRef Name="TransDateTime" />
+            <PropertyRef Name="DocumentRefNo" />
+          </Key>
+          <Property Name="TransDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DocumentRefNo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TransactionType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__ItemTrans__ItemC__6442E2C9" FromRole="ItemTransaction" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="PODetail">
+          <Key>
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityBackOrdered" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="CancelledBackOrdered" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__POHeaderD__ItemC__1EA48E88" FromRole="PODetails" ToRole="Item" />
+          <NavigationProperty Name="POHeader" Relationship="Self.FK__POHeaderD__PONum__1DB06A4F" FromRole="PODetails" ToRole="POHeader" />
+        </EntityType>
+        <EntityType Name="POHeader">
+          <Key>
+            <PropertyRef Name="PONumber" />
+          </Key>
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SupplierCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliverTo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TransactionType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__POHeader__Employ__17036CC0" FromRole="POHeader" ToRole="Employee" />
+          <NavigationProperty Name="PODetails" Relationship="Self.FK__POHeaderD__PONum__1DB06A4F" FromRole="POHeader" ToRole="PODetails" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK__POHeader__Suppli__160F4887" FromRole="POHeader" ToRole="Supplier" />
+          <NavigationProperty Name="POReceiptHeaders" Relationship="Self.FK__POReceipt__PONum__2180FB33" FromRole="POHeader" ToRole="POReceiptHeader" />
+        </EntityType>
+        <EntityType Name="POReceiptDetail">
+          <Key>
+            <PropertyRef Name="ReceiptNo" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="ReceiptNo" Type="Int32" Nullable="false" />
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__POReceipt__ItemC__2A164134" FromRole="POReceiptDetails" ToRole="Item" />
+          <NavigationProperty Name="POReceiptHeader" Relationship="Self.FK__POReceipt__Recei__29221CFB" FromRole="POReceiptDetails" ToRole="POReceiptHeader" />
+        </EntityType>
+        <EntityType Name="POReceiptHeader">
+          <Key>
+            <PropertyRef Name="ReceiptNo" />
+          </Key>
+          <Property Name="ReceiptNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliveryOrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Receiver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TotalAmount" Type="Single" Nullable="false" />
+          <Property Name="TransactionType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__POReceipt__Recei__22751F6C" FromRole="POReceiptHeader" ToRole="Employee" />
+          <NavigationProperty Name="POHeader" Relationship="Self.FK__POReceipt__PONum__2180FB33" FromRole="POReceiptHeader" ToRole="POHeader" />
+          <NavigationProperty Name="POReceiptDetails" Relationship="Self.FK__POReceipt__Recei__29221CFB" FromRole="POReceiptHeader" ToRole="POReceiptDetails" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Designation" />
+          </Key>
+          <Property Name="Designation" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Design__0C50D423" FromRole="Role" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="StaffRequisitionDetail">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityBackOrdered" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__StaffRequ__ItemC__58D1301D" FromRole="StaffRequisitionDetails" ToRole="Item" />
+          <NavigationProperty Name="StaffRequisitionHeader" Relationship="Self.FK__StaffRequ__FormI__57DD0BE4" FromRole="StaffRequisitionDetails" ToRole="StaffRequisitionHeader" />
+        </EntityType>
+        <EntityType Name="StaffRequisitionHeader">
+          <Key>
+            <PropertyRef Name="FormID" />
+          </Key>
+          <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Approver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateProcessed" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApprovalStatus" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StaffRequisitionDetails" Relationship="Self.FK__StaffRequ__FormI__57DD0BE4" FromRole="StaffRequisitionHeader" ToRole="StaffRequisitionDetails" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentDetail">
+          <Key>
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__StockAdju__ItemC__47A6A41B" FromRole="StockAdjustmentDetails" ToRole="Item" />
+          <NavigationProperty Name="StockAdjustmentHeader" Relationship="Self.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentDetails" ToRole="StockAdjustmentHeader" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentHeader">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Requestor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Approver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="DateProcessed" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TransactionType" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__StockAdju__Appro__43D61337" FromRole="StockAdjustmentHeader" ToRole="Employee" />
+          <NavigationProperty Name="Employee1" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="StockAdjustmentHeader" ToRole="Employee" />
+          <NavigationProperty Name="StockAdjustmentDetails" Relationship="Self.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentHeader" ToRole="StockAdjustmentDetails" />
+        </EntityType>
+        <EntityType Name="StockCount">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="AverageUnitCost" Type="Single" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockRetrievalDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Bin" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Bin" Type="Int32" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityRetrieved" Type="Int32" Nullable="false" />
+          <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__StockRetr__Colle__3587F3E0" FromRole="StockRetrievalDetails" ToRole="CollectionPoint" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__StockRetr__Depar__367C1819" FromRole="StockRetrievalDetails" ToRole="Department" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__StockRetr__ItemC__3493CFA7" FromRole="StockRetrievalDetails" ToRole="Item" />
+          <NavigationProperty Name="StockRetrievalHeader" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalDetails" ToRole="StockRetrievalHeader" />
+        </EntityType>
+        <EntityType Name="StockRetrievalHeader">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetails" />
+        </EntityType>
+        <EntityType Name="StockTakeDetail">
+          <Key>
+            <PropertyRef Name="StockTakeID" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="StockTakeID" Type="Int32" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOnHand" Type="Int32" Nullable="false" />
+          <Property Name="QuantityCounted" Type="Int32" Nullable="false" />
+          <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__StockTake__ItemC__531856C7" FromRole="StockTakeDetails" ToRole="Item" />
+          <NavigationProperty Name="StockTakeHeader" Relationship="Self.FK__StockTake__Stock__5224328E" FromRole="StockTakeDetails" ToRole="StockTakeHeader" />
+        </EntityType>
+        <EntityType Name="StockTakeHeader">
+          <Key>
+            <PropertyRef Name="StockTakeID" />
+          </Key>
+          <Property Name="StockTakeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TransactionType" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StockTakeDetails" Relationship="Self.FK__StockTake__Stock__5224328E" FromRole="StockTakeHeader" ToRole="StockTakeDetails" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierCode" />
+          </Key>
+          <Property Name="SupplierCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNo" Type="Int32" Nullable="false" />
+          <Property Name="FaxNo" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GSTRegistrationNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Items" Relationship="Self.FK__Item__Supplier1__5CD6CB2B" FromRole="Supplier" ToRole="Item" />
+          <NavigationProperty Name="Items1" Relationship="Self.FK__Item__Supplier2__5DCAEF64" FromRole="Supplier" ToRole="Item" />
+          <NavigationProperty Name="Items2" Relationship="Self.FK__Item__Supplier3__5EBF139D" FromRole="Supplier" ToRole="Item" />
+          <NavigationProperty Name="POHeaders" Relationship="Self.FK__POHeader__Suppli__160F4887" FromRole="Supplier" ToRole="POHeader" />
+          <NavigationProperty Name="SupplierPriceLists" Relationship="Self.FK__SupplierP__Suppl__7E37BEF6" FromRole="Supplier" ToRole="SupplierPriceList" />
+        </EntityType>
+        <EntityType Name="SupplierPriceList">
+          <Key>
+            <PropertyRef Name="SupplierCode" />
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="SupplierCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__SupplierP__ItemC__7F2BE32F" FromRole="SupplierPriceList" ToRole="Item" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK__SupplierP__Suppl__7E37BEF6" FromRole="SupplierPriceList" ToRole="Supplier" />
+        </EntityType>
+        <Association Name="FK__Bin__ItemCode__6E01572D">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="Bin" Type="Self.Bin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="Bin">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__CategoryID__5BE2A6F2">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Colle__797309D9">
+          <End Role="CollectionPoint" Type="Self.CollectionPoint" Multiplicity="1" />
+          <End Role="DepartmentDetails" Type="Self.DepartmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollectionPoint">
+              <PropertyRef Name="CollectionPointID" />
+            </Principal>
+            <Dependent Role="DepartmentDetails">
+              <PropertyRef Name="CollectionPointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Colle__3A4CA8FD">
+          <End Role="CollectionPoint" Type="Self.CollectionPoint" Multiplicity="1" />
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollectionPoint">
+              <PropertyRef Name="CollectionPointID" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="CollectionPointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetr__Colle__3587F3E0">
+          <End Role="CollectionPoint" Type="Self.CollectionPoint" Multiplicity="1" />
+          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollectionPoint">
+              <PropertyRef Name="CollectionPointID" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetails">
+              <PropertyRef Name="CollectionPointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Depar__395884C4">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentCode" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="DepartmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Depart__4316F928">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentCode" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetr__Depar__367C1819">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentCode" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetails">
+              <PropertyRef Name="DepartmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Appro__7B5B524B">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DepartmentDetails" Type="Self.DepartmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DepartmentDetails">
+              <PropertyRef Name="ApproverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Conta__787EE5A0">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DepartmentDetails" Type="Self.DepartmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DepartmentDetails">
+              <PropertyRef Name="ContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Repre__7A672E12">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DepartmentDetails" Type="Self.DepartmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DepartmentDetails">
+              <PropertyRef Name="RepresentativeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__ItemC__3F115E1A">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="DisbursementDetails" Type="Self.DisbursementDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="DisbursementDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursement__Id__3E1D39E1">
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="1" />
+          <End Role="DisbursementDetails" Type="Self.DisbursementDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DisbursementHeader">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DisbursementDetails">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Repre__3B40CD36">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="RepresentativeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Design__0C50D423">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Designation" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Designation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POHeader__Employ__17036CC0">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="POHeader" Type="Self.POHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="POHeader">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POReceipt__Recei__22751F6C">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="POReceiptHeader" Type="Self.POReceiptHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="POReceiptHeader">
+              <PropertyRef Name="Receiver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__Appro__43D61337">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="StockAdjustmentHeader">
+              <PropertyRef Name="Approver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__Reque__42E1EEFE">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="StockAdjustmentHeader">
+              <PropertyRef Name="Requestor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__Supplier1__5CD6CB2B">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Supplier1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__Supplier2__5DCAEF64">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Supplier2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__Supplier3__5EBF139D">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Supplier3" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemTrans__ItemC__6442E2C9">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="ItemTransaction" Type="Self.ItemTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="ItemTransaction">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POHeaderD__ItemC__1EA48E88">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="PODetails" Type="Self.PODetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="PODetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POReceipt__ItemC__2A164134">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="POReceiptDetails" Type="Self.POReceiptDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="POReceiptDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StaffRequ__ItemC__58D1301D">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="StaffRequisitionDetails" Type="Self.StaffRequisitionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StaffRequisitionDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__ItemC__47A6A41B">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="StockAdjustmentDetails" Type="Self.StockAdjustmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StockAdjustmentDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetr__ItemC__3493CFA7">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockTake__ItemC__531856C7">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="StockTakeDetails" Type="Self.StockTakeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StockTakeDetails">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SupplierP__ItemC__7F2BE32F">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="SupplierPriceList" Type="Self.SupplierPriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="SupplierPriceList">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POHeaderD__PONum__1DB06A4F">
+          <End Role="POHeader" Type="Self.POHeader" Multiplicity="1" />
+          <End Role="PODetails" Type="Self.PODetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POHeader">
+              <PropertyRef Name="PONumber" />
+            </Principal>
+            <Dependent Role="PODetails">
+              <PropertyRef Name="PONumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POHeader__Suppli__160F4887">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="POHeader" Type="Self.POHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="POHeader">
+              <PropertyRef Name="SupplierCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POReceipt__PONum__2180FB33">
+          <End Role="POHeader" Type="Self.POHeader" Multiplicity="1" />
+          <End Role="POReceiptHeader" Type="Self.POReceiptHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POHeader">
+              <PropertyRef Name="PONumber" />
+            </Principal>
+            <Dependent Role="POReceiptHeader">
+              <PropertyRef Name="PONumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POReceipt__Recei__29221CFB">
+          <End Role="POReceiptHeader" Type="Self.POReceiptHeader" Multiplicity="1" />
+          <End Role="POReceiptDetails" Type="Self.POReceiptDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POReceiptHeader">
+              <PropertyRef Name="ReceiptNo" />
+            </Principal>
+            <Dependent Role="POReceiptDetails">
+              <PropertyRef Name="ReceiptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StaffRequ__FormI__57DD0BE4">
+          <End Role="StaffRequisitionHeader" Type="Self.StaffRequisitionHeader" Multiplicity="1" />
+          <End Role="StaffRequisitionDetails" Type="Self.StaffRequisitionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StaffRequisitionHeader">
+              <PropertyRef Name="FormID" />
+            </Principal>
+            <Dependent Role="StaffRequisitionDetails">
+              <PropertyRef Name="FormID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__Reque__46B27FE2">
+          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="1" />
+          <End Role="StockAdjustmentDetails" Type="Self.StockAdjustmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockAdjustmentHeader">
+              <PropertyRef Name="RequestId" />
+            </Principal>
+            <Dependent Role="StockAdjustmentDetails">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetriev__Id__339FAB6E">
+          <End Role="StockRetrievalHeader" Type="Self.StockRetrievalHeader" Multiplicity="1" />
+          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockRetrievalHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetails">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockTake__Stock__5224328E">
+          <End Role="StockTakeHeader" Type="Self.StockTakeHeader" Multiplicity="1" />
+          <End Role="StockTakeDetails" Type="Self.StockTakeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockTakeHeader">
+              <PropertyRef Name="StockTakeID" />
+            </Principal>
+            <Dependent Role="StockTakeDetails">
+              <PropertyRef Name="StockTakeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SupplierP__Suppl__7E37BEF6">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="SupplierPriceList" Type="Self.SupplierPriceList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierCode" />
+            </Principal>
+            <Dependent Role="SupplierPriceList">
+              <PropertyRef Name="SupplierCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SSISdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ApprovalDelegations" EntityType="Self.ApprovalDelegation" />
+          <EntitySet Name="Bins" EntityType="Self.Bin" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="CollectionPoints" EntityType="Self.CollectionPoint" />
+          <EntitySet Name="CollectionPointTrans" EntityType="Self.CollectionPointTran" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="DepartmentDetails" EntityType="Self.DepartmentDetail" />
+          <EntitySet Name="DisbursementDetails" EntityType="Self.DisbursementDetail" />
+          <EntitySet Name="DisbursementHeaders" EntityType="Self.DisbursementHeader" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="ItemTransactions" EntityType="Self.ItemTransaction" />
+          <EntitySet Name="PODetails" EntityType="Self.PODetail" />
+          <EntitySet Name="POHeaders" EntityType="Self.POHeader" />
+          <EntitySet Name="POReceiptDetails" EntityType="Self.POReceiptDetail" />
+          <EntitySet Name="POReceiptHeaders" EntityType="Self.POReceiptHeader" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="StaffRequisitionDetails" EntityType="Self.StaffRequisitionDetail" />
+          <EntitySet Name="StaffRequisitionHeaders" EntityType="Self.StaffRequisitionHeader" />
+          <EntitySet Name="StockAdjustmentDetails" EntityType="Self.StockAdjustmentDetail" />
+          <EntitySet Name="StockAdjustmentHeaders" EntityType="Self.StockAdjustmentHeader" />
+          <EntitySet Name="StockCounts" EntityType="Self.StockCount" />
+          <EntitySet Name="StockRetrievalDetails" EntityType="Self.StockRetrievalDetail" />
+          <EntitySet Name="StockRetrievalHeaders" EntityType="Self.StockRetrievalHeader" />
+          <EntitySet Name="StockTakeDetails" EntityType="Self.StockTakeDetail" />
+          <EntitySet Name="StockTakeHeaders" EntityType="Self.StockTakeHeader" />
+          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+          <EntitySet Name="SupplierPriceLists" EntityType="Self.SupplierPriceList" />
+          <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Bin" EntitySet="Bins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__CategoryID__5BE2A6F2" Association="Self.FK__Item__CategoryID__5BE2A6F2">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Colle__797309D9" Association="Self.FK__Departmen__Colle__797309D9">
+            <End Role="CollectionPoint" EntitySet="CollectionPoints" />
+            <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Colle__3A4CA8FD" Association="Self.FK__Disbursem__Colle__3A4CA8FD">
+            <End Role="CollectionPoint" EntitySet="CollectionPoints" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__Colle__3587F3E0" Association="Self.FK__StockRetr__Colle__3587F3E0">
+            <End Role="CollectionPoint" EntitySet="CollectionPoints" />
+            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Depar__395884C4" Association="Self.FK__Disbursem__Depar__395884C4">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Depart__4316F928" Association="Self.FK__Employee__Depart__4316F928">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__Depar__367C1819" Association="Self.FK__StockRetr__Depar__367C1819">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Appro__7B5B524B" Association="Self.FK__Departmen__Appro__7B5B524B">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Conta__787EE5A0" Association="Self.FK__Departmen__Conta__787EE5A0">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Repre__7A672E12" Association="Self.FK__Departmen__Repre__7A672E12">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__ItemC__3F115E1A" Association="Self.FK__Disbursem__ItemC__3F115E1A">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="DisbursementDetails" EntitySet="DisbursementDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursement__Id__3E1D39E1" Association="Self.FK__Disbursement__Id__3E1D39E1">
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+            <End Role="DisbursementDetails" EntitySet="DisbursementDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Repre__3B40CD36" Association="Self.FK__Disbursem__Repre__3B40CD36">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Design__0C50D423" Association="Self.FK__Employee__Design__0C50D423">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POHeader__Employ__17036CC0" Association="Self.FK__POHeader__Employ__17036CC0">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="POHeader" EntitySet="POHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POReceipt__Recei__22751F6C" Association="Self.FK__POReceipt__Recei__22751F6C">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="POReceiptHeader" EntitySet="POReceiptHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__Appro__43D61337" Association="Self.FK__StockAdju__Appro__43D61337">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__Reque__42E1EEFE" Association="Self.FK__StockAdju__Reque__42E1EEFE">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__Supplier1__5CD6CB2B" Association="Self.FK__Item__Supplier1__5CD6CB2B">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__Supplier2__5DCAEF64" Association="Self.FK__Item__Supplier2__5DCAEF64">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__Supplier3__5EBF139D" Association="Self.FK__Item__Supplier3__5EBF139D">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemTrans__ItemC__6442E2C9" Association="Self.FK__ItemTrans__ItemC__6442E2C9">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemTransaction" EntitySet="ItemTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POHeaderD__ItemC__1EA48E88" Association="Self.FK__POHeaderD__ItemC__1EA48E88">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="PODetails" EntitySet="PODetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POReceipt__ItemC__2A164134" Association="Self.FK__POReceipt__ItemC__2A164134">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="POReceiptDetails" EntitySet="POReceiptDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StaffRequ__ItemC__58D1301D" Association="Self.FK__StaffRequ__ItemC__58D1301D">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="StaffRequisitionDetails" EntitySet="StaffRequisitionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__ItemC__47A6A41B" Association="Self.FK__StockAdju__ItemC__47A6A41B">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__ItemC__3493CFA7" Association="Self.FK__StockRetr__ItemC__3493CFA7">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockTake__ItemC__531856C7" Association="Self.FK__StockTake__ItemC__531856C7">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="StockTakeDetails" EntitySet="StockTakeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SupplierP__ItemC__7F2BE32F" Association="Self.FK__SupplierP__ItemC__7F2BE32F">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="SupplierPriceList" EntitySet="SupplierPriceLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POHeaderD__PONum__1DB06A4F" Association="Self.FK__POHeaderD__PONum__1DB06A4F">
+            <End Role="POHeader" EntitySet="POHeaders" />
+            <End Role="PODetails" EntitySet="PODetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POHeader__Suppli__160F4887" Association="Self.FK__POHeader__Suppli__160F4887">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="POHeader" EntitySet="POHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POReceipt__PONum__2180FB33" Association="Self.FK__POReceipt__PONum__2180FB33">
+            <End Role="POHeader" EntitySet="POHeaders" />
+            <End Role="POReceiptHeader" EntitySet="POReceiptHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POReceipt__Recei__29221CFB" Association="Self.FK__POReceipt__Recei__29221CFB">
+            <End Role="POReceiptHeader" EntitySet="POReceiptHeaders" />
+            <End Role="POReceiptDetails" EntitySet="POReceiptDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StaffRequ__FormI__57DD0BE4" Association="Self.FK__StaffRequ__FormI__57DD0BE4">
+            <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
+            <End Role="StaffRequisitionDetails" EntitySet="StaffRequisitionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__Reque__46B27FE2" Association="Self.FK__StockAdju__Reque__46B27FE2">
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
+            <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetriev__Id__339FAB6E" Association="Self.FK__StockRetriev__Id__339FAB6E">
+            <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
+            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockTake__Stock__5224328E" Association="Self.FK__StockTake__Stock__5224328E">
+            <End Role="StockTakeHeader" EntitySet="StockTakeHeaders" />
+            <End Role="StockTakeDetails" EntitySet="StockTakeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SupplierP__Suppl__7E37BEF6" Association="Self.FK__SupplierP__Suppl__7E37BEF6">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="SupplierPriceList" EntitySet="SupplierPriceLists" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SSISdbModelStoreContainer" CdmEntityContainer="SSISdbEntities">
+          <EntitySetMapping Name="ApprovalDelegations">
+            <EntityTypeMapping TypeName="SSISdbModel.ApprovalDelegation">
+              <MappingFragment StoreEntitySet="ApprovalDelegation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateAssigned" ColumnName="DateAssigned" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bins">
+            <EntityTypeMapping TypeName="SSISdbModel.Bin">
+              <MappingFragment StoreEntitySet="Bin">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="SSISdbModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CollectionPoints">
+            <EntityTypeMapping TypeName="SSISdbModel.CollectionPoint">
+              <MappingFragment StoreEntitySet="CollectionPoint">
+                <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
+                <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
+                <ScalarProperty Name="CollectionTime" ColumnName="CollectionTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CollectionPointTrans">
+            <EntityTypeMapping TypeName="SSISdbModel.CollectionPointTran">
+              <MappingFragment StoreEntitySet="CollectionPointTrans">
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="SSISdbModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DepartmentDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.DepartmentDetail">
+              <MappingFragment StoreEntitySet="DepartmentDetails">
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="TelephoneNo" ColumnName="TelephoneNo" />
+                <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+                <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
+                <ScalarProperty Name="RepresentativeID" ColumnName="RepresentativeID" />
+                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DisbursementDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.DisbursementDetail">
+              <MappingFragment StoreEntitySet="DisbursementDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DisbursementHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.DisbursementHeader">
+              <MappingFragment StoreEntitySet="DisbursementHeader">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
+                <ScalarProperty Name="RepresentativeID" ColumnName="RepresentativeID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Signature" ColumnName="Signature" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="SSISdbModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeEmail" ColumnName="EmployeeEmail" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
+                <ScalarProperty Name="ReportsTo" ColumnName="ReportsTo" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="SSISdbModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="Supplier1" ColumnName="Supplier1" />
+                <ScalarProperty Name="Supplier2" ColumnName="Supplier2" />
+                <ScalarProperty Name="Supplier3" ColumnName="Supplier3" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="AvgUnitCost" ColumnName="AvgUnitCost" />
+                <ScalarProperty Name="ReOrderLevel" ColumnName="ReOrderLevel" />
+                <ScalarProperty Name="ReOrderQuantity" ColumnName="ReOrderQuantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemTransactions">
+            <EntityTypeMapping TypeName="SSISdbModel.ItemTransaction">
+              <MappingFragment StoreEntitySet="ItemTransaction">
+                <ScalarProperty Name="TransDateTime" ColumnName="TransDateTime" />
+                <ScalarProperty Name="DocumentRefNo" ColumnName="DocumentRefNo" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PODetails">
+            <EntityTypeMapping TypeName="SSISdbModel.PODetail">
+              <MappingFragment StoreEntitySet="PODetails">
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
+                <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="CancelledBackOrdered" ColumnName="CancelledBackOrdered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="POHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.POHeader">
+              <MappingFragment StoreEntitySet="POHeader">
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="DeliverTo" ColumnName="DeliverTo" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="POReceiptDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.POReceiptDetail">
+              <MappingFragment StoreEntitySet="POReceiptDetails">
+                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="POReceiptHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.POReceiptHeader">
+              <MappingFragment StoreEntitySet="POReceiptHeader">
+                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="DeliveryOrderNo" ColumnName="DeliveryOrderNo" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="Receiver" ColumnName="Receiver" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="SSISdbModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffRequisitionDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.StaffRequisitionDetail">
+              <MappingFragment StoreEntitySet="StaffRequisitionDetails">
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
+                <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffRequisitionHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.StaffRequisitionHeader">
+              <MappingFragment StoreEntitySet="StaffRequisitionHeader">
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
+                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentDetail">
+              <MappingFragment StoreEntitySet="StockAdjustmentDetails">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentHeader">
+              <MappingFragment StoreEntitySet="StockAdjustmentHeader">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
+                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockCounts">
+            <EntityTypeMapping TypeName="SSISdbModel.StockCount">
+              <MappingFragment StoreEntitySet="StockCount">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="AverageUnitCost" ColumnName="AverageUnitCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockRetrievalDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalDetail">
+              <MappingFragment StoreEntitySet="StockRetrievalDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="QuantityRetrieved" ColumnName="QuantityRetrieved" />
+                <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockRetrievalHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalHeader">
+              <MappingFragment StoreEntitySet="StockRetrievalHeader">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockTakeDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.StockTakeDetail">
+              <MappingFragment StoreEntitySet="StockTakeDetails">
+                <ScalarProperty Name="StockTakeID" ColumnName="StockTakeID" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="QuantityOnHand" ColumnName="QuantityOnHand" />
+                <ScalarProperty Name="QuantityCounted" ColumnName="QuantityCounted" />
+                <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockTakeHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.StockTakeHeader">
+              <MappingFragment StoreEntitySet="StockTakeHeader">
+                <ScalarProperty Name="StockTakeID" ColumnName="StockTakeID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="SSISdbModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="GSTRegistrationNo" ColumnName="GSTRegistrationNo" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplierPriceLists">
+            <EntityTypeMapping TypeName="SSISdbModel.SupplierPriceList">
+              <MappingFragment StoreEntitySet="SupplierPriceList">
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
