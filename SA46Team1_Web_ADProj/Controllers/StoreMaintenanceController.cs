@@ -16,6 +16,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["MaintenanceCategoriesPage"].ToString() == "1")
             {
+                Session["MaintenanceBackFlagPage"] = "0";
                 return View("Categories");
             }
             else
@@ -28,8 +29,16 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayCategoryDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["MaintenanceCategoriesPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToCategoriesMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "1";
+            Session["MaintenanceCategoriesPage"] = "1";
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -38,6 +47,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["MaintenanceStoreBinPage"].ToString() == "1")
             {
+                Session["MaintenanceBackFlagPage"] = "0";
                 return View("StoreBin");
             }
             else
@@ -50,16 +60,26 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayStoreBinDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["MaintenanceStoreBinPage"] = "2";
             return RedirectToAction("Maintenance", "Store");
         }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToBinsMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "2";
+            Session["MaintenanceStoreBinPage"] = "1";
+
+            return RedirectToAction("Maintenance", "Store");
+        }
+
 
         [Route("Suppliers")]
         public ActionResult Suppliers()
         {
             if (Session["MaintenanceSuppliersPage"].ToString() == "1")
             {
+                Session["MaintenanceBackFlagPage"] = "0";
                 return View("Suppliers");
             }
             else
@@ -72,8 +92,16 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplaySupplierDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["MaintenanceSuppliersPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToSuppliersMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "4";
+            Session["MaintenanceSuppliersPage"] = "1";
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -82,6 +110,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["MaintenanceCollectionPointsPage"].ToString() == "1")
             {
+                Session["MaintenanceBackFlagPage"] = "0";
                 return View("CollectionPoints");
             }
             else
@@ -94,8 +123,16 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayCollectionPointDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["MaintenanceCollectionPointsPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToCollectionPointsMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "3";
+            Session["MaintenanceCollectionPointsPage"] = "1";
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -104,6 +141,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["MaintenanceDepartmentsPage"].ToString() == "1")
             {
+                Session["MaintenanceBackFlagPage"] = "0";
                 return View("Departments");
             }
             else
@@ -116,8 +154,15 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayDepartmentDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["MaintenanceDepartmentsPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToDeptsMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "5";
+            Session["MaintenanceDepartmentsPage"] = "1";
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -126,6 +171,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["MaintenanceItemsPage"].ToString() == "1")
             {
+                Session["MaintenanceBackFlagPage"] = "0";
                 return View("Items");
             }
             else
@@ -138,7 +184,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayItemDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["MaintenanceItemsPage"] = "2";
             return RedirectToAction("Maintenance", "Store");
         }

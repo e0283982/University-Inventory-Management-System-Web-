@@ -29,7 +29,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayDisbursementDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["DisbursementListPage"] = "2";
             return RedirectToAction("Disbursements", "Store");
         }
@@ -37,7 +36,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult BackToDisbursementList()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["DisbursementListPage"] = "1";
             Session["BackToDisbursementList"] = "true";
 
@@ -62,7 +60,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayReqDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["ReqListPage"] = "2";
             return RedirectToAction("Disbursements", "Store");
         }

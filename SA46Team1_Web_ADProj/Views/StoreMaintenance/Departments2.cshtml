@@ -52,3 +52,12 @@
 </table>
 
 <button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>
+
+
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>
