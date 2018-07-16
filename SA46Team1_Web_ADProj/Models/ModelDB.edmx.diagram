@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2a228181bf47463b9eec1018db7cf854" Name="Diagram1">
+        <EntityTypeShape EntityType="SSISdbModel.ApprovalDelegation" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Bin" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Category" Width="1.5" PointX="0.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.CollectionPoint" Width="1.5" PointX="3.75" PointY="28.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.CollectionPointTran" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Department" Width="1.5" PointX="9.75" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.DepartmentDetail" Width="1.5" PointX="14.25" PointY="28.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.DisbursementDetail" Width="1.5" PointX="8.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.DisbursementHeader" Width="1.5" PointX="6" PointY="28.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Employee" Width="1.5" PointX="12" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Item" Width="1.5" PointX="3" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.ItemTransaction" Width="1.5" PointX="5.25" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.PODetail" Width="1.5" PointX="11.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.POHeader" Width="1.5" PointX="6" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.POReceiptDetail" Width="1.5" PointX="8.25" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.POReceiptHeader" Width="1.5" PointX="14.25" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Role" Width="1.5" PointX="9.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StaffRequisitionDetail" Width="1.5" PointX="8.25" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StaffRequisitionHeader" Width="1.5" PointX="6" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentDetail" Width="1.5" PointX="11.25" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentHeader" Width="1.5" PointX="9" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockCount" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalDetail" Width="1.5" PointX="11.25" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalHeader" Width="1.5" PointX="9" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockTakeDetail" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockTakeHeader" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Supplier" Width="1.5" PointX="0.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.SupplierPriceList" Width="1.5" PointX="8.25" PointY="11.875" IsExpanded="true" />
+        <AssociationConnector Association="SSISdbModel.FK__Bin__ItemCode__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Item__CategoryID__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Departmen__Colle__797309D9" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Disbursem__Colle__3A4CA8FD" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockRetr__Colle__3587F3E0" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Disbursem__Depar__395884C4" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Employee__Depart__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockRetr__Depar__367C1819" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Departmen__Appro__7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Departmen__Conta__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Departmen__Repre__7A672E12" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Disbursem__ItemC__3F115E1A" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Disbursement__Id__3E1D39E1" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Disbursem__Repre__3B40CD36" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Employee__Design__0C50D423" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__POHeader__Employ__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__POReceipt__Recei__22751F6C" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockAdju__Appro__43D61337" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockAdju__Reque__42E1EEFE" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Item__Supplier1__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Item__Supplier2__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__Item__Supplier3__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__ItemTrans__ItemC__6442E2C9" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__POHeaderD__ItemC__1EA48E88" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__POReceipt__ItemC__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StaffRequ__ItemC__58D1301D" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockAdju__ItemC__47A6A41B" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockRetr__ItemC__3493CFA7" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockTake__ItemC__531856C7" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__SupplierP__ItemC__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__POHeaderD__PONum__1DB06A4F" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__POHeader__Suppli__160F4887" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__POReceipt__PONum__2180FB33" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__POReceipt__Recei__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StaffRequ__FormI__57DD0BE4" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockAdju__Reque__46B27FE2" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockRetriev__Id__339FAB6E" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__StockTake__Stock__5224328E" ManuallyRouted="false" />
+        <AssociationConnector Association="SSISdbModel.FK__SupplierP__Suppl__7E37BEF6" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
