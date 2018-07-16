@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -9,6 +11,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 {
     public class EmailController
     {
+        // Old method
         [HttpPost]
         public static void SendEmail(string fromEmail, string toEmail, string subj, string body)
         {
@@ -22,7 +25,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 WebMail.SmtpUseDefaultCredentials = true;
                 //sending emails with secure protocol  
                 WebMail.EnableSsl = true;
-                //EmailId used to send emails from application  
+                //EmailId used to send emails from application
                 WebMail.UserName = "stationerylogicuniversity@gmail.com";
                 WebMail.Password = "adproj01";
 
@@ -36,6 +39,28 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
 
             }
+        }
+
+        [HttpPost]
+        public static void EMAILWITHATTACHMENT(string fromEmail, string toEmail, string subj, string body, string filepath)
+        {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                mail.From = new MailAddress(fromEmail);
+                mail.To.Add(toEmail);
+                mail.Subject = subj;
+                mail.Body = body;
+
+                //Attachment attachment;
+                //attachment = new Attachment(filepath);
+                //mail.Attachments.Add(attachment);
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new NetworkCredential("stationerylogicuniversity@gmail.com", "adproj01");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+
         }
     }
 }
