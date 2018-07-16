@@ -44,8 +44,24 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Items")]
         public ActionResult Items()
         {
-            return View();
+            if (Session["MaintenanceItemsPage"].ToString() == "1")
+            {
+                return View("Items");
+            }
+            else
+            {
+                Session["MaintenanceItemsPage"] = "1";
+                return View("Items2");
+            }
         }
-        
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayItemDetails()
+        {
+            //Session["SelectedPONumber"] = dataToBeSent;
+            Session["MaintenanceItemsPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
     }
 }

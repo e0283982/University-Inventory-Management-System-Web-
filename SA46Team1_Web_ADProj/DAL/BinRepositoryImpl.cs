@@ -2,42 +2,50 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.DAL
 {
-    public class CategoryRepositoryImpl : ICategoryRepository, IDisposable
+
+    public class BinRepositoryImpl : IBinRepository, IDisposable
     {
+
         private SSISdbEntities context;
-        public CategoryRepositoryImpl(SSISdbEntities context)
+
+        public BinRepositoryImpl(SSISdbEntities context)
         {
             this.context = context;
         }
-        public void DeleteCategory(int categoryId)
+        public void DeleteBin(int binId)
         {
-            Category category = context.Categories.Find(categoryId);
-            context.Categories.Remove(category);
+            Bin bin = context.Bins.Find(binId);
+            context.Bins.Remove(bin);
         }
-        public Category GetCategoryById(int categoryId)
+        public Bin GetBinById(int binId)
         {
-            return context.Categories.Find(categoryId);
+            return context.Bins.Find(binId);
         }
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<Bin> GetBins()
         {
-            return context.Categories.ToList();
+            return context.Bins.ToList();
         }
-        public void InsertCategory(Category category)
+
+        public void InsertBin(Bin bin)
         {
-            context.Categories.Add(category);
+            context.Bins.Add(bin);
         }
-        public void UpdateCategory(Category category)
-        {
-            context.Entry(category).State = EntityState.Modified;
-        }
+
         public void Save()
         {
             context.SaveChanges();
         }
+
+        public void UpdateBin(Bin bin)
+        {
+            context.Entry(bin).State = EntityState.Modified;
+        }
+
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {
