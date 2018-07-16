@@ -52,3 +52,11 @@
         </tr>
     </tbody>
 </table>
+
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToRequisitionsList", "StoreDisbursements", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>

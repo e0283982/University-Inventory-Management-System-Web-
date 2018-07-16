@@ -4,8 +4,10 @@
 
 
 <script>
+    var pageIndex = @Session["DisbursementListPage"].ToString();
+    var backFlag = @Session["BackToDisbursementList"].ToString().ToLower();
     $(function () {
-        if (@Session["DisbursementListPage"].ToString() == "2") {
+        if (pageIndex == "2" || backFlag == true) {
             $("#tabs").tabs({ active: 2 });
         } else {
             $("#tabs").tabs();
