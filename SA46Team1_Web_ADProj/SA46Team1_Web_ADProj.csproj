@@ -380,6 +380,7 @@
     <Content Include="Views\StoreInventory\StockAdj2.cshtml" />
     <Content Include="Views\StorePurchase\DisplayPO.cshtml" />
     <Content Include="Views\StorePurchase\GoodsReceivedList2.cshtml" />
+    <Content Include="Views\StoreDisbursements\Requisition2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

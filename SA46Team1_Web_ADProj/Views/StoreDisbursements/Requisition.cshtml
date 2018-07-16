@@ -10,6 +10,24 @@
             paging: true
         });
     });
+
+    var table = $('#dataTable-storeDisbursementReqList').DataTable();
+
+    $('#dataTable-storeDisbursementReqList tbody').on('click', 'tr', function () {
+        var data = table.row(this).data();
+        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
+        var dataToBeSent = data[2];
+        alert('You clicked on Requisition Form Number: ' + data[2] + '\'s row');
+
+        $.ajax({
+            url: '/StoreDisbursements/DisplayReqDetails',
+            data: dataToBeSent,
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("Disbursements", "Store")';
+
+    });
 </script>
 
 <div>
