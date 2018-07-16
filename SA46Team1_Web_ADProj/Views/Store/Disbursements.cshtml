@@ -5,7 +5,11 @@
 
 <script>
     $(function () {
-        $("#tabs").tabs();
+        if (@Session["DisbursementListPage"].ToString() == "2") {
+            $("#tabs").tabs({ active: 2 });
+        } else {
+            $("#tabs").tabs();
+        }
     });
 </script>
 

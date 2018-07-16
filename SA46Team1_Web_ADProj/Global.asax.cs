@@ -25,7 +25,7 @@ namespace SA46Team1_Web_ADProj
             Session["POListPage"] = "1";
             Session["GRListPage"] = "1";
             Session["ReqListPage"] = "1";
-
+            Session["DisbursementListPage"] = "1";
         }
     }
 }
