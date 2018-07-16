@@ -1,0 +1,103 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-storeInventoryNewAdj').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+
+    $(function () {
+        $("#dialog-submit-newStockAdj").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-submit-newStockAdj').click(function () {
+        $('#dialog-submit-newStockAdj').dialog('open');
+        return false;
+    });
+
+    $(function () {
+        $("#dialog-addItem-newStockAdj").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-addItem-newStockAdj').click(function () {
+        $('#dialog-addItem-newStockAdj').dialog('open');
+        return false;
+    });
+</script>
+
+<div>
+    <h2>Inventory - New Stock Adjustment</h2>
+</div>
+
+
+<table id="dataTable-storeInventoryNewAdj" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Missing/Damaged</th>
+            <th>No. of Items</th>
+            <th>Units of Measurement</th>
+            <th>Reason</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Clip "2</td>
+            <td>
+                <select>
+                    <option value="missing">Missing</option>
+                    <option value="damaged">Damaged</option>
+                </select>
+            </td>
+            <td>5</td>
+            <td>Each</td>
+            <td>Nil</td>
+            <td>
+                <button class="btn-blue-small">Delete</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>Clip "2.5</td>
+            <td>
+                <select>
+                    <option value="missing">Missing</option>
+                    <option value="damaged">Damaged</option>
+                </select>
+            </td>
+            <td>5</td>
+            <td>Dozen</td>
+            <td>Nil</td>
+            <td>
+                <button class="btn-blue-small">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button class="btn-blue" id="btn-submit-newStockAdj">Submit for Approval</button>
+<div id="dialog-submit-newStockAdj" class="hidden" title="Basic dialog">
+    <p>New Stock Adjustment request has been submitted for approval.</p>
+</div>
+
+<button class="btn-blue" id="btn-addItem-newStockAdj">Add Item</button>
+<div id="dialog-addItem-newStockAdj" class="hidden" title="Basic dialog">
+    <p>Add a new item via here.</p>
+    <p>(Todo: on this btn click, add a new datatable row.)</p>
+</div>

@@ -26,9 +26,23 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("StockAdj")]
         public ActionResult StockAdj()
         {
-           
-            return View("StockAdj");
-            
+            if (Session["StockAdjPage"].ToString() == "1")
+            {
+                return View("StockAdj");
+            }
+            else
+            {
+                Session["StockAdjPage"] = "1";
+                return View("StockAdj2");
+            }
+        }
+
+        [HttpPost]
+        //[Route("StockAdj")]
+        public RedirectToRouteResult CreateNewStockAdj()
+        {
+            Session["StockAdjPage"] = "2";
+            return RedirectToAction("Inventory", "Store");
         }
 
         [Route("StockTake")]

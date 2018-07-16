@@ -246,6 +246,7 @@
     <Content Include="Views\StoreReports\Report2.cshtml" />
     <Content Include="Views\StoreReports\Report3.cshtml" />
     <Content Include="Views\StoreReports\Report4.cshtml" />
+    <Content Include="Views\StoreInventory\StockAdj2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

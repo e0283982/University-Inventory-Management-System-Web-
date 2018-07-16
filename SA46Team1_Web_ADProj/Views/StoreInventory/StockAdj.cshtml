@@ -52,5 +52,7 @@
     </tbody>
 </table>
 
-<button class="btn-blue">@Html.ActionLink("Create New Stock Adjustment", "Home", "Store")</button>
-
+@using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
+{
+    <input class="btn-blue" type="submit" value="Create New Stock Adjustments" />
+}

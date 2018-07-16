@@ -20,7 +20,7 @@ namespace SA46Team1_Web_ADProj
 
         protected void Session_Start()
         {
-            //Session["StockAdjPage"] = "1";
+            Session["StockAdjPage"] = "1";
         }
     }
 }
