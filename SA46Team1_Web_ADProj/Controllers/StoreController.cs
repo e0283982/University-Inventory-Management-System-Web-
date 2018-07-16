@@ -4,15 +4,28 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
     public class StoreController : Controller
     {
+        private ItemsRepositoryImpl itemRepository;
+
+        public StoreController()
+        {
+            this.itemRepository = new ItemsRepositoryImpl(new SSISdbEntities());
+        }
+
         public ActionResult Home(string submit)
         {
-            return View();
+            return View(itemRepository.GetItemById(submit));
+        }
+
+        public ActionResult Search(string submit)
+        {
+            return Json(itemRepository.GetItemById(submit), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Inventory()

@@ -169,8 +169,18 @@
     <Compile Include="Controllers\StoreInventoryController.cs" />
     <Compile Include="Controllers\StoreMaintenanceController.cs" />
     <Compile Include="Controllers\StorePurchaseController.cs" />
+    <Compile Include="DAL\BinRepositoryImpl.cs" />
     <Compile Include="DAL\CategoryRepositoryImpl.cs" />
+    <Compile Include="DAL\CollectionPointRepositoryImpl.cs" />
+    <Compile Include="DAL\CollectionPointTranRepositoryImpl.cs" />
+    <Compile Include="DAL\DepartmentDetailsRepositoryImpl.cs" />
+    <Compile Include="DAL\DepartmentRepositoryImpl.cs" />
+    <Compile Include="DAL\IBinRepository.cs" />
     <Compile Include="DAL\ICategoryRepository.cs" />
+    <Compile Include="DAL\ICollectionPointRepository.cs" />
+    <Compile Include="DAL\ICollectionPointTransRepository.cs" />
+    <Compile Include="DAL\IDepartmentDetailsRepository.cs" />
+    <Compile Include="DAL\IDepartmentRepository.cs" />
     <Compile Include="DAL\IItemsRepository.cs" />
     <Compile Include="DAL\IItemTransactionRepository.cs" />
     <Compile Include="DAL\ItemsRepositoryImpl.cs" />
@@ -310,6 +320,7 @@
     <Content Include="Models\ModelDB.edmx.diagram">
       <DependentUpon>ModelDB.edmx</DependentUpon>
     </Content>
+    <Content Include="App_Code\Helper.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
