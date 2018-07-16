@@ -11,7 +11,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 {
     public class EmailController
     {
-        // Old method
+        // Old method but works
         //[HttpPost]
         //public static void SendEmail(string fromEmail, string toEmail, string subj, string body)
         //{
@@ -41,8 +41,10 @@ namespace SA46Team1_Web_ADProj.Controllers
         //    }
         //}
 
+        // To use this simply type: EmailController.SendEmail("", "", "", "", "filepath"); or you can omit the file path
+
         [HttpPost]
-        public static void SendEmailWithAttachment(string fromEmail, string toEmail, string subj, string body, string filepath)
+        public static void sendEmail(string fromEmail, string toEmail, string subj, string body, string filepath)
         {
             try
             {
@@ -71,7 +73,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public static void SendEmailWithoutAttachment(string fromEmail, string toEmail, string subj, string body)
+        public static void sendEmail(string fromEmail, string toEmail, string subj, string body)
         {
             try
             {
