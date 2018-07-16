@@ -72,6 +72,7 @@
         <AssociationConnector Association="SSISdbModel.FK__StockRetriev__Id__339FAB6E" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__StockTake__Stock__5224328E" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__SupplierP__Suppl__7E37BEF6" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentOverview" Width="1.5" PointX="3.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

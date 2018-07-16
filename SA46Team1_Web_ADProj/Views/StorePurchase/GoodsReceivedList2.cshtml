@@ -84,3 +84,12 @@
     <label>Net Total ($): <input type="text" id="GR-net-total"></label>
     <label>Gross Total ($): <input type="text" id="GR-gross-total"></label>
 </div>
+
+
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToGRList", "StorePurchase", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>

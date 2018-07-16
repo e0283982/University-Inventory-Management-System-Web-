@@ -34,16 +34,15 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayPO()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["POListPage"] = "2";
             return RedirectToAction("Purchase", "Store");
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayGR()
+        public RedirectToRouteResult BackToPOList()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
-            Session["GRListPage"] = "2";
+            Session["POListPage"] = "1";
+
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -52,6 +51,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["GRListPage"].ToString() == "1")
             {
+                @Session["BackToGRList"] = "false";
                 return View("GoodsReceivedList");
             }
             else
@@ -61,5 +61,22 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
         
+        [HttpPost]
+        public RedirectToRouteResult DisplayGR()
+        {
+            Session["GRListPage"] = "2";
+            return RedirectToAction("Purchase", "Store");
+        }
+
+       
+        [HttpPost]
+        public RedirectToRouteResult BackToGRList()
+        {
+            Session["GRListPage"] = "1";
+            Session["BackToGRList"] = "true";
+
+            return RedirectToAction("Purchase", "Store");
+        }
+
     }
 }

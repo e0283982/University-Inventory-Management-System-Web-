@@ -16,6 +16,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["DisbursementListPage"].ToString() == "1")
             {
+                @Session["BackToDisbursementList"] = "false";
                 return View("Disbursement");
             }
             else
@@ -28,12 +29,20 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayDisbursementDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["DisbursementListPage"] = "2";
             return RedirectToAction("Disbursements", "Store");
         }
 
-        
+        [HttpPost]
+        public RedirectToRouteResult BackToDisbursementList()
+        {
+            Session["DisbursementListPage"] = "1";
+            Session["BackToDisbursementList"] = "true";
+
+            return RedirectToAction("Disbursements", "Store");
+        }
+
+
         [Route("Requisition")]
         public ActionResult Requisition()
         {
@@ -51,11 +60,17 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayReqDetails()
         {
-            //Session["SelectedPONumber"] = dataToBeSent;
             Session["ReqListPage"] = "2";
             return RedirectToAction("Disbursements", "Store");
         }
 
+        [HttpPost]
+        public RedirectToRouteResult BackToRequisitionsList()
+        {
+            Session["ReqListPage"] = "1";
+
+            return RedirectToAction("Disbursements", "Store");
+        }
 
         [Route("Retrieval")]
         public ActionResult Retrieval()

@@ -6,39 +6,20 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeMaintenanceDepts').DataTable({
+        $('#dataTable-storeMaintenanceDepts-details').DataTable({
             scrollY: '30vh',
             scrollCollapse: true,
             paging: true
         });
     });
-
-    var table = $('#dataTable-storeMaintenanceDepts').DataTable();
-
-    $('#dataTable-storeMaintenanceDepts tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
-
-        $.ajax({
-            url: '/StoreMaintenance/DisplayDepartmentDetails',
-            data: dataToBeSent,
-            type: 'POST',
-        });
-
-        window.location.href = '@Url.Action("Maintenance", "Store")';
-
-    });
 </script>
 
 <div>
-    <h2>Maintenance - Department</h2>
-    <button class="btn-blue">@Html.ActionLink("Add New Department", "Home", "Store")</button>
+    <h2>Department Code: ENGL</h2>
 </div>
 
 
-<table id="dataTable-storeMaintenanceDepts" class="display" style="width:80%;">
+<table id="dataTable-storeMaintenanceDepts-details" class="display" style="width:80%;">
     <thead>
         <tr>
             <th>Name</th>
@@ -54,12 +35,12 @@
 
     <tbody>
         <tr>
-            <td>Dept A</td>
+            <td>English Dept</td>
             <td>Ms Irene Tan</td>
             <td>461 9999</td>
             <td>461 9992</td>
             <td>Ms Tina Tan</td>
-            <td>Math Building A</td>
+            <td>English Building A</td>
             <td>Ms Irene Tan</td>
             <td>
                 <input type="checkbox" name="updateDeptStatus" value="deptStatus" checked>
@@ -69,3 +50,14 @@
 
     </tbody>
 </table>
+
+<button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>
+
+
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>

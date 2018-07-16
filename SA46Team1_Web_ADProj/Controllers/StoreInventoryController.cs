@@ -38,7 +38,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        //[Route("StockAdj")]
         public RedirectToRouteResult CreateNewStockAdj()
         {
             Session["StockAdjPage"] = "2";

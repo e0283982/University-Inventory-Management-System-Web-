@@ -39,3 +39,10 @@
     </tbody>
 </table>
 
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>

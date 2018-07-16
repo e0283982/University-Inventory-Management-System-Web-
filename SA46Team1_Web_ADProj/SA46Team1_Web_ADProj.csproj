@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +59,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -198,6 +201,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HWTempData.cs" />
+    <Compile Include="IWCFService.cs" />
     <Compile Include="Models\ApprovalDelegation.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -277,6 +282,9 @@
     <Compile Include="Models\StockAdjustmentHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockAdjustmentOverview.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StockCount.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -300,6 +308,9 @@
     </Compile>
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WCFService.svc.cs">
+      <DependentUpon>WCFService.svc</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\common.css" />
@@ -346,6 +357,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\site.min.js" />
+    <Content Include="WCFService.svc" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -404,6 +416,13 @@
     <Content Include="Views\StoreDisbursements\Requisition2.cshtml" />
     <Content Include="Views\StoreDisbursements\Disbursement2.cshtml" />
     <Content Include="Views\StoreMaintenance\Items2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Categories2.cshtml" />
+    <Content Include="Views\StoreMaintenance\CollectionPoints2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Departments2.cshtml" />
+    <Content Include="Views\StoreMaintenance\StoreBin2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Suppliers2.cshtml" />
+    <Content Include="Views\DeptRequisitionHistory\Overview2.cshtml" />
+    <Content Include="Views\DeptApproval\Approval2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
