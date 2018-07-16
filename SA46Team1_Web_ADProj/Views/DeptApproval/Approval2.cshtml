@@ -1,0 +1,90 @@
+﻿@{
+    Layout = null;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-approval-details').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+
+    $(function () {
+        $("#dialog-approve-req-form").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-approve-req-form').click(function () {
+        $('#dialog-approve-req-form').dialog('open');
+        return false;
+    });
+
+    $(function () {
+        $("#dialog-reject-req-form").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-reject-req-form').click(function () {
+        $('#dialog-reject-req-form').dialog('open');
+        return false;
+    });
+</script>
+
+<div>
+    <h2>Requisition Approval</h2>
+    <h3>Requisition Form #001</h3>
+</div>
+
+
+<table id="dataTable-approval-details" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Unit of Measure</th>
+            <th>Order Qty</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Item A</td>
+            <td>Each</td>
+            <td>12</td>
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    <label>Requested By: <input type="text" id="dept-req-name"></label>
+    <label>Requested Date: <input type="text" id="dept-req-date"></label>
+</div>
+
+<div>
+    <p>Remarks:</p>
+    <textarea rows="4" cols="50">
+        Enter remarks here.
+    </textarea>
+</div>
+
+<div id="btns-grp-btm">
+    <button class="btn-blue" id="btn-reject-req-form">Edit</button>
+    <div id="dialog-reject-req-form" class="hidden" title="Basic dialog">
+        <p>Btn action to reject SRF.</p>
+    </div>
+
+    <button class="btn-blue" id="btn-approve-req-form">Save</button>
+    <div id="dialog-approve-req-form" class="hidden" title="Basic dialog">
+        <p>Btn action to approve SRF.</p>
+    </div>
+</div>
+
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToApprovalList", "DeptApproval", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>

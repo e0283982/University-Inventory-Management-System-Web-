@@ -20,7 +20,15 @@ namespace SA46Team1_Web_ADProj
 
         protected void Session_Start()
         {
-            //Session variables for inner pages of Store tabs
+            //Session variables for inner pages of DEPT tabs
+
+            //Session variables for Dept - Requisition History
+            Session["ReqHistoryPage"] = "1";
+
+            //Session variables for Dept - Requisition Approval
+            Session["ReqApprovalPage"] = "1";
+
+            //Session variables for inner pages of STORE tabs
 
             //Session variables for Store - Inventory
             Session["StockAdjPage"] = "1";

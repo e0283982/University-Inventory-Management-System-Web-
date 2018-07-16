@@ -160,6 +160,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CommonLogic.cs" />
+    <Compile Include="Controllers\DeptUpcomingDeliveryController.cs" />
     <Compile Include="Controllers\DeptApprovalController.cs" />
     <Compile Include="Controllers\DeptRequisitionHistoryController.cs" />
     <Compile Include="Controllers\DeptRequisitionController.cs" />
@@ -415,6 +416,8 @@
     <Content Include="Views\StoreMaintenance\Departments2.cshtml" />
     <Content Include="Views\StoreMaintenance\StoreBin2.cshtml" />
     <Content Include="Views\StoreMaintenance\Suppliers2.cshtml" />
+    <Content Include="Views\DeptRequisitionHistory\Overview2.cshtml" />
+    <Content Include="Views\DeptApproval\Approval2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
