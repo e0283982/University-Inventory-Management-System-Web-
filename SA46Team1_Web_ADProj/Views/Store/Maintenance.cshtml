@@ -4,8 +4,12 @@
 
 
 <script>
-    $(function () {
-        $("#tabs").tabs();
+     $(function () {
+        if (@Session["MaintenanceCategoriesPage"].ToString() == "2") {
+            $("#tabs").tabs({ active: 1 });
+        } else {
+            $("#tabs").tabs();
+        }
     });
 </script>
 

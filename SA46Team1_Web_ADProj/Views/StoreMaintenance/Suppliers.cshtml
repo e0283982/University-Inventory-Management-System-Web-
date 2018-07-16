@@ -12,6 +12,24 @@
             paging: true
         });
     });
+
+    var table = $('#dataTable-storeMaintenanceSuppliers').DataTable();
+
+    $('#dataTable-storeMaintenanceSuppliers tbody').on('click', 'tr', function () {
+        var data = table.row(this).data();
+        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
+        var dataToBeSent = data[2];
+        alert('You clicked on Item: ' + table.row(this) + '.');
+
+        $.ajax({
+            url: '/StoreMaintenance/DisplaySupplierDetails',
+            data: dataToBeSent,
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("Maintenance", "Store")';
+
+    });
 </script>
 
 <div>

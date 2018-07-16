@@ -12,6 +12,24 @@
             paging: true
         });
     });
+
+    var table = $('#dataTable-storeMaintenanceCollectionPts').DataTable();
+
+    $('#dataTable-storeMaintenanceCollectionPts tbody').on('click', 'tr', function () {
+        var data = table.row(this).data();
+        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
+        var dataToBeSent = data[2];
+        alert('You clicked on Item: ' + table.row(this) + '.');
+
+        $.ajax({
+            url: '/StoreMaintenance/DisplayCollectionPointDetails',
+            data: dataToBeSent,
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("Maintenance", "Store")';
+
+    });
 </script>
 
 <div>

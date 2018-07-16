@@ -394,6 +394,11 @@
     <Content Include="Views\StoreDisbursements\Requisition2.cshtml" />
     <Content Include="Views\StoreDisbursements\Disbursement2.cshtml" />
     <Content Include="Views\StoreMaintenance\Items2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Categories2.cshtml" />
+    <Content Include="Views\StoreMaintenance\CollectionPoints2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Departments2.cshtml" />
+    <Content Include="Views\StoreMaintenance\StoreBin2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Suppliers2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
