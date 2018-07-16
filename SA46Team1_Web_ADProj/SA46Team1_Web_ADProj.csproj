@@ -54,6 +54,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -155,12 +156,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CommonLogic.cs" />
     <Compile Include="Controllers\DeptApprovalController.cs" />
     <Compile Include="Controllers\DeptRequisitionHistoryController.cs" />
     <Compile Include="Controllers\DeptRequisitionController.cs" />
     <Compile Include="Controllers\DeptAuthorisationController.cs" />
     <Compile Include="Controllers\DeptController.cs" />
-    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\StoreReportsController.cs" />
@@ -319,6 +320,7 @@
     <Content Include="Models\ModelDB.edmx.diagram">
       <DependentUpon>ModelDB.edmx</DependentUpon>
     </Content>
+    <Content Include="App_Code\Helper.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -387,6 +389,9 @@
     <Content Include="Views\StoreReports\Report3.cshtml" />
     <Content Include="Views\StoreReports\Report4.cshtml" />
     <Content Include="Views\StoreInventory\StockAdj2.cshtml" />
+    <Content Include="Views\StorePurchase\DisplayPO.cshtml" />
+    <Content Include="Views\StorePurchase\GoodsReceivedList2.cshtml" />
+    <Content Include="Views\StoreDisbursements\Requisition2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,22 +4,28 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
     public class StoreController : Controller
     {
+        private ItemsRepositoryImpl itemRepository;
+
+        public StoreController()
+        {
+            this.itemRepository = new ItemsRepositoryImpl(new SSISdbEntities());
+        }
+
         public ActionResult Home(string submit)
         {
-            /*
-            EmailController.EMAILWITHATTACHMENT("wwj.jayden@gmail.com", "stationerylogicuniversity@gmail.com",
-                "Subj", "body", @"C:/Users/Jayden/Desktop/ADProject/Documentation/UseCaseDetails.docx");
-            ViewBag.Data = "2478, 5267, 734, 784, 433";
-            ViewBag.Titles = "Africa, Asia, Europe, Latin America, North America";
-             */
-            return View();
-           
+            return View(itemRepository.GetItemById(submit));
+        }
+
+        public ActionResult Search(string submit)
+        {
+            return Json(itemRepository.GetItemById(submit), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Inventory()

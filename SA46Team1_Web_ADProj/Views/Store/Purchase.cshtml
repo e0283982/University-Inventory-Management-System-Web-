@@ -3,8 +3,13 @@
 }
 
 <script>
+
     $(function () {
-        $("#tabs").tabs();
+        if (@Session["GRListPage"].ToString() == "2") {
+            $("#tabs").tabs({ active: 2 });
+        } else {
+            $("#tabs").tabs();
+        }
     });
 </script>
 
