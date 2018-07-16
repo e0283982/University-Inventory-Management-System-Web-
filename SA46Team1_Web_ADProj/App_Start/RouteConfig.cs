@@ -21,5 +21,7 @@ namespace SA46Team1_Web_ADProj
                 defaults: new { controller = "Main", action = "Login", id = UrlParameter.Optional }
             );
         }
+
+
     }
 }
