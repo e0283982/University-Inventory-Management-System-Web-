@@ -23,6 +23,7 @@ namespace SA46Team1_Web_ADProj
             Session["StockAdjPage"] = "1";
             Session["SelectedPONumber"] = "0";
             Session["POListPage"] = "1";
+            Session["GRListPage"] = "1";
         }
     }
 }

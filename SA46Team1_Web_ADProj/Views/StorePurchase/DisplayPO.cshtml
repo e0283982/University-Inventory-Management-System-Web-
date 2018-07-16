@@ -98,17 +98,32 @@
     </tbody>
 </table>
 
-<button class="btn-blue" id="btn-edit-displayPO">Edit</button>
-<div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
-    <p>Btn action to edit displayed purchase order.</p>
+<div>
+    <label>Net Total ($): <input type="text" id="displayPO-net-total"></label>
+    <label>GST ($): <input type="text" id="displayPO-GST"></label>
+    <label>Gross Total ($): <input type="text" id="displayPO-gross-total"></label>
+    <label>PO Status: <input type="text" id="displayPO-status"></label>
 </div>
 
-<button class="btn-blue" id="btn-save-displayPO">Save</button>
-<div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
-    <p>Changes to Purchase Order have been saved.</p>
+<div id="btns-grp-btm">
+    <button class="btn-blue" id="btn-edit-displayPO">Edit</button>
+    <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
+        <p>Btn action to edit displayed purchase order.</p>
+    </div>
+
+    <button class="btn-blue" id="btn-save-displayPO">Save</button>
+    <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
+        <p>Changes to Purchase Order have been saved.</p>
+    </div>
+
+    <button class="btn-blue" id="btn-GR-displayPO">Goods Receipt</button>
+    <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
+        <p>Goods receipt btn.</p>
+    </div>
 </div>
 
-<button class="btn-blue" id="btn-GR-displayPO">Goods Receipt</button>
-<div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
-    <p>Goods receipt btn.</p>
-</div>
+<style>
+    #btns-grp-btm {
+        margin-right:10vw;
+    }
+</style>

@@ -52,7 +52,16 @@
     </tbody>
 </table>
 
-@using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
-{
-    <input class="btn-blue" type="submit" value="Create New Stock Adjustments" />
-}
+<div id="btns-grp-btm">
+
+    @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Create New Stock Adjustments" />
+    }
+</div>
+
+<style>
+    #btns-grp-btm {
+        margin-right: 10vw;
+    }
+</style>

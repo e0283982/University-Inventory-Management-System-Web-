@@ -36,12 +36,29 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             //Session["SelectedPONumber"] = dataToBeSent;
             Session["POListPage"] = "2";
-            return RedirectToAction("Purchase", "Store");        }
+            return RedirectToAction("Purchase", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayGR()
+        {
+            //Session["SelectedPONumber"] = dataToBeSent;
+            Session["GRListPage"] = "2";
+            return RedirectToAction("Purchase", "Store");
+        }
 
         [Route("GoodsReceivedList")]
         public ActionResult GoodsReceivedList()
-        { 
-            return View();
+        {
+            if (Session["GRListPage"].ToString() == "1")
+            {
+                return View("GoodsReceivedList");
+            }
+            else
+            {
+                Session["GRListPage"] = "1";
+                return View("GoodsReceivedList2");
+            }
         }
         
     }
