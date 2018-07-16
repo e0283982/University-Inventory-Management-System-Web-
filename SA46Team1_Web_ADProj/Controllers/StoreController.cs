@@ -18,15 +18,16 @@ namespace SA46Team1_Web_ADProj.Controllers
             this.itemRepository = new ItemsRepositoryImpl(new SSISdbEntities());
         }
 
-        public ActionResult Home(string submit)
+        public ActionResult Home()
         {
-            return View(itemRepository.GetItemById(submit));
+            return View();
         }
 
-        public ActionResult Search(string submit)
+        public JsonResult Search(string search)
         {
-            return Json(itemRepository.GetItemById(submit), JsonRequestBehavior.AllowGet);
+            return new JsonResult { Data = itemRepository.GetItemById(search), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+
 
         public ActionResult Inventory()
         {

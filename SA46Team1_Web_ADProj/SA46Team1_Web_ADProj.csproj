@@ -396,6 +396,8 @@
     <Content Include="Views\StorePurchase\DisplayPO.cshtml" />
     <Content Include="Views\StorePurchase\GoodsReceivedList2.cshtml" />
     <Content Include="Views\StoreDisbursements\Requisition2.cshtml" />
+    <Content Include="Views\StoreDisbursements\Disbursement2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Items2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
