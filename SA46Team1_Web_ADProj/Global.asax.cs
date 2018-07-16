@@ -21,15 +21,24 @@ namespace SA46Team1_Web_ADProj
         protected void Session_Start()
         {
             //Session variables for inner pages of Store tabs
+
+            //Session variables for Store - Inventory
             Session["StockAdjPage"] = "1";
             Session["SelectedPONumber"] = "0";
+
+            //Session variables for Store - Purchase
             Session["POListPage"] = "1";
+
             Session["GRListPage"] = "1";
+            Session["BackToGRList"] = "false";
+
+            //Session variables for Store - Disbursement
             Session["ReqListPage"] = "1";
 
             Session["DisbursementListPage"] = "1";
             Session["BackToDisbursementList"] = "false";
 
+            //Session variables for Store - Maintenance
             Session["MaintenanceItemsPage"] = "1";
             Session["MaintenanceCategoriesPage"] = "1";
             Session["MaintenanceCollectionPointsPage"] = "1";

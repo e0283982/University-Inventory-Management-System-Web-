@@ -122,8 +122,16 @@
     </div>
 </div>
 
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>
+
 <style>
     #btns-grp-btm {
-        margin-right:10vw;
+        margin-right: 10vw;
     }
 </style>
