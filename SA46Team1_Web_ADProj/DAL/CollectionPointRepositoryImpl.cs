@@ -34,7 +34,7 @@ namespace SA46Team1_Web_ADProj.DAL
 
         public void InsertCollectionPoint(CollectionPoint collectionPoint)
         {
-            context.Entry(collectionPoint).State = EntityState.Modified;
+            context.CollectionPoints.Add(collectionPoint);
         }
 
         public void Save()
@@ -44,7 +44,7 @@ namespace SA46Team1_Web_ADProj.DAL
 
         public void UpdateCollectionPoint(CollectionPoint collectionPoint)
         {
-            throw new NotImplementedException();
+            context.Entry(collectionPoint).State = EntityState.Modified;
         }
 
         private bool disposed = false;
