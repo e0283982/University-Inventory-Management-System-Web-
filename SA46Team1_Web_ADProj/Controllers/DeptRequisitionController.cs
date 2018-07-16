@@ -8,13 +8,16 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
+    [RoutePrefix("Dept/DeptRequisition")]
     public class DeptRequisitionController : Controller
     {
+        [Route("NewReq")]
         public ActionResult NewReq()
         {
             return View();
         }
 
+        [Route("BackOrders")]
         public ActionResult BackOrders()
         {
             return View();
