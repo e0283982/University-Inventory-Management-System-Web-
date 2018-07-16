@@ -4,15 +4,20 @@
 
 <script>
     $(function () {
-        $("#tabs").tabs();
+        if (@Session["StockAdjPage"].ToString() == "2") {
+            $("#tabs").tabs({ active: 2 });
+        } else {
+            $("#tabs").tabs();
+        }
     });
+
 </script>
 
 <div id="tabs">
     <ul>
-        <li><a href="/StoreInventory/Overview">Overview</a></li>
-        <li><a href="/StoreInventory/Reorder">Reorder Stock</a></li>
-        <li><a href="/StoreInventory/StockAdj">Stock Adjustment</a></li>
-        <li><a href="/StoreInventory/StockTake">Stock Take</a></li>
+        <li><a href="/Store/StoreInventory/Overview">Overview</a></li>
+        <li><a href="/Store/StoreInventory/Reorder">Reorder Stock</a></li>
+        <li><a href="/Store/StoreInventory/StockAdj">Stock Adjustment</a></li>
+        <li><a href="/Store/StoreInventory/StockTake">Stock Take</a></li>
     </ul>
 </div>

@@ -152,8 +152,8 @@
     <Compile Include="Controllers\DeptRequisitionController.cs" />
     <Compile Include="Controllers\DeptAuthorisationController.cs" />
     <Compile Include="Controllers\DeptController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\MainController.cs" />
-    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\StoreReportsController.cs" />
     <Compile Include="Controllers\StoreDisbursementsController.cs" />
@@ -255,10 +255,15 @@
     <Content Include="Views\StoreReports\Report2.cshtml" />
     <Content Include="Views\StoreReports\Report3.cshtml" />
     <Content Include="Views\StoreReports\Report4.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Shared\_Login.cshtml" />
+=======
+    <Content Include="Views\StoreInventory\StockAdj2.cshtml" />
+>>>>>>> 3335b1c618cfcfe38ed69c50891d481c11c23ed8
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

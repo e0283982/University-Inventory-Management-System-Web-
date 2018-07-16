@@ -8,8 +8,10 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
+    [RoutePrefix("Dept/DeptApproval")]
     public class DeptApprovalController : Controller
     {
+        [Route("Approval")]
         public ActionResult Approval()
         {
             return View();
