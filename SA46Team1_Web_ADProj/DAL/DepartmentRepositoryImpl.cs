@@ -6,38 +6,45 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.DAL
 {
-    public class CategoryRepositoryImpl : ICategoryRepository, IDisposable
+    public class DepartmentRepositoryImpl : IDepartmentRepository, IDisposable
     {
+
         private SSISdbEntities context;
-        public CategoryRepositoryImpl(SSISdbEntities context)
+        public DepartmentRepositoryImpl(SSISdbEntities context)
         {
             this.context = context;
         }
-        public void DeleteCategory(int categoryId)
+
+        public void DeleteDepartment(string code)
         {
-            Category category = context.Categories.Find(categoryId);
-            context.Categories.Remove(category);
+            Department department = context.Departments.Find(code);
+            context.Departments.Remove(department);
         }
-        public Category GetCategoryById(int categoryId)
+        public Department GetDepartmentById(string code)
         {
-            return context.Categories.Find(categoryId);
+            return context.Departments.Find(code);
         }
-        public IEnumerable<Category> GetCategories()
+
+        public IEnumerable<Department> GetDepartments()
         {
-            return context.Categories.ToList();
+            return context.Departments.ToList();
         }
-        public void InsertCategory(Category category)
+
+        public void InsertDepartment(Department department)
         {
-            context.Categories.Add(category);
+            context.Departments.Add(department);
         }
-        public void UpdateCategory(Category category)
-        {
-            context.Entry(category).State = EntityState.Modified;
-        }
+
         public void Save()
         {
             context.SaveChanges();
         }
+
+        public void UpdateDepartment(Department department)
+        {
+            context.Entry(department).State = EntityState.Modified;
+        }
+
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {
