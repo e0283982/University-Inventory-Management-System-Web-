@@ -160,7 +160,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CommonLogic.cs" />
-    <Compile Include="Controllers\DeptUpcomingDeliveryController.cs" />
     <Compile Include="Controllers\DeptApprovalController.cs" />
     <Compile Include="Controllers\DeptRequisitionHistoryController.cs" />
     <Compile Include="Controllers\DeptRequisitionController.cs" />

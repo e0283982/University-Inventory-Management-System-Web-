@@ -16,8 +16,8 @@
     $('#dataTable-storeDisbursementList tbody').on('click', 'tr', function () {
         var data = table.row(this).data();
         //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[2];
-        alert('You clicked on Disbursement Index: ' + table.row(this) + '.');
+        var dataToBeSent = data[0];
+        alert('You clicked on Disbursement with Date: ' + data[0] + '.');
 
         $.ajax({
             url: '/StoreDisbursements/DisplayDisbursementDetails',
