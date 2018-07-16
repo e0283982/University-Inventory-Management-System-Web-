@@ -20,8 +20,23 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("POList")]
         public ActionResult POList()
         {
-            return View();
+            if (Session["POListPage"].ToString() == "1")
+            {
+                return View("POList");
+            }
+            else
+            {
+                Session["POListPage"] = "1";
+                return View("DisplayPO");
+            }
         }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayPO()
+        {
+            //Session["SelectedPONumber"] = dataToBeSent;
+            Session["POListPage"] = "2";
+            return RedirectToAction("Purchase", "Store");        }
 
         [Route("GoodsReceivedList")]
         public ActionResult GoodsReceivedList()

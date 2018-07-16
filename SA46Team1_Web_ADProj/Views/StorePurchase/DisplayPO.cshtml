@@ -7,7 +7,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-newPO').DataTable({
+        $('#dataTable-displayPO').DataTable({
             scrollY: '30vh',
             scrollCollapse: true,
             paging: true
@@ -20,31 +20,42 @@
     });
 
     $(function () {
-        $("#dialog-addItem-createPO").dialog({
+        $("#dialog-save-displayPO").dialog({
             autoOpen: false
         });
     });
 
-    $('#btn-addItem-createPO').click(function () {
-        $('#dialog-addItem-createPO').dialog('open');
+    $('#btn-save-displayPO').click(function () {
+        $('#dialog-save-displayPO').dialog('open');
         return false;
     });
 
     $(function () {
-        $("#dialog-create-createPO").dialog({
+        $("#dialog-edit-displayPO").dialog({
             autoOpen: false
         });
     });
 
-    $('#btn-create-createPO').click(function () {
-        $('#dialog-create-createPO').dialog('open');
+    $('#btn-edit-displayPO').click(function () {
+        $('#dialog-edit-displayPO').dialog('open');
+        return false;
+    });
+
+    $(function () {
+        $("#dialog-GR-displayPO").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-GR-displayPO').click(function () {
+        $('#dialog-GR-displayPO').dialog('open');
         return false;
     });
 
 </script>
 
 <div>
-    <h2>Create Purchase Order</h2>
+    <h2>Display/Edit Purchase Order</h2>
 </div>
 
 <div class="create-PO-dates">
@@ -59,7 +70,7 @@
     </textarea>
 </div>
 
-<table id="dataTable-newPO" class="display" style="width:80%;">
+<table id="dataTable-displayPO" class="display" style="width:80%;">
     <thead>
         <tr>
             <th>Item Code</th>
@@ -87,14 +98,17 @@
     </tbody>
 </table>
 
-<button class="btn-blue" id="btn-addItem-createPO">Add New Item</button>
-<div id="dialog-addItem-createPO" class="hidden" title="Basic dialog">
-    <p>Add New Item for new Purchase Order.</p>
+<button class="btn-blue" id="btn-edit-displayPO">Edit</button>
+<div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
+    <p>Btn action to edit displayed purchase order.</p>
 </div>
 
-<button class="btn-blue">@Html.ActionLink("Cancel", "Home", "Store")</button>
+<button class="btn-blue" id="btn-save-displayPO">Save</button>
+<div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
+    <p>Changes to Purchase Order have been saved.</p>
+</div>
 
-<button class="btn-blue" id="btn-create-createPO">Create</button>
-<div id="dialog-create-createPO" class="hidden" title="Basic dialog">
-    <p>New Purchase Order has been created.</p>
+<button class="btn-blue" id="btn-GR-displayPO">Goods Receipt</button>
+<div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
+    <p>Goods receipt btn.</p>
 </div>
