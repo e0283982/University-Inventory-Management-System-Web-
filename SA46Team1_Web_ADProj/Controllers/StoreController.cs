@@ -12,7 +12,8 @@ namespace SA46Team1_Web_ADProj.Controllers
     {
         public ActionResult Home(string submit)
         {
-            EmailController.EMAILWITHATTACHMENT("wwj.jayden@gmail.com", "stationerylogicuniversity@gmail.com", "Subj", "body", "C:\\Users\\Jayden\\Desktop\\AD Project\\Documentation");
+            EmailController.EMAILWITHATTACHMENT("wwj.jayden@gmail.com", "stationerylogicuniversity@gmail.com",
+                "Subj", "body", @"C:/Users/Jayden/Desktop/ADProject/Documentation/UseCaseDetails.docx");
             ViewBag.Data = "2478, 5267, 734, 784, 433";
             ViewBag.Titles = "Africa, Asia, Europe, Latin America, North America";
             return View();
