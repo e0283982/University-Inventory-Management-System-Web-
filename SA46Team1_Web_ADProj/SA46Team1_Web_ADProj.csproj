@@ -185,9 +185,15 @@
     <Compile Include="DAL\IEmployeeRepository.cs" />
     <Compile Include="DAL\IItemsRepository.cs" />
     <Compile Include="DAL\IItemTransactionRepository.cs" />
+    <Compile Include="DAL\IPODetailsRepository.cs" />
+    <Compile Include="DAL\IPOHeaderRepository.cs" />
+    <Compile Include="DAL\ISupplierPriceListRepository.cs" />
     <Compile Include="DAL\ISupplierRepository.cs" />
     <Compile Include="DAL\ItemsRepositoryImpl.cs" />
     <Compile Include="DAL\ItemTransactionRepositoryImpl.cs" />
+    <Compile Include="DAL\PODetailsRepositoryImpl.cs" />
+    <Compile Include="DAL\POHeaderRepositoryImpl.cs" />
+    <Compile Include="DAL\SupplierPriceListRepositoryImpl.cs" />
     <Compile Include="DAL\SupplierRepositoryImpl.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
