@@ -152,6 +152,7 @@
     <Compile Include="Controllers\DeptRequisitionController.cs" />
     <Compile Include="Controllers\DeptAuthorisationController.cs" />
     <Compile Include="Controllers\DeptController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\StoreController.cs" />

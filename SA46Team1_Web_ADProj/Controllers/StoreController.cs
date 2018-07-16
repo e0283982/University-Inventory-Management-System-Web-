@@ -10,8 +10,10 @@ namespace SA46Team1_Web_ADProj.Controllers
 {
     public class StoreController : Controller
     {
-        public ActionResult Home()
+        public ActionResult Home(string submit)
         {
+            ViewBag.Data = "2478, 5267, 734, 784, 433";
+            ViewBag.Titles = "Africa, Asia, Europe, Latin America, North America";
             return View();
         }
 
