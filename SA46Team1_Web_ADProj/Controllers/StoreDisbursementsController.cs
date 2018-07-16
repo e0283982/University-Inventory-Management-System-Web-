@@ -14,14 +14,48 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Disbursement")]
         public ActionResult Disbursement()
         {
-            return View();
+            if (Session["DisbursementListPage"].ToString() == "1")
+            {
+                return View("Disbursement");
+            }
+            else
+            {
+                Session["DisbursementListPage"] = "1";
+                return View("Disbursement2");
+            }
         }
 
+        [HttpPost]
+        public RedirectToRouteResult DisplayDisbursementDetails()
+        {
+            //Session["SelectedPONumber"] = dataToBeSent;
+            Session["DisbursementListPage"] = "2";
+            return RedirectToAction("Disbursements", "Store");
+        }
+
+        
         [Route("Requisition")]
         public ActionResult Requisition()
         {
-            return View();
+            if (Session["ReqListPage"].ToString() == "1")
+            {
+                return View("Requisition");
+            }
+            else
+            {
+                Session["ReqListPage"] = "1";
+                return View("Requisition2");
+            }
         }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayReqDetails()
+        {
+            //Session["SelectedPONumber"] = dataToBeSent;
+            Session["ReqListPage"] = "2";
+            return RedirectToAction("Disbursements", "Store");
+        }
+
 
         [Route("Retrieval")]
         public ActionResult Retrieval()

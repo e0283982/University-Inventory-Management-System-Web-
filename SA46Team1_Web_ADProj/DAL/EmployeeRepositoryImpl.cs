@@ -2,42 +2,50 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.DAL
 {
-    public class CategoryRepositoryImpl : ICategoryRepository, IDisposable
+    public class EmployeeRepositoryImpl : IEmployeeRepository, IDisposable
     {
         private SSISdbEntities context;
-        public CategoryRepositoryImpl(SSISdbEntities context)
+        public EmployeeRepositoryImpl(SSISdbEntities context)
         {
             this.context = context;
         }
-        public void DeleteCategory(int categoryId)
+
+        public void DeleteEmployee(string employeeId)
         {
-            Category category = context.Categories.Find(categoryId);
-            context.Categories.Remove(category);
+            Employee employee = context.Employees.Find(employeeId);
+            context.Employees.Remove(employee);
         }
-        public Category GetCategoryById(int categoryId)
+
+        public Employee GetEmployeeById(string employeeId)
         {
-            return context.Categories.Find(categoryId);
+            return context.Employees.Find(employeeId);
         }
-        public IEnumerable<Category> GetCategories()
+
+        public IEnumerable<Employee> GetEmployees()
         {
-            return context.Categories.ToList();
+            return context.Employees.ToList();
         }
-        public void InsertCategory(Category category)
+
+        public void InsertEmployee(Employee employee)
         {
-            context.Categories.Add(category);
+            context.Employees.Add(employee);
         }
-        public void UpdateCategory(Category category)
-        {
-            context.Entry(category).State = EntityState.Modified;
-        }
+
         public void Save()
         {
             context.SaveChanges();
         }
+
+        public void UpdateEmployee(Employee employee)
+        {
+            context.Entry(employee).State = EntityState.Modified;
+        }
+
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {

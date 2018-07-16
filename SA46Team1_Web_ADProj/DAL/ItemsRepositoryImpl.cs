@@ -19,6 +19,11 @@ namespace SA46Team1_Web_ADProj.DAL
             return context.Items.ToList();
         }
 
+        public IEnumerable<string> GetItemIds(string search)
+        {
+            return context.Items.Where(x => x.ItemCode.StartsWith(search, StringComparison.OrdinalIgnoreCase)).Select(x => x.ItemCode).ToList();
+        }
+
         public Item GetItemById(string itemCode)
         {
             return context.Items.Find(itemCode);

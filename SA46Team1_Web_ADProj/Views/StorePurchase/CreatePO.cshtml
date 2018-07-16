@@ -18,6 +18,29 @@
         $("#datepicker-PODate").datepicker();
         $("#datepicker-PODeliveryDate").datepicker();
     });
+
+    $(function () {
+        $("#dialog-addItem-createPO").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-addItem-createPO').click(function () {
+        $('#dialog-addItem-createPO').dialog('open');
+        return false;
+    });
+
+    $(function () {
+        $("#dialog-create-createPO").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-create-createPO').click(function () {
+        $('#dialog-create-createPO').dialog('open');
+        return false;
+    });
+
 </script>
 
 <div>
@@ -64,7 +87,24 @@
     </tbody>
 </table>
 
-<button class="btn-blue">@Html.ActionLink("Add New Item", "Home", "Store")</button>
+<div id="btns-grp-btm">
 
-<button class="btn-blue">@Html.ActionLink("Cancel", "Home", "Store")</button>
-<button class="btn-blue">@Html.ActionLink("Create", "Home", "Store")</button>
+    <button class="btn-blue" id="btn-addItem-createPO">Add New Item</button>
+    <div id="dialog-addItem-createPO" class="hidden" title="Basic dialog">
+        <p>Add New Item for new Purchase Order.</p>
+    </div>
+
+    <button class="btn-blue">@Html.ActionLink("Cancel", "Home", "Store")</button>
+
+    <button class="btn-blue" id="btn-create-createPO">Create</button>
+    <div id="dialog-create-createPO" class="hidden" title="Basic dialog">
+        <p>New Purchase Order has been created.</p>
+    </div>
+</div>
+
+
+<style>
+    #btns-grp-btm {
+        margin-right: 10vw;
+    }
+</style>

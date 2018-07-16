@@ -55,6 +55,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -171,12 +172,26 @@
     <Compile Include="Controllers\StoreInventoryController.cs" />
     <Compile Include="Controllers\StoreMaintenanceController.cs" />
     <Compile Include="Controllers\StorePurchaseController.cs" />
+    <Compile Include="DAL\BinRepositoryImpl.cs" />
     <Compile Include="DAL\CategoryRepositoryImpl.cs" />
+    <Compile Include="DAL\CollectionPointRepositoryImpl.cs" />
+    <Compile Include="DAL\CollectionPointTranRepositoryImpl.cs" />
+    <Compile Include="DAL\DepartmentDetailsRepositoryImpl.cs" />
+    <Compile Include="DAL\DepartmentRepositoryImpl.cs" />
+    <Compile Include="DAL\EmployeeRepositoryImpl.cs" />
+    <Compile Include="DAL\IBinRepository.cs" />
     <Compile Include="DAL\ICategoryRepository.cs" />
+    <Compile Include="DAL\ICollectionPointRepository.cs" />
+    <Compile Include="DAL\ICollectionPointTransRepository.cs" />
+    <Compile Include="DAL\IDepartmentDetailsRepository.cs" />
+    <Compile Include="DAL\IDepartmentRepository.cs" />
+    <Compile Include="DAL\IEmployeeRepository.cs" />
     <Compile Include="DAL\IItemsRepository.cs" />
     <Compile Include="DAL\IItemTransactionRepository.cs" />
+    <Compile Include="DAL\ISupplierRepository.cs" />
     <Compile Include="DAL\ItemsRepositoryImpl.cs" />
     <Compile Include="DAL\ItemTransactionRepositoryImpl.cs" />
+    <Compile Include="DAL\SupplierRepositoryImpl.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -320,6 +335,7 @@
     <Content Include="Models\ModelDB.edmx.diagram">
       <DependentUpon>ModelDB.edmx</DependentUpon>
     </Content>
+    <Content Include="App_Code\Helper.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -389,6 +405,11 @@
     <Content Include="Views\StoreReports\Report3.cshtml" />
     <Content Include="Views\StoreReports\Report4.cshtml" />
     <Content Include="Views\StoreInventory\StockAdj2.cshtml" />
+    <Content Include="Views\StorePurchase\DisplayPO.cshtml" />
+    <Content Include="Views\StorePurchase\GoodsReceivedList2.cshtml" />
+    <Content Include="Views\StoreDisbursements\Requisition2.cshtml" />
+    <Content Include="Views\StoreDisbursements\Disbursement2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Items2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
