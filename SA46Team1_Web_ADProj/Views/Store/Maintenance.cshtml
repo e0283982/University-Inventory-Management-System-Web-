@@ -4,12 +4,24 @@
 
 
 <script>
-     $(function () {
-        if (@Session["MaintenanceCategoriesPage"].ToString() == "2") {
-            $("#tabs").tabs({ active: 1 });
+    $(function () {
+        var tabsCurrentPageIndexes = [];
+        var pageVariablesArray = [@Session["MaintenanceItemsPage"].ToString(),@Session["MaintenanceCategoriesPage"].ToString(),
+            @Session["MaintenanceStoreBinPage"].ToString(),@Session["MaintenanceCollectionPointsPage"].ToString(),
+            @Session["MaintenanceSuppliersPage"].ToString(), @Session["MaintenanceDepartmentsPage"].ToString()];
+
+        for (i = 0; i < 6; i++) {
+            var item = pageVariablesArray[i];
+            tabsCurrentPageIndexes.push(item);
+        }
+
+        if (tabsCurrentPageIndexes.filter(x => x == "2").length > 0) {
+            var index = tabsCurrentPageIndexes.findIndex(x=> x=="2");
+            $("#tabs").tabs({ active: index })
         } else {
             $("#tabs").tabs();
         }
+    
     });
 </script>
 
