@@ -17,5 +17,10 @@ namespace SA46Team1_Web_ADProj
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Session_Start()
+        {
+            //Session["StockAdjPage"] = "1";
+        }
     }
 }
