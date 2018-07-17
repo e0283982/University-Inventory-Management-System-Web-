@@ -4,30 +4,18 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
     public class StoreController : Controller
     {
-        private ItemsRepositoryImpl itemRepository;
-
-        public StoreController()
+        public ActionResult Home(string submit)
         {
-            this.itemRepository = new ItemsRepositoryImpl(new SSISdbEntities());
-        }
-
-        public ActionResult Home()
-        {
+            ViewBag.Data = "2478, 5267, 734, 784, 433";
+            ViewBag.Titles = "Africa, Asia, Europe, Latin America, North America";
             return View();
         }
-
-        public JsonResult Search(string search)
-        {
-            return new JsonResult { Data = itemRepository.GetItemById(search), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
-
 
         public ActionResult Inventory()
         {

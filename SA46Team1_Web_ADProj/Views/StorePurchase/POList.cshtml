@@ -10,24 +10,6 @@
             paging: true
         });
     });
-
-    var table = $('#dataTable-POList').DataTable();
-
-    $('#dataTable-POList tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Purchase Order with Purchase Number: ' + data[0] + '\'s row');
-
-        $.ajax({
-            url: '/StorePurchase/DisplayPO',
-            data: dataToBeSent,
-            type: 'POST',
-        });
-
-        window.location.href = '@Url.Action("Purchase", "Store")';
-
-    });
 </script>
 
 <div>

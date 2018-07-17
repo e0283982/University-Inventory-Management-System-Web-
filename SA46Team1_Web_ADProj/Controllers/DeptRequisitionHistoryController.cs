@@ -14,29 +14,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Overview")]
         public ActionResult Overview()
         {
-            if (Session["ReqHistoryPage"].ToString() == "1")
-            {
-                return View("Overview");
-            }
-            else
-            {
-                Session["ReqHistoryPage"] = "1";
-                return View("Overview2");
-            }
-        }
-
-        [HttpPost]
-        public RedirectToRouteResult DisplayReqHistoryDetails()
-        {
-            Session["ReqHistoryPage"] = "2";
-            return RedirectToAction("RequisitionHistory", "Dept");
-        }
-
-        [HttpPost]
-        public RedirectToRouteResult BackToReqHistoryList()
-        {
-            Session["ReqHistoryPage"] = "1";
-            return RedirectToAction("RequisitionHistory", "Dept");
+            return View();
         }
 
         [Route("CollectionList")]

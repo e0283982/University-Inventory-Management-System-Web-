@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="SA46Team1_Web_ADProj.WCFService" CodeBehind="WCFService.svc.cs" %>

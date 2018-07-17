@@ -10,23 +10,6 @@
             paging: true
         });
     });
-
-    var table = $('#dataTable-approval').DataTable();
-
-    $('#dataTable-approval tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
-
-        $.ajax({
-            url: '/DeptApproval/DisplayApprovalDetails',
-            data: dataToBeSent,
-            type: 'POST',
-        });
-
-        window.location.href = '@Url.Action("Approval", "Dept")';
-
-    });
 </script>
 
 <div>

@@ -8,7 +8,6 @@ namespace SA46Team1_Web_ADProj.DAL
     interface IItemsRepository : IDisposable
     {
         IEnumerable<Item> GetItems();
-        IEnumerable<string> GetItemIds(string search);
         Item GetItemById(string itemCode);
         void InsertItem(Item item);
         void DeleteItem(string itemCode);

@@ -22,7 +22,7 @@ namespace SA46Team1_Web_ADProj.DAL
         {
             return context.Categories.Find(categoryId);
         }
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<Category> GetItems()
         {
             return context.Categories.ToList();
         }

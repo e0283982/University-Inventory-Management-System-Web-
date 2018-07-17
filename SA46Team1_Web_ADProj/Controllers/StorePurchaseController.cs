@@ -20,63 +20,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("POList")]
         public ActionResult POList()
         {
-            if (Session["POListPage"].ToString() == "1")
-            {
-                return View("POList");
-            }
-            else
-            {
-                Session["POListPage"] = "1";
-                return View("DisplayPO");
-            }
-        }
-
-        [HttpPost]
-        public RedirectToRouteResult DisplayPO()
-        {
-            Session["POListPage"] = "2";
-            return RedirectToAction("Purchase", "Store");
-        }
-
-        [HttpPost]
-        public RedirectToRouteResult BackToPOList()
-        {
-            Session["POListPage"] = "1";
-
-            return RedirectToAction("Purchase", "Store");
+            return View();
         }
 
         [Route("GoodsReceivedList")]
         public ActionResult GoodsReceivedList()
-        {
-            if (Session["GRListPage"].ToString() == "1")
-            {
-                @Session["BackToGRList"] = "false";
-                return View("GoodsReceivedList");
-            }
-            else
-            {
-                Session["GRListPage"] = "1";
-                return View("GoodsReceivedList2");
-            }
+        { 
+            return View();
         }
         
-        [HttpPost]
-        public RedirectToRouteResult DisplayGR()
-        {
-            Session["GRListPage"] = "2";
-            return RedirectToAction("Purchase", "Store");
-        }
-
-       
-        [HttpPost]
-        public RedirectToRouteResult BackToGRList()
-        {
-            Session["GRListPage"] = "1";
-            Session["BackToGRList"] = "true";
-
-            return RedirectToAction("Purchase", "Store");
-        }
-
     }
 }

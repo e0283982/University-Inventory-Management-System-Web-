@@ -13,24 +13,6 @@
             paging: true
         });
     });
-
-    var table = $('#dataTable-storeMaintenanceBin').DataTable();
-
-    $('#dataTable-storeMaintenanceBin tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
-
-        $.ajax({
-            url: '/StoreMaintenance/DisplayStoreBinDetails',
-            data: dataToBeSent,
-            type: 'POST',
-        });
-
-        window.location.href = '@Url.Action("Maintenance", "Store")';
-
-    });
 </script>
 
 <div>
