@@ -8,6 +8,9 @@
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     @Scripts.Render("~/bundles/modernizr")
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -28,16 +31,25 @@
 
     <style>
 
-        .ui-menu {
+        .row.content {
+            height: 1500px
+        }
+
+        .sidenav {
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+
+        /*.ui-menu {
             width: 150px;
             background-color: lightgray;
         }
 
-            .ui-menu li {
-                height: 7%;
-                text-align: center;
-                vertical-align: middle;
-            }
+        .ui-menu li {
+            height: 7%;
+            text-align: center;
+            vertical-align: middle;
+        }*/
     </style>
 </head>
 <body>
@@ -46,25 +58,46 @@
         <button id="btn-logout">@Html.ActionLink("Logout", "Login", "Main")</button>
     </div>
 
-    <div class="main-container">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <ul id="menu">
-                <li>@Html.ActionLink("Home", "Home", "Dept")</li>
-                <li>@Html.ActionLink("Requisition", "Requisition", "Dept")</li>
-                <li>@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</li>
-                <li>@Html.ActionLink("Approval", "Approval", "Dept")</li>
-                <li>@Html.ActionLink("Authorisation", "Authorisation", "Dept")</li>
-            </ul>
-        </nav>
+    <div class="container-fluid">
 
-        <div class="container-body-content">
+        <div class="col-sm-2 sidenav">
+            <div id="navbar">
+                <h4>Logic University</h4>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Home", "Dept")</li>
+                    <li>@Html.ActionLink("Requisition", "Requisition", "Dept")</li>
+                    <li>@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</li>
+                    <li>@Html.ActionLink("Approval", "Approval", "Dept")</li>
+                    <li>@Html.ActionLink("Authorisation", "Authorisation", "Dept")</li>
+                </ul><br>
+            </div>
+        </div>
+
+        <div class="col-sm-10">
             @RenderBody()
         </div>
-    </div>
-    <hr />
 
-    @*<div class="footer">
-        <p>&copy; 2018 - SA46_ADProject</p>
-    </div>*@
+    </div>
+
+        @*<div class="main-container">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <ul id="menu">
+                    <li>@Html.ActionLink("Home", "Home", "Dept")</li>
+                    <li>@Html.ActionLink("Requisition", "Requisition", "Dept")</li>
+                    <li>@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</li>
+                    <li>@Html.ActionLink("Approval", "Approval", "Dept")</li>
+                    <li>@Html.ActionLink("Authorisation", "Authorisation", "Dept")</li>
+                </ul>
+            </nav>
+
+            <div class="container-body-content">
+                
+            </div>
+        </div>
+        <hr />*@
+
+        @*<div class="footer">
+                <p>&copy; 2018 - SA46_ADProject</p>
+            </div>*@
 </body>
 </html>
