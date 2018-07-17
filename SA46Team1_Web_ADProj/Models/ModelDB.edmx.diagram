@@ -74,6 +74,8 @@
         <AssociationConnector Association="SSISdbModel.FK__SupplierP__Suppl__7E37BEF6" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentOverview" Width="1.5" PointX="3.375" PointY="3.75" />
         <EntityTypeShape EntityType="SSISdbModel.InventoryOverview" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SSISdbModel.PendingApproval" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="SSISdbModel.GoodsReceivedList" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

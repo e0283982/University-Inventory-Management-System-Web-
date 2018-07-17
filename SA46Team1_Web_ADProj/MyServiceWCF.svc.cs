@@ -12,6 +12,12 @@ namespace SA46Team1_Web_ADProj
     // NOTE: In order to launch WCF Test Client for testing this service, please select MyServiceWCF.svc or MyServiceWCF.svc.cs at the Solution Explorer and start debugging.
     public class MyServiceWCF : IMyServiceWCF
     {
+        public List<GoodsReceivedList> GoodsRecList()
+        {
+            string itemcode = "C001";
+            return JWTempData.GoodsReceivedLists(itemcode);
+        }
+
         public List<InventoryOverview> InventoryList()
         {
             //Temporary placeholder to make the requestID = 1

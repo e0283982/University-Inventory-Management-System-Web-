@@ -5,13 +5,6 @@
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-displayGR').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
-        });
-    });
 
     $(function () {
         $("#datepicker-GR-Date").datepicker();
@@ -29,6 +22,8 @@
     });
 
 </script>
+
+@Helper.GoodsReceivedDetailedDatatable();
 
 <div>
     <h2>Goods Receipt</h2>
@@ -67,17 +62,6 @@
             <th>Total ($)</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>C010</td>
-            <td>Pad Postit "2</td>
-            <td>Box</td>
-            <td>50</td>
-            <td>3.00</td>
-            <td>150.00</td>
-        </tr>
-    </tbody>
 </table>
 
 <div>

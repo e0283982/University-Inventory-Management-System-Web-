@@ -237,6 +237,9 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\GoodsReceivedList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InventoryOverview.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -260,6 +263,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PendingApproval.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PODetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>

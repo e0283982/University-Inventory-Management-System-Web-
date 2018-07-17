@@ -25,7 +25,88 @@
     </body>
 }
 
-@helper SearchInv()
+@helper InventoryOverviewDatatable()
 {
+    <script>
+        $(document).ready(function () {
 
+            $.ajax({
+                url: 'http://localhost:49921/MyServiceWCF.svc/InventoryWCFList',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#dataTable-storeInventory').dataTable({
+                        paging: true,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        columns: [
+                            { 'data': 'ItemCode' },
+                            { 'data': 'Description' },
+                            { 'data': 'CategoryName' },
+                            { 'data': 'Quantity' },
+                            { 'data': 'UoM' },
+                            { 'data': 'PONotFulfilled' },
+                            { 'data': 'StaffOrderNotFulfilled' }
+                        ]
+                    });
+                }
+            });
+        });
+    </script>
+
+    <div>
+        <h2>Inventory - Overview</h2>
+    </div>
+
+
+    <table id="dataTable-storeInventory" class="display" style="width:80%;">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Available</th>
+                <th>Units</th>
+                <th>PO Backorders not fulfilled</th>
+                <th>Staff Requisitions not fulfilled</th>
+            </tr>
+        </thead>
+    </table>
+}
+
+@helper GoodsReceivedDetailedDatatable()
+{
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                url: 'http://localhost:49921/MyServiceWCF.svc/GoodsReceivedWCFList',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#dataTable-displayGR').dataTable({
+                        paging: true,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        columns: [
+                            { 'data': 'ItemCode' },
+                            { 'data': 'Description' },
+                            { 'data': 'UoM' },
+                            { 'data': 'QuantityReceived' },
+                            { 'data': 'UnitCost' },
+                            { 'data': 'Total' },
+                            //{ 'data': 'ReceiptNo' }
+                            //{ 'data': 'ReceivedDate' },
+                            //{ 'data': 'CompanyName' },
+                            //{ 'data': 'Receiver' }
+                        ]
+                    });
+                }
+            });
+        });
+    </script>
 }

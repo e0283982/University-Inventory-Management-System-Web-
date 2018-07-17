@@ -24,5 +24,13 @@ namespace SA46Team1_Web_ADProj
                 return m.InventoryOverviews.Where(x => x.ItemCode == itemcode).ToList<InventoryOverview>();
             }
         }
+
+        public static List<GoodsReceivedList> GoodsReceivedLists(string itemcode)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.GoodsReceivedLists.Where(x => x.ItemCode == itemcode).ToList<GoodsReceivedList>();
+            }
+        }
     }
 }

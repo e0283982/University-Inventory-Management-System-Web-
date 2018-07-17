@@ -21,5 +21,9 @@ namespace SA46Team1_Web_ADProj
         [OperationContract]
         [WebGet(UriTemplate = "/InventoryWCFList", ResponseFormat = WebMessageFormat.Json)]
         List<InventoryOverview> InventoryList();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GoodsReceivedWCFList", ResponseFormat = WebMessageFormat.Json)]
+        List<GoodsReceivedList> GoodsRecList();
     }
 }
