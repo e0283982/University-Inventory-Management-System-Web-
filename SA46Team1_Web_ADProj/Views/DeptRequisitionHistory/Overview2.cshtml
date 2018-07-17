@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-pastReq-details').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>Requisition Form #DDS/001/18</h2>
+</div>
+
+
+<table id="dataTable-pastReq-details" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Unit of Measure</th>
+            <th>Requested Qty</th>
+            <th>Delivered Qty</th>
+            <th>Back Order Qty</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>Clips "2</td>
+            <td>Dozen</td>
+            <td>10</td>
+            <td>8</td>
+            <td>2</td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToReqHistoryList", "DeptRequisitionHistory", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>

@@ -14,38 +14,179 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Categories")]
         public ActionResult Categories()
         {
-            return View();
+            if (Session["MaintenanceCategoriesPage"].ToString() == "1")
+            {
+                Session["MaintenanceBackFlagPage"] = "0";
+                return View("Categories");
+            }
+            else
+            {
+                Session["MaintenanceCategoriesPage"] = "1";
+                return View("Categories2");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayCategoryDetails()
+        {
+            Session["MaintenanceCategoriesPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToCategoriesMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "1";
+            Session["MaintenanceCategoriesPage"] = "1";
+
+            return RedirectToAction("Maintenance", "Store");
         }
 
         [Route("StoreBin")]
         public ActionResult StoreBin()
         {
-            return View();
+            if (Session["MaintenanceStoreBinPage"].ToString() == "1")
+            {
+                Session["MaintenanceBackFlagPage"] = "0";
+                return View("StoreBin");
+            }
+            else
+            {
+                Session["MaintenanceStoreBinPage"] = "1";
+                return View("StoreBin2");
+            }
         }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayStoreBinDetails()
+        {
+            Session["MaintenanceStoreBinPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToBinsMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "2";
+            Session["MaintenanceStoreBinPage"] = "1";
+
+            return RedirectToAction("Maintenance", "Store");
+        }
+
 
         [Route("Suppliers")]
         public ActionResult Suppliers()
         {
-            return View();
+            if (Session["MaintenanceSuppliersPage"].ToString() == "1")
+            {
+                Session["MaintenanceBackFlagPage"] = "0";
+                return View("Suppliers");
+            }
+            else
+            {
+                Session["MaintenanceSuppliersPage"] = "1";
+                return View("Suppliers2");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplaySupplierDetails()
+        {
+            Session["MaintenanceSuppliersPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToSuppliersMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "4";
+            Session["MaintenanceSuppliersPage"] = "1";
+
+            return RedirectToAction("Maintenance", "Store");
         }
 
         [Route("CollectionPoints")]
         public ActionResult CollectionPoints()
-        { 
-            return View();
+        {
+            if (Session["MaintenanceCollectionPointsPage"].ToString() == "1")
+            {
+                Session["MaintenanceBackFlagPage"] = "0";
+                return View("CollectionPoints");
+            }
+            else
+            {
+                Session["MaintenanceCollectionPointsPage"] = "1";
+                return View("CollectionPoints2");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayCollectionPointDetails()
+        {
+            Session["MaintenanceCollectionPointsPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToCollectionPointsMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "3";
+            Session["MaintenanceCollectionPointsPage"] = "1";
+
+            return RedirectToAction("Maintenance", "Store");
         }
 
         [Route("Departments")]
         public ActionResult Departments()
         {
-            return View();
+            if (Session["MaintenanceDepartmentsPage"].ToString() == "1")
+            {
+                Session["MaintenanceBackFlagPage"] = "0";
+                return View("Departments");
+            }
+            else
+            {
+                Session["MaintenanceDepartmentsPage"] = "1";
+                return View("Departments2");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayDepartmentDetails()
+        {
+            Session["MaintenanceDepartmentsPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToDeptsMaintenanceList()
+        {
+            Session["MaintenanceBackFlagPage"] = "5";
+            Session["MaintenanceDepartmentsPage"] = "1";
+            return RedirectToAction("Maintenance", "Store");
         }
 
         [Route("Items")]
         public ActionResult Items()
         {
-            return View();
+            if (Session["MaintenanceItemsPage"].ToString() == "1")
+            {
+                Session["MaintenanceBackFlagPage"] = "0";
+                return View("Items");
+            }
+            else
+            {
+                Session["MaintenanceItemsPage"] = "1";
+                return View("Items2");
+            }
         }
-        
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayItemDetails()
+        {
+            Session["MaintenanceItemsPage"] = "2";
+            return RedirectToAction("Maintenance", "Store");
+        }
+
     }
 }

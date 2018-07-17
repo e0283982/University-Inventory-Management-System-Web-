@@ -6,11 +6,46 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeInventoryAdj').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+        $.ajax({
+            url: 'http://localhost:49921/WCFService.svc/StockAdjustmentList',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $('#dataTable-storeInventoryAdj').dataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        {
+                            'data': 'DateRequested',
+                            'render': function (jsonDate) {
+                                var date = new Date(parseInt(jsonDate.substr(6)));
+                                var month = date.getMonth() + 1;
+                                return month + "/" + date.getDate() + "/" + date.getFullYear();
+                            }
+
+                        },
+                        { 'data': 'Description' },
+                        { 'data': 'ItemQuantity' },
+                        { 'data': 'Remarks' },
+                        { 'data': 'Reason' },
+                        { 'data': 'Status' }                        
+                    ]
+                });
+            }
         });
+    
+       
+
+
+        //$('#dataTable-storeInventoryAdj').DataTable({
+        //    scrollY: '30vh',
+        //    scrollCollapse: true,
+        //    paging: true
+        //});
     });
 </script>
 
@@ -31,28 +66,18 @@
         </tr>
     </thead>
 
-    <tbody>
-        <tr>
-            <td>28-JAN-2018</td>
-            <td>Clip "2</td>
-            <td>5</td>
-            <td>Missing</td>
-            <td>Nil</td>
-            <td>Pending</td>
-        </tr>
-
-        <tr>
-            <td>28-MAR-2018</td>
-            <td>Clip "2.5</td>
-            <td>5</td>
-            <td>Damaged</td>
-            <td>Nil</td>
-            <td>Approved</td>
-        </tr>
-    </tbody>
 </table>
 
-@using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
-{
-    <input class="btn-blue" type="submit" value="Create New Stock Adjustments" />
-}
+<div id="btns-grp-btm">
+
+    @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Create New Stock Adjustments" />
+    }
+</div>
+
+<style>
+    #btns-grp-btm {
+        margin-right: 10vw;
+    }
+</style>
