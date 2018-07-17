@@ -3,13 +3,35 @@
 }
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-roles-delegation').DataTable({
-            scrollY: '50vh',
-            scrollCollapse: true,
-            paging: true
+     $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/EmployeeList',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $('#dataTable-roles-delegation').dataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'EmployeeName' },
+                        { 'data': 'Designation' },
+                        { 'data': 'Designation' }
+                    ]
+                });
+            }
         });
+
     });
+    //$(document).ready(function () {
+    //    $('#dataTable-roles-delegation').DataTable({
+    //        scrollY: '50vh',
+    //        scrollCollapse: true,
+    //        paging: true
+    //    });
+    //});
 </script>
 
 <h2>Role Delegation</h2>
@@ -21,42 +43,5 @@
             <th>Assign</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td>Evelyn</td>
-            <td>Role1</td>
-            <td><button>Edit</button></td>
-        </tr>
-        <tr>
-            <td>Jayden</td>
-            <td>Role2</td>
-            <td><button>Edit</button></td>
-        </tr>
-        <tr>
-            <td>Kit</td>
-            <td>Role3</td>
-            <td><button>Edit</button></td>
-        </tr>
-        <tr>
-            <td>HP</td>
-            <td>Role4</td>
-            <td><button>Edit</button></td>
-        </tr>
-        <tr>
-            <td>Chiraj</td>
-            <td>Role5</td>
-            <td><button>Edit</button></td>
-        </tr>
-        <tr>
-            <td>Hendri</td>
-            <td>Role6</td>
-            <td><button>Edit</button></td>
-        </tr>
-        <tr>
-            <td>Sandy</td>
-            <td>Role7</td>
-            <td><button>Edit</button></td>
-        </tr>
-    </tbody>
 </table>
 
