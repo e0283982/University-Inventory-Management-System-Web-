@@ -13,6 +13,17 @@
             paging: true
         });
     });
+
+    $(function () {
+        $("#dialog-disburse-retrieval").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-disburse-retrieval').click(function () {
+        $('#dialog-disburse-retrieval').dialog('open');
+        return false;
+    });
 </script>
 
 <div>
@@ -58,4 +69,8 @@
 </table>
 
 <button class="btn-blue">@Html.ActionLink("Print List", "Home", "Store")</button>
-<button class="btn-blue">@Html.ActionLink("Disburse Items", "Home", "Store")</button>
+
+<button class="btn-blue" id="btn-disburse-retrieval">Disburse Items</button>
+<div id="dialog-disburse-retrieval" class="hidden" title="Basic dialog">
+    <p>Todo: clear datatable upon disburse of items.</p>
+</div>

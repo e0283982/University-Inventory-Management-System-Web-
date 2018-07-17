@@ -10,6 +10,23 @@
             paging: true
         });
     });
+
+    var table = $('#dataTable-pastReq').DataTable();
+
+    $('#dataTable-pastReq tbody').on('click', 'tr', function () {
+        var data = table.row(this).data();
+        var dataToBeSent = data[0];
+        alert('You clicked on Requisition Form #: ' + data[0] + '.');
+
+        $.ajax({
+            url: '/DeptRequisitionHistory/DisplayReqHistoryDetails',
+            data: dataToBeSent,
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
+    });
 </script>
 
 <div>

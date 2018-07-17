@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,9 +55,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -168,15 +172,37 @@
     <Compile Include="Controllers\StoreInventoryController.cs" />
     <Compile Include="Controllers\StoreMaintenanceController.cs" />
     <Compile Include="Controllers\StorePurchaseController.cs" />
+    <Compile Include="DAL\BinRepositoryImpl.cs" />
     <Compile Include="DAL\CategoryRepositoryImpl.cs" />
+    <Compile Include="DAL\CollectionPointRepositoryImpl.cs" />
+    <Compile Include="DAL\CollectionPointTranRepositoryImpl.cs" />
+    <Compile Include="DAL\DepartmentDetailsRepositoryImpl.cs" />
+    <Compile Include="DAL\DepartmentRepositoryImpl.cs" />
+    <Compile Include="DAL\EmployeeRepositoryImpl.cs" />
+    <Compile Include="DAL\IBinRepository.cs" />
     <Compile Include="DAL\ICategoryRepository.cs" />
+    <Compile Include="DAL\ICollectionPointRepository.cs" />
+    <Compile Include="DAL\ICollectionPointTransRepository.cs" />
+    <Compile Include="DAL\IDepartmentDetailsRepository.cs" />
+    <Compile Include="DAL\IDepartmentRepository.cs" />
+    <Compile Include="DAL\IEmployeeRepository.cs" />
     <Compile Include="DAL\IItemsRepository.cs" />
     <Compile Include="DAL\IItemTransactionRepository.cs" />
+    <Compile Include="DAL\IPODetailsRepository.cs" />
+    <Compile Include="DAL\IPOHeaderRepository.cs" />
+    <Compile Include="DAL\ISupplierPriceListRepository.cs" />
+    <Compile Include="DAL\ISupplierRepository.cs" />
     <Compile Include="DAL\ItemsRepositoryImpl.cs" />
     <Compile Include="DAL\ItemTransactionRepositoryImpl.cs" />
+    <Compile Include="DAL\PODetailsRepositoryImpl.cs" />
+    <Compile Include="DAL\POHeaderRepositoryImpl.cs" />
+    <Compile Include="DAL\SupplierPriceListRepositoryImpl.cs" />
+    <Compile Include="DAL\SupplierRepositoryImpl.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HWTempData.cs" />
+    <Compile Include="IWCFService.cs" />
     <Compile Include="Models\ApprovalDelegation.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -256,6 +282,9 @@
     <Compile Include="Models\StockAdjustmentHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockAdjustmentOverview.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StockCount.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -282,6 +311,9 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WCFService.svc.cs">
+      <DependentUpon>WCFService.svc</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Antlr3.Runtime.dll" />
@@ -404,6 +436,7 @@
     <Content Include="Models\ModelDB.edmx.diagram">
       <DependentUpon>ModelDB.edmx</DependentUpon>
     </Content>
+<<<<<<< HEAD
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
@@ -432,6 +465,9 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+=======
+    <Content Include="App_Code\Helper.cshtml" />
+>>>>>>> bd1b4c35e89e20f7e23262a53b36f4bfbb6a8e7b
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -448,6 +484,7 @@
     <Content Include="Scripts\Sidebar-Menu.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\site.min.js" />
+    <Content Include="WCFService.svc" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -501,7 +538,22 @@
     <Content Include="Views\StoreReports\Report3.cshtml" />
     <Content Include="Views\StoreReports\Report4.cshtml" />
     <Content Include="Views\StoreInventory\StockAdj2.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Shared\_Login.cshtml" />
+=======
+    <Content Include="Views\StorePurchase\DisplayPO.cshtml" />
+    <Content Include="Views\StorePurchase\GoodsReceivedList2.cshtml" />
+    <Content Include="Views\StoreDisbursements\Requisition2.cshtml" />
+    <Content Include="Views\StoreDisbursements\Disbursement2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Items2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Categories2.cshtml" />
+    <Content Include="Views\StoreMaintenance\CollectionPoints2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Departments2.cshtml" />
+    <Content Include="Views\StoreMaintenance\StoreBin2.cshtml" />
+    <Content Include="Views\StoreMaintenance\Suppliers2.cshtml" />
+    <Content Include="Views\DeptRequisitionHistory\Overview2.cshtml" />
+    <Content Include="Views\DeptApproval\Approval2.cshtml" />
+>>>>>>> bd1b4c35e89e20f7e23262a53b36f4bfbb6a8e7b
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

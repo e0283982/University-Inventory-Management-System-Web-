@@ -14,13 +14,62 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Disbursement")]
         public ActionResult Disbursement()
         {
-            return View();
+            if (Session["DisbursementListPage"].ToString() == "1")
+            {
+                @Session["BackToDisbursementList"] = "false";
+                return View("Disbursement");
+            }
+            else
+            {
+                Session["DisbursementListPage"] = "1";
+                return View("Disbursement2");
+            }
         }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayDisbursementDetails()
+        {
+            Session["DisbursementListPage"] = "2";
+            return RedirectToAction("Disbursements", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToDisbursementList()
+        {
+            Session["DisbursementListPage"] = "1";
+            Session["BackToDisbursementList"] = "true";
+
+            return RedirectToAction("Disbursements", "Store");
+        }
+
 
         [Route("Requisition")]
         public ActionResult Requisition()
         {
-            return View();
+            if (Session["ReqListPage"].ToString() == "1")
+            {
+                return View("Requisition");
+            }
+            else
+            {
+                Session["ReqListPage"] = "1";
+                return View("Requisition2");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayReqDetails()
+        {
+            Session["ReqListPage"] = "2";
+            return RedirectToAction("Disbursements", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToRequisitionsList()
+        {
+            Session["ReqListPage"] = "1";
+
+            return RedirectToAction("Disbursements", "Store");
         }
 
         [Route("Retrieval")]
