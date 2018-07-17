@@ -5,11 +5,37 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeInventoryOverview').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+        $.ajax({
+            url: 'http://localhost:49921/MyServiceWCF.svc/InventoryWCFList',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $('#dataTable-storeInventory').dataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'ItemCode'},
+                        { 'data': 'Description' },
+                        { 'data': 'CategoryName' },
+                        { 'data': 'Quantity' },
+                        { 'data': 'UoM' },
+                        { 'data': 'PONotFulfilled' },
+                        { 'data': 'StaffOrderNotFulfilled' }
+                    ]
+                });
+            }
         });
+    //$(document).ready(function () {
+    //    $('#dataTable-storeInventoryOverview').DataTable({
+    //        scrollY: '30vh',
+    //        scrollCollapse: true,
+    //        paging: true
+    //    });
+    //});
     });
 </script>
 
@@ -18,39 +44,17 @@
 </div>
 
 
-<table id="dataTable-storeInventoryOverview" class="display" style="width:80%;">
+<table id="dataTable-storeInventory" class="display" style="width:80%;">
     <thead>
         <tr>
             <th>#</th>
             <th>Item</th>
             <th>Category</th>
             <th>Available</th>
+            <th>Units</th>
             <th>PO Backorders not fulfilled</th>
             <th>Staff Requisitions not fulfilled</th>
-            <th>Units</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Clip "2</td>
-            <td>Clip</td>
-            <td>75</td>
-            <td>5</td>
-            <td>2</td>
-            <td>Dozen</td>
-        </tr>
-
-        <tr>
-            <td>2</td>
-            <td>Clip "2.5</td>
-            <td>Clip</td>
-            <td>75</td>
-            <td>5</td>
-            <td>2</td>
-            <td>Dozen</td>
-        </tr>
-    </tbody>
 </table>
 

@@ -54,5 +54,6 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierPriceList> SupplierPriceLists { get; set; }
         public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
+        public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
     }
 }
