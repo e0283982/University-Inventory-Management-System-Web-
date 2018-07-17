@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable-storeDisbursementReqList-details').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
+        });
+    });
+</script>
+
+<div>
+    <h2>Requisition Information</h2>
+</div>
+
+<div>
+    <label>Requisition Number: <input type="text" id="store-req-det-reqNo"></label>
+    <label>Department Name: <input type="text" id="store-req-det-deptName"></label>
+    <label>Department Code: <input type="text" id="store-req-det-deptCode"></label>
+    <label>Employee Name: <input type="text" id="store-req-det-empName"></label>
+    <label>Employee Number: <input type="text" id="store-req-det-empNo"></label>
+</div>
+<div>
+    <p>
+        <label>Approved By:</label>
+        <label>Name: <input type="text" id="store-req-det-approverName"></label>
+        <label>Date: <input type="text" id="store-req-det-approvedDate"></label>
+    </p>
+</div>
+
+<table id="dataTable-storeDisbursementReqList-details" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Item Code</th>
+            <th>Description</th>
+            <th>Ordered Qty</th>
+            <th>Delivered Qty</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>C010</td>
+            <td>Clips "2</td>
+            <td>50</td>
+            <td>50</td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="details-back-btn">
+
+    @using (Html.BeginForm("BackToRequisitionsList", "StoreDisbursements", FormMethod.Post))
+    {
+        <input class="btn-blue" type="submit" value="Back" />
+    }
+</div>

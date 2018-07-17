@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApprovalDelegation">
           <Key>
             <PropertyRef Name="Id" />
@@ -20,7 +20,7 @@
           <Key>
             <PropertyRef Name="Number" />
           </Key>
-          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Active" Type="tinyint" Nullable="false" />
           <Property Name="Location" Type="nvarchar" MaxLength="60" Nullable="false" />
@@ -235,17 +235,18 @@
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Amount" Type="real" Nullable="false" />
-          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="StockAdjustmentHeader">
           <Key>
             <PropertyRef Name="RequestId" />
           </Key>
           <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DateRequested" Type="date" Nullable="false" />
+          <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="12" />
-          <Property Name="DateProcessed" Type="date" />
+          <Property Name="DateProcessed" Type="datetime" />
           <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="TransactionType" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
@@ -324,6 +325,25 @@
           <Property Name="UnitCost" Type="real" Nullable="false" />
           <Property Name="UoM" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Active" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StockAdjustmentOverview">
+          <Key>
+            <PropertyRef Name="Requestor" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="ItemQuantity" />
+            <PropertyRef Name="Remarks" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Requestor" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="DateRequested" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemQuantity" Type="int" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
@@ -822,6 +842,17 @@
           <EntitySet Name="StockTakeHeader" EntityType="Self.StockTakeHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplierPriceList" EntityType="Self.SupplierPriceList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockAdjustmentOverview" EntityType="Self.StockAdjustmentOverview" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StockAdjustmentOverview].[Requestor] AS [Requestor], 
+    [StockAdjustmentOverview].[DateRequested] AS [DateRequested], 
+    [StockAdjustmentOverview].[Description] AS [Description], 
+    [StockAdjustmentOverview].[ItemQuantity] AS [ItemQuantity], 
+    [StockAdjustmentOverview].[Remarks] AS [Remarks], 
+    [StockAdjustmentOverview].[Reason] AS [Reason], 
+    [StockAdjustmentOverview].[Status] AS [Status]
+    FROM [dbo].[StockAdjustmentOverview] AS [StockAdjustmentOverview]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
             <End Role="Item" EntitySet="Item" />
             <End Role="Bin" EntitySet="Bin" />
@@ -979,8 +1010,7 @@
             <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SSISdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1272,19 +1302,20 @@
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Single" Nullable="false" />
-          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK__StockAdju__ItemC__47A6A41B" FromRole="StockAdjustmentDetails" ToRole="Item" />
           <NavigationProperty Name="StockAdjustmentHeader" Relationship="Self.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentDetails" ToRole="StockAdjustmentHeader" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="StockAdjustmentHeader">
           <Key>
             <PropertyRef Name="RequestId" />
           </Key>
           <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Approver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="DateProcessed" Type="DateTime" Precision="0" />
+          <Property Name="DateProcessed" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TransactionType" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Employee" Relationship="Self.FK__StockAdju__Appro__43D61337" FromRole="StockAdjustmentHeader" ToRole="Employee" />
@@ -2035,7 +2066,25 @@
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierPriceList" EntitySet="SupplierPriceLists" />
           </AssociationSet>
+          <EntitySet Name="StockAdjustmentOverviews" EntityType="SSISdbModel.StockAdjustmentOverview" />
         </EntityContainer>
+        <EntityType Name="StockAdjustmentOverview">
+          <Key>
+            <PropertyRef Name="Requestor" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="ItemQuantity" />
+            <PropertyRef Name="Remarks" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Requestor" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2279,6 +2328,7 @@
           <EntitySetMapping Name="StockAdjustmentDetails">
             <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentDetail">
               <MappingFragment StoreEntitySet="StockAdjustmentDetails">
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="RequestId" ColumnName="RequestId" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
@@ -2375,6 +2425,19 @@
                 <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentOverviews">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentOverview">
+              <MappingFragment StoreEntitySet="StockAdjustmentOverview">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

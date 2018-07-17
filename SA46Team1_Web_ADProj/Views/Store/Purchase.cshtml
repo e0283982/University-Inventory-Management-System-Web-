@@ -3,8 +3,15 @@
 }
 
 <script>
+
+  var pageIndex = @Session["GRListPage"].ToString();
+    var backFlag = @Session["BackToGRList"].ToString().ToLower();
     $(function () {
-        $("#tabs").tabs();
+        if (pageIndex == "2" || backFlag == true) {
+            $("#tabs").tabs({ active: 2 });
+        } else {
+            $("#tabs").tabs();
+        }
     });
 </script>
 

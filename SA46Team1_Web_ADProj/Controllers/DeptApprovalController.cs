@@ -14,8 +14,29 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Approval")]
         public ActionResult Approval()
         {
-            return View();
+            if (Session["ReqApprovalPage"].ToString() == "1")
+            {
+                return View("Approval");
+            }
+            else
+            {
+                Session["ReqApprovalPage"] = "1";
+                return View("Approval2");
+            }
         }
 
+        [HttpPost]
+        public RedirectToRouteResult DisplayApprovalDetails()
+        {
+            Session["ReqApprovalPage"] = "2";
+            return RedirectToAction("Approval", "Dept");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToApprovalList()
+        {
+            Session["ReqApprovalPage"] = "1";
+            return RedirectToAction("Approval", "Dept");
+        }
     }
 }
