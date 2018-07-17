@@ -334,6 +334,7 @@ warning 6002: The table/view 'SSISdb.dbo.GoodsReceivedList' does not have a prim
             <PropertyRef Name="EmployeeName" />
           </Key>
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="PONumber" Type="nvarchar" MaxLength="255" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" />
           <Property Name="UoM" Type="nvarchar" MaxLength="255" />
           <Property Name="QuantityReceived" Type="int" />
@@ -341,6 +342,7 @@ warning 6002: The table/view 'SSISdb.dbo.GoodsReceivedList' does not have a prim
           <Property Name="Total" Type="real" />
           <Property Name="ReceiptNo" Type="int" />
           <Property Name="ReceivedDate" Type="date" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="255" />
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
@@ -888,6 +890,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="GoodsReceivedList" EntityType="Self.GoodsReceivedList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [GoodsReceivedList].[ItemCode] AS [ItemCode], 
+    [GoodsReceivedList].[PONumber] AS [PONumber], 
     [GoodsReceivedList].[Description] AS [Description], 
     [GoodsReceivedList].[UoM] AS [UoM], 
     [GoodsReceivedList].[QuantityReceived] AS [QuantityReceived], 
@@ -895,6 +898,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [GoodsReceivedList].[Total] AS [Total], 
     [GoodsReceivedList].[ReceiptNo] AS [ReceiptNo], 
     [GoodsReceivedList].[ReceivedDate] AS [ReceivedDate], 
+    [GoodsReceivedList].[Remarks] AS [Remarks], 
     [GoodsReceivedList].[CompanyName] AS [CompanyName], 
     [GoodsReceivedList].[EmployeeName] AS [EmployeeName]
     FROM [dbo].[GoodsReceivedList] AS [GoodsReceivedList]</DefiningQuery>
@@ -2190,6 +2194,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <PropertyRef Name="EmployeeName" />
           </Key>
           <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="QuantityReceived" Type="Int32" />
@@ -2197,6 +2202,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Total" Type="Single" />
           <Property Name="ReceiptNo" Type="Int32" />
           <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -2583,6 +2589,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
               <MappingFragment StoreEntitySet="GoodsReceivedList">
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
                 <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
@@ -2590,6 +2597,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
               </MappingFragment>
             </EntityTypeMapping>

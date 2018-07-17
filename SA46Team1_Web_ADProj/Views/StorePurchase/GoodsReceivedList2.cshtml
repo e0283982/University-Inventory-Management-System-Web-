@@ -21,16 +21,18 @@
         return false;
     });
 
+    $.getJSON("http://localhost:49921/MyServiceWCF.svc/GoodsReceivedWCFList")
+
 </script>
 
-@Helper.GoodsReceivedDetailedDatatable();
+@Helper.GoodsReceivedDetailedDatatable()
 
 <div>
     <h2>Goods Receipt</h2>
 </div>
 
 <div>
-    <label>Goods Receipt Number: <input type="text" id="GR-number"></label>
+
 
     <button class="btn-blue" id="btn-print-displayGR">Goods Receipt</button>
     <div id="dialog-print-displayGR" class="hidden" title="Basic dialog">
@@ -39,16 +41,20 @@
 </div>
 
 <div>
-    <label>Date: <input type="text" id="datepicker-GR-Date"></label>
-    <label>Supplier: <input type="text" id="GR-supplier"></label>
-    <label>Created By: <input type="text" id="GR-created-by"></label>
+    <label>Goods Receipt Number: @ViewBag.Id</label>
+    <br />
+    <label>PO Number: @ViewBag.po</label>
+    <br />
+    <label>Date: @ViewBag.date</label>
+    <br />
+    <label>Supplier: @ViewBag.sup</label>
+    <br />
+    <label>Created By: @ViewBag.rec</label>
 </div>
 
 <div>
     <p>Remarks:</p>
-    <textarea rows="4" cols="50">
-        Enter remarks here.
-    </textarea>
+    @ViewBag.rem
 </div>
 
 <table id="dataTable-displayGR" class="display" style="width:80%;">
