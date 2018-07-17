@@ -167,6 +167,7 @@
     <Compile Include="Controllers\DeptController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\StoreManagerInventoryController.cs" />
     <Compile Include="Controllers\StoreReportsController.cs" />
     <Compile Include="Controllers\StoreDisbursementsController.cs" />
     <Compile Include="Controllers\StoreInventoryController.cs" />
@@ -432,6 +433,9 @@
     <Content Include="Views\StoreMaintenance\Suppliers2.cshtml" />
     <Content Include="Views\DeptRequisitionHistory\Overview2.cshtml" />
     <Content Include="Views\DeptApproval\Approval2.cshtml" />
+    <Content Include="Views\StoreManagerInventory\Overview.cshtml" />
+    <Content Include="Views\StoreManagerInventory\Reorder.cshtml" />
+    <Content Include="Views\StoreManagerInventory\ReviewAdj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

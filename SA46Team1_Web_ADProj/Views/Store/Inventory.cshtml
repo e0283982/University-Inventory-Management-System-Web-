@@ -14,11 +14,26 @@
 
 </script>
 
-<div id="tabs">
-    <ul>
-        <li><a href="/Store/StoreInventory/Overview">Overview</a></li>
-        <li><a href="/Store/StoreInventory/Reorder">Reorder Stock</a></li>
-        <li><a href="/Store/StoreInventory/StockAdj">Stock Adjustment</a></li>
-        <li><a href="/Store/StoreInventory/StockTake">Stock Take</a></li>
-    </ul>
-</div>
+@if (@Session["Role"].ToString() == "Store")
+{
+
+    <div id="tabs">
+        <ul>
+            <li><a href="/Store/StoreInventory/Overview">Overview</a></li>
+            <li><a href="/Store/StoreInventory/Reorder">Reorder Stock</a></li>
+            <li><a href="/Store/StoreInventory/StockAdj">Stock Adjustment</a></li>
+            <li><a href="/Store/StoreInventory/StockTake">Stock Take</a></li>
+        </ul>
+    </div>
+
+}
+else
+{
+    <div id="tabs">
+        <ul>
+            <li><a href="/Store/StoreInventoryManager/Overview">Overview</a></li>
+            <li><a href="/Store/StoreInventoryManager/Reorder">Reorder Stock</a></li>
+            <li><a href="/Store/StoreInventoryManager/ReviewAdj">Review Adjustments</a></li>
+        </ul>
+    </div>
+}
