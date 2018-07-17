@@ -20,6 +20,9 @@ namespace SA46Team1_Web_ADProj
 
         protected void Session_Start()
         {
+            //Session variables for Application
+            Session["Role"] = "Dept";
+
             //Session variables for inner pages of DEPT tabs
 
             //Session variables for Dept - Requisition History

@@ -24,10 +24,17 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 if (model.Username.Equals("Dept"))
                 {
+                    Session["Role"] = "Dept";
                     return RedirectToAction("Home", "Dept", new { area = "" });
                 }
                 else if (model.Username.Equals("Store"))
                 {
+                    Session["Role"] = "Store";
+                    return RedirectToAction("Home", "Store", new { area = "" });
+                }
+                else if (model.Username.Equals("StoreManager"))
+                {
+                    Session["Role"] = "StoreManager";
                     return RedirectToAction("Home", "Store", new { area = "" });
                 }
                 else
@@ -42,7 +49,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public ActionResult Logout()
         {
-
+            Session["Role"] = "Dept";
             return View("Login");
         }
 
