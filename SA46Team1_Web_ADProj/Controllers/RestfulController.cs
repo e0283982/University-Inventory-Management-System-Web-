@@ -35,24 +35,24 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetInventoryOverviewList/{itemcode}")]
-        public List<InventoryOverview> GetInventoryOverviewList(string itemcode)
+        [System.Web.Mvc.Route("GetInventoryOverviewList/{id}")]
+        public List<InventoryOverview> GetInventoryOverviewList(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.InventoryOverviews.Where(x => x.ItemCode == itemcode).ToList<InventoryOverview>();
+                return m.InventoryOverviews.Where(x => x.ItemCode == id).ToList<InventoryOverview>();
             }
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetGoodsReceivedLists/{itemcode}")]
-        public List<GoodsReceivedList> GetGoodsReceivedLists(string itemcode)
+        [System.Web.Mvc.Route("GetGoodsReceivedLists/{id}")]
+        public List<GoodsReceivedList> GetGoodsReceivedLists(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.GoodsReceivedLists.Where(x => x.ItemCode == itemcode).ToList<GoodsReceivedList>();
+                return m.GoodsReceivedLists.Where(x => x.ItemCode == id).ToList<GoodsReceivedList>();
             }
         }
     }
