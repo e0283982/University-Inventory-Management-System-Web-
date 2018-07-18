@@ -11,6 +11,12 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Store/StoreInventoryManager")]
     public class StoreManagerInventoryController : Controller
     {
+        public StoreManagerInventoryController()
+        {
+            
+        }
+
+
         [Route("Overview")]
         public ActionResult Overview()
         {

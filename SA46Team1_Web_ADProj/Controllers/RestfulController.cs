@@ -54,6 +54,15 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
                 return m.GoodsReceivedLists.Where(x => x.ItemCode == id).ToList<GoodsReceivedList>();
             }
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("/AdjustmentOverView")]
+        public List<StockAdjustmentHeader> GetStockAdjustmentOverview()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.StockAdjustmentHeaders.ToList();
+            }
         }
     }
 }
