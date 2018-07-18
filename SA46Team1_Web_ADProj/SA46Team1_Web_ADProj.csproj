@@ -452,8 +452,7 @@
     <Content Include="Content\common.css" />
     <Content Include="Content\images\campaign.jpg" />
     <Content Include="Content\Login-Form-Clean.css" />
-    <Content Include="Content\Sidebar-Menu.css" />
-    <Content Include="Content\Sidebar-Menu1.css" />
+    <Content Include="Content\sidebar.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\site.min.css" />
     <Content Include="Content\styles.css" />
