@@ -9,6 +9,7 @@
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/sidebar.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/fonts/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 
     @Scripts.Render("~/bundles/modernizr")
 
@@ -31,9 +32,9 @@
 </head>
 <body>
 
-    <div class="sidenav">
-        <div style="background-color: #2b2b2b;">
-            <div style="color: #818181; padding-left: 10px;">
+    <div class="sidenav" id="sideBar5" style="font-family: 'Oxygen', sans-serif;">
+        <div style="background-color: #818181;">
+            <div style="color: #2b2b2b; padding-left: 10px;">
                 <h3>Logic University</h3>
             </div>
         </div>
@@ -45,27 +46,23 @@
     </div>
 
     <div class="main">
-        <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
-            <div class="container">
-                <a class="navbar-brand" href="#"></a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navcol-1">
-                    <ul class="nav navbar-nav"></ul>
-                    
-                    <form class="form-inline mr-auto" target="_self">
-                        <div class="form-group"></div>
-                    </form>
-                    <span><i class="fas fa-bell" style="font-size:20px;"></i></span>
-                    <span>
-                        @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-primary" })
-                    </span>
-                </div>
-            </div>
-        </nav>
 
-        <div class="main-container">
-                @RenderBody()
+        <div class="container" style="font-family: 'Oxygen', sans-serif;">
+            <div style="float: right; padding-top:10px;">
+                <span><i class="fas fa-bell" style="font-size:20px;"></i></span>
+                <span>
+                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-primary" })
+                </span>
+            </div>
         </div>
+
+        <br />
+        <br />
         <hr />
+
+        <div class="container-fluid" style="align-content:center;">
+            @RenderBody()
+        </div>
 
     </div>
 
@@ -75,7 +72,12 @@
 
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/Sidebar-Menu.js"></script>
+
+    <script>
+        $(function () {
+            $("#sideBar5").show(1000);
+        });
+    </script>
 
 </body>
 </html>
