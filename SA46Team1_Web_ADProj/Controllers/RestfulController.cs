@@ -10,18 +10,60 @@ using System.Data.Entity;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
+    [System.Web.Mvc.RoutePrefix("api/Restful")]
     public class RestfulController : ApiController
     {
-        [System.Web.Mvc.HttpPost]
-        [System.Web.Mvc.Route("api/Restful/EmployeeList")]
-        public List<Employee> GetEmployeesList()
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetEmployeeList")]
+        public List<Employee> GetEmployeeList()
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 return m.Employees.ToList<Employee>();
             }
+        }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetItemCodeList")]
+        public List<String> GetItemCodeList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.InventoryOverviews.Select(x => x.ItemCode).ToList<String>();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetInventoryOverviewList/{id}")]
+        public List<InventoryOverview> GetInventoryOverviewList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.InventoryOverviews.Where(x => x.ItemCode == id).ToList<InventoryOverview>();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetGoodsReceivedLists/{id}")]
+        public List<GoodsReceivedList> GetGoodsReceivedLists(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.GoodsReceivedLists.Where(x => x.ItemCode == id).ToList<GoodsReceivedList>();
+            }
+        }
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("/AdjustmentOverView")]
+        public List<StockAdjustmentHeader> GetStockAdjustmentOverview()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.StockAdjustmentHeaders.ToList();
+            }
         }
     }
 }
