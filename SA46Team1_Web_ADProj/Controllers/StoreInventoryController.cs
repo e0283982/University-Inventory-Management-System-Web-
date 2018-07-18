@@ -72,6 +72,29 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.SaveChanges();
             }
 
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                foreach(StockAdjustmentDetail sad in stockAdjustmentDetail.StockAdjustmentDetails)
+                {
+                    StockAdjustmentDetail sadDb = new StockAdjustmentDetail();
+                    sadDb.RequestId = sah.RequestId;
+                    sadDb.ItemCode = sad.ItemCode;
+                    sadDb.ItemQuantity = sad.ItemQuantity;
+                    sadDb.Remarks = sad.Remarks;
+                    sadDb.Reason = sad.Reason;
+                    //Temporary
+                    sadDb.Amount = 1000;
+
+                    m.StockAdjustmentDetails.Add(sadDb);
+                    m.SaveChanges();
+
+                }
+
+
+
+            }
+
+
 
             return RedirectToAction("Inventory", "Store");
         }

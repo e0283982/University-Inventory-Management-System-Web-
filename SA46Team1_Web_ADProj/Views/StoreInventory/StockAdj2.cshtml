@@ -126,75 +126,81 @@
 @using (Html.BeginForm("SubmitNewStockAdj", "StoreInventory", FormMethod.Post))
 {
 
-
-
-<table id="dataTable-storeInventoryNewAdj" class="display" style="width:80%;">
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th>Missing/Damaged</th>
-            <th>Quantity</th>
-            <th>Reason</th>
-            <th>Delete</th>
-
-        </tr>
-    </thead>
-
-    @{
-        //To make unique Id
-        int i = 0;
-        foreach (var item in Model.StockAdjustmentDetails.ToList())
-        {
-
+    <table id="dataTable-storeInventoryNewAdj" class="display" style="width:80%;">
+        <thead>
             <tr>
-                <td>
-
-
-                    @Html.EditorFor(o => o.StockAdjustmentDetails[i].ItemCode, new { @id = "ItemCode_" + i })
-                </td>
-                <td>
-                    @Html.EditorFor(o => o.StockAdjustmentDetails[i].Remarks, new { @id = "Remarks_" + i })
-                </td>
-                <td>
-                    @Html.EditorFor(o => o.StockAdjustmentDetails[i].ItemQuantity, new { @id = "ItemQuantity_" + i })
-                </td>
-                <td>
-                    @Html.EditorFor(o => o.StockAdjustmentDetails[i].Reason, new { @id = "Reason_" + i })
-                </td>
+                <th>Item</th>
+                <th>Missing/Damaged</th>
+                <th>Quantity</th>
+                <th>Reason</th>
+                <th>Delete</th>
 
             </tr>
-            i++;
-        }
-    }
+        </thead>
+
+        <tbody>
+            @{
+                //To make unique Id
+                int i = 0;
+                foreach (var item in Model.StockAdjustmentDetails.ToList())
+                {
+
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(o => o.StockAdjustmentDetails[i].ItemCode, new { @id = "ItemCode_" + i, @readonly = "readonly" })
+                            @*@Html.LabelFor(o => o.StockAdjustmentDetails[i].ItemCode, new { @id = "ItemCode_" + i })*@
+                        </td>
+                        <td>
+                            @*@Html.EditorFor(o => o.StockAdjustmentDetails[i].Remarks, new { @id = "Remarks_" + i })*@                            
+                            @Html.DropDownListFor(o => o.StockAdjustmentDetails[i].Remarks, new List<SelectListItem>
+                       { new SelectListItem{Text="Damaged", Value="Damaged"},
+                         new SelectListItem{Text="Missing", Value="Missing"}}, new { style = "padding: 1px; " })
 
 
-    @*<tbody>
-            <tr>
-                <td>1</td>
-                <td>Clip "2</td>
-                <td>
-                    Damaged
-                </td>
-                <td>5</td>
-                <td>Nil</td>
-                <td>
-                </td>
-            </tr>
+                        </td>
+                        <td>
+                            @Html.EditorFor(o => o.StockAdjustmentDetails[i].ItemQuantity, new { @id = "ItemQuantity_" + i })
+                        </td>
+                        <td>
+                            @Html.EditorFor(o => o.StockAdjustmentDetails[i].Reason, new { @id = "Reason_" + i })
+                        </td>
+                        <td></td>
 
-            <tr>
-                <td>2</td>
-                <td>Clip "2.5</td>
-                <td>
-                    Missing
-                </td>
-                <td>5</td>
-                <td>Nil</td>
-                <td>
-                </td>
-            </tr>
-        </tbody>*@
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
 
-</table>
+
+
+        @*<tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Clip "2</td>
+                    <td>
+                        Damaged
+                    </td>
+                    <td>5</td>
+                    <td>Nil</td>
+                    <td>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>Clip "2.5</td>
+                    <td>
+                        Missing
+                    </td>
+                    <td>5</td>
+                    <td>Nil</td>
+                    <td>
+                    </td>
+                </tr>
+            </tbody>*@
+
+    </table>
 
     <div id="btns-grp-btm">
 
