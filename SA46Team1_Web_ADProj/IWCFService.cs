@@ -21,6 +21,19 @@ namespace SA46Team1_Web_ADProj
         [WebGet(UriTemplate = "/StockAdjustmentList", ResponseFormat = WebMessageFormat.Json)]
         List<StockAdjustmentOverview> StockAdjustmentList();
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/EmployeeList", ResponseFormat = WebMessageFormat.Json)]
+        List<Employee> EmployeeList();
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/CreateStockAdjustmentList", Method = "POST",
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json)]
+        void CreateStockAdjustmentList(StockAdjustmentHeader stockAdjustmentHeader);
+
+
+
+
     }
     
    

@@ -32,17 +32,50 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             else
             {
+                List<StockAdjustmentDetail> sadList = new List<StockAdjustmentDetail>();
+                StockAdjustmentDetail sad = new StockAdjustmentDetail();
+                sad.ItemCode = "C001";
+                sad.RequestId = 7;
+                sad.ItemQuantity = 100;
+                sad.Amount = 100;
+                sad.Remarks = "Damaged";
+                sad.Reason = "nil";
+                sadList.Add(sad);
+
+                sad.StockAdjustmentDetails = sadList;
+
                 Session["StockAdjPage"] = "1";
-                return View("StockAdj2");
+                return View("StockAdj2", sad);
             }
         }
 
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
-        {
-            Session["StockAdjPage"] = "2";
+        {                        
+            Session["StockAdjPage"] = "2";            
             return RedirectToAction("Inventory", "Store");
         }
+
+
+        [HttpPost]
+        public RedirectToRouteResult SubmitNewStockAdj(StockAdjustmentDetail stockAdjustmentDetail)
+        {
+            StockAdjustmentHeader sah = new StockAdjustmentHeader();
+            sah.DateRequested = DateTime.Now;
+            sah.Requestor = "E1";
+            sah.Status = "Pending";
+            sah.TransactionType = "Stock Adjustment";
+
+            using(SSISdbEntities m = new SSISdbEntities())
+            {
+                m.StockAdjustmentHeaders.Add(sah);
+                m.SaveChanges();
+            }
+
+
+            return RedirectToAction("Inventory", "Store");
+        }
+
 
         [Route("StockTake")]
         public ActionResult StockTake()

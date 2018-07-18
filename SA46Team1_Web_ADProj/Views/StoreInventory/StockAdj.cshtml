@@ -24,7 +24,7 @@
                             'render': function (jsonDate) {
                                 var date = new Date(parseInt(jsonDate.substr(6)));
                                 var month = date.getMonth() + 1;
-                                return month + "/" + date.getDate() + "/" + date.getFullYear();
+                                return date.getDate() + "/" + month + "/" + date.getFullYear();
                             }
 
                         },
@@ -58,8 +58,8 @@
     <thead>
         <tr>
             <th>Date</th>
-            <th>Item</th>
-            <th>Missing Count</th>
+            <th>Item Description</th>
+            <th>Quantity</th>
             <th>Missing/Damaged</th>
             <th>Reason</th>
             <th>Status</th>

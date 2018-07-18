@@ -26,6 +26,29 @@ namespace SA46Team1_Web_ADProj
             }
         }
 
+        //To delete
+        public static List<Employee> GetAllEmployees()
+        {
+            string id = "E1";
+            using (SSISdbEntities m = new SSISdbEntities())
+            {                
+                return m.Employees.Where(x => x.EmployeeID == id).ToList<Employee>();
+            }
+
+        }
+
+        public static void InsertStockAdjustment(StockAdjustmentHeader stockAdjustmentHeader)
+        {
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.StockAdjustmentHeaders.Add(stockAdjustmentHeader);
+                m.SaveChanges();
+            }
+
+
+
+        }
         
 
     }

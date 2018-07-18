@@ -12,6 +12,16 @@ namespace SA46Team1_Web_ADProj
     // NOTE: In order to launch WCF Test Client for testing this service, please select WCFService.svc or WCFService.svc.cs at the Solution Explorer and start debugging.
     public class WCFService : IWCFService
     {
+        public void CreateStockAdjustmentList(StockAdjustmentHeader stockAdjustmentHeader)
+        {
+            HWTempData.InsertStockAdjustment(stockAdjustmentHeader);
+        }
+
+        public List<Employee> EmployeeList()
+        {
+            return HWTempData.GetAllEmployees();
+        }
+
         public List<String> ListItem()
         {
             return HWTempData.Test2();
@@ -23,8 +33,7 @@ namespace SA46Team1_Web_ADProj
             //Temporary placeholder to make the requestID = 1
             string requestorID = "E1";
             return HWTempData.GetStockAdjustmentOverviewList(requestorID);
-           
-           
+                      
         }
         
         
