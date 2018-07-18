@@ -32,20 +32,36 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             else
             {
-                List<StockAdjustmentDetail> sadList = new List<StockAdjustmentDetail>();
-                StockAdjustmentDetail sad = new StockAdjustmentDetail();
-                sad.ItemCode = "C001";
-                sad.RequestId = 7;
-                sad.ItemQuantity = 100;
-                sad.Amount = 100;
-                sad.Remarks = "Damaged";
-                sad.Reason = "nil";
-                sadList.Add(sad);
+                if(TempData["ItemList"] == null)
+                {
+                    List<StockAdjustmentDetail> sadList = new List<StockAdjustmentDetail>();
+                    StockAdjustmentDetail sad = new StockAdjustmentDetail();
+                    sad.ItemCode = "C001";
+                    sad.RequestId = 7;
+                    sad.ItemQuantity = 100;
+                    sad.Amount = 100;
+                    sad.Remarks = "Damaged";
+                    sad.Reason = "nil";
+                    sadList.Add(sad);
 
-                sad.StockAdjustmentDetails = sadList;
+                    sad.StockAdjustmentDetails = sadList;
 
-                Session["StockAdjPage"] = "1";
-                return View("StockAdj2", sad);
+                    Session["StockAdjPage"] = "1";
+                    return View("StockAdj2", sad);
+                }
+                else
+                {
+
+                    StockAdjustmentDetail sad = TempData["ItemList"] as StockAdjustmentDetail;
+
+                    Session["StockAdjPage"] = "1";
+                    return View("StockAdj2", sad);
+                }
+
+                
+
+                
+                
             }
         }
 
@@ -53,6 +69,25 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult CreateNewStockAdj()
         {                        
             Session["StockAdjPage"] = "2";            
+            return RedirectToAction("Inventory", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
+        {
+            StockAdjustmentDetail sad = new StockAdjustmentDetail();
+            sad.ItemCode = "C002";
+            sad.RequestId = 1;
+            sad.ItemQuantity = 1100;
+            sad.Amount = 1010;
+            sad.Remarks = "Damaged";
+            sad.Reason = "nil";
+
+            stockAdjustmentDetail.StockAdjustmentDetails.Add(sad);
+
+            TempData["ItemList"] = stockAdjustmentDetail;
+
+            Session["StockAdjPage"] = "2";
             return RedirectToAction("Inventory", "Store");
         }
 
@@ -90,11 +125,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 }
 
-
-
             }
-
-
 
             return RedirectToAction("Inventory", "Store");
         }

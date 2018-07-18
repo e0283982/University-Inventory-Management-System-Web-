@@ -6,6 +6,7 @@
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
+
 <script>
     $(document).ready(function () {
 
@@ -42,23 +43,54 @@
             }
         });
 
+        function postURL(url, multipart) {
+            var form = document.createElement("FORM");
+            form.method = "POST";
+            if (multipart) {
+                form.enctype = "multipart/form-data";
+            }
+            form.style.display = "none";
+            document.body.appendChild(form);
+            form.action = url.replace(/\?(.*)/, function (_, urlArgs) {
+                urlArgs.replace(/\+/g, " ").replace(/([^&=]+)=([^&=]*)/g, function (input, key, value) {
+                    input = document.createElement("INPUT");
+                    input.type = "hidden";
+                    input.name = decodeURIComponent(key);
+                    input.value = decodeURIComponent(value);
+                    form.appendChild(input);
+                });
+                return "";
+            });
+            form.submit();
+        }
+
         function AddItem() {
 
-            var stockAdjustment = {};
-            stockAdjustment.Item = $('#txt-Item').val();
-            stockAdjustment.Option = $("select#option").val().toUpperCase()[0] + $("select#option").val().substring(1);
-            stockAdjustment.Quantity = $('#txt-Quantity').val();
-            stockAdjustment.Reason = $('#txt-Reason').val();
+            //url_redirect({
+            //    url: "http://localhost:49921/StoreInventory/AddNewItem",
+            //    method: "post"
+            //});
 
-            table.row.add([
-                stockAdjustment.Item,
-                stockAdjustment.Option,
-                stockAdjustment.Quantity,
-                stockAdjustment.Reason
-            ]).draw();
+            postURL("http://localhost:49921/StoreInventory/AddNewItem", "false");
 
-            dialogDiv.dialog('close');
-            clearInputFields();
+
+
+
+            //var stockAdjustment = {};
+            //stockAdjustment.Item = $('#txt-Item').val();
+            //stockAdjustment.Option = $("select#option").val().toUpperCase()[0] + $("select#option").val().substring(1);
+            //stockAdjustment.Quantity = $('#txt-Quantity').val();
+            //stockAdjustment.Reason = $('#txt-Reason').val();
+
+            //table.row.add([
+            //    stockAdjustment.Item,
+            //    stockAdjustment.Option,
+            //    stockAdjustment.Quantity,
+            //    stockAdjustment.Reason
+            //]).draw();
+
+            //dialogDiv.dialog('close');
+            //clearInputFields();
 
         }
 
@@ -123,7 +155,9 @@
     <h2>Inventory - New Stock Adjustment</h2>
 </div>
 
-@using (Html.BeginForm("SubmitNewStockAdj", "StoreInventory", FormMethod.Post))
+@*@using (Html.BeginForm("SubmitNewStockAdj", "StoreInventory", FormMethod.Post))*@
+
+@using (Html.BeginForm("AddNewItem", "StoreInventory", FormMethod.Post))
 {
 
     <table id="dataTable-storeInventoryNewAdj" class="display" style="width:80%;">
@@ -151,7 +185,7 @@
                             @*@Html.LabelFor(o => o.StockAdjustmentDetails[i].ItemCode, new { @id = "ItemCode_" + i })*@
                         </td>
                         <td>
-                            @*@Html.EditorFor(o => o.StockAdjustmentDetails[i].Remarks, new { @id = "Remarks_" + i })*@                            
+                            @*@Html.EditorFor(o => o.StockAdjustmentDetails[i].Remarks, new { @id = "Remarks_" + i })*@
                             @Html.DropDownListFor(o => o.StockAdjustmentDetails[i].Remarks, new List<SelectListItem>
                        { new SelectListItem{Text="Damaged", Value="Damaged"},
                          new SelectListItem{Text="Missing", Value="Missing"}}, new { style = "padding: 1px; " })
@@ -172,46 +206,19 @@
             }
         </tbody>
 
-
-
-        @*<tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Clip "2</td>
-                    <td>
-                        Damaged
-                    </td>
-                    <td>5</td>
-                    <td>Nil</td>
-                    <td>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>Clip "2.5</td>
-                    <td>
-                        Missing
-                    </td>
-                    <td>5</td>
-                    <td>Nil</td>
-                    <td>
-                    </td>
-                </tr>
-            </tbody>*@
-
     </table>
 
     <div id="btns-grp-btm">
 
         @*<button class="btn-blue" id="btn-submit-newStockAdj">Submit for Approval</button>
-            <div id="dialog-submit-newStockAdj" class="hidden" title="Submitted">
-                <p>New Stock Adjustment request has been submitted for approval.</p>
-            </div>*@
+        <div id="dialog-submit-newStockAdj" class="hidden" title="Submitted">
+            <p>New Stock Adjustment request has been submitted for approval.</p>
+        </div>*@
 
 
         <input class="btn-blue" type="submit" value="Submit for Approval" />
 
+        
 
     </div>
 }
@@ -222,41 +229,46 @@
     <div id="dialog-addItem-newStockAdj" class="hidden" title="Add Item">
 
 
-        <table>
-            <tr>
-                <td>Item</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="txt-Item" /></td>
-            </tr>
-            <tr>
-                <td>Missing/Damaged</td>
-            </tr>
-            <tr>
-                <td>
-                    <select id="option">
-                        <option value="missing">Missing</option>
-                        <option value="damaged">Damaged</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Quantity</td>
-            </tr>
-            <tr>
-                <td><input type="number" id="txt-Quantity" /></td>
-            </tr>
-            <tr>
-                <td>Reason</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="txt-Reason" /></td>
-            </tr>
-        </table>
+        @Html.Label("Item")
+        <br />
+        @Html.TextBox("txt-Item")       
+
+        @*<table>
+        <tr>
+            <td>@Html.Label("Item")  </td>
+        </tr>
+        <tr>
+            @Html.TextBox("txt-Item")
+            @*<td><input type="text" id="txt-Item" /></td>*@
+        @*</tr>
+        <tr>
+            <td>Missing/Damaged</td>
+        </tr>
+        <tr>
+            <td>
+                <select id="option">
+                    <option value="missing">Missing</option>
+                    <option value="damaged">Damaged</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Quantity</td>
+        </tr>
+        <tr>
+            <td><input type="number" id="txt-Quantity" /></td>
+        </tr>
+        <tr>
+            <td>Reason</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="txt-Reason" /></td>
+        </tr>
+        </table>*@
 
 
         @*<p>Add a new item via here.</p>
-            <p>(Todo: on this btn click, add a new datatable row.)</p>*@
+        <p>(Todo: on this btn click, add a new datatable row.)</p>*@
 
     </div>
 
