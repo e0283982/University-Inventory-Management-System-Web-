@@ -304,6 +304,9 @@
     <Compile Include="Models\POHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\POList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\POReceiptDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -317,6 +320,15 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StaffRequisitionHeader.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApproval.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApprovalForManager.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApprovalForSupervisor.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StockAdjustmentDetail.cs">

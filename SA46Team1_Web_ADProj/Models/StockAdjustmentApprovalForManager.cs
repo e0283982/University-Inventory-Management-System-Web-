@@ -15,30 +15,30 @@ namespace SA46Team1_Web_ADProj.Models
 using System;
     using System.Collections.Generic;
     
-public partial class DisbursementDetail
+public partial class StockAdjustmentApprovalForManager
 {
 
-    public string Id { get; set; }
+    public int RequestId { get; set; }
 
-    public string ItemCode { get; set; }
+    public System.DateTime DateRequested { get; set; }
 
-    public int QuantityOrdered { get; set; }
+    public string Requestor { get; set; }
 
-    public int QuantityReceived { get; set; }
+    public string Approver { get; set; }
 
-    public float UnitCost { get; set; }
+    public string Description { get; set; }
 
-    public string UoM { get; set; }
+    public string CategoryName { get; set; }
 
-    public int QuantityAdjusted { get; set; }
+    public int ItemQuantity { get; set; }
 
-    public string TransactionType { get; set; }
+    public float Amount { get; set; }
 
+    public string Remarks { get; set; }
 
+    public string Reason { get; set; }
 
-    public virtual Item Item { get; set; }
-
-    public virtual DisbursementHeader DisbursementHeader { get; set; }
+    public string Status { get; set; }
 
 }
 

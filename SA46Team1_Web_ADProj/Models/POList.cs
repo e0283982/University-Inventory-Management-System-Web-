@@ -15,30 +15,16 @@ namespace SA46Team1_Web_ADProj.Models
 using System;
     using System.Collections.Generic;
     
-public partial class DisbursementDetail
+public partial class POList
 {
 
-    public string Id { get; set; }
+    public string PONumber { get; set; }
 
-    public string ItemCode { get; set; }
+    public string CompanyName { get; set; }
 
-    public int QuantityOrdered { get; set; }
+    public System.DateTime Date { get; set; }
 
-    public int QuantityReceived { get; set; }
-
-    public float UnitCost { get; set; }
-
-    public string UoM { get; set; }
-
-    public int QuantityAdjusted { get; set; }
-
-    public string TransactionType { get; set; }
-
-
-
-    public virtual Item Item { get; set; }
-
-    public virtual DisbursementHeader DisbursementHeader { get; set; }
+    public string Status { get; set; }
 
 }
 
