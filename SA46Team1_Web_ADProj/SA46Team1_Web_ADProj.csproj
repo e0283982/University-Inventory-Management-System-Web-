@@ -446,6 +446,7 @@
     <Content Include="Content\site.css" />
     <Content Include="Content\site.min.css" />
     <Content Include="Content\styles.css" />
+    <Content Include="Content\tabs.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
