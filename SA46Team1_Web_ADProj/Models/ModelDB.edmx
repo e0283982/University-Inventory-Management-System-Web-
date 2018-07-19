@@ -346,6 +346,22 @@ warning 6002: The table/view 'SSISdb.dbo.DisbursementList' does not have a prima
           <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.DisbursementListDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DisbursementListDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityReceived" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" Nullable="false" />
+          <Property Name="QuantityReceived" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.GoodsReceivedList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GoodsReceivedList">
           <Key>
@@ -956,6 +972,15 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [DisbursementList].[Status] AS [Status], 
     [DisbursementList].[CollectionPointDescription] AS [CollectionPointDescription]
     FROM [dbo].[DisbursementList] AS [DisbursementList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="DisbursementListDetails" EntityType="Self.DisbursementListDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DisbursementListDetails].[Id] AS [Id], 
+    [DisbursementListDetails].[Description] AS [Description], 
+    [DisbursementListDetails].[UoM] AS [UoM], 
+    [DisbursementListDetails].[QuantityOrdered] AS [QuantityOrdered], 
+    [DisbursementListDetails].[QuantityReceived] AS [QuantityReceived]
+    FROM [dbo].[DisbursementListDetails] AS [DisbursementListDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GoodsReceivedList" EntityType="Self.GoodsReceivedList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2248,6 +2273,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="RequisitionLists" EntityType="SSISdbModel.RequisitionList" />
           <EntitySet Name="RequisitionListDetails" EntityType="SSISdbModel.RequisitionListDetail" />
           <EntitySet Name="DisbursementLists" EntityType="SSISdbModel.DisbursementList" />
+          <EntitySet Name="DisbursementListDetails" EntityType="SSISdbModel.DisbursementListDetail" />
         </EntityContainer>
         <EntityType Name="StockAdjustmentOverview">
           <Key>
@@ -2356,6 +2382,20 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Status" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
           <Property Name="CollectionPointDescription" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DisbursementListDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityReceived" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2791,6 +2831,17 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DisbursementListDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.DisbursementListDetail">
+              <MappingFragment StoreEntitySet="DisbursementListDetails">
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

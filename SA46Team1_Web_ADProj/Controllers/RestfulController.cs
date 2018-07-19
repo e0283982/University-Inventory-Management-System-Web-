@@ -143,6 +143,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return m.DisbursementLists.ToList<DisbursementList>();
             }
         }
-       
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetDisbursementListDetails/{id}")]
+        public List<DisbursementListDetail> GetDisbursementListDetails(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.DisbursementListDetails.Where(x => x.Id == id).ToList<DisbursementListDetail>();
+            }
+        }
+
     }
 }
