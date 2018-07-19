@@ -28,7 +28,10 @@
                     {
                         'data': 'Date',
                         'render': function (jsonDate) {
-                            return jsonDate.substr(0, 10);
+
+                             var date = new Date(jsonDate.substr(0));
+                             var month = date.getMonth() + 1;
+                             return date.getDate() + "/" + month + "/" + date.getFullYear();
                         }
 
                     },
@@ -44,8 +47,8 @@
                         $('#dataTable-storeDisbursementReqList tbody').off().on('click', 'tr', function () {
                         var data = table.row(this).data();
                         //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-                                        var dataToBeSent = data["Departmentname"];
-                                        alert('You clicked on Requisition Form Number: ' + data["Departmentname"] + '\'s row');
+                                        var dataToBeSent = data["Id"];
+                                        alert('You clicked on Requisition Form Number: ' + data["Id"] + '\'s row');
 
                         $.ajax({
                             url: '/StoreDisbursements/DisplayReqDetails',
@@ -75,29 +78,6 @@
             <th>Department</th>
             <th>Status</th>
         </tr>
-    </thead>
-
-    @*<tbody>
-        <tr>
-            <td>01-JUN-2018</td>
-            <td>R010</td>
-            <td>MATH</td>
-            <td>Open</td>
-        </tr>
-
-        <tr>
-            <td>20-JUN-2018</td>
-            <td>R011</td>
-            <td>MATH</td>
-            <td>Outstanding</td>
-        </tr>
-
-        <tr>
-            <td>30-JUN-2018</td>
-            <td>R012</td>
-            <td>MATH</td>
-            <td>Completed</td>
-        </tr>
-    </tbody>*@
+    </thead>    
 
 </table>

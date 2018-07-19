@@ -313,6 +313,9 @@
     <Compile Include="Models\RequisitionList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RequisitionListDetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Role.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

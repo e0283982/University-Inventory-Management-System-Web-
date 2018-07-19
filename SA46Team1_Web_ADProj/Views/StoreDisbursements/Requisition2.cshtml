@@ -4,11 +4,58 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeDisbursementReqList-details').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+        //$('#dataTable-storeDisbursementReqList-details').DataTable({
+        //    scrollY: '30vh',
+        //    scrollCollapse: true,
+        //    paging: true
+        //});
+
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetRequisitionListDetails/2018-1',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-storeDisbursementReqList-details').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [                        
+                        { 'data': 'ItemCode' },
+                        { 'data': 'Description' },
+                        { 'data': 'QuantityOrdered' },
+                        { 'data': 'QuantityReceived' }
+                    ]
+                });               
+
+                var date = new Date(data[0]["Date"]);
+
+                var month = date.getMonth() + 1;
+
+                var newDate = date.getDate() + "/" + month + "/" + date.getFullYear();
+                               
+
+                $(function () {
+                    $('#store-req-det-reqNo').val(data[0]["Id"]);
+                    $('#store-req-det-deptName').val(data[0]["DepartmentName"]);
+                    $('#store-req-det-deptCode').val(data[0]["DepartmentCode"]);
+                    $('#store-req-det-empName').val(data[0]["EmployeeName"]);
+                    $('#store-req-det-empNo').val(data[0]["EmployeeID"]);
+
+                    $('#store-req-det-approverName').val(data[0]["Manager"]);
+                    $('#store-req-det-approvedDate').val(newDate);
+                });
+
+            }
         });
+
+
+
+
+
+
     });
 </script>
 
@@ -17,24 +64,23 @@
 </div>
 
 <div>
-    <label>Requisition Number: <input type="text" id="store-req-det-reqNo"></label>
-    <label>Department Name: <input type="text" id="store-req-det-deptName"></label>
-    <label>Department Code: <input type="text" id="store-req-det-deptCode"></label>
-    <label>Employee Name: <input type="text" id="store-req-det-empName"></label>
-    <label>Employee Number: <input type="text" id="store-req-det-empNo"></label>
+    <label>Requisition Number: <input type="text" id="store-req-det-reqNo" readonly="readonly"></label>
+    <label>Department Name: <input type="text" id="store-req-det-deptName" readonly="readonly"></label>
+    <label>Department Code: <input type="text" id="store-req-det-deptCode" readonly="readonly"></label>
+    <label>Employee Name: <input type="text" id="store-req-det-empName" readonly="readonly"></label>
+    <label>Employee Number: <input type="text" id="store-req-det-empNo" readonly="readonly"></label>
 </div>
 <div>
     <p>
         <label>Approved By:</label>
-        <label>Name: <input type="text" id="store-req-det-approverName"></label>
-        <label>Date: <input type="text" id="store-req-det-approvedDate"></label>
+        <label>Name: <input type="text" id="store-req-det-approverName" readonly="readonly"></label>
+        <label>Date: <input type="text" id="store-req-det-approvedDate" readonly="readonly"></label>
     </p>
 </div>
 
 <table id="dataTable-storeDisbursementReqList-details" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>#</th>
             <th>Item Code</th>
             <th>Description</th>
             <th>Ordered Qty</th>
@@ -42,15 +88,16 @@
         </tr>
     </thead>
 
-    <tbody>
+    @*<tbody>
         <tr>
-            <td>1</td>
             <td>C010</td>
             <td>Clips "2</td>
             <td>50</td>
             <td>50</td>
         </tr>
-    </tbody>
+    </tbody>*@
+
+
 </table>
 
 <div id="details-back-btn">

@@ -28,6 +28,7 @@ namespace SA46Team1_Web_ADProj.Models
         public float Amount { get; set; }
         public string Status { get; set; }
         public byte[] Signature { get; set; }
+        public string FormRequisitionID { get; set; }
     
         public virtual CollectionPoint CollectionPoint { get; set; }
         public virtual Department Department { get; set; }
