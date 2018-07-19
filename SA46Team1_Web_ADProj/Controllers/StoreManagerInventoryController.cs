@@ -35,20 +35,17 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
-
+        [HttpPost]
         [Route("Approve")]
         public RedirectToRouteResult Approve()
         {
-            
+            string s = Request.Form["RequestId"].ToString();
             return RedirectToAction("Inventory","Store");
         }
         [Route("Reject")]
         public RedirectToRouteResult Reject()
         {
-
-
-
-
+            string s = Request.Form["Description"].ToString();
             return RedirectToAction("Inventory", "Store");
         }
 
