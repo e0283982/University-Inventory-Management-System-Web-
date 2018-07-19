@@ -42,6 +42,28 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetPendingApprovalsById/{id}")]
+        public List<RequisitionDetModel> GetPendingApprovalsById(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StaffRequisitionDetail> list = m.StaffRequisitionDetails.Where(x => x.FormID == id).ToList<StaffRequisitionDetail>();
+                List<RequisitionDetModel> list2 = new List<RequisitionDetModel>();
+                list2 = list.ConvertAll(x => new RequisitionDetModel
+                {
+                    ItemDesc = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(y => y.Description).First()
+                    ,
+                    UOM = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(a => a.UoM).First(),
+                    OrderQty = x.QuantityOrdered
+                });
+
+                return list2;
+            }
+        }
+
+
+        [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetItemCodeList")]
         public List<String> GetItemCodeList()
         {
