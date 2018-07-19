@@ -26,7 +26,7 @@
                 data: data,
                 columns: [
                     {
-                        'data': 'Date',
+                        'data': 'DateRequested',
                         'render': function (jsonDate) {
 
                              var date = new Date(jsonDate.substr(0));
@@ -35,8 +35,8 @@
                         }
 
                     },
-                    { 'data': 'Id' },
-                    { 'data': 'Departmentname' },
+                    { 'data': 'FormID' },
+                    { 'data': 'DepartmentName' },
                     { 'data': 'Status' }
                 ]
             });
@@ -47,8 +47,8 @@
                         $('#dataTable-storeDisbursementReqList tbody').off().on('click', 'tr', function () {
                         var data = table.row(this).data();
                         //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-                                        var dataToBeSent = data["Id"];
-                                        alert('You clicked on Requisition Form Number: ' + data["Id"] + '\'s row');
+                                        var dataToBeSent = data["FormID"];
+                                        alert('You clicked on Requisition Form Number: ' + data["FormID"] + '\'s row');
 
                         $.ajax({
                             url: '/StoreDisbursements/DisplayReqDetails',

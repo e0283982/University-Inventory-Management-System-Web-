@@ -378,45 +378,43 @@ warning 6002: The table/view 'SSISdb.dbo.PendingApprovals' does not have a prima
 warning 6002: The table/view 'SSISdb.dbo.RequisitionList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionList">
           <Key>
-            <PropertyRef Name="Representativeid" />
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Departmentname" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DepartmentName" />
             <PropertyRef Name="Status" />
           </Key>
-          <Property Name="Representativeid" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="Date" Type="date" Nullable="false" />
-          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="Departmentname" Type="nvarchar" MaxLength="80" Nullable="false" />
-          <Property Name="Status" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="DateRequested" Type="date" Nullable="false" />
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="70" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.RequisitionListDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionListDetails">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="FormID" />
             <PropertyRef Name="DepartmentName" />
             <PropertyRef Name="DepartmentCode" />
             <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="Manager" />
-            <PropertyRef Name="Date" />
+            <PropertyRef Name="DateProcessed" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="QuantityOrdered" />
-            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="QuantityDelivered" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
           <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Manager" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="DateProcessed" Type="date" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="QuantityOrdered" Type="int" Nullable="false" />
-          <Property Name="QuantityReceived" Type="int" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -970,26 +968,25 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           </EntitySet>
           <EntitySet Name="RequisitionList" EntityType="Self.RequisitionList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [RequisitionList].[Representativeid] AS [Representativeid], 
-    [RequisitionList].[Date] AS [Date], 
-    [RequisitionList].[Id] AS [Id], 
-    [RequisitionList].[Departmentname] AS [Departmentname], 
+    [RequisitionList].[DateRequested] AS [DateRequested], 
+    [RequisitionList].[FormID] AS [FormID], 
+    [RequisitionList].[DepartmentName] AS [DepartmentName], 
     [RequisitionList].[Status] AS [Status]
     FROM [dbo].[RequisitionList] AS [RequisitionList]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="RequisitionListDetails" EntityType="Self.RequisitionListDetails" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [RequisitionListDetails].[Id] AS [Id], 
+    [RequisitionListDetails].[FormID] AS [FormID], 
     [RequisitionListDetails].[DepartmentName] AS [DepartmentName], 
     [RequisitionListDetails].[DepartmentCode] AS [DepartmentCode], 
     [RequisitionListDetails].[EmployeeName] AS [EmployeeName], 
     [RequisitionListDetails].[EmployeeID] AS [EmployeeID], 
     [RequisitionListDetails].[Manager] AS [Manager], 
-    [RequisitionListDetails].[Date] AS [Date], 
+    [RequisitionListDetails].[DateProcessed] AS [DateProcessed], 
     [RequisitionListDetails].[ItemCode] AS [ItemCode], 
     [RequisitionListDetails].[Description] AS [Description], 
     [RequisitionListDetails].[QuantityOrdered] AS [QuantityOrdered], 
-    [RequisitionListDetails].[QuantityReceived] AS [QuantityReceived]
+    [RequisitionListDetails].[QuantityDelivered] AS [QuantityDelivered]
     FROM [dbo].[RequisitionListDetails] AS [RequisitionListDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="StockAdjustmentOverview" EntityType="Self.StockAdjustmentOverview" store:Type="Views" store:Schema="dbo">
@@ -2220,10 +2217,10 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <End Role="SupplierPriceList" EntitySet="SupplierPriceLists" />
           </AssociationSet>
           <EntitySet Name="StockAdjustmentOverviews" EntityType="SSISdbModel.StockAdjustmentOverview" />
-          <EntitySet Name="RequisitionLists" EntityType="SSISdbModel.RequisitionList" />
           <EntitySet Name="GoodsReceivedLists" EntityType="SSISdbModel.GoodsReceivedList" />
           <EntitySet Name="InventoryOverviews" EntityType="SSISdbModel.InventoryOverview" />
           <EntitySet Name="PendingApprovals" EntityType="SSISdbModel.PendingApproval" />
+          <EntitySet Name="RequisitionLists" EntityType="SSISdbModel.RequisitionList" />
           <EntitySet Name="RequisitionListDetails" EntityType="SSISdbModel.RequisitionListDetail" />
         </EntityContainer>
         <EntityType Name="StockAdjustmentOverview">
@@ -2242,20 +2239,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="RequisitionList">
-          <Key>
-            <PropertyRef Name="Representativeid" />
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Departmentname" />
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="Representativeid" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Departmentname" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="GoodsReceivedList">
           <Key>
@@ -2296,31 +2279,43 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="DateRequested" Type="DateTime" Precision="0" />
           <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="RequisitionList">
+          <Key>
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FormID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="RequisitionListDetail">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="FormID" />
             <PropertyRef Name="DepartmentName" />
             <PropertyRef Name="DepartmentCode" />
             <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="Manager" />
-            <PropertyRef Name="Date" />
+            <PropertyRef Name="DateProcessed" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="QuantityOrdered" />
-            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="QuantityDelivered" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="FormID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
           <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
           <Property Name="DepartmentCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="Manager" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateProcessed" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
-          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2681,17 +2676,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RequisitionLists">
-            <EntityTypeMapping TypeName="SSISdbModel.RequisitionList">
-              <MappingFragment StoreEntitySet="RequisitionList">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Departmentname" ColumnName="Departmentname" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Representativeid" ColumnName="Representativeid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GoodsReceivedLists">
             <EntityTypeMapping TypeName="SSISdbModel.GoodsReceivedList">
               <MappingFragment StoreEntitySet="GoodsReceivedList">
@@ -2732,20 +2716,30 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionLists">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionList">
+              <MappingFragment StoreEntitySet="RequisitionList">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RequisitionListDetails">
             <EntityTypeMapping TypeName="SSISdbModel.RequisitionListDetail">
               <MappingFragment StoreEntitySet="RequisitionListDetails">
-                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
                 <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
                 <ScalarProperty Name="Manager" ColumnName="Manager" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

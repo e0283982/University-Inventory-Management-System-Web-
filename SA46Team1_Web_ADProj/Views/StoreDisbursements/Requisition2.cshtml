@@ -11,8 +11,10 @@
         //    paging: true
         //});
 
+        var id = '2018-11';
+
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetRequisitionListDetails/2018-1',
+            url: 'http://localhost:49921/api/Restful/GetRequisitionListDetails/' + id,
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -26,11 +28,11 @@
                         { 'data': 'ItemCode' },
                         { 'data': 'Description' },
                         { 'data': 'QuantityOrdered' },
-                        { 'data': 'QuantityReceived' }
+                        { 'data': 'QuantityDelivered' }
                     ]
                 });               
 
-                var date = new Date(data[0]["Date"]);
+                var date = new Date(data[0]["DateProcessed"]);
 
                 var month = date.getMonth() + 1;
 
@@ -38,7 +40,7 @@
                                
 
                 $(function () {
-                    $('#store-req-det-reqNo').val(data[0]["Id"]);
+                    $('#store-req-det-reqNo').val(data[0]["FormID"]);
                     $('#store-req-det-deptName').val(data[0]["DepartmentName"]);
                     $('#store-req-det-deptCode').val(data[0]["DepartmentCode"]);
                     $('#store-req-det-empName').val(data[0]["EmployeeName"]);
@@ -87,16 +89,6 @@
             <th>Delivered Qty</th>
         </tr>
     </thead>
-
-    @*<tbody>
-        <tr>
-            <td>C010</td>
-            <td>Clips "2</td>
-            <td>50</td>
-            <td>50</td>
-        </tr>
-    </tbody>*@
-
 
 </table>
 

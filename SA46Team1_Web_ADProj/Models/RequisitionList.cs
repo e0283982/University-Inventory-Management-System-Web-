@@ -14,10 +14,9 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class RequisitionList
     {
-        public string Representativeid { get; set; }
-        public System.DateTime Date { get; set; }
-        public string Id { get; set; }
-        public string Departmentname { get; set; }
+        public System.DateTime DateRequested { get; set; }
+        public string FormID { get; set; }
+        public string DepartmentName { get; set; }
         public string Status { get; set; }
     }
 }

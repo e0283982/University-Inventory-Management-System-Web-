@@ -100,7 +100,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.RequisitionListDetails.Where(x => x.Id == id).ToList<RequisitionListDetail>();
+                return m.RequisitionListDetails.Where(x => x.FormID == id).ToList<RequisitionListDetail>();
             }
         }
 
