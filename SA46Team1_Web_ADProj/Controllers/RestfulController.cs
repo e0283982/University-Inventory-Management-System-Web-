@@ -81,6 +81,18 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("/GetRequisitionList")]
+        public List<RequisitionList> GetRequisitionList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.RequisitionLists.ToList<RequisitionList>();
+            }
+
+        }
+
 
 
 

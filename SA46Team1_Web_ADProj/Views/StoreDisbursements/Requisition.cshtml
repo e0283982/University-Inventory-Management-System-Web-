@@ -3,31 +3,63 @@
 }
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-storeDisbursementReqList').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
-        });
+    //$(document).ready(function () {
+    //    $('#dataTable-storeDisbursementReqList').DataTable({
+    //        scrollY: '30vh',
+    //        scrollCollapse: true,
+    //        paging: true
+    //    });
+    //});
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetRequisitionList',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-storeDisbursementReqList').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    {
+                        'data': 'Date',
+                        'render': function (jsonDate) {
+                            return jsonDate.substr(0, 10);
+                        }
+
+                    },
+                    { 'data': 'Id' },
+                    { 'data': 'Departmentname' },
+                    { 'data': 'Status' }
+                ]
+            });
+        }
     });
 
-    var table = $('#dataTable-storeDisbursementReqList').DataTable();
+    $(document).ajaxComplete(function () {
+                        $('#dataTable-storeDisbursementReqList tbody').off().on('click', 'tr', function () {
+                        var data = table.row(this).data();
+                        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
+                                        var dataToBeSent = data["Departmentname"];
+                                        alert('You clicked on Requisition Form Number: ' + data["Departmentname"] + '\'s row');
 
-    $('#dataTable-storeDisbursementReqList tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[2];
-        alert('You clicked on Requisition Form Number: ' + data[2] + '\'s row');
+                        $.ajax({
+                            url: '/StoreDisbursements/DisplayReqDetails',
+                            data: dataToBeSent,
+                            type: 'POST',
+                        });
 
-        $.ajax({
-            url: '/StoreDisbursements/DisplayReqDetails',
-            data: dataToBeSent,
-            type: 'POST',
-        });
+                        window.location.href = '@Url.Action("Disbursements", "Store")';
 
-        window.location.href = '@Url.Action("Disbursements", "Store")';
+                    });
 
-    });
+                });
+
+
 </script>
 
 <div>
@@ -38,7 +70,6 @@
 <table id="dataTable-storeDisbursementReqList" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>#</th>
             <th>Date</th>
             <th>Requisition Form #</th>
             <th>Department</th>
@@ -46,9 +77,8 @@
         </tr>
     </thead>
 
-    <tbody>
+    @*<tbody>
         <tr>
-            <td>1</td>
             <td>01-JUN-2018</td>
             <td>R010</td>
             <td>MATH</td>
@@ -56,7 +86,6 @@
         </tr>
 
         <tr>
-            <td>2</td>
             <td>20-JUN-2018</td>
             <td>R011</td>
             <td>MATH</td>
@@ -64,11 +93,11 @@
         </tr>
 
         <tr>
-            <td>3</td>
             <td>30-JUN-2018</td>
             <td>R012</td>
             <td>MATH</td>
             <td>Completed</td>
         </tr>
-    </tbody>
+    </tbody>*@
+
 </table>
