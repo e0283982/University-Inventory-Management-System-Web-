@@ -4,30 +4,59 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeDisbursementList').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
-        });
+
+var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetDisbursementList',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-storeDisbursementList').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    {
+                        'data': 'Date',
+                        'render': function (jsonDate) {
+
+                             var date = new Date(jsonDate.substr(0));
+                             var month = date.getMonth() + 1;
+                             return date.getDate() + "/" + month + "/" + date.getFullYear();
+                        }
+
+                    },
+                    { 'data': 'DepartmentName' },
+                    { 'data': 'Status' },
+                    { 'data': 'CollectionPointDescription' }
+                ]
+            });
+        }
     });
 
-    var table = $('#dataTable-storeDisbursementList').DataTable();
+    $(document).ajaxComplete(function () {
+                        $('#dataTable-storeDisbursementList tbody').off().on('click', 'tr', function () {
+                        var data = table.row(this).data();                        
+                        var dataToBeSent = data["Id"];
+                        alert('You clicked on Requisition Form Number: ' + data["Id"] + '\'s row');
 
-    $('#dataTable-storeDisbursementList tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Disbursement with Date: ' + data[0] + '.');
+                        $.ajax({
+                            url: '/StoreDisbursements/DisplayDisbursementDetails',
+                            data: dataToBeSent,
+                            type: 'POST',
+                        });
 
-        $.ajax({
-            url: '/StoreDisbursements/DisplayDisbursementDetails',
-            data: dataToBeSent,
-            type: 'POST',
-        });
+                        window.location.href = '@Url.Action("Disbursements", "Store")';
 
-        window.location.href = '@Url.Action("Disbursements", "Store")';
+                    });
 
-    });
+                });});
+
+
+
 </script>
 
 <div>
@@ -45,7 +74,7 @@
         </tr>
     </thead>
 
-    <tbody>
+    @*<tbody>
         <tr>
             <td>20-JUN-2018</td>
             <td>MATH</td>
@@ -59,6 +88,9 @@
             <td>Completed</td>
             <td>Collection Point A</td>
         </tr>
-    </tbody>
+    </tbody>*@
+
+
+
 </table>
 

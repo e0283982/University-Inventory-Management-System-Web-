@@ -264,6 +264,12 @@
     <Compile Include="Models\DisbursementHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DisbursementList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DisbursementListDetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -308,6 +314,12 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\POReceiptHeader.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RequisitionList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RequisitionListDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
@@ -358,6 +370,7 @@
     <Compile Include="Models\SupplierPriceList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RequisitionModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
@@ -454,6 +467,7 @@
     <Content Include="Content\site.css" />
     <Content Include="Content\site.min.css" />
     <Content Include="Content\styles.css" />
+    <Content Include="Content\tabs.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />

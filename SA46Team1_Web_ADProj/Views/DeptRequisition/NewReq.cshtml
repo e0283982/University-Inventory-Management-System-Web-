@@ -16,33 +16,38 @@
 
 <div>
     <h2>New Requisition</h2>
-    <h3>Requisition Form #</h3>
+    <h4>Requisition Form #</h4>
 </div>
 
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+    <table id="dataTable-newReq" class="table-hover" style="width:80%;">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Unit of Measure</th>
+                <th>New Order Qty</th>
+            </tr>
+        </thead>
 
-<table id="dataTable-newReq" class="display" style="width:80%;">
-    <thead>
-        <tr>
-            <th>Description</th>
-            <th>Unit of Measure</th>
-            <th>New Order Qty</th>
-        </tr>
-    </thead>
+        <tbody>
+            <tr>
+                <td>Pad Post it</td>
+                <td>Dozen</td>
+                <td>10</td>
+            </tr>
 
-    <tbody>
-        <tr>
-            <td>Pad Post it</td>
-            <td>Dozen</td>
-            <td>10</td>
-        </tr>
+            <tr>
+                <td>Pad Post it 2</td>
+                <td>Dozen</td>
+                <td>11</td>
+            </tr>
+        </tbody>
+    </table>
 
-        <tr>
-            <td>Pad Post it 2</td>
-            <td>Dozen</td>
-            <td>11</td>
-        </tr>
-    </tbody>
-</table>
+    <span>@Html.ActionLink("Add New Item", "Home", "Dept", null, new { @class = "btn btn-info" })</span>
+    <span>@Html.ActionLink("Submit for Approval", "Home", "Dept", null, new { @class = "btn btn-info" })</span>
 
-<button class="btn-blue">@Html.ActionLink("Add New Item", "Home", "Dept")</button>
-<button class="btn-blue">@Html.ActionLink("Submit for Approval", "Home", "Dept")</button>
+    @*<button class="btn-blue">@Html.ActionLink("Add New Item", "Home", "Dept")</button>
+    <button class="btn-blue">@Html.ActionLink("Submit for Approval", "Home", "Dept")</button>*@
+
+</div>

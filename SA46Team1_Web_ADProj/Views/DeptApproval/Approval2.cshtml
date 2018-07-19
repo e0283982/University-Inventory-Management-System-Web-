@@ -2,6 +2,8 @@
     Layout = null;
 }
 
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
 <script>
     $(document).ready(function () {
         $('#dataTable-approval-details').DataTable({
@@ -36,7 +38,7 @@
 
 <div>
     <h2>Requisition Approval</h2>
-    <h3>Requisition Form #001</h3>
+    <h3>Requisition Form @TempData["ReviewNewRequisitionId"]</h3>
 </div>
 
 
@@ -70,13 +72,13 @@
 </div>
 
 <div id="btns-grp-btm">
-    <button class="btn-blue" id="btn-reject-req-form">Edit</button>
-    <div id="dialog-reject-req-form" class="hidden" title="Basic dialog">
+    <button class="btn-blue" id="btn-reject-req-form">Reject</button>
+    <div id="dialog-reject-req-form" class="hidden" title="Reject New Requisition Request">
         <p>Btn action to reject SRF.</p>
     </div>
 
-    <button class="btn-blue" id="btn-approve-req-form">Save</button>
-    <div id="dialog-approve-req-form" class="hidden" title="Basic dialog">
+    <button class="btn-blue" id="btn-approve-req-form">Approval</button>
+    <div id="dialog-approve-req-form" class="hidden" title="Approve New Requisition Request">
         <p>Btn action to approve SRF.</p>
     </div>
 </div>
@@ -88,3 +90,10 @@
         <input class="btn-blue" type="submit" value="Back" />
     }
 </div>
+
+
+<style>
+    #btns-grp-btm {
+        margin-right: 10vw;
+    }
+</style>

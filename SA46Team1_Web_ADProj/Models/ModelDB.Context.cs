@@ -54,8 +54,13 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierPriceList> SupplierPriceLists { get; set; }
         public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
+        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
         public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
         public virtual DbSet<PendingApproval> PendingApprovals { get; set; }
+        public virtual DbSet<RequisitionList> RequisitionLists { get; set; }
+        public virtual DbSet<RequisitionListDetail> RequisitionListDetails { get; set; }
+        public virtual DbSet<DisbursementList> DisbursementLists { get; set; }
+        public virtual DbSet<DisbursementListDetail> DisbursementListDetails { get; set; }
         public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
         public virtual DbSet<StockAdjustmentApproval> StockAdjustmentApprovals { get; set; }
         public virtual DbSet<StockAdjustmentApprovalForManager> StockAdjustmentApprovalForManagers { get; set; }
