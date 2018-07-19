@@ -19,8 +19,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
+                //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.Employees.ToList<Employee>();
+                return m.Employees.OrderBy(x=>x.EmployeeName).ToList<Employee>();
             }
         }
 
@@ -81,9 +82,15 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         }
 
-
-
-
-
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetShortItemList")]
+        public List<Item> GetShortItemList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.Items.ToList();
+            }
+        }
     }
 }
