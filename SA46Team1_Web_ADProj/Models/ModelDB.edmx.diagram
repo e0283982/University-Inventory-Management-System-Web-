@@ -78,6 +78,7 @@
         <EntityTypeShape EntityType="SSISdbModel.PendingApproval" Width="1.5" PointX="2.75" PointY="7.75" />
         <EntityTypeShape EntityType="SSISdbModel.RequisitionList" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="SSISdbModel.RequisitionListDetail" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SSISdbModel.DisbursementList" Width="1.5" PointX="8.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

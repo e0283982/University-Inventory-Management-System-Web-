@@ -47,8 +47,8 @@
                         $('#dataTable-storeDisbursementReqList tbody').off().on('click', 'tr', function () {
                         var data = table.row(this).data();
                         //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-                                        var dataToBeSent = data["FormID"];
-                                        alert('You clicked on Requisition Form Number: ' + data["FormID"] + '\'s row');
+                        var dataToBeSent = data["FormID"];
+                        alert('You clicked on Requisition Form Number: ' + data["FormID"] + '\'s row');
 
                         $.ajax({
                             url: '/StoreDisbursements/DisplayReqDetails',

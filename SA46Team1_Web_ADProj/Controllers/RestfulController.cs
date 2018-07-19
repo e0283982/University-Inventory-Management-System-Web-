@@ -57,7 +57,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("/AdjustmentOverView")]
+        [System.Web.Mvc.Route("AdjustmentOverView")]
         public List<StockAdjustmentHeader> GetStockAdjustmentOverview()
         {
             using (SSISdbEntities m = new SSISdbEntities())
@@ -68,7 +68,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("/GetStockAdjustmentList")]
+        [System.Web.Mvc.Route("GetStockAdjustmentList")]
         public List<StockAdjustmentOverview> GetStockAdjustmentList()
         {
             //Temporary placeholder to make the requestID = 1
@@ -83,7 +83,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("/GetRequisitionList")]
+        [System.Web.Mvc.Route("GetRequisitionList")]
         public List<RequisitionList> GetRequisitionList()
         {
             using (SSISdbEntities m = new SSISdbEntities())
@@ -104,6 +104,16 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetDisbursementList")]
+        public List<DisbursementList> GetDisbursementList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.DisbursementLists.ToList<DisbursementList>();
+            }
+        }
 
 
 
