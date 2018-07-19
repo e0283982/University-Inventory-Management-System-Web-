@@ -114,14 +114,15 @@
 @helper AddDeptNewItemButton()
 {
     <div>
-        <button class="btn-blue" id="btn-print-displayNewItem">Add New Item</button>
-        <div id="dialog-print-displayNewItem" class="hidden" title="Add New Item">
-            <table id="dataTable-addNewItem" class="display" style="width:80%;">
+        <button class="btn-blue" id="btn-print-displaySNewItem">Add New Item</button>
+        <div id="dialog-print-displaySNewItem" class="hidden" title="Add New Item">
+            <table id="dataTable-addSNewItem" class="display" style="width:80%;">
                 <thead>
                     <tr>
                         <th>Item Code</th>
                         <th>Item</th>
                         <th>Unit of Measurement</th>
+                        @*<th>Btn</th>*@
                     </tr>
                 </thead>
             </table>
@@ -132,48 +133,48 @@
 
     <script>
         $(function () {
-            $("#dialog-print-displayNewItem").dialog({
+            $("#dialog-print-displaySNewItem").dialog({
                 autoOpen: false
             });
         });
 
-        $('#btn-print-displayNewItem').click(function () {
-            $('#dialog-print-displayNewItem').dialog('open');
+        $('#btn-print-displaySNewItem').click(function () {
+            $('#dialog-print-displaySNewItem').dialog('open');
             return false;
         });
 
         var table;
-            $(document).ready(function () {
-                $.ajax({
-                    url: 'http://localhost:49921/api/Restful/getshortitemlist',
-                    type: 'get',
-                    dataType: 'json',
-                    success: function (data) {
-                        table = $('#dataTable-addNewItem').DataTable({
-                            paging: false,
-                            sort: true,
-                            searching: true,
-                            scrollY: 200,
-                            data: data,
-                            columns: [
-                                { 'data': 'ItemCode' },
-                                { 'data': 'Description' },
-                                { 'data': 'UoM' }
-                            ]
-                        });
-                        table.column(0).visible(false);
-                    }
-                });
-
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:49921/api/Restful/getshortitemlist',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    table = $('#dataTable-addSNewItem').DataTable({
+                        paging: false,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        columns: [
+                            { 'data': 'ItemCode' },
+                            { 'data': 'Description' },
+                            { 'data': 'UoM' }
+                        ]
+                    });
+                    table.column(0).visible(false);
+                }
             });
+
+        });
 
         $(document).ajaxComplete(function () {
-            $('#dataTable-addNewItem tbody').off().on('click', 'tr', function () {
+            $('#dataTable-addSNewItem tbody').off().on('click', 'tr', function () {
                 var data = table.row(this).data();
                 alert(data["ItemCode"]);
-
-
+                document.getElementById("test").innerHTML = data["ItemCode"]
             });
+
         });
     </script>
 }
@@ -209,14 +210,14 @@
             return false;
         });
 
+        var table;
         $(document).ready(function () {
-
             $.ajax({
                 url: 'http://localhost:49921/api/Restful/getshortitemlist',
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    $('#dataTable-addSNewItem').dataTable({
+                    table = $('#dataTable-addSNewItem').DataTable({
                         paging: false,
                         sort: true,
                         searching: true,
@@ -230,7 +231,22 @@
                     });
                 }
             });
+
         });
 
+        $(document).ajaxComplete(function () {
+            $('#dataTable-addSNewItem tbody').off().on('click', 'tr', function () {
+                var data = table.row(this).data();
+                alert(data["ItemCode"]);
+                @Session["itemcode"] = data["ItemCode"];
+            });
+            //// For adding edit button
+            //$('#dataTable-addNewItem tbody').off().on('click', '#test', function () {
+            //    var RowIndex = table.row(this).index();
+            //    var data = table.cells(RowIndex, 0).data('Updated');
+            //    alert('row!: ' + data[$(this).closest('tr').index()]);
+            //});
+        });
     </script>
 }
+
