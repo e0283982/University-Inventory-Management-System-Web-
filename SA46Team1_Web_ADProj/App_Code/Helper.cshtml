@@ -172,7 +172,7 @@
             $('#dataTable-addSNewItem tbody').off().on('click', 'tr', function () {
                 var data = table.row(this).data();
                 alert(data["ItemCode"]);
-                document.getElementById("test").innerHTML = data["ItemCode"]
+                document.getElementById("getItemCode").innerHTML = data["ItemCode"]
             });
 
         });
@@ -238,7 +238,7 @@
             $('#dataTable-addSNewItem tbody').off().on('click', 'tr', function () {
                 var data = table.row(this).data();
                 alert(data["ItemCode"]);
-                @Session["itemcode"] = data["ItemCode"];
+                document.getElementById("getItemCode").innerHTML = data["ItemCode"]
             });
             //// For adding edit button
             //$('#dataTable-addNewItem tbody').off().on('click', '#test', function () {
