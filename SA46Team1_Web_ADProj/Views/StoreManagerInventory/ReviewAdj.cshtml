@@ -38,22 +38,11 @@
                                 default: return 'N/A';
                             }
                         }
-                    }],
+                    }]
 
                 });
             }
         });
-        function myFunction(requestId, Description) {
-            $.ajax({
-                url: '/StoreManagerInventory/Approve;',
-                type: 'POST',
-                data: {
-                    'id': requestId,
-                    'desc': Description
-                },
-
-            });
-        }
     });
 </script>
 
