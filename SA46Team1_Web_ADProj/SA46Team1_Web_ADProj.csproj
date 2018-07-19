@@ -323,6 +323,15 @@
     <Compile Include="Models\StaffRequisitionHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockAdjustmentApproval.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApprovalForManager.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApprovalForSupervisor.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StockAdjustmentDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

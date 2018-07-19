@@ -57,5 +57,8 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
         public virtual DbSet<PendingApproval> PendingApprovals { get; set; }
         public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
+        public virtual DbSet<StockAdjustmentApproval> StockAdjustmentApprovals { get; set; }
+        public virtual DbSet<StockAdjustmentApprovalForManager> StockAdjustmentApprovalForManagers { get; set; }
+        public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForSupervisors { get; set; }
     }
 }

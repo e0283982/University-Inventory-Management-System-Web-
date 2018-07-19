@@ -19,6 +19,7 @@ namespace SA46Team1_Web_ADProj.Models
         public int QuantityOrdered { get; set; }
         public int QuantityDelivered { get; set; }
         public int QuantityBackOrdered { get; set; }
+        public int CancelledBackOrdered { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual StaffRequisitionHeader StaffRequisitionHeader { get; set; }

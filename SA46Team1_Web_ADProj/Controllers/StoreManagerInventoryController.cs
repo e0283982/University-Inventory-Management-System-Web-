@@ -34,6 +34,25 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             return View();
         }
-        
+
+
+        [Route("Approve")]
+        public RedirectToRouteResult Approve()
+        {
+            
+            return RedirectToAction("Inventory","Store");
+        }
+        [Route("Reject")]
+        public RedirectToRouteResult Reject()
+        {
+
+
+
+
+            return RedirectToAction("Inventory", "Store");
+        }
+
+
+
     }
 }

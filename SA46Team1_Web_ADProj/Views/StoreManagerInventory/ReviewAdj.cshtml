@@ -7,50 +7,63 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeManagerInventoryReviewAdj').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetStockAdjustmentSupervisorApproval',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $('#dataTable-storeManagerInventoryReviewAdj').dataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'RequestId' },
+                        { 'data': 'DateRequested' },
+                        { 'data': 'Requestor' },
+                        { 'data': 'Description' },
+                        { 'data': 'CategoryName' },
+                        { 'data': 'ItemQuantity' },
+                        { 'data': 'Amount' },
+                        { 'data': 'Remarks' },
+                        { 'data': 'Reason' },
+                        { 'data': 'Status' },
+                    ],
+                    columnDefs: [{
+                        targets: [-1], render: function (data, type, row, meta) {
+                            switch (data) {
+                                case 'Approved': return '<button id="Approve">Approve</button><button id ="Reject">Reject</button>'; break;
+                                case 'Pending': return 'Approved'; break;
+                                default: return 'N/A';
+                            }
+                        }
+                    }],
+
+                });
+            }
         });
     });
 </script>
 
-<div>
-    <h2>New Requests</h2>
-</div>
-
 <table id="dataTable-storeManagerInventoryReviewAdj" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>RequestID</th>
             <th>Date</th>
-            <th>#</th>
-            <th>Item</th>
+            <th>Requestor</th>
+            <th>Name</th>
             <th>Category</th>
-            <th>Available</th>
             <th>Missing Count</th>
+            <th>Amount</th>
+            <th>Remark</th>
             <th>Reason</th>
-            <th>Approve/Reject</th>
+            <th>Status</th>
         </tr>
     </thead>
-
-    <tbody>
-        
-        <tr>
-            <td>11-JAN-2018</td>
-            <td>1</td>
-            <td>Clip "2</td>
-            <td>Clips</td>
-            <td>73</td>
-            <td>3</td>
-            <td>nil</td>
-            <td>
-                <button class="btn-blue-small">@Html.ActionLink("Approve", "Home", "Store")</button>
-                <button class="btn-blue-small">@Html.ActionLink("Reject", "Home", "Store")</button>
-            </td>
-        </tr>
-
-
-    </tbody>
+    @*
+        <button class="btn-blue-small">@Html.ActionLink("Approve", "Home", "Store")</button>
+        <button class="btn-blue-small">@Html.ActionLink("Reject", "Home", "Store")</button>*@
 </table>
 
 
