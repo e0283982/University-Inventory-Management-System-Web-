@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Store</title>
     <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/sidebar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/fonts/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/tabs.css")" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 
     @Scripts.Render("~/bundles/modernizr")
 
@@ -24,50 +30,75 @@
         });
     </script>
 
-    <style>
-
-        /*.ui-menu {
-            width: 150px;
-            background-color: lightgray;
-        }
-
-            .ui-menu li {
-                height: 7%;
-                text-align: center;
-                vertical-align: middle;
-
-            }
-
-            }*/
-
-    </style>
 </head>
 <body>
-    <div class="container-top-right">
-        <i class="fas fa-bell" style="font-size:20px;"></i>
-        <button id="btn-logout">@Html.ActionLink("Logout", "Login", "Main")</button>
+
+    <div class="sidenav" style="font-family: 'Oxygen', sans-serif;">
+        <div style="background-color: #818181;">
+            <div style="color: #2b2b2b; padding-left: 10px;">
+                <h3>Logic University</h3>
+            </div>
+        </div>
+        <div class="item1">@Html.ActionLink("Home", "Home", "Store")</div>
+        <div class="item2">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
+        <div class="item3">@Html.ActionLink("Disbursements", "Disbursements", "Store")</div>
+        <div class="item4">@Html.ActionLink("Purchase", "Purchase", "Store")</div>
+        <div class="item5">@Html.ActionLink("Report", "Report", "Store")</div>
+        <div class="item6">@Html.ActionLink("Maintenance", "Maintenance", "Store")</div>
     </div>
 
-    <div class="main-container">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <ul id="menu">
-                <li>@Html.ActionLink("Home", "Home", "Store")</li>
-                <li>@Html.ActionLink("Inventory", "Inventory", "Store")</li>
-                <li>@Html.ActionLink("Disbursements", "Disbursements", "Store")</li>
-                <li>@Html.ActionLink("Purchase", "Purchase", "Store")</li>
-                <li>@Html.ActionLink("Report", "Report", "Store")</li>
-                <li>@Html.ActionLink("Maintenance", "Maintenance", "Store")</li>
-            </ul>
-        </nav>
+    <div class="main">
 
-        <div class="container-body-content">
+        <div class="container" style="font-family: 'Oxygen', sans-serif;">
+            <div style="float: right; padding-top:10px;">
+                <span><i class="fas fa-bell" style="font-size:20px;"></i></span>
+                <span>
+                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-info" })
+                </span>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <hr />
+
+        <div class="container-fluid" style="align-content:center;">
             @RenderBody()
         </div>
+
     </div>
-    <hr />
 
     @*<div class="footer">
-        <p>&copy; 2018 - SA46_ADProject</p>
-    </div>*@
+            <p>&copy; 2018 - SA46_ADProject</p>
+        </div>*@
+
+    <script>
+        $(function () {
+
+            //var div = $('.sidenav');
+            //div.animate({ width: '+=10', opacity: '0.7' }, 'fast');
+            //div.animate({ width: '-=10', opacity: '1' }, 'slow');
+
+            var div = $('.sidenav');
+            var divItem1 = div.find('.item1');
+            var divItem2 = div.find('.item2');
+            var divItem3 = div.find('.item3');
+            var divItem4 = div.find('.item4');
+            var divItem5 = div.find('.item5');
+
+            divItem1.animate({ right: '-=100' }, 'fast');
+            divItem2.animate({ right: '-=100' }, 'fast').delay(100);
+            divItem3.animate({ right: '-=100' }, 'fast').delay(200);
+            divItem4.animate({ right: '-=100' }, 'fast').delay(300);
+            divItem5.animate({ right: '-=100' }, 'fast').delay(400);
+
+            divItem1.animate({ right: '+=100', opacity: '1' });
+            divItem2.animate({ right: '+=100', opacity: '1' });
+            divItem3.animate({ right: '+=100', opacity: '1' });
+            divItem4.animate({ right: '+=100', opacity: '1' });
+            divItem5.animate({ right: '+=100', opacity: '1' });
+
+        });
+    </script>
 </body>
 </html>
