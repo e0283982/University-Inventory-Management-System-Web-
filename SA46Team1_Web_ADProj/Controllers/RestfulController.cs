@@ -19,8 +19,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
+                //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.Employees.ToList<Employee>();
+                return m.Employees.OrderBy(x=>x.EmployeeName).ToList<Employee>();
             }
         }
 
@@ -65,5 +66,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return m.StockAdjustmentHeaders.ToList();
             }
         }
+        
     }
 }
