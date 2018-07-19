@@ -26,9 +26,12 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayApprovalDetails()
+        //[Route("DisplayApprovalDetails")]
+        public RedirectToRouteResult DisplayApprovalDetails(string ReqFormId)
         {
             Session["ReqApprovalPage"] = "2";
+            TempData["ReviewNewRequisitionId"] = ReqFormId;
+
             return RedirectToAction("Approval", "Dept");
         }
 
