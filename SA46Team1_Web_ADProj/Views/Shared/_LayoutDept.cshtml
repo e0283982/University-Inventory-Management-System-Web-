@@ -7,9 +7,9 @@
     <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/Sidebar-Menu.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/Sidebar-Menu1.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/sidebar.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/fonts/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 
     @Scripts.Render("~/bundles/modernizr")
 
@@ -29,77 +29,42 @@
         });
     </script>
 
-    <style>
-
-        /*.ui-menu {
-            width: 150px;
-            background-color: lightgray;
-        }
-
-        .ui-menu li {
-            height: 7%;
-            text-align: center;
-            vertical-align: middle;
-        }*/
-
-        span + span {
-            margin-left: 10px;
-        }
-    </style>
-
 </head>
 <body>
-    <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
-        <div class="container">
-            <a class="navbar-brand" href="#"></a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav"></ul>
-                <h2>Logic University</h2>
-                <form class="form-inline mr-auto" target="_self">
-                    <div class="form-group"></div>
-                </form>
+
+    <div class="sidenav" id="sideBar5" style="font-family: 'Oxygen', sans-serif;">
+        <div style="background-color: #818181;">
+            <div style="color: #2b2b2b; padding-left: 10px;">
+                <h3>Logic University</h3>
+            </div>
+        </div>
+        @Html.ActionLink("Home", "Home", "Dept")
+        @Html.ActionLink("Requisition", "Requisition", "Dept")
+        @Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")
+        @Html.ActionLink("Approval", "Approval", "Dept")
+        @Html.ActionLink("Authorisation", "Authorisation", "Dept")
+    </div>
+
+    <div class="main">
+
+        <div class="container" style="font-family: 'Oxygen', sans-serif;">
+            <div style="float: right; padding-top:10px;">
                 <span><i class="fas fa-bell" style="font-size:20px;"></i></span>
                 <span>
                     @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-primary" })
                 </span>
             </div>
         </div>
-    </nav>
 
-    @*<div class="container-top-right">
-            <i class="fas fa-bell" style="font-size:20px;"></i>
-            @Html.ActionLink("Create A New Invoice", "Create", "Travel", null, new { @class = "btn btn-primary btn-large" })
-            <button id="btn-logout">@Html.ActionLink("Logout", "Login", "Main")</button>
-        </div>*@
+        <br />
+        <br />
+        <hr />
 
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li>@Html.ActionLink("Home", "Home", "Dept")</li>
-                <li>@Html.ActionLink("Requisition", "Requisition", "Dept")</li>
-                <li>@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</li>
-                <li>@Html.ActionLink("Approval", "Approval", "Dept")</li>
-                <li>@Html.ActionLink("Authorisation", "Authorisation", "Dept")</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="main-container">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <ul id="menu">
-                <li>@Html.ActionLink("Home", "Home", "Dept")</li>
-                <li>@Html.ActionLink("Requisition", "Requisition", "Dept")</li>
-                <li>@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</li>
-                <li>@Html.ActionLink("Approval", "Approval", "Dept")</li>
-                <li>@Html.ActionLink("Authorisation", "Authorisation", "Dept")</li>
-            </ul>
-        </nav>
-
-        <div class="container-body-content">
+        <div class="container-fluid" style="align-content:center;">
             @RenderBody()
         </div>
+
     </div>
-    <hr />
 
     @*<div class="footer">
             <p>&copy; 2018 - SA46_ADProject</p>
@@ -107,7 +72,12 @@
 
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/Sidebar-Menu.js"></script>
+
+    <script>
+        $(function () {
+            $("#sideBar5").show(1000);
+        });
+    </script>
 
 </body>
 </html>

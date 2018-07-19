@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
@@ -11,6 +12,7 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Store/StoreInventory")]
     public class StoreInventoryController : Controller
     {
+
         [Route("Overview")]
         public ActionResult Overview()
         {
@@ -20,6 +22,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Reorder")]
         public ActionResult Reorder()
         {
+
             return View();
         }
 

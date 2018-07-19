@@ -57,6 +57,29 @@ namespace SA46Team1_Web_ADProj.Controllers
             else
             {
                 Session["GRListPage"] = "1";
+                string id = "C001";
+                string grn = null;
+                DateTime date = new DateTime();
+                string suppler = null;
+                string rec = null;
+                string remarks = null;
+                string po = null;
+                List<GoodsReceivedList> grl = JWTempData.GoodsReceivedLists(id);
+                foreach(GoodsReceivedList g in grl)
+                {
+                    grn = g.ReceiptNo.ToString();
+                    date = (DateTime) g.ReceivedDate;
+                    suppler = g.CompanyName;
+                    rec = g.EmployeeName;
+                    remarks = g.Remarks;
+                    po = g.PONumber;
+                }
+                ViewBag.Id = grn;
+                ViewBag.date = date;
+                ViewBag.sup = suppler;
+                ViewBag.rec = rec;
+                ViewBag.rem = remarks;
+                ViewBag.po = po;
                 return View("GoodsReceivedList2");
             }
         }
