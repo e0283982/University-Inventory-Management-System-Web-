@@ -8,7 +8,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:49921/WCFService.svc/StockAdjustmentList',
+            url: 'http://localhost:49921/api/Restful/GetStockAdjustmentList',
             method: 'get',
             dataType: 'json',
             success: function (data) {
