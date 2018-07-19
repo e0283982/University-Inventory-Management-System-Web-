@@ -444,7 +444,6 @@
     <Content Include="Content\sidebar.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\site.min.css" />
-    <Content Include="Content\spin.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\tabs.css" />
     <Content Include="favicon.ico" />
@@ -517,7 +516,6 @@
     <Content Include="Scripts\Sidebar-Menu.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\site.min.js" />
-    <Content Include="Scripts\spin.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
