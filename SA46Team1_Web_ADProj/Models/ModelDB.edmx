@@ -467,6 +467,22 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Reason" Type="nvarchar" MaxLength="255" />
           <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StockRetrievalList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Bin" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="QuantityRetrieved" />
+            <PropertyRef Name="CollectionPointDescription" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Bin" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityRetrieved" Type="int" Nullable="false" />
+          <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
           <End Role="Bin" Type="Self.Bin" Multiplicity="*" />
@@ -1049,6 +1065,15 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [StockAdjustmentOverview].[Reason] AS [Reason], 
     [StockAdjustmentOverview].[Status] AS [Status]
     FROM [dbo].[StockAdjustmentOverview] AS [StockAdjustmentOverview]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StockRetrievalList" EntityType="Self.StockRetrievalList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StockRetrievalList].[Id] AS [Id], 
+    [StockRetrievalList].[Bin] AS [Bin], 
+    [StockRetrievalList].[Description] AS [Description], 
+    [StockRetrievalList].[QuantityRetrieved] AS [QuantityRetrieved], 
+    [StockRetrievalList].[CollectionPointDescription] AS [CollectionPointDescription]
+    FROM [dbo].[StockRetrievalList] AS [StockRetrievalList]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
             <End Role="Item" EntitySet="Item" />
@@ -2274,6 +2299,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="RequisitionListDetails" EntityType="SSISdbModel.RequisitionListDetail" />
           <EntitySet Name="DisbursementLists" EntityType="SSISdbModel.DisbursementList" />
           <EntitySet Name="DisbursementListDetails" EntityType="SSISdbModel.DisbursementListDetail" />
+          <EntitySet Name="StockRetrievalLists" EntityType="SSISdbModel.StockRetrievalList" />
         </EntityContainer>
         <EntityType Name="StockAdjustmentOverview">
           <Key>
@@ -2396,6 +2422,20 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
           <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockRetrievalList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Bin" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="QuantityRetrieved" />
+            <PropertyRef Name="CollectionPointDescription" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Bin" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityRetrieved" Type="Int32" Nullable="false" />
+          <Property Name="CollectionPointDescription" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2841,6 +2881,17 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockRetrievalLists">
+            <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalList">
+              <MappingFragment StoreEntitySet="StockRetrievalList">
+                <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
+                <ScalarProperty Name="QuantityRetrieved" ColumnName="QuantityRetrieved" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

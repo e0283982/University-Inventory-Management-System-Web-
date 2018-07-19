@@ -349,6 +349,9 @@
     <Compile Include="Models\StockRetrievalHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockRetrievalList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StockTakeDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
