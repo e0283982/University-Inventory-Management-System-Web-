@@ -19,8 +19,25 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
+                //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.Employees.ToList<Employee>();
+                return m.Employees.OrderBy(x=>x.EmployeeName).ToList<Employee>();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetPendingApprovals")]
+        public List<RequisitionModel> GetPendingApprovals()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                //to further filter by user's deptCode
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<RequisitionModel> list2 = new List<RequisitionModel>();
+                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName=m.Employees.Where(z=> z.EmployeeID==x.EmployeeID).Select(a=>a.EmployeeName).First(), DateReq=x.DateRequested });
+
+                return list2;
             }
         }
 
@@ -81,7 +98,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
 
         }
-
+        
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetRequisitionList")]
         public List<RequisitionList> GetRequisitionList()
@@ -92,6 +109,18 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return m.RequisitionLists.ToList<RequisitionList>();
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetShortItemList")]
+        public List<Item> GetShortItemList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.Items.ToList();
+            }
+        }
+
 
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetRequisitionListDetails/{id}")]
@@ -114,10 +143,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return m.DisbursementLists.ToList<DisbursementList>();
             }
         }
-
-
-
-
-
+       
     }
 }
