@@ -64,7 +64,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string rec = null;
                 string remarks = null;
                 string po = null;
-                List<GoodsReceivedList> grl = JWTempData.GoodsReceivedLists(id);
+                List<GoodsReceivedList> grl = GoodsReceivedLists(id);
                 foreach(GoodsReceivedList g in grl)
                 {
                     grn = g.ReceiptNo.ToString();
@@ -83,7 +83,18 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return View("GoodsReceivedList2");
             }
         }
-        
+
+        //Temporary data to put here for Jayden since JWTempData is deleted
+        public static List<GoodsReceivedList> GoodsReceivedLists(string itemcode)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.GoodsReceivedLists.Where(x => x.ItemCode == itemcode).ToList<GoodsReceivedList>();
+            }
+        }
+
+
+
         [HttpPost]
         public RedirectToRouteResult DisplayGR()
         {
