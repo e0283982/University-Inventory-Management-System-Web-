@@ -9,6 +9,7 @@
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/sidebar.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/fonts/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/tabs.css")" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 
     @Scripts.Render("~/bundles/modernizr")
@@ -51,7 +52,7 @@
             <div style="float: right; padding-top:10px;">
                 <span><i class="fas fa-bell" style="font-size:20px;"></i></span>
                 <span>
-                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-info" })
                 </span>
             </div>
         </div>
@@ -68,10 +69,11 @@
 
     @*<div class="footer">
             <p>&copy; 2018 - SA46_ADProject</p>
-        </div>*@
+    </div>*@
 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    @*These causes the whole tab system to not work...*@
+    @*<script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>*@
 
     <script>
         $(function () {
@@ -99,13 +101,7 @@
             divItem4.animate({ right: '+=100', opacity: '1' });
             divItem5.animate({ right: '+=100', opacity: '1' });
             
-            //$('.rectangle')
-            //    .find('.square-small')
-            //    .animate({
-            //        left: 280
-            //    }, 'slow');
         });
     </script>
-
 </body>
 </html>
