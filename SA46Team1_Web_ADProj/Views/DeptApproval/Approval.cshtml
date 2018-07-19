@@ -26,10 +26,8 @@
                         { 'data': 'ReqEmpName' }
                     ],
                     drawCallback: function (settings) {
-                        alert('DataTables has redrawn the table');
                         $('#dataTable-approval tbody').off().on('click', 'tr', function () {
                             var data = table.row(this).data();
-                            alert(data["ReqFormId"]);
 
                             $.ajax({
                                 url: '/DeptApproval/DisplayApprovalDetails',
