@@ -2,39 +2,81 @@
     Layout = null;
 }
 
+@using SA46Team1_Web_ADProj.Models;
+@model Tuple<ApprovalDelegation, Employee>
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
 <script>
-     $(document).ready(function () {
+    var table;
+
+    $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/EmployeeList',
+            url: 'http://localhost:49921/api/Restful/GetEmployeeList',
             method: 'get',
             dataType: 'json',
             success: function (data) {
-                $('#dataTable-roles-delegation').dataTable({
+                table = $('#dataTable-roles-delegation').DataTable({
                     paging: true,
                     sort: true,
                     searching: true,
                     scrollY: 200,
                     data: data,
+                    responsive: true,
                     columns: [
                         { 'data': 'EmployeeName' },
                         { 'data': 'Designation' },
-                        { 'data': 'Designation' }
+                        {
+                            'data': null,
+                            'render': function (data, type, row) {
+                                return '<button id="btn-edit-employee-auth" onclick="myFunction(\'' + data["EmployeeName"] + '\')" data-toggle="modal" data-target="#dialog-show-employee-auth">Edit</button>';
+                            }
+
+                        }
                     ]
                 });
             }
         });
+        
+        $(function () {
+            $("#dialog-show-employee-auth").dialog({
+                autoOpen: false,
+                width: "40%",
+                maxWidth: "40%"
+            });
+        });
+
+
+        $(function () {
+            $("#datepicker-assign-role-start").datepicker({ dateFormat: 'dd-mm-yy' }).datepicker("setDate", new Date());
+            $("#datepicker-assign-role-end").datepicker({ dateFormat: 'dd-mm-yy' }).datepicker("setDate", new Date());
+        });
+
+        $(function () {
+            $("#dialog-saved-employee-auth-edit").dialog({
+                autoOpen: false,
+                width: "40%",
+                maxWidth: "40%"
+            });
+        });
+
+        $("#form-submit-new-auth").submit(function () {
+            $('#dialog-show-employee-auth').dialog('close');
+            $('#dialog-saved-employee-auth-edit').dialog('open');
+        });
 
     });
-    //$(document).ready(function () {
-    //    $('#dataTable-roles-delegation').DataTable({
-    //        scrollY: '50vh',
-    //        scrollCollapse: true,
-    //        paging: true
-    //    });
-    //});
+
+    function myFunction(param) {
+        $('#assign-emp-role-name').val(param);
+        $('#dialog-show-employee-auth').dialog('open');
+        return false;
+    }
+
 </script>
 
 <h2>Role Delegation</h2>
+
 <table id="dataTable-roles-delegation" class="display" style="width:80%;">
     <thead>
         <tr>
@@ -45,3 +87,37 @@
     </thead>
 </table>
 
+
+<div id="dialog-saved-employee-auth-edit" class="hidden" title="Changes saved">
+    <p>Changes to employee's role delegation have been saved.</p>
+</div>
+
+
+<div id="dialog-show-employee-auth" class="hidden" title="Update Employee Role">
+    @using (Html.BeginForm("SubmitNewDelegation", "DeptAuthorisation", FormMethod.Post, new { id = "form-submit-new-auth" }))
+    {
+        <div>
+            <div>
+                <label>Employee Name: </label>
+                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName" , @id = "assign-emp-role-name" }, })
+            </div>
+            <div>
+                <label>Role: </label>
+                @Html.DropDownList("SelectNewEmpRole", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="Representative", Value = "rep" },
+                    new SelectListItem{ Text="Approver", Value = "approver" }
+                })
+            </div>
+
+            <div>
+                <label>Period: </label>
+                @Html.EditorFor(tuple => tuple.Item1.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "FromDate", @id = "datepicker-assign-role-start" }, })
+                @Html.EditorFor(tuple => tuple.Item1.ToDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "ToDate", @id = "datepicker-assign-role-end" }, })
+            </div>
+
+            <input id="btn-submit-emp-role-changes" class="btn-blue" type="submit" value="Save" />
+
+        </div>
+    }
+</div>
