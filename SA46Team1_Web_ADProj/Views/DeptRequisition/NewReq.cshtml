@@ -1,22 +1,73 @@
 ﻿@{
     Layout = null;
+    List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
 }
+
+
+@using SA46Team1_Web_ADProj.Models;
+@model Tuple<Item, StaffRequisitionDetail>
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
+    var table;
     $(document).ready(function () {
-        $('#dataTable-newReq').DataTable({
+        table = $('#dataTable-newReq').DataTable({
             scrollY: '30vh',
             scrollCollapse: true,
             paging: true
         });
+    });
+
+
+    $(function () {
+        $("#dialog-add-req-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $(function () {
+        $("#dialog-new-req-submited").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+
+    $('#btn-add-item').on('click', function () {
+        $('#dialog-add-req-item').dialog('open');
+    });
+
+
+    var counter = 1;
+
+    $('#btn-submit-add-item').on('click', function () {
+        $.ajax({
+            url: '/DeptRequisition/AddReqItem',
+            type: 'POST',
+        });
+    });
+
+    $('#btn-submit-new-req').on('click', function () {
+        $('#dialog-new-req-submited').dialog('open');
+
+        $.ajax({
+            url: '/DeptRequisition/SubmitNewRequestForm',
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("Requisition", "Dept")';
+
     });
 </script>
 
 <div>
     <h2>New Requisition</h2>
     <h4>Requisition Form #</h4>
+    @list.Count;
 </div>
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
@@ -28,26 +79,52 @@
                 <th>New Order Qty</th>
             </tr>
         </thead>
-
-        <tbody>
+        @foreach (var item in list)
+        {
             <tr>
-                <td>Pad Post it</td>
-                <td>Dozen</td>
-                <td>10</td>
+                <td>@item.Item.Description</td>
+                <td>@item.Item.UoM</td>
+                <td>@item.QuantityOrdered</td>
             </tr>
-
-            <tr>
-                <td>Pad Post it 2</td>
-                <td>Dozen</td>
-                <td>11</td>
-            </tr>
-        </tbody>
+        }
+        <tbody></tbody>
     </table>
 
-    <span>@Html.ActionLink("Add New Item", "Home", "Dept", null, new { @class = "btn btn-info" })</span>
-    <span>@Html.ActionLink("Submit for Approval", "Home", "Dept", null, new { @class = "btn btn-info" })</span>
+    <button class="btn-blue" id="btn-add-item">Add New Item</button>
+    <button class="btn-blue" id="btn-submit-new-req">Submit for Approval</button>
 
-    @*<button class="btn-blue">@Html.ActionLink("Add New Item", "Home", "Dept")</button>
-    <button class="btn-blue">@Html.ActionLink("Submit for Approval", "Home", "Dept")</button>*@
+    <div id="dialog-add-req-item" class="hidden" title="Add Item (Requisition)">
+        @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
+        {
+            <div>
+                <div>
+                    <label>Item Description: </label>
+                    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+                </div>
+                <div>
+                    @*<label>Unit of Measure: </label>*@
+                    @*@Html.DropDownList("SelectUOM", new List<SelectListItem>
+                    {
+                        new SelectListItem{ Text="Each", Value = "each" },
+                        new SelectListItem{ Text="Box", Value = "box" },
+                        new SelectListItem{ Text="Dozen", Value = "dozen" }
+                    })*@
+                </div>
+
+                <div>
+                    <label>New Order Qty: </label>
+                    @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty" }, })
+                </div>
+
+                <input id="btn-submit-add-item" class="btn-blue" type="submit" value="Add" />
+
+            </div>
+        }
+    </div>
+
+
+    <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
+        <p>New requisition request has been submitted for approval.</p>
+    </div>
 
 </div>

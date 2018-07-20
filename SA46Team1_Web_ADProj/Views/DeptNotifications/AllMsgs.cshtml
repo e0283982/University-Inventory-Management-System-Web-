@@ -13,7 +13,7 @@
             method: 'get',
             dataType: 'json',
             success: function (data) {
-                table = $('#dataTable-approval').DataTable({
+                table = $('#dataTable-notifications-all').DataTable({
                     paging: true,
                     sort: true,
                     searching: true,
@@ -21,43 +21,50 @@
                     data: data,
                     responsive: true,
                     columns: [
-                        { 'data': 'ReqFormId' },
                         { 'data': 'DateReq' },
-                        { 'data': 'ReqEmpName' }
+                        {
+                            'data': 'ReqFormId',
+                            'render': function (data, type, row) {
+                                return '<p> There is a new requisition request ' + row["ReqFormId"] +' pending for approval.</p>';
+                            }
+
+                        },
+                        {
+                            'data': null,
+                            'render': function (data, type, row) {
+                                return '<input type="checkbox" name="check-read" value="ReadMsg"/>';
+                            }
+
+                        }
                     ],
                     drawCallback: function (settings) {
-                        $('#dataTable-approval tbody').off().on('click', 'tr', function () {
-                            var data = table.row(this).data();
+                         $('#dataTable-notifications-all tbody').on('click', 'tr', function () {
+                            //var data = table.row(this).data();
 
                             $.ajax({
-                                url: '/DeptApproval/DisplayApprovalDetails',
-                                data: { reqFormId: data["ReqFormId"] },
+                                url: '/DeptApproval/Approval',
                                 type: 'POST',
                             });
 
                             window.location.href = '@Url.Action("Approval", "Dept")';
                         });
                     }
+
                 });
             }
         });
     });
-    
-        
+
 </script>
 
-<div>
-    <h2>Approval</h2>
-</div>
+<h3>Notifications - All</h3>
 
-
-<table id="dataTable-approval" class="display" style="width:80%;">
+<table id="dataTable-notifications-all" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>Requistion Form #</th>
             <th>Date Requested</th>
-            <th>Requestor</th>
+            <th>Message</th>
+            <th>Read</th>
         </tr>
     </thead>
 </table>
-
