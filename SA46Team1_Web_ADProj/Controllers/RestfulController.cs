@@ -14,14 +14,24 @@ namespace SA46Team1_Web_ADProj.Controllers
     public class RestfulController : ApiController
     {
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetEmployeeList")]
-        public List<Employee> GetEmployeeList()
+        [System.Web.Mvc.Route("GetRoleDelegationList/{id}")]
+        public List<EmployeeDelegationModel> GetRoleDelegationList(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.Employees.OrderBy(x=>x.EmployeeName).ToList<Employee>();
+                
+                List<Employee> list = m.Employees.Where(x=>x.DepartmentCode==id).OrderBy(x => x.EmployeeName).ToList<Employee>();
+                List<EmployeeDelegationModel> list2 = new List<EmployeeDelegationModel>();
+                list2 = list.ConvertAll(x => new EmployeeDelegationModel
+                { EmpId = x.EmployeeID, EmpName = x.EmployeeName, Role = x.Designation,
+                    ToDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active==1).
+                    Select(y => y.ToDate).FirstOrDefault(),
+                    FromDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active == 1).
+                    Select(y => y.FromDate).FirstOrDefault()
+                });
+
+                return list2;
             }
         }
         
