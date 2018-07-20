@@ -4,4 +4,54 @@
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-<h2>Notifications - All</h2>
+<script>
+    var table;
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetPendingApprovals',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-notifications-all').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    responsive: true,
+                    columns: [
+                        { 'data': 'DateReq' },
+                        {
+                            'data': 'ReqFormId',
+                            'render': function (data, type, row) {
+                                return '<p> There is a new requisition request ' + row["ReqFormId"] +' pending for approval.</p>';
+                            }
+
+                        },
+                        {
+                            'data': null,
+                            'render': function (data, type, row) {
+                                return '<input type="checkbox" name="check-read" value="ReadMsg"/>';
+                            }
+
+                        }
+                    ]
+                });
+            }
+        });
+    });
+
+</script>
+
+<h3>Notifications - All</h3>
+
+<table id="dataTable-notifications-all" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Date Requested</th>
+            <th>Message</th>
+            <th>Read</th>
+        </tr>
+    </thead>
+</table>

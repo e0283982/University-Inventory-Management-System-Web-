@@ -4,4 +4,46 @@
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-<h2>Notifications - Unread</h2>
+<script>
+    var table;
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetPendingApprovals',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-notifications-unread').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    responsive: true,
+                    columns: [
+                        { 'data': 'DateReq' },
+                        {
+                            'data': 'ReqFormId',
+                            'render': function (data, type, row) {
+                                return '<p> There is a new requisition request ' + row["ReqFormId"] +' pending for approval.</p>';
+                            }
+
+                        }
+                    ]
+                });
+            }
+        });
+    });
+
+</script>
+
+<h3>Notifications - Unread</h3>
+
+<table id="dataTable-notifications-unread" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Date Requested</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+</table>
