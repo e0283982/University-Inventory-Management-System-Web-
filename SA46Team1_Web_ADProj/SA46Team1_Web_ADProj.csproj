@@ -314,6 +314,9 @@
     <Compile Include="Models\PODetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\POFullDetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\POHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

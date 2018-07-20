@@ -245,6 +245,15 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetPOFullDetails/{id}")]
+        public List<POFullDetail> GetPOFullDetails(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.POFullDetails.Where(x=> x.PONumber == id).ToList();
+            }
+        }
 
     }
 }

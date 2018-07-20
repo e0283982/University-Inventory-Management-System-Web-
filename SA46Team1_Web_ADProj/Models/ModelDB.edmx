@@ -442,6 +442,33 @@ warning 6002: The table/view 'SSISdb.dbo.PendingApprovals' does not have a prima
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="POFullDetails">
+          <Key>
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="UnitCost" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="ReceivedDate" />
+          </Key>
+          <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UnitCost" Type="real" Nullable="false" />
+          <Property Name="Total" Type="real" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ReceivedDate" Type="date" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.POList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="POList">
           <Key>
@@ -1166,6 +1193,21 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [PendingApprovals].[DateRequested] AS [DateRequested], 
     [PendingApprovals].[EmployeeName] AS [EmployeeName]
     FROM [dbo].[PendingApprovals] AS [PendingApprovals]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="POFullDetails" EntityType="Self.POFullDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [POFullDetails].[PONumber] AS [PONumber], 
+    [POFullDetails].[ItemCode] AS [ItemCode], 
+    [POFullDetails].[Description] AS [Description], 
+    [POFullDetails].[CompanyName] AS [CompanyName], 
+    [POFullDetails].[QuantityOrdered] AS [QuantityOrdered], 
+    [POFullDetails].[UoM] AS [UoM], 
+    [POFullDetails].[UnitCost] AS [UnitCost], 
+    [POFullDetails].[Total] AS [Total], 
+    [POFullDetails].[Date] AS [Date], 
+    [POFullDetails].[EmployeeName] AS [EmployeeName], 
+    [POFullDetails].[ReceivedDate] AS [ReceivedDate]
+    FROM [dbo].[POFullDetails] AS [POFullDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="POList" EntityType="Self.POList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2481,6 +2523,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="DisbursementListDetails" EntityType="SSISdbModel.DisbursementListDetail" />
           <EntitySet Name="RequisitionLists" EntityType="SSISdbModel.RequisitionList" />
           <EntitySet Name="RequisitionListDetails" EntityType="SSISdbModel.RequisitionListDetail" />
+          <EntitySet Name="POFullDetails" EntityType="SSISdbModel.POFullDetail" />
         </EntityContainer>
         <EntityType Name="StockAdjustmentOverview">
           <Key>
@@ -2724,6 +2767,31 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
           <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="POFullDetail">
+          <Key>
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="UnitCost" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="ReceivedDate" />
+          </Key>
+          <Property Name="PONumber" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="Total" Type="Single" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3253,6 +3321,23 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
                 <ScalarProperty Name="FormID" ColumnName="FormID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="POFullDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.POFullDetail">
+              <MappingFragment StoreEntitySet="POFullDetails">
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
