@@ -62,6 +62,32 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetBackOrdersByDept/{id}")]
+        public List<BackOrderModel> GetBackOrdersByDept(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                //get list of active SRFs headers belonging to dept
+                List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList<String>();
+                List<StaffRequisitionDetail> list = m.StaffRequisitionDetails.Where(i => deptReqIds.Contains(i.FormID) && i.QuantityBackOrdered > 0).ToList<StaffRequisitionDetail>();
+
+                List<BackOrderModel> list2 = new List<BackOrderModel>();
+                list2 = list.ConvertAll(x => new BackOrderModel
+                {
+                    ItemDesc = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(y => y.Description).First()
+                    ,
+                    UOM = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(a => a.UoM).First(),
+                    OutstandingQty = x.QuantityBackOrdered,
+                    ReqId = x.FormID,
+                    ItemCode = x.ItemCode
+                });
+
+                return list2;
+            }
+        }
 
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetItemCodeList")]

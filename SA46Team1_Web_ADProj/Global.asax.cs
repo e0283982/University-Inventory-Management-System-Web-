@@ -29,9 +29,10 @@ namespace SA46Team1_Web_ADProj
             Session["DepartmentCode"] = "COMM";
 
             //Session variables for inner pages of DEPT tabs
-
+            Session["newReqList"] = new List<Models.StaffRequisitionDetail>();
             Session["ReviewNewRequisitionId"] = "";
-
+            Session["DeptReqTabIndex"] = "0";
+            Session["currentFormId"] = "";
             //Session variables for Dept - Requisition History
             Session["ReqHistoryPage"] = "1";
 
