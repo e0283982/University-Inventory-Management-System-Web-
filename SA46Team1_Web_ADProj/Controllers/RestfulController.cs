@@ -245,6 +245,16 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCollectionList")]
+        public List<CollectionList> GetCollectionList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.CollectionLists.ToList();
+            }
+        }
+
 
     }
 }

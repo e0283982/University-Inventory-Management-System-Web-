@@ -249,6 +249,9 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CollectionList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CollectionPoint.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -311,6 +314,9 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PODetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\POFullDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\POHeader.cs">

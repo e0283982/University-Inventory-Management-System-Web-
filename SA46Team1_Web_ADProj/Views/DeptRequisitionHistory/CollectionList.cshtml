@@ -15,7 +15,7 @@
 
         var table;
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetDisbursementList',
+            url: 'http://localhost:49921/api/Restful/GetCollectionList',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -26,9 +26,9 @@
                     scrollY: 200,
                     data: data,
                     columns: [
-                        { 'data': 'DepartmentName' },
-                        { 'data': 'Status' },
-                        { 'data': 'CollectionPointDescription' }
+                        { 'data': 'Description' },
+                        { 'data': 'UoM' },
+                        { 'data': 'QuantityBackOrdered' }
                     ]
                 });
             }
