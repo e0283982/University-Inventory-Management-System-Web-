@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApprovalDelegation">
           <Key>
             <PropertyRef Name="Id" />
@@ -285,6 +285,7 @@
           <Property Name="ID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Disbursed" Type="tinyint" />
+          <Property Name="RequisitionFormID" Type="nchar" MaxLength="60" />
         </EntityType>
         <EntityType Name="StockTakeDetails">
           <Key>
@@ -1499,8 +1500,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SSISdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1854,6 +1854,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Disbursed" Type="Byte" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetails" />
+          <Property Name="RequisitionFormID" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="StockTakeDetail">
           <Key>
@@ -3173,6 +3174,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySetMapping Name="StockRetrievalHeaders">
             <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalHeader">
               <MappingFragment StoreEntitySet="StockRetrievalHeader">
+                <ScalarProperty Name="RequisitionFormID" ColumnName="RequisitionFormID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Disbursed" ColumnName="Disbursed" />

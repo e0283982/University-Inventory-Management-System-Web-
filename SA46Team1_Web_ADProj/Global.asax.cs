@@ -57,6 +57,8 @@ namespace SA46Team1_Web_ADProj
             Session["DisbursementListPage"] = "1";
             Session["BackToDisbursementList"] = "false";
 
+            Session["RetrievalListPage"] = "1";
+
             //Session variables for Store - Maintenance
             Session["MaintenanceBackFlagPage"] = "0";
 

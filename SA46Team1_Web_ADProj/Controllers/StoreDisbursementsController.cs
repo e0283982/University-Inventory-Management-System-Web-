@@ -46,6 +46,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Requisition")]
         public ActionResult Requisition()
         {
+            //Session["DisbursementListPage"] = "0";
+
             if (Session["ReqListPage"].ToString() == "1")
             {
                 return View("Requisition");
@@ -75,6 +77,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Retrieval")]
         public ActionResult Retrieval()
         {
+            //Use disbursementlistpage equals to 1 to wire the tab
+            Session["RetrievalListPage"] = "1";
 
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -105,12 +109,19 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             }
 
+
+
+
+
+
             return RedirectToAction("Disbursements", "Store");
         }
 
         [HttpPost]
         public RedirectToRouteResult AdjustItem(StockRetrievalDetail item1, Item item2)
         {
+            Session["RetrievalListPage"] = "2";
+
             string itemCode;
 
             using (SSISdbEntities m = new SSISdbEntities())
@@ -129,8 +140,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.SaveChanges();
 
             }
-
-
 
             return RedirectToAction("Disbursements", "Store");
         }
