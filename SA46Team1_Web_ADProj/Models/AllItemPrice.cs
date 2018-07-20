@@ -7,25 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
 namespace SA46Team1_Web_ADProj.Models
 {
-
     using System;
     using System.Collections.Generic;
-
-    public partial class StockAdjustmentApproval
+    
+    public partial class AllItemPrice
     {
-        public int RequestId { get; set; }
-        public System.DateTime DateRequested { get; set; }
-        public string Requestor { get; set; }
-        public string Approver { get; set; }
+        public string ItemCode { get; set; }
         public string Description { get; set; }
-        public string CategoryName { get; set; }
-        public int ItemQuantity { get; set; }
-        public float Amount { get; set; }
-        public string Remarks { get; set; }
-        public string Reason { get; set; }
-        public string Status { get; set; }
+        public int Quantity { get; set; }
+        public string UoM { get; set; }
+        public string S1 { get; set; }
+        public string S2 { get; set; }
+        public string S3 { get; set; }
+        public float S1P { get; set; }
+        public float S2P { get; set; }
+        public float S3P { get; set; }
     }
 }

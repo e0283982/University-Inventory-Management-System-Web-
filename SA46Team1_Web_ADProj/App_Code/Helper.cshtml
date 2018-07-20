@@ -28,6 +28,7 @@
 @helper InventoryOverviewDatatable()
 {
     <script>
+        var table;
         $(document).ready(function () {
 
             $.ajax({
@@ -35,7 +36,7 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    $('#dataTable-storeInventory').dataTable({
+                    table = $('#dataTable-storeInventory').DataTable({
                         paging: true,
                         sort: true,
                         searching: true,
@@ -53,6 +54,14 @@
                     });
                 }
             });
+        });
+
+        $(document).ajaxComplete(function () {
+            $('#dataTable-storeInventory tbody').off().on('click', 'tr', function () {
+                var data = table.row(this).data();
+                alert(data["ItemCode"]);
+            });
+
         });
     </script>
 
@@ -79,6 +88,7 @@
 @helper GoodsReceivedDetailedDatatable()
 {
     <script>
+        var table;
         $(document).ready(function () {
 
             $.ajax({
@@ -86,7 +96,7 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    $('#dataTable-displayGR').dataTable({
+                    table = $('#dataTable-displayGR').DataTable({
                         paging: true,
                         sort: true,
                         searching: true,
@@ -171,7 +181,6 @@
         $(document).ajaxComplete(function () {
             $('#dataTable-addSNewItem tbody').off().on('click', 'tr', function () {
                 var data = table.row(this).data();
-                alert(data["ItemCode"]);
                 document.getElementById("getItemCode").innerHTML = data["ItemCode"]
             });
 
@@ -237,7 +246,6 @@
         $(document).ajaxComplete(function () {
             $('#dataTable-addSNewItem tbody').off().on('click', 'tr', function () {
                 var data = table.row(this).data();
-                alert(data["ItemCode"]);
                 document.getElementById("getItemCode").innerHTML = data["ItemCode"]
             });
             //// For adding edit button
@@ -250,3 +258,72 @@
     </script>
 }
 
+@helper POAddNewItemBtn()
+{
+    <div>
+        <button class="btn-blue" id="btn-print-displaySNewItem">Add New Item</button>
+        <div id="dialog-print-displaySNewItem" class="hidden" title="Add New Item">
+            <table id="dataTable-addSNewItem" class="display" style="width:80%;">
+                <thead>
+                    <tr>
+                        <th>Item Code</th>
+                        <th>Item Description</th>
+                        <th>Quantity Available</th>
+                        <th>Unit of Measure</th>
+                        <th>Supplier</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+
+    <script>
+        $(function () {
+            $("#dialog-print-displaySNewItem").dialog({
+                autoOpen: false
+            });
+        });
+
+        $('#btn-print-displaySNewItem').click(function () {
+            $('#dialog-print-displaySNewItem').dialog('open');
+            return false;
+        });
+
+        var table;
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:49921/api/Restful/GetItemListAndSupplier',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    table = $('#dataTable-addSNewItem').DataTable({
+                        paging: false,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        columns: [
+                            { 'data': 'ItemCode' },
+                            { 'data': 'Description' },
+                            { 'data': 'Quantity' },
+                            { 'data': 'UoM' },
+                            { 'data': 'S1' },
+                        ]
+                    });
+                    table.column(0).visible(false);
+                }
+            });
+
+        });
+
+        $(document).ajaxComplete(function () {
+            $('#dataTable-addSNewItem tbody').off().on('click', 'tr', function () {
+                var data = table.row(this).data();
+                document.getElementById("getItemCode").innerHTML = data["ItemCode"]
+            });
+
+        });
+    </script>
+}

@@ -237,6 +237,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AllItemPrice.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ApprovalDelegation.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -275,6 +278,9 @@
     </Compile>
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GRList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InventoryOverview.cs">
@@ -319,6 +325,7 @@
     <Compile Include="Models\POReceiptHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BackOrderModel.cs" />
     <Compile Include="Models\RequisitionDetModel.cs" />
     <Compile Include="Models\RequisitionList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>

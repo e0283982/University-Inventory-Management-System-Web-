@@ -69,13 +69,5 @@ namespace SA46Team1_Web_ADProj
 
             }
         }
-
-        public static class SearchInventory
-        {
-            public static void searchBar()
-            {
-
-            }
-        }
     }
 }

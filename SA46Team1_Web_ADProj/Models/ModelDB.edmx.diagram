@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
- <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
@@ -73,23 +73,13 @@
         <AssociationConnector Association="SSISdbModel.FK__StockTake__Stock__5224328E" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__SupplierP__Suppl__7E37BEF6" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentOverview" Width="1.5" PointX="3.375" PointY="3.75" />
-<<<<<<< HEAD
-        <EntityTypeShape EntityType="SSISdbModel.InventoryOverview" Width="1.5" PointX="5.375" PointY="2.375" />
-        <EntityTypeShape EntityType="SSISdbModel.PendingApproval" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="SSISdbModel.GoodsReceivedList" Width="1.5" PointX="5.25" PointY="5.125" />
-        <EntityTypeShape EntityType="SSISdbModel.POList" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApproval" Width="1.5" PointX="9.375" PointY="0.75" />
-        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApprovalForManager" Width="1.5" PointX="11.375" PointY="0.75" />
-        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApprovalForSupervisor" Width="1.5" PointX="11.375" PointY="4.75" />
-=======
-        
-        
-        
-        <EntityTypeShape EntityType="SSISdbModel.RequisitionList" Width="1.5" PointX="4.625" PointY="0.5" />
-        <EntityTypeShape EntityType="SSISdbModel.RequisitionListDetail" Width="1.5" PointX="7.25" PointY="2.875" />
-        <EntityTypeShape EntityType="SSISdbModel.DisbursementList" Width="1.5" PointX="9.25" PointY="4.75" />
+        <EntityTypeShape EntityType="SSISdbModel.GoodsReceivedList" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="SSISdbModel.InventoryOverview" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="SSISdbModel.PendingApproval" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="SSISdbModel.RequisitionList" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SSISdbModel.RequisitionListDetail" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SSISdbModel.DisbursementList" Width="1.5" PointX="8.375" PointY="4.75" />
         <EntityTypeShape EntityType="SSISdbModel.DisbursementListDetail" Width="1.5" PointX="5.375" PointY="8.75" />
->>>>>>> master
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
