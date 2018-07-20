@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutDept.cshtml";
+}
+
+<h2>Notifications</h2>
+
+<script>
+    $(function () {
+        $("#tabs-min").tabs();
+    });
+</script>
+
+<div id="tabs-min">
+    <ul>
+        <li><a href="/Dept/DeptNotifications/All">All</a></li>
+        <li><a href="/Dept/DeptNotifications/Unread">Unread</a></li>
+        <li><a href="/Dept/DeptNotifications/Read">Read</a></li>
+    </ul>
+</div>
