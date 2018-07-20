@@ -99,17 +99,42 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisburseItems()
         {
+            Session["RetrievalListPage"] = "2";
+
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 string id = (string) Session["RetrievalId"];
                 StockRetrievalHeader srh = m.StockRetrievalHeaders.Where(x => x.ID == id).First();
                 srh.Disbursed = 1;
+
+                //Creating new disbursement
+                DisbursementHeader newDH = new DisbursementHeader();
+
+                int count = m.DisbursementHeaders.Count() + 1;
+                string disId = "DH-" + count;
+                newDH.Id = disId;
+
+                newDH.Status = "Pending";
+                newDH.RequisitionFormID = srh.RequisitionFormID;
+
+                DateTime localDate = DateTime.Now;
+                newDH.Date = localDate;
+
+                newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == srh.RequisitionFormID).FirstOrDefault().DepartmentCode;
+                newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
+                newDH.RepresentativeID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().RepresentativeID;
+
+                //Temporary
+                newDH.Amount = 100;
+
+                m.DisbursementHeaders.Add(newDH);
+
                 m.SaveChanges();
 
             }
 
-
+            
 
 
 
