@@ -53,14 +53,21 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockTakeHeader> StockTakeHeaders { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierPriceList> SupplierPriceLists { get; set; }
-        public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
-        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
-        public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
-        public virtual DbSet<PendingApproval> PendingApprovals { get; set; }
-        public virtual DbSet<RequisitionList> RequisitionLists { get; set; }
-        public virtual DbSet<RequisitionListDetail> RequisitionListDetails { get; set; }
+        public virtual DbSet<AllItemPrice> AllItemPrices { get; set; }
         public virtual DbSet<DisbursementList> DisbursementLists { get; set; }
         public virtual DbSet<DisbursementListDetail> DisbursementListDetails { get; set; }
+        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
+        public virtual DbSet<GRList> GRLists { get; set; }
+        public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
+        public virtual DbSet<PendingApproval> PendingApprovals { get; set; }
+        public virtual DbSet<POFullDetail> POFullDetails { get; set; }
+        public virtual DbSet<POList> POLists { get; set; }
+        public virtual DbSet<RequisitionList> RequisitionLists { get; set; }
+        public virtual DbSet<RequisitionListDetail> RequisitionListDetails { get; set; }
+        public virtual DbSet<StockAdjustmentApproval> StockAdjustmentApprovals { get; set; }
+        public virtual DbSet<StockAdjustmentApprovalForManager> StockAdjustmentApprovalForManagers { get; set; }
+        public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForSupervisors { get; set; }
+        public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
         public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
     }
 }

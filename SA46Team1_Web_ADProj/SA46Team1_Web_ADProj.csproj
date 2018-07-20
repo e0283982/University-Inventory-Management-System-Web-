@@ -237,6 +237,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AllItemPrice.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ApprovalDelegation.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -277,6 +280,9 @@
     <Compile Include="Models\GoodsReceivedList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GRList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InventoryOverview.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -307,7 +313,13 @@
     <Compile Include="Models\PODetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\POFullDetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\POHeader.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\POList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\POReceiptDetail.cs">
@@ -322,6 +334,7 @@
     <Compile Include="Models\RequisitionListDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RequisitionModel.cs" />
     <Compile Include="Models\Role.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -329,6 +342,15 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StaffRequisitionHeader.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApproval.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApprovalForManager.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApprovalForSupervisor.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StockAdjustmentDetail.cs">
@@ -364,7 +386,6 @@
     <Compile Include="Models\SupplierPriceList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RequisitionModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
@@ -471,8 +492,8 @@
     <Content Include="Global.asax" />
     <Content Include="Models\ModelDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelDB.Context.cs</LastGenOutput>
       <DependentUpon>ModelDB.edmx</DependentUpon>
+      <LastGenOutput>ModelDB.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\ModelDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -483,13 +504,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <EntityDeploy Include="Models\ModelDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelDB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ModelDB.edmx.diagram">
-      <DependentUpon>ModelDB.edmx</DependentUpon>
     </Content>
     <Content Include="App_Code\Helper.cshtml" />
     <Content Include="Content\bootstrap-theme.css.map" />
@@ -516,6 +530,13 @@
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="bin\SA46Team1_Web_ADProj.dll.config" />
+    <EntityDeploy Include="Models\ModelDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ModelDB.edmx.diagram">
+      <DependentUpon>ModelDB.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

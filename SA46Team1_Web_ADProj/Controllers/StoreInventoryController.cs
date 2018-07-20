@@ -44,7 +44,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     sad.ItemQuantity = 100;
                     sad.Amount = 100;
                     sad.Remarks = "Damaged";
-                    sad.Reason = "nil";
+                    //sad.Reason = "nil";
                     sadList.Add(sad);
 
                     sad.StockAdjustmentDetails = sadList;
@@ -84,7 +84,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             sad.ItemQuantity = 1100;
             sad.Amount = 1010;
             sad.Remarks = "Damaged";
-            sad.Reason = "nil";
+            //sad.Reason = "nil";
 
             stockAdjustmentDetail.StockAdjustmentDetails.Add(sad);
 
@@ -101,7 +101,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             StockAdjustmentHeader sah = new StockAdjustmentHeader();
             sah.DateRequested = DateTime.Now;
             sah.Requestor = "E1";
-            sah.Status = "Pending";
+            //sah.Status = "Pending";
             sah.TransactionType = "Stock Adjustment";
 
             using(SSISdbEntities m = new SSISdbEntities())
@@ -119,7 +119,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     sadDb.ItemCode = sad.ItemCode;
                     sadDb.ItemQuantity = sad.ItemQuantity;
                     sadDb.Remarks = sad.Remarks;
-                    sadDb.Reason = sad.Reason;
+                    //sadDb.Reason = sad.Reason;
                     //Temporary
                     sadDb.Amount = 1000;
 

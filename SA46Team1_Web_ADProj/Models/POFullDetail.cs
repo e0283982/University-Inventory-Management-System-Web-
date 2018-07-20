@@ -12,12 +12,18 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DisbursementList
+    public partial class POFullDetail
     {
-        public string Id { get; set; }
+        public string PONumber { get; set; }
+        public string ItemCode { get; set; }
+        public string Description { get; set; }
+        public string CompanyName { get; set; }
+        public int QuantityOrdered { get; set; }
+        public string UoM { get; set; }
+        public float UnitCost { get; set; }
+        public Nullable<float> Total { get; set; }
         public System.DateTime Date { get; set; }
-        public string DepartmentName { get; set; }
-        public string Status { get; set; }
-        public string CollectionPointDescription { get; set; }
+        public string EmployeeName { get; set; }
+        public System.DateTime ReceivedDate { get; set; }
     }
 }

@@ -12,12 +12,10 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DisbursementList
+    public partial class GRList
     {
-        public string Id { get; set; }
-        public System.DateTime Date { get; set; }
-        public string DepartmentName { get; set; }
-        public string Status { get; set; }
-        public string CollectionPointDescription { get; set; }
+        public int ReceiptNo { get; set; }
+        public System.DateTime ReceivedDate { get; set; }
+        public string CompanyName { get; set; }
     }
 }
