@@ -86,11 +86,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;                
             }
 
-            //ViewBag.Disbursed = 0;
+            var tuple = new Tuple<StockRetrievalDetail, Item>(new StockRetrievalDetail(), new Item());
 
-            //ViewBag.IdCount = 2;
-
-            return View();
+            return View(tuple);
         }
 
         //New Stuff
@@ -105,7 +103,34 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.Disbursed = 1;
                 m.SaveChanges();
 
-            }            
+            }
+
+            return RedirectToAction("Disbursements", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult AdjustItem(StockRetrievalDetail item1, Item item2)
+        {
+            string itemCode;
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                itemCode = m.Items.Where(x => x.Description == item2.Description).FirstOrDefault().ItemCode;
+
+                StockRetrievalDetail srd = m.StockRetrievalDetails.Where(x => x.ItemCode == itemCode && x.Id == item1.Id).FirstOrDefault();
+
+                int qtyAdjusted = item1.QuantityAdjusted;
+
+                srd.QuantityAdjusted = srd.QuantityAdjusted + qtyAdjusted;
+                srd.QuantityRetrieved = srd.QuantityRetrieved - qtyAdjusted;
+
+                m.SaveChanges();
+
+            }
+
+
 
             return RedirectToAction("Disbursements", "Store");
         }
