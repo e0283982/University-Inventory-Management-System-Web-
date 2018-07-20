@@ -41,3 +41,33 @@
 span + span {
     margin-left: 10px;
 }
+
+.item1{
+    position: relative;
+    opacity: 0;
+}
+.item2 {
+    position: relative;
+    opacity: 0;
+}
+.item3 {
+    position: relative;
+    opacity: 0;
+}
+.item4 {
+    position: relative;
+    opacity: 0;
+}
+.item5 {
+    position: relative;
+    opacity: 0;
+}
+.item6 {
+    position: relative;
+    opacity: 0;
+}
+.item7 {
+    position: relative;
+    opacity: 0;
+}
+

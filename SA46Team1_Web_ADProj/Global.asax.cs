@@ -25,8 +25,12 @@ namespace SA46Team1_Web_ADProj
         {
             //Session variables for Application
             Session["Role"] = "Dept";
+            Session["UserId"] = "E4";
+            Session["DepartmentCode"] = "COMM";
 
             //Session variables for inner pages of DEPT tabs
+
+            Session["ReviewNewRequisitionId"] = "";
 
             //Session variables for Dept - Requisition History
             Session["ReqHistoryPage"] = "1";

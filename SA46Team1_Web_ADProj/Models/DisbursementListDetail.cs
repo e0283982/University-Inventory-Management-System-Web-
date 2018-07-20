@@ -12,16 +12,12 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class StaffRequisitionDetail
+    public partial class DisbursementListDetail
     {
-        public string FormID { get; set; }
-        public string ItemCode { get; set; }
+        public string Id { get; set; }
+        public string Description { get; set; }
+        public string UoM { get; set; }
         public int QuantityOrdered { get; set; }
-        public int QuantityDelivered { get; set; }
-        public int QuantityBackOrdered { get; set; }
-        public int CancelledBackOrdered { get; set; }
-    
-        public virtual Item Item { get; set; }
-        public virtual StaffRequisitionHeader StaffRequisitionHeader { get; set; }
+        public int QuantityReceived { get; set; }
     }
 }

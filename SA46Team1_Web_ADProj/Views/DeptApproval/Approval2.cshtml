@@ -2,12 +2,31 @@
     Layout = null;
 }
 
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
 <script>
+ var table;
     $(document).ready(function () {
-        $('#dataTable-approval-details').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetPendingApprovalsById/' + '@Session["ReviewNewRequisitionId"]',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-approval-details').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    responsive: true,
+                    columns: [
+                        { 'data': 'ItemDesc' },
+                        { 'data': 'UOM' },
+                        { 'data': 'OrderQty' }
+                    ],
+                });
+            }
         });
     });
 
@@ -18,6 +37,11 @@
     });
 
     $('#btn-approve-req-form').click(function () {
+        $.ajax({
+            url: '/DeptApproval/Approve',
+            type: 'POST',
+        });
+
         $('#dialog-approve-req-form').dialog('open');
         return false;
     });
@@ -29,6 +53,11 @@
     });
 
     $('#btn-reject-req-form').click(function () {
+        $.ajax({
+            url: '/DeptApproval/Reject',
+            type: 'POST',
+        });
+
         $('#dialog-reject-req-form').dialog('open');
         return false;
     });
@@ -36,7 +65,7 @@
 
 <div>
     <h2>Requisition Approval</h2>
-    <h3>Requisition Form #001</h3>
+    <h3>Requisition Form @Session["ReviewNewRequisitionId"]</h3>
 </div>
 
 
@@ -58,26 +87,25 @@
 </table>
 
 <div>
-    <label>Requested By: <input type="text" id="dept-req-name"></label>
-    <label>Requested Date: <input type="text" id="dept-req-date"></label>
+    <p>Requested By: @TempData["RequisitionRequstor"]  </p>
+    <p>Requested Date:  @TempData["RequisitionDateReq"]  </p>
 </div>
 
 <div>
     <p>Remarks:</p>
     <textarea rows="4" cols="50">
-        Enter remarks here.
     </textarea>
 </div>
 
 <div id="btns-grp-btm">
-    <button class="btn-blue" id="btn-reject-req-form">Edit</button>
-    <div id="dialog-reject-req-form" class="hidden" title="Basic dialog">
-        <p>Btn action to reject SRF.</p>
+    <button class="btn-blue" id="btn-reject-req-form">Reject</button>
+    <div id="dialog-reject-req-form" class="hidden" title="Reject Requisition">
+        <p>The displayed Stationary request has been rejected.</p>
     </div>
 
-    <button class="btn-blue" id="btn-approve-req-form">Save</button>
-    <div id="dialog-approve-req-form" class="hidden" title="Basic dialog">
-        <p>Btn action to approve SRF.</p>
+    <button class="btn-blue" id="btn-approve-req-form">Approval</button>
+    <div id="dialog-approve-req-form" class="hidden" title="Approve Requisition">
+        <p>The displayed Stationary request has been approved.</p>
     </div>
 </div>
 
@@ -88,3 +116,10 @@
         <input class="btn-blue" type="submit" value="Back" />
     }
 </div>
+
+
+<style>
+    #btns-grp-btm {
+        margin-right: 10vw;
+    }
+</style>
