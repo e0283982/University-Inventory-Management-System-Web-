@@ -14,39 +14,10 @@
         var disbursed = parseInt(@ViewBag.Disbursed);
 
         if (disbursed == 0) {
-            $("#div-disbursed").hide();
-
-            //$.ajax({
-            //    url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + id,
-            //    method: 'get',
-            //    dataType: 'json',
-            //    success: function (data) {
-            //        $('#dataTable-storeDisbursementRetrievalList').dataTable({
-            //            paging: true,
-            //            sort: true,
-            //            searching: true,
-            //            scrollY: 200,
-            //            data: data,
-            //            "columnDefs": [{
-            //                "targets": -1,
-            //                "data": null,
-            //                "defaultContent": "<button>Adjust</button>"
-            //            }],
-            //            columns: [
-            //                { 'data': 'Bin' },
-            //                { 'data': 'Description' },
-            //                { 'data': 'QuantityRetrieved' },
-            //                { 'data': 'CollectionPointDescription' },
-            //                { 'data': '' }
-            //            ]
-            //        });
-            //    }
-            //});
-
+            $("#div-disbursed").hide();           
         }
 
         var id = parseInt(@ViewBag.IdCount);
-
         var stoId = 'StoR-' + id;
 
         if (disbursed == 0) {
