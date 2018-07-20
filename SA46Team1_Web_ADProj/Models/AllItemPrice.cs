@@ -11,20 +11,18 @@ namespace SA46Team1_Web_ADProj.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    public partial class StockAdjustmentDetail
-    {
-        public int RequestId { get; set; }
-        public string ItemCode { get; set; }
-        public int ItemQuantity { get; set; }
-        public float Amount { get; set; }
-        public string Remarks { get; set; }
-        public string Reason { get; set; }
     
-        public virtual Item Item { get; set; }
-        public virtual StockAdjustmentHeader StockAdjustmentHeader { get; set; }
-        [NotMapped]
-        public List<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
+    public partial class AllItemPrice
+    {
+        public string ItemCode { get; set; }
+        public string Description { get; set; }
+        public int Quantity { get; set; }
+        public string UoM { get; set; }
+        public string S1 { get; set; }
+        public string S2 { get; set; }
+        public string S3 { get; set; }
+        public float S1P { get; set; }
+        public float S2P { get; set; }
+        public float S3P { get; set; }
     }
 }

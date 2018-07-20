@@ -75,7 +75,7 @@
 
     <tbody>
         <tr>
-            <td>C010</td>
+            <td id="getItemCode"></td>
             <td>Pad Postit "2</td>
             <td>Supplier A</td>
             <td>30</td>
@@ -89,7 +89,7 @@
 
 <div id="btns-grp-btm">
 
-    <button class="btn-blue" id="btn-addItem-createPO">Add New Item</button>
+    @Helper.POAddNewItemBtn()
     <div id="dialog-addItem-createPO" class="hidden" title="Basic dialog">
         <p>Add New Item for new Purchase Order.</p>
     </div>

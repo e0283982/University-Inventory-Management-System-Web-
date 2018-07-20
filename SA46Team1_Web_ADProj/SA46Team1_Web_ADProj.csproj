@@ -237,6 +237,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AllItemPrice.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ApprovalDelegation.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -269,6 +272,9 @@
     </Compile>
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GRList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InventoryOverview.cs">
@@ -304,6 +310,9 @@
     <Compile Include="Models\POHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\POList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\POReceiptDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -317,6 +326,15 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StaffRequisitionHeader.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApproval.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApprovalForManager.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentApprovalForSupervisor.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StockAdjustmentDetail.cs">
