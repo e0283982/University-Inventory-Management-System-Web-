@@ -22,9 +22,11 @@
                         {
                             'data': 'DateRequested',
                             'render': function (jsonDate) {
-                                var date = new Date(parseInt(jsonDate.substr(6)));
+
+                                var date = new Date(jsonDate.substr(0));
                                 var month = date.getMonth() + 1;
                                 return date.getDate() + "/" + month + "/" + date.getFullYear();
+
                             }
 
                         },

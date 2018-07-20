@@ -21,6 +21,7 @@ public partial class Supplier
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
     public Supplier()
     {
+<<<<<<< HEAD
 
         this.Items = new HashSet<Item>();
 

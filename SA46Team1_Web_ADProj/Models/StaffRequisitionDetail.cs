@@ -15,6 +15,7 @@ namespace SA46Team1_Web_ADProj.Models
 using System;
     using System.Collections.Generic;
     
+<<<<<<< HEAD
 public partial class StaffRequisitionDetail
 {
 
@@ -38,4 +39,18 @@ public partial class StaffRequisitionDetail
 
 }
 
+=======
+    public partial class StaffRequisitionDetail
+    {
+        public string FormID { get; set; }
+        public string ItemCode { get; set; }
+        public int QuantityOrdered { get; set; }
+        public int QuantityDelivered { get; set; }
+        public int QuantityBackOrdered { get; set; }
+        public int CancelledBackOrdered { get; set; }
+    
+        public virtual Item Item { get; set; }
+        public virtual StaffRequisitionHeader StaffRequisitionHeader { get; set; }
+    }
+>>>>>>> master
 }
