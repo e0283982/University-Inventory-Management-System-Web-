@@ -7,11 +7,84 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeDisbursementRetrievalList').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
-        });
+
+        //$("#div-disbursed").hide();
+        //alert(disbursed);
+
+        var disbursed = parseInt(@ViewBag.Disbursed);
+
+        if (disbursed == 0) {
+            $("#div-disbursed").hide();
+
+            //$.ajax({
+            //    url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + id,
+            //    method: 'get',
+            //    dataType: 'json',
+            //    success: function (data) {
+            //        $('#dataTable-storeDisbursementRetrievalList').dataTable({
+            //            paging: true,
+            //            sort: true,
+            //            searching: true,
+            //            scrollY: 200,
+            //            data: data,
+            //            "columnDefs": [{
+            //                "targets": -1,
+            //                "data": null,
+            //                "defaultContent": "<button>Adjust</button>"
+            //            }],
+            //            columns: [
+            //                { 'data': 'Bin' },
+            //                { 'data': 'Description' },
+            //                { 'data': 'QuantityRetrieved' },
+            //                { 'data': 'CollectionPointDescription' },
+            //                { 'data': '' }
+            //            ]
+            //        });
+            //    }
+            //});
+
+        }
+
+        var id = parseInt(@ViewBag.IdCount);
+
+        var stoId = 'StoR-' + id;
+
+        if (disbursed == 0) {
+
+            $.ajax({
+                url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + stoId,
+                method: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#dataTable-storeDisbursementRetrievalList').dataTable({
+                        paging: true,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        "columnDefs": [{
+                            "targets": -1,
+                            "data": null,
+                            "defaultContent": "<button>Adjust</button>"
+                        }],
+                        columns: [
+                            { 'data': 'Bin' },
+                            { 'data': 'Description' },
+                            { 'data': 'QuantityRetrieved' },
+                            { 'data': 'CollectionPointDescription' },
+                            { 'data': '' }
+                        ]
+                    });
+                }
+            });
+
+        }
+
+
+
+
+
+
     });
 
     $(function () {
@@ -20,10 +93,11 @@
         });
     });
 
-    $('#btn-disburse-retrieval').click(function () {
-        $('#dialog-disburse-retrieval').dialog('open');
-        return false;
-    });
+    //$('#btn-disburse-retrieval').click(function () {
+    //    $('#dialog-disburse-retrieval').dialog('open');
+    //    return false;
+    //});
+
 </script>
 
 <div>
@@ -34,7 +108,6 @@
 <table id="dataTable-storeDisbursementRetrievalList" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>#</th>
             <th>Bin</th>
             <th>Item</th>
             <th>Items to Retrieve</th>
@@ -43,34 +116,29 @@
         </tr>
     </thead>
 
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>8</td>
-            <td>Stapler Blue "10</td>
-            <td>5</td>
-            <td>Collection Point A</td>
-            <td>
-                <button class="btn-blue-small">Adjust</button>
-            </td>
-        </tr>
 
-        <tr>
-            <td>2</td>
-            <td>7</td>
-            <td>Stapler Blue "5</td>
-            <td>5</td>
-            <td>Collection Point B</td>
-            <td>
-                <button class="btn-blue-small">Adjust</button>
-            </td>
-        </tr>
-    </tbody>
+
 </table>
+
+<br />
+<br />
+
+<div id="div-disbursed">
+    <p align="center" style="font-weight:bold; font-size:large;">
+        All items have been disbursed
+    </p>
+
+</div>
 
 <button class="btn-blue">@Html.ActionLink("Print List", "Home", "Store")</button>
 
-<button class="btn-blue" id="btn-disburse-retrieval">Disburse Items</button>
-<div id="dialog-disburse-retrieval" class="hidden" title="Basic dialog">
-    <p>Todo: clear datatable upon disburse of items.</p>
-</div>
+@using (Html.BeginForm("DisburseItems", "StoreDisbursements", FormMethod.Post))
+{
+    <button class="btn-blue" id="btn-disburse-retrieval">Disburse Items</button>
+}
+
+
+
+@*<div id="dialog-disburse-retrieval" class="hidden" title="Basic dialog">
+        <p>Todo: clear datatable upon disburse of items.</p>
+    </div>*@

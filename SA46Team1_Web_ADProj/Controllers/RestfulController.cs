@@ -24,7 +24,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return m.Employees.OrderBy(x=>x.EmployeeName).ToList<Employee>();
             }
         }
-
+        
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetPendingApprovals")]
         public List<RequisitionModel> GetPendingApprovals()
@@ -33,9 +33,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x=>x.ApprovalStatus!="Approved").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
-                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName=m.Employees.Where(z=> z.EmployeeID==x.EmployeeID).Select(a=>a.EmployeeName).First(), DateReq=x.DateRequested });
+                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
                 return list2;
             }
@@ -142,6 +142,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
+
+                //return m.StockAdjustmentOverviews.ToList<StockAdjustmentOverview>();
+
                 return m.StockAdjustmentOverviews.Where(x => x.Requestor == requestorId).ToList<StockAdjustmentOverview>();
             }
 
@@ -204,6 +207,17 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStockRetrievalList/{id}")]
+        public List<StockRetrievalList> GetStockRetrievalList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.StockRetrievalLists.Where(x => x.Id == id).ToList<StockRetrievalList>();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetPOList")]
         public List<POList> GetPOList()
         {
@@ -246,15 +260,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetCollectionList")]
-        public List<CollectionList> GetCollectionList()
+        [System.Web.Mvc.Route("GetPOFullDetails/{id}")]
+        public List<POFullDetail> GetPOFullDetails(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                return m.CollectionLists.ToList();
+                return m.POFullDetails.Where(x => x.PONumber == id).ToList();
             }
         }
-
 
     }
 }

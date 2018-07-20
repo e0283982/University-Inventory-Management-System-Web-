@@ -32,6 +32,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                                                     "Description",
                                                     null);
 
+                TempData["RowIndexesToDiscard"] = new List<int>();
+
                 return View(tuple);
             }
 
@@ -85,7 +87,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srd.QuantityOrdered = item2.QuantityOrdered;
                 srd.QuantityDelivered = 0;
                 srd.QuantityBackOrdered = 0;
-                srd.CancelledBackOrdered = 0;
+                //srd.CancelledBackOrdered = 0;
 
                 srd.Item = e.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
 
@@ -126,11 +128,31 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
 
                 e.SaveChanges();
-                Session["newReqList"] = new List<Models.StaffRequisitionDetail>();
+                Session["newReqList"] = new List<StaffRequisitionDetail>();
             }
 
             return RedirectToAction("Requisition", "Dept");
         }
+
+        [HttpPost]
+        //[Route("NewReq/DiscardNewItems")]
+        public RedirectToRouteResult DiscardNewItems(int[] rowIndexToDelete)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
+                //foreach (int i in rowIndexToDelete)
+                //{
+                //    list.RemoveAt(i);
+                //}
+                list.RemoveAll(x=> rowIndexToDelete.Contains(list.IndexOf(x)));
+
+                Session["newReqList"] = list;
+
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
+
 
     }
 }

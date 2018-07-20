@@ -38,7 +38,7 @@ namespace SA46Team1_Web_ADProj.DAL
             return context.POReceiptDetails.ToList();
         }
 
-        public POReceiptDetail GetPOReceiptDetailById(int receiptNo, string itemCode)
+        public POReceiptDetail GetPOReceiptDetailById(string receiptNo, string itemCode)
         {
             return context.POReceiptDetails.Where(x => x.ReceiptNo == receiptNo && x.ItemCode == itemCode).First();
         }
@@ -48,7 +48,7 @@ namespace SA46Team1_Web_ADProj.DAL
             context.POReceiptDetails.Add(poReceiptDetail);
         }
 
-        public void DeletePOReceiptDetail(int receiptNo, string itemCode)
+        public void DeletePOReceiptDetail(string receiptNo, string itemCode)
         {
             POReceiptDetail poReceiptDetail = context.POReceiptDetails.Where(x => x.ReceiptNo == receiptNo && x.ItemCode == itemCode).First();
             context.POReceiptDetails.Remove(poReceiptDetail);

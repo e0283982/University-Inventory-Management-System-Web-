@@ -75,8 +75,42 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Retrieval")]
         public ActionResult Retrieval()
         {
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                int id = m.StockRetrievalHeaders.Count();
+                string reqId = "StoR-" + id;
+                Session["RetrievalId"] = "StoR-" + id;
+                ViewBag.IdCount = id;
+                ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;                
+            }
+
+            //ViewBag.Disbursed = 0;
+
+            //ViewBag.IdCount = 2;
+
             return View();
         }
-        
+
+        //New Stuff
+        [HttpPost]
+        public RedirectToRouteResult DisburseItems()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                string id = (string) Session["RetrievalId"];
+                StockRetrievalHeader srh = m.StockRetrievalHeaders.Where(x => x.ID == id).First();
+                srh.Disbursed = 1;
+                m.SaveChanges();
+
+            }            
+
+            return RedirectToAction("Disbursements", "Store");
+        }
+
+
+
     }
 }

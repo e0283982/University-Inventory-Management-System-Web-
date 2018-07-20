@@ -11,11 +11,11 @@ namespace SA46Team1_Web_ADProj.DAL
     {
         IEnumerable<StockRetrievalDetail> GetStockRetrievalDetails();
 
-        StockRetrievalDetail GetStockRetrievalDetailById(int id, int binid);
+        StockRetrievalDetail GetStockRetrievalDetailById(string id, int binid);
 
         void InsertStockRetrievalDetail(StockRetrievalDetail stockRetrievalDetail);
 
-        void DeleteStockRetrievalDetail(int id, int binid);
+        void DeleteStockRetrievalDetail(string id, int binid);
 
         void UpdateStockRetrievalDetail(StockRetrievalDetail stockRetrievalDetail);
 

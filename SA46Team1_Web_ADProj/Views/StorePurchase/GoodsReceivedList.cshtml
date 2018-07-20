@@ -31,7 +31,15 @@
     $(document).ajaxComplete(function () {
         $('#dataTable-goodsReceived').off().on('click', 'tr', function () {
             var data = table.row(this).data();
-            alert(data["ReceiptNo"]);
+            var dataToBeSent = data["ReceiptNo"];
+
+            $.ajax({
+                url: '/StorePurchase/DisplayGR',
+                data: dataToBeSent,
+                type: 'POST',
+            });
+
+            window.location.href = '@Url.Action("Purchase", "Store")';
         });
 
     });

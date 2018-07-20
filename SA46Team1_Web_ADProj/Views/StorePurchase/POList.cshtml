@@ -46,16 +46,16 @@
     $(document).ajaxComplete(function () {
         $('#dataTable-poList tbody').on('click', 'tr', function () {
             var data = table.row(this).data();
-            var dataTobeSent = data["PONumber"];
+            var dataToBeSent = data["PONumber"];
             alert(data["PONumber"]);
 
             $.ajax({
-                    url: '/StorePurchase/DisplayPO',
-                    data: dataToBeSent,
-                    type: 'POST',
+                url: '/StorePurchase/DisplayPO',
+                data: dataToBeSent,
+                type: 'POST',
             });
 
-                window.location.href = '@Url.Action("Purchase", "Store")';
+            window.location.href = '@Url.Action("Purchase", "Store")';
         });
 
 
