@@ -21,33 +21,9 @@ public partial class DisbursementHeader
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
     public DisbursementHeader()
     {
-<<<<<<< HEAD
 
         this.DisbursementDetails = new HashSet<DisbursementDetail>();
 
-=======
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DisbursementHeader()
-        {
-            this.DisbursementDetails = new HashSet<DisbursementDetail>();
-        }
-    
-        public string Id { get; set; }
-        public string DepartmentCode { get; set; }
-        public System.DateTime Date { get; set; }
-        public string CollectionPointID { get; set; }
-        public string RepresentativeID { get; set; }
-        public float Amount { get; set; }
-        public string Status { get; set; }
-        public byte[] Signature { get; set; }
-        public string FormRequisitionID { get; set; }
-    
-        public virtual CollectionPoint CollectionPoint { get; set; }
-        public virtual Department Department { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DisbursementDetail> DisbursementDetails { get; set; }
-        public virtual Employee Employee { get; set; }
->>>>>>> master
     }
 
 

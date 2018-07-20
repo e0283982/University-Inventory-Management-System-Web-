@@ -611,6 +611,8 @@
     <Content Include="Views\StoreManagerInventory\Reorder.cshtml" />
     <Content Include="Views\StoreManagerInventory\ReviewAdj.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
+    <Content Include="Views\StoreManagerInventory\NewStockAdj.cshtml" />
+    <Content Include="Views\StoreInventory\NewStockAdj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
