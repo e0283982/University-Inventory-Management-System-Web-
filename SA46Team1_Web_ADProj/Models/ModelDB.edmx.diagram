@@ -82,6 +82,10 @@
         <EntityTypeShape EntityType="SSISdbModel.AllItemPrice" Width="1.5" PointX="11.375" PointY="8.75" />
         <EntityTypeShape EntityType="SSISdbModel.GoodsReceivedList" Width="1.5" PointX="5.375" PointY="4.75" />
         <EntityTypeShape EntityType="SSISdbModel.GRList" Width="1.5" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SSISdbModel.DisbursementList" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="SSISdbModel.DisbursementListDetail" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="SSISdbModel.RequisitionList" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="SSISdbModel.RequisitionListDetail" Width="1.5" PointX="13.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

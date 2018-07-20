@@ -32,7 +32,6 @@ namespace SA46Team1_Web_ADProj.Models
         public string Address { get; set; }
         public string GSTRegistrationNo { get; set; }
         public byte Active { get; set; }
-        public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Items { get; set; }
