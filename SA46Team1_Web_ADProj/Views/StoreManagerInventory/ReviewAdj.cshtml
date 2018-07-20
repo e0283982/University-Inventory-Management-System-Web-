@@ -22,6 +22,7 @@
                         { 'data': 'RequestId' },
                         { 'data': 'DateRequested' },
                         { 'data': 'Requestor' },
+                        {'data': 'ItemCode'},
                         { 'data': 'Description' },
                         { 'data': 'CategoryName' },
                         { 'data': 'ItemQuantity' },
@@ -33,17 +34,47 @@
                     columnDefs: [{
                         targets: [-1], render: function (data, type, row) {
                             switch (data) {
-                                case 'Approved': return '<button type ="submit" id="Approve" onclick="myFunction(\'' + row["RequestId"] + '\', \'' + row["Description"] + '\' )">Approve</button><button id ="Reject" onclick="myFunction()">Reject</button>'; break;
-                                case 'Pending': return 'Approved'; break;
-                                default: return 'N/A';
+                                case 'Pending': return '<button type ="submit" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
+                                case 'Approved': return 'Approved'; break;
+                                default: return 'Rejected';
                             }
                         }
+                    },
+                    {
+                        targets: [3], visible: false,
                     }]
-
                 });
             }
         });
     });
+
+
+    function approveFunction(requestId, itemCode) {
+        $.ajax({
+            url: '/StoreManagerInventory/Approve',
+            method: 'POST',
+            data: {
+                'requestId': requestId,
+                'itemCode': itemCode
+            }
+        });
+        //alert("Approve button clicked" + " " + requestId + " " + itemCode);
+    }
+
+
+
+    function rejectFunction(requestId, itemCode) {
+        $.ajax({
+            url: '/StoreManagerInventory/Reject',
+            method: 'POST',
+            data: {
+                'requestId': requestId,
+                'itemCode': itemCode
+            }
+        });
+    }
+
+
 </script>
 
 <table id="dataTable-storeManagerInventoryReviewAdj" class="display" style="width:80%;">
@@ -52,6 +83,7 @@
             <th>RequestID</th>
             <th>Date</th>
             <th>Requestor</th>
+            <th>Item Code</th>
             <th>Name</th>
             <th>Category</th>
             <th>Missing Count</th>

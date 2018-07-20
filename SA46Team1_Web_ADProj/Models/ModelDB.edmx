@@ -238,6 +238,7 @@
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Reason" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="StockAdjustmentHeader">
           <Key>
@@ -248,7 +249,6 @@
           <Property Name="Requestor" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="12" />
           <Property Name="DateProcessed" Type="datetime" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="TransactionType" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
         <EntityType Name="StockCount">
@@ -329,6 +329,38 @@
           <Property Name="Active" Type="tinyint" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.DisbursementList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DisbursementList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="CollectionPointDescription" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.DisbursementListDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DisbursementListDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityReceived" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" Nullable="false" />
+          <Property Name="QuantityReceived" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.GoodsReceivedList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GoodsReceivedList">
           <Key>
@@ -374,6 +406,48 @@ warning 6002: The table/view 'SSISdb.dbo.PendingApprovals' does not have a prima
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.RequisitionList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RequisitionList">
+          <Key>
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="DateRequested" Type="date" Nullable="false" />
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="70" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.RequisitionListDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RequisitionListDetails">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="DepartmentCode" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="Manager" />
+            <PropertyRef Name="DateProcessed" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityDelivered" />
+          </Key>
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Manager" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DateProcessed" Type="date" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApproval' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="StockAdjustmentApproval">
           <Key>
@@ -381,6 +455,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApproval' does not have 
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
@@ -392,13 +467,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApproval' does not have 
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Reason" Type="nvarchar" MaxLength="255" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForManager' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -408,6 +484,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForManager' does
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
@@ -419,13 +496,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForManager' does
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Reason" Type="nvarchar" MaxLength="255" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForSupervisor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -435,6 +513,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForSupervisor' d
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
@@ -446,13 +525,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForSupervisor' d
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Reason" Type="nvarchar" MaxLength="255" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -970,6 +1050,24 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="StockTakeHeader" EntityType="Self.StockTakeHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplierPriceList" EntityType="Self.SupplierPriceList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DisbursementList" EntityType="Self.DisbursementList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DisbursementList].[Id] AS [Id], 
+    [DisbursementList].[Date] AS [Date], 
+    [DisbursementList].[DepartmentName] AS [DepartmentName], 
+    [DisbursementList].[Status] AS [Status], 
+    [DisbursementList].[CollectionPointDescription] AS [CollectionPointDescription]
+    FROM [dbo].[DisbursementList] AS [DisbursementList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="DisbursementListDetails" EntityType="Self.DisbursementListDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DisbursementListDetails].[Id] AS [Id], 
+    [DisbursementListDetails].[Description] AS [Description], 
+    [DisbursementListDetails].[UoM] AS [UoM], 
+    [DisbursementListDetails].[QuantityOrdered] AS [QuantityOrdered], 
+    [DisbursementListDetails].[QuantityReceived] AS [QuantityReceived]
+    FROM [dbo].[DisbursementListDetails] AS [DisbursementListDetails]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="GoodsReceivedList" EntityType="Self.GoodsReceivedList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [GoodsReceivedList].[ItemCode] AS [ItemCode], 
@@ -1004,12 +1102,36 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [PendingApprovals].[EmployeeName] AS [EmployeeName]
     FROM [dbo].[PendingApprovals] AS [PendingApprovals]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="RequisitionList" EntityType="Self.RequisitionList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RequisitionList].[DateRequested] AS [DateRequested], 
+    [RequisitionList].[FormID] AS [FormID], 
+    [RequisitionList].[DepartmentName] AS [DepartmentName], 
+    [RequisitionList].[Status] AS [Status]
+    FROM [dbo].[RequisitionList] AS [RequisitionList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RequisitionListDetails" EntityType="Self.RequisitionListDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RequisitionListDetails].[FormID] AS [FormID], 
+    [RequisitionListDetails].[DepartmentName] AS [DepartmentName], 
+    [RequisitionListDetails].[DepartmentCode] AS [DepartmentCode], 
+    [RequisitionListDetails].[EmployeeName] AS [EmployeeName], 
+    [RequisitionListDetails].[EmployeeID] AS [EmployeeID], 
+    [RequisitionListDetails].[Manager] AS [Manager], 
+    [RequisitionListDetails].[DateProcessed] AS [DateProcessed], 
+    [RequisitionListDetails].[ItemCode] AS [ItemCode], 
+    [RequisitionListDetails].[Description] AS [Description], 
+    [RequisitionListDetails].[QuantityOrdered] AS [QuantityOrdered], 
+    [RequisitionListDetails].[QuantityDelivered] AS [QuantityDelivered]
+    FROM [dbo].[RequisitionListDetails] AS [RequisitionListDetails]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="StockAdjustmentApproval" EntityType="Self.StockAdjustmentApproval" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [StockAdjustmentApproval].[RequestId] AS [RequestId], 
     [StockAdjustmentApproval].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApproval].[Requestor] AS [Requestor], 
     [StockAdjustmentApproval].[Approver] AS [Approver], 
+    [StockAdjustmentApproval].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApproval].[Description] AS [Description], 
     [StockAdjustmentApproval].[CategoryName] AS [CategoryName], 
     [StockAdjustmentApproval].[ItemQuantity] AS [ItemQuantity], 
@@ -1025,6 +1147,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [StockAdjustmentApprovalForManager].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApprovalForManager].[Requestor] AS [Requestor], 
     [StockAdjustmentApprovalForManager].[Approver] AS [Approver], 
+    [StockAdjustmentApprovalForManager].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApprovalForManager].[Description] AS [Description], 
     [StockAdjustmentApprovalForManager].[CategoryName] AS [CategoryName], 
     [StockAdjustmentApprovalForManager].[ItemQuantity] AS [ItemQuantity], 
@@ -1040,6 +1163,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [StockAdjustmentApprovalForSupervisor].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApprovalForSupervisor].[Requestor] AS [Requestor], 
     [StockAdjustmentApprovalForSupervisor].[Approver] AS [Approver], 
+    [StockAdjustmentApprovalForSupervisor].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApprovalForSupervisor].[Description] AS [Description], 
     [StockAdjustmentApprovalForSupervisor].[CategoryName] AS [CategoryName], 
     [StockAdjustmentApprovalForSupervisor].[ItemQuantity] AS [ItemQuantity], 
@@ -1260,8 +1384,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="CollectionTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Active" Type="Byte" Nullable="false" />
           <NavigationProperty Name="DepartmentDetails" Relationship="Self.FK__Departmen__Colle__797309D9" FromRole="CollectionPoint" ToRole="DepartmentDetails" />
-          <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Colle__3A4CA8FD" FromRole="CollectionPoint" ToRole="DisbursementHeader" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetr__Colle__3587F3E0" FromRole="CollectionPoint" ToRole="StockRetrievalDetails" />
+          <NavigationProperty Name="DisbursementHeaders" Relationship="SSISdbModel.FK__Disbursem__Colle__3A4CA8FD" FromRole="CollectionPoint" ToRole="DisbursementHeader" />
         </EntityType>
         <EntityType Name="CollectionPointTran">
           <Key>
@@ -1278,9 +1402,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           </Key>
           <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Depar__395884C4" FromRole="Department" ToRole="DisbursementHeader" />
           <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Depart__4316F928" FromRole="Department" ToRole="Employee" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetr__Depar__367C1819" FromRole="Department" ToRole="StockRetrievalDetails" />
+          <NavigationProperty Name="DisbursementHeaders" Relationship="SSISdbModel.FK__Disbursem__Depar__395884C4" FromRole="Department" ToRole="DisbursementHeader" />
         </EntityType>
         <EntityType Name="DepartmentDetail">
           <Key>
@@ -1313,25 +1437,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
           <Property Name="TransactionType" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK__Disbursem__ItemC__3F115E1A" FromRole="DisbursementDetails" ToRole="Item" />
-          <NavigationProperty Name="DisbursementHeader" Relationship="Self.FK__Disbursement__Id__3E1D39E1" FromRole="DisbursementDetails" ToRole="DisbursementHeader" />
-        </EntityType>
-        <EntityType Name="DisbursementHeader">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RepresentativeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Amount" Type="Single" Nullable="false" />
-          <Property Name="Status" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Signature" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__Disbursem__Colle__3A4CA8FD" FromRole="DisbursementHeader" ToRole="CollectionPoint" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__Disbursem__Depar__395884C4" FromRole="DisbursementHeader" ToRole="Department" />
-          <NavigationProperty Name="DisbursementDetails" Relationship="Self.FK__Disbursement__Id__3E1D39E1" FromRole="DisbursementHeader" ToRole="DisbursementDetails" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK__Disbursem__Repre__3B40CD36" FromRole="DisbursementHeader" ToRole="Employee" />
-          <Property Name="FormRequisitionID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DisbursementHeader" Relationship="SSISdbModel.FK__Disbursement__Id__3E1D39E1" FromRole="DisbursementDetail" ToRole="DisbursementHeader" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -1351,12 +1457,12 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <NavigationProperty Name="DepartmentDetails" Relationship="Self.FK__Departmen__Appro__7B5B524B" FromRole="Employee" ToRole="DepartmentDetails" />
           <NavigationProperty Name="DepartmentDetails1" Relationship="Self.FK__Departmen__Conta__787EE5A0" FromRole="Employee" ToRole="DepartmentDetails" />
           <NavigationProperty Name="DepartmentDetails2" Relationship="Self.FK__Departmen__Repre__7A672E12" FromRole="Employee" ToRole="DepartmentDetails" />
-          <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Repre__3B40CD36" FromRole="Employee" ToRole="DisbursementHeader" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Employee__Design__0C50D423" FromRole="Employee" ToRole="Role" />
           <NavigationProperty Name="POHeaders" Relationship="Self.FK__POHeader__Employ__17036CC0" FromRole="Employee" ToRole="POHeader" />
           <NavigationProperty Name="POReceiptHeaders" Relationship="Self.FK__POReceipt__Recei__22751F6C" FromRole="Employee" ToRole="POReceiptHeader" />
-          <NavigationProperty Name="StockAdjustmentHeaders" Relationship="Self.FK__StockAdju__Appro__43D61337" FromRole="Employee" ToRole="StockAdjustmentHeader" />
-          <NavigationProperty Name="StockAdjustmentHeaders1" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="Employee" ToRole="StockAdjustmentHeader" />
+          <NavigationProperty Name="DisbursementHeaders" Relationship="SSISdbModel.FK__Disbursem__Repre__3B40CD36" FromRole="Employee" ToRole="DisbursementHeader" />
+          <NavigationProperty Name="StockAdjustmentHeaders" Relationship="SSISdbModel.FK__StockAdju__Appro__43D61337" FromRole="Employee" ToRole="StockAdjustmentHeader" />
+          <NavigationProperty Name="StockAdjustmentHeaders1" Relationship="SSISdbModel.FK__StockAdju__Reque__42E1EEFE" FromRole="Employee" ToRole="StockAdjustmentHeader" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -1384,10 +1490,10 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <NavigationProperty Name="PODetails" Relationship="Self.FK__POHeaderD__ItemC__1EA48E88" FromRole="Item" ToRole="PODetails" />
           <NavigationProperty Name="POReceiptDetails" Relationship="Self.FK__POReceipt__ItemC__2A164134" FromRole="Item" ToRole="POReceiptDetails" />
           <NavigationProperty Name="StaffRequisitionDetails" Relationship="Self.FK__StaffRequ__ItemC__58D1301D" FromRole="Item" ToRole="StaffRequisitionDetails" />
-          <NavigationProperty Name="StockAdjustmentDetails" Relationship="Self.FK__StockAdju__ItemC__47A6A41B" FromRole="Item" ToRole="StockAdjustmentDetails" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetr__ItemC__3493CFA7" FromRole="Item" ToRole="StockRetrievalDetails" />
           <NavigationProperty Name="StockTakeDetails" Relationship="Self.FK__StockTake__ItemC__531856C7" FromRole="Item" ToRole="StockTakeDetails" />
           <NavigationProperty Name="SupplierPriceLists" Relationship="Self.FK__SupplierP__ItemC__7F2BE32F" FromRole="Item" ToRole="SupplierPriceList" />
+          <NavigationProperty Name="StockAdjustmentDetails" Relationship="SSISdbModel.FK__StockAdju__ItemC__47A6A41B" FromRole="Item" ToRole="StockAdjustmentDetail" />
         </EntityType>
         <EntityType Name="ItemTransaction">
           <Key>
@@ -1501,35 +1607,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Status" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ApprovalStatus" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="StaffRequisitionDetails" Relationship="Self.FK__StaffRequ__FormI__57DD0BE4" FromRole="StaffRequisitionHeader" ToRole="StaffRequisitionDetails" />
-        </EntityType>
-        <EntityType Name="StockAdjustmentDetail">
-          <Key>
-            <PropertyRef Name="RequestId" />
-            <PropertyRef Name="ItemCode" />
-          </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" />
-          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Single" Nullable="false" />
-          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.FK__StockAdju__ItemC__47A6A41B" FromRole="StockAdjustmentDetails" ToRole="Item" />
-          <NavigationProperty Name="StockAdjustmentHeader" Relationship="Self.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentDetails" ToRole="StockAdjustmentHeader" />
-          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="StockAdjustmentHeader">
-          <Key>
-            <PropertyRef Name="RequestId" />
-          </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Requestor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Approver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="DateProcessed" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="TransactionType" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK__StockAdju__Appro__43D61337" FromRole="StockAdjustmentHeader" ToRole="Employee" />
-          <NavigationProperty Name="Employee1" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="StockAdjustmentHeader" ToRole="Employee" />
-          <NavigationProperty Name="StockAdjustmentDetails" Relationship="Self.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentHeader" ToRole="StockAdjustmentDetails" />
         </EntityType>
         <EntityType Name="StockCount">
           <Key>
@@ -1659,18 +1736,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Disbursem__Colle__3A4CA8FD">
-          <End Role="CollectionPoint" Type="Self.CollectionPoint" Multiplicity="1" />
-          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CollectionPoint">
-              <PropertyRef Name="CollectionPointID" />
-            </Principal>
-            <Dependent Role="DisbursementHeader">
-              <PropertyRef Name="CollectionPointID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__StockRetr__Colle__3587F3E0">
           <End Role="CollectionPoint" Type="Self.CollectionPoint" Multiplicity="1" />
           <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetail" Multiplicity="*" />
@@ -1680,18 +1745,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             </Principal>
             <Dependent Role="StockRetrievalDetails">
               <PropertyRef Name="CollectionPointID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Disbursem__Depar__395884C4">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentCode" />
-            </Principal>
-            <Dependent Role="DisbursementHeader">
-              <PropertyRef Name="DepartmentCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1767,30 +1820,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Disbursement__Id__3E1D39E1">
-          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="1" />
-          <End Role="DisbursementDetails" Type="Self.DisbursementDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DisbursementHeader">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DisbursementDetails">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Disbursem__Repre__3B40CD36">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="DisbursementHeader">
-              <PropertyRef Name="RepresentativeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Employee__Design__0C50D423">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
@@ -1824,30 +1853,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             </Principal>
             <Dependent Role="POReceiptHeader">
               <PropertyRef Name="Receiver" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__StockAdju__Appro__43D61337">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="StockAdjustmentHeader">
-              <PropertyRef Name="Approver" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__StockAdju__Reque__42E1EEFE">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="StockAdjustmentHeader">
-              <PropertyRef Name="Requestor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1931,18 +1936,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
               <PropertyRef Name="ItemCode" />
             </Principal>
             <Dependent Role="StaffRequisitionDetails">
-              <PropertyRef Name="ItemCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__StockAdju__ItemC__47A6A41B">
-          <End Role="Item" Type="Self.Item" Multiplicity="1" />
-          <End Role="StockAdjustmentDetails" Type="Self.StockAdjustmentDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="ItemCode" />
-            </Principal>
-            <Dependent Role="StockAdjustmentDetails">
               <PropertyRef Name="ItemCode" />
             </Dependent>
           </ReferentialConstraint>
@@ -2043,18 +2036,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockAdju__Reque__46B27FE2">
-          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="1" />
-          <End Role="StockAdjustmentDetails" Type="Self.StockAdjustmentDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockAdjustmentHeader">
-              <PropertyRef Name="RequestId" />
-            </Principal>
-            <Dependent Role="StockAdjustmentDetails">
-              <PropertyRef Name="RequestId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__StockRetriev__Id__339FAB6E">
           <End Role="StockRetrievalHeader" Type="Self.StockRetrievalHeader" Multiplicity="1" />
           <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetail" Multiplicity="*" />
@@ -2100,7 +2081,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="DepartmentDetails" EntityType="Self.DepartmentDetail" />
           <EntitySet Name="DisbursementDetails" EntityType="Self.DisbursementDetail" />
-          <EntitySet Name="DisbursementHeaders" EntityType="Self.DisbursementHeader" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
           <EntitySet Name="Items" EntityType="Self.Item" />
           <EntitySet Name="ItemTransactions" EntityType="Self.ItemTransaction" />
@@ -2111,8 +2091,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="StaffRequisitionDetails" EntityType="Self.StaffRequisitionDetail" />
           <EntitySet Name="StaffRequisitionHeaders" EntityType="Self.StaffRequisitionHeader" />
-          <EntitySet Name="StockAdjustmentDetails" EntityType="Self.StockAdjustmentDetail" />
-          <EntitySet Name="StockAdjustmentHeaders" EntityType="Self.StockAdjustmentHeader" />
           <EntitySet Name="StockCounts" EntityType="Self.StockCount" />
           <EntitySet Name="StockRetrievalDetails" EntityType="Self.StockRetrievalDetail" />
           <EntitySet Name="StockRetrievalHeaders" EntityType="Self.StockRetrievalHeader" />
@@ -2132,17 +2110,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <End Role="CollectionPoint" EntitySet="CollectionPoints" />
             <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Colle__3A4CA8FD" Association="Self.FK__Disbursem__Colle__3A4CA8FD">
-            <End Role="CollectionPoint" EntitySet="CollectionPoints" />
-            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
-          </AssociationSet>
           <AssociationSet Name="FK__StockRetr__Colle__3587F3E0" Association="Self.FK__StockRetr__Colle__3587F3E0">
             <End Role="CollectionPoint" EntitySet="CollectionPoints" />
             <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Depar__395884C4" Association="Self.FK__Disbursem__Depar__395884C4">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
           </AssociationSet>
           <AssociationSet Name="FK__Employee__Depart__4316F928" Association="Self.FK__Employee__Depart__4316F928">
             <End Role="Department" EntitySet="Departments" />
@@ -2168,14 +2138,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <End Role="Item" EntitySet="Items" />
             <End Role="DisbursementDetails" EntitySet="DisbursementDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Disbursement__Id__3E1D39E1" Association="Self.FK__Disbursement__Id__3E1D39E1">
-            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
-            <End Role="DisbursementDetails" EntitySet="DisbursementDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Repre__3B40CD36" Association="Self.FK__Disbursem__Repre__3B40CD36">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
-          </AssociationSet>
           <AssociationSet Name="FK__Employee__Design__0C50D423" Association="Self.FK__Employee__Design__0C50D423">
             <End Role="Role" EntitySet="Roles" />
             <End Role="Employee" EntitySet="Employees" />
@@ -2187,14 +2149,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <AssociationSet Name="FK__POReceipt__Recei__22751F6C" Association="Self.FK__POReceipt__Recei__22751F6C">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="POReceiptHeader" EntitySet="POReceiptHeaders" />
-          </AssociationSet>
-          <AssociationSet Name="FK__StockAdju__Appro__43D61337" Association="Self.FK__StockAdju__Appro__43D61337">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
-          </AssociationSet>
-          <AssociationSet Name="FK__StockAdju__Reque__42E1EEFE" Association="Self.FK__StockAdju__Reque__42E1EEFE">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
           </AssociationSet>
           <AssociationSet Name="FK__Item__Supplier1__5CD6CB2B" Association="Self.FK__Item__Supplier1__5CD6CB2B">
             <End Role="Supplier" EntitySet="Suppliers" />
@@ -2223,10 +2177,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <AssociationSet Name="FK__StaffRequ__ItemC__58D1301D" Association="Self.FK__StaffRequ__ItemC__58D1301D">
             <End Role="Item" EntitySet="Items" />
             <End Role="StaffRequisitionDetails" EntitySet="StaffRequisitionDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK__StockAdju__ItemC__47A6A41B" Association="Self.FK__StockAdju__ItemC__47A6A41B">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
           </AssociationSet>
           <AssociationSet Name="FK__StockRetr__ItemC__3493CFA7" Association="Self.FK__StockRetr__ItemC__3493CFA7">
             <End Role="Item" EntitySet="Items" />
@@ -2260,10 +2210,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
             <End Role="StaffRequisitionDetails" EntitySet="StaffRequisitionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockAdju__Reque__46B27FE2" Association="Self.FK__StockAdju__Reque__46B27FE2">
-            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
-            <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK__StockRetriev__Id__339FAB6E" Association="Self.FK__StockRetriev__Id__339FAB6E">
             <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
             <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
@@ -2280,13 +2226,48 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="GoodsReceivedLists" EntityType="SSISdbModel.GoodsReceivedList" />
           <EntitySet Name="InventoryOverviews" EntityType="SSISdbModel.InventoryOverview" />
           <EntitySet Name="PendingApprovals" EntityType="SSISdbModel.PendingApproval" />
-          <EntitySet Name="RequisitionLists" EntityType="SSISdbModel.RequisitionList" />
-          <EntitySet Name="RequisitionListDetails" EntityType="SSISdbModel.RequisitionListDetail" />
           <EntitySet Name="DisbursementLists" EntityType="SSISdbModel.DisbursementList" />
           <EntitySet Name="DisbursementListDetails" EntityType="SSISdbModel.DisbursementListDetail" />
+          <EntitySet Name="RequisitionLists" EntityType="SSISdbModel.RequisitionList" />
+          <EntitySet Name="RequisitionListDetails" EntityType="SSISdbModel.RequisitionListDetail" />
+          <EntitySet Name="DisbursementHeaders" EntityType="SSISdbModel.DisbursementHeader" />
+          <AssociationSet Name="FK__Disbursem__Colle__3A4CA8FD" Association="SSISdbModel.FK__Disbursem__Colle__3A4CA8FD">
+            <End Role="CollectionPoint" EntitySet="CollectionPoints" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Depar__395884C4" Association="SSISdbModel.FK__Disbursem__Depar__395884C4">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursement__Id__3E1D39E1" Association="SSISdbModel.FK__Disbursement__Id__3E1D39E1">
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+            <End Role="DisbursementDetail" EntitySet="DisbursementDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Repre__3B40CD36" Association="SSISdbModel.FK__Disbursem__Repre__3B40CD36">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+          </AssociationSet>
+          <EntitySet Name="StockAdjustmentDetails" EntityType="SSISdbModel.StockAdjustmentDetail" />
+          <EntitySet Name="StockAdjustmentHeaders" EntityType="SSISdbModel.StockAdjustmentHeader" />
           <EntitySet Name="StockAdjustmentApprovals" EntityType="SSISdbModel.StockAdjustmentApproval" />
           <EntitySet Name="StockAdjustmentApprovalForManagers" EntityType="SSISdbModel.StockAdjustmentApprovalForManager" />
           <EntitySet Name="StockAdjustmentApprovalForSupervisors" EntityType="SSISdbModel.StockAdjustmentApprovalForSupervisor" />
+          <AssociationSet Name="FK__StockAdju__Appro__43D61337" Association="SSISdbModel.FK__StockAdju__Appro__43D61337">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__Reque__42E1EEFE" Association="SSISdbModel.FK__StockAdju__Reque__42E1EEFE">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__ItemC__47A6A41B" Association="SSISdbModel.FK__StockAdju__ItemC__47A6A41B">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="StockAdjustmentDetail" EntitySet="StockAdjustmentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockAdju__Reque__46B27FE2" Association="SSISdbModel.FK__StockAdju__Reque__46B27FE2">
+            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
+            <End Role="StockAdjustmentDetail" EntitySet="StockAdjustmentDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="StockAdjustmentOverview">
           <Key>
@@ -2344,6 +2325,34 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="DateRequested" Type="DateTime" Precision="0" />
           <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="DisbursementList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="CollectionPointDescription" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="CollectionPointDescription" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DisbursementListDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityReceived" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="RequisitionList">
           <Key>
             <PropertyRef Name="DateRequested" />
@@ -2382,33 +2391,99 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
           <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="DisbursementList">
+        <EntityType Name="DisbursementHeader">
           <Key>
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="DepartmentName" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="CollectionPointDescription" />
             <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="CollectionPointID" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="RepresentativeID" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="CollectionPointDescription" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Signature" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="CollectionPoint" Relationship="SSISdbModel.FK__Disbursem__Colle__3A4CA8FD" FromRole="DisbursementHeader" ToRole="CollectionPoint" />
+          <NavigationProperty Name="Department" Relationship="SSISdbModel.FK__Disbursem__Depar__395884C4" FromRole="DisbursementHeader" ToRole="Department" />
+          <NavigationProperty Name="DisbursementDetails" Relationship="SSISdbModel.FK__Disbursement__Id__3E1D39E1" FromRole="DisbursementHeader" ToRole="DisbursementDetail" />
+          <NavigationProperty Name="Employee" Relationship="SSISdbModel.FK__Disbursem__Repre__3B40CD36" FromRole="DisbursementHeader" ToRole="Employee" />
         </EntityType>
-        <EntityType Name="DisbursementListDetail">
+        <Association Name="FK__Disbursem__Colle__3A4CA8FD">
+          <End Type="SSISdbModel.CollectionPoint" Role="CollectionPoint" Multiplicity="1" />
+          <End Type="SSISdbModel.DisbursementHeader" Role="DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollectionPoint">
+              <PropertyRef Name="CollectionPointID" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="CollectionPointID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Depar__395884C4">
+          <End Type="SSISdbModel.Department" Role="Department" Multiplicity="1" />
+          <End Type="SSISdbModel.DisbursementHeader" Role="DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentCode" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="DepartmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursement__Id__3E1D39E1">
+          <End Type="SSISdbModel.DisbursementHeader" Role="DisbursementHeader" Multiplicity="1" />
+          <End Type="SSISdbModel.DisbursementDetail" Role="DisbursementDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DisbursementHeader">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DisbursementDetail">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Repre__3B40CD36">
+          <End Type="SSISdbModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="SSISdbModel.DisbursementHeader" Role="DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="RepresentativeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StockAdjustmentDetail">
           <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="QuantityOrdered" />
-            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="ItemCode" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
-          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Item" Relationship="SSISdbModel.FK__StockAdju__ItemC__47A6A41B" FromRole="StockAdjustmentDetail" ToRole="Item" />
+          <NavigationProperty Name="StockAdjustmentHeader" Relationship="SSISdbModel.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentDetail" ToRole="StockAdjustmentHeader" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentHeader">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Requestor" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Approver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="DateProcessed" Type="DateTime" Precision="3" />
+          <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="SSISdbModel.FK__StockAdju__Appro__43D61337" FromRole="StockAdjustmentHeader" ToRole="Employee" />
+          <NavigationProperty Name="Employee1" Relationship="SSISdbModel.FK__StockAdju__Reque__42E1EEFE" FromRole="StockAdjustmentHeader" ToRole="Employee" />
+          <NavigationProperty Name="StockAdjustmentDetails" Relationship="SSISdbModel.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentHeader" ToRole="StockAdjustmentDetail" />
         </EntityType>
         <EntityType Name="StockAdjustmentApproval">
           <Key>
@@ -2416,6 +2491,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
@@ -2427,13 +2503,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Approver" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Single" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="StockAdjustmentApprovalForManager">
           <Key>
@@ -2441,6 +2518,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
@@ -2452,13 +2530,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Approver" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Single" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="StockAdjustmentApprovalForSupervisor">
           <Key>
@@ -2466,6 +2545,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
@@ -2477,14 +2557,63 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Approver" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Single" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
+        <Association Name="FK__StockAdju__Appro__43D61337">
+          <End Type="SSISdbModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="SSISdbModel.StockAdjustmentHeader" Role="StockAdjustmentHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="StockAdjustmentHeader">
+              <PropertyRef Name="Approver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__Reque__42E1EEFE">
+          <End Type="SSISdbModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="SSISdbModel.StockAdjustmentHeader" Role="StockAdjustmentHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="StockAdjustmentHeader">
+              <PropertyRef Name="Requestor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__ItemC__47A6A41B">
+          <End Type="SSISdbModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="SSISdbModel.StockAdjustmentDetail" Role="StockAdjustmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemCode" />
+            </Principal>
+            <Dependent Role="StockAdjustmentDetail">
+              <PropertyRef Name="ItemCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockAdju__Reque__46B27FE2">
+          <End Type="SSISdbModel.StockAdjustmentHeader" Role="StockAdjustmentHeader" Multiplicity="1" />
+          <End Type="SSISdbModel.StockAdjustmentDetail" Role="StockAdjustmentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockAdjustmentHeader">
+              <PropertyRef Name="RequestId" />
+            </Principal>
+            <Dependent Role="StockAdjustmentDetail">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2574,20 +2703,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
                 <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
                 <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DisbursementHeaders">
-            <EntityTypeMapping TypeName="SSISdbModel.DisbursementHeader">
-              <MappingFragment StoreEntitySet="DisbursementHeader">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
-                <ScalarProperty Name="RepresentativeID" ColumnName="RepresentativeID" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Signature" ColumnName="Signature" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2726,31 +2841,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StockAdjustmentDetails">
-            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentDetail">
-              <MappingFragment StoreEntitySet="StockAdjustmentDetails">
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StockAdjustmentHeaders">
-            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentHeader">
-              <MappingFragment StoreEntitySet="StockAdjustmentHeader">
-                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
-                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
-                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
-                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="StockCounts">
             <EntityTypeMapping TypeName="SSISdbModel.StockCount">
               <MappingFragment StoreEntitySet="StockCount">
@@ -2883,6 +2973,94 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DisbursementLists">
+            <EntityTypeMapping TypeName="SSISdbModel.DisbursementList">
+              <MappingFragment StoreEntitySet="DisbursementList">
+                <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DisbursementListDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.DisbursementListDetail">
+              <MappingFragment StoreEntitySet="DisbursementListDetails">
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionLists">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionList">
+              <MappingFragment StoreEntitySet="RequisitionList">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionListDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionListDetail">
+              <MappingFragment StoreEntitySet="RequisitionListDetails">
+                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DisbursementHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.DisbursementHeader">
+              <MappingFragment StoreEntitySet="DisbursementHeader">
+                <ScalarProperty Name="Signature" ColumnName="Signature" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="RepresentativeID" ColumnName="RepresentativeID" />
+                <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentDetail">
+              <MappingFragment StoreEntitySet="StockAdjustmentDetails">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentHeader">
+              <MappingFragment StoreEntitySet="StockAdjustmentHeader">
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="StockAdjustmentApprovals">
             <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentApproval">
               <MappingFragment StoreEntitySet="StockAdjustmentApproval">
@@ -2893,6 +3071,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="Requestor" ColumnName="Requestor" />
                 <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
@@ -2910,6 +3089,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="Requestor" ColumnName="Requestor" />
                 <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
@@ -2927,6 +3107,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="Requestor" ColumnName="Requestor" />
                 <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />

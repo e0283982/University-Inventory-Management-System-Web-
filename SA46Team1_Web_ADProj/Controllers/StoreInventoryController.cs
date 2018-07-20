@@ -101,7 +101,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             StockAdjustmentHeader sah = new StockAdjustmentHeader();
             sah.DateRequested = DateTime.Now;
             sah.Requestor = "E1";
-            sah.Status = "Pending";
+           // sah.Status = "Pending";
             sah.TransactionType = "Stock Adjustment";
 
             using(SSISdbEntities m = new SSISdbEntities())

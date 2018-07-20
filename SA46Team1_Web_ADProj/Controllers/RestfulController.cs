@@ -35,7 +35,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
                 List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
-                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName=m.Employees.Where(z=> z.EmployeeID==x.EmployeeID).Select(a=>a.EmployeeName).First(), DateReq=x.DateRequested });
+                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
                 return list2;
             }
@@ -111,7 +111,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public List<StockAdjustmentOverview> GetStockAdjustmentList()
         {
             //Temporary placeholder to make the requestID = 1
-            string requestorId = "E1";            
+            string requestorId = "E1";
 
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -120,7 +120,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
 
         }
-        
+
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetRequisitionList")]
         public List<RequisitionList> GetRequisitionList()
