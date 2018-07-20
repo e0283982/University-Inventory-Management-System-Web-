@@ -14,8 +14,9 @@ namespace SA46Team1_Web_ADProj.Models
 
 using System;
     using System.Collections.Generic;
-    
-public partial class StockAdjustmentDetail
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    public partial class StockAdjustmentDetail
 {
 
     public int RequestId { get; set; }
@@ -38,6 +39,9 @@ public partial class StockAdjustmentDetail
 
     public virtual StockAdjustmentHeader StockAdjustmentHeader { get; set; }
 
-}
+        [NotMapped]
+        public List<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
+
+    }
 
 }
