@@ -6,17 +6,32 @@
 
 
 <script>
+    var table;
     $(document).ready(function () {
-        $('#dataTable-displayPO').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
-        });
-    });
 
-    $(function () {
-        $("#datepicker-PODate").datepicker();
-        $("#datepicker-PODeliveryDate").datepicker();
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetPOFullDetails/po1',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-displayPO').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'ItemCode' },
+                        { 'data': 'Description' },
+                        { 'data': 'QuantityOrdered' },
+                        { 'data': 'UoM' },
+                        { 'data': 'UnitCost' },
+                        { 'data': 'Total' },
+                        { 'data': null }
+                    ]
+                });
+            }
+        });
     });
 
     $(function () {
@@ -66,7 +81,7 @@
 <div>
     <p>Remarks:</p>
     <textarea rows="4" cols="50">
-        Enter remarks here.
+        Enter remarks here. Test
     </textarea>
 </div>
 
@@ -74,28 +89,14 @@
     <thead>
         <tr>
             <th>Item Code</th>
-            <th>Product Name</th>
-            <th>Supplier</th>
-            <th>Qty</th>
+            <th>Item Description</th>
+            <th>Quantity</th>
             <th>Unit of Measure</th>
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
             <th>GST ($)</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>C010</td>
-            <td>Pad Postit "2</td>
-            <td>Supplier A</td>
-            <td>30</td>
-            <td>Box</td>
-            <td>30</td>
-            <td>300</td>
-            <td>21</td>
-        </tr>
-    </tbody>
 </table>
 
 <div>
