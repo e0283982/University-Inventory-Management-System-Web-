@@ -164,7 +164,6 @@
                 <th>Item</th>
                 <th>Missing/Damaged</th>
                 <th>Quantity</th>
-                <th>Reason</th>
                 <th>Delete</th>
 
             </tr>
@@ -192,9 +191,6 @@
                         </td>
                         <td>
                             @Html.EditorFor(o => o.StockAdjustmentDetails[i].ItemQuantity, new { @id = "ItemQuantity_" + i })
-                        </td>
-                        <td>
-                            @Html.EditorFor(o => o.StockAdjustmentDetails[i].Reason, new { @id = "Reason_" + i })
                         </td>
                         <td></td>
 

@@ -11,11 +11,11 @@ namespace SA46Team1_Web_ADProj.DAL
     {
         IEnumerable<StockAdjustmentDetail> GetStockAdjustmentDetails();
 
-        StockAdjustmentDetail GetStockAdjustmentDetailById(int requestid, string itemcode);
+        StockAdjustmentDetail GetStockAdjustmentDetailById(string requestid, string itemcode);
 
         void InsertStockAdjustmentDetail(StockAdjustmentDetail stockAdjustmentDetail);
 
-        void DeleteStockAdjustmentDetail(int requestid, string itemcode);
+        void DeleteStockAdjustmentDetail(string requestid, string itemcode);
 
         void UpdateStockAdjustmentDetail(StockAdjustmentDetail stockAdjustmentDetail);
 

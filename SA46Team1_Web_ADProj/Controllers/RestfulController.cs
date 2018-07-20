@@ -94,6 +94,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
+
+                //return m.StockAdjustmentOverviews.ToList<StockAdjustmentOverview>();
+
                 return m.StockAdjustmentOverviews.Where(x => x.Requestor == requestorId).ToList<StockAdjustmentOverview>();
             }
 
@@ -157,7 +160,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetStockRetrievalList/{id}")]
-        public List<StockRetrievalList> GetStockRetrievalList(int id)
+        public List<StockRetrievalList> GetStockRetrievalList(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {

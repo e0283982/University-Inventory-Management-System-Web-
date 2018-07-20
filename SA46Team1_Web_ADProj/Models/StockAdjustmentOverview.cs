@@ -14,7 +14,7 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class StockAdjustmentOverview
     {
-        public int RequestId { get; set; }
+        public string RequestId { get; set; }
         public string Requestor { get; set; }
         public System.DateTime DateRequested { get; set; }
         public string Description { get; set; }

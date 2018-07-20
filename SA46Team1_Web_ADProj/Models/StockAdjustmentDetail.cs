@@ -15,7 +15,7 @@ namespace SA46Team1_Web_ADProj.Models
 
     public partial class StockAdjustmentDetail
     {
-        public int RequestId { get; set; }
+        public string RequestId { get; set; }
         public string ItemCode { get; set; }
         public int ItemQuantity { get; set; }
         public float Amount { get; set; }

@@ -80,9 +80,10 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 int id = m.StockRetrievalHeaders.Count();
-                Session["RetrievalId"] = id;
+                string reqId = "StoR-" + id;
+                Session["RetrievalId"] = "StoR-" + id;
                 ViewBag.IdCount = id;
-                ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == id).First().Disbursed;                
+                ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;                
             }
 
             //ViewBag.Disbursed = 0;
@@ -99,7 +100,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                int id = (int) Session["RetrievalId"];
+                string id = (string) Session["RetrievalId"];
                 StockRetrievalHeader srh = m.StockRetrievalHeaders.Where(x => x.ID == id).First();
                 srh.Disbursed = 1;
                 m.SaveChanges();

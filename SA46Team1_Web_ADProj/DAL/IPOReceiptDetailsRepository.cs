@@ -8,11 +8,11 @@ namespace SA46Team1_Web_ADProj.DAL
     {
         IEnumerable<POReceiptDetail> GetPOReceiptDetails();
 
-        POReceiptDetail GetPOReceiptDetailById(int receiptNo, string itemCode);
+        POReceiptDetail GetPOReceiptDetailById(string receiptNo, string itemCode);
 
         void InsertPOReceiptDetail(POReceiptDetail poReceiptDetail);
 
-        void DeletePOReceiptDetail(int receiptNo, string itemCode);
+        void DeletePOReceiptDetail(string receiptNo, string itemCode);
 
         void UpdatePOReceiptDetail(POReceiptDetail poReceiptDetail);
 

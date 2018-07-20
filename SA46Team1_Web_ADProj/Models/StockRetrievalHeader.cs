@@ -20,7 +20,7 @@ namespace SA46Team1_Web_ADProj.Models
             this.StockRetrievalDetails = new HashSet<StockRetrievalDetail>();
         }
     
-        public int ID { get; set; }
+        public string ID { get; set; }
         public System.DateTime Date { get; set; }
         public Nullable<byte> Disbursed { get; set; }
     

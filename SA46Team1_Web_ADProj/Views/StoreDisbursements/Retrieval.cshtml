@@ -47,10 +47,12 @@
 
         var id = parseInt(@ViewBag.IdCount);
 
+        var stoId = 'StoR-' + id;
+
         if (disbursed == 0) {
 
             $.ajax({
-                url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + id,
+                url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + stoId,
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
