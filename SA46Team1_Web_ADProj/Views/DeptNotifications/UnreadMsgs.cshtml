@@ -9,7 +9,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetPendingApprovals',
+            url: 'http://localhost:49921/api/Restful/GetUnreadPendingApprovals',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -27,17 +27,18 @@
                             'render': function (data, type, row) {
                                 return '<p> There is a new requisition request ' + row["ReqFormId"] +' pending for approval.</p>';
                             }
-
                         }
                     ],
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-unread tbody').on('click', 'tr', function () {
-                            //var data = table.row(this).data();
+                             var data = table.row(this).data();
+                             //alert(data["ReqFormId"]);
 
-                            $.ajax({
-                                url: '/DeptApproval/Approval',
-                                type: 'POST',
-                            });
+                             $.ajax({
+                                 url: '/DeptNotifications/MsgClicked',
+                                 data: { reqFormId: data["ReqFormId"] },
+                                 type: 'POST',
+                             });
 
                             window.location.href = '@Url.Action("Approval", "Dept")';
                         });

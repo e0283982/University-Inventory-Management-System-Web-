@@ -29,6 +29,19 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View("AllMsgs");
         }
 
+        [HttpPost]
+        public RedirectToRouteResult MsgClicked(string ReqFormId)
+        {
+            using (SSISdbEntities e = new SSISdbEntities()) {
+                DAL.StaffRequisitionRepositoryImpl dal = new DAL.StaffRequisitionRepositoryImpl(e);
+                StaffRequisitionHeader srh = e.StaffRequisitionHeaders.Where(x => x.FormID == ReqFormId).FirstOrDefault();
+                srh.NotificationStatus = "Read";
 
+                dal.UpdateStaffRequisitionHeader(srh);
+                e.SaveChanges();
+            }
+
+            return RedirectToAction("Approval", "Dept");
+        }
     }
 }
