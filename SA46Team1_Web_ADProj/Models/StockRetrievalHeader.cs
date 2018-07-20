@@ -22,6 +22,7 @@ namespace SA46Team1_Web_ADProj.Models
     
         public int ID { get; set; }
         public System.DateTime Date { get; set; }
+        public Nullable<byte> Disbursed { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockRetrievalDetail> StockRetrievalDetails { get; set; }

@@ -8,34 +8,76 @@
 <script>
     $(document).ready(function () {
 
-        var id = '2';
+        //$("#div-disbursed").hide();
+        //alert(disbursed);
 
-        $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + id,
-            method: 'get',
-            dataType: 'json',
-            success: function (data) {
-                $('#dataTable-storeDisbursementRetrievalList').dataTable({
-                    paging: true,
-                    sort: true,
-                    searching: true,
-                    scrollY: 200,
-                    data: data,
-                    "columnDefs": [{
-                        "targets": -1,
-                        "data": null,
-                        "defaultContent": "<button>Adjust</button>"
-                    }],
-                    columns: [                        
-                        { 'data': 'Bin' },
-                        { 'data': 'Description' },
-                        { 'data': 'QuantityRetrieved' },
-                        { 'data': 'CollectionPointDescription' },
-                        { 'data': '' }
-                    ]
-                });
-            }
-        });
+        var disbursed = parseInt(@ViewBag.Disbursed);        
+
+        if (disbursed == 0) {
+            $("#div-disbursed").hide();
+
+            //$.ajax({
+            //    url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + id,
+            //    method: 'get',
+            //    dataType: 'json',
+            //    success: function (data) {
+            //        $('#dataTable-storeDisbursementRetrievalList').dataTable({
+            //            paging: true,
+            //            sort: true,
+            //            searching: true,
+            //            scrollY: 200,
+            //            data: data,
+            //            "columnDefs": [{
+            //                "targets": -1,
+            //                "data": null,
+            //                "defaultContent": "<button>Adjust</button>"
+            //            }],
+            //            columns: [
+            //                { 'data': 'Bin' },
+            //                { 'data': 'Description' },
+            //                { 'data': 'QuantityRetrieved' },
+            //                { 'data': 'CollectionPointDescription' },
+            //                { 'data': '' }
+            //            ]
+            //        });
+            //    }
+            //});
+
+        }
+
+        var id = parseInt(@ViewBag.IdCount);
+
+        if (disbursed == 0) {
+
+            $.ajax({
+                url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + id,
+                method: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#dataTable-storeDisbursementRetrievalList').dataTable({
+                        paging: true,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        "columnDefs": [{
+                            "targets": -1,
+                            "data": null,
+                            "defaultContent": "<button>Adjust</button>"
+                        }],
+                        columns: [
+                            { 'data': 'Bin' },
+                            { 'data': 'Description' },
+                            { 'data': 'QuantityRetrieved' },
+                            { 'data': 'CollectionPointDescription' },
+                            { 'data': '' }
+                        ]
+                    });
+                }
+            });
+
+        }
+
 
 
 
@@ -71,29 +113,19 @@
         </tr>
     </thead>
 
-    @*<tbody>
-        <tr>
-            <td>8</td>
-            <td>Stapler Blue "10</td>
-            <td>5</td>
-            <td>Collection Point A</td>
-            <td>
-                <button class="btn-blue-small">Adjust</button>
-            </td>
-        </tr>
-
-        <tr>
-            <td>7</td>
-            <td>Stapler Blue "5</td>
-            <td>5</td>
-            <td>Collection Point B</td>
-            <td>
-                <button class="btn-blue-small">Adjust</button>
-            </td>
-        </tr>
-    </tbody>*@
+    
 
 </table>
+
+<br />
+<br />
+
+<div id="div-disbursed">
+    <p align="center" style="font-weight:bold; font-size:large;">
+        All items have been disbursed 
+    </p>
+    
+</div>
 
 <button class="btn-blue">@Html.ActionLink("Print List", "Home", "Store")</button>
 

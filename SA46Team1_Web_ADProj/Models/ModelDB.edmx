@@ -283,6 +283,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Disbursed" Type="tinyint" />
         </EntityType>
         <EntityType Name="StockTakeDetails">
           <Key>
@@ -1582,6 +1583,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetails" />
+          <Property Name="Disbursed" Type="Byte" />
         </EntityType>
         <EntityType Name="StockTakeDetail">
           <Key>
@@ -2731,6 +2733,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySetMapping Name="StockRetrievalHeaders">
             <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalHeader">
               <MappingFragment StoreEntitySet="StockRetrievalHeader">
+                <ScalarProperty Name="Disbursed" ColumnName="Disbursed" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>

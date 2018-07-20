@@ -75,6 +75,20 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Retrieval")]
         public ActionResult Retrieval()
         {
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                int id = m.StockRetrievalHeaders.Count();
+                ViewBag.IdCount = id;
+                ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == id).First().Disbursed;
+                
+            }
+
+            //ViewBag.Disbursed = 0;
+
+            //ViewBag.IdCount = 2;
+
             return View();
         }
         
