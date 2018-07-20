@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApprovalDelegation">
           <Key>
             <PropertyRef Name="Id" />
@@ -97,6 +97,7 @@
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="80" Nullable="false" />
           <Property Name="Signature" Type="image" />
+          <Property Name="RequisitionFormID" Type="nvarchar" MaxLength="60" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -176,7 +177,7 @@
             <PropertyRef Name="ReceiptNo" />
             <PropertyRef Name="ItemCode" />
           </Key>
-          <Property Name="ReceiptNo" Type="int" Nullable="false" />
+          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="QuantityReceived" Type="int" Nullable="false" />
@@ -187,7 +188,7 @@
           <Key>
             <PropertyRef Name="ReceiptNo" />
           </Key>
-          <Property Name="ReceiptNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="DeliveryOrderNo" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ReceivedDate" Type="date" Nullable="false" />
@@ -212,6 +213,7 @@
           <Property Name="QuantityOrdered" Type="int" Nullable="false" />
           <Property Name="QuantityDelivered" Type="int" Nullable="false" />
           <Property Name="QuantityBackOrdered" Type="int" Nullable="false" />
+          <Property Name="CancelledBackOrdered" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StaffRequisitionHeader">
           <Key>
@@ -225,29 +227,30 @@
           <Property Name="DateProcessed" Type="date" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="ApprovalStatus" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="60" />
+          <Property Name="NotificationStatus" Type="nvarchar" MaxLength="60" />
         </EntityType>
         <EntityType Name="StockAdjustmentDetails">
           <Key>
             <PropertyRef Name="RequestId" />
             <PropertyRef Name="ItemCode" />
           </Key>
-          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="RequestId" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="StockAdjustmentHeader">
           <Key>
             <PropertyRef Name="RequestId" />
           </Key>
-          <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestId" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="12" />
           <Property Name="DateProcessed" Type="datetime" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="TransactionType" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
         <EntityType Name="StockCount">
@@ -267,7 +270,7 @@
             <PropertyRef Name="Id" />
             <PropertyRef Name="Bin" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Bin" Type="int" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="int" Nullable="false" />
@@ -279,8 +282,9 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Disbursed" Type="tinyint" />
         </EntityType>
         <EntityType Name="StockTakeDetails">
           <Key>
@@ -314,6 +318,7 @@
           <Property Name="Address" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="GSTRegistrationNo" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Active" Type="tinyint" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="SupplierPriceList">
           <Key>
@@ -412,7 +417,7 @@ warning 6002: The table/view 'SSISdb.dbo.GRList' does not have a primary key def
             <PropertyRef Name="ReceivedDate" />
             <PropertyRef Name="CompanyName" />
           </Key>
-          <Property Name="ReceiptNo" Type="int" Nullable="false" />
+          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ReceivedDate" Type="date" Nullable="false" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
@@ -532,24 +537,24 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApproval' does not have 
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
-            <PropertyRef Name="Status" />
           </Key>
           <Property Name="RequestId" Type="int" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForManager' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -559,24 +564,24 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForManager' does
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
-            <PropertyRef Name="Status" />
           </Key>
           <Property Name="RequestId" Type="int" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForSupervisor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -586,43 +591,59 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForSupervisor' d
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
             <PropertyRef Name="ItemQuantity" />
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
-            <PropertyRef Name="Status" />
           </Key>
           <Property Name="RequestId" Type="int" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="StockAdjustmentOverview">
           <Key>
+            <PropertyRef Name="RequestId" />
             <PropertyRef Name="Requestor" />
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="ItemQuantity" />
             <PropertyRef Name="Remarks" />
-            <PropertyRef Name="Status" />
           </Key>
+          <Property Name="RequestId" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemQuantity" Type="int" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
-          <Property Name="Status" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StockRetrievalList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Bin" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="QuantityRetrieved" />
+            <PropertyRef Name="CollectionPointDescription" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Bin" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityRetrieved" Type="int" Nullable="false" />
+          <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
@@ -729,6 +750,18 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             </Principal>
             <Dependent Role="DisbursementHeader">
               <PropertyRef Name="RepresentativeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Requi__3FD07829">
+          <End Role="StaffRequisitionHeader" Type="Self.StaffRequisitionHeader" Multiplicity="0..1" />
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StaffRequisitionHeader">
+              <PropertyRef Name="FormID" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="RequisitionFormID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1246,12 +1279,12 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [StockAdjustmentApproval].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApproval].[Requestor] AS [Requestor], 
     [StockAdjustmentApproval].[Approver] AS [Approver], 
+    [StockAdjustmentApproval].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApproval].[Description] AS [Description], 
     [StockAdjustmentApproval].[CategoryName] AS [CategoryName], 
     [StockAdjustmentApproval].[ItemQuantity] AS [ItemQuantity], 
     [StockAdjustmentApproval].[Amount] AS [Amount], 
     [StockAdjustmentApproval].[Remarks] AS [Remarks], 
-    [StockAdjustmentApproval].[Reason] AS [Reason], 
     [StockAdjustmentApproval].[Status] AS [Status]
     FROM [dbo].[StockAdjustmentApproval] AS [StockAdjustmentApproval]</DefiningQuery>
           </EntitySet>
@@ -1261,12 +1294,12 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [StockAdjustmentApprovalForManager].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApprovalForManager].[Requestor] AS [Requestor], 
     [StockAdjustmentApprovalForManager].[Approver] AS [Approver], 
+    [StockAdjustmentApprovalForManager].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApprovalForManager].[Description] AS [Description], 
     [StockAdjustmentApprovalForManager].[CategoryName] AS [CategoryName], 
     [StockAdjustmentApprovalForManager].[ItemQuantity] AS [ItemQuantity], 
     [StockAdjustmentApprovalForManager].[Amount] AS [Amount], 
     [StockAdjustmentApprovalForManager].[Remarks] AS [Remarks], 
-    [StockAdjustmentApprovalForManager].[Reason] AS [Reason], 
     [StockAdjustmentApprovalForManager].[Status] AS [Status]
     FROM [dbo].[StockAdjustmentApprovalForManager] AS [StockAdjustmentApprovalForManager]</DefiningQuery>
           </EntitySet>
@@ -1276,25 +1309,34 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
     [StockAdjustmentApprovalForSupervisor].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApprovalForSupervisor].[Requestor] AS [Requestor], 
     [StockAdjustmentApprovalForSupervisor].[Approver] AS [Approver], 
+    [StockAdjustmentApprovalForSupervisor].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApprovalForSupervisor].[Description] AS [Description], 
     [StockAdjustmentApprovalForSupervisor].[CategoryName] AS [CategoryName], 
     [StockAdjustmentApprovalForSupervisor].[ItemQuantity] AS [ItemQuantity], 
     [StockAdjustmentApprovalForSupervisor].[Amount] AS [Amount], 
     [StockAdjustmentApprovalForSupervisor].[Remarks] AS [Remarks], 
-    [StockAdjustmentApprovalForSupervisor].[Reason] AS [Reason], 
     [StockAdjustmentApprovalForSupervisor].[Status] AS [Status]
     FROM [dbo].[StockAdjustmentApprovalForSupervisor] AS [StockAdjustmentApprovalForSupervisor]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="StockAdjustmentOverview" EntityType="Self.StockAdjustmentOverview" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [StockAdjustmentOverview].[RequestId] AS [RequestId], 
     [StockAdjustmentOverview].[Requestor] AS [Requestor], 
     [StockAdjustmentOverview].[DateRequested] AS [DateRequested], 
     [StockAdjustmentOverview].[Description] AS [Description], 
     [StockAdjustmentOverview].[ItemQuantity] AS [ItemQuantity], 
     [StockAdjustmentOverview].[Remarks] AS [Remarks], 
-    [StockAdjustmentOverview].[Reason] AS [Reason], 
     [StockAdjustmentOverview].[Status] AS [Status]
     FROM [dbo].[StockAdjustmentOverview] AS [StockAdjustmentOverview]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StockRetrievalList" EntityType="Self.StockRetrievalList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StockRetrievalList].[Id] AS [Id], 
+    [StockRetrievalList].[Bin] AS [Bin], 
+    [StockRetrievalList].[Description] AS [Description], 
+    [StockRetrievalList].[QuantityRetrieved] AS [QuantityRetrieved], 
+    [StockRetrievalList].[CollectionPointDescription] AS [CollectionPointDescription]
+    FROM [dbo].[StockRetrievalList] AS [StockRetrievalList]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
             <End Role="Item" EntitySet="Item" />
@@ -1330,6 +1372,10 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           </AssociationSet>
           <AssociationSet Name="FK__Disbursem__Repre__3B40CD36" Association="Self.FK__Disbursem__Repre__3B40CD36">
             <End Role="Employee" EntitySet="Employee" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Requi__3FD07829" Association="Self.FK__Disbursem__Requi__3FD07829">
+            <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeader" />
             <End Role="DisbursementHeader" EntitySet="DisbursementHeader" />
           </AssociationSet>
           <AssociationSet Name="FK__Disbursement__Id__3E1D39E1" Association="Self.FK__Disbursement__Id__3E1D39E1">
@@ -1453,7 +1499,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SSISdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1472,7 +1519,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Key>
             <PropertyRef Name="Number" />
           </Key>
-          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Active" Type="Byte" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
@@ -1563,10 +1610,12 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Amount" Type="Single" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Signature" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="RequisitionFormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__Disbursem__Colle__3A4CA8FD" FromRole="DisbursementHeader" ToRole="CollectionPoint" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Disbursem__Depar__395884C4" FromRole="DisbursementHeader" ToRole="Department" />
           <NavigationProperty Name="DisbursementDetails" Relationship="Self.FK__Disbursement__Id__3E1D39E1" FromRole="DisbursementHeader" ToRole="DisbursementDetails" />
           <NavigationProperty Name="Employee" Relationship="Self.FK__Disbursem__Repre__3B40CD36" FromRole="DisbursementHeader" ToRole="Employee" />
+          <NavigationProperty Name="StaffRequisitionHeader" Relationship="Self.FK__Disbursem__Requi__3FD07829" FromRole="DisbursementHeader" ToRole="StaffRequisitionHeader" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -1677,7 +1726,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <PropertyRef Name="ReceiptNo" />
             <PropertyRef Name="ItemCode" />
           </Key>
-          <Property Name="ReceiptNo" Type="Int32" Nullable="false" />
+          <Property Name="ReceiptNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
@@ -1690,7 +1739,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Key>
             <PropertyRef Name="ReceiptNo" />
           </Key>
-          <Property Name="ReceiptNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReceiptNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DeliveryOrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -1719,6 +1768,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
           <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
           <Property Name="QuantityBackOrdered" Type="Int32" Nullable="false" />
+          <Property Name="CancelledBackOrdered" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK__StaffRequ__ItemC__58D1301D" FromRole="StaffRequisitionDetails" ToRole="Item" />
           <NavigationProperty Name="StaffRequisitionHeader" Relationship="Self.FK__StaffRequ__FormI__57DD0BE4" FromRole="StaffRequisitionDetails" ToRole="StaffRequisitionHeader" />
         </EntityType>
@@ -1734,6 +1784,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="DateProcessed" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Status" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ApprovalStatus" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="NotificationStatus" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Requi__3FD07829" FromRole="StaffRequisitionHeader" ToRole="DisbursementHeader" />
           <NavigationProperty Name="StaffRequisitionDetails" Relationship="Self.FK__StaffRequ__FormI__57DD0BE4" FromRole="StaffRequisitionHeader" ToRole="StaffRequisitionDetails" />
         </EntityType>
         <EntityType Name="StockAdjustmentDetail">
@@ -1741,25 +1794,24 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <PropertyRef Name="RequestId" />
             <PropertyRef Name="ItemCode" />
           </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="RequestId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Single" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Item" Relationship="Self.FK__StockAdju__ItemC__47A6A41B" FromRole="StockAdjustmentDetails" ToRole="Item" />
           <NavigationProperty Name="StockAdjustmentHeader" Relationship="Self.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentDetails" ToRole="StockAdjustmentHeader" />
-          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="StockAdjustmentHeader">
           <Key>
             <PropertyRef Name="RequestId" />
           </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Approver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="DateProcessed" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TransactionType" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Employee" Relationship="Self.FK__StockAdju__Appro__43D61337" FromRole="StockAdjustmentHeader" ToRole="Employee" />
           <NavigationProperty Name="Employee1" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="StockAdjustmentHeader" ToRole="Employee" />
@@ -1782,7 +1834,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <PropertyRef Name="Id" />
             <PropertyRef Name="Bin" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Bin" Type="Int32" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="Int32" Nullable="false" />
@@ -1798,8 +1850,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Disbursed" Type="Byte" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetails" />
         </EntityType>
         <EntityType Name="StockTakeDetail">
@@ -1837,6 +1890,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="GSTRegistrationNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Active" Type="Byte" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Items" Relationship="Self.FK__Item__Supplier1__5CD6CB2B" FromRole="Supplier" ToRole="Item" />
           <NavigationProperty Name="Items1" Relationship="Self.FK__Item__Supplier2__5DCAEF64" FromRole="Supplier" ToRole="Item" />
           <NavigationProperty Name="Items2" Relationship="Self.FK__Item__Supplier3__5EBF139D" FromRole="Supplier" ToRole="Item" />
@@ -1855,6 +1909,288 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <Property Name="Active" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK__SupplierP__ItemC__7F2BE32F" FromRole="SupplierPriceList" ToRole="Item" />
           <NavigationProperty Name="Supplier" Relationship="Self.FK__SupplierP__Suppl__7E37BEF6" FromRole="SupplierPriceList" ToRole="Supplier" />
+        </EntityType>
+        <EntityType Name="AllItemPrice">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="S1" />
+            <PropertyRef Name="S2" />
+            <PropertyRef Name="S3" />
+            <PropertyRef Name="S1P" />
+            <PropertyRef Name="S2P" />
+            <PropertyRef Name="S3P" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="S1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="S2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="S3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="S1P" Type="Single" Nullable="false" />
+          <Property Name="S2P" Type="Single" Nullable="false" />
+          <Property Name="S3P" Type="Single" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DisbursementList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="CollectionPointDescription" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CollectionPointDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DisbursementListDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityReceived" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GoodsReceivedList">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="EmployeeName" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityReceived" Type="Int32" />
+          <Property Name="UnitCost" Type="Single" />
+          <Property Name="Total" Type="Single" />
+          <Property Name="ReceiptNo" Type="Int32" />
+          <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GRList">
+          <Key>
+            <PropertyRef Name="ReceiptNo" />
+            <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="CompanyName" />
+          </Key>
+          <Property Name="ReceiptNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InventoryOverview">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PONotFulfilled" Type="Int32" />
+          <Property Name="StaffOrderNotFulfilled" Type="Int32" />
+        </EntityType>
+        <EntityType Name="PendingApproval">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="EmployeeName" />
+          </Key>
+          <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Precision="0" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="POFullDetail">
+          <Key>
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="UnitCost" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="ReceivedDate" />
+          </Key>
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="Total" Type="Single" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="POList">
+          <Key>
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequisitionList">
+          <Key>
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequisitionListDetail">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="DepartmentCode" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="Manager" />
+            <PropertyRef Name="DateProcessed" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityDelivered" />
+          </Key>
+          <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Manager" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateProcessed" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentApproval">
+          <Key>
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="Requestor" />
+            <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="ItemQuantity" />
+            <PropertyRef Name="Amount" />
+            <PropertyRef Name="Remarks" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Requestor" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Approver" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentApprovalForManager">
+          <Key>
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="Requestor" />
+            <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="ItemQuantity" />
+            <PropertyRef Name="Amount" />
+            <PropertyRef Name="Remarks" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Requestor" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Approver" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentApprovalForSupervisor">
+          <Key>
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="Requestor" />
+            <PropertyRef Name="Approver" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="ItemQuantity" />
+            <PropertyRef Name="Amount" />
+            <PropertyRef Name="Remarks" />
+          </Key>
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Requestor" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Approver" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentOverview">
+          <Key>
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="Requestor" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="ItemQuantity" />
+            <PropertyRef Name="Remarks" />
+          </Key>
+          <Property Name="RequestId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Requestor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StockRetrievalList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Bin" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="QuantityRetrieved" />
+            <PropertyRef Name="CollectionPointDescription" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Bin" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityRetrieved" Type="Int32" Nullable="false" />
+          <Property Name="CollectionPointDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
@@ -2021,6 +2357,18 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             </Principal>
             <Dependent Role="DisbursementHeader">
               <PropertyRef Name="RepresentativeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disbursem__Requi__3FD07829">
+          <End Role="StaffRequisitionHeader" Type="Self.StaffRequisitionHeader" Multiplicity="0..1" />
+          <End Role="DisbursementHeader" Type="Self.DisbursementHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StaffRequisitionHeader">
+              <PropertyRef Name="FormID" />
+            </Principal>
+            <Dependent Role="DisbursementHeader">
+              <PropertyRef Name="RequisitionFormID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2353,6 +2701,22 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           <EntitySet Name="StockTakeHeaders" EntityType="Self.StockTakeHeader" />
           <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
           <EntitySet Name="SupplierPriceLists" EntityType="Self.SupplierPriceList" />
+          <EntitySet Name="AllItemPrices" EntityType="Self.AllItemPrice" />
+          <EntitySet Name="DisbursementLists" EntityType="Self.DisbursementList" />
+          <EntitySet Name="DisbursementListDetails" EntityType="Self.DisbursementListDetail" />
+          <EntitySet Name="GoodsReceivedLists" EntityType="Self.GoodsReceivedList" />
+          <EntitySet Name="GRLists" EntityType="Self.GRList" />
+          <EntitySet Name="InventoryOverviews" EntityType="Self.InventoryOverview" />
+          <EntitySet Name="PendingApprovals" EntityType="Self.PendingApproval" />
+          <EntitySet Name="POFullDetails" EntityType="Self.POFullDetail" />
+          <EntitySet Name="POLists" EntityType="Self.POList" />
+          <EntitySet Name="RequisitionLists" EntityType="Self.RequisitionList" />
+          <EntitySet Name="RequisitionListDetails" EntityType="Self.RequisitionListDetail" />
+          <EntitySet Name="StockAdjustmentApprovals" EntityType="Self.StockAdjustmentApproval" />
+          <EntitySet Name="StockAdjustmentApprovalForManagers" EntityType="Self.StockAdjustmentApprovalForManager" />
+          <EntitySet Name="StockAdjustmentApprovalForSupervisors" EntityType="Self.StockAdjustmentApprovalForSupervisor" />
+          <EntitySet Name="StockAdjustmentOverviews" EntityType="Self.StockAdjustmentOverview" />
+          <EntitySet Name="StockRetrievalLists" EntityType="Self.StockRetrievalList" />
           <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
             <End Role="Item" EntitySet="Items" />
             <End Role="Bin" EntitySet="Bins" />
@@ -2407,6 +2771,10 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
           </AssociationSet>
           <AssociationSet Name="FK__Disbursem__Repre__3B40CD36" Association="Self.FK__Disbursem__Repre__3B40CD36">
             <End Role="Employee" EntitySet="Employees" />
+            <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disbursem__Requi__3FD07829" Association="Self.FK__Disbursem__Requi__3FD07829">
+            <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
             <End Role="DisbursementHeader" EntitySet="DisbursementHeaders" />
           </AssociationSet>
           <AssociationSet Name="FK__Employee__Design__0C50D423" Association="Self.FK__Employee__Design__0C50D423">
@@ -2509,290 +2877,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierPriceList" EntitySet="SupplierPriceLists" />
           </AssociationSet>
-          <EntitySet Name="StockAdjustmentOverviews" EntityType="SSISdbModel.StockAdjustmentOverview" />
-          <EntitySet Name="InventoryOverviews" EntityType="SSISdbModel.InventoryOverview" />
-          <EntitySet Name="PendingApprovals" EntityType="SSISdbModel.PendingApproval" />
-          <EntitySet Name="POLists" EntityType="SSISdbModel.POList" />
-          <EntitySet Name="StockAdjustmentApprovals" EntityType="SSISdbModel.StockAdjustmentApproval" />
-          <EntitySet Name="StockAdjustmentApprovalForManagers" EntityType="SSISdbModel.StockAdjustmentApprovalForManager" />
-          <EntitySet Name="StockAdjustmentApprovalForSupervisors" EntityType="SSISdbModel.StockAdjustmentApprovalForSupervisor" />
-          <EntitySet Name="AllItemPrices" EntityType="SSISdbModel.AllItemPrice" />
-          <EntitySet Name="GoodsReceivedLists" EntityType="SSISdbModel.GoodsReceivedList" />
-          <EntitySet Name="GRLists" EntityType="SSISdbModel.GRList" />
-          <EntitySet Name="DisbursementLists" EntityType="SSISdbModel.DisbursementList" />
-          <EntitySet Name="DisbursementListDetails" EntityType="SSISdbModel.DisbursementListDetail" />
-          <EntitySet Name="RequisitionLists" EntityType="SSISdbModel.RequisitionList" />
-          <EntitySet Name="RequisitionListDetails" EntityType="SSISdbModel.RequisitionListDetail" />
-          <EntitySet Name="POFullDetails" EntityType="SSISdbModel.POFullDetail" />
         </EntityContainer>
-        <EntityType Name="StockAdjustmentOverview">
-          <Key>
-            <PropertyRef Name="Requestor" />
-            <PropertyRef Name="DateRequested" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="ItemQuantity" />
-            <PropertyRef Name="Remarks" />
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="Requestor" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="InventoryOverview">
-          <Key>
-            <PropertyRef Name="ItemCode" />
-          </Key>
-          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="PONotFulfilled" Type="Int32" />
-          <Property Name="StaffOrderNotFulfilled" Type="Int32" />
-        </EntityType>
-        <EntityType Name="PendingApproval">
-          <Key>
-            <PropertyRef Name="FormID" />
-            <PropertyRef Name="EmployeeName" />
-          </Key>
-          <Property Name="FormID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="DateRequested" Type="DateTime" Precision="0" />
-          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="POList">
-          <Key>
-            <PropertyRef Name="PONumber" />
-            <PropertyRef Name="CompanyName" />
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="PONumber" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="StockAdjustmentApproval">
-          <Key>
-            <PropertyRef Name="RequestId" />
-            <PropertyRef Name="DateRequested" />
-            <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="ItemQuantity" />
-            <PropertyRef Name="Amount" />
-            <PropertyRef Name="Remarks" />
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" />
-          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Requestor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Approver" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Single" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="StockAdjustmentApprovalForManager">
-          <Key>
-            <PropertyRef Name="RequestId" />
-            <PropertyRef Name="DateRequested" />
-            <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="ItemQuantity" />
-            <PropertyRef Name="Amount" />
-            <PropertyRef Name="Remarks" />
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" />
-          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Requestor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Approver" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Single" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="StockAdjustmentApprovalForSupervisor">
-          <Key>
-            <PropertyRef Name="RequestId" />
-            <PropertyRef Name="DateRequested" />
-            <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="ItemQuantity" />
-            <PropertyRef Name="Amount" />
-            <PropertyRef Name="Remarks" />
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" />
-          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Requestor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Approver" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Single" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="AllItemPrice">
-          <Key>
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="Quantity" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="S1" />
-            <PropertyRef Name="S2" />
-            <PropertyRef Name="S3" />
-            <PropertyRef Name="S1P" />
-            <PropertyRef Name="S2P" />
-            <PropertyRef Name="S3P" />
-          </Key>
-          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="S1" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="S2" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="S3" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="S1P" Type="Single" Nullable="false" />
-          <Property Name="S2P" Type="Single" Nullable="false" />
-          <Property Name="S3P" Type="Single" Nullable="false" />
-        </EntityType>
-        <EntityType Name="GoodsReceivedList">
-          <Key>
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="EmployeeName" />
-          </Key>
-          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityReceived" Type="Int32" />
-          <Property Name="UnitCost" Type="Single" />
-          <Property Name="Total" Type="Single" />
-          <Property Name="ReceiptNo" Type="Int32" />
-          <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
-          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="GRList">
-          <Key>
-            <PropertyRef Name="ReceiptNo" />
-            <PropertyRef Name="ReceivedDate" />
-            <PropertyRef Name="CompanyName" />
-          </Key>
-          <Property Name="ReceiptNo" Type="Int32" Nullable="false" />
-          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="DisbursementList">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="DepartmentName" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="CollectionPointDescription" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="CollectionPointDescription" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="DisbursementListDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="QuantityOrdered" />
-            <PropertyRef Name="QuantityReceived" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
-          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="RequisitionList">
-          <Key>
-            <PropertyRef Name="DateRequested" />
-            <PropertyRef Name="FormID" />
-            <PropertyRef Name="DepartmentName" />
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FormID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="RequisitionListDetail">
-          <Key>
-            <PropertyRef Name="FormID" />
-            <PropertyRef Name="DepartmentName" />
-            <PropertyRef Name="DepartmentCode" />
-            <PropertyRef Name="EmployeeName" />
-            <PropertyRef Name="EmployeeID" />
-            <PropertyRef Name="Manager" />
-            <PropertyRef Name="DateProcessed" />
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="QuantityOrdered" />
-            <PropertyRef Name="QuantityDelivered" />
-          </Key>
-          <Property Name="FormID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="DepartmentCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Manager" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="DateProcessed" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
-          <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="POFullDetail">
-          <Key>
-            <PropertyRef Name="PONumber" />
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="CompanyName" />
-            <PropertyRef Name="QuantityOrdered" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="UnitCost" />
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="EmployeeName" />
-            <PropertyRef Name="ReceivedDate" />
-          </Key>
-          <Property Name="PONumber" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
-          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UnitCost" Type="Single" Nullable="false" />
-          <Property Name="Total" Type="Single" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2896,6 +2981,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Signature" ColumnName="Signature" />
+                <ScalarProperty Name="RequisitionFormID" ColumnName="RequisitionFormID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3016,6 +3102,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
                 <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
                 <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
+                <ScalarProperty Name="CancelledBackOrdered" ColumnName="CancelledBackOrdered" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3030,18 +3117,20 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="NotificationStatus" ColumnName="NotificationStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StockAdjustmentDetails">
             <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentDetail">
               <MappingFragment StoreEntitySet="StockAdjustmentDetails">
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="RequestId" ColumnName="RequestId" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3053,7 +3142,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="Requestor" ColumnName="Requestor" />
                 <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3087,6 +3175,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
               <MappingFragment StoreEntitySet="StockRetrievalHeader">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Disbursed" ColumnName="Disbursed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3122,6 +3211,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="GSTRegistrationNo" ColumnName="GSTRegistrationNo" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3136,208 +3226,219 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StockAdjustmentOverviews">
-            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentOverview">
-              <MappingFragment StoreEntitySet="StockAdjustmentOverview">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
-                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="InventoryOverviews">
-            <EntityTypeMapping TypeName="SSISdbModel.InventoryOverview">
-              <MappingFragment StoreEntitySet="InventoryOverview">
-                <ScalarProperty Name="StaffOrderNotFulfilled" ColumnName="StaffOrderNotFulfilled" />
-                <ScalarProperty Name="PONotFulfilled" ColumnName="PONotFulfilled" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PendingApprovals">
-            <EntityTypeMapping TypeName="SSISdbModel.PendingApproval">
-              <MappingFragment StoreEntitySet="PendingApprovals">
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
-                <ScalarProperty Name="FormID" ColumnName="FormID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="POLists">
-            <EntityTypeMapping TypeName="SSISdbModel.POList">
-              <MappingFragment StoreEntitySet="POList">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StockAdjustmentApprovals">
-            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentApproval">
-              <MappingFragment StoreEntitySet="StockAdjustmentApproval">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
-                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
-                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StockAdjustmentApprovalForManagers">
-            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentApprovalForManager">
-              <MappingFragment StoreEntitySet="StockAdjustmentApprovalForManager">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
-                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
-                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StockAdjustmentApprovalForSupervisors">
-            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentApprovalForSupervisor">
-              <MappingFragment StoreEntitySet="StockAdjustmentApprovalForSupervisor">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
-                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
-                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AllItemPrices">
             <EntityTypeMapping TypeName="SSISdbModel.AllItemPrice">
               <MappingFragment StoreEntitySet="AllItemPrices">
-                <ScalarProperty Name="S3P" ColumnName="S3P" />
-                <ScalarProperty Name="S2P" ColumnName="S2P" />
-                <ScalarProperty Name="S1P" ColumnName="S1P" />
-                <ScalarProperty Name="S3" ColumnName="S3" />
-                <ScalarProperty Name="S2" ColumnName="S2" />
-                <ScalarProperty Name="S1" ColumnName="S1" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GoodsReceivedLists">
-            <EntityTypeMapping TypeName="SSISdbModel.GoodsReceivedList">
-              <MappingFragment StoreEntitySet="GoodsReceivedList">
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
-                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
-                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GRLists">
-            <EntityTypeMapping TypeName="SSISdbModel.GRList">
-              <MappingFragment StoreEntitySet="GRList">
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
-                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
+                <ScalarProperty Name="S1" ColumnName="S1" />
+                <ScalarProperty Name="S2" ColumnName="S2" />
+                <ScalarProperty Name="S3" ColumnName="S3" />
+                <ScalarProperty Name="S1P" ColumnName="S1P" />
+                <ScalarProperty Name="S2P" ColumnName="S2P" />
+                <ScalarProperty Name="S3P" ColumnName="S3P" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DisbursementLists">
             <EntityTypeMapping TypeName="SSISdbModel.DisbursementList">
               <MappingFragment StoreEntitySet="DisbursementList">
-                <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DisbursementListDetails">
             <EntityTypeMapping TypeName="SSISdbModel.DisbursementListDetail">
               <MappingFragment StoreEntitySet="DisbursementListDetails">
-                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
-                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RequisitionLists">
-            <EntityTypeMapping TypeName="SSISdbModel.RequisitionList">
-              <MappingFragment StoreEntitySet="RequisitionList">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+          <EntitySetMapping Name="GoodsReceivedLists">
+            <EntityTypeMapping TypeName="SSISdbModel.GoodsReceivedList">
+              <MappingFragment StoreEntitySet="GoodsReceivedList">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GRLists">
+            <EntityTypeMapping TypeName="SSISdbModel.GRList">
+              <MappingFragment StoreEntitySet="GRList">
+                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InventoryOverviews">
+            <EntityTypeMapping TypeName="SSISdbModel.InventoryOverview">
+              <MappingFragment StoreEntitySet="InventoryOverview">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="PONotFulfilled" ColumnName="PONotFulfilled" />
+                <ScalarProperty Name="StaffOrderNotFulfilled" ColumnName="StaffOrderNotFulfilled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PendingApprovals">
+            <EntityTypeMapping TypeName="SSISdbModel.PendingApproval">
+              <MappingFragment StoreEntitySet="PendingApprovals">
                 <ScalarProperty Name="FormID" ColumnName="FormID" />
                 <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RequisitionListDetails">
-            <EntityTypeMapping TypeName="SSISdbModel.RequisitionListDetail">
-              <MappingFragment StoreEntitySet="RequisitionListDetails">
-                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
-                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
-                <ScalarProperty Name="Manager" ColumnName="Manager" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
-                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
-                <ScalarProperty Name="FormID" ColumnName="FormID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="POFullDetails">
             <EntityTypeMapping TypeName="SSISdbModel.POFullDetail">
               <MappingFragment StoreEntitySet="POFullDetails">
-                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="POLists">
+            <EntityTypeMapping TypeName="SSISdbModel.POList">
+              <MappingFragment StoreEntitySet="POList">
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionLists">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionList">
+              <MappingFragment StoreEntitySet="RequisitionList">
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionListDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionListDetail">
+              <MappingFragment StoreEntitySet="RequisitionListDetails">
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentApprovals">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentApproval">
+              <MappingFragment StoreEntitySet="StockAdjustmentApproval">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentApprovalForManagers">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentApprovalForManager">
+              <MappingFragment StoreEntitySet="StockAdjustmentApprovalForManager">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentApprovalForSupervisors">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentApprovalForSupervisor">
+              <MappingFragment StoreEntitySet="StockAdjustmentApprovalForSupervisor">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentOverviews">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentOverview">
+              <MappingFragment StoreEntitySet="StockAdjustmentOverview">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockRetrievalLists">
+            <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalList">
+              <MappingFragment StoreEntitySet="StockRetrievalList">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="QuantityRetrieved" ColumnName="QuantityRetrieved" />
+                <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

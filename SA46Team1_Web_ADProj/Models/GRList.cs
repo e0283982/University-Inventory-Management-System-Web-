@@ -14,7 +14,7 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class GRList
     {
-        public int ReceiptNo { get; set; }
+        public string ReceiptNo { get; set; }
         public System.DateTime ReceivedDate { get; set; }
         public string CompanyName { get; set; }
     }

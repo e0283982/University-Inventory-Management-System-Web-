@@ -18,12 +18,12 @@ namespace SA46Team1_Web_ADProj.Models
         public System.DateTime DateRequested { get; set; }
         public string Requestor { get; set; }
         public string Approver { get; set; }
+        public string ItemCode { get; set; }
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public int ItemQuantity { get; set; }
         public float Amount { get; set; }
         public string Remarks { get; set; }
-        public string Reason { get; set; }
         public string Status { get; set; }
     }
 }

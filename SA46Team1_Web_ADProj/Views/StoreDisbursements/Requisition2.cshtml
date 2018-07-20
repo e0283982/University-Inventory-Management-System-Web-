@@ -11,14 +11,14 @@
         //    paging: true
         //});
 
-        var id = '2018-11';
+        var id = 'SR-1';
 
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRequisitionListDetails/' + id,
             method: 'get',
             dataType: 'json',
             success: function (data) {
-                table = $('#dataTable-storeDisbursementReqList-details').DataTable({
+                var table = $('#dataTable-storeDisbursementReqList-details').DataTable({
                     paging: true,
                     sort: true,
                     searching: true,

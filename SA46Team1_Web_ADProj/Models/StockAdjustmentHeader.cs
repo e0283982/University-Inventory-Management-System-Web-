@@ -20,12 +20,11 @@ namespace SA46Team1_Web_ADProj.Models
             this.StockAdjustmentDetails = new HashSet<StockAdjustmentDetail>();
         }
     
-        public int RequestId { get; set; }
+        public string RequestId { get; set; }
         public System.DateTime DateRequested { get; set; }
         public string Requestor { get; set; }
         public string Approver { get; set; }
         public Nullable<System.DateTime> DateProcessed { get; set; }
-        public string Status { get; set; }
         public string TransactionType { get; set; }
     
         public virtual Employee Employee { get; set; }

@@ -14,7 +14,7 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class POReceiptDetail
     {
-        public int ReceiptNo { get; set; }
+        public string ReceiptNo { get; set; }
         public string PONumber { get; set; }
         public string ItemCode { get; set; }
         public int QuantityReceived { get; set; }

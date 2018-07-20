@@ -38,7 +38,7 @@ namespace SA46Team1_Web_ADProj.DAL
             return context.StockRetrievalDetails.ToList();
         }
 
-        public StockRetrievalDetail GetStockRetrievalDetailById(int id, int binid)
+        public StockRetrievalDetail GetStockRetrievalDetailById(string id, int binid)
         {
             return context.StockRetrievalDetails.Where(x => x.Id == id && x.Bin == binid).First();
         }
@@ -48,7 +48,7 @@ namespace SA46Team1_Web_ADProj.DAL
             context.StockRetrievalDetails.Add(stockRetrievalDetail);
         }
 
-        public void DeleteStockRetrievalDetail(int id, int binid)
+        public void DeleteStockRetrievalDetail(string id, int binid)
         {
            StockRetrievalDetail stockRetrievalDetail = context.StockRetrievalDetails.Where(x => x.Id == id && x.Bin == binid).First();
             context.StockRetrievalDetails.Remove(stockRetrievalDetail);
