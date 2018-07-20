@@ -17,7 +17,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities()) {
                 string SRcount = (e.StaffRequisitionHeaders.Count()+1).ToString();
-                Session["currentFormId"]= "SR" + SRcount;
+                Session["currentFormId"]= "SR-" + SRcount;
 
                 Tuple<Item, StaffRequisitionDetail> tuple = new Tuple<Item, StaffRequisitionDetail>(new Item(), new StaffRequisitionDetail());
 
