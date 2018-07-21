@@ -31,19 +31,12 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        //[HttpPost]
-        //public ActionResult Test(FormCollection data)
-        //{
-        //    string test = data["PONumber"];
-        //    return null;
-        //}
-
         [HttpPost]
         public RedirectToRouteResult DisplayPO(FormCollection data)
         {
             Session["POListPage"] = "2";
-            string poNumber = data["PONumber"];
-            return RedirectToAction("Purchase", "Store");
+            Session["poNumber"] = data["PONumber"];
+            return RedirectToAction("Purchase", "Store", ViewBag.p);
         }
 
         [HttpPost]

@@ -7,19 +7,11 @@
 
 <script>
     var table;
-    var d;
-
-
+    var date;
+    var remarks;
     $(document).ready(function () {
-        $("button").click(function () {
-            $.get('/Store/Purchase/POList', function (data) {
-                d = data;
-                alert(d);
-            });
-        });
-
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetPOFullDetails/' + d,
+            url: 'http://localhost:49921/api/Restful/GetPOFullDetails/' + $('#lbl-poNumber').text(),
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -38,6 +30,8 @@
                         { 'data': 'Total' }
                     ]
                 });
+                remarks = { 'data': 'Remarks' };
+                date = { 'data': 'Date' };
             }
         });
     });
@@ -79,10 +73,11 @@
 
 <div>
     <h2>Display/Edit Purchase Order</h2>
-    <button>Send an HTTP GET request to a page and get the result back</button>
 </div>
 
 <div class="create-PO-dates">
+    <label>PO Number:&nbsp</label><label id="lbl-poNumber">@Session["poNumber"]</label>
+    <br/>
     <label>Date: <input type="text" id="datepicker-PODate"></label>
     <label>Expected Delivery Date: <input type="text" id="datepicker-PODeliveryDate"></label>
 </div>
