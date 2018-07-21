@@ -222,9 +222,9 @@
           <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="DateRequested" Type="date" Nullable="false" />
+          <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Approver" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="DateProcessed" Type="date" Nullable="false" />
+          <Property Name="DateProcessed" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="ApprovalStatus" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="60" />
@@ -404,7 +404,7 @@ warning 6002: The table/view 'SSISdb.dbo.GoodsReceivedList' does not have a prim
           <Property Name="QuantityReceived" Type="int" />
           <Property Name="UnitCost" Type="real" />
           <Property Name="Total" Type="real" />
-          <Property Name="ReceiptNo" Type="int" />
+          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="12" />
           <Property Name="ReceivedDate" Type="date" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="255" />
@@ -1795,9 +1795,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EmployeeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Approver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DateProcessed" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateProcessed" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ApprovalStatus" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
@@ -1980,24 +1980,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
           <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="GoodsReceivedList">
-          <Key>
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="EmployeeName" />
-          </Key>
-          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityReceived" Type="Int32" />
-          <Property Name="UnitCost" Type="Single" />
-          <Property Name="Total" Type="Single" />
-          <Property Name="ReceiptNo" Type="Int32" />
-          <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
-          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="GRList">
           <Key>
@@ -2723,7 +2705,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySet Name="AllItemPrices" EntityType="Self.AllItemPrice" />
           <EntitySet Name="DisbursementLists" EntityType="Self.DisbursementList" />
           <EntitySet Name="DisbursementListDetails" EntityType="Self.DisbursementListDetail" />
-          <EntitySet Name="GoodsReceivedLists" EntityType="Self.GoodsReceivedList" />
           <EntitySet Name="GRLists" EntityType="Self.GRList" />
           <EntitySet Name="InventoryOverviews" EntityType="Self.InventoryOverview" />
           <EntitySet Name="PendingApprovals" EntityType="Self.PendingApproval" />
@@ -2900,6 +2881,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
             <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
           </AssociationSet>
+          <EntitySet Name="GoodsReceivedLists" EntityType="SSISdbModel.GoodsReceivedList" />
         </EntityContainer>
         <Association Name="FK__StockRetr__Requi__603D47BB">
           <End Type="SSISdbModel.StaffRequisitionHeader" Role="StaffRequisitionHeader" Multiplicity="0..1" />
@@ -2913,6 +2895,24 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GoodsReceivedList">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="EmployeeName" />
+          </Key>
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityReceived" Type="Int32" />
+          <Property Name="UnitCost" Type="Single" />
+          <Property Name="Total" Type="Single" />
+          <Property Name="ReceiptNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3300,24 +3300,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GoodsReceivedLists">
-            <EntityTypeMapping TypeName="SSISdbModel.GoodsReceivedList">
-              <MappingFragment StoreEntitySet="GoodsReceivedList">
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
-                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
-                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GRLists">
             <EntityTypeMapping TypeName="SSISdbModel.GRList">
               <MappingFragment StoreEntitySet="GRList">
@@ -3475,6 +3457,24 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="QuantityRetrieved" ColumnName="QuantityRetrieved" />
                 <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoodsReceivedLists">
+            <EntityTypeMapping TypeName="SSISdbModel.GoodsReceivedList">
+              <MappingFragment StoreEntitySet="GoodsReceivedList">
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

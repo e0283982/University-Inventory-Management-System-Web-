@@ -56,7 +56,6 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<AllItemPrice> AllItemPrices { get; set; }
         public virtual DbSet<DisbursementList> DisbursementLists { get; set; }
         public virtual DbSet<DisbursementListDetail> DisbursementListDetails { get; set; }
-        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
         public virtual DbSet<GRList> GRLists { get; set; }
         public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
         public virtual DbSet<PendingApproval> PendingApprovals { get; set; }
@@ -69,5 +68,6 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForSupervisors { get; set; }
         public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
         public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
+        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
     }
 }

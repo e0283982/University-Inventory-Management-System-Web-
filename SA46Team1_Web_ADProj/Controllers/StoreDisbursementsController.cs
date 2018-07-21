@@ -116,7 +116,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                 newDH.Id = disId;
 
                 newDH.Status = "Pending";
-                newDH.RequisitionFormID = srh.RequisitionFormID;
+
+                //To Change
+                //newDH.RequisitionFormID = srh.RequisitionFormID;
+                newDH.RequisitionFormID = "Test123";
 
                 DateTime localDate = DateTime.Now;
                 newDH.Date = localDate;
