@@ -144,9 +144,9 @@
     {
         <div>
             <div>
-                <label>Stock Requisition Id: </label>
+                @*<label>Stock Requisition Id: </label>*@
 
-                @Html.TextBoxFor(tuple => tuple.Item1.Id, new { @placeholder = "StoRId", @id = "assign-stock-req-id", @readonly = "readonly" })
+                @Html.TextBoxFor(tuple => tuple.Item1.Id, new { @placeholder = "StoRId", @id = "assign-stock-req-id", @readonly = "readonly", style = "display: none;" })
                 
             </div>
             <div>
