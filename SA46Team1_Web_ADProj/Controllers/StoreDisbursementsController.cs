@@ -108,7 +108,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                 StockRetrievalHeader srh = m.StockRetrievalHeaders.Where(x => x.ID == id).First();
                 srh.Disbursed = 1;
 
-                //Creating new disbursement
+                //Creating list of new disbursements
+
+                
+
+
                 DisbursementHeader newDH = new DisbursementHeader();
 
                 int count = m.DisbursementHeaders.Count() + 1;

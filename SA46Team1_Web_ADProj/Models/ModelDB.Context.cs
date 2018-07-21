@@ -49,6 +49,7 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockCount> StockCounts { get; set; }
         public virtual DbSet<StockRetrievalDetail> StockRetrievalDetails { get; set; }
         public virtual DbSet<StockRetrievalHeader> StockRetrievalHeaders { get; set; }
+        public virtual DbSet<StockRetrievalReqForm> StockRetrievalReqForms { get; set; }
         public virtual DbSet<StockTakeDetail> StockTakeDetails { get; set; }
         public virtual DbSet<StockTakeHeader> StockTakeHeaders { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }

@@ -288,9 +288,9 @@
         </EntityType>
         <EntityType Name="StockRetrievalReqForm">
           <Key>
-            <PropertyRef Name="StockRetrievalID" />
-            <PropertyRef Name="ReqFormID" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StockRetrievalID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ReqFormID" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
@@ -1926,7 +1926,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="NotificationStatus" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Requi__3FD07829" FromRole="StaffRequisitionHeader" ToRole="DisbursementHeader" />
           <NavigationProperty Name="StaffRequisitionDetails" Relationship="Self.FK__StaffRequ__FormI__57DD0BE4" FromRole="StaffRequisitionHeader" ToRole="StaffRequisitionDetails" />
-          <NavigationProperty Name="StockRetrievalHeaders" Relationship="Self.StockRetrievalReqForm" FromRole="StaffRequisitionHeader" ToRole="StockRetrievalHeader" />
+          <NavigationProperty Name="StockRetrievalReqForms" Relationship="Self.FK__StockRetr__ReqFo__69C6B1F5" FromRole="StaffRequisitionHeader" ToRole="StockRetrievalReqForm" />
         </EntityType>
         <EntityType Name="StockAdjustmentDetail">
           <Key>
@@ -1993,7 +1993,17 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Disbursed" Type="Byte" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetails" />
-          <NavigationProperty Name="StaffRequisitionHeaders" Relationship="Self.StockRetrievalReqForm" FromRole="StockRetrievalHeader" ToRole="StaffRequisitionHeader" />
+          <NavigationProperty Name="StockRetrievalReqForms" Relationship="Self.FK__StockRetr__Stock__68D28DBC" FromRole="StockRetrievalHeader" ToRole="StockRetrievalReqForm" />
+        </EntityType>
+        <EntityType Name="StockRetrievalReqForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockRetrievalID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReqFormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StaffRequisitionHeader" Relationship="Self.FK__StockRetr__ReqFo__69C6B1F5" FromRole="StockRetrievalReqForm" ToRole="StaffRequisitionHeader" />
+          <NavigationProperty Name="StockRetrievalHeader" Relationship="Self.FK__StockRetr__Stock__68D28DBC" FromRole="StockRetrievalReqForm" ToRole="StockRetrievalHeader" />
         </EntityType>
         <EntityType Name="StockTakeDetail">
           <Key>
@@ -2820,6 +2830,18 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__StockRetr__ReqFo__69C6B1F5">
+          <End Role="StaffRequisitionHeader" Type="Self.StaffRequisitionHeader" Multiplicity="1" />
+          <End Role="StockRetrievalReqForm" Type="Self.StockRetrievalReqForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StaffRequisitionHeader">
+              <PropertyRef Name="FormID" />
+            </Principal>
+            <Dependent Role="StockRetrievalReqForm">
+              <PropertyRef Name="ReqFormID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__StockAdju__Reque__46B27FE2">
           <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="1" />
           <End Role="StockAdjustmentDetails" Type="Self.StockAdjustmentDetail" Multiplicity="*" />
@@ -2841,6 +2863,18 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             </Principal>
             <Dependent Role="StockRetrievalDetails">
               <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetr__Stock__68D28DBC">
+          <End Role="StockRetrievalHeader" Type="Self.StockRetrievalHeader" Multiplicity="1" />
+          <End Role="StockRetrievalReqForm" Type="Self.StockRetrievalReqForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockRetrievalHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StockRetrievalReqForm">
+              <PropertyRef Name="StockRetrievalID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2868,10 +2902,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="StockRetrievalReqForm">
-          <End Role="StaffRequisitionHeader" Type="Self.StaffRequisitionHeader" Multiplicity="*" />
-          <End Role="StockRetrievalHeader" Type="Self.StockRetrievalHeader" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="SSISdbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ApprovalDelegations" EntityType="Self.ApprovalDelegation" />
           <EntitySet Name="Bins" EntityType="Self.Bin" />
@@ -2897,6 +2927,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySet Name="StockCounts" EntityType="Self.StockCount" />
           <EntitySet Name="StockRetrievalDetails" EntityType="Self.StockRetrievalDetail" />
           <EntitySet Name="StockRetrievalHeaders" EntityType="Self.StockRetrievalHeader" />
+          <EntitySet Name="StockRetrievalReqForms" EntityType="Self.StockRetrievalReqForm" />
           <EntitySet Name="StockTakeDetails" EntityType="Self.StockTakeDetail" />
           <EntitySet Name="StockTakeHeaders" EntityType="Self.StockTakeHeader" />
           <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
@@ -3064,6 +3095,10 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
             <End Role="StaffRequisitionDetails" EntitySet="StaffRequisitionDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__ReqFo__69C6B1F5" Association="Self.FK__StockRetr__ReqFo__69C6B1F5">
+            <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
+            <End Role="StockRetrievalReqForm" EntitySet="StockRetrievalReqForms" />
+          </AssociationSet>
           <AssociationSet Name="FK__StockAdju__Reque__46B27FE2" Association="Self.FK__StockAdju__Reque__46B27FE2">
             <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
             <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
@@ -3072,6 +3107,10 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
             <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__Stock__68D28DBC" Association="Self.FK__StockRetr__Stock__68D28DBC">
+            <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
+            <End Role="StockRetrievalReqForm" EntitySet="StockRetrievalReqForms" />
+          </AssociationSet>
           <AssociationSet Name="FK__StockTake__Stock__5224328E" Association="Self.FK__StockTake__Stock__5224328E">
             <End Role="StockTakeHeader" EntitySet="StockTakeHeaders" />
             <End Role="StockTakeDetails" EntitySet="StockTakeDetails" />
@@ -3079,10 +3118,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <AssociationSet Name="FK__SupplierP__Suppl__7E37BEF6" Association="Self.FK__SupplierP__Suppl__7E37BEF6">
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierPriceList" EntitySet="SupplierPriceLists" />
-          </AssociationSet>
-          <AssociationSet Name="StockRetrievalReqForm" Association="Self.StockRetrievalReqForm">
-            <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
-            <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -3383,6 +3418,15 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Disbursed" ColumnName="Disbursed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockRetrievalReqForms">
+            <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalReqForm">
+              <MappingFragment StoreEntitySet="StockRetrievalReqForm">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StockRetrievalID" ColumnName="StockRetrievalID" />
+                <ScalarProperty Name="ReqFormID" ColumnName="ReqFormID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3690,14 +3734,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="StockRetrievalReqForm" TypeName="SSISdbModel.StockRetrievalReqForm" StoreEntitySet="StockRetrievalReqForm">
-            <EndProperty Name="StaffRequisitionHeader">
-              <ScalarProperty Name="FormID" ColumnName="ReqFormID" />
-            </EndProperty>
-            <EndProperty Name="StockRetrievalHeader">
-              <ScalarProperty Name="ID" ColumnName="StockRetrievalID" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
