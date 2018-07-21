@@ -18,6 +18,7 @@ namespace SA46Team1_Web_ADProj.Models
         public StockRetrievalHeader()
         {
             this.StockRetrievalDetails = new HashSet<StockRetrievalDetail>();
+            this.StaffRequisitionHeaders = new HashSet<StaffRequisitionHeader>();
         }
     
         public string ID { get; set; }
@@ -26,5 +27,7 @@ namespace SA46Team1_Web_ADProj.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockRetrievalDetail> StockRetrievalDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StaffRequisitionHeader> StaffRequisitionHeaders { get; set; }
     }
 }

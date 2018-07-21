@@ -12,19 +12,18 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GoodsReceivedList
+    public partial class ReorderList
     {
         public string ItemCode { get; set; }
-        public string PONumber { get; set; }
         public string Description { get; set; }
+        public int Quantity { get; set; }
+        public int ReOrderLevel { get; set; }
+        public int ReOrderQuantity { get; set; }
         public string UoM { get; set; }
-        public Nullable<int> QuantityReceived { get; set; }
-        public Nullable<float> UnitCost { get; set; }
-        public Nullable<float> Total { get; set; }
-        public string ReceiptNo { get; set; }
-        public Nullable<System.DateTime> ReceivedDate { get; set; }
-        public string Remarks { get; set; }
-        public string CompanyName { get; set; }
-        public string EmployeeName { get; set; }
+        public string s1 { get; set; }
+        public string s2 { get; set; }
+        public string s3 { get; set; }
+        public byte Active { get; set; }
+        public Nullable<int> BackOrder { get; set; }
     }
 }
