@@ -117,14 +117,17 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 newDH.Status = "Pending";
 
-                //To Change
                 //newDH.RequisitionFormID = srh.RequisitionFormID;
+                //To Change
                 newDH.RequisitionFormID = "Test123";
 
                 DateTime localDate = DateTime.Now;
                 newDH.Date = localDate;
 
-                newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == srh.RequisitionFormID).FirstOrDefault().DepartmentCode;
+                //newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == srh.RequisitionFormID).FirstOrDefault().DepartmentCode;
+                //To Change
+                newDH.DepartmentCode = "COMM";
+
                 newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
                 newDH.RepresentativeID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().RepresentativeID;
 

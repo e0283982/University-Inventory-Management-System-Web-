@@ -250,6 +250,9 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CollectionList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CollectionPoint.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -291,6 +294,9 @@
     <Compile Include="Models\Item.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ItemFullDetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ItemTransaction.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -328,6 +334,9 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\POReceiptHeader.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReorderList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequisitionDetModel.cs" />
