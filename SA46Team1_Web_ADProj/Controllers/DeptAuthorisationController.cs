@@ -14,9 +14,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("RoleDelegation")]
         public ActionResult RoleDelegation()
         {
-            var tuple = new Tuple<ApprovalDelegation, Employee>(new ApprovalDelegation(), new Employee());
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                ViewBag.RolesList = new SelectList(e.Roles.Select(x=>x.Designation).ToList(), "Designation");
 
-            return View(tuple);
+                var tuple = new Tuple<ApprovalDelegation, Employee>(new ApprovalDelegation(), new Employee());
+
+                return View(tuple);
+            }
         }
 
         [HttpPost]
@@ -38,19 +43,23 @@ namespace SA46Team1_Web_ADProj.Controllers
                     item1.EmployeeID = emp.EmployeeID;
                     item1.Active = 1;
                     item1.DateAssigned = System.DateTime.Now;
+
+                    //todo: update other role del records belonging to this employee to inactive
+                    List<ApprovalDelegation> pastApprovalsByEmp =
+                        e.ApprovalDelegations.Where(x => x.EmployeeID == item1.EmployeeID).ToList();
+
+                    foreach (ApprovalDelegation ad in pastApprovalsByEmp)
+                    {
+                        ad.Active = 0;
+                        dal1.UpdateApprovalDelegation(ad);
+                    }
+
                     dal1.InsertApprovalDelegation(item1); //ok
 
+                    
                     string role = Request.Form["SelectNewEmpRole"].ToString();
-                    if (role == "rep")
-                    {
-                        emp.Designation = "Employee Representative";
-                        dal3.UpdateEmployee(emp);
-                    }
-                    else //role is approver
-                    {
-                        emp.Approver = 1;
-                        dal3.UpdateEmployee(emp);
-                    }
+                    emp.Designation = role;
+                    dal3.UpdateEmployee(emp);
 
                     if (deptDetails != null)
                     {

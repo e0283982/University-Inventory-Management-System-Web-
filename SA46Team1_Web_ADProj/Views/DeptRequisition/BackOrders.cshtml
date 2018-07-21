@@ -57,13 +57,29 @@
     });
     
     $('#btn-submit-discard-backorder-items').click(function () {
-        alert(table.rows('.selected').data().length + ' row(s) selected');
-        alert(JSON.stringify(table.rows('.selected').data()));
+        var data = table.rows('.selected').data();
+        var noSelected = table.rows('.selected').data().length;
+        var toDeleteArray = [];
+        var toDeleteArray2 = [];
+        
+        for (i = 0; i < noSelected; i++) {
+            toDeleteArray.push(data[i].ItemCode);
+            toDeleteArray2.push(data[i].ReqId);
+        }
+
+        alert(toDeleteArray);
+        alert(toDeleteArray2);
+
         table.row('.selected').remove().draw(false);
 
         $.ajax({
             url: '/DeptRequisition/DiscardSelBackorders',
-            //data: { toDeleteData: table.rows('.selected').data(), noOfRecords: table.rows('.selected').data().length },
+            data: 
+                JSON.stringify({
+                    deleteItemCodes: toDeleteArray, deleteReqId: toDeleteArray2
+                }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
             type: 'POST',
         });
     });

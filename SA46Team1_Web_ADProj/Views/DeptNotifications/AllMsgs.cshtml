@@ -9,7 +9,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetPendingApprovals',
+            url: 'http://localhost:49921/api/Restful/GetAllPendingApprovals',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -29,20 +29,22 @@
                             }
 
                         },
-                        {
-                            'data': null,
-                            'render': function (data, type, row) {
-                                return '<input type="checkbox" name="check-read" value="ReadMsg"/>';
-                            }
+                        //{
+                        //    'data': null,
+                        //    'render': function (data, type, row) {
+                        //        return '<input type="checkbox" name="check-read" value="ReadMsg"/>';
+                        //    }
 
-                        }
+                        //}
                     ],
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-all tbody').on('click', 'tr', function () {
-                            //var data = table.row(this).data();
+                            var data = table.row(this).data();
+                             //alert(data["ReqFormId"]);
 
                             $.ajax({
-                                url: '/DeptApproval/Approval',
+                                url: '/DeptNotifications/MsgClicked',
+                                data: { reqFormId: data["ReqFormId"] },
                                 type: 'POST',
                             });
 
@@ -64,7 +66,6 @@
         <tr>
             <th>Date Requested</th>
             <th>Message</th>
-            <th>Read</th>
         </tr>
     </thead>
 </table>

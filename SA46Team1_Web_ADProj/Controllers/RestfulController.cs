@@ -14,14 +14,24 @@ namespace SA46Team1_Web_ADProj.Controllers
     public class RestfulController : ApiController
     {
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetEmployeeList")]
-        public List<Employee> GetEmployeeList()
+        [System.Web.Mvc.Route("GetRoleDelegationList/{id}")]
+        public List<EmployeeDelegationModel> GetRoleDelegationList(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.Employees.OrderBy(x=>x.EmployeeName).ToList<Employee>();
+                
+                List<Employee> list = m.Employees.Where(x=>x.DepartmentCode==id).OrderBy(x => x.EmployeeName).ToList<Employee>();
+                List<EmployeeDelegationModel> list2 = new List<EmployeeDelegationModel>();
+                list2 = list.ConvertAll(x => new EmployeeDelegationModel
+                { EmpId = x.EmployeeID, EmpName = x.EmployeeName, Role = x.Designation,
+                    ToDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active==1).
+                    Select(y => y.ToDate).FirstOrDefault(),
+                    FromDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active == 1).
+                    Select(y => y.FromDate).FirstOrDefault()
+                });
+
+                return list2;
             }
         }
         
@@ -62,6 +72,53 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetAllPendingApprovals")]
+        public List<RequisitionModel> GetAllPendingApprovals()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                //to further filter by user's deptCode
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus != "Approved" && x.NotificationStatus!="Deleted").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<RequisitionModel> list2 = new List<RequisitionModel>();
+                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+
+                return list2;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetReadPendingApprovals")]
+        public List<RequisitionModel> GetReadPendingApprovals()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                //to further filter by user's deptCode
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus != "Approved" && x.NotificationStatus == "Read").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<RequisitionModel> list2 = new List<RequisitionModel>();
+                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+
+                return list2;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetUnreadPendingApprovals")]
+        public List<RequisitionModel> GetUnreadPendingApprovals()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                //to further filter by user's deptCode
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus != "Approved" && x.NotificationStatus == "Unread").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<RequisitionModel> list2 = new List<RequisitionModel>();
+                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+
+                return list2;
+            }
+        }
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetBackOrdersByDept/{id}")]
         public List<BackOrderModel> GetBackOrdersByDept(string id)
