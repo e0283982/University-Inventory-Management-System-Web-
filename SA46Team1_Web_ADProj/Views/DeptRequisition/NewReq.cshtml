@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
     List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
+    List<int> rowIndexes = (List<int>) TempData["RowIndexesToDiscard"];
 }
 
 
@@ -15,10 +16,14 @@
         table = $('#dataTable-newReq').DataTable({
             scrollY: '30vh',
             scrollCollapse: true,
+            ordering: false,
             paging: true
         });
     });
 
+    $('#dataTable-newReq tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
 
     $(function () {
         $("#dialog-add-req-item").dialog({
@@ -62,12 +67,39 @@
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
     });
+
+    $('#btn-discard-items').on('click', function () {
+        //@rowIndexes= table.rows('.selected').indexes();
+        //alert(table.rows('.selected').indexes());
+        //alert(table.rows('.selected').data().length);
+
+        var data = table.rows('.selected').indexes();
+        var noSelected = table.rows('.selected').data().length;
+        var toDeleteArray = [];
+
+        for (i = 0; i < noSelected; i++){
+             toDeleteArray.push(data[i]);
+        }
+
+        alert(toDeleteArray);
+
+        $.ajax({
+            url: '/DeptRequisition/DiscardNewItems',
+            data: JSON.stringify(toDeleteArray),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("Requisition", "Dept")';
+
+    });
 </script>
 
 <div>
     <h2>New Requisition</h2>
-    <h4>Requisition Form #</h4>
-    @list.Count;
+    <h4>Requisition Form: @Session["currentFormId"]</h4>
+    <button class="btn-blue" id="btn-discard-items">Discard</button>
 </div>
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">

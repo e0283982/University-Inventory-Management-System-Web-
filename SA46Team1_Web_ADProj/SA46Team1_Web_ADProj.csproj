@@ -280,6 +280,7 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeDelegationModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Models\BackOrderModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">

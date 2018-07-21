@@ -17,7 +17,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities()) {
                 string SRcount = (e.StaffRequisitionHeaders.Count()+1).ToString();
-                Session["currentFormId"]= "SR" + SRcount;
+                Session["currentFormId"]= "SR-" + SRcount;
 
                 Tuple<Item, StaffRequisitionDetail> tuple = new Tuple<Item, StaffRequisitionDetail>(new Item(), new StaffRequisitionDetail());
 
@@ -32,6 +32,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                                                     "Description",
                                                     null);
 
+                TempData["RowIndexesToDiscard"] = new List<int>();
+
                 return View(tuple);
             }
 
@@ -44,24 +46,28 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DiscardSelBackorders(JsonResult toDeleteData, int noOfRecords)
+        public RedirectToRouteResult DiscardSelBackorders(string[] deleteItemCodes, string[] deleteReqId)
         {
-            Session["DeptReqTabIndex"] = "1";
+            //Session["DeptReqTabIndex"] = "1";
 
-            //using (SSISdbEntities e = new SSISdbEntities())
-            //{
-            //    for(int i=0;i<noOfRecords;i++)
-            //    {
-            //        toDeleteData["ItemCode"]
-            //    }
-            //    StaffRequisitionDetail srd = new StaffRequisitionDetail();
-            //    //srd.CancelledBackOrdered = data;
-            //    DAL.StaffRequisitionDetailsRepositoryImpl dal = new DAL.StaffRequisitionDetailsRepositoryImpl(e);
-            //    dal.UpdateStaffRequisitionDetail(srd);
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                DAL.StaffRequisitionDetailsRepositoryImpl dal = new DAL.StaffRequisitionDetailsRepositoryImpl(e);
+                int index = 0;
 
-            //    //foreach row returned, retrieve and update obj accordingly.
-            //    e.SaveChanges();
-            //}
+                foreach (string i in deleteItemCodes) {
+                    StaffRequisitionDetail srd = new StaffRequisitionDetail();
+                    srd=
+                        dal.GetStaffRequisitionDetailById(deleteReqId[index], deleteItemCodes[index]);
+                    srd.CancelledBackOrdered = srd.QuantityBackOrdered;
+                    srd.QuantityBackOrdered = 0;
+                    dal.UpdateStaffRequisitionDetail(srd);
+
+                    index++;
+                    e.SaveChanges();
+                }
+
+            }
 
             return RedirectToAction("Requisition", "Dept");
         }
@@ -126,11 +132,25 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
 
                 e.SaveChanges();
-                Session["newReqList"] = new List<Models.StaffRequisitionDetail>();
+                Session["newReqList"] = new List<StaffRequisitionDetail>();
             }
 
             return RedirectToAction("Requisition", "Dept");
         }
+
+        [HttpPost]
+        public RedirectToRouteResult DiscardNewItems(int[] rowIndexToDelete)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
+                list.RemoveAll(x=> rowIndexToDelete.Contains(list.IndexOf(x)));
+                Session["newReqList"] = list;
+
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
+
 
     }
 }
