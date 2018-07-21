@@ -110,37 +110,36 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 //Creating list of new disbursements
 
+                List<String> reqFormIDList = m.StockRetrievalReqForms.Where(x => x.StockRetrievalID == id).Select(x => x.ReqFormID).ToList<String>();
+
+                foreach(String reqFormID in reqFormIDList)
+                {
+                    DisbursementHeader newDH = new DisbursementHeader();
+
+                    int count = m.DisbursementHeaders.Count() + 1;
+                    string disId = "DH-" + count;
+                    newDH.Id = disId;
+
+                    newDH.Status = "Pending";
+                    
+                    newDH.RequisitionFormID = reqFormID;
+
+                    DateTime localDate = DateTime.Now;
+                    newDH.Date = localDate;
+                    newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault().DepartmentCode;                    
+                    newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
+                    newDH.RepresentativeID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().RepresentativeID;
+
+                    //Temporary
+                    newDH.Amount = 100;
+
+                    m.DisbursementHeaders.Add(newDH);
+
+                    m.SaveChanges();
+                }
+            
+
                 
-
-
-                DisbursementHeader newDH = new DisbursementHeader();
-
-                int count = m.DisbursementHeaders.Count() + 1;
-                string disId = "DH-" + count;
-                newDH.Id = disId;
-
-                newDH.Status = "Pending";
-
-                //newDH.RequisitionFormID = srh.RequisitionFormID;
-                //To Change
-                newDH.RequisitionFormID = "Test123";
-
-                DateTime localDate = DateTime.Now;
-                newDH.Date = localDate;
-
-                //newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == srh.RequisitionFormID).FirstOrDefault().DepartmentCode;
-                //To Change
-                newDH.DepartmentCode = "COMM";
-
-                newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
-                newDH.RepresentativeID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().RepresentativeID;
-
-                //Temporary
-                newDH.Amount = 100;
-
-                m.DisbursementHeaders.Add(newDH);
-
-                m.SaveChanges();
 
             }
 
