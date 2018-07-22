@@ -504,6 +504,7 @@ warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary 
             <PropertyRef Name="Date" />
             <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="Status" />
           </Key>
           <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
@@ -516,6 +517,8 @@ warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary 
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ReceivedDate" Type="date" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.POList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1355,7 +1358,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [POFullDetails].[Total] AS [Total], 
     [POFullDetails].[Date] AS [Date], 
     [POFullDetails].[EmployeeName] AS [EmployeeName], 
-    [POFullDetails].[ReceivedDate] AS [ReceivedDate]
+    [POFullDetails].[ReceivedDate] AS [ReceivedDate], 
+    [POFullDetails].[Remarks] AS [Remarks], 
+    [POFullDetails].[Status] AS [Status]
     FROM [dbo].[POFullDetails] AS [POFullDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="POList" EntityType="Self.POList" store:Type="Views" store:Schema="dbo">
@@ -2206,6 +2211,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <PropertyRef Name="Date" />
             <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="Status" />
           </Key>
           <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2218,6 +2224,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="POList">
           <Key>
@@ -3605,6 +3613,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

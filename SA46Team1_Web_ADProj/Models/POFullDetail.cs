@@ -25,5 +25,7 @@ namespace SA46Team1_Web_ADProj.Models
         public System.DateTime Date { get; set; }
         public string EmployeeName { get; set; }
         public System.DateTime ReceivedDate { get; set; }
+        public string Remarks { get; set; }
+        public string Status { get; set; }
     }
 }
