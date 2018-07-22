@@ -120,7 +120,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     string disId = "DH-" + count;
                     newDH.Id = disId;
 
-                    newDH.Status = "Pending";
+                    newDH.Status = "Open";
                     
                     newDH.RequisitionFormID = reqFormID;
 
@@ -131,17 +131,59 @@ namespace SA46Team1_Web_ADProj.Controllers
                     newDH.RepresentativeID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().RepresentativeID;
 
                     //Temporary
-                    newDH.Amount = 100;
+                    //newDH.Amount = 100;
+                    //m.DisbursementHeaders.Add(newDH);
 
+                    float totalAmount = 0f;
+
+                    //To create disbursement details, case of no adjustment first
+
+                    List<StaffRequisitionDetail> staffRequisitionDetailsList = m.StaffRequisitionDetails.Where(x => x.FormID == reqFormID).ToList<StaffRequisitionDetail>();
+
+                    foreach(StaffRequisitionDetail srd in staffRequisitionDetailsList)
+                    {
+                        DisbursementDetail newDD = new DisbursementDetail();
+                        newDD.Id = disId;
+                        newDD.ItemCode = srd.ItemCode;
+                        newDD.QuantityOrdered = srd.QuantityOrdered;
+
+                        //QuantityReceived will be the same as Quantity Ordered unless there are adjustments
+                        newDD.QuantityReceived = srd.QuantityOrdered;
+
+                        float itemUnitCost = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                        newDD.UnitCost = itemUnitCost;
+
+                        newDD.UoM = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.UoM).FirstOrDefault();
+                        newDD.QuantityAdjusted = 0;
+                        newDD.TransactionType = "Disbursement";
+
+                        float amount = itemUnitCost * newDD.QuantityReceived;
+                        totalAmount += amount;
+
+                        m.DisbursementDetails.Add(newDD);
+                    }
+
+                    newDH.Amount = totalAmount;
                     m.DisbursementHeaders.Add(newDH);
 
-                    m.SaveChanges();
-                }
-            
+                    //To update the status of requisition
+                    //Status would be outstanding when the item is disbursed
+                    //Status would only change to completed when the receiver has acknowledged receipt of the item
+                    StaffRequisitionHeader staffRequisitionHeader = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault();
+                    staffRequisitionHeader.Status = "Outstanding";
 
+                    m.SaveChanges();
+                } 
                 
 
+
+
+
+
+
+
             }
+
 
             
 
