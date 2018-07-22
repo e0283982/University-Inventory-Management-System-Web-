@@ -23,10 +23,10 @@ namespace SA46Team1_Web_ADProj.Models
             this.PODetails = new HashSet<PODetail>();
             this.POReceiptDetails = new HashSet<POReceiptDetail>();
             this.StaffRequisitionDetails = new HashSet<StaffRequisitionDetail>();
-            this.StockAdjustmentDetails = new HashSet<StockAdjustmentDetail>();
             this.StockRetrievalDetails = new HashSet<StockRetrievalDetail>();
             this.StockTakeDetails = new HashSet<StockTakeDetail>();
             this.SupplierPriceLists = new HashSet<SupplierPriceList>();
+            this.StockAdjustmentDetails = new HashSet<StockAdjustmentDetail>();
         }
     
         public string ItemCode { get; set; }
@@ -59,12 +59,12 @@ namespace SA46Team1_Web_ADProj.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StaffRequisitionDetail> StaffRequisitionDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockRetrievalDetail> StockRetrievalDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockTakeDetail> StockTakeDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplierPriceList> SupplierPriceLists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
     }
 }

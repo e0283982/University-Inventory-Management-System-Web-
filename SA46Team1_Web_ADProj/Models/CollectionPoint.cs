@@ -18,8 +18,8 @@ namespace SA46Team1_Web_ADProj.Models
         public CollectionPoint()
         {
             this.DepartmentDetails = new HashSet<DepartmentDetail>();
-            this.DisbursementHeaders = new HashSet<DisbursementHeader>();
             this.StockRetrievalDetails = new HashSet<StockRetrievalDetail>();
+            this.DisbursementHeaders = new HashSet<DisbursementHeader>();
         }
     
         public string CollectionPointID { get; set; }
@@ -30,8 +30,8 @@ namespace SA46Team1_Web_ADProj.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepartmentDetail> DepartmentDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DisbursementHeader> DisbursementHeaders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockRetrievalDetail> StockRetrievalDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DisbursementHeader> DisbursementHeaders { get; set; }
     }
 }

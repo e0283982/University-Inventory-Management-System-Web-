@@ -20,9 +20,9 @@ namespace SA46Team1_Web_ADProj.Models
             this.DepartmentDetails = new HashSet<DepartmentDetail>();
             this.DepartmentDetails1 = new HashSet<DepartmentDetail>();
             this.DepartmentDetails2 = new HashSet<DepartmentDetail>();
-            this.DisbursementHeaders = new HashSet<DisbursementHeader>();
             this.POHeaders = new HashSet<POHeader>();
             this.POReceiptHeaders = new HashSet<POReceiptHeader>();
+            this.DisbursementHeaders = new HashSet<DisbursementHeader>();
             this.StockAdjustmentHeaders = new HashSet<StockAdjustmentHeader>();
             this.StockAdjustmentHeaders1 = new HashSet<StockAdjustmentHeader>();
         }
@@ -45,13 +45,13 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual ICollection<DepartmentDetail> DepartmentDetails1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepartmentDetail> DepartmentDetails2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DisbursementHeader> DisbursementHeaders { get; set; }
         public virtual Role Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POHeader> POHeaders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POReceiptHeader> POReceiptHeaders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DisbursementHeader> DisbursementHeaders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockAdjustmentHeader> StockAdjustmentHeaders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -7,10 +7,11 @@
 
 <script>
     var table;
+    var date;
+    var remarks;
     $(document).ready(function () {
-
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetPOFullDetails/po1',
+            url: 'http://localhost:49921/api/Restful/GetPOFullDetails/' + $('#lbl-poNumber').text(),
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -26,10 +27,11 @@
                         { 'data': 'QuantityOrdered' },
                         { 'data': 'UoM' },
                         { 'data': 'UnitCost' },
-                        { 'data': 'Total' },
-                        { 'data': null }
+                        { 'data': 'Total' }
                     ]
                 });
+                remarks = { 'data': 'Remarks' };
+                date = { 'data': 'Date' };
             }
         });
     });
@@ -74,6 +76,8 @@
 </div>
 
 <div class="create-PO-dates">
+    <label>PO Number:&nbsp</label><label id="lbl-poNumber">@Session["poNumber"]</label>
+    <br/>
     <label>Date: <input type="text" id="datepicker-PODate"></label>
     <label>Expected Delivery Date: <input type="text" id="datepicker-PODeliveryDate"></label>
 </div>
@@ -94,7 +98,6 @@
             <th>Unit of Measure</th>
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
-            <th>GST ($)</th>
         </tr>
     </thead>
 </table>
