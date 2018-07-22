@@ -192,11 +192,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         m.SaveChanges();
                     }                    
 
-                }
-
-
-
-
+                }                
 
                 //Creating list of new disbursements
 
@@ -212,20 +208,12 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int count = m.DisbursementHeaders.Count() + 1;
                     string disId = "DH-" + count;
                     newDH.Id = disId;
-
-                    newDH.Status = "Open";                    
-                    
+                    newDH.Status = "Open";                                        
                     newDH.RequisitionFormID = reqFormID;
-
-                    DateTime localDate = DateTime.Now;
-                    newDH.Date = localDate;
+                    
                     newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault().DepartmentCode;                    
                     newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
                     newDH.RepresentativeID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().RepresentativeID;
-
-                    //Temporary
-                    //newDH.Amount = 100;
-                    //m.DisbursementHeaders.Add(newDH);
 
                     float totalAmount = 0f;
 
@@ -235,23 +223,39 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     foreach(StaffRequisitionDetail srd in staffRequisitionDetailsList)
                     {
+                        
                         Item itemRequested = m.Items.Where(x => x.ItemCode == srd.ItemCode).FirstOrDefault();
 
-
-
-
-
-
-                        if(itemRequested.Quantity > srd.QuantityOrdered)
+                        //Unable to fulfill any item
+                        if(itemRequested.Quantity <= 0)
                         {
+                            srd.QuantityDelivered = 0;
+                            srd.QuantityBackOrdered = srd.QuantityOrdered;
+
+                        }
+                        else
+                        {
+                           
                             DisbursementDetail newDD = new DisbursementDetail();
                             newDD.Id = disId;
                             newDD.ItemCode = srd.ItemCode;
                             newDD.QuantityOrdered = srd.QuantityOrdered;
 
                             //QuantityReceived will be the same as Quantity Ordered as item table will be able to fulfill all the items
-                            newDD.QuantityReceived = srd.QuantityOrdered;
-                            srd.QuantityDelivered = newDD.QuantityReceived;
+                            if (itemRequested.Quantity > srd.QuantityOrdered)
+                            {
+                                newDD.QuantityReceived = srd.QuantityOrdered;
+                                srd.QuantityDelivered = newDD.QuantityReceived;
+                            }
+                            else
+                            {
+                                //QuantityReceived will be the same as item table quantity as that is all that is left
+                                newDD.QuantityReceived = itemRequested.Quantity;
+                                srd.QuantityDelivered = newDD.QuantityReceived;
+
+                                //There would be quantity backordered in this case
+                                srd.QuantityBackOrdered = srd.QuantityOrdered - srd.QuantityDelivered;
+                            }                           
 
                             float itemUnitCost = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
                             newDD.UnitCost = itemUnitCost;
@@ -267,6 +271,9 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                             //TODO: to update the item and itemtransaction database
                             //To add the item transactions
+                            DateTime localDate = DateTime.Now;
+                            newDH.Date = localDate;
+
                             ItemTransaction itemTransaction = new ItemTransaction();
                             itemTransaction.TransDateTime = localDate;
                             itemTransaction.DocumentRefNo = newDD.Id;
@@ -282,54 +289,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                             Item itemDisbursed = m.Items.Where(x => x.ItemCode == itemTransaction.ItemCode).FirstOrDefault();
                             itemDisbursed.Quantity -= itemTransaction.Quantity;
 
-                        } else if(itemRequested.Quantity > 0)
-                        {
-
-                            DisbursementDetail newDD = new DisbursementDetail();
-                            newDD.Id = disId;
-                            newDD.ItemCode = srd.ItemCode;
-                            newDD.QuantityOrdered = srd.QuantityOrdered;
-
-                            //QuantityReceived will be the same as item table quantity as that is all that is left
-                            newDD.QuantityReceived = itemRequested.Quantity;
-                            srd.QuantityDelivered = newDD.QuantityReceived;
-
-                            //There would be quantity backordered in this case
-                            srd.QuantityBackOrdered = srd.QuantityOrdered - srd.QuantityDelivered;
-
-                            float itemUnitCost = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
-                            newDD.UnitCost = itemUnitCost;
-
-                            newDD.UoM = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.UoM).FirstOrDefault();
-                            newDD.QuantityAdjusted = 0;
-                            newDD.TransactionType = "Disbursement";
-
-                            float amount = itemUnitCost * newDD.QuantityReceived;
-                            totalAmount += amount;
-
-                            m.DisbursementDetails.Add(newDD);
-
-                            //TODO: to update the item and itemtransaction database
-                            //To add the item transactions
-                            ItemTransaction itemTransaction = new ItemTransaction();
-                            itemTransaction.TransDateTime = localDate;
-                            itemTransaction.DocumentRefNo = newDD.Id;
-                            itemTransaction.ItemCode = newDD.ItemCode;
-                            itemTransaction.TransactionType = "Stock Disbursement";
-                            itemTransaction.Quantity = newDD.QuantityReceived;
-                            itemTransaction.UnitCost = itemUnitCost;
-                            itemTransaction.Amount = newDD.QuantityReceived * itemUnitCost;
-
-                            m.ItemTransactions.Add(itemTransaction);
-
-                            //To update the quantity of the item table
-                            Item itemDisbursed = m.Items.Where(x => x.ItemCode == itemTransaction.ItemCode).FirstOrDefault();
-                            itemDisbursed.Quantity -= itemTransaction.Quantity;
-
-
-                        }
-
-                        
+                            
+                        }                       
 
                     }
 
@@ -344,21 +305,10 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     m.SaveChanges();
                 } 
-                
-
-
-
-
-
-
+                              
 
             }
-
-
-            
-
-
-
+           
 
             return RedirectToAction("Disbursements", "Store");
         }
