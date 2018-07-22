@@ -337,16 +337,16 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
 
-        [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetStockAdjustmentSupervisorApproval")]
-        public List<StockAdjustmentApprovalForSupervisor> GetStockAdjustmentSupervisorApproval()
-        {
-            using (SSISdbEntities m = new SSISdbEntities())
-            {
-                m.Configuration.ProxyCreationEnabled = false;
-                return m.StockAdjustmentApprovalForManager.ToList();
-            }
-        }
+        //[System.Web.Mvc.HttpGet]
+        //[System.Web.Mvc.Route("GetStockAdjustmentSupervisorApproval")]
+        //public List<StockAdjustmentApprovalForSupervisor> GetStockAdjustmentSupervisorApproval()
+        //{
+        //    using (SSISdbEntities m = new SSISdbEntities())
+        //    {
+        //        m.Configuration.ProxyCreationEnabled = false;
+        //       // return m.StockAdjustmentApprovalForManager.ToList();
+        //    }
+        //}
 
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetStockAdjustmentManagerApproval")]

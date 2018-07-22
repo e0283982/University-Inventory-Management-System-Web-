@@ -35,42 +35,43 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
-        [HttpPost]
-        public RedirectToRouteResult Approve(string requestid, string itemcode)
-        {
-            StockAdjustmentDetail stockadjdet = repo.GetStockAdjustmentDetailById(Convert.ToInt16(requestid), itemcode);
-            stockadjdet.Status = "Approved";
-            stockadjdet.StockAdjustmentHeader.DateProcessed = DateTime.Now;
-            repo.UpdateStockAdjustmentDetail(stockadjdet);
-            repo.Save();
+        //[HttpPost]
+        //public RedirectToRouteResult Approve(string requestid, string itemcode)
+        //{
+        //    StockAdjustmentDetail stockadjdet = repo.GetStockAdjustmentDetailById(Convert.ToInt16(requestid), itemcode);
+        //    stockadjdet.Status = "Approved";
+        //    stockadjdet.StockAdjustmentHeader.DateProcessed = DateTime.Now;
+        //    repo.UpdateStockAdjustmentDetail(stockadjdet);
+        //    repo.Save();
 
-            return RedirectToAction("Inventory","Store");
-        }
+        //    return RedirectToAction("Inventory","Store");
+        //}
 
-        [HttpPost]
-        public RedirectToRouteResult Reject(string requestid, string itemcode)
-        {
-            StockAdjustmentDetail stockadjdet = repo.GetStockAdjustmentDetailById(Convert.ToInt16(requestid), itemcode);
-            using (IItemTransactionRepository itemRepo= new ItemTransactionRepositoryImpl(new SSISdbEntities()))
-            {              
-                ItemTransaction itemTrans = new ItemTransaction
-                {
-                    DocumentRefNo = requestid,
-                    TransDateTime = DateTime.Now,
-                    ItemCode = itemcode,
-                    TransactionType = "Reject Stock Adjustment",
-                    Quantity = stockadjdet.ItemQuantity,
-                    Amount = stockadjdet.Amount,
-                    UnitCost = stockadjdet.ItemQuantity/ stockadjdet.Amount
-                };
-                itemRepo.InsertItemTransaction(itemTrans);
-                itemRepo.Save();
-            }
-            stockadjdet.Status = "Rejected";
-            repo.UpdateStockAdjustmentDetail(stockadjdet);
-            repo.Save();
+        //        [HttpPost]
+        //        public RedirectToRouteResult Reject(string requestid, string itemcode)
+        //        {
+        //            StockAdjustmentDetail stockadjdet = repo.GetStockAdjustmentDetailById(Convert.ToInt16(requestid), itemcode);
+        //            using (IItemTransactionRepository itemRepo= new ItemTransactionRepositoryImpl(new SSISdbEntities()))
+        //            {              
+        //                ItemTransaction itemTrans = new ItemTransaction
+        //                {
+        //                    DocumentRefNo = requestid,
+        //                    TransDateTime = DateTime.Now,
+        //                    ItemCode = itemcode,
+        //                    TransactionType = "Reject Stock Adjustment",
+        //                    Quantity = stockadjdet.ItemQuantity,
+        //                    Amount = stockadjdet.Amount,
+        //                    UnitCost = stockadjdet.ItemQuantity/ stockadjdet.Amount
+        //                };
+        //                itemRepo.InsertItemTransaction(itemTrans);
+        //                itemRepo.Save();
+        //            }
+        //            stockadjdet.Status = "Rejected";
+        //            repo.UpdateStockAdjustmentDetail(stockadjdet);
+        //            repo.Save();
 
-            return RedirectToAction("Inventory", "Store");
-        }
+        //            return RedirectToAction("Inventory", "Store");
+        //        }
+        //    }
     }
 }
