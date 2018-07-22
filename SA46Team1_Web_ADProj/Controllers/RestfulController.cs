@@ -21,7 +21,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.Employees.OrderBy(x=>x.EmployeeName).ToList<Employee>();
+                return m.Employees.OrderBy(x => x.EmployeeName).ToList<Employee>();
             }
         }
 
@@ -185,9 +185,19 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.StockAdjustmentApprovalForSupervisors.ToList();
+                return m.StockAdjustmentApprovalForManager.ToList();
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStockAdjustmentManagerApproval")]
+        public List<StockAdjustmentApprovalForManager> GetStockAdjustmentManagerApproval()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.StockAdjustmentApprovalForManagers.ToList();
+            }
+        }
     }
 }

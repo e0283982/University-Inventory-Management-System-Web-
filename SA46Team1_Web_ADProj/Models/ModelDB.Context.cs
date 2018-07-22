@@ -63,6 +63,6 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockAdjustmentHeader> StockAdjustmentHeaders { get; set; }
         public virtual DbSet<StockAdjustmentApproval> StockAdjustmentApprovals { get; set; }
         public virtual DbSet<StockAdjustmentApprovalForManager> StockAdjustmentApprovalForManagers { get; set; }
-        public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForSupervisors { get; set; }
+        public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForManager { get; set; }
     }
 }
