@@ -31,20 +31,16 @@
                     { 'data': 'FormID' },
                     { 'data': 'DepartmentName' },
                     { 'data': 'Status' }
-                ]
-            });
-        }
-    });
-
-    $(document).ajaxComplete(function () {
+                ],
+                 drawCallback: function (settings) {
                         $('#dataTable-storeDisbursementReqList tbody').off().on('click', 'tr', function () {
                         var data = table.row(this).data();
-                        var dataToBeSent = data["FormID"];
-                        alert('You clicked on Requisition Form Number: ' + data["FormID"] + '\'s row');
+                        //var storeReqFormId = data["FormID"];
+                        //alert('You clicked on Requisition Form Number: ' + data["FormID"] + '\'s row');
 
                         $.ajax({
                             url: '/StoreDisbursements/DisplayReqDetails',
-                            data: dataToBeSent,
+                            data: { storeReqFormId: data["FormID"] },
                             type: 'POST',
                         });
 
@@ -52,7 +48,12 @@
 
                     });
 
-                });
+                }
+            });
+        }
+    });
+
+               
 
 
 </script>
