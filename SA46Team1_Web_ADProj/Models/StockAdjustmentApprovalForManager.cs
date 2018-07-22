@@ -24,7 +24,6 @@ namespace SA46Team1_Web_ADProj.Models
         public int ItemQuantity { get; set; }
         public float Amount { get; set; }
         public string Remarks { get; set; }
-        public string Reason { get; set; }
         public string Status { get; set; }
     }
 }

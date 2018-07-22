@@ -32,10 +32,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayPO()
+        public RedirectToRouteResult DisplayPO(FormCollection data)
         {
             Session["POListPage"] = "2";
-            return RedirectToAction("Purchase", "Store");
+            Session["poNumber"] = data["PONumber"];
+            return RedirectToAction("Purchase", "Store", ViewBag.p);
         }
 
         [HttpPost]
@@ -65,10 +66,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string remarks = null;
                 string po = null;
                 List<GoodsReceivedList> grl = GoodsReceivedLists(id);
-                foreach(GoodsReceivedList g in grl)
+                foreach (GoodsReceivedList g in grl)
                 {
                     grn = g.ReceiptNo.ToString();
-                    date = (DateTime) g.ReceivedDate;
+                    date = (DateTime)g.ReceivedDate;
                     suppler = g.CompanyName;
                     rec = g.EmployeeName;
                     remarks = g.Remarks;
@@ -89,7 +90,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                return m.GoodsReceivedLists.Where(x => x.ItemCode == itemcode).ToList<GoodsReceivedList>();
+                return m.GoodsReceivedLists.Where(x => x.ItemCode == itemcode).ToList();
             }
         }
 

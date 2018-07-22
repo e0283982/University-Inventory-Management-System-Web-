@@ -33,6 +33,7 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<DepartmentDetail> DepartmentDetails { get; set; }
         public virtual DbSet<DisbursementDetail> DisbursementDetails { get; set; }
+        public virtual DbSet<DisbursementHeader> DisbursementHeaders { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<ItemTransaction> ItemTransactions { get; set; }
@@ -43,6 +44,8 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<StaffRequisitionDetail> StaffRequisitionDetails { get; set; }
         public virtual DbSet<StaffRequisitionHeader> StaffRequisitionHeaders { get; set; }
+        public virtual DbSet<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
+        public virtual DbSet<StockAdjustmentHeader> StockAdjustmentHeaders { get; set; }
         public virtual DbSet<StockCount> StockCounts { get; set; }
         public virtual DbSet<StockRetrievalDetail> StockRetrievalDetails { get; set; }
         public virtual DbSet<StockRetrievalHeader> StockRetrievalHeaders { get; set; }
@@ -50,19 +53,24 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockTakeHeader> StockTakeHeaders { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierPriceList> SupplierPriceLists { get; set; }
-        public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
-        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
-        public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
-        public virtual DbSet<PendingApproval> PendingApprovals { get; set; }
+        public virtual DbSet<AllItemPrice> AllItemPrices { get; set; }
+        public virtual DbSet<CollectionList> CollectionLists { get; set; }
         public virtual DbSet<DisbursementList> DisbursementLists { get; set; }
         public virtual DbSet<DisbursementListDetail> DisbursementListDetails { get; set; }
+        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
+        public virtual DbSet<GRList> GRLists { get; set; }
+        public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
+        public virtual DbSet<ItemFullDetail> ItemFullDetails { get; set; }
+        public virtual DbSet<PendingApproval> PendingApprovals { get; set; }
+        public virtual DbSet<POFullDetail> POFullDetails { get; set; }
+        public virtual DbSet<POList> POLists { get; set; }
+        public virtual DbSet<ReorderList> ReorderLists { get; set; }
         public virtual DbSet<RequisitionList> RequisitionLists { get; set; }
         public virtual DbSet<RequisitionListDetail> RequisitionListDetails { get; set; }
-        public virtual DbSet<DisbursementHeader> DisbursementHeaders { get; set; }
-        public virtual DbSet<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
-        public virtual DbSet<StockAdjustmentHeader> StockAdjustmentHeaders { get; set; }
         public virtual DbSet<StockAdjustmentApproval> StockAdjustmentApprovals { get; set; }
         public virtual DbSet<StockAdjustmentApprovalForManager> StockAdjustmentApprovalForManagers { get; set; }
-        public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForManager { get; set; }
+        public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForSupervisors { get; set; }
+        public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
+        public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
     }
 }

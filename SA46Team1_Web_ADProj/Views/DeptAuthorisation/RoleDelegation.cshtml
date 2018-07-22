@@ -12,7 +12,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetEmployeeList',
+            url: 'http://localhost:49921/api/Restful/GetRoleDelegationList/' + '@Session["DepartmentCode"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -24,14 +24,24 @@
                     data: data,
                     responsive: true,
                     columns: [
-                        { 'data': 'EmployeeName' },
-                        { 'data': 'Designation' },
+                        { 'data': 'EmpId' },
+                        { 'data': 'EmpName' },
+                        { 'data': 'Role' },
+                        { 'data': 'FromDate' },
+                        { 'data': 'ToDate' },
                         {
                             'data': null,
                             'render': function (data, type, row) {
-                                return '<button id="btn-edit-employee-auth" onclick="myFunction(\'' + data["EmployeeName"] + '\')" data-toggle="modal" data-target="#dialog-show-employee-auth">Edit</button>';
+                                return '<button id="btn-edit-employee-auth" class="btn-blue-small" onclick="myFunction(\'' + data["EmpName"] + '\')" data-toggle="modal" data-target="#dialog-show-employee-auth">Edit</button>';
                             }
 
+                        },
+                    ],
+                    columnDefs: [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
                         }
                     ]
                 });
@@ -80,8 +90,11 @@
 <table id="dataTable-roles-delegation" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Employee Id</th>
             <th>Employee Name</th>
             <th>Role</th>
+            <th>From Date</th>
+            <th>To Date</th>
             <th>Assign</th>
         </tr>
     </thead>
@@ -103,11 +116,7 @@
             </div>
             <div>
                 <label>Role: </label>
-                @Html.DropDownList("SelectNewEmpRole", new List<SelectListItem>
-                {
-                    new SelectListItem{ Text="Representative", Value = "rep" },
-                    new SelectListItem{ Text="Approver", Value = "approver" }
-                })
+                @Html.DropDownList("SelectNewEmpRole", ViewBag.RolesList as SelectList)
             </div>
 
             <div>

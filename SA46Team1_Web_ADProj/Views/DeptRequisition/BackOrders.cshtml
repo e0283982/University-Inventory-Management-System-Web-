@@ -6,13 +6,84 @@
 
 
 <script>
+    //$(document).ready(function () {
+    //    $('#dataTable-backOrders').DataTable({
+    //        scrollY: '30vh',
+    //        scrollCollapse: true,
+    //        paging: true
+    //    });
+    //});
+     var table;
+
     $(document).ready(function () {
-        $('#dataTable-backOrders').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetBackOrdersByDept/'+ '@Session["DepartmentCode"]',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-backOrders').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    responsive: true,
+                    select: {
+                        style: 'multi'
+                    },
+                    columns: [
+                        { 'data': 'ItemCode' },
+                        { 'data': 'ReqId' },
+                        { 'data': 'ItemDesc' },
+                        { 'data': 'UOM' },
+                        { 'data': 'OutstandingQty' }
+                    ],
+                    columnDefs: [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ],
+                    drawCallback: function (settings) {
+                        $('#dataTable-backOrders tbody').on('click', 'tr', function () {
+                            $(this).toggleClass('selected');
+                        });
+                    }
+
+                });
+            }
         });
     });
+    
+    $('#btn-submit-discard-backorder-items').click(function () {
+        var data = table.rows('.selected').data();
+        var noSelected = table.rows('.selected').data().length;
+        var toDeleteArray = [];
+        var toDeleteArray2 = [];
+        
+        for (i = 0; i < noSelected; i++) {
+            toDeleteArray.push(data[i].ItemCode);
+            toDeleteArray2.push(data[i].ReqId);
+        }
+
+        alert(toDeleteArray);
+        alert(toDeleteArray2);
+
+        table.row('.selected').remove().draw(false);
+
+        $.ajax({
+            url: '/DeptRequisition/DiscardSelBackorders',
+            data: 
+                JSON.stringify({
+                    deleteItemCodes: toDeleteArray, deleteReqId: toDeleteArray2
+                }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+    });
+
 </script>
 
 <div>
@@ -23,28 +94,15 @@
 <table id="dataTable-backOrders" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Item Code</th>
             <th>Requisition Form #</th>
             <th>Description</th>
             <th>Unit of Measure</th>
             <th>Outstanding Qty</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>001</td>
-            <td>Pad Post it</td>
-            <td>Dozen</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>002</td>
-            <td>Pad Post it 2</td>
-            <td>Dozen</td>
-            <td>11</td>
-        </tr>
-    </tbody>
 </table>
 
-<button class="btn-blue">@Html.ActionLink("Discard Selected Items", "Home", "Dept")</button>
+<button id="btn-submit-discard-backorder-items" class="btn-blue" type="submit" value="Discard Items">Discard Selected Items</button> 
+
+

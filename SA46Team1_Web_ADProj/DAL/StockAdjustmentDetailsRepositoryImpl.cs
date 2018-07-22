@@ -37,7 +37,7 @@ namespace SA46Team1_Web_ADProj.DAL
             return context.StockAdjustmentDetails.ToList();
         }
 
-        public StockAdjustmentDetail GetStockAdjustmentDetailById(int requestid, string itemcode)
+        public StockAdjustmentDetail GetStockAdjustmentDetailById(string requestid, string itemcode)
         {
             return context.StockAdjustmentDetails.Where(x => x.RequestId == requestid && x.ItemCode == itemcode).First();
         }
@@ -47,7 +47,7 @@ namespace SA46Team1_Web_ADProj.DAL
             context.StockAdjustmentDetails.Add(stockAdjustmentDetail);
         }
 
-        public void DeleteStockAdjustmentDetail(int requestid, string itemcode)
+        public void DeleteStockAdjustmentDetail(string requestid, string itemcode)
         {
             StockAdjustmentDetail stockAdjustmentDetail =  context.StockAdjustmentDetails.Where(x => x.RequestId == requestid && x.ItemCode == itemcode).First();
             context.StockAdjustmentDetails.Remove(stockAdjustmentDetail);

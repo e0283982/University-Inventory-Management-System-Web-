@@ -2,28 +2,102 @@
     Layout = null;
 }
 
+@using SA46Team1_Web_ADProj.Models;
+@model Tuple<StockRetrievalDetail, Item>
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeDisbursementRetrievalList').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+        //$("#div-disbursed").hide();
+        //alert(disbursed);
+
+        var disbursed = parseInt(@ViewBag.Disbursed);
+
+        if (disbursed == 0) {
+            $("#div-disbursed").hide();
+        }
+
+        var id = parseInt(@ViewBag.IdCount);
+        var stoId = 'StoR-' + id;
+
+        if (disbursed == 0) {
+
+            $.ajax({
+                url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + stoId,
+                method: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#dataTable-storeDisbursementRetrievalList').dataTable({
+                        paging: true,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        responsive: true,
+                        //"columnDefs": [{
+                        //    "targets": -1,
+                        //    "data": null,
+                        //    "defaultContent": "<button>Adjust</button>"
+                        //}],
+                        columns: [
+                            { 'data': 'Bin' },
+                            { 'data': 'Description' },
+                            { 'data': 'QuantityRetrieved' },
+                            { 'data': 'CollectionPointDescription' },
+                            {
+                                //'data': ''
+                                'data': null,
+                                'render': function (data, type, row) {
+                                    //return "<button>Adjust</button>"
+                                    return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Id"] + '\', \'' + data["Description"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval">Adjust</button>';
+                                    //return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Description"] + '\', \'' + data["Id"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval">Adjust</button>';
+                                }
+
+                            }
+                        ]
+                    });
+                }
+            });
+
+        }
+
+        $(function () {
+            $("#dialog-disburse-retrieval").dialog({
+                autoOpen: false,
+                width: "40%",
+                maxWidth: "40%"
+            });
         });
+
+        $(function () {
+            $("#dialog-adjust-retrieval").dialog({
+                autoOpen: false,
+                width: "40%",
+                maxWidth: "40%"
+            });
+        });
+
+
+
     });
 
-    $(function () {
-        $("#dialog-disburse-retrieval").dialog({
-            autoOpen: false
-        });
-    });
+    
 
-    $('#btn-disburse-retrieval').click(function () {
-        $('#dialog-disburse-retrieval').dialog('open');
+    function myFunction(param1, param2) {
+        $('#assign-stock-req-id').val(param1);
+        $('#assign-item-description').val(param2);
+        $('#dialog-adjust-retrieval').dialog('open');
         return false;
-    });
+    }
+
+    //$('#btn-disburse-retrieval').click(function () {
+    //    $('#dialog-disburse-retrieval').dialog('open');
+    //    return false;
+    //});
+
 </script>
 
 <div>
@@ -34,7 +108,6 @@
 <table id="dataTable-storeDisbursementRetrievalList" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>#</th>
             <th>Bin</th>
             <th>Item</th>
             <th>Items to Retrieve</th>
@@ -43,34 +116,56 @@
         </tr>
     </thead>
 
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>8</td>
-            <td>Stapler Blue "10</td>
-            <td>5</td>
-            <td>Collection Point A</td>
-            <td>
-                <button class="btn-blue-small">Adjust</button>
-            </td>
-        </tr>
 
-        <tr>
-            <td>2</td>
-            <td>7</td>
-            <td>Stapler Blue "5</td>
-            <td>5</td>
-            <td>Collection Point B</td>
-            <td>
-                <button class="btn-blue-small">Adjust</button>
-            </td>
-        </tr>
-    </tbody>
+
 </table>
+
+<br />
+<br />
+
+<div id="div-disbursed">
+    <p align="center" style="font-weight:bold; font-size:large;">
+        All items have been disbursed
+    </p>
+
+</div>
 
 <button class="btn-blue">@Html.ActionLink("Print List", "Home", "Store")</button>
 
-<button class="btn-blue" id="btn-disburse-retrieval">Disburse Items</button>
-<div id="dialog-disburse-retrieval" class="hidden" title="Basic dialog">
-    <p>Todo: clear datatable upon disburse of items.</p>
+@using (Html.BeginForm("DisburseItems", "StoreDisbursements", FormMethod.Post))
+{
+    <button class="btn-blue" id="btn-disburse-retrieval">Disburse Items</button>
+}
+
+
+<div id="dialog-adjust-retrieval" class="hidden" title="Adjust Item">
+
+    @using (Html.BeginForm("AdjustItem", "StoreDisbursements", FormMethod.Post))
+    {
+        <div>
+            <div>
+                @*<label>Stock Requisition Id: </label>*@
+
+                @Html.TextBoxFor(tuple => tuple.Item1.Id, new { @placeholder = "StoRId", @id = "assign-stock-req-id", @readonly = "readonly", style = "display: none;" })
+                
+            </div>
+            <div>
+                <label>Item Name: </label>
+                @Html.TextBoxFor(tuple => tuple.Item2.Description , new { @placeholder = "StoRId", @id = "assign-item-description", @readonly = "readonly" })
+
+            </div>
+
+            <div>
+                <label>Quantity to Adjust: </label>
+                @Html.EditorFor(tuple => tuple.Item1.QuantityAdjusted, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityAdjusted", @id = "assign-quantity-adjusted" }, })
+            </div>
+
+            <input id="btn-submit-qty-adj-changes" class="btn-blue" type="submit" value="Save" />
+
+        </div>
+    }
+
+
+
+
 </div>

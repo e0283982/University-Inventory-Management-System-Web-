@@ -12,14 +12,11 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class StockAdjustmentOverview
+    public partial class POList
     {
-        public string RequestId { get; set; }
-        public string Requestor { get; set; }
-        public System.DateTime DateRequested { get; set; }
-        public string Description { get; set; }
-        public int ItemQuantity { get; set; }
-        public string Remarks { get; set; }
+        public string PONumber { get; set; }
+        public string CompanyName { get; set; }
+        public System.DateTime Date { get; set; }
         public string Status { get; set; }
     }
 }

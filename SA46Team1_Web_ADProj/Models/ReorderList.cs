@@ -12,14 +12,18 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class StockAdjustmentOverview
+    public partial class ReorderList
     {
-        public string RequestId { get; set; }
-        public string Requestor { get; set; }
-        public System.DateTime DateRequested { get; set; }
+        public string ItemCode { get; set; }
         public string Description { get; set; }
-        public int ItemQuantity { get; set; }
-        public string Remarks { get; set; }
-        public string Status { get; set; }
+        public int Quantity { get; set; }
+        public int ReOrderLevel { get; set; }
+        public int ReOrderQuantity { get; set; }
+        public string UoM { get; set; }
+        public string s1 { get; set; }
+        public string s2 { get; set; }
+        public string s3 { get; set; }
+        public byte Active { get; set; }
+        public Nullable<int> BackOrder { get; set; }
     }
 }

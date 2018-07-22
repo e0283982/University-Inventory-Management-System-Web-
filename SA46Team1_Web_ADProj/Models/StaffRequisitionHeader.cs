@@ -17,7 +17,9 @@ namespace SA46Team1_Web_ADProj.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StaffRequisitionHeader()
         {
+            this.DisbursementHeaders = new HashSet<DisbursementHeader>();
             this.StaffRequisitionDetails = new HashSet<StaffRequisitionDetail>();
+            this.StockRetrievalHeaders = new HashSet<StockRetrievalHeader>();
         }
     
         public string FormID { get; set; }
@@ -28,8 +30,14 @@ namespace SA46Team1_Web_ADProj.Models
         public System.DateTime DateProcessed { get; set; }
         public string Status { get; set; }
         public string ApprovalStatus { get; set; }
+        public string Remarks { get; set; }
+        public string NotificationStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DisbursementHeader> DisbursementHeaders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StaffRequisitionDetail> StaffRequisitionDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockRetrievalHeader> StockRetrievalHeaders { get; set; }
     }
 }

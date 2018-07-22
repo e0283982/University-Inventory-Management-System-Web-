@@ -2,45 +2,47 @@
     Layout = null;
 }
 
-<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
-
-
 <script>
     $(document).ready(function () {
-        $('#dataTable-collectionList').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+        var table;
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetCollectionList',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-collectionList').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'Description' },
+                        { 'data': 'UoM' },
+                        { 'data': 'QuantityBackOrdered' }
+                    ]
+                });
+            }
         });
     });
+
 </script>
 
 <div>
     <h2>Collection List</h2>
-    <button class="btn-blue">@Html.ActionLink("Print", "Home", "Dept")</button>
 </div>
 
 
 <table id="dataTable-collectionList" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>Description</th>
+            <th>Item Description</th>
             <th>Unit of Measure</th>
             <th>Total Expected Delivery</th>
         </tr>
     </thead>
 
-    <tbody>
-        <tr>
-            <td>Pad Post it</td>
-            <td>Dozen</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>Pad Post it 2</td>
-            <td>Dozen</td>
-            <td>11</td>
-        </tr>
-    </tbody>
 </table>
+
+<div>@Html.ActionLink("Print", "Home", "Dept", null, new { @class = "btn btn-info" })</div>

@@ -21,7 +21,7 @@ namespace SA46Team1_Web_ADProj.Models
         public Nullable<int> QuantityReceived { get; set; }
         public Nullable<float> UnitCost { get; set; }
         public Nullable<float> Total { get; set; }
-        public Nullable<int> ReceiptNo { get; set; }
+        public string ReceiptNo { get; set; }
         public Nullable<System.DateTime> ReceivedDate { get; set; }
         public string Remarks { get; set; }
         public string CompanyName { get; set; }

@@ -15,17 +15,15 @@ namespace SA46Team1_Web_ADProj.Models
 
     public partial class StockAdjustmentDetail
     {
-        public int RequestId { get; set; }
+        public string RequestId { get; set; }
         public string ItemCode { get; set; }
         public int ItemQuantity { get; set; }
         public float Amount { get; set; }
         public string Remarks { get; set; }
-        public string Reason { get; set; }
         public string Status { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual StockAdjustmentHeader StockAdjustmentHeader { get; set; }
-
         [NotMapped]
         public List<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
     }

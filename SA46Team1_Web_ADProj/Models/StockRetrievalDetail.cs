@@ -14,7 +14,7 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class StockRetrievalDetail
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int Bin { get; set; }
         public string ItemCode { get; set; }
         public int QuantityRetrieved { get; set; }
