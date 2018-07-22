@@ -100,13 +100,104 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult DisburseItems()
         {
             Session["RetrievalListPage"] = "2";
-
+            
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 string id = (string) Session["RetrievalId"];
                 StockRetrievalHeader srh = m.StockRetrievalHeaders.Where(x => x.ID == id).First();
                 srh.Disbursed = 1;
+
+                //To check whether there is stock adjustment for the item
+                List<StockRetrievalDetail> itemsRetrieved = m.StockRetrievalDetails.Where(x => x.Id == id).ToList<StockRetrievalDetail>();
+
+                bool stockAdjustmentHeaderCreated = false;
+
+                foreach (StockRetrievalDetail srd in itemsRetrieved)
+                {
+                    DateTime localDate = DateTime.Now;
+
+                    if (srd.QuantityAdjusted > 0)
+                    {
+                        
+                        if (!stockAdjustmentHeaderCreated)
+                        {
+                            //To Create Stock Adjustment Header
+                            stockAdjustmentHeaderCreated = true;
+
+                            StockAdjustmentHeader sah = new StockAdjustmentHeader();
+                            int stockAdjustmentHeaderId = m.StockAdjustmentHeaders.Count() + 1;
+                            sah.RequestId = "SA-" + stockAdjustmentHeaderId;
+                            
+                            sah.DateRequested = localDate;
+
+                            //TODO, Temporary put the requestor as E1
+                            sah.Requestor = "E1";
+
+                            //Approver default to Store Supervisor first
+                            string supervisorId = m.Employees.Where(x => x.Designation == "Store Supervisor").Select(x => x.EmployeeID).FirstOrDefault();
+
+                            sah.Approver = supervisorId;
+
+                            sah.TransactionType = "Stock Adjustment";
+
+                            m.StockAdjustmentHeaders.Add(sah);
+                            m.SaveChanges();                            
+                        }
+
+                        //To Create Stock Adjustment Details
+                        int stockAdjustmentDetailId = m.StockAdjustmentHeaders.Count();
+                        StockAdjustmentDetail sad = new StockAdjustmentDetail();
+                        sad.RequestId = "SA-" + stockAdjustmentDetailId;
+                        sad.ItemCode = srd.ItemCode;
+                        sad.ItemQuantity = srd.QuantityAdjusted;
+
+                        float itemUnitCost = m.Items.Where(x => x.ItemCode == sad.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                        sad.Amount = itemUnitCost * sad.ItemQuantity;
+
+                        //Temporary, put it as missing first then will update the dialog box to include missing/damaged
+                        sad.Remarks = "Damaged";
+                        sad.Status = "Pending";
+
+                        m.StockAdjustmentDetails.Add(sad);
+
+                        //To change the approver to manager
+                        if(sad.Amount > 250)
+                        {
+                            StockAdjustmentHeader stockAdjustmentHeader = m.StockAdjustmentHeaders.Where(x => x.RequestId == sad.RequestId).FirstOrDefault();
+
+                            string managerId = m.Employees.Where(x => x.Designation == "Store Manager").Select(x => x.EmployeeID).FirstOrDefault();
+
+                            stockAdjustmentHeader.Approver = managerId;
+
+                            m.SaveChanges();
+                        }
+
+                        //To add the item transactions
+                        ItemTransaction itemTransaction = new ItemTransaction();
+                        itemTransaction.TransDateTime = localDate;
+                        itemTransaction.DocumentRefNo = sad.RequestId;
+                        itemTransaction.ItemCode = sad.ItemCode;
+                        itemTransaction.TransactionType = "Stock Adjustment";
+                        itemTransaction.Quantity = sad.ItemQuantity;
+                        itemTransaction.UnitCost = itemUnitCost;
+                        itemTransaction.Amount = sad.Amount;
+
+                        m.ItemTransactions.Add(itemTransaction);
+
+                        //To update the quantity of the item table
+                        Item itemAdjusted = m.Items.Where(x => x.ItemCode == itemTransaction.ItemCode).FirstOrDefault();
+                        itemAdjusted.Quantity -= itemTransaction.Quantity;
+
+
+                        m.SaveChanges();
+                    }                    
+
+                }
+
+
+
+
 
                 //Creating list of new disbursements
 
@@ -161,6 +252,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                         totalAmount += amount;
 
                         m.DisbursementDetails.Add(newDD);
+
+
+                        //TODO: to update the item database
+
+
                     }
 
                     newDH.Amount = totalAmount;
