@@ -107,8 +107,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string id = (string) Session["RetrievalId"];
                 StockRetrievalHeader srh = m.StockRetrievalHeaders.Where(x => x.ID == id).First();
                 srh.Disbursed = 1;
-
-                //To check whether there is stock adjustment for the item
+                
                 List<StockRetrievalDetail> itemsRetrieved = m.StockRetrievalDetails.Where(x => x.Id == id).ToList<StockRetrievalDetail>();
 
                 bool stockAdjustmentHeaderCreated = false;
@@ -119,7 +118,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     if (srd.QuantityAdjusted > 0)
                     {
-                        
+                        //To check whether there is stock adjustment header for the item
                         if (!stockAdjustmentHeaderCreated)
                         {
                             //To Create Stock Adjustment Header
@@ -155,7 +154,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         float itemUnitCost = m.Items.Where(x => x.ItemCode == sad.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
                         sad.Amount = itemUnitCost * sad.ItemQuantity;
 
-                        //Temporary, put it as missing first then will update the dialog box to include missing/damaged
+                        //Temporary, put it as damaged first then will update the dialog box to include missing/damaged
                         sad.Remarks = "Damaged";
                         sad.Status = "Pending";
 
@@ -201,9 +200,12 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 //Creating list of new disbursements
 
-                List<String> reqFormIDList = m.StockRetrievalReqForms.Where(x => x.StockRetrievalID == id).Select(x => x.ReqFormID).ToList<String>();
+                //To order by id so the earlier id will mean that the req form was submitted earlier
+                List<String> reqFormIDList = m.StockRetrievalReqForms.OrderBy(x => x.Id).Where(x => x.StockRetrievalID == id).Select(x => x.ReqFormID).ToList<String>();
 
-                foreach(String reqFormID in reqFormIDList)
+                //List<String> reqFormIDList = m.StockRetrievalReqForms.Where(x => x.StockRetrievalID == id).Select(x => x.ReqFormID).ToList<String>();
+
+                foreach (String reqFormID in reqFormIDList)
                 {
                     DisbursementHeader newDH = new DisbursementHeader();
 
@@ -211,7 +213,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     string disId = "DH-" + count;
                     newDH.Id = disId;
 
-                    newDH.Status = "Open";
+                    newDH.Status = "Open";                    
                     
                     newDH.RequisitionFormID = reqFormID;
 
@@ -233,29 +235,101 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     foreach(StaffRequisitionDetail srd in staffRequisitionDetailsList)
                     {
-                        DisbursementDetail newDD = new DisbursementDetail();
-                        newDD.Id = disId;
-                        newDD.ItemCode = srd.ItemCode;
-                        newDD.QuantityOrdered = srd.QuantityOrdered;
-
-                        //QuantityReceived will be the same as Quantity Ordered unless there are adjustments
-                        newDD.QuantityReceived = srd.QuantityOrdered;
-
-                        float itemUnitCost = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
-                        newDD.UnitCost = itemUnitCost;
-
-                        newDD.UoM = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.UoM).FirstOrDefault();
-                        newDD.QuantityAdjusted = 0;
-                        newDD.TransactionType = "Disbursement";
-
-                        float amount = itemUnitCost * newDD.QuantityReceived;
-                        totalAmount += amount;
-
-                        m.DisbursementDetails.Add(newDD);
+                        Item itemRequested = m.Items.Where(x => x.ItemCode == srd.ItemCode).FirstOrDefault();
 
 
-                        //TODO: to update the item database
 
+
+
+
+                        if(itemRequested.Quantity > srd.QuantityOrdered)
+                        {
+                            DisbursementDetail newDD = new DisbursementDetail();
+                            newDD.Id = disId;
+                            newDD.ItemCode = srd.ItemCode;
+                            newDD.QuantityOrdered = srd.QuantityOrdered;
+
+                            //QuantityReceived will be the same as Quantity Ordered as item table will be able to fulfill all the items
+                            newDD.QuantityReceived = srd.QuantityOrdered;
+                            srd.QuantityDelivered = newDD.QuantityReceived;
+
+                            float itemUnitCost = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                            newDD.UnitCost = itemUnitCost;
+
+                            newDD.UoM = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.UoM).FirstOrDefault();
+                            newDD.QuantityAdjusted = 0;
+                            newDD.TransactionType = "Disbursement";
+
+                            float amount = itemUnitCost * newDD.QuantityReceived;
+                            totalAmount += amount;
+
+                            m.DisbursementDetails.Add(newDD);
+
+                            //TODO: to update the item and itemtransaction database
+                            //To add the item transactions
+                            ItemTransaction itemTransaction = new ItemTransaction();
+                            itemTransaction.TransDateTime = localDate;
+                            itemTransaction.DocumentRefNo = newDD.Id;
+                            itemTransaction.ItemCode = newDD.ItemCode;
+                            itemTransaction.TransactionType = "Stock Disbursement";
+                            itemTransaction.Quantity = newDD.QuantityReceived;
+                            itemTransaction.UnitCost = itemUnitCost;
+                            itemTransaction.Amount = newDD.QuantityReceived * itemUnitCost;
+
+                            m.ItemTransactions.Add(itemTransaction);
+
+                            //To update the quantity of the item table
+                            Item itemDisbursed = m.Items.Where(x => x.ItemCode == itemTransaction.ItemCode).FirstOrDefault();
+                            itemDisbursed.Quantity -= itemTransaction.Quantity;
+
+                        } else if(itemRequested.Quantity > 0)
+                        {
+
+                            DisbursementDetail newDD = new DisbursementDetail();
+                            newDD.Id = disId;
+                            newDD.ItemCode = srd.ItemCode;
+                            newDD.QuantityOrdered = srd.QuantityOrdered;
+
+                            //QuantityReceived will be the same as item table quantity as that is all that is left
+                            newDD.QuantityReceived = itemRequested.Quantity;
+                            srd.QuantityDelivered = newDD.QuantityReceived;
+
+                            //There would be quantity backordered in this case
+                            srd.QuantityBackOrdered = srd.QuantityOrdered - srd.QuantityDelivered;
+
+                            float itemUnitCost = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                            newDD.UnitCost = itemUnitCost;
+
+                            newDD.UoM = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.UoM).FirstOrDefault();
+                            newDD.QuantityAdjusted = 0;
+                            newDD.TransactionType = "Disbursement";
+
+                            float amount = itemUnitCost * newDD.QuantityReceived;
+                            totalAmount += amount;
+
+                            m.DisbursementDetails.Add(newDD);
+
+                            //TODO: to update the item and itemtransaction database
+                            //To add the item transactions
+                            ItemTransaction itemTransaction = new ItemTransaction();
+                            itemTransaction.TransDateTime = localDate;
+                            itemTransaction.DocumentRefNo = newDD.Id;
+                            itemTransaction.ItemCode = newDD.ItemCode;
+                            itemTransaction.TransactionType = "Stock Disbursement";
+                            itemTransaction.Quantity = newDD.QuantityReceived;
+                            itemTransaction.UnitCost = itemUnitCost;
+                            itemTransaction.Amount = newDD.QuantityReceived * itemUnitCost;
+
+                            m.ItemTransactions.Add(itemTransaction);
+
+                            //To update the quantity of the item table
+                            Item itemDisbursed = m.Items.Where(x => x.ItemCode == itemTransaction.ItemCode).FirstOrDefault();
+                            itemDisbursed.Quantity -= itemTransaction.Quantity;
+
+
+                        }
+
+                        
 
                     }
 
