@@ -154,8 +154,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         float itemUnitCost = m.Items.Where(x => x.ItemCode == sad.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
                         sad.Amount = itemUnitCost * sad.ItemQuantity;
 
-                        //Temporary, put it as damaged first then will update the dialog box to include missing/damaged
-                        sad.Remarks = "Damaged";
+                        sad.Remarks = srd.Remarks;
                         sad.Status = "Pending";
 
                         m.StockAdjustmentDetails.Add(sad);
@@ -332,6 +331,8 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 srd.QuantityAdjusted = srd.QuantityAdjusted + qtyAdjusted;
                 srd.QuantityRetrieved = srd.QuantityRetrieved - qtyAdjusted;
+
+                srd.Remarks = item1.Remarks;
 
                 m.SaveChanges();
 

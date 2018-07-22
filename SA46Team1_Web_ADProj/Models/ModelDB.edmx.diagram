@@ -4,36 +4,36 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bf11401295cb4609a2a11b12ba0be3b4" Name="Diagram1">
+      <Diagram DiagramId="26662bc2a21c4218949b802f415b02fe" Name="Diagram1">
         <EntityTypeShape EntityType="SSISdbModel.ApprovalDelegation" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.Bin" Width="1.5" PointX="5.25" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.Category" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Bin" Width="1.5" PointX="5.25" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Category" Width="1.5" PointX="0.75" PointY="16.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.CollectionPoint" Width="1.5" PointX="3.75" PointY="29" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.CollectionPointTran" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.Department" Width="1.5" PointX="9.75" PointY="28.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.DepartmentDetail" Width="1.5" PointX="14.25" PointY="28.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.DisbursementDetail" Width="1.5" PointX="8.25" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.DisbursementHeader" Width="1.5" PointX="6" PointY="30.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.Employee" Width="1.5" PointX="12" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.Item" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.DepartmentDetail" Width="1.5" PointX="14.25" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.DisbursementDetail" Width="1.5" PointX="8.25" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.DisbursementHeader" Width="1.5" PointX="6" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Employee" Width="1.5" PointX="12" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Item" Width="1.5" PointX="3" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.ItemTransaction" Width="1.5" PointX="5.25" PointY="25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.PODetail" Width="1.5" PointX="11.25" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.POHeader" Width="1.5" PointX="6" PointY="19.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.POReceiptDetail" Width="1.5" PointX="8.25" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.PODetail" Width="1.5" PointX="11.25" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.POHeader" Width="1.5" PointX="6" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.POReceiptDetail" Width="1.5" PointX="8.25" PointY="16.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.POReceiptHeader" Width="1.5" PointX="14.25" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.Role" Width="1.5" PointX="9.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StaffRequisitionDetail" Width="1.5" PointX="8.25" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Role" Width="1.5" PointX="9.75" PointY="31" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StaffRequisitionDetail" Width="1.5" PointX="8.25" PointY="24.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StaffRequisitionHeader" Width="1.5" PointX="3.75" PointY="32.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentDetail" Width="1.5" PointX="11.25" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentHeader" Width="1.5" PointX="9" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentDetail" Width="1.5" PointX="11.25" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentHeader" Width="1.5" PointX="9" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StockCount" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StockRetrievalDetail" Width="1.5" PointX="11.25" PointY="23.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalHeader" Width="1.5" PointX="9" PointY="33.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalReqForm" Width="1.5" PointX="11.25" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockTakeDetail" Width="1.5" PointX="5.25" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockTakeHeader" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.Supplier" Width="1.5" PointX="0.75" PointY="19.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.SupplierPriceList" Width="1.5" PointX="8.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalHeader" Width="1.5" PointX="9" PointY="33.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalReqForm" Width="1.5" PointX="11.25" PointY="34" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockTakeDetail" Width="1.5" PointX="5.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.StockTakeHeader" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.Supplier" Width="1.5" PointX="0.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.SupplierPriceList" Width="1.5" PointX="8.25" PointY="12.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.AllItemPrice" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.CollectionList" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.DisbursementList" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />

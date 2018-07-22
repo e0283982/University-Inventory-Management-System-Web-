@@ -277,6 +277,7 @@
           <Property Name="CollectionPointID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="QuantityAdjusted" Type="int" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="StockRetrievalHeader">
           <Key>
@@ -1980,6 +1981,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__StockRetr__Colle__3587F3E0" FromRole="StockRetrievalDetails" ToRole="CollectionPoint" />
           <NavigationProperty Name="Department" Relationship="Self.FK__StockRetr__Depar__367C1819" FromRole="StockRetrievalDetails" ToRole="Department" />
           <NavigationProperty Name="Item" Relationship="Self.FK__StockRetr__ItemC__3493CFA7" FromRole="StockRetrievalDetails" ToRole="Item" />
@@ -3409,6 +3411,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
                 <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
                 <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
