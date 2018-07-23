@@ -5,7 +5,63 @@
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
-    $(document).ready(function () {
+
+     $(document).ready(function () {
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetSuppliersList',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-suppliers').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'SupplierCode' },
+                    { 'data': 'CompanyName' },
+                    { 'data': 'ContactName' },
+                    { 'data': 'PhoneNo' },
+                    { 'data': 'FaxNo' },
+                    { 'data': 'Address' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status != 0 ? 'Active' : 'Inactive';
+                        }
+                    },                ],
+                drawCallback: function (settings) {
+                    $('#dataTable-store-suppliers tbody').on('click', 'tr', function () {
+                        var data = table.row(this).data();
+
+                        $.ajax({
+                            url: '/StoreMaintenance/DisplaySupplierDetails',
+                            data: { maintenanceSupplierCode: data["SupplierCode"] },
+                            type: 'POST',
+                        });
+
+                        window.location.href = '@Url.Action("Maintenance", "Store")';
+
+                    });
+                },
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
+        });
+    });
+    @*$(document).ready(function () {
         $('#dataTable-storeMaintenanceSuppliers').DataTable({
             scrollY: '30vh',
             scrollCollapse: true,
@@ -29,7 +85,7 @@
 
         window.location.href = '@Url.Action("Maintenance", "Store")';
 
-    });
+    });*@
 </script>
 
 <div>
@@ -38,9 +94,10 @@
 </div>
 
 
-<table id="dataTable-storeMaintenanceSuppliers" class="display" style="width:80%;">
+<table id="dataTable-store-suppliers" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Supplier Code</th>
             <th>Name</th>
             <th>Contact</th>
             <th>Phone No.</th>
@@ -49,30 +106,4 @@
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Supplier A</td>
-            <td>Ms Irene Tan</td>
-            <td>461 9999</td>
-            <td>461 9992</td>
-            <td>Blk 111 NTU Lost Road</td>
-            <td>
-                <input type="checkbox" name="updateSupplierStatus" value="supplierStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Supplier B</td>
-            <td>Ms Amy Tan</td>
-            <td>461 9899</td>
-            <td>461 9892</td>
-            <td>Blk 111 Chinatown Lost Road</td>
-            <td>
-                <input type="checkbox" name="updateSupplierStatus" value="supplierStatus" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
 </table>

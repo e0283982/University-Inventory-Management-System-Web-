@@ -78,6 +78,8 @@ namespace SA46Team1_Web_ADProj
             Session["MaintenanceBinId"] = "";
 
             Session["MaintenanceSuppliersPage"] = "1";
+            Session["MaintenanceSupplierCode"] = "";
+
         }
     }
 }

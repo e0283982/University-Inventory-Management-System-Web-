@@ -94,9 +94,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplaySupplierDetails()
+        public RedirectToRouteResult DisplaySupplierDetails(string maintenanceSupplierCode)
         {
             Session["MaintenanceSuppliersPage"] = "2";
+            Session["MaintenanceSupplierCode"] = maintenanceSupplierCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 

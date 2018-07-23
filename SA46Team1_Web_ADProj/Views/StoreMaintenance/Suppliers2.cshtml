@@ -5,23 +5,59 @@
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-storeMaintenanceSuppliers-details').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+    
+     $(document).ready(function () {
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetSuppliersList/'+ '@Session["MaintenanceSupplierCode"]',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-suppliers-details').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'SupplierCode' },
+                    { 'data': 'CompanyName' },
+                    { 'data': 'ContactName' },
+                    { 'data': 'PhoneNo' },
+                    { 'data': 'FaxNo' },
+                    { 'data': 'Address' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status != 0 ? 'Active' : 'Inactive';
+                        }
+                    },    ],
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 </script>
 
 <div>
-    <h2>Supplier: ALPA</h2>
+    <h2>Supplier: @Session["MaintenanceSupplierCode"]</h2>
 </div>
 
 
-<table id="dataTable-storeMaintenanceSuppliers-details" class="display" style="width:80%;">
+<table id="dataTable-store-suppliers-details" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Supplier Code</th>
             <th>Name</th>
             <th>Contact</th>
             <th>Phone No.</th>
@@ -30,20 +66,6 @@
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Supplier A</td>
-            <td>Ms Irene Tan</td>
-            <td>461 9999</td>
-            <td>461 9992</td>
-            <td>Blk 111 NTU Lost Road</td>
-            <td>
-                <input type="checkbox" name="updateSupplierStatus" value="supplierStatus" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
 </table>
 
 <button class="btn-blue">@Html.ActionLink("View Price List", "Home", "Store")</button>

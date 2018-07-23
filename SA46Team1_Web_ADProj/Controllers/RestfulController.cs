@@ -452,5 +452,30 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return list;
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetSuppliersList")]
+        public List<Supplier> GetSuppliersList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<Supplier> list = m.Suppliers.ToList<Supplier>();
+
+                return list;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetSuppliersList/{id}")]
+        public List<Supplier> GetSuppliersList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<Supplier> list = m.Suppliers.Where(x => x.SupplierCode == id).ToList<Supplier>();
+                return list;
+            }
+        }
     }
 }
