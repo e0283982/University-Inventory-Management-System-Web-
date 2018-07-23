@@ -6,29 +6,61 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeMaintenanceDepts').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
-        });
-    });
 
-    var table = $('#dataTable-storeMaintenanceDepts').DataTable();
-
-    $('#dataTable-storeMaintenanceDepts tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
+        var table;
 
         $.ajax({
-            url: '/StoreMaintenance/DisplayDepartmentDetails',
-            data: dataToBeSent,
-            type: 'POST',
+            url: 'http://localhost:49921/api/Restful/GetDeptsList',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-store-departments').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'DepartmentCode' },
+                        { 'data': 'DepartmentName' },
+                        { 'data': 'ContactName' },
+                        { 'data': 'TelephoneNo' },
+                        { 'data': 'FaxNo' },
+                        { 'data': 'ApproverName' },
+                        { 'data': 'CollectionPointName' },
+                        { 'data': 'RepresentativeName' },
+                        {
+                            'data': 'Active',
+                            render: function (data, type, row) {
+
+                                var status = data;
+                                return status != 0 ? 'Active' : 'Inactive';
+                            }
+                        },],
+                    drawCallback: function (settings) {
+                        $('#dataTable-store-departments tbody').on('click', 'tr', function () {
+                            var data = table.row(this).data();
+
+                            $.ajax({
+                                url: '/StoreMaintenance/DisplayDepartmentDetails',
+                                data: { maintenanceDeptCode: data["DepartmentCode"] },
+                                type: 'POST',
+                            });
+
+                            window.location.href = '@Url.Action("Maintenance", "Store")';
+
+                        });
+                    },
+                    columnDefs: [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ]
+                });
+            }
         });
-
-        window.location.href = '@Url.Action("Maintenance", "Store")';
-
     });
 </script>
 
@@ -38,9 +70,10 @@
 </div>
 
 
-<table id="dataTable-storeMaintenanceDepts" class="display" style="width:80%;">
+<table id="dataTable-store-departments" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Dept Code</th>
             <th>Name</th>
             <th>Contact</th>
             <th>Phone No.</th>
@@ -51,21 +84,4 @@
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Dept A</td>
-            <td>Ms Irene Tan</td>
-            <td>461 9999</td>
-            <td>461 9992</td>
-            <td>Ms Tina Tan</td>
-            <td>Math Building A</td>
-            <td>Ms Irene Tan</td>
-            <td>
-                <input type="checkbox" name="updateDeptStatus" value="deptStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-    </tbody>
 </table>

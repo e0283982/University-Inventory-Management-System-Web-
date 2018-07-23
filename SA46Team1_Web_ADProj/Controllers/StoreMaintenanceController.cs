@@ -160,9 +160,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayDepartmentDetails()
+        public RedirectToRouteResult DisplayDepartmentDetails(string maintenanceDeptCode)
         {
             Session["MaintenanceDepartmentsPage"] = "2";
+            Session["MaintenanceDeptCode"] = maintenanceDeptCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
