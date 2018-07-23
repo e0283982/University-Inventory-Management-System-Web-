@@ -92,7 +92,6 @@
 
 <div>
     <h2>Maintenance - Collection Point</h2>
-    <button class="btn-blue">@Html.ActionLink("Add New Collection Point", "Home", "Store")</button>
 </div>
 
 
@@ -121,7 +120,7 @@
 
         <div>
             <label>Collection Point Time: </label>
-            @Html.EditorFor(model => model.CollectionTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Time", @id = "new-collection-pt-time" }, })
+            @Html.EditorFor(model => model.CollectionTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Time", @id = "new-collection-pt-time" , @type = "time" }, })
         </div>
 
         <input id="btn-submit-add-collection-point" class="btn-blue" type="submit" value="Add" />
