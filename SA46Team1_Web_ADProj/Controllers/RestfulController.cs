@@ -427,5 +427,30 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return item;
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCollectionPointList")]
+        public List<CollectionPoint> GetCollectionPointList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<CollectionPoint> list = m.CollectionPoints.ToList<CollectionPoint>();
+
+                return list;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCollectionPointList/{id}")]
+        public List<CollectionPoint> GetCollectionPointList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<CollectionPoint> list = m.CollectionPoints.Where(x=>x.CollectionPointID==id).ToList<CollectionPoint>();
+                return list;
+            }
+        }
     }
 }

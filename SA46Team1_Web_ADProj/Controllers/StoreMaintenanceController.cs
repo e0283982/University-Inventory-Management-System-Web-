@@ -125,9 +125,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayCollectionPointDetails()
+        public RedirectToRouteResult DisplayCollectionPointDetails(string maintenanceCollectionPtCode)
         {
             Session["MaintenanceCollectionPointsPage"] = "2";
+            Session["MaintenanceCollectionPtCode"] = maintenanceCollectionPtCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
