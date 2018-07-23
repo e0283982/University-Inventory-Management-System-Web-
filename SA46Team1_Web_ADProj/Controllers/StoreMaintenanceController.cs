@@ -163,6 +163,22 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Maintenance", "Store");
         }
 
+        [HttpPost]
+        [Route("Suppliers/AddNewSupplier")]
+        public RedirectToRouteResult AddNewSupplier(Supplier supplier)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                supplier.Active = 1;
+                DAL.SupplierRepositoryImpl dal = new DAL.SupplierRepositoryImpl(e);
+                dal.InsertSupplier(supplier);
+
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
         [Route("CollectionPoints")]
         public ActionResult CollectionPoints()
         {
