@@ -249,7 +249,6 @@
           <Property Name="RequestId" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="Approver" Type="nvarchar" MaxLength="12" />
           <Property Name="DateProcessed" Type="datetime" />
           <Property Name="TransactionType" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
@@ -1055,18 +1054,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockAdju__Appro__43D61337">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="StockAdjustmentHeader">
-              <PropertyRef Name="Approver" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__StockAdju__ItemC__47A6A41B">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
           <End Role="StockAdjustmentDetails" Type="Self.StockAdjustmentDetails" Multiplicity="*" />
@@ -1586,10 +1573,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="Item" EntitySet="Item" />
             <End Role="StaffRequisitionDetails" EntitySet="StaffRequisitionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockAdju__Appro__43D61337" Association="Self.FK__StockAdju__Appro__43D61337">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeader" />
-          </AssociationSet>
           <AssociationSet Name="FK__StockAdju__ItemC__47A6A41B" Association="Self.FK__StockAdju__ItemC__47A6A41B">
             <End Role="Item" EntitySet="Item" />
             <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
@@ -1783,8 +1766,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <NavigationProperty Name="Role" Relationship="Self.FK__Employee__Design__0C50D423" FromRole="Employee" ToRole="Role" />
           <NavigationProperty Name="POHeaders" Relationship="Self.FK__POHeader__Employ__17036CC0" FromRole="Employee" ToRole="POHeader" />
           <NavigationProperty Name="POReceiptHeaders" Relationship="Self.FK__POReceipt__Recei__22751F6C" FromRole="Employee" ToRole="POReceiptHeader" />
-          <NavigationProperty Name="StockAdjustmentHeaders" Relationship="Self.FK__StockAdju__Appro__43D61337" FromRole="Employee" ToRole="StockAdjustmentHeader" />
-          <NavigationProperty Name="StockAdjustmentHeaders1" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="Employee" ToRole="StockAdjustmentHeader" />
+          <NavigationProperty Name="StockAdjustmentHeaders" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="Employee" ToRole="StockAdjustmentHeader" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -1955,11 +1937,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="RequestId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Approver" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="DateProcessed" Type="DateTime" Precision="3" />
           <Property Name="TransactionType" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK__StockAdju__Appro__43D61337" FromRole="StockAdjustmentHeader" ToRole="Employee" />
-          <NavigationProperty Name="Employee1" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="StockAdjustmentHeader" ToRole="Employee" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__StockAdju__Reque__42E1EEFE" FromRole="StockAdjustmentHeader" ToRole="Employee" />
           <NavigationProperty Name="StockAdjustmentDetails" Relationship="Self.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentHeader" ToRole="StockAdjustmentDetails" />
         </EntityType>
         <EntityType Name="StockCount">
@@ -2624,18 +2604,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockAdju__Appro__43D61337">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="StockAdjustmentHeader">
-              <PropertyRef Name="Approver" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__StockAdju__Reque__42E1EEFE">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="StockAdjustmentHeader" Type="Self.StockAdjustmentHeader" Multiplicity="*" />
@@ -3033,10 +3001,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="Employee" EntitySet="Employees" />
             <End Role="POReceiptHeader" EntitySet="POReceiptHeaders" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockAdju__Appro__43D61337" Association="Self.FK__StockAdju__Appro__43D61337">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
-          </AssociationSet>
           <AssociationSet Name="FK__StockAdju__Reque__42E1EEFE" Association="Self.FK__StockAdju__Reque__42E1EEFE">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
@@ -3392,7 +3356,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="RequestId" ColumnName="RequestId" />
                 <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
                 <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
                 <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
               </MappingFragment>

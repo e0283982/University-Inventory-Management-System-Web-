@@ -131,12 +131,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                             sah.DateRequested = localDate;
 
                             //TODO, Temporary put the requestor as E1
-                            sah.Requestor = "E1";
-
-                            //Approver default to Store Supervisor first
-                            string supervisorId = m.Employees.Where(x => x.Designation == "Store Supervisor").Select(x => x.EmployeeID).FirstOrDefault();
-
-                            sah.Approver = supervisorId;
+                            sah.Requestor = "E1";                            
 
                             sah.TransactionType = "Stock Adjustment";
 
@@ -157,19 +152,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         sad.Remarks = srd.Remarks;
                         sad.Status = "Pending";
 
-                        m.StockAdjustmentDetails.Add(sad);
-
-                        //To change the approver to manager
-                        if(sad.Amount > 250)
-                        {
-                            StockAdjustmentHeader stockAdjustmentHeader = m.StockAdjustmentHeaders.Where(x => x.RequestId == sad.RequestId).FirstOrDefault();
-
-                            string managerId = m.Employees.Where(x => x.Designation == "Store Manager").Select(x => x.EmployeeID).FirstOrDefault();
-
-                            stockAdjustmentHeader.Approver = managerId;
-
-                            m.SaveChanges();
-                        }
+                        m.StockAdjustmentDetails.Add(sad);                        
 
                         //To add the item transactions
                         ItemTransaction itemTransaction = new ItemTransaction();
