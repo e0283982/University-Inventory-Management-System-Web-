@@ -48,8 +48,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Categories/AddNewCategory")]
         public RedirectToRouteResult AddNewCategory(Category cat)
         {
-            //Item itemToAdd = new Item();
-
             using (SSISdbEntities e = new SSISdbEntities()) {
 
                 string categoryCount = (e.Categories.Count() + 1).ToString();
@@ -69,6 +67,18 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["MaintenanceStoreBinPage"].ToString() == "1")
             {
+                using (SSISdbEntities e = new SSISdbEntities()) {
+                    ViewBag.ItemsList = new SelectList((from s in e.Items.ToList()
+                                                        select new
+                                                        {
+                                                            ItemCode = s.ItemCode,
+                                                            Description = s.Description + " (" + s.UoM + ")"
+                                                        }),
+                                                    "ItemCode",
+                                                    "Description",
+                                                    null);
+                }
+                
                 Session["MaintenanceBackFlagPage"] = "0";
                 return View("StoreBin");
             }
@@ -97,6 +107,28 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Maintenance", "Store");
         }
 
+
+        [HttpPost]
+        [Route("Departments/AddNewDept")]
+        public RedirectToRouteResult AddNewBin(Bin bin)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                string itemCode = Request.Form["SelectBinItem"].ToString();
+                int binCount = e.Bins.Count() + 1;
+
+                bin.Number = binCount;
+                bin.ItemCode = itemCode;
+                bin.Active = 1;
+
+                DAL.BinRepositoryImpl dal = new DAL.BinRepositoryImpl(e);
+                dal.InsertBin(bin);
+
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
 
         [Route("Suppliers")]
         public ActionResult Suppliers()
