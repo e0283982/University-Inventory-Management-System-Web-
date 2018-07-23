@@ -14,10 +14,11 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class StockAdjustmentApproval
     {
-        public int RequestId { get; set; }
+        public string RequestId { get; set; }
         public System.DateTime DateRequested { get; set; }
         public string Requestor { get; set; }
         public string Approver { get; set; }
+        public string ApproverID { get; set; }
         public string ItemCode { get; set; }
         public string Description { get; set; }
         public string CategoryName { get; set; }

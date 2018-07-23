@@ -17,19 +17,19 @@ namespace SA46Team1_Web_ADProj.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Department()
         {
+            this.DisbursementHeaders = new HashSet<DisbursementHeader>();
             this.Employees = new HashSet<Employee>();
             this.StockRetrievalDetails = new HashSet<StockRetrievalDetail>();
-            this.DisbursementHeaders = new HashSet<DisbursementHeader>();
         }
     
         public string DepartmentCode { get; set; }
         public string DepartmentName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DisbursementHeader> DisbursementHeaders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockRetrievalDetail> StockRetrievalDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DisbursementHeader> DisbursementHeaders { get; set; }
     }
 }
