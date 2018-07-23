@@ -91,6 +91,8 @@
         <AssociationConnector Association="SSISdbModel.FK__SupplierP__Suppl__7E37BEF6" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SSISdbModel.CollectionList" Width="1.5" PointX="14.375" PointY="4.75" />
         <AssociationConnector Association="SSISdbModel.FK__StockRetr__Requi__603D47BB" />
+        <EntityTypeShape EntityType="SSISdbModel.RequisitionHistory" Width="1.5" PointX="14.375" PointY="7.75" />
+        <EntityTypeShape EntityType="SSISdbModel.RequisitionHistoryDetail" Width="1.5" PointX="15.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

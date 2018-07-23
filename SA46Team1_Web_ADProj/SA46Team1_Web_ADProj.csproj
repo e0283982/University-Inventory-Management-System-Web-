@@ -335,6 +335,12 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequisitionDetModel.cs" />
+    <Compile Include="Models\RequisitionHistory.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RequisitionHistoryDetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RequisitionList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

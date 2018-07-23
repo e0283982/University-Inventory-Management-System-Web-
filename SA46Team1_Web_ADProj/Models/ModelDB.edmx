@@ -500,6 +500,32 @@ warning 6002: The table/view 'SSISdb.dbo.POList' does not have a primary key def
           <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.RequisitionHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RequisitionHistory">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="ApprovalStatus" />
+          </Key>
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DateRequested" Type="date" Nullable="false" />
+          <Property Name="ApprovalStatus" Type="nvarchar" MaxLength="70" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.RequisitionHistoryDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RequisitionHistoryDetails">
+          <Key>
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+          </Key>
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" />
+          <Property Name="QuantityDelivered" Type="int" />
+          <Property Name="QuantityBackOrdered" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.RequisitionList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionList">
           <Key>
@@ -1280,6 +1306,23 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [POList].[Date] AS [Date], 
     [POList].[Status] AS [Status]
     FROM [dbo].[POList] AS [POList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RequisitionHistory" EntityType="Self.RequisitionHistory" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RequisitionHistory].[FormID] AS [FormID], 
+    [RequisitionHistory].[DateRequested] AS [DateRequested], 
+    [RequisitionHistory].[ApprovalStatus] AS [ApprovalStatus]
+    FROM [dbo].[RequisitionHistory] AS [RequisitionHistory]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RequisitionHistoryDetails" EntityType="Self.RequisitionHistoryDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RequisitionHistoryDetails].[FormID] AS [FormID], 
+    [RequisitionHistoryDetails].[Description] AS [Description], 
+    [RequisitionHistoryDetails].[UoM] AS [UoM], 
+    [RequisitionHistoryDetails].[QuantityOrdered] AS [QuantityOrdered], 
+    [RequisitionHistoryDetails].[QuantityDelivered] AS [QuantityDelivered], 
+    [RequisitionHistoryDetails].[QuantityBackOrdered] AS [QuantityBackOrdered]
+    FROM [dbo].[RequisitionHistoryDetails] AS [RequisitionHistoryDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="RequisitionList" EntityType="Self.RequisitionList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2919,6 +2962,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
             <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
           </AssociationSet>
+          <EntitySet Name="RequisitionHistories" EntityType="SSISdbModel.RequisitionHistory" />
+          <EntitySet Name="RequisitionHistoryDetails" EntityType="SSISdbModel.RequisitionHistoryDetail" />
         </EntityContainer>
         <EntityType Name="CollectionList">
           <Key>
@@ -2941,6 +2986,28 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RequisitionHistory">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="ApprovalStatus" />
+          </Key>
+          <Property Name="FormID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ApprovalStatus" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RequisitionHistoryDetail">
+          <Key>
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+          </Key>
+          <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityOrdered" Type="Int32" />
+          <Property Name="QuantityDelivered" Type="Int32" />
+          <Property Name="QuantityBackOrdered" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3512,6 +3579,27 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionHistories">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionHistory">
+              <MappingFragment StoreEntitySet="RequisitionHistory">
+                <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionHistoryDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionHistoryDetail">
+              <MappingFragment StoreEntitySet="RequisitionHistoryDetails">
+                <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
+                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

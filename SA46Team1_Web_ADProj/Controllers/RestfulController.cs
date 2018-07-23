@@ -336,6 +336,25 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRequisitionHistory")]
+        public List<RequisitionHistory> GetRequisitionHistory()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.RequisitionHistories.ToList();
+            }
+        }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRequisitionHistoryDetail/{id}")]
+        public List<RequisitionHistoryDetail> GetRequisitionHistoryDetail(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.RequisitionHistoryDetails.Where(x => x.FormID == id).ToList<RequisitionHistoryDetail>();
+            }
+        }
     }
 }

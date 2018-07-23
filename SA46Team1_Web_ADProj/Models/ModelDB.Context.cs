@@ -122,6 +122,10 @@ public partial class SSISdbEntities : DbContext
 
     public virtual DbSet<CollectionList> CollectionLists { get; set; }
 
+    public virtual DbSet<RequisitionHistory> RequisitionHistories { get; set; }
+
+    public virtual DbSet<RequisitionHistoryDetail> RequisitionHistoryDetails { get; set; }
+
 }
 
 }
