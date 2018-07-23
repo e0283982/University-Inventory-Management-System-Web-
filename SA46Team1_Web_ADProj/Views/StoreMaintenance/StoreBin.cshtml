@@ -2,6 +2,11 @@
     Layout = null;
 }
 
+
+@using SA46Team1_Web_ADProj.Models;
+@model Bin
+
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 
@@ -58,6 +63,31 @@
         }
         });
     });
+
+    $(function () {
+        $("#dialog-add-new-bin").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-add-new-bin').on('click', function () {
+        $('#dialog-add-new-bin').dialog('open');
+    });
+
+    $(function () {
+        $("#dialog-submit-add-bin").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-submit-add-bin').on('click', function () {
+        $('#dialog-add-new-bin').dialog('close');
+        $('#dialog-submit-add-bin').dialog('open');
+    });
 </script>
 
 <div>
@@ -75,3 +105,29 @@
         </tr>
     </thead>
 </table>
+
+<button id="btn-add-new-bin" class="btn-blue">Add New Bin</button>
+
+<div id="dialog-add-new-bin" class="hidden" title="Add Bin (Maintenance)">
+    @using (Html.BeginForm("AddNewBin", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-bin" }))
+    {
+        <div>
+            <div>
+                <label>Location: </label>
+                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bin Location", @id = "new-bin-location" }, })
+            </div>
+
+            <div>
+                <label>Item Code: </label>
+                @Html.DropDownList("SelectBinItem", ViewBag.ItemsList as SelectList)
+            </div>
+
+            <input id="btn-submit-add-bin" class="btn-blue" type="submit" value="Add" />
+
+        </div>
+    }
+</div>
+
+<div id="dialog-submit-add-bin" class="hidden" title="Add Bin Successful (Maintenance)">
+    <p>New Bin has been successfully added.</p>
+</div>
