@@ -182,9 +182,10 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayItemDetails()
+        public RedirectToRouteResult DisplayItemDetails(string maintenanceItemCode)
         {
             Session["MaintenanceItemsPage"] = "2";
+            Session["MaintenanceItemCode"] = maintenanceItemCode;
             return RedirectToAction("Maintenance", "Store");
         }
 

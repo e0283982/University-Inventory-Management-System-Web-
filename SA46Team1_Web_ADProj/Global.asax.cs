@@ -65,6 +65,8 @@ namespace SA46Team1_Web_ADProj
             Session["MaintenanceBackFlagPage"] = "0";
 
             Session["MaintenanceItemsPage"] = "1";
+            Session["MaintenanceItemCode"] = "";
+
             Session["MaintenanceCategoriesPage"] = "1";
             Session["MaintenanceCollectionPointsPage"] = "1";
             Session["MaintenanceDepartmentsPage"] = "1";

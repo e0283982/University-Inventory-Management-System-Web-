@@ -358,5 +358,28 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return m.StockAdjustmentApprovalForManagers.ToList();
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetItemsList")]
+        public List<ItemFullDetail> GetItemsList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.ItemFullDetails.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetItemsList/{id}")]
+        public List<ItemFullDetail> GetItemsList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<ItemFullDetail> item = m.ItemFullDetails.Where(x => x.ItemCode == id).ToList<ItemFullDetail>();
+                return item;
+            }
+        }
     }
 }
