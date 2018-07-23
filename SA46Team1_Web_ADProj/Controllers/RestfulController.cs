@@ -477,5 +477,54 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return list;
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetDeptsList")]
+        public List<DeptFullDetailsModel> GetDeptsList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<DepartmentDetail> list = m.DepartmentDetails.ToList<DepartmentDetail>();
+                List<DeptFullDetailsModel> list2 = new List<DeptFullDetailsModel>();
+                list2 = list.ConvertAll(x => new DeptFullDetailsModel {DepartmentCode=x.DepartmentCode,
+                    DepartmentName =m.Departments.Where(y=>y.DepartmentCode==x.DepartmentCode).Select(y=>y.DepartmentName).
+                    FirstOrDefault(),
+                    ContactName =m.Employees.Where(y=>y.EmployeeID==x.RepresentativeID).Select(y=>y.EmployeeName).FirstOrDefault(),
+                    TelephoneNo =x.TelephoneNo,FaxNo=x.FaxNo, ApproverName=m.Employees.Where(y=>y.EmployeeID==x.ApproverID).Select(y=>y.EmployeeName).FirstOrDefault(),
+                    CollectionPointName =m.CollectionPoints.Where(y=>y.CollectionPointID==x.CollectionPointID).Select(y=>y.CollectionPointDescription).FirstOrDefault(),
+                    RepresentativeName = m.Employees.Where(y => y.EmployeeID == x.RepresentativeID).Select(y => y.EmployeeName).FirstOrDefault(),
+                    Active = x.Active});
+
+                return list2;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetDeptsList/{id}")]
+        public List<DeptFullDetailsModel> GetDeptsList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<DepartmentDetail> list = m.DepartmentDetails.Where(x=>x.DepartmentCode==id).ToList<DepartmentDetail>();
+                List<DeptFullDetailsModel> list2 = new List<DeptFullDetailsModel>();
+                list2 = list.ConvertAll(x => new DeptFullDetailsModel
+                {
+                    DepartmentCode = x.DepartmentCode,
+                    DepartmentName = m.Departments.Where(y => y.DepartmentCode == x.DepartmentCode).Select(y => y.DepartmentName).
+                    FirstOrDefault(),
+                    ContactName = m.Employees.Where(y => y.EmployeeID == x.RepresentativeID).Select(y => y.EmployeeName).FirstOrDefault(),
+                    TelephoneNo = x.TelephoneNo,
+                    FaxNo = x.FaxNo,
+                    ApproverName = m.Employees.Where(y => y.EmployeeID == x.ApproverID).Select(y => y.EmployeeName).FirstOrDefault(),
+                    CollectionPointName = m.CollectionPoints.Where(y => y.CollectionPointID == x.CollectionPointID).Select(y => y.CollectionPointDescription).FirstOrDefault(),
+                    RepresentativeName = m.Employees.Where(y => y.EmployeeID == x.RepresentativeID).Select(y => y.EmployeeName).FirstOrDefault(),
+                    Active = x.Active
+                });
+
+                return list2;
+            }
+        }
     }
 }

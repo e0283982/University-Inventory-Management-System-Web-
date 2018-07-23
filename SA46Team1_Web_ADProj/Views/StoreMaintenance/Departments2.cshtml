@@ -5,23 +5,61 @@
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-storeMaintenanceDepts-details').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+     $(document).ready(function () {
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetDeptsList/'+ '@Session["MaintenanceDeptCode"]',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-departments-details').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'DepartmentCode' },
+                    { 'data': 'DepartmentName' },
+                    { 'data': 'ContactName' },
+                    { 'data': 'TelephoneNo' },
+                    { 'data': 'FaxNo' },
+                    { 'data': 'ApproverName' },
+                    { 'data': 'CollectionPointName' },
+                    { 'data': 'RepresentativeName' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status != 0 ? 'Active' : 'Inactive';
+                        }
+                    },
+                ],
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 </script>
 
 <div>
-    <h2>Department Code: ENGL</h2>
+    <h2>Department Code: @Session["MaintenanceDeptCode"]</h2>
 </div>
 
 
-<table id="dataTable-storeMaintenanceDepts-details" class="display" style="width:80%;">
+<table id="dataTable-store-departments-details" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Dept Code</th>
             <th>Name</th>
             <th>Contact</th>
             <th>Phone No.</th>
@@ -32,23 +70,6 @@
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>English Dept</td>
-            <td>Ms Irene Tan</td>
-            <td>461 9999</td>
-            <td>461 9992</td>
-            <td>Ms Tina Tan</td>
-            <td>English Building A</td>
-            <td>Ms Irene Tan</td>
-            <td>
-                <input type="checkbox" name="updateDeptStatus" value="deptStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-    </tbody>
 </table>
 
 <button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>

@@ -44,6 +44,26 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Maintenance", "Store");
         }
 
+        [HttpPost]
+        [Route("Categories/AddNewCategory")]
+        public RedirectToRouteResult AddNewCategory(Category cat)
+        {
+            //Item itemToAdd = new Item();
+
+            using (SSISdbEntities e = new SSISdbEntities()) {
+
+                string categoryCount = (e.Categories.Count() + 1).ToString();
+                cat.CategoryID = "C" + categoryCount;
+                cat.Active = 1;
+
+                DAL.CategoryRepositoryImpl dal = new DAL.CategoryRepositoryImpl(e);
+                dal.InsertCategory(cat);
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
         [Route("StoreBin")]
         public ActionResult StoreBin()
         {
@@ -160,9 +180,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayDepartmentDetails()
+        public RedirectToRouteResult DisplayDepartmentDetails(string maintenanceDeptCode)
         {
             Session["MaintenanceDepartmentsPage"] = "2";
+            Session["MaintenanceDeptCode"] = maintenanceDeptCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 

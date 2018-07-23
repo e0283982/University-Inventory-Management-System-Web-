@@ -2,6 +2,9 @@
     Layout = null;
 }
 
+@using SA46Team1_Web_ADProj.Models;
+@model Category
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 
@@ -59,6 +62,31 @@
         }
         });
     });
+
+    $(function () {
+        $("#dialog-add-new-category").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-add-new-category').on('click', function () {
+        $('#dialog-add-new-category').dialog('open');
+    });
+
+    $(function () {
+        $("#dialog-submit-add-category").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-submit-add-category').on('click', function () {
+        $('#dialog-add-new-category').dialog('close');
+        $('#dialog-submit-add-category').dialog('open');
+    });
 </script>
 
 <div>
@@ -77,5 +105,23 @@
 </table>
 
 
-<button class="btn-blue">@Html.ActionLink("Add New Category", "Home", "Store")</button>
+<button id="btn-add-new-category" class="btn-blue">Add New Category</button>
 
+<div id="dialog-add-new-category" class="hidden" title="Add Category (Maintenance)">
+    @using (Html.BeginForm("AddNewCategory", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-category" }))
+    {
+        <div>
+            <div>
+                <label>Category Name: </label>
+                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
+            </div>
+
+            <input id="btn-submit-add-category" class="btn-blue" type="submit" value="Add" />
+
+        </div>
+    }
+</div>
+
+<div id="dialog-submit-add-category" class="hidden" title="Add Category Successful (Maintenance)">
+    <p>New Category has been successfully added.</p>       
+</div>
