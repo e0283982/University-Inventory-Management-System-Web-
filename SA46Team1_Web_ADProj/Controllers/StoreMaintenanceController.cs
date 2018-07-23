@@ -164,6 +164,28 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Maintenance", "Store");
         }
 
+        [HttpPost]
+        [Route("CollectionPoints/AddNewCollectionPoint")]
+        public RedirectToRouteResult AddNewCollectionPoint(CollectionPoint cp)
+        {
+            //Item itemToAdd = new Item();
+
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+
+                string collectionPtCount = (e.CollectionPoints.Count() + 1).ToString();
+                cp.CollectionPointID = "CP" + collectionPtCount;
+                cp.Active = 1;
+
+                DAL.CollectionPointRepositoryImpl dal = new DAL.CollectionPointRepositoryImpl(e);
+                dal.InsertCollectionPoint(cp);
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
+
         [Route("Departments")]
         public ActionResult Departments()
         {

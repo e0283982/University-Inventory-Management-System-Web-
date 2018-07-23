@@ -2,6 +2,10 @@
     Layout = null;
 }
 
+
+@using SA46Team1_Web_ADProj.Models;
+@model CollectionPoint
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
@@ -58,6 +62,32 @@
         }
         });
     });
+
+
+    $(function () {
+        $("#dialog-add-new-collection-point").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-add-new-collection-point').on('click', function () {
+        $('#dialog-add-new-collection-point').dialog('open');
+    });
+
+    $(function () {
+        $("#dialog-submit-add-collection-point").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-submit-add-collection-point').on('click', function () {
+        $('#dialog-add-new-collection-point').dialog('close');
+        $('#dialog-submit-add-collection-point').dialog('open');
+    });
 </script>
 
 <div>
@@ -76,4 +106,31 @@
         </tr>
     </thead>
 </table>
+
+
+<button id="btn-add-new-collection-point" class="btn-blue">Add New Collection Point</button>
+
+<div id="dialog-add-new-collection-point" class="hidden" title="Add Collection Point (Maintenance)">
+    @using (Html.BeginForm("AddNewCollectionPoint", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-collection-point" }))
+    {
+    <div>
+        <div>
+            <label>Collection Point Description: </label>
+            @Html.EditorFor(model => model.CollectionPointDescription, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-collection-pt-desc" }, })
+        </div>
+
+        <div>
+            <label>Collection Point Time: </label>
+            @Html.EditorFor(model => model.CollectionTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Time", @id = "new-collection-pt-time" }, })
+        </div>
+
+        <input id="btn-submit-add-collection-point" class="btn-blue" type="submit" value="Add" />
+
+    </div>
+    }
+</div>
+
+<div id="dialog-submit-add-collection-point" class="hidden" title="Add Collection Point Successful (Maintenance)">
+    <p>New Collection Point has been successfully added.</p>
+</div>
 
