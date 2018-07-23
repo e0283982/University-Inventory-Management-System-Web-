@@ -179,10 +179,8 @@
                     <tr>
                         <td>
                             @Html.TextBoxFor(o => o.StockAdjustmentDetails[i].ItemCode, new { @id = "ItemCode_" + i, @readonly = "readonly" })
-                            @*@Html.LabelFor(o => o.StockAdjustmentDetails[i].ItemCode, new { @id = "ItemCode_" + i })*@
                         </td>
                         <td>
-                            @*@Html.EditorFor(o => o.StockAdjustmentDetails[i].Remarks, new { @id = "Remarks_" + i })*@
                             @Html.DropDownListFor(o => o.StockAdjustmentDetails[i].Remarks, new List<SelectListItem>
                        { new SelectListItem{Text="Damaged", Value="Damaged"},
                          new SelectListItem{Text="Missing", Value="Missing"}}, new { style = "padding: 1px; " })

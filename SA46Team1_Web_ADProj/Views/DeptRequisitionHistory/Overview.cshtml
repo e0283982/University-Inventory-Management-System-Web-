@@ -4,39 +4,29 @@
 
 <script>
     $(document).ready(function () {
-
-        var table;
-        $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetRequisitionHistory',
-            method: 'get',
-            dataType: 'json',
-            success: function (data) {
-                table = $('#dataTable-pastReq').DataTable({
-                    paging: true,
-                    sort: true,
-                    searching: true,
-                    scrollY: 200,
-                    data: data,
-                    columns: [
-                        { 'data': 'FormID' },
-                        { 'data': 'DateRequested' },
-                        { 'data': 'ApprovalStatus' }
-                    ]
-                }).on('click', 'tr', function () {
-                    var datum = table.row(this).data();
-
-                    jQuery.ajax({
-                        url: '/DeptRequisitionHistory/DisplayReqHistoryDetails',
-                        data: datum,
-                        type: 'POST',
-                    });
-
-                    window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
-                })
-            }
+        $('#dataTable-pastReq').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true
         });
     });
 
+    var table = $('#dataTable-pastReq').DataTable();
+
+    $('#dataTable-pastReq tbody').on('click', 'tr', function () {
+        var data = table.row(this).data();
+        var dataToBeSent = data[0];
+        alert('You clicked on Requisition Form #: ' + data[0] + '.');
+
+        $.ajax({
+            url: '/DeptRequisitionHistory/DisplayReqHistoryDetails',
+            data: dataToBeSent,
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
+    });
 </script>
 
 <div>
@@ -49,7 +39,27 @@
         <tr>
             <th>Requisition Form #</th>
             <th>Date Requested</th>
+            <th>Date Delivered</th>
+            <th>Requestor</th>
             <th>Status</th>
         </tr>
     </thead>
+
+    <tbody>
+        <tr>
+            <td>001</td>
+            <td>01-Jan-2018</td>
+            <td>15-Jan-2018</td>
+            <td>Sally Wong</td>
+            <td>Delivered</td>
+        </tr>
+
+        <tr>
+            <td>002</td>
+            <td>01-Jan-2018</td>
+            <td>15-Jan-2018</td>
+            <td>Sally Wong</td>
+            <td>Approved</td>
+        </tr>
+    </tbody>
 </table>

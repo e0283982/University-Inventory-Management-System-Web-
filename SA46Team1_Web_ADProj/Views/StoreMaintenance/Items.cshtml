@@ -3,34 +3,59 @@
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
-
-
+    
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeMaintenanceItems').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetItemsList',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-items').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'ItemCode' },
+                    { 'data': 'Description' },
+                    { 'data': 'CategoryName' },
+                    { 'data': 'UoM' },
+                    { 'data': 's1' },
+                    { 'data': 's2' },
+                    { 'data': 's3' },
+                    { 'data': 'Active' }
+                ],
+                drawCallback: function (settings) {
+                    $('#dataTable-store-items tbody').on('click', 'tr', function () {
+                        var data = table.row(this).data();
+
+                        $.ajax({
+                            url: '/StoreMaintenance/DisplayItemDetails',
+                            data: { maintenanceItemCode: data["ItemCode"] },
+                            type: 'POST',
+                        });
+
+                        window.location.href = '@Url.Action("Maintenance", "Store")';
+
+                    });
+                },
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
-
-    var table = $('#dataTable-storeMaintenanceItems').DataTable();
-
-    $('#dataTable-storeMaintenanceItems tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
-
-        $.ajax({
-            url: '/StoreMaintenance/DisplayItemDetails',
-            data: dataToBeSent,
-            type: 'POST',
-        });
-
-        window.location.href = '@Url.Action("Maintenance", "Store")';
-
-    });
+    
 </script>
 
 <div>
@@ -39,9 +64,10 @@
 </div>
 
 
-<table id="dataTable-storeMaintenanceItems" class="display" style="width:80%;">
+<table id="dataTable-store-items" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Item Code</th>
             <th>Description</th>
             <th>Category</th>
             <th>Unit of Measure</th>
@@ -51,20 +77,4 @@
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Postit Pad (small)</td>
-            <td>Post-its</td>
-            <td>Box</td>
-            <td>Supplier A</td>
-            <td>Supplier B</td>
-            <td>Supplier C</td>
-            <td>
-                <input type="checkbox" name="updateItemStatus" value="itemStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-    </tbody>
 </table>

@@ -6,37 +6,59 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-storeMaintenanceBin-details').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+     $(document).ready(function () {
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetBinsList/'+ '@Session["MaintenanceBinId"]',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-bins-details').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'Number' },
+                    { 'data': 'Location' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status !=0 ? 'Active' : 'Inactive';
+                        }
+                    },
+                ],
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 </script>
 
 <div>
-    <h2>Bin: B01</h2>
+    <h2>Bin: @Session["MaintenanceBinId"]</h2>
 </div>
 
 
-<table id="dataTable-storeMaintenanceBin-details" class="display" style="width:80%;">
+<table id="dataTable-store-bins-details" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>Bin Number</th>
+            <th>Bin Name</th>
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Shelf 1, Bin 1</td>
-            <td>
-                <input type="checkbox" name="updateBinStatus" value="binStatus" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
 </table>
 
 <button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>

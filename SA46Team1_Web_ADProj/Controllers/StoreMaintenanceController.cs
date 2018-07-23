@@ -27,9 +27,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayCategoryDetails()
+        public RedirectToRouteResult DisplayCategoryDetails(string maintenanceCategoryId)
         {
             Session["MaintenanceCategoriesPage"] = "2";
+            Session["MaintenanceCategoryId"] = maintenanceCategoryId;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -58,9 +60,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayStoreBinDetails()
+        public RedirectToRouteResult DisplayStoreBinDetails(string maintenanceBinId)
         {
             Session["MaintenanceStoreBinPage"] = "2";
+            Session["MaintenanceBinId"] = maintenanceBinId;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -90,9 +94,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplaySupplierDetails()
+        public RedirectToRouteResult DisplaySupplierDetails(string maintenanceSupplierCode)
         {
             Session["MaintenanceSuppliersPage"] = "2";
+            Session["MaintenanceSupplierCode"] = maintenanceSupplierCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -121,9 +127,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayCollectionPointDetails()
+        public RedirectToRouteResult DisplayCollectionPointDetails(string maintenanceCollectionPtCode)
         {
             Session["MaintenanceCollectionPointsPage"] = "2";
+            Session["MaintenanceCollectionPtCode"] = maintenanceCollectionPtCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -182,9 +190,10 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayItemDetails()
+        public RedirectToRouteResult DisplayItemDetails(string maintenanceItemCode)
         {
             Session["MaintenanceItemsPage"] = "2";
+            Session["MaintenanceItemCode"] = maintenanceItemCode;
             return RedirectToAction("Maintenance", "Store");
         }
 

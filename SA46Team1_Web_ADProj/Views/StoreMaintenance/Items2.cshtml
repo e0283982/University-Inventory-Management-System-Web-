@@ -6,55 +6,65 @@
 
 
 <script>
+
     $(document).ready(function () {
-        $('#dataTable-storeMaintenanceItems-details').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetItemsList/' + '@Session["MaintenanceItemCode"]',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-items-details').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'ItemCode' },
+                    { 'data': 'Description' },
+                    { 'data': 'CategoryName' },
+                    { 'data': 'UoM' },
+                    { 'data': 's1' },
+                    { 'data': 's2' },
+                    { 'data': 's3' },
+                    { 'data': 'Active' }
+                ],
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 </script>
 
 <div>
-    <h2>Item Code: C010</h2>
+    <h2>Item Code: @Session["MaintenanceItemCode"]</h2>
 </div>
 
 
-<table id="dataTable-storeMaintenanceItems-details" class="display" style="width:80%;">
+<table id="dataTable-store-items-details" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>Item Code</th>
+            <th>Description</th>
             <th>Category</th>
-            <th>Bin</th>
             <th>Unit of Measure</th>
-            <th>Reorder Level</th>
-            <th>Reorder Quantity</th>
             <th>Supplier 1</th>
             <th>Supplier 2</th>
             <th>Supplier 3</th>
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Postit Pad (small)</td>
-            <td>Post-its</td>
-            <td>Shelf 1A, Bin 1</td>
-            <td>Box</td>
-            <td>10</td>
-            <td>5</td>
-            <td>Supplier A</td>
-            <td>Supplier B</td>
-            <td>Supplier C</td>
-            <td>
-                <input type="checkbox" name="updateItemStatus" value="itemStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-    </tbody>
 </table>
+
 
 <div>
     <button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>

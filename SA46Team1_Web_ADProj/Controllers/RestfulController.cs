@@ -174,7 +174,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.GoodsReceivedLists.Where(x => x.ItemCode == id).ToList<GoodsReceivedList>();
+                return m.GoodsReceivedLists.Where(x => x.ReceiptNo == id).ToList<GoodsReceivedList>();
             }
         }
 
@@ -194,7 +194,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public List<StockAdjustmentOverview> GetStockAdjustmentList()
         {
             //Temporary placeholder to make the requestID = 1
-            string requestorId = "E1";            
+            string requestorId = "E1";
 
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -206,7 +206,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
 
         }
-        
+
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetRequisitionList")]
         public List<RequisitionList> GetRequisitionList()
@@ -336,24 +336,145 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetRequisitionHistory")]
-        public List<RequisitionHistory> GetRequisitionHistory()
-        {
-            using (SSISdbEntities m = new SSISdbEntities())
-            {
-                return m.RequisitionHistories.ToList();
-            }
-        }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetRequisitionHistoryDetail/{id}")]
-        public List<RequisitionHistoryDetail> GetRequisitionHistoryDetail(string id)
+        [System.Web.Mvc.Route("GetStockAdjustmentSupervisorApproval")]
+        public List<StockAdjustmentApprovalForSupervisor> GetStockAdjustmentSupervisorApproval()
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.RequisitionHistoryDetails.Where(x => x.FormID == id).ToList<RequisitionHistoryDetail>();
+                 return m.StockAdjustmentApprovalForSupervisors.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStockAdjustmentManagerApproval")]
+        public List<StockAdjustmentApprovalForManager> GetStockAdjustmentManagerApproval()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.StockAdjustmentApprovalForManagers.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetItemsList")]
+        public List<ItemFullDetail> GetItemsList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.ItemFullDetails.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetItemsList/{id}")]
+        public List<ItemFullDetail> GetItemsList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<ItemFullDetail> item = m.ItemFullDetails.Where(x => x.ItemCode == id).ToList<ItemFullDetail>();
+                return item;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCategoryList")]
+        public List<Category> GetCategoryList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.Categories.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCategoryList/{id}")]
+        public List<Category> GetCategoryList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<Category> item = m.Categories.Where(x => x.CategoryID == id).ToList<Category>();
+                return item;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetBinsList")]
+        public List<Bin> GetBinsList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.Bins.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetBinsList/{id}")]
+        public List<Bin> GetBinsList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<Bin> item = m.Bins.Where(x => x.Number.ToString() == id).ToList<Bin>();
+                return item;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCollectionPointList")]
+        public List<CollectionPoint> GetCollectionPointList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<CollectionPoint> list = m.CollectionPoints.ToList<CollectionPoint>();
+
+                return list;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCollectionPointList/{id}")]
+        public List<CollectionPoint> GetCollectionPointList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<CollectionPoint> list = m.CollectionPoints.Where(x=>x.CollectionPointID==id).ToList<CollectionPoint>();
+                return list;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetSuppliersList")]
+        public List<Supplier> GetSuppliersList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<Supplier> list = m.Suppliers.ToList<Supplier>();
+
+                return list;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetSuppliersList/{id}")]
+        public List<Supplier> GetSuppliersList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<Supplier> list = m.Suppliers.Where(x => x.SupplierCode == id).ToList<Supplier>();
+                return list;
             }
         }
     }

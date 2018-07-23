@@ -27,8 +27,22 @@
                         { 'data': 'EmpId' },
                         { 'data': 'EmpName' },
                         { 'data': 'Role' },
-                        { 'data': 'FromDate' },
-                        { 'data': 'ToDate' },
+                        {
+                            'data': 'FromDate',
+                            'render': function (jsonDate) {
+
+                                var date = new Date(jsonDate.substr(0));
+                                var month = date.getMonth() + 1;
+                                return date > 1 ? date.getDate() + "/" + month + "/" + date.getFullYear() : "";
+                            }},
+                        {
+                            'data': 'ToDate',
+                            'render': function (jsonDate) {
+
+                                var date = new Date(jsonDate.substr(0));
+                                var month = date.getMonth() + 1;
+                                return date>1? date.getDate() + "/" + month + "/" + date.getFullYear():"";
+                            }},
                         {
                             'data': null,
                             'render': function (data, type, row) {

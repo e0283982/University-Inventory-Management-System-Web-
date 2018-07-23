@@ -53,19 +53,33 @@ namespace SA46Team1_Web_ADProj
 
             //Session variables for Store - Disbursement
             Session["ReqListPage"] = "1";
+            Session["storeReqFormId"] = "";
 
             Session["DisbursementListPage"] = "1";
             Session["BackToDisbursementList"] = "false";
+            Session["storeDisbursementFormId"] = "";
+
+            Session["RetrievalListPage"] = "1";
 
             //Session variables for Store - Maintenance
             Session["MaintenanceBackFlagPage"] = "0";
 
             Session["MaintenanceItemsPage"] = "1";
+            Session["MaintenanceItemCode"] = "";
+
             Session["MaintenanceCategoriesPage"] = "1";
+            Session["MaintenanceCategoryId"] = "";
+
             Session["MaintenanceCollectionPointsPage"] = "1";
+            Session["MaintenanceCollectionPtCode"] = "";
+
             Session["MaintenanceDepartmentsPage"] = "1";
             Session["MaintenanceStoreBinPage"] = "1";
+            Session["MaintenanceBinId"] = "";
+
             Session["MaintenanceSuppliersPage"] = "1";
+            Session["MaintenanceSupplierCode"] = "";
+
         }
     }
 }

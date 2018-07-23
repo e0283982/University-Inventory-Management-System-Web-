@@ -35,7 +35,16 @@
                     columns: [
                         { 'data': 'PONumber' },
                         { 'data': 'CompanyName' },
-                        { 'data': 'Date' },
+                        {
+                            'data': 'Date',
+                            'render': function (jsonDate) {
+
+                                var date = new Date(jsonDate.substr(0));
+                                var month = date.getMonth() + 1;
+                                return date.getDate() + "/" + month + "/" + date.getFullYear();
+
+                            }
+                        },
                         { 'data': 'Status' }
                     ]
                 });
@@ -46,13 +55,11 @@
     $(document).ajaxComplete(function () {
         $('#dataTable-poList tbody').on('click', 'tr', function () {
             var data = table.row(this).data();
-            var dataToBeSent = data["PONumber"];
-            alert(data["PONumber"]);
 
-            $.ajax({
-                url: '/StorePurchase/DisplayPO',
-                data: dataToBeSent,
+            jQuery.ajax({
                 type: 'POST',
+                url: '/StorePurchase/DisplayPO',
+                data: data
             });
 
             window.location.href = '@Url.Action("Purchase", "Store")';
