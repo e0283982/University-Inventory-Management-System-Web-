@@ -174,7 +174,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.GoodsReceivedLists.Where(x => x.ItemCode == id).ToList<GoodsReceivedList>();
+                return m.GoodsReceivedLists.Where(x => x.ReceiptNo == id).ToList<GoodsReceivedList>();
             }
         }
 

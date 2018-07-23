@@ -19,7 +19,16 @@
                     data: data,
                     columns: [
                         { 'data': 'ReceiptNo' },
-                        { 'data': 'ReceivedDate' },
+                        {
+                            'data': 'ReceivedDate',
+                            'render': function (jsonDate) {
+
+                                var date = new Date(jsonDate.substr(0));
+                                var month = date.getMonth() + 1;
+                                return date.getDate() + "/" + month + "/" + date.getFullYear();
+
+                            }
+                        },
                         { 'data': 'CompanyName' }
                     ]
                 });
@@ -31,11 +40,10 @@
     $(document).ajaxComplete(function () {
         $('#dataTable-goodsReceived').off().on('click', 'tr', function () {
             var data = table.row(this).data();
-            var dataToBeSent = data["ReceiptNo"];
 
-            $.ajax({
+            jQuery.ajax({
                 url: '/StorePurchase/DisplayGR',
-                data: dataToBeSent,
+                data: data,
                 type: 'POST',
             });
 
