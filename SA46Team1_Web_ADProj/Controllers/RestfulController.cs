@@ -163,7 +163,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.InventoryOverviews.Where(x => x.ItemCode == id).ToList();
+                return m.InventoryOverviews.Where(x => x.ItemCode == id).ToList<InventoryOverview>();
             }
         }
 
@@ -174,7 +174,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.GoodsReceivedLists.Where(x => x.ReceiptNo == id).ToList();
+                return m.GoodsReceivedLists.Where(x => x.ItemCode == id).ToList<GoodsReceivedList>();
             }
         }
 
@@ -337,16 +337,16 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
 
-        //[System.Web.Mvc.HttpGet]
-        //[System.Web.Mvc.Route("GetStockAdjustmentSupervisorApproval")]
-        //public List<StockAdjustmentApprovalForSupervisor> GetStockAdjustmentSupervisorApproval()
-        //{
-        //    using (SSISdbEntities m = new SSISdbEntities())
-        //    {
-        //        m.Configuration.ProxyCreationEnabled = false;
-        //       // return m.StockAdjustmentApprovalForManager.ToList();
-        //    }
-        //}
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStockAdjustmentSupervisorApproval")]
+        public List<StockAdjustmentApprovalForSupervisor> GetStockAdjustmentSupervisorApproval()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                 return m.StockAdjustmentApprovalForSupervisors.ToList();
+            }
+        }
 
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetStockAdjustmentManagerApproval")]
@@ -356,6 +356,29 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 return m.StockAdjustmentApprovalForManagers.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetItemsList")]
+        public List<ItemFullDetail> GetItemsList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.ItemFullDetails.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetItemsList/{id}")]
+        public List<ItemFullDetail> GetItemsList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<ItemFullDetail> item = m.ItemFullDetails.Where(x => x.ItemCode == id).ToList<ItemFullDetail>();
+                return item;
             }
         }
     }

@@ -142,27 +142,37 @@
 
     @using (Html.BeginForm("AdjustItem", "StoreDisbursements", FormMethod.Post))
     {
+    <div>
         <div>
-            <div>
-                @*<label>Stock Requisition Id: </label>*@
+            @*<label>Stock Requisition Id: </label>*@
 
-                @Html.TextBoxFor(tuple => tuple.Item1.Id, new { @placeholder = "StoRId", @id = "assign-stock-req-id", @readonly = "readonly", style = "display: none;" })
-                
-            </div>
-            <div>
-                <label>Item Name: </label>
-                @Html.TextBoxFor(tuple => tuple.Item2.Description , new { @placeholder = "StoRId", @id = "assign-item-description", @readonly = "readonly" })
-
-            </div>
-
-            <div>
-                <label>Quantity to Adjust: </label>
-                @Html.EditorFor(tuple => tuple.Item1.QuantityAdjusted, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityAdjusted", @id = "assign-quantity-adjusted" }, })
-            </div>
-
-            <input id="btn-submit-qty-adj-changes" class="btn-blue" type="submit" value="Save" />
+            @Html.TextBoxFor(tuple => tuple.Item1.Id, new { @placeholder = "StoRId", @id = "assign-stock-req-id", @readonly = "readonly", style = "display: none;" })
 
         </div>
+        <div>
+            <label>Item Name: </label>
+            @Html.TextBoxFor(tuple => tuple.Item2.Description, new { @placeholder = "StoRId", @id = "assign-item-description", @readonly = "readonly" })
+
+        </div>
+
+        <div>
+            <label>Quantity to Adjust: </label>
+            @Html.EditorFor(tuple => tuple.Item1.QuantityAdjusted, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityAdjusted", @id = "assign-quantity-adjusted" }, })
+        </div>
+
+        <div>
+            <label>Damaged/Missing</label>
+
+            @Html.DropDownListFor(tuple => tuple.Item1.Remarks, new List<SelectListItem>
+                       { new SelectListItem{Text="Damaged", Value="Damaged"},
+                         new SelectListItem{Text="Missing", Value="Missing"}}, new { style = "padding: 1px; " })
+
+        </div>
+
+
+        <input id="btn-submit-qty-adj-changes" class="btn-blue" type="submit" value="Save" />
+
+    </div>
     }
 
 

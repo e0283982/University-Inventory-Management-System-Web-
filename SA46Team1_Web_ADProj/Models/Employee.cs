@@ -24,7 +24,6 @@ namespace SA46Team1_Web_ADProj.Models
             this.POHeaders = new HashSet<POHeader>();
             this.POReceiptHeaders = new HashSet<POReceiptHeader>();
             this.StockAdjustmentHeaders = new HashSet<StockAdjustmentHeader>();
-            this.StockAdjustmentHeaders1 = new HashSet<StockAdjustmentHeader>();
         }
     
         public string EmployeeID { get; set; }
@@ -54,7 +53,5 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual ICollection<POReceiptHeader> POReceiptHeaders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockAdjustmentHeader> StockAdjustmentHeaders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockAdjustmentHeader> StockAdjustmentHeaders1 { get; set; }
     }
 }

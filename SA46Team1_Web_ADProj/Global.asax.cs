@@ -53,9 +53,11 @@ namespace SA46Team1_Web_ADProj
 
             //Session variables for Store - Disbursement
             Session["ReqListPage"] = "1";
+            Session["storeReqFormId"] = "";
 
             Session["DisbursementListPage"] = "1";
             Session["BackToDisbursementList"] = "false";
+            Session["storeDisbursementFormId"] = "";
 
             Session["RetrievalListPage"] = "1";
 
@@ -63,6 +65,8 @@ namespace SA46Team1_Web_ADProj
             Session["MaintenanceBackFlagPage"] = "0";
 
             Session["MaintenanceItemsPage"] = "1";
+            Session["MaintenanceItemCode"] = "";
+
             Session["MaintenanceCategoriesPage"] = "1";
             Session["MaintenanceCollectionPointsPage"] = "1";
             Session["MaintenanceDepartmentsPage"] = "1";
