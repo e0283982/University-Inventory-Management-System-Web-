@@ -381,5 +381,28 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return item;
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCategoryList")]
+        public List<Category> GetCategoryList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.Categories.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCategoryList/{id}")]
+        public List<Category> GetCategoryList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<Category> item = m.Categories.Where(x => x.CategoryID == id).ToList<Category>();
+                return item;
+            }
+        }
     }
 }

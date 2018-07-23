@@ -27,9 +27,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayCategoryDetails()
+        public RedirectToRouteResult DisplayCategoryDetails(string maintenanceCategoryId)
         {
             Session["MaintenanceCategoriesPage"] = "2";
+            Session["MaintenanceCategoryId"] = maintenanceCategoryId;
+
             return RedirectToAction("Maintenance", "Store");
         }
 

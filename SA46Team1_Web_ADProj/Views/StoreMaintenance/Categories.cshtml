@@ -6,30 +6,58 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-storeMaintenanceCategory').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+     $(document).ready(function () {
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetCategoryList',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-categories').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'CategoryID' },
+                    { 'data': 'CategoryName' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status !=0 ? 'Active' : 'Inactive';
+                        }
+                    },
+                ],
+                 drawCallback: function (settings) {
+                    $('#dataTable-store-categories tbody').on('click', 'tr', function () {
+                        var data = table.row(this).data();
+
+                        $.ajax({
+                            url: '/StoreMaintenance/DisplayCategoryDetails',
+                            data: { maintenanceCategoryId: data["CategoryID"] },
+                            type: 'POST',
+                        });
+
+                        window.location.href = '@Url.Action("Maintenance", "Store")';
+
+                    });
+                },
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
-    });
-
-    var table = $('#dataTable-storeMaintenanceCategory').DataTable();
-
-    $('#dataTable-storeMaintenanceCategory tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
-
-        $.ajax({
-            url: '/StoreMaintenance/DisplayCategoryDetails',
-            data: dataToBeSent,
-            type: 'POST',
-        });
-
-        window.location.href = '@Url.Action("Maintenance", "Store")';
-
     });
 </script>
 
@@ -38,31 +66,14 @@
 </div>
 
 
-<table id="dataTable-storeMaintenanceCategory" class="display" style="width:80%;">
+<table id="dataTable-store-categories" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Category ID</th>
             <th>Item</th>
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Clip "2</td>
-            <td>
-                <input type="checkbox" name="updateItemStatus" value="itemStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Clip "2.5</td>
-            <td>
-                <input type="checkbox" name="updateItemStatus" value="itemStatus" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
 </table>
 
 

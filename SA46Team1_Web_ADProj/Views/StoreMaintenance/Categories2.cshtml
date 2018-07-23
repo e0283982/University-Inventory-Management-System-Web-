@@ -7,36 +7,58 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable-storeMaintenanceCategory-details').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetCategoryList/'+ '@Session["MaintenanceCategoryId"]',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-categories-details').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'CategoryID' },
+                    { 'data': 'CategoryName' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status !=0 ? 'Active' : 'Inactive';
+                        }
+                    },
+                ],
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 </script>
 
 <div>
-    <h2>Category: CAT01</h2>
+    <h2>Category: @Session["MaintenanceCategoryId"]</h2>
 </div>
 
 
-<table id="dataTable-storeMaintenanceCategory-details" class="display" style="width:80%;">
+<table id="dataTable-store-categories-details" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Category Id</th>
             <th>Name</th>
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Clip</td>
-            <td>
-                <input type="checkbox" name="updateCategoryStatus" value="categoryStatus" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
 </table>
 
 
