@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9c74f58a33aa49dd85a8db9d0f61ec9f" Name="Diagram1">
+      <Diagram DiagramId="9c74f58a33aa49dd85a8db9d0f61ec9f" Name="Diagram1" ZoomLevel="55">
         <EntityTypeShape EntityType="SSISdbModel.ApprovalDelegation" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.Bin" Width="1.5" PointX="5.25" PointY="16.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.Category" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
@@ -28,7 +28,6 @@
         <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentHeader" Width="1.5" PointX="9" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StockCount" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StockRetrievalDetail" Width="1.5" PointX="11.25" PointY="23.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalHeader" Width="1.5" PointX="9" PointY="33.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StockTakeDetail" Width="1.5" PointX="5.25" PointY="13" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StockTakeHeader" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.Supplier" Width="1.5" PointX="0.75" PointY="19.375" IsExpanded="true" />
@@ -37,12 +36,11 @@
         <EntityTypeShape EntityType="SSISdbModel.CollectionList" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.DisbursementList" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.DisbursementListDetail" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.GoodsReceivedList" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.GRList" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.InventoryOverview" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.ItemFullDetail" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.PendingApproval" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.POFullDetail" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSISdbModel.POFullDetail" PointX="5.375" PointY="8.75" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.POList" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.ReorderList" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.RequisitionList" Width="1.5" PointX="11.75" PointY="7.75" IsExpanded="true" />
@@ -89,10 +87,14 @@
         <AssociationConnector Association="SSISdbModel.FK__POReceipt__Recei__29221CFB" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__StaffRequ__FormI__57DD0BE4" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__StockAdju__Reque__46B27FE2" ManuallyRouted="false" />
-        <AssociationConnector Association="SSISdbModel.FK__StockRetriev__Id__339FAB6E" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__StockTake__Stock__5224328E" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__SupplierP__Suppl__7E37BEF6" ManuallyRouted="false" />
-        <AssociationConnector Association="SSISdbModel.StockRetrievalReqForm" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalHeader" Width="1.5" PointX="3.75" PointY="36.875" />
+        <EntityTypeShape EntityType="SSISdbModel.StockRetrievalReqForm" Width="1.5" PointX="6" PointY="34.875" />
+        <AssociationConnector Association="SSISdbModel.FK__StockRetr__ReqFo__69C6B1F5" />
+        <AssociationConnector Association="SSISdbModel.FK__StockRetriev__Id__339FAB6E" />
+        <AssociationConnector Association="SSISdbModel.FK__StockRetr__Stock__68D28DBC" />
+        <EntityTypeShape EntityType="SSISdbModel.GoodsReceivedList" Width="1.5" PointX="16.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

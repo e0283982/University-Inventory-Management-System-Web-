@@ -48,7 +48,6 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockAdjustmentHeader> StockAdjustmentHeaders { get; set; }
         public virtual DbSet<StockCount> StockCounts { get; set; }
         public virtual DbSet<StockRetrievalDetail> StockRetrievalDetails { get; set; }
-        public virtual DbSet<StockRetrievalHeader> StockRetrievalHeaders { get; set; }
         public virtual DbSet<StockTakeDetail> StockTakeDetails { get; set; }
         public virtual DbSet<StockTakeHeader> StockTakeHeaders { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
@@ -57,7 +56,6 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<CollectionList> CollectionLists { get; set; }
         public virtual DbSet<DisbursementList> DisbursementLists { get; set; }
         public virtual DbSet<DisbursementListDetail> DisbursementListDetails { get; set; }
-        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
         public virtual DbSet<GRList> GRLists { get; set; }
         public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
         public virtual DbSet<ItemFullDetail> ItemFullDetails { get; set; }
@@ -72,5 +70,8 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForSupervisors { get; set; }
         public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
         public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
+        public virtual DbSet<StockRetrievalHeader> StockRetrievalHeaders { get; set; }
+        public virtual DbSet<StockRetrievalReqForm> StockRetrievalReqForms { get; set; }
+        public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
     }
 }

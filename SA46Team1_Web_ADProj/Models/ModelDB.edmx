@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApprovalDelegation">
           <Key>
             <PropertyRef Name="Id" />
@@ -288,9 +288,9 @@
         </EntityType>
         <EntityType Name="StockRetrievalReqForm">
           <Key>
-            <PropertyRef Name="StockRetrievalID" />
-            <PropertyRef Name="ReqFormID" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StockRetrievalID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ReqFormID" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
@@ -412,20 +412,28 @@ warning 6002: The table/view 'SSISdb.dbo.DisbursementListDetails' does not have 
 warning 6002: The table/view 'SSISdb.dbo.GoodsReceivedList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GoodsReceivedList">
           <Key>
+            <PropertyRef Name="ReceiptNo" />
             <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="UnitCost" />
+            <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="CompanyName" />
             <PropertyRef Name="EmployeeName" />
           </Key>
+          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="PONumber" Type="nvarchar" MaxLength="255" />
-          <Property Name="Description" Type="nvarchar" MaxLength="255" />
-          <Property Name="UoM" Type="nvarchar" MaxLength="255" />
-          <Property Name="QuantityReceived" Type="int" />
-          <Property Name="UnitCost" Type="real" />
+          <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityReceived" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="real" Nullable="false" />
           <Property Name="Total" Type="real" />
-          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="12" />
-          <Property Name="ReceivedDate" Type="date" />
+          <Property Name="ReceivedDate" Type="date" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
-          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -503,6 +511,7 @@ warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary 
             <PropertyRef Name="Date" />
             <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="Status" />
           </Key>
           <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
@@ -515,6 +524,8 @@ warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary 
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ReceivedDate" Type="date" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.POList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1290,6 +1301,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           </EntitySet>
           <EntitySet Name="GoodsReceivedList" EntityType="Self.GoodsReceivedList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [GoodsReceivedList].[ReceiptNo] AS [ReceiptNo], 
     [GoodsReceivedList].[ItemCode] AS [ItemCode], 
     [GoodsReceivedList].[PONumber] AS [PONumber], 
     [GoodsReceivedList].[Description] AS [Description], 
@@ -1297,7 +1309,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [GoodsReceivedList].[QuantityReceived] AS [QuantityReceived], 
     [GoodsReceivedList].[UnitCost] AS [UnitCost], 
     [GoodsReceivedList].[Total] AS [Total], 
-    [GoodsReceivedList].[ReceiptNo] AS [ReceiptNo], 
     [GoodsReceivedList].[ReceivedDate] AS [ReceivedDate], 
     [GoodsReceivedList].[Remarks] AS [Remarks], 
     [GoodsReceivedList].[CompanyName] AS [CompanyName], 
@@ -1354,7 +1365,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [POFullDetails].[Total] AS [Total], 
     [POFullDetails].[Date] AS [Date], 
     [POFullDetails].[EmployeeName] AS [EmployeeName], 
-    [POFullDetails].[ReceivedDate] AS [ReceivedDate]
+    [POFullDetails].[ReceivedDate] AS [ReceivedDate], 
+    [POFullDetails].[Remarks] AS [Remarks], 
+    [POFullDetails].[Status] AS [Status]
     FROM [dbo].[POFullDetails] AS [POFullDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="POList" EntityType="Self.POList" store:Type="Views" store:Schema="dbo">
@@ -1637,8 +1650,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SSISdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1926,7 +1938,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="NotificationStatus" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Requi__3FD07829" FromRole="StaffRequisitionHeader" ToRole="DisbursementHeader" />
           <NavigationProperty Name="StaffRequisitionDetails" Relationship="Self.FK__StaffRequ__FormI__57DD0BE4" FromRole="StaffRequisitionHeader" ToRole="StaffRequisitionDetails" />
-          <NavigationProperty Name="StockRetrievalHeaders" Relationship="Self.StockRetrievalReqForm" FromRole="StaffRequisitionHeader" ToRole="StockRetrievalHeader" />
+          <NavigationProperty Name="StockRetrievalReqForms" Relationship="SSISdbModel.FK__StockRetr__ReqFo__69C6B1F5" FromRole="StaffRequisitionHeader" ToRole="StockRetrievalReqForm" />
         </EntityType>
         <EntityType Name="StockAdjustmentDetail">
           <Key>
@@ -1983,17 +1995,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__StockRetr__Colle__3587F3E0" FromRole="StockRetrievalDetails" ToRole="CollectionPoint" />
           <NavigationProperty Name="Department" Relationship="Self.FK__StockRetr__Depar__367C1819" FromRole="StockRetrievalDetails" ToRole="Department" />
           <NavigationProperty Name="Item" Relationship="Self.FK__StockRetr__ItemC__3493CFA7" FromRole="StockRetrievalDetails" ToRole="Item" />
-          <NavigationProperty Name="StockRetrievalHeader" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalDetails" ToRole="StockRetrievalHeader" />
-        </EntityType>
-        <EntityType Name="StockRetrievalHeader">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Disbursed" Type="Byte" />
-          <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetails" />
-          <NavigationProperty Name="StaffRequisitionHeaders" Relationship="Self.StockRetrievalReqForm" FromRole="StockRetrievalHeader" ToRole="StaffRequisitionHeader" />
+          <NavigationProperty Name="StockRetrievalHeader" Relationship="SSISdbModel.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalDetail" ToRole="StockRetrievalHeader" />
         </EntityType>
         <EntityType Name="StockTakeDetail">
           <Key>
@@ -2111,24 +2113,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
           <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="GoodsReceivedList">
-          <Key>
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="EmployeeName" />
-          </Key>
-          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityReceived" Type="Int32" />
-          <Property Name="UnitCost" Type="Single" />
-          <Property Name="Total" Type="Single" />
-          <Property Name="ReceiptNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
-          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
         <EntityType Name="GRList">
           <Key>
             <PropertyRef Name="ReceiptNo" />
@@ -2194,18 +2178,21 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <PropertyRef Name="Date" />
             <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="Status" />
           </Key>
-          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
-          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="PONumber" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="ItemCode" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="CompanyName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="QuantityOrdered" Nullable="false" Type="Int32" />
+          <Property Name="UoM" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="UnitCost" Nullable="false" Type="Single" />
           <Property Name="Total" Type="Single" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Date" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="EmployeeName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="ReceivedDate" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="POList">
           <Key>
@@ -2832,18 +2819,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockRetriev__Id__339FAB6E">
-          <End Role="StockRetrievalHeader" Type="Self.StockRetrievalHeader" Multiplicity="1" />
-          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockRetrievalHeader">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="StockRetrievalDetails">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__StockTake__Stock__5224328E">
           <End Role="StockTakeHeader" Type="Self.StockTakeHeader" Multiplicity="1" />
           <End Role="StockTakeDetails" Type="Self.StockTakeDetail" Multiplicity="*" />
@@ -2867,10 +2842,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
               <PropertyRef Name="SupplierCode" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="StockRetrievalReqForm">
-          <End Role="StaffRequisitionHeader" Type="Self.StaffRequisitionHeader" Multiplicity="*" />
-          <End Role="StockRetrievalHeader" Type="Self.StockRetrievalHeader" Multiplicity="*" />
         </Association>
         <EntityContainer Name="SSISdbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ApprovalDelegations" EntityType="Self.ApprovalDelegation" />
@@ -2896,7 +2867,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySet Name="StockAdjustmentHeaders" EntityType="Self.StockAdjustmentHeader" />
           <EntitySet Name="StockCounts" EntityType="Self.StockCount" />
           <EntitySet Name="StockRetrievalDetails" EntityType="Self.StockRetrievalDetail" />
-          <EntitySet Name="StockRetrievalHeaders" EntityType="Self.StockRetrievalHeader" />
           <EntitySet Name="StockTakeDetails" EntityType="Self.StockTakeDetail" />
           <EntitySet Name="StockTakeHeaders" EntityType="Self.StockTakeHeader" />
           <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
@@ -2905,7 +2875,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySet Name="CollectionLists" EntityType="Self.CollectionList" />
           <EntitySet Name="DisbursementLists" EntityType="Self.DisbursementList" />
           <EntitySet Name="DisbursementListDetails" EntityType="Self.DisbursementListDetail" />
-          <EntitySet Name="GoodsReceivedLists" EntityType="Self.GoodsReceivedList" />
           <EntitySet Name="GRLists" EntityType="Self.GRList" />
           <EntitySet Name="InventoryOverviews" EntityType="Self.InventoryOverview" />
           <EntitySet Name="ItemFullDetails" EntityType="Self.ItemFullDetail" />
@@ -3068,10 +3037,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="StockAdjustmentHeader" EntitySet="StockAdjustmentHeaders" />
             <End Role="StockAdjustmentDetails" EntitySet="StockAdjustmentDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockRetriev__Id__339FAB6E" Association="Self.FK__StockRetriev__Id__339FAB6E">
-            <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
-            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK__StockTake__Stock__5224328E" Association="Self.FK__StockTake__Stock__5224328E">
             <End Role="StockTakeHeader" EntitySet="StockTakeHeaders" />
             <End Role="StockTakeDetails" EntitySet="StockTakeDetails" />
@@ -3080,11 +3045,104 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierPriceList" EntitySet="SupplierPriceLists" />
           </AssociationSet>
-          <AssociationSet Name="StockRetrievalReqForm" Association="Self.StockRetrievalReqForm">
+          <EntitySet Name="StockRetrievalHeaders" EntityType="SSISdbModel.StockRetrievalHeader" />
+          <EntitySet Name="StockRetrievalReqForms" EntityType="SSISdbModel.StockRetrievalReqForm" />
+          <AssociationSet Name="FK__StockRetr__ReqFo__69C6B1F5" Association="SSISdbModel.FK__StockRetr__ReqFo__69C6B1F5">
             <End Role="StaffRequisitionHeader" EntitySet="StaffRequisitionHeaders" />
-            <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
+            <End Role="StockRetrievalReqForm" EntitySet="StockRetrievalReqForms" />
           </AssociationSet>
+          <AssociationSet Name="FK__StockRetriev__Id__339FAB6E" Association="SSISdbModel.FK__StockRetriev__Id__339FAB6E">
+            <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
+            <End Role="StockRetrievalDetail" EntitySet="StockRetrievalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StockRetr__Stock__68D28DBC" Association="SSISdbModel.FK__StockRetr__Stock__68D28DBC">
+            <End Role="StockRetrievalHeader" EntitySet="StockRetrievalHeaders" />
+            <End Role="StockRetrievalReqForm" EntitySet="StockRetrievalReqForms" />
+          </AssociationSet>
+          <EntitySet Name="GoodsReceivedLists" EntityType="SSISdbModel.GoodsReceivedList" />
         </EntityContainer>
+        <EntityType Name="StockRetrievalHeader">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Disbursed" Type="Byte" />
+          <NavigationProperty Name="StockRetrievalDetails" Relationship="SSISdbModel.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetail" />
+          <NavigationProperty Name="StockRetrievalReqForms" Relationship="SSISdbModel.FK__StockRetr__Stock__68D28DBC" FromRole="StockRetrievalHeader" ToRole="StockRetrievalReqForm" />
+        </EntityType>
+        <EntityType Name="StockRetrievalReqForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockRetrievalID" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ReqFormID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StaffRequisitionHeader" Relationship="SSISdbModel.FK__StockRetr__ReqFo__69C6B1F5" FromRole="StockRetrievalReqForm" ToRole="StaffRequisitionHeader" />
+          <NavigationProperty Name="StockRetrievalHeader" Relationship="SSISdbModel.FK__StockRetr__Stock__68D28DBC" FromRole="StockRetrievalReqForm" ToRole="StockRetrievalHeader" />
+        </EntityType>
+        <Association Name="FK__StockRetr__ReqFo__69C6B1F5">
+          <End Type="SSISdbModel.StaffRequisitionHeader" Role="StaffRequisitionHeader" Multiplicity="1" />
+          <End Type="SSISdbModel.StockRetrievalReqForm" Role="StockRetrievalReqForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StaffRequisitionHeader">
+              <PropertyRef Name="FormID" />
+            </Principal>
+            <Dependent Role="StockRetrievalReqForm">
+              <PropertyRef Name="ReqFormID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetriev__Id__339FAB6E">
+          <End Type="SSISdbModel.StockRetrievalHeader" Role="StockRetrievalHeader" Multiplicity="1" />
+          <End Type="SSISdbModel.StockRetrievalDetail" Role="StockRetrievalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockRetrievalHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StockRetrievalDetail">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StockRetr__Stock__68D28DBC">
+          <End Type="SSISdbModel.StockRetrievalHeader" Role="StockRetrievalHeader" Multiplicity="1" />
+          <End Type="SSISdbModel.StockRetrievalReqForm" Role="StockRetrievalReqForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockRetrievalHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StockRetrievalReqForm">
+              <PropertyRef Name="StockRetrievalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GoodsReceivedList">
+          <Key>
+            <PropertyRef Name="ReceiptNo" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="UnitCost" />
+            <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="EmployeeName" />
+          </Key>
+          <Property Name="ReceiptNo" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="PONumber" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
+          <Property Name="Total" Type="Single" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3377,15 +3435,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StockRetrievalHeaders">
-            <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalHeader">
-              <MappingFragment StoreEntitySet="StockRetrievalHeader">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Disbursed" ColumnName="Disbursed" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="StockTakeDetails">
             <EntityTypeMapping TypeName="SSISdbModel.StockTakeDetail">
               <MappingFragment StoreEntitySet="StockTakeDetails">
@@ -3480,24 +3529,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GoodsReceivedLists">
-            <EntityTypeMapping TypeName="SSISdbModel.GoodsReceivedList">
-              <MappingFragment StoreEntitySet="GoodsReceivedList">
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
-                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
-                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GRLists">
             <EntityTypeMapping TypeName="SSISdbModel.GRList">
               <MappingFragment StoreEntitySet="GRList">
@@ -3547,6 +3578,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySetMapping Name="POFullDetails">
             <EntityTypeMapping TypeName="SSISdbModel.POFullDetail">
               <MappingFragment StoreEntitySet="POFullDetails">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="PONumber" ColumnName="PONumber" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -3690,14 +3723,42 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="StockRetrievalReqForm" TypeName="SSISdbModel.StockRetrievalReqForm" StoreEntitySet="StockRetrievalReqForm">
-            <EndProperty Name="StaffRequisitionHeader">
-              <ScalarProperty Name="FormID" ColumnName="ReqFormID" />
-            </EndProperty>
-            <EndProperty Name="StockRetrievalHeader">
-              <ScalarProperty Name="ID" ColumnName="StockRetrievalID" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <EntitySetMapping Name="StockRetrievalHeaders">
+            <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalHeader">
+              <MappingFragment StoreEntitySet="StockRetrievalHeader">
+                <ScalarProperty Name="Disbursed" ColumnName="Disbursed" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockRetrievalReqForms">
+            <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalReqForm">
+              <MappingFragment StoreEntitySet="StockRetrievalReqForm">
+                <ScalarProperty Name="ReqFormID" ColumnName="ReqFormID" />
+                <ScalarProperty Name="StockRetrievalID" ColumnName="StockRetrievalID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoodsReceivedLists">
+            <EntityTypeMapping TypeName="SSISdbModel.GoodsReceivedList">
+              <MappingFragment StoreEntitySet="GoodsReceivedList">
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

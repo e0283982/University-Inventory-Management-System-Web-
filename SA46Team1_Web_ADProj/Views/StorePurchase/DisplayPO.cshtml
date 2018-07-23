@@ -7,8 +7,6 @@
 
 <script>
     var table;
-    var date;
-    var remarks;
     $(document).ready(function () {
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetPOFullDetails/' + $('#lbl-poNumber').text(),
@@ -27,11 +25,40 @@
                         { 'data': 'QuantityOrdered' },
                         { 'data': 'UoM' },
                         { 'data': 'UnitCost' },
-                        { 'data': 'Total' }
+                        { 'data': 'Total' },
+                        { 'defaultContent': '7%' }
                     ]
                 });
-                remarks = { 'data': 'Remarks' };
-                date = { 'data': 'Date' };
+                var date = new Date(data[0]["Date"]);
+                var month = date.getMonth() + 1;
+                var newDate = date.getDate() + "/" + month + "/" + date.getFullYear();
+
+                var dateRec = new Date(data[0]["ReceivedDate"]);
+                var monthRec = dateRec.getMonth() + 1;
+                var newDateRec = dateRec.getDate() + "/" + monthRec + "/" + dateRec.getFullYear();
+
+                var i;
+                var total =0;
+                for (i = 0; i < data.length; i++) {
+                    total = total + data[i]["Total"];
+                }
+                var gst = total * 0.07;
+                var netTotal = total + gst;
+
+                $(function () {
+                    $('#lbl-poNumber').val(data[0]["PONumber"]);
+                    $('#lbl-dateCreated').val(newDate);
+                    $('#lbl-del-date').val(newDateRec);
+                    $('#lbl-status').val(data[0]["Status"]);
+                    $('#displayPO-gross-total').val(twoDP(total));
+                    $('#displayPO-gst').val(twoDP(gst));
+                    $('#displayPO-net-total').val(twoDP(netTotal));
+                    $('#ta-remarks').val(data[0]["Remarks"]);
+                });
+
+                function twoDP(value) {
+                    return parseFloat(Math.round(value * 100) / 100).toFixed(2);
+                }
             }
         });
     });
@@ -76,16 +103,15 @@
 </div>
 
 <div class="create-PO-dates">
-    <label>PO Number:&nbsp</label><label id="lbl-poNumber">@Session["poNumber"]</label>
+    <label>PO Number:&nbsp <label id="lbl-poNumber">@Session["poNumber"]</label></label>
     <br/>
-    <label>Date: <input type="text" id="datepicker-PODate"></label>
-    <label>Expected Delivery Date: <input type="text" id="datepicker-PODeliveryDate"></label>
+    <label>Date Created: <input type="text" id="lbl-dateCreated" readonly="readonly"></label>
+    <label>Delivery Date:<input type="text" id="lbl-del-date" readonly="readonly"></label>
 </div>
 
 <div>
     <p>Remarks:</p>
-    <textarea rows="4" cols="50">
-        Enter remarks here. Test
+    <textarea id="ta-remarks" rows="4" cols="50">
     </textarea>
 </div>
 
@@ -98,15 +124,16 @@
             <th>Unit of Measure</th>
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
+            <th>GST ($)</th>
         </tr>
     </thead>
 </table>
 
 <div>
+    <label>Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>
+    <label>GST ($): <input type="text" id="displayPO-gst"></label>
     <label>Net Total ($): <input type="text" id="displayPO-net-total"></label>
-    <label>GST ($): <input type="text" id="displayPO-GST"></label>
-    <label>Gross Total ($): <input type="text" id="displayPO-gross-total"></label>
-    <label>PO Status: <input type="text" id="displayPO-status"></label>
+    <label>PO Status: <input type="text" id="lbl-status" readonly="readonly"></label>
 </div>
 
 <div id="btns-grp-btm">

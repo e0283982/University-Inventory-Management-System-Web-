@@ -19,7 +19,7 @@ namespace SA46Team1_Web_ADProj.Models
         {
             this.DisbursementHeaders = new HashSet<DisbursementHeader>();
             this.StaffRequisitionDetails = new HashSet<StaffRequisitionDetail>();
-            this.StockRetrievalHeaders = new HashSet<StockRetrievalHeader>();
+            this.StockRetrievalReqForms = new HashSet<StockRetrievalReqForm>();
         }
     
         public string FormID { get; set; }
@@ -38,6 +38,6 @@ namespace SA46Team1_Web_ADProj.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StaffRequisitionDetail> StaffRequisitionDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockRetrievalHeader> StockRetrievalHeaders { get; set; }
+        public virtual ICollection<StockRetrievalReqForm> StockRetrievalReqForms { get; set; }
     }
 }
