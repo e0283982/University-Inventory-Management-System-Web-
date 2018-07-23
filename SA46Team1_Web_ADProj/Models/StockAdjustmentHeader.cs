@@ -23,12 +23,10 @@ namespace SA46Team1_Web_ADProj.Models
         public string RequestId { get; set; }
         public System.DateTime DateRequested { get; set; }
         public string Requestor { get; set; }
-        public string Approver { get; set; }
         public Nullable<System.DateTime> DateProcessed { get; set; }
         public string TransactionType { get; set; }
     
         public virtual Employee Employee { get; set; }
-        public virtual Employee Employee1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
     }
