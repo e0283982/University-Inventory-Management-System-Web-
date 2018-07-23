@@ -256,6 +256,17 @@ namespace SA46Team1_Web_ADProj.Controllers
             if (Session["MaintenanceItemsPage"].ToString() == "1")
             {
                 Session["MaintenanceBackFlagPage"] = "0";
+                using (SSISdbEntities e = new SSISdbEntities())
+                {
+                    List<String> UOMList = new List<string>()
+                    {
+                        "Box","Dozen","Each","Packet","Set"
+                    };
+                    ViewBag.SupplierList = new SelectList(e.Suppliers.ToList(), "SupplierCode", "CompanyName");
+                    ViewBag.UOMList = new SelectList(UOMList, "UoM");
+                    ViewBag.CategoryList = new SelectList(e.Categories.ToList(), "CategoryID", "CategoryName");
+
+                }
                 return View("Items");
             }
             else
@@ -273,5 +284,49 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Maintenance", "Store");
         }
 
+        [HttpPost]
+        [Route("Items/AddNewItem")]
+        public RedirectToRouteResult AddNewItem(Item item)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                string category = Request.Form["SelectItemCategory"].ToString();
+                string UoM = Request.Form["SelectItemUOM"].ToString();
+                string supplier1 = Request.Form["SelectSupplier1"].ToString();
+                string supplier2 = Request.Form["SelectSupplier2"].ToString();
+                string supplier3 = Request.Form["SelectSupplier3"].ToString();
+
+                string itemFirstChar = item.Description.Substring(0, 1).ToUpper();
+                int countWithItemFirstChar = e.Items.Where(x => x.Description.Substring(0, 1).ToUpper() == itemFirstChar).Count() +1;
+                
+                switch (countWithItemFirstChar.ToString().Length)
+                {
+                    case 1:
+                        item.ItemCode = itemFirstChar + "00"+countWithItemFirstChar;
+                        break;
+                    case 2:
+                        item.ItemCode = itemFirstChar + "0" + countWithItemFirstChar;
+                        break;
+                    case 3:
+                        item.ItemCode = itemFirstChar + countWithItemFirstChar;
+                        break;
+                }
+
+                item.CategoryID = category;
+                item.UoM = UoM;
+                item.Supplier1 = supplier1;
+                item.Supplier2 = supplier2;
+                item.Supplier3 = supplier3;
+                item.Active = 1;
+                item.AvgUnitCost = 0;
+
+                DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
+                dal.InsertItem(item);
+
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
     }
 }

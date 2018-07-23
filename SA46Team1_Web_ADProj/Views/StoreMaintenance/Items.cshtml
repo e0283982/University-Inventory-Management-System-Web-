@@ -2,8 +2,12 @@
     Layout = null;
 }
 
+
+@using SA46Team1_Web_ADProj.Models;
+@model Item
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
-    
+
 <script>
     $(document).ready(function () {
 
@@ -55,12 +59,37 @@
         }
         });
     });
-    
+
+
+    $(function () {
+        $("#dialog-add-new-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-add-new-item').on('click', function () {
+        $('#dialog-add-new-item').dialog('open');
+    });
+
+    $(function () {
+        $("#dialog-submit-add-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-submit-add-item').on('click', function () {
+        $('#dialog-add-new-item').dialog('close');
+        $('#dialog-submit-add-item').dialog('open');
+    });
+
 </script>
 
 <div>
     <h2>Maintenance - Item</h2>
-    <button class="btn-blue">@Html.ActionLink("Add New Item", "Home", "Store")</button>
 </div>
 
 
@@ -78,3 +107,65 @@
         </tr>
     </thead>
 </table>
+
+
+<button id="btn-add-new-item" class="btn-blue">Add New Item</button>
+
+<div id="dialog-add-new-item" class="hidden" title="Add Item (Maintenance)">
+    @using (Html.BeginForm("AddNewItem", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-item" }))
+    {
+    <div>
+        <div>
+            <label>Item Description: </label>
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-item-desc" }, })
+        </div>
+
+        <div>
+            <label>Category: </label>
+            @Html.DropDownList("SelectItemCategory", ViewBag.CategoryList as SelectList)
+        </div>
+
+        <div>
+            <label>Unit of Measure: </label>
+            @Html.DropDownList("SelectItemUOM", ViewBag.UOMList as SelectList)
+        </div>
+
+        <div>
+            <label>Quantity: </label>
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Quantity", @id = "new-item-qty" }, })
+        </div>
+
+        <div>
+            <label>Reorder Level: </label>
+            @Html.EditorFor(model => model.ReOrderLevel, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Level", @id = "new-item-reorder-lvl" }, })
+        </div>
+
+        <div>
+            <label>Reorder Qty: </label>
+            @Html.EditorFor(model => model.ReOrderQuantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Quantity", @id = "new-item-reorder-qty" }, })
+        </div>
+
+        <div>
+            <label>Supplier 1: </label>
+            @Html.DropDownList("SelectSupplier1", ViewBag.SupplierList as SelectList)
+        </div>
+
+        <div>
+            <label>Supplier 2: </label>
+            @Html.DropDownList("SelectSupplier2", ViewBag.SupplierList as SelectList)
+        </div>
+
+        <div>
+            <label>Supplier 3: </label>
+            @Html.DropDownList("SelectSupplier3", ViewBag.SupplierList as SelectList)
+        </div>
+        <input id="btn-submit-add-item" class="btn-blue" type="submit" value="Add" />
+
+    </div>
+    }
+</div>
+
+<div id="dialog-submit-add-item" class="hidden" title="Add Item Successful (Maintenance)">
+    <p>New Item has been successfully added.</p>
+</div>
+
