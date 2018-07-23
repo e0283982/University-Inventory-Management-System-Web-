@@ -26,11 +26,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayReqHistoryDetails()
+        public RedirectToRouteResult DisplayReqHistoryDetails(FormCollection data)
         {
             Session["ReqHistoryPage"] = "2";
+            Session["id"] = data["FormID"];
             return RedirectToAction("RequisitionHistory", "Dept");
         }
+
 
         [HttpPost]
         public RedirectToRouteResult BackToReqHistoryList()
