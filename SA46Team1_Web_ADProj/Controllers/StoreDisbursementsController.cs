@@ -27,9 +27,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayDisbursementDetails()
+        public RedirectToRouteResult DisplayDisbursementDetails(string storeDisbursementFormId)
         {
             Session["DisbursementListPage"] = "2";
+            Session["storeDisbursementFormId"] = storeDisbursementFormId;
+
             return RedirectToAction("Disbursements", "Store");
         }
 
@@ -60,9 +62,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayReqDetails()
+        public RedirectToRouteResult DisplayReqDetails(string storeReqFormId)
         {
             Session["ReqListPage"] = "2";
+            Session["storeReqFormId"] = storeReqFormId;
+
             return RedirectToAction("Disbursements", "Store");
         }
 

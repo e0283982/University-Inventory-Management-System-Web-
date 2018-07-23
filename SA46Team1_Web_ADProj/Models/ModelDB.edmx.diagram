@@ -48,9 +48,6 @@
         <EntityTypeShape EntityType="SSISdbModel.ReorderList" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.RequisitionList" Width="1.5" PointX="11.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.RequisitionListDetail" Width="1.5" PointX="11.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApproval" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApprovalForManager" Width="1.5" PointX="13.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApprovalForSupervisor" Width="1.5" PointX="13.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentOverview" Width="1.5" PointX="13.75" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SSISdbModel.StockRetrievalList" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="SSISdbModel.FK__Bin__ItemCode__6E01572D" ManuallyRouted="false" />
@@ -94,6 +91,9 @@
         <AssociationConnector Association="SSISdbModel.FK__StockRetr__Stock__68D28DBC" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__StockTake__Stock__5224328E" ManuallyRouted="false" />
         <AssociationConnector Association="SSISdbModel.FK__SupplierP__Suppl__7E37BEF6" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApproval" Width="1.5" PointX="14.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApprovalForManager" Width="1.5" PointX="16.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SSISdbModel.StockAdjustmentApprovalForSupervisor" Width="1.5" PointX="16.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

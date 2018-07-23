@@ -32,12 +32,30 @@ var table;
                     { 'data': 'DepartmentName' },
                     { 'data': 'Status' },
                     { 'data': 'CollectionPointDescription' }
-                ]
+                ],
+                drawCallback: function (settings) {
+                    $('#dataTable-storeDisbursementList tbody').off().on('click', 'tr', function () {
+                        var data = table.row(this).data();
+                        //var dataToBeSent = data["Id"];
+                        //alert('You clicked on Requisition Form Number: ' + data["Id"] + '\'s row');
+
+                        $.ajax({
+                            url: '/StoreDisbursements/DisplayDisbursementDetails',
+                            data: { storeDisbursementFormId: data["Id"] },
+                            type: 'POST',
+                        });
+
+                        window.location.href = '@Url.Action("Disbursements", "Store")';
+
+                    });
+                }
             });
         }
+        });
     });
 
-    $(document).ajaxComplete(function () {
+
+    @*$(document).ajaxComplete(function () {
                         $('#dataTable-storeDisbursementList tbody').off().on('click', 'tr', function () {
                         var data = table.row(this).data();                        
                         var dataToBeSent = data["Id"];
@@ -53,7 +71,7 @@ var table;
 
                     });
 
-                });});
+                });});*@
 
 
 

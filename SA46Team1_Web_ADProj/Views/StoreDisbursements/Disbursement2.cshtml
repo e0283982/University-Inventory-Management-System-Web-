@@ -5,10 +5,10 @@
 <script>
     $(document).ready(function () {
 
-        var id = 'DH-1';
+        //var id = 'DH-1';
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetDisbursementListDetails/' + id,
+            url: 'http://localhost:49921/api/Restful/GetDisbursementListDetails/' + '@Session["storeDisbursementFormId"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -36,6 +36,7 @@
 
 <div>
     <h2>Disbursement Information</h2>
+    <h3>Disbursement #: @Session["storeDisbursementFormId"]</h3>
 </div>
 
 
