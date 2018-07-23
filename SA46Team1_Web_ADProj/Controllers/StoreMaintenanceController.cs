@@ -60,9 +60,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayStoreBinDetails()
+        public RedirectToRouteResult DisplayStoreBinDetails(string maintenanceBinId)
         {
             Session["MaintenanceStoreBinPage"] = "2";
+            Session["MaintenanceBinId"] = maintenanceBinId;
+
             return RedirectToAction("Maintenance", "Store");
         }
 

@@ -404,5 +404,28 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return item;
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetBinsList")]
+        public List<Bin> GetBinsList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.Bins.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetBinsList/{id}")]
+        public List<Bin> GetBinsList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<Bin> item = m.Bins.Where(x => x.Number.ToString() == id).ToList<Bin>();
+                return item;
+            }
+        }
     }
 }
