@@ -213,6 +213,22 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("Suppliers/EditSupplier")]
+        public RedirectToRouteResult EditSupplier(Supplier[] arr)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                DAL.SupplierRepositoryImpl dal = new DAL.SupplierRepositoryImpl(e);
+                dal.UpdateSupplier(arr[0]);
+                e.SaveChanges();
+
+                Session["MaintenanceSuppliersPage"] = "1";
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
         [Route("CollectionPoints")]
         public ActionResult CollectionPoints()
         {
