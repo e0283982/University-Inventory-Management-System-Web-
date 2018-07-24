@@ -753,13 +753,15 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="QuantityCounted" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="QuantityAdjusted" />
             <PropertyRef Name="UoM" />
           </Key>
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="QuantityCounted" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="QuantityAdjusted" Type="int" Nullable="false" />
           <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
@@ -1524,7 +1526,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [StockTakeList].[ItemCode] AS [ItemCode], 
     [StockTakeList].[Description] AS [Description], 
     [StockTakeList].[CategoryName] AS [CategoryName], 
-    [StockTakeList].[QuantityCounted] AS [QuantityCounted], 
+    [StockTakeList].[Quantity] AS [Quantity], 
+    [StockTakeList].[QuantityAdjusted] AS [QuantityAdjusted], 
     [StockTakeList].[UoM] AS [UoM]
     FROM [dbo].[StockTakeList] AS [StockTakeList]</DefiningQuery>
           </EntitySet>
@@ -2484,13 +2487,15 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="QuantityCounted" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="QuantityAdjusted" />
             <PropertyRef Name="UoM" />
           </Key>
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="QuantityCounted" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
@@ -3842,7 +3847,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="QuantityCounted" ColumnName="QuantityCounted" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
               </MappingFragment>
             </EntityTypeMapping>

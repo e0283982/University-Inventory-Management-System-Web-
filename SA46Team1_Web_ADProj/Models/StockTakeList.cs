@@ -17,7 +17,8 @@ namespace SA46Team1_Web_ADProj.Models
         public string ItemCode { get; set; }
         public string Description { get; set; }
         public string CategoryName { get; set; }
-        public int QuantityCounted { get; set; }
+        public int Quantity { get; set; }
+        public int QuantityAdjusted { get; set; }
         public string UoM { get; set; }
     }
 }

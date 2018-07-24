@@ -11,7 +11,7 @@
 <script>
     var table;
     var d;
-
+    var i = 0;
     $(document).ready(function () {
 
         $.ajax({
@@ -30,11 +30,11 @@
                         { 'data': 'ItemCode' },
                         { 'data': 'Description' },
                         { 'data': 'CategoryName' },
-                        { 'data': 'QuantityCounted' },
+                        { 'data': 'Quantity' },
                         {
-                            'data': 'QuantityCounted',
+                            'data': 'QuantityAdjusted',
                             "render": function (data, type, full, meta) {
-                                return '<input id="input-qc" type="text" value="' + $('<div/>').text(data).html() + '">';
+                                return '<input id="input-qc' + i++ + '" type="text" value="' + $('<div/>').text(data).html() + '">';
                             }
                         },
                         { 'data': 'UoM' }
@@ -49,21 +49,28 @@
         $('#btn-update').click( function () {
             var dataToSend = "";
             var arr = [];
-            dataToSend = table.rows(0).data();
+            var arr1 = []
             for (var i = 0; i < Object.keys(d).length; i++) {
-                arr.push(dataToSend[i]);
+                dataToSend = table.rows(i).data();
+                arr1.push(table.cell(i, 4).nodes().to$().find('input').val());
+                arr.push(dataToSend[0]);
             }
+
+            alert(JSON.stringify(arr));
+            alert(JSON.stringify(arr1));
             
             $.ajax({
                 type: 'POST',
                 url: '/StoreInventory/StockTakeUpdate',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                data: JSON.stringify({arr:arr})
+                data: JSON.stringify({ arr: arr, arr1: arr1 }),
+                success: function () {
+
+                    alert('success');
+                }
             });
         });
-
-
     });
 
 
