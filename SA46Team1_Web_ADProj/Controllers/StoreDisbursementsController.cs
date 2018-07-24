@@ -196,8 +196,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                     newDH.Id = disId;
                     newDH.Status = "Open";
                     
-                    //To remove
-                    //newDH.RequisitionFormID = reqFormID;
+                    //------------------------------- TO CHANGE ----------------------------
+                    //To change to stock retrieval id(local variable id) instead of staff req id
+                    newDH.RequisitionFormID = id;
                     
                     newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault().DepartmentCode;                    
                     newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
