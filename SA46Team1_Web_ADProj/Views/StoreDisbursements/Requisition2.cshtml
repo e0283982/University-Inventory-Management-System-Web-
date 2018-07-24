@@ -48,37 +48,49 @@
 
                     $('#store-req-det-approverName').val(data[0]["Manager"]);
                     $('#store-req-det-approvedDate').val(newDate);
-                });
 
+                    //var a = data[0]["FormID"];
+                    //var b = data[0]["DepartmentName"];
+                    //var c = data[0]["DepartmentCode"];
+                    //var d = data[0]["EmployeeName"];
+                    //var e = data[0]["EmployeeID"];
+                    //var f = data[0]["Manager"];
+                    //var g = newDate;
+                
+                    //document.getElementById("store-req-det-deptName").innerHTML = b;
+                    //document.getElementById("store-req-det-empName").innerHTML = d;
+                    //document.getElementById("store-req-det-approverName").innerHTML = f;
+                    //document.getElementById("store-req-det-approvedDate").innerHTML = g;
+                });
             }
         });
-
-
-
-
-
-
     });
 </script>
 
 <div>
-    <h2>Requisition Information</h2>
-    <p>@ViewBag.storeReqFormId</p>
+    <h2>Requisition Form # @Session["storeReqFormId"]</h2>
 </div>
 
 <div>
-    <label>Requisition Number: <input type="text" id="store-req-det-reqNo" readonly="readonly"></label>
-    <label>Department Name: <input type="text" id="store-req-det-deptName" readonly="readonly"></label>
-    <label>Department Code: <input type="text" id="store-req-det-deptCode" readonly="readonly"></label>
-    <label>Employee Name: <input type="text" id="store-req-det-empName" readonly="readonly"></label>
-    <label>Employee Number: <input type="text" id="store-req-det-empNo" readonly="readonly"></label>
+    <label>Department Name: <input type="text" id="store-req-det-deptName" readonly="readonly" style="outline-width: 0;"></label>
+    @*<label>Department Name:  </label><label type="text" id="store-req-det-deptName" />*@
 </div>
+
 <div>
-    <p>
-        <label>Approved By:</label>
-        <label>Name: <input type="text" id="store-req-det-approverName" readonly="readonly"></label>
-        <label>Date: <input type="text" id="store-req-det-approvedDate" readonly="readonly"></label>
-    </p>
+    @*<label>Department Code: <input type="text" id="store-req-det-deptCode" readonly="readonly"></label>*@
+    <label>Employee: <input type="text" id="store-req-det-empName" readonly="readonly"></label>
+    @*<label>Employee:  </label><label type="text" id="store-req-det-empNam" />*@
+    @*<label>Employee Number: <input type="text" id="store-req-det-empNo" readonly="readonly"></label>*@
+</div>
+
+<div>
+    <label>Approved By: <input type="text" id="store-req-det-approverName" readonly="readonly"></label>
+    @*<label>Approved By:  </label><label type="text" id="store-req-det-approverName" />*@
+</div>
+
+<div>
+    <label>Request Date: <input type="text" id="store-req-det-approvedDate" readonly="readonly"></label>
+    @*<label>Request Date:  </label><label type="text" id="store-req-det-approvedDate" />*@
 </div>
 
 <table id="dataTable-storeDisbursementReqList-details" class="display" style="width:80%;">
@@ -97,6 +109,6 @@
 
     @using (Html.BeginForm("BackToRequisitionsList", "StoreDisbursements", FormMethod.Post))
     {
-        <input class="btn-blue" type="submit" value="Back" />
+        <input class="btn btn-info" type="submit" value="Back" />
     }
 </div>
