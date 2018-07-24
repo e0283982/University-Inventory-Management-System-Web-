@@ -164,6 +164,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CommonLogic.cs" />
+    <Compile Include="Controllers\DefaultCollectionPointController.cs" />
     <Compile Include="Controllers\DeptApprovalController.cs" />
     <Compile Include="Controllers\DeptNotificationsController.cs" />
     <Compile Include="Controllers\DeptRequisitionHistoryController.cs" />
@@ -648,11 +649,13 @@
     <Content Include="Views\Dept\Notifications.cshtml" />
     <Content Include="Views\DeptNotifications\ReadMsgs.cshtml" />
     <Content Include="Views\DeptNotifications\UnreadMsgs.cshtml" />
+    <Content Include="Views\DeptCollectionPoint\DefaultCollectionPoint.cshtml" />
     <None Include="Views\DeptNotifications\AllMsgs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Views\DefaultCollectionPoint\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
