@@ -34,7 +34,7 @@
                         {
                             'data': 'QuantityAdjusted',
                             "render": function (data, type, full, meta) {
-                                return '<input id="input-qc' + i++ + '" type="text" value="' + $('<div/>').text(data).html() + '">';
+                                return '<input id="input-qc' + i++ + '" type="number" value="' + $('<div/>').text(data).html() + '">';
                             }
                         },
                         { 'data': 'UoM' }
@@ -45,8 +45,7 @@
         });
     });
 
-    $(document).ajaxComplete(function () {
-        $('#btn-update').click( function () {
+        $('#btn-update').click(function () {
             var dataToSend = "";
             var arr = [];
             var arr1 = []
@@ -56,22 +55,14 @@
                 arr.push(dataToSend[0]);
             }
 
-            alert(JSON.stringify(arr));
-            alert(JSON.stringify(arr1));
-            
             $.ajax({
                 type: 'POST',
                 url: '/StoreInventory/StockTakeUpdate',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                data: JSON.stringify({ arr: arr, arr1: arr1 }),
-                success: function () {
-
-                    alert('success');
-                }
+                data: JSON.stringify({ arr: arr, arr1: arr1 })
             });
         });
-    });
 
 
 
@@ -106,6 +97,6 @@
 </table>
 
 <button class="btn-blue">@Html.ActionLink("Cancel", "Home", "Store")</button>
-<button id="btn-update" class="btn-blue"></button>
-@Html.ActionLink("Update", "Home", "Store")
+<button id="btn-update" class="btn-blue">@Html.ActionLink("Update", "Home", "Store")</button>
+
 

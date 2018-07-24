@@ -563,7 +563,16 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 return m.StockTakeLists.ToList();
+            }
+        }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetReorderList")]
+        public List<ReorderList> GetReorderList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.ReorderLists.ToList();
             }
         }
     }

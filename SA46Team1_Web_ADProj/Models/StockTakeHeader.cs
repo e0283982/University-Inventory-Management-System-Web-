@@ -20,7 +20,7 @@ namespace SA46Team1_Web_ADProj.Models
             this.StockTakeDetails = new HashSet<StockTakeDetail>();
         }
     
-        public int StockTakeID { get; set; }
+        public string StockTakeID { get; set; }
         public System.DateTime Date { get; set; }
         public string TransactionType { get; set; }
     
