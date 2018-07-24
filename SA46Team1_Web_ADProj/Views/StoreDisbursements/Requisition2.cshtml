@@ -37,30 +37,31 @@
                 var month = date.getMonth() + 1;
 
                 var newDate = date.getDate() + "/" + month + "/" + date.getFullYear();
-                               
 
                 $(function () {
-                    $('#store-req-det-reqNo').val(data[0]["FormID"]);
-                    $('#store-req-det-deptName').val(data[0]["DepartmentName"]);
-                    $('#store-req-det-deptCode').val(data[0]["DepartmentCode"]);
-                    $('#store-req-det-empName').val(data[0]["EmployeeName"]);
-                    $('#store-req-det-empNo').val(data[0]["EmployeeID"]);
+                    //$('#store-req-det-reqNo').val(data[0]["FormID"]);
+                    //$('#store-req-det-deptName').val(data[0]["DepartmentName"]);
+                    //$('#store-req-det-deptCode').val(data[0]["DepartmentCode"]);
+                    //$('#store-req-det-empName').val(data[0]["EmployeeName"]);
+                    //$('#store-req-det-empNo').val(data[0]["EmployeeID"]);
 
-                    $('#store-req-det-approverName').val(data[0]["Manager"]);
-                    $('#store-req-det-approvedDate').val(newDate);
+                    //$('#store-req-det-approverName').val(data[0]["Manager"]);
+                    //$('#store-req-det-approvedDate').val(newDate);
 
-                    //var a = data[0]["FormID"];
-                    //var b = data[0]["DepartmentName"];
-                    //var c = data[0]["DepartmentCode"];
-                    //var d = data[0]["EmployeeName"];
-                    //var e = data[0]["EmployeeID"];
-                    //var f = data[0]["Manager"];
-                    //var g = newDate;
-                
-                    //document.getElementById("store-req-det-deptName").innerHTML = b;
-                    //document.getElementById("store-req-det-empName").innerHTML = d;
-                    //document.getElementById("store-req-det-approverName").innerHTML = f;
-                    //document.getElementById("store-req-det-approvedDate").innerHTML = g;
+                    var deptName = data[0]["DepartmentName"];
+                    var empName = data[0]["EmployeeName"]
+                    var approverName = data[0]["Manager"];
+                    var approvedDate = newDate;
+
+                    //document.getElementById("deptName").innerHTML = deptName;
+                    //document.getElementById("empName").innerHTML = empName;
+                    //document.getElementById("approverName").innerHTML = approverName;
+                    //document.getElementById("approvedDate").innerHTML = approvedDate;
+
+                    $("#deptName").append(deptName);
+                    $("#empName").append(empName);
+                    $("#approverName").append(approverName);
+                    $("#approvedDate").append(approvedDate);
                 });
             }
         });
@@ -72,25 +73,25 @@
 </div>
 
 <div>
-    <label>Department Name: <input type="text" id="store-req-det-deptName" readonly="readonly" style="outline-width: 0;"></label>
-    @*<label>Department Name:  </label><label type="text" id="store-req-det-deptName" />*@
+    @*<label>Department Name: <input type="text" id="store-req-det-deptName" readonly="readonly" style="outline-width: 0;"></label>*@
+    <label>Department Name:&nbsp;</label><label id="deptName" />
 </div>
 
 <div>
     @*<label>Department Code: <input type="text" id="store-req-det-deptCode" readonly="readonly"></label>*@
-    <label>Employee: <input type="text" id="store-req-det-empName" readonly="readonly"></label>
-    @*<label>Employee:  </label><label type="text" id="store-req-det-empNam" />*@
+    @*<label>Employee: <input type="text" id="store-req-det-empName" readonly="readonly"></label>*@
+    <label>Employee:&nbsp;</label><label id="empName" />
     @*<label>Employee Number: <input type="text" id="store-req-det-empNo" readonly="readonly"></label>*@
 </div>
 
 <div>
-    <label>Approved By: <input type="text" id="store-req-det-approverName" readonly="readonly"></label>
-    @*<label>Approved By:  </label><label type="text" id="store-req-det-approverName" />*@
+    @*<label>Approved By: <input type="text" id="store-req-det-approverName" readonly="readonly"></label>*@
+    <label>Approved By:&nbsp;</label><label id="approverName" />
 </div>
 
 <div>
-    <label>Request Date: <input type="text" id="store-req-det-approvedDate" readonly="readonly"></label>
-    @*<label>Request Date:  </label><label type="text" id="store-req-det-approvedDate" />*@
+    @*<label>Request Date: <input type="text" id="store-req-det-approvedDate" readonly="readonly"></label>*@
+    <label>Request Date:&nbsp;</label><label id="approvedDate" />
 </div>
 
 <table id="dataTable-storeDisbursementReqList-details" class="display" style="width:80%;">
