@@ -14,14 +14,14 @@
 
 </script>
 
-@if (@Session["Role"].ToString() == "Store")
+@if (@Session["Role"].ToString() == "StoreManager")
 {
 
     <div id="tabs-min">
         <ul>
-            <li><a href="/Store/StoreInventory/Overview">Overview</a></li>
+            <li><a href="/Store/StoreInventory/Overview">Inventory List</a></li>
             <li><a href="/Store/StoreInventory/Reorder">Reorder Stock</a></li>
-            <li><a href="/Store/StoreInventory/StockAdj">Stock Adjustment</a></li>
+            <li><a href="/Store/StoreInventory/StockAdj">Stock Adjustment List</a></li>
             <li><a href="/Store/StoreInventory/StockTake">Stock Take</a></li>
         </ul>
     </div>
@@ -31,8 +31,9 @@ else
 {
     <div id="tabs-min">
         <ul>
-            <li><a href="/Store/StoreInventoryManager/Overview">Overview</a></li>
+            <li><a href="/Store/StoreInventoryManager/Overview">Inventory List</a></li>
             <li><a href="/Store/StoreInventoryManager/Reorder">Reorder Stock</a></li>
+            <li><a href="/Store/StoreInventory/StockAdj">Stock Adjustment List</a></li>
             <li><a href="/Store/StoreInventoryManager/ReviewAdj">Review Adjustments</a></li>
         </ul>
     </div>
