@@ -169,9 +169,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                     Item item = m.Items.Where(x => x.ItemCode == l.ItemCode).FirstOrDefault();
                     int itemQty = Convert.ToInt32(arr1[count]);
                     float avgCost = item.AvgUnitCost;
-                    float totalAmt = avgCost * (float) itemQty;
                     int qtyOnHand = item.Quantity;
                     int qtyAdjusted = itemQty - qtyOnHand;
+                    float totalAmt = avgCost * (float) qtyAdjusted;
                     string itemcode = l.ItemCode;
 
                     if(qtyAdjusted != 0)
