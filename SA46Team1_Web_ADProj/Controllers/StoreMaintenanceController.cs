@@ -27,9 +27,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayCategoryDetails()
+        public RedirectToRouteResult DisplayCategoryDetails(string maintenanceCategoryId)
         {
             Session["MaintenanceCategoriesPage"] = "2";
+            Session["MaintenanceCategoryId"] = maintenanceCategoryId;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -42,11 +44,41 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Maintenance", "Store");
         }
 
+        [HttpPost]
+        [Route("Categories/AddNewCategory")]
+        public RedirectToRouteResult AddNewCategory(Category cat)
+        {
+            using (SSISdbEntities e = new SSISdbEntities()) {
+
+                string categoryCount = (e.Categories.Count() + 1).ToString();
+                cat.CategoryID = "C" + categoryCount;
+                cat.Active = 1;
+
+                DAL.CategoryRepositoryImpl dal = new DAL.CategoryRepositoryImpl(e);
+                dal.InsertCategory(cat);
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
         [Route("StoreBin")]
         public ActionResult StoreBin()
         {
             if (Session["MaintenanceStoreBinPage"].ToString() == "1")
             {
+                using (SSISdbEntities e = new SSISdbEntities()) {
+                    ViewBag.ItemsList = new SelectList((from s in e.Items.ToList()
+                                                        select new
+                                                        {
+                                                            ItemCode = s.ItemCode,
+                                                            Description = s.Description + " (" + s.UoM + ")"
+                                                        }),
+                                                    "ItemCode",
+                                                    "Description",
+                                                    null);
+                }
+                
                 Session["MaintenanceBackFlagPage"] = "0";
                 return View("StoreBin");
             }
@@ -58,9 +90,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayStoreBinDetails()
+        public RedirectToRouteResult DisplayStoreBinDetails(string maintenanceBinId)
         {
             Session["MaintenanceStoreBinPage"] = "2";
+            Session["MaintenanceBinId"] = maintenanceBinId;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -73,6 +107,28 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Maintenance", "Store");
         }
 
+
+        [HttpPost]
+        [Route("Departments/AddNewDept")]
+        public RedirectToRouteResult AddNewBin(Bin bin)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                string itemCode = Request.Form["SelectBinItem"].ToString();
+                int binCount = e.Bins.Count() + 1;
+
+                bin.Number = binCount;
+                bin.ItemCode = itemCode;
+                bin.Active = 1;
+
+                DAL.BinRepositoryImpl dal = new DAL.BinRepositoryImpl(e);
+                dal.InsertBin(bin);
+
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
 
         [Route("Suppliers")]
         public ActionResult Suppliers()
@@ -90,9 +146,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplaySupplierDetails()
+        public RedirectToRouteResult DisplaySupplierDetails(string maintenanceSupplierCode)
         {
             Session["MaintenanceSuppliersPage"] = "2";
+            Session["MaintenanceSupplierCode"] = maintenanceSupplierCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -103,6 +161,22 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["MaintenanceSuppliersPage"] = "1";
 
             return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        [Route("Suppliers/AddNewSupplier")]
+        public RedirectToRouteResult AddNewSupplier(Supplier supplier)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                supplier.Active = 1;
+                DAL.SupplierRepositoryImpl dal = new DAL.SupplierRepositoryImpl(e);
+                dal.InsertSupplier(supplier);
+
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
         }
 
         [Route("CollectionPoints")]
@@ -121,9 +195,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayCollectionPointDetails()
+        public RedirectToRouteResult DisplayCollectionPointDetails(string maintenanceCollectionPtCode)
         {
             Session["MaintenanceCollectionPointsPage"] = "2";
+            Session["MaintenanceCollectionPtCode"] = maintenanceCollectionPtCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -135,6 +211,28 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return RedirectToAction("Maintenance", "Store");
         }
+
+        [HttpPost]
+        [Route("CollectionPoints/AddNewCollectionPoint")]
+        public RedirectToRouteResult AddNewCollectionPoint(CollectionPoint cp)
+        {
+            //Item itemToAdd = new Item();
+
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+
+                string collectionPtCount = (e.CollectionPoints.Count() + 1).ToString();
+                cp.CollectionPointID = "CP" + collectionPtCount;
+                cp.Active = 1;
+
+                DAL.CollectionPointRepositoryImpl dal = new DAL.CollectionPointRepositoryImpl(e);
+                dal.InsertCollectionPoint(cp);
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
 
         [Route("Departments")]
         public ActionResult Departments()
@@ -152,9 +250,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayDepartmentDetails()
+        public RedirectToRouteResult DisplayDepartmentDetails(string maintenanceDeptCode)
         {
             Session["MaintenanceDepartmentsPage"] = "2";
+            Session["MaintenanceDeptCode"] = maintenanceDeptCode;
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -172,6 +272,17 @@ namespace SA46Team1_Web_ADProj.Controllers
             if (Session["MaintenanceItemsPage"].ToString() == "1")
             {
                 Session["MaintenanceBackFlagPage"] = "0";
+                using (SSISdbEntities e = new SSISdbEntities())
+                {
+                    List<String> UOMList = new List<string>()
+                    {
+                        "Box","Dozen","Each","Packet","Set"
+                    };
+                    ViewBag.SupplierList = new SelectList(e.Suppliers.ToList(), "SupplierCode", "CompanyName");
+                    ViewBag.UOMList = new SelectList(UOMList, "UoM");
+                    ViewBag.CategoryList = new SelectList(e.Categories.ToList(), "CategoryID", "CategoryName");
+
+                }
                 return View("Items");
             }
             else
@@ -189,5 +300,49 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Maintenance", "Store");
         }
 
+        [HttpPost]
+        [Route("Items/AddNewItem")]
+        public RedirectToRouteResult AddNewItem(Item item)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                string category = Request.Form["SelectItemCategory"].ToString();
+                string UoM = Request.Form["SelectItemUOM"].ToString();
+                string supplier1 = Request.Form["SelectSupplier1"].ToString();
+                string supplier2 = Request.Form["SelectSupplier2"].ToString();
+                string supplier3 = Request.Form["SelectSupplier3"].ToString();
+
+                string itemFirstChar = item.Description.Substring(0, 1).ToUpper();
+                int countWithItemFirstChar = e.Items.Where(x => x.Description.Substring(0, 1).ToUpper() == itemFirstChar).Count() +1;
+                
+                switch (countWithItemFirstChar.ToString().Length)
+                {
+                    case 1:
+                        item.ItemCode = itemFirstChar + "00"+countWithItemFirstChar;
+                        break;
+                    case 2:
+                        item.ItemCode = itemFirstChar + "0" + countWithItemFirstChar;
+                        break;
+                    case 3:
+                        item.ItemCode = itemFirstChar + countWithItemFirstChar;
+                        break;
+                }
+
+                item.CategoryID = category;
+                item.UoM = UoM;
+                item.Supplier1 = supplier1;
+                item.Supplier2 = supplier2;
+                item.Supplier3 = supplier3;
+                item.Active = 1;
+                item.AvgUnitCost = 0;
+
+                DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
+                dal.InsertItem(item);
+
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
     }
 }

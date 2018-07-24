@@ -39,11 +39,27 @@
                 <h3>Logic University</h3>
             </div>
         </div>
-        <div class="item1">@Html.ActionLink("Home", "Home", "Dept")</div>
-        <div class="item2">@Html.ActionLink("Requisition", "Requisition", "Dept")</div>
-        <div class="item3">@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</div>
-        <div class="item4">@Html.ActionLink("Approval", "Approval", "Dept")</div>
-        <div class="item5">@Html.ActionLink("Authorisation", "Authorisation", "Dept")</div>
+
+        @if (Session["Role"] == "Dept")
+        {
+            <div class="item1">@Html.ActionLink("Home", "Home", "Dept")</div>
+            <div class="item2">@Html.ActionLink("Requisition", "Requisition", "Dept")</div>
+            <div class="item3">@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</div>
+        }
+        else if (Session["Role"] == "DeptRep")
+        {
+            <div class="item1">@Html.ActionLink("Home", "Home", "Dept")</div>
+            <div class="item2">@Html.ActionLink("Requisition", "Requisition", "Dept")</div>
+            <div class="item3">@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</div>
+            <div class="item4">@Html.ActionLink("Collection Point", "Approval", "Dept")</div>
+        }
+        else if (Session["Role"] == "DeptHead")
+        {
+            <div class="item1">@Html.ActionLink("Home", "Home", "Dept")</div>
+            <div class="item2">@Html.ActionLink("Approval", "Approval", "Dept")</div>
+            <div class="item3">@Html.ActionLink("Authorisation", "Authorisation", "Dept")</div>
+            <div class="item4">@Html.ActionLink("Report", "RequisitionHistory", "Dept")</div>
+        }
     </div>
 
     <div class="main">
@@ -51,9 +67,12 @@
         <div class="container" style="font-family: 'Oxygen', sans-serif;">
             <div style="float: right; padding-top:10px;">
                 <span>
-                    <i class="fas fa-bell" style="font-size:20px;"></i>@Html.ActionLink("Notifications", "Notifications", "Dept")</span>
+                    <a href="@Url.Action("Notifications", "Dept")" class="btn btn-danger">
+                        <i class="fas fa-bell" style="font-size:20px;"></i>
+                    </a>
+                </span>
                     <span>
-                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-success" })
                     </span>
                     </div>
                     </div>
@@ -62,26 +81,18 @@
                     <br />
                     <hr />
 
-                    <div class="container-fluid" style="align-content:center;">
+                    <div class="container" style="align-content:center;">
                     @RenderBody()
                     </div>
 
                     </div>
 
-                @*<div class="footer">
-            <p>&copy; 2018 - SA46_ADProject</p>
-    </div>*@
-
-                @*These causes the whole tab system to not work...*@
-                @*<script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>*@
+            @*<div class="footer">
+                <p>&copy; 2018 - SA46_ADProject</p>
+            </div>*@
 
                     <script>
                         $(function () {
-
-                            //var div = $('.sidenav');
-                            //div.animate({ width: '+=10', opacity: '0.7' }, 'fast');
-                            //div.animate({ width: '-=10', opacity: '1' }, 'slow');
 
                             var div = $('.sidenav');
                             var divItem1 = div.find('.item1');

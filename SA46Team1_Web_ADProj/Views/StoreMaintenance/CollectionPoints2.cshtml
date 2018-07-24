@@ -5,42 +5,63 @@
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
+
+    
     $(document).ready(function () {
-        $('#dataTable-storeMaintenanceCollectionPts-details').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetCollectionPointList/'+ '@Session["MaintenanceCollectionPtCode"]',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-collection-points-details').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'CollectionPointID' },
+                    { 'data': 'CollectionPointDescription' },
+                    { 'data': 'CollectionTime' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status != 0 ? 'Active' : 'Inactive';
+                        }
+                    },
+                ],
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 </script>
 
 <div>
-    <h2>Collection Point: CP01</h2>
+    <h2>Collection Point: @Session["MaintenanceCollectionPtCode"]</h2>
 </div>
 
 
-<table id="dataTable-storeMaintenanceCollectionPts-details" class="display" style="width:80%;">
+<table id="dataTable-store-collection-points-details" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>Collection Point Id</th>
+            <th>Collection Point Description</th>
             <th>Time</th>
-            <th>Staff-in-charge</th>
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Colletion Point A</td>
-            <td>9.30am</td>
-            <td>Ms Irene Tan</td>
-            <td>
-                <input type="checkbox" name="updatCollectionPtStatus" value="collectionPtStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-    </tbody>
 </table>
 
 <button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>

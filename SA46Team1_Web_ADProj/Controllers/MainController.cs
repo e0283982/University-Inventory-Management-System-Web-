@@ -37,6 +37,16 @@ namespace SA46Team1_Web_ADProj.Controllers
                     Session["Role"] = "StoreManager";
                     return RedirectToAction("Home", "Store", new { area = "" });
                 }
+                else if (model.Username.Equals("DeptHead"))
+                {
+                    Session["Role"] = "DeptHead";
+                    return RedirectToAction("Home", "Dept", new { area = "" });
+                }
+                else if (model.Username.Equals("DeptRep"))
+                {
+                    Session["Role"] = "DeptRep";
+                    return RedirectToAction("Home", "Dept", new { area = "" });
+                }
                 else
                 {
                     ViewBag.IsValid = false;

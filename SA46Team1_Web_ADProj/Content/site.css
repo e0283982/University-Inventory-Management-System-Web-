@@ -28,23 +28,6 @@
     overflow:hidden;
 }
 
-#btn-submit-new-req {
-    background-color: #1DA1F2; /* Blue */
-    border: none;
-    color: white;
-    padding: 6px 14px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    position: relative;
-    left: 40%;
-    margin: 4px 2px;
-    margin-top: 5vh;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
-
 #btn-submit-discard-backlog-items {
     background-color: #1DA1F2; /* Blue */
     border: none;

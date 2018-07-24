@@ -28,7 +28,6 @@
                         { 'data': 'ItemQuantity' },
                         { 'data': 'Amount' },
                         { 'data': 'Remarks' },
-                        { 'data': 'Reason' },
                         { 'data': 'Status' },
                     ],
                     columnDefs: [{
@@ -58,7 +57,7 @@
                 'itemCode': itemCode
             }
         });
-        //alert("Approve button clicked" + " " + requestId + " " + itemCode);
+        alert("Approve button clicked" + " " + requestId + " " + itemCode);
     }
 
 
@@ -89,15 +88,7 @@
             <th>Missing Count</th>
             <th>Amount</th>
             <th>Remark</th>
-            <th>Reason</th>
             <th>Status</th>
         </tr>
     </thead>
-    @*
-        <button class="btn-blue-small">@Html.ActionLink("Approve", "Home", "Store")</button>
-        <button class="btn-blue-small">@Html.ActionLink("Reject", "Home", "Store")</button>
-        <input type="hidden" name="RequestId" value="\'' + row["RequestId"] + '\'">
-        <input type="hidden" name="Description" value="\'' + row["Description"] + '\'">*@
-
-
 </table>

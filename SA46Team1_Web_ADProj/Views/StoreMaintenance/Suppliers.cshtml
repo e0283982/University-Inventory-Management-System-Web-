@@ -2,45 +2,107 @@
     Layout = null;
 }
 
+
+@using SA46Team1_Web_ADProj.Models;
+@model Supplier
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-storeMaintenanceSuppliers').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+     $(document).ready(function () {
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetSuppliersList',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-suppliers').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'SupplierCode' },
+                    { 'data': 'CompanyName' },
+                    { 'data': 'ContactName' },
+                    { 'data': 'PhoneNo' },
+                    { 'data': 'FaxNo' },
+                    { 'data': 'Address' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status != 0 ? 'Active' : 'Inactive';
+                        }
+                    },                ],
+                drawCallback: function (settings) {
+                    $('#dataTable-store-suppliers tbody').on('click', 'tr', function () {
+                        var data = table.row(this).data();
+
+                        $.ajax({
+                            url: '/StoreMaintenance/DisplaySupplierDetails',
+                            data: { maintenanceSupplierCode: data["SupplierCode"] },
+                            type: 'POST',
+                        });
+
+                        window.location.href = '@Url.Action("Maintenance", "Store")';
+
+                    });
+                },
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 
-    var table = $('#dataTable-storeMaintenanceSuppliers').DataTable();
 
-    $('#dataTable-storeMaintenanceSuppliers tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
 
-        $.ajax({
-            url: '/StoreMaintenance/DisplaySupplierDetails',
-            data: dataToBeSent,
-            type: 'POST',
+    $(function () {
+        $("#dialog-add-new-supplier").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
+    });
 
-        window.location.href = '@Url.Action("Maintenance", "Store")';
+    $('#btn-add-new-supplier').on('click', function () {
+        $('#dialog-add-new-supplier').dialog('open');
+    });
 
+    $(function () {
+        $("#dialog-submit-add-supplier").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-submit-add-supplier').on('click', function () {
+        $('#dialog-add-new-supplier').dialog('close');
+        $('#dialog-submit-add-supplier').dialog('open');
     });
 </script>
 
 <div>
     <h2>Maintenance - Supplier</h2>
-    <button class="btn-blue">@Html.ActionLink("Add New Supplier", "Home", "Store")</button>
 </div>
 
 
-<table id="dataTable-storeMaintenanceSuppliers" class="display" style="width:80%;">
+<table id="dataTable-store-suppliers" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Supplier Code</th>
             <th>Name</th>
             <th>Contact</th>
             <th>Phone No.</th>
@@ -49,30 +111,62 @@
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Supplier A</td>
-            <td>Ms Irene Tan</td>
-            <td>461 9999</td>
-            <td>461 9992</td>
-            <td>Blk 111 NTU Lost Road</td>
-            <td>
-                <input type="checkbox" name="updateSupplierStatus" value="supplierStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Supplier B</td>
-            <td>Ms Amy Tan</td>
-            <td>461 9899</td>
-            <td>461 9892</td>
-            <td>Blk 111 Chinatown Lost Road</td>
-            <td>
-                <input type="checkbox" name="updateSupplierStatus" value="supplierStatus" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
 </table>
+
+
+<button id="btn-add-new-supplier" class="btn-blue">Add New Supplier</button>
+
+<div id="dialog-add-new-supplier" class="hidden" title="Add Supplier (Maintenance)">
+    @using (Html.BeginForm("AddNewSupplier", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-supplier" }))
+    {
+    <div>
+        <div>
+            <label>Supplier Code: </label>
+            @Html.EditorFor(model => model.SupplierCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Supplier Code", @id = "new-supplier-code" }, })
+        </div>
+
+        <div>
+            <label>Company Name: </label>
+            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Company Name", @id = "new-supplier-company-name" }, })
+        </div>
+
+        <div>
+            <label>Contact Name: </label>
+            @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact Name", @id = "new-supplier-contact-name" }, })
+        </div>
+
+        <div>
+            <label>Phone Number: </label>
+            @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone No", @id = "new-supplier-phone" }, })
+        </div>
+
+        <div>
+            <label>Fax Number: </label>
+            @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Fax No", @id = "new-supplier-fax" }, })
+        </div>
+
+        <div>
+            <label>Address: </label>
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address", @id = "new-supplier-address" }, })
+        </div>
+
+        <div>
+            <label>GST Reg No: </label>
+            @Html.EditorFor(model => model.GSTRegistrationNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "GST Reg No", @id = "new-supplier-gst-no" }, })
+        </div>
+
+        <div>
+            <label>Email: </label>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @id = "new-supplier-email" }, })
+        </div>
+
+
+        <input id="btn-submit-add-supplier" class="btn-blue" type="submit" value="Add" />
+
+    </div>
+    }
+</div>
+
+<div id="dialog-submit-add-supplier" class="hidden" title="Add Supplier Successful (Maintenance)">
+    <p>New Supplier has been successfully added.</p>
+</div>

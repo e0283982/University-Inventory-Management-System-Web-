@@ -2,66 +2,131 @@
     Layout = null;
 }
 
+
+@using SA46Team1_Web_ADProj.Models;
+@model Bin
+
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable-storeMaintenanceBin').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+     $(document).ready(function () {
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetBinsList',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-bins').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'Number' },
+                    { 'data': 'Location' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status !=0 ? 'Active' : 'Inactive';
+                        }
+                    },
+                ],
+                 drawCallback: function (settings) {
+                    $('#dataTable-store-bins tbody').on('click', 'tr', function () {
+                        var data = table.row(this).data();
+
+                        $.ajax({
+                            url: '/StoreMaintenance/DisplayStoreBinDetails',
+                            data: { maintenanceBinId: data["Number"] },
+                            type: 'POST',
+                        });
+
+                        window.location.href = '@Url.Action("Maintenance", "Store")';
+
+                    });
+                },
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 
-    var table = $('#dataTable-storeMaintenanceBin').DataTable();
-
-    $('#dataTable-storeMaintenanceBin tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
-
-        $.ajax({
-            url: '/StoreMaintenance/DisplayStoreBinDetails',
-            data: dataToBeSent,
-            type: 'POST',
+    $(function () {
+        $("#dialog-add-new-bin").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
+    });
 
-        window.location.href = '@Url.Action("Maintenance", "Store")';
+    $('#btn-add-new-bin').on('click', function () {
+        $('#dialog-add-new-bin').dialog('open');
+    });
 
+    $(function () {
+        $("#dialog-submit-add-bin").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-submit-add-bin').on('click', function () {
+        $('#dialog-add-new-bin').dialog('close');
+        $('#dialog-submit-add-bin').dialog('open');
     });
 </script>
 
 <div>
     <h2>Maintenance - Bin</h2>
-    <button class="btn-blue">@Html.ActionLink("Add New Bin", "Home", "Store")</button>
 </div>
 
 
-<table id="dataTable-storeMaintenanceBin" class="display" style="width:80%;">
+<table id="dataTable-store-bins" class="display" style="width:80%;">
     <thead>
         <tr>
+            <th>Bin Number</th>
             <th>Bin Name</th>
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Shelf 1, Bin 1</td>
-            <td>
-                <input type="checkbox" name="updateBinStatus" value="binStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Shelf 1, Bin 2</td>
-            <td>
-                <input type="checkbox" name="updateBinStatus" value="binStatus" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
 </table>
+
+<button id="btn-add-new-bin" class="btn-blue">Add New Bin</button>
+
+<div id="dialog-add-new-bin" class="hidden" title="Add Bin (Maintenance)">
+    @using (Html.BeginForm("AddNewBin", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-bin" }))
+    {
+        <div>
+            <div>
+                <label>Location: </label>
+                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bin Location", @id = "new-bin-location" }, })
+            </div>
+
+            <div>
+                <label>Item Code: </label>
+                @Html.DropDownList("SelectBinItem", ViewBag.ItemsList as SelectList)
+            </div>
+
+            <input id="btn-submit-add-bin" class="btn-blue" type="submit" value="Add" />
+
+        </div>
+    }
+</div>
+
+<div id="dialog-submit-add-bin" class="hidden" title="Add Bin Successful (Maintenance)">
+    <p>New Bin has been successfully added.</p>
+</div>

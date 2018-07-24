@@ -68,10 +68,20 @@ namespace SA46Team1_Web_ADProj
             Session["MaintenanceItemCode"] = "";
 
             Session["MaintenanceCategoriesPage"] = "1";
+            Session["MaintenanceCategoryId"] = "";
+
             Session["MaintenanceCollectionPointsPage"] = "1";
+            Session["MaintenanceCollectionPtCode"] = "";
+
             Session["MaintenanceDepartmentsPage"] = "1";
+            Session["MaintenanceDeptCode"] = "";
+
             Session["MaintenanceStoreBinPage"] = "1";
+            Session["MaintenanceBinId"] = "";
+
             Session["MaintenanceSuppliersPage"] = "1";
+            Session["MaintenanceSupplierCode"] = "";
+
         }
     }
 }
