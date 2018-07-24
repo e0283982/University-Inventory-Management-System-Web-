@@ -1,5 +1,59 @@
 ﻿@{
     Layout = null;
 }
+<script>
+        var table;
+        $(document).ready(function () {
 
-@Helper.InventoryOverviewDatatable()
+            $.ajax({
+                url: 'http://localhost:49921/api/Restful/getInventoryoverviewlist',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    table = $('#dataTable-storeInventory').DataTable({
+                        paging: true,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        columns: [
+                            { 'data': 'ItemCode' },
+                            { 'data': 'Description' },
+                            { 'data': 'CategoryName' },
+                            { 'data': 'Quantity' },
+                            { 'data': 'UoM' },
+                            { 'data': 'PONotFulfilled' },
+                            { 'data': 'StaffOrderNotFulfilled' }
+                        ]
+                    });
+                }
+            });
+        });
+
+        $(document).ajaxComplete(function () {
+            $('#dataTable-storeInventory tbody').off().on('click', 'tr', function () {
+                var data = table.row(this).data();
+                alert(data["ItemCode"]);
+            });
+
+        });
+</script>
+
+<div>
+    <h2>Inventory - Overview</h2>
+</div>
+
+
+<table id="dataTable-storeInventory" class="display" style="width:80%">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Available</th>
+            <th>Units</th>
+            <th>PO Backorders not fulfilled</th>
+            <th>Staff Requisitions not fulfilled</th>
+        </tr>
+    </thead>
+</table>

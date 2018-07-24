@@ -396,6 +396,9 @@
     <Compile Include="Models\StockTakeHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockTakeList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Supplier.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

@@ -157,13 +157,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetInventoryOverviewList/{id}")]
-        public List<InventoryOverview> GetInventoryOverviewList(string id)
+        [System.Web.Mvc.Route("GetInventoryOverviewList")]
+        public List<InventoryOverview> GetInventoryOverviewList()
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.InventoryOverviews.Where(x => x.ItemCode == id).ToList<InventoryOverview>();
+                return m.InventoryOverviews.ToList<InventoryOverview>();
             }
         }
 
@@ -381,5 +381,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return item;
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStockTakeList")]
+        public List<StockTakeList> GetStockTakeList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.StockTakeLists.ToList();
+            }
+        }
+
+
     }
 }
