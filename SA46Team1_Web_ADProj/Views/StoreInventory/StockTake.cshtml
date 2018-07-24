@@ -4,10 +4,6 @@
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-@*<head>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
-        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
-    </head>*@
 <script>
     var table;
     var d;
@@ -45,7 +41,6 @@
         });
     });
 
-    $(document).ajaxComplete(function () {
         $('#btn-update').click( function () {
             var dataToSend = "";
             var arr = [];
@@ -56,22 +51,14 @@
                 arr.push(dataToSend[0]);
             }
 
-            alert(JSON.stringify(arr));
-            alert(JSON.stringify(arr1));
-            
             $.ajax({
                 type: 'POST',
                 url: '/StoreInventory/StockTakeUpdate',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                data: JSON.stringify({ arr: arr, arr1: arr1 }),
-                success: function () {
-
-                    alert('success');
-                }
+                data: JSON.stringify({ arr: arr, arr1: arr1 })
             });
         });
-    });
 
 
 
@@ -99,7 +86,7 @@
             <th></th>
             <th></th>
             <th></th>
-            <th><input type="text" id="row-1-age" name="row-1-age" value="61"></th>
+            <th></th>
             <th></th>
         </tr>
     </tbody>
@@ -110,8 +97,8 @@
 </div>
 
 <div>
-    <button id="btn btn-info" class="btn-blue"></button>
-    @Html.ActionLink("Update", "Home", "Store")
+    <button id="btn-update" class="btn-blue">@Html.ActionLink("Update", "Home", "Store")</button>
+
 </div>
 
 

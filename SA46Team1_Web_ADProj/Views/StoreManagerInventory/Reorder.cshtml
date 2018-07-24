@@ -2,14 +2,48 @@
     Layout = null;
 }
 
+@using SA46Team1_Web_ADProj.Models
+@model Item
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
+    var table;
     $(document).ready(function () {
-        $('#dataTable-storeManagerInventoryReorder').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/getreorderlist',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-storeManagerInventoryReorder').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'Description' },
+                        {
+                            'data': 'ReOrderQuantity',
+                            "render": function (data, type, full, meta) {
+                                return '<input type="number" value="' + $('<div/>').text(data).html() + '">';
+                            }
+                        },
+                        { 'data': 'UoM' },
+                        {
+                            'data': 's1',   
+                            "render": function (data, type, full, meta) {
+                                return '<select>' +
+                                    '<option value="' + full.s1 +'"></option>' +
+                                    '<option value="saab">Saab</option>' +
+                                    '<option value="mercedes">Mercedes</option>' +
+                                '</select>';
+                            }
+                        }
+                    ]
+                });
+            }
         });
     });
 
@@ -30,6 +64,7 @@
 </div>
 
 
+
 <table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
     <thead>
         <tr>
@@ -37,45 +72,8 @@
             <th>Qty</th>
             <th>Unit</th>
             <th>Choose Supplier</th>
-            <th>Select</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Clip "2</td>
-            <td>50</td>
-            <td>Dozen</td>
-            <td>
-                <select>
-                    <option value="supplierA">supplierA</option>
-                    <option value="supplierB">supplierB</option>
-                    <option value="supplierC">supplierC</option>
-                </select>
-            </td>
-            <td>
-                <input type="checkbox" name="newItem" value="AddToPO" checked>
-                <br>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Clip "2.5</td>
-            <td>50</td>
-            <td>Dozen</td>
-            <td>
-                <select>
-                    <option value="supplierA">supplierB</option>
-                    <option value="supplierB">supplierC</option>
-                    <option value="supplierC">supplierF</option>
-                </select>
-            </td>
-            <td>
-                <input type="checkbox" name="newItem" value="AddToPO" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
 </table>
 
 <div>
