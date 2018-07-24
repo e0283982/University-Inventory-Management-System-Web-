@@ -194,8 +194,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int count = m.DisbursementHeaders.Count() + 1;
                     string disId = "DH-" + count;
                     newDH.Id = disId;
-                    newDH.Status = "Open";                                        
-                    newDH.RequisitionFormID = reqFormID;
+                    newDH.Status = "Open";
+                    
+                    //To remove
+                    //newDH.RequisitionFormID = reqFormID;
                     
                     newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault().DepartmentCode;                    
                     newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
