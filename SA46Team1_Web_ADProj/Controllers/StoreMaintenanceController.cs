@@ -62,6 +62,23 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("Categories/EditCategory")]
+        public RedirectToRouteResult EditCategory(Category[] arr)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                DAL.CategoryRepositoryImpl dal = new DAL.CategoryRepositoryImpl(e);
+                dal.UpdateCategory(arr[0]);
+                e.SaveChanges();
+
+                Session["MaintenanceCategoriesPage"] = "1";
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
+        
         [Route("StoreBin")]
         public ActionResult StoreBin()
         {
