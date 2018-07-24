@@ -147,6 +147,23 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("StoreBin/EditBin")]
+        public RedirectToRouteResult EditBin(Bin[] arr)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                DAL.BinRepositoryImpl dal = new DAL.BinRepositoryImpl(e);
+                dal.UpdateBin(arr[0]);
+                e.SaveChanges();
+
+                Session["MaintenanceStoreBinPage"] = "1";
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
+
         [Route("Suppliers")]
         public ActionResult Suppliers()
         {
