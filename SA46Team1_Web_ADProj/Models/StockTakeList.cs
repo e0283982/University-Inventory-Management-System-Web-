@@ -12,19 +12,12 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GoodsReceivedList
+    public partial class StockTakeList
     {
-        public string ReceiptNo { get; set; }
         public string ItemCode { get; set; }
-        public string PONumber { get; set; }
         public string Description { get; set; }
+        public string CategoryName { get; set; }
+        public int QuantityCounted { get; set; }
         public string UoM { get; set; }
-        public int QuantityReceived { get; set; }
-        public float UnitCost { get; set; }
-        public Nullable<float> Total { get; set; }
-        public System.DateTime ReceivedDate { get; set; }
-        public string Remarks { get; set; }
-        public string CompanyName { get; set; }
-        public string EmployeeName { get; set; }
     }
 }

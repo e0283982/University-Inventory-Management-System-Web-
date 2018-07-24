@@ -44,6 +44,7 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<StaffRequisitionDetail> StaffRequisitionDetails { get; set; }
         public virtual DbSet<StaffRequisitionHeader> StaffRequisitionHeaders { get; set; }
+        public virtual DbSet<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
         public virtual DbSet<StockAdjustmentHeader> StockAdjustmentHeaders { get; set; }
         public virtual DbSet<StockCount> StockCounts { get; set; }
         public virtual DbSet<StockRetrievalDetail> StockRetrievalDetails { get; set; }
@@ -65,15 +66,15 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<POFullDetail> POFullDetails { get; set; }
         public virtual DbSet<POList> POLists { get; set; }
         public virtual DbSet<ReorderList> ReorderLists { get; set; }
+        public virtual DbSet<RequisitionHistory> RequisitionHistories { get; set; }
+        public virtual DbSet<RequisitionHistoryDetail> RequisitionHistoryDetails { get; set; }
         public virtual DbSet<RequisitionList> RequisitionLists { get; set; }
         public virtual DbSet<RequisitionListDetail> RequisitionListDetails { get; set; }
-        public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
-        public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
         public virtual DbSet<StockAdjustmentApproval> StockAdjustmentApprovals { get; set; }
         public virtual DbSet<StockAdjustmentApprovalForManager> StockAdjustmentApprovalForManagers { get; set; }
         public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForSupervisors { get; set; }
-        public virtual DbSet<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
-        public virtual DbSet<RequisitionHistory> RequisitionHistories { get; set; }
-        public virtual DbSet<RequisitionHistoryDetail> RequisitionHistoryDetails { get; set; }
+        public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
+        public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
+        public virtual DbSet<StockTakeList> StockTakeLists { get; set; }
     }
 }

@@ -138,6 +138,19 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult StockTakeUpdate(StockTakeList[] arr)
+        {
+            if (arr != null)
+            {
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
         
     }
 }

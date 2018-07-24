@@ -4,15 +4,70 @@
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-
+@*<head>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+    </head>*@
 <script>
+    var table;
+    var d;
+
     $(document).ready(function () {
-        $('#dataTable-storeInventoryStockTake').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetStockTakeList',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                d = data;
+                table = $('#dataTable-storeInventoryStockTake').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'ItemCode' },
+                        { 'data': 'Description' },
+                        { 'data': 'CategoryName' },
+                        { 'data': 'QuantityCounted' },
+                        {
+                            'data': 'QuantityCounted',
+                            "render": function (data, type, full, meta) {
+                                return '<input id="input-qc" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            }
+                        },
+                        { 'data': 'UoM' }
+                    ]
+                });
+                table.column(0).visible(false);
+            }
         });
     });
+
+    $(document).ajaxComplete(function () {
+        $('#btn-update').click( function () {
+            var dataToSend = "";
+            var arr = [];
+            dataToSend = table.rows(0).data();
+            for (var i = 0; i < Object.keys(d).length; i++) {
+                arr.push(dataToSend[i]);
+            }
+            
+            $.ajax({
+                type: 'POST',
+                url: '/StoreInventory/StockTakeUpdate',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({arr:arr})
+            });
+        });
+
+
+    });
+
+
+
 </script>
 
 <div>
@@ -31,29 +86,19 @@
             <th>Units</th>
         </tr>
     </thead>
-
     <tbody>
         <tr>
-            <td>1</td>
-            <td>Clip "2</td>
-            <td>Clip</td>
-            <td>75</td>
-            <td>73</td>
-            <td>Dozen</td>
-        </tr>
-
-        <tr>
-            <td>2</td>
-            <td>Clip "2,5</td>
-            <td>Clip</td>
-            <td>75</td>
-            <td>75</td>
-            <td>Box</td>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th><input type="text" id="row-1-age" name="row-1-age" value="61"></th>
+            <th></th>
         </tr>
     </tbody>
 </table>
 
 <button class="btn-blue">@Html.ActionLink("Cancel", "Home", "Store")</button>
-<button class="btn-blue">@Html.ActionLink("Update", "Home", "Store")</button>
-
+<button id="btn-update" class="btn-blue"></button>
+@Html.ActionLink("Update", "Home", "Store")
 
