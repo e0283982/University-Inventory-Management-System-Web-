@@ -151,6 +151,37 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [HttpPost]
+        public RedirectToRouteResult EditNewOrderQty()
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                Session["newReqEditMode"] = true;
+
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult ExitEditNewOrderQty(object[] arr, string[] arr1)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                //update temp list
+                List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
+                foreach (StaffRequisitionDetail srd in list.ToList()) {
+                    StaffRequisitionDetail srdTemp = srd;
+                    srdTemp.QuantityOrdered = Int32.Parse(arr1[list.IndexOf(srd)]);
+                    list[list.IndexOf(srd)] = srd;
+                }
+
+                Session["newReqList"] = list;
+
+                Session["newReqEditMode"] = false;
+                
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
 
     }
 }
