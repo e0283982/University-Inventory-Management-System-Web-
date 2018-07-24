@@ -2,20 +2,27 @@
     Layout = null;
 }
 
+@using SA46Team1_Web_ADProj.Models;
+@model Supplier
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-
 <script>
+    var table;
+    var list = '@ViewBag.SupplierList';
+    var data = list.replace(/&quot;/g, '"');
+    var dataJSON = JSON.parse(data);
+    var dataKeys = Object.keys(dataJSON);
 
     $(document).ready(function () {
-
-    var table;
 
     $.ajax({
         url: 'http://localhost:49921/api/Restful/GetItemsList/' + '@Session["MaintenanceItemCode"]',
         method: 'get',
         dataType: 'json',
         success: function (data) {
+            d = data;
+
             table = $('#dataTable-store-items-details').DataTable({
                 paging: true,
                 sort: true,
@@ -24,23 +31,140 @@
                 data: data,
                 columns: [
                     { 'data': 'ItemCode' },
-                    { 'data': 'Description' },
-                    { 'data': 'CategoryName' },
-                    { 'data': 'UoM' },
-                    { 'data': 's1' },
-                    { 'data': 's2' },
-                    { 'data': 's3' },
-                    { 'data': 'Active' }
-                ],
-                columnDefs: [
                     {
-                        "targets": [0],
-                        "visible": false,
-                        "searchable": false
+                        'data': 'Description',
+                        "render": function (data, type, full, meta) {
+                            return '<input id="input-item-desc" type="text" value="' + $('<div/>').text(data).html() + '">';
+                        }
+                    },
+                    { 'data': 'CategoryName'},
+                    { 'data': 'UoM' },
+                    {
+                        'data': 's1',
+                        "render": function (d, t, r) {
+
+                            var $select = $('<select id="select-item-s1"></select>', {
+                                "id": r[0] + "start",
+                                "value": d
+                            });
+
+                            for (i = 0; i < dataKeys.length; i++) {
+                                var $option = $("<option></option>", {
+                                    "text": dataJSON[dataKeys[i]],
+                                    "value": dataKeys[i]
+                                });
+                                if (d === dataJSON[dataKeys[i]]) {
+                                    $option.attr("selected", "selected")
+                                }
+                                $select.append($option);
+                            }
+
+                            return $select.prop("outerHTML");
+                        }
+                    },
+                    {
+                        'data': 's2',
+                        "render": function (d, t, r) {
+
+                            var $select = $('<select id="select-item-s2"></select>', {
+                                "id": r[0] + "start",
+                                "value": d
+                            });
+
+                            for (i = 0; i < dataKeys.length; i++) {
+                                var $option = $("<option></option>", {
+                                    "text": dataJSON[dataKeys[i]],
+                                    "value": dataKeys[i]
+                                });
+                                if (d === dataJSON[dataKeys[i]]) {
+                                    $option.attr("selected", "selected")
+                                }
+                                $select.append($option);
+                            }
+
+                            return $select.prop("outerHTML");
+                        }
+                    },
+                    {
+                        'data': 's3',
+                        "render": function (d, t, r) {
+
+                            var $select = $('<select id="select-item-s3"></select>', {
+                                "id": r[0] + "start",
+                                "value": d
+                            });
+
+                            for (i = 0; i < dataKeys.length; i++) {
+                                var $option = $("<option></option>", {
+                                    "text": dataJSON[dataKeys[i]],
+                                    "value": dataKeys[i]
+                                });
+                                if (d === dataJSON[dataKeys[i]]) {
+                                    $option.attr("selected", "selected")
+                                }
+                                $select.append($option);
+                            }
+
+                            return $select.prop("outerHTML");
+                        }
+                    },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            if (data != 0) {
+                                //active status
+                                return '<input id="input-item-active" type="checkbox" checked>';
+                            } else {
+                                return '<input id="input-item-active" type="checkbox">';
+                            }
+                        }
                     }
-                ]
+                ],
             });
         }
+        });
+    });
+
+
+    $(function () {
+        $("#dialog-submit-edit-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+
+    $(document).ajaxComplete(function () {
+        $('#btn-edit-item').click(function () {
+            var dataToSend = "";
+            var arr = [];
+
+            dataToSend = table.rows(0).data();
+            for (var i = 0; i < Object.keys(d).length; i++) {
+                var rowData = dataToSend[i];
+                rowData.Description = $("#input-item-desc").val();
+                rowData.Supplier1 = $("#select-item-s1").val();
+                rowData.Supplier2 = $("#select-item-s2").val();
+                rowData.Supplier3 = $("#select-item-s3").val();
+                rowData.Active = $("#input-item-active").prop('checked');
+
+                arr.push(rowData);
+            }
+
+            $('#dialog-submit-edit-item').dialog('open');
+            
+            $.ajax({
+                type: 'POST',
+                url: '/Store/StoreMaintenance/Items/EditItem',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({ arr: arr })
+            });
+
+            window.location.href = '@Url.Action("Maintenance", "Store")';
+
         });
     });
 </script>
@@ -63,13 +187,21 @@
             <th>Active</th>
         </tr>
     </thead>
+
+
+    <tbody>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tbody>
 </table>
-
-
-<div>
-    <button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>
-</div>
-
 
 <div id="details-back-btn">
 
@@ -77,4 +209,11 @@
     {
         <input class="btn-blue" type="submit" value="Back" />
     }
+</div>
+
+
+<button id="btn-edit-item" class="btn-blue">Edit</button>
+
+<div id="dialog-submit-edit-item" class="hidden" title="Edit Item Successful (Maintenance)">
+    <p>Item has been successfully edited.</p>
 </div>

@@ -64,9 +64,13 @@
 
         <div class="container" style="font-family: 'Oxygen', sans-serif;">
             <div style="float: right; padding-top:10px;">
-                <span><i class="fas fa-bell" style="font-size:20px;"></i></span>
                 <span>
-                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-info" })
+                    <a href="@Url.Action("Notifications", "Dept")" class="btn btn-warning">
+                        <i class="fas fa-bell" style="font-size:20px;"></i>
+                    </a>
+                </span>
+                <span>
+                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-danger" })
                 </span>
             </div>
         </div>
@@ -99,6 +103,7 @@
             var divItem4 = div.find('.item4');
             var divItem5 = div.find('.item5');
             var divItem6 = div.find('.item6');
+            var divItem7 = div.find('.item7');
 
             divItem1.animate({ right: '-=100' }, 'fast');
             divItem2.animate({ right: '-=100' }, 'fast').delay(100);
@@ -106,6 +111,7 @@
             divItem4.animate({ right: '-=100' }, 'fast').delay(300);
             divItem5.animate({ right: '-=100' }, 'fast').delay(400);
             divItem6.animate({ right: '-=100' }, 'fast').delay(500);
+            divItem7.animate({ right: '-=100' }, 'fast').delay(600);
 
             divItem1.animate({ right: '+=100', opacity: '1' });
             divItem2.animate({ right: '+=100', opacity: '1' });
@@ -113,6 +119,7 @@
             divItem4.animate({ right: '+=100', opacity: '1' });
             divItem5.animate({ right: '+=100', opacity: '1' });
             divItem6.animate({ right: '+=100', opacity: '1' });
+            divItem7.animate({ right: '+=100', opacity: '1' });
 
         });
     </script>

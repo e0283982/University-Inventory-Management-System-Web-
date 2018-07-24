@@ -43,9 +43,9 @@
 <table id="dataTable-storeDisbursementList-details" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>Item</th>
+            <th>Item Description</th>
             <th>Unit of Measurement</th>
-            <th>Qty Needed</th>
+            <th>Quantity Needed</th>
             <th>Qty Delivered</th>
         </tr>
     </thead>
@@ -56,6 +56,6 @@
 
     @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
     {
-        <input class="btn-blue" type="submit" value="Back" />
+        <input class="btn btn-info" type="submit" value="Back" />
     }
 </div>
