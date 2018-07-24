@@ -569,6 +569,32 @@ warning 6002: The table/view 'SSISdb.dbo.ReorderList' does not have a primary ke
           <Property Name="BackOrder" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.RequisitionHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RequisitionHistory">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="ApprovalStatus" />
+          </Key>
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DateRequested" Type="datetime" Nullable="false" />
+          <Property Name="ApprovalStatus" Type="nvarchar" MaxLength="70" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.RequisitionHistoryDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RequisitionHistoryDetails">
+          <Key>
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+          </Key>
+          <Property Name="FormID" Type="nvarchar" MaxLength="60" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" />
+          <Property Name="QuantityDelivered" Type="int" />
+          <Property Name="QuantityBackOrdered" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.RequisitionList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionList">
           <Key>
@@ -1390,6 +1416,23 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [ReorderList].[Active] AS [Active], 
     [ReorderList].[BackOrder] AS [BackOrder]
     FROM [dbo].[ReorderList] AS [ReorderList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RequisitionHistory" EntityType="Self.RequisitionHistory" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RequisitionHistory].[FormID] AS [FormID], 
+    [RequisitionHistory].[DateRequested] AS [DateRequested], 
+    [RequisitionHistory].[ApprovalStatus] AS [ApprovalStatus]
+    FROM [dbo].[RequisitionHistory] AS [RequisitionHistory]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RequisitionHistoryDetails" EntityType="Self.RequisitionHistoryDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RequisitionHistoryDetails].[FormID] AS [FormID], 
+    [RequisitionHistoryDetails].[Description] AS [Description], 
+    [RequisitionHistoryDetails].[UoM] AS [UoM], 
+    [RequisitionHistoryDetails].[QuantityOrdered] AS [QuantityOrdered], 
+    [RequisitionHistoryDetails].[QuantityDelivered] AS [QuantityDelivered], 
+    [RequisitionHistoryDetails].[QuantityBackOrdered] AS [QuantityBackOrdered]
+    FROM [dbo].[RequisitionHistoryDetails] AS [RequisitionHistoryDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="RequisitionList" EntityType="Self.RequisitionList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2276,6 +2319,28 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="Active" Type="Byte" Nullable="false" />
           <Property Name="BackOrder" Type="Int32" />
         </EntityType>
+        <EntityType Name="RequisitionHistory">
+          <Key>
+            <PropertyRef Name="FormID" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="ApprovalStatus" />
+          </Key>
+          <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ApprovalStatus" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequisitionHistoryDetail">
+          <Key>
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+          </Key>
+          <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="Int32" />
+          <Property Name="QuantityDelivered" Type="Int32" />
+          <Property Name="QuantityBackOrdered" Type="Int32" />
+        </EntityType>
         <EntityType Name="RequisitionList">
           <Key>
             <PropertyRef Name="DateRequested" />
@@ -2962,6 +3027,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <EntitySet Name="POFullDetails" EntityType="Self.POFullDetail" />
           <EntitySet Name="POLists" EntityType="Self.POList" />
           <EntitySet Name="ReorderLists" EntityType="Self.ReorderList" />
+          <EntitySet Name="RequisitionHistories" EntityType="Self.RequisitionHistory" />
+          <EntitySet Name="RequisitionHistoryDetails" EntityType="Self.RequisitionHistoryDetail" />
           <EntitySet Name="RequisitionLists" EntityType="Self.RequisitionList" />
           <EntitySet Name="RequisitionListDetails" EntityType="Self.RequisitionListDetail" />
           <EntitySet Name="StockAdjustmentApprovals" EntityType="Self.StockAdjustmentApproval" />
@@ -3646,6 +3713,27 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="s3" ColumnName="s3" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="BackOrder" ColumnName="BackOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionHistories">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionHistory">
+              <MappingFragment StoreEntitySet="RequisitionHistory">
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionHistoryDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.RequisitionHistoryDetail">
+              <MappingFragment StoreEntitySet="RequisitionHistoryDetails">
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
+                <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

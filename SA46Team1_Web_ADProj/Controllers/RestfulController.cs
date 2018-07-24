@@ -20,12 +20,15 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                
-                List<Employee> list = m.Employees.Where(x=>x.DepartmentCode==id).OrderBy(x => x.EmployeeName).ToList<Employee>();
+
+                List<Employee> list = m.Employees.Where(x => x.DepartmentCode == id).OrderBy(x => x.EmployeeName).ToList<Employee>();
                 List<EmployeeDelegationModel> list2 = new List<EmployeeDelegationModel>();
                 list2 = list.ConvertAll(x => new EmployeeDelegationModel
-                { EmpId = x.EmployeeID, EmpName = x.EmployeeName, Role = x.Designation,
-                    ToDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active==1).
+                {
+                    EmpId = x.EmployeeID,
+                    EmpName = x.EmployeeName,
+                    Role = x.Designation,
+                    ToDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active == 1).
                     Select(y => y.ToDate).FirstOrDefault(),
                     FromDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active == 1).
                     Select(y => y.FromDate).FirstOrDefault()
@@ -34,7 +37,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return list2;
             }
         }
-        
+
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetPendingApprovals")]
         public List<RequisitionModel> GetPendingApprovals()
@@ -43,7 +46,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x=>x.ApprovalStatus!="Approved").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus != "Approved").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
                 list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
@@ -80,7 +83,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus != "Approved" && x.NotificationStatus!="Deleted").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus != "Approved" && x.NotificationStatus != "Deleted").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
                 list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
@@ -157,13 +160,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetInventoryOverviewList/{id}")]
-        public List<InventoryOverview> GetInventoryOverviewList(string id)
+        [System.Web.Mvc.Route("GetInventoryOverviewList")]
+        public List<InventoryOverview> GetInventoryOverviewList()
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.InventoryOverviews.Where(x => x.ItemCode == id).ToList<InventoryOverview>();
+                return m.InventoryOverviews.ToList<InventoryOverview>();
             }
         }
 
@@ -344,7 +347,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                 return m.StockAdjustmentApprovalForSupervisors.ToList();
+                return m.StockAdjustmentApprovalForSupervisors.ToList();
             }
         }
 
@@ -448,7 +451,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<CollectionPoint> list = m.CollectionPoints.Where(x=>x.CollectionPointID==id).ToList<CollectionPoint>();
+                List<CollectionPoint> list = m.CollectionPoints.Where(x => x.CollectionPointID == id).ToList<CollectionPoint>();
                 return list;
             }
         }
@@ -487,14 +490,19 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
                 List<DepartmentDetail> list = m.DepartmentDetails.ToList<DepartmentDetail>();
                 List<DeptFullDetailsModel> list2 = new List<DeptFullDetailsModel>();
-                list2 = list.ConvertAll(x => new DeptFullDetailsModel {DepartmentCode=x.DepartmentCode,
-                    DepartmentName =m.Departments.Where(y=>y.DepartmentCode==x.DepartmentCode).Select(y=>y.DepartmentName).
+                list2 = list.ConvertAll(x => new DeptFullDetailsModel
+                {
+                    DepartmentCode = x.DepartmentCode,
+                    DepartmentName = m.Departments.Where(y => y.DepartmentCode == x.DepartmentCode).Select(y => y.DepartmentName).
                     FirstOrDefault(),
-                    ContactName =m.Employees.Where(y=>y.EmployeeID==x.RepresentativeID).Select(y=>y.EmployeeName).FirstOrDefault(),
-                    TelephoneNo =x.TelephoneNo,FaxNo=x.FaxNo, ApproverName=m.Employees.Where(y=>y.EmployeeID==x.ApproverID).Select(y=>y.EmployeeName).FirstOrDefault(),
-                    CollectionPointName =m.CollectionPoints.Where(y=>y.CollectionPointID==x.CollectionPointID).Select(y=>y.CollectionPointDescription).FirstOrDefault(),
+                    ContactName = m.Employees.Where(y => y.EmployeeID == x.RepresentativeID).Select(y => y.EmployeeName).FirstOrDefault(),
+                    TelephoneNo = x.TelephoneNo,
+                    FaxNo = x.FaxNo,
+                    ApproverName = m.Employees.Where(y => y.EmployeeID == x.ApproverID).Select(y => y.EmployeeName).FirstOrDefault(),
+                    CollectionPointName = m.CollectionPoints.Where(y => y.CollectionPointID == x.CollectionPointID).Select(y => y.CollectionPointDescription).FirstOrDefault(),
                     RepresentativeName = m.Employees.Where(y => y.EmployeeID == x.RepresentativeID).Select(y => y.EmployeeName).FirstOrDefault(),
-                    Active = x.Active});
+                    Active = x.Active
+                });
 
                 return list2;
             }
@@ -507,7 +515,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<DepartmentDetail> list = m.DepartmentDetails.Where(x=>x.DepartmentCode==id).ToList<DepartmentDetail>();
+                List<DepartmentDetail> list = m.DepartmentDetails.Where(x => x.DepartmentCode == id).ToList<DepartmentDetail>();
                 List<DeptFullDetailsModel> list2 = new List<DeptFullDetailsModel>();
                 list2 = list.ConvertAll(x => new DeptFullDetailsModel
                 {
@@ -548,5 +556,15 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStockTakeList")]
+        public List<StockTakeList> GetStockTakeList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.StockTakeLists.ToList();
+
+            }
+        }
     }
 }
