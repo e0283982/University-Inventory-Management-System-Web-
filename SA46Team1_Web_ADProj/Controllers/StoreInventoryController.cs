@@ -140,16 +140,25 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult StockTakeUpdate(StockTakeList[] arr)
+        public ActionResult StockTakeUpdate(StockTakeList[] arr, string[] arr1)
         {
-            if (arr != null)
+            int count = 0;
+            List<StockTakeList> list = new List<StockTakeList>();
+            using(SSISdbEntities m = new SSISdbEntities())
             {
-                return null;
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    list.Add(arr[i]);
+                }
+                foreach (StockTakeList l in list)
+                {
+                    Item theItem = m.Items.Where(x => x.ItemCode == l.ItemCode).FirstOrDefault();
+                    theItem.Quantity = Convert.ToInt32(arr1[count]);
+                    count++;
+                }
+                m.SaveChanges();
             }
-            else
-            {
-                return null;
-            }
+            return View();
         }
         
     }
