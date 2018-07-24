@@ -18,11 +18,11 @@ namespace SA46Team1_Web_ADProj.Models
         public string PONumber { get; set; }
         public string Description { get; set; }
         public string UoM { get; set; }
-        public Nullable<int> QuantityReceived { get; set; }
-        public Nullable<float> UnitCost { get; set; }
+        public int QuantityReceived { get; set; }
+        public float UnitCost { get; set; }
         public Nullable<float> Total { get; set; }
         public string ReceiptNo { get; set; }
-        public Nullable<System.DateTime> ReceivedDate { get; set; }
+        public System.DateTime ReceivedDate { get; set; }
         public string Remarks { get; set; }
         public string CompanyName { get; set; }
         public string EmployeeName { get; set; }
