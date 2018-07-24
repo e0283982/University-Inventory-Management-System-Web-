@@ -62,6 +62,23 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("Categories/EditCategory")]
+        public RedirectToRouteResult EditCategory(Category[] arr)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                DAL.CategoryRepositoryImpl dal = new DAL.CategoryRepositoryImpl(e);
+                dal.UpdateCategory(arr[0]);
+                e.SaveChanges();
+
+                Session["MaintenanceCategoriesPage"] = "1";
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
+        
         [Route("StoreBin")]
         public ActionResult StoreBin()
         {
@@ -228,6 +245,22 @@ namespace SA46Team1_Web_ADProj.Controllers
                 DAL.CollectionPointRepositoryImpl dal = new DAL.CollectionPointRepositoryImpl(e);
                 dal.InsertCollectionPoint(cp);
                 e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
+        [HttpPost]
+        [Route("CollectionPoints/EditCollectionPoint")]
+        public RedirectToRouteResult EditCollectionPoint(CollectionPoint[] arr)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                DAL.CollectionPointRepositoryImpl dal = new DAL.CollectionPointRepositoryImpl(e);
+                dal.UpdateCollectionPoint(arr[0]);
+                e.SaveChanges();
+
+                Session["MaintenanceCollectionPointsPage"] = "1";
 
                 return RedirectToAction("Maintenance", "Store");
             }
