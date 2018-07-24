@@ -5,17 +5,17 @@
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
-
-    
-    $(document).ready(function () {
-
     var table;
+
+    $(document).ready(function () {
 
     $.ajax({
         url: 'http://localhost:49921/api/Restful/GetCollectionPointList/'+ '@Session["MaintenanceCollectionPtCode"]',
         method: 'get',
         dataType: 'json',
         success: function (data) {
+            d = data;
+
             table = $('#dataTable-store-collection-points-details').DataTable({
                 paging: true,
                 sort: true,
@@ -23,15 +23,31 @@
                 scrollY: 200,
                 data: data,
                 columns: [
-                    { 'data': 'CollectionPointID' },
-                    { 'data': 'CollectionPointDescription' },
-                    { 'data': 'CollectionTime' },
+                    {
+                        'data': 'CollectionPointID'
+                    },
+                    {
+                        'data': 'CollectionPointDescription',
+                        "render": function (data, type, full, meta) {
+                            return '<input id="input-collection-point-desc" type="text" value="' + $('<div/>').text(data).html() + '">';
+                        }
+                    },
+                    {
+                        'data': 'CollectionTime',
+                        "render": function (data, type, full, meta) {
+                            return '<input id="input-collection-point-time" type="text" value="' + $('<div/>').text(data).html() + '">';
+                        }
+                    },
                     {
                         'data': 'Active',
                         render: function (data, type, row) {
 
-                            var status = data;
-                            return status != 0 ? 'Active' : 'Inactive';
+                            if (data != 0) {
+                                //active status
+                                return '<input id="input-collection-point-active" type="checkbox" checked>';
+                            } else {
+                                return '<input id="input-collection-point-active" type="checkbox">';
+                            }
                         }
                     },
                 ],
@@ -44,6 +60,46 @@
                 ]
             });
         }
+        });
+    });
+
+    $(function () {
+        $("#dialog-submit-edit-collection-point").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+
+    $(document).ajaxComplete(function () {
+        $('#btn-edit-collection-point').click(function () {
+            var dataToSend = "";
+            var arr = [];
+
+            dataToSend = table.rows(0).data();
+            for (var i = 0; i < Object.keys(d).length; i++) {
+                var rowData = dataToSend[i];
+                rowData.CollectionPointDescription = $("#input-collection-point-desc").val();
+                rowData.CollectionTime = $("#input-collection-point-time").val();
+                rowData.Active = $("#input-collection-point-active").prop('checked');
+
+                arr.push(rowData);
+            }
+
+            $('#dialog-submit-edit-collection-point').dialog('open');
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/Store/StoreMaintenance/CollectionPoints/EditCollectionPoint',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({ arr: arr })
+            });
+
+            window.location.href = '@Url.Action("Maintenance", "Store")';
+
         });
     });
 </script>
@@ -62,9 +118,18 @@
             <th>Active</th>
         </tr>
     </thead>
+
+    <tbody>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tbody>
 </table>
 
-<button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>
+<button id="btn-edit-collection-point" class="btn-blue">Edit</button>
 
 
 <div id="details-back-btn">
@@ -73,4 +138,9 @@
     {
         <input class="btn-blue" type="submit" value="Back" />
     }
+</div>
+
+
+<div id="dialog-submit-edit-collection-point" class="hidden" title="Edit Collection Point Successful (Maintenance)">
+    <p>Collection Point has been successfully edited.</p>
 </div>
