@@ -2,6 +2,10 @@
     Layout = null;
 }
 
+
+@using SA46Team1_Web_ADProj.Models;
+@model Supplier
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
@@ -61,36 +65,37 @@
         }
         });
     });
-    @*$(document).ready(function () {
-        $('#dataTable-storeMaintenanceSuppliers').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+
+
+    $(function () {
+        $("#dialog-add-new-supplier").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
     });
 
-    var table = $('#dataTable-storeMaintenanceSuppliers').DataTable();
+    $('#btn-add-new-supplier').on('click', function () {
+        $('#dialog-add-new-supplier').dialog('open');
+    });
 
-    $('#dataTable-storeMaintenanceSuppliers tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
-
-        $.ajax({
-            url: '/StoreMaintenance/DisplaySupplierDetails',
-            data: dataToBeSent,
-            type: 'POST',
+    $(function () {
+        $("#dialog-submit-add-supplier").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
+    });
 
-        window.location.href = '@Url.Action("Maintenance", "Store")';
-
-    });*@
+    $('#btn-submit-add-supplier').on('click', function () {
+        $('#dialog-add-new-supplier').dialog('close');
+        $('#dialog-submit-add-supplier').dialog('open');
+    });
 </script>
 
 <div>
     <h2>Maintenance - Supplier</h2>
-    <button class="btn-blue">@Html.ActionLink("Add New Supplier", "Home", "Store")</button>
 </div>
 
 
@@ -107,3 +112,61 @@
         </tr>
     </thead>
 </table>
+
+
+<button id="btn-add-new-supplier" class="btn-blue">Add New Supplier</button>
+
+<div id="dialog-add-new-supplier" class="hidden" title="Add Supplier (Maintenance)">
+    @using (Html.BeginForm("AddNewSupplier", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-supplier" }))
+    {
+    <div>
+        <div>
+            <label>Supplier Code: </label>
+            @Html.EditorFor(model => model.SupplierCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Supplier Code", @id = "new-supplier-code" }, })
+        </div>
+
+        <div>
+            <label>Company Name: </label>
+            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Company Name", @id = "new-supplier-company-name" }, })
+        </div>
+
+        <div>
+            <label>Contact Name: </label>
+            @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact Name", @id = "new-supplier-contact-name" }, })
+        </div>
+
+        <div>
+            <label>Phone Number: </label>
+            @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone No", @id = "new-supplier-phone" }, })
+        </div>
+
+        <div>
+            <label>Fax Number: </label>
+            @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Fax No", @id = "new-supplier-fax" }, })
+        </div>
+
+        <div>
+            <label>Address: </label>
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address", @id = "new-supplier-address" }, })
+        </div>
+
+        <div>
+            <label>GST Reg No: </label>
+            @Html.EditorFor(model => model.GSTRegistrationNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "GST Reg No", @id = "new-supplier-gst-no" }, })
+        </div>
+
+        <div>
+            <label>Email: </label>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @id = "new-supplier-email" }, })
+        </div>
+
+
+        <input id="btn-submit-add-supplier" class="btn-blue" type="submit" value="Add" />
+
+    </div>
+    }
+</div>
+
+<div id="dialog-submit-add-supplier" class="hidden" title="Add Supplier Successful (Maintenance)">
+    <p>New Supplier has been successfully added.</p>
+</div>

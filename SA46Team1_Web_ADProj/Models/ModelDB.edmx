@@ -412,20 +412,28 @@ warning 6002: The table/view 'SSISdb.dbo.DisbursementListDetails' does not have 
 warning 6002: The table/view 'SSISdb.dbo.GoodsReceivedList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GoodsReceivedList">
           <Key>
+            <PropertyRef Name="ReceiptNo" />
             <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="UnitCost" />
+            <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="CompanyName" />
             <PropertyRef Name="EmployeeName" />
           </Key>
+          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="PONumber" Type="nvarchar" MaxLength="255" />
-          <Property Name="Description" Type="nvarchar" MaxLength="255" />
-          <Property Name="UoM" Type="nvarchar" MaxLength="255" />
-          <Property Name="QuantityReceived" Type="int" />
-          <Property Name="UnitCost" Type="real" />
+          <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityReceived" Type="int" Nullable="false" />
+          <Property Name="UnitCost" Type="real" Nullable="false" />
           <Property Name="Total" Type="real" />
-          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="12" />
-          <Property Name="ReceivedDate" Type="date" />
+          <Property Name="ReceivedDate" Type="date" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
-          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -635,7 +643,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApproval' does not have 
             <PropertyRef Name="RequestId" />
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
@@ -643,10 +650,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApproval' does not have 
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
           </Key>
-          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="RequestId" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
@@ -662,7 +668,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForManager' does
             <PropertyRef Name="RequestId" />
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
@@ -670,10 +675,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForManager' does
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
           </Key>
-          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="RequestId" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
@@ -689,7 +693,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForSupervisor' d
             <PropertyRef Name="RequestId" />
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
@@ -697,10 +700,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForSupervisor' d
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
           </Key>
-          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="RequestId" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="DateRequested" Type="datetime" Nullable="false" />
           <Property Name="Requestor" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Approver" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
@@ -743,6 +745,22 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="int" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StockTakeList">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="QuantityCounted" />
+            <PropertyRef Name="UoM" />
+          </Key>
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityCounted" Type="int" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
@@ -1307,6 +1325,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           </EntitySet>
           <EntitySet Name="GoodsReceivedList" EntityType="Self.GoodsReceivedList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [GoodsReceivedList].[ReceiptNo] AS [ReceiptNo], 
     [GoodsReceivedList].[ItemCode] AS [ItemCode], 
     [GoodsReceivedList].[PONumber] AS [PONumber], 
     [GoodsReceivedList].[Description] AS [Description], 
@@ -1314,7 +1333,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [GoodsReceivedList].[QuantityReceived] AS [QuantityReceived], 
     [GoodsReceivedList].[UnitCost] AS [UnitCost], 
     [GoodsReceivedList].[Total] AS [Total], 
-    [GoodsReceivedList].[ReceiptNo] AS [ReceiptNo], 
     [GoodsReceivedList].[ReceivedDate] AS [ReceivedDate], 
     [GoodsReceivedList].[Remarks] AS [Remarks], 
     [GoodsReceivedList].[CompanyName] AS [CompanyName], 
@@ -1444,7 +1462,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [StockAdjustmentApproval].[RequestId] AS [RequestId], 
     [StockAdjustmentApproval].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApproval].[Requestor] AS [Requestor], 
-    [StockAdjustmentApproval].[Approver] AS [Approver], 
     [StockAdjustmentApproval].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApproval].[Description] AS [Description], 
     [StockAdjustmentApproval].[CategoryName] AS [CategoryName], 
@@ -1459,7 +1476,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [StockAdjustmentApprovalForManager].[RequestId] AS [RequestId], 
     [StockAdjustmentApprovalForManager].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApprovalForManager].[Requestor] AS [Requestor], 
-    [StockAdjustmentApprovalForManager].[Approver] AS [Approver], 
     [StockAdjustmentApprovalForManager].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApprovalForManager].[Description] AS [Description], 
     [StockAdjustmentApprovalForManager].[CategoryName] AS [CategoryName], 
@@ -1474,7 +1490,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [StockAdjustmentApprovalForSupervisor].[RequestId] AS [RequestId], 
     [StockAdjustmentApprovalForSupervisor].[DateRequested] AS [DateRequested], 
     [StockAdjustmentApprovalForSupervisor].[Requestor] AS [Requestor], 
-    [StockAdjustmentApprovalForSupervisor].[Approver] AS [Approver], 
     [StockAdjustmentApprovalForSupervisor].[ItemCode] AS [ItemCode], 
     [StockAdjustmentApprovalForSupervisor].[Description] AS [Description], 
     [StockAdjustmentApprovalForSupervisor].[CategoryName] AS [CategoryName], 
@@ -1503,6 +1518,15 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
     [StockRetrievalList].[QuantityRetrieved] AS [QuantityRetrieved], 
     [StockRetrievalList].[CollectionPointDescription] AS [CollectionPointDescription]
     FROM [dbo].[StockRetrievalList] AS [StockRetrievalList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StockTakeList" EntityType="Self.StockTakeList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StockTakeList].[ItemCode] AS [ItemCode], 
+    [StockTakeList].[Description] AS [Description], 
+    [StockTakeList].[CategoryName] AS [CategoryName], 
+    [StockTakeList].[QuantityCounted] AS [QuantityCounted], 
+    [StockTakeList].[UoM] AS [UoM]
+    FROM [dbo].[StockTakeList] AS [StockTakeList]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
             <End Role="Item" EntitySet="Item" />
@@ -2153,20 +2177,28 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
         </EntityType>
         <EntityType Name="GoodsReceivedList">
           <Key>
+            <PropertyRef Name="ReceiptNo" />
             <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="PONumber" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="UnitCost" />
+            <PropertyRef Name="ReceivedDate" />
+            <PropertyRef Name="CompanyName" />
             <PropertyRef Name="EmployeeName" />
           </Key>
+          <Property Name="ReceiptNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityReceived" Type="Int32" />
-          <Property Name="UnitCost" Type="Single" />
+          <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+          <Property Name="UnitCost" Type="Single" Nullable="false" />
           <Property Name="Total" Type="Single" />
-          <Property Name="ReceiptNo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="GRList">
@@ -2352,7 +2384,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <PropertyRef Name="RequestId" />
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
@@ -2360,10 +2391,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
           </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="RequestId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Approver" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2377,7 +2407,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <PropertyRef Name="RequestId" />
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
@@ -2385,10 +2414,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
           </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="RequestId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Approver" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2402,7 +2430,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <PropertyRef Name="RequestId" />
             <PropertyRef Name="DateRequested" />
             <PropertyRef Name="Requestor" />
-            <PropertyRef Name="Approver" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="CategoryName" />
@@ -2410,10 +2437,9 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
             <PropertyRef Name="Amount" />
             <PropertyRef Name="Remarks" />
           </Key>
-          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="RequestId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Requestor" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Approver" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2452,6 +2478,20 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="Int32" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockTakeList">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="QuantityCounted" />
+            <PropertyRef Name="UoM" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityCounted" Type="Int32" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
@@ -2996,6 +3036,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySet Name="StockAdjustmentApprovalForSupervisors" EntityType="Self.StockAdjustmentApprovalForSupervisor" />
           <EntitySet Name="StockAdjustmentOverviews" EntityType="Self.StockAdjustmentOverview" />
           <EntitySet Name="StockRetrievalLists" EntityType="Self.StockRetrievalList" />
+          <EntitySet Name="StockTakeLists" EntityType="Self.StockTakeList" />
           <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
             <End Role="Item" EntitySet="Items" />
             <End Role="Bin" EntitySet="Bins" />
@@ -3568,6 +3609,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <EntitySetMapping Name="GoodsReceivedLists">
             <EntityTypeMapping TypeName="SSISdbModel.GoodsReceivedList">
               <MappingFragment StoreEntitySet="GoodsReceivedList">
+                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="PONumber" ColumnName="PONumber" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -3575,7 +3617,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
                 <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
                 <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
@@ -3729,7 +3770,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="RequestId" ColumnName="RequestId" />
                 <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
                 <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
@@ -3746,7 +3786,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="RequestId" ColumnName="RequestId" />
                 <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
                 <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
@@ -3763,7 +3802,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="RequestId" ColumnName="RequestId" />
                 <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
                 <ScalarProperty Name="Requestor" ColumnName="Requestor" />
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
@@ -3795,6 +3833,17 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="QuantityRetrieved" ColumnName="QuantityRetrieved" />
                 <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockTakeLists">
+            <EntityTypeMapping TypeName="SSISdbModel.StockTakeList">
+              <MappingFragment StoreEntitySet="StockTakeList">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="QuantityCounted" ColumnName="QuantityCounted" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
