@@ -12,18 +12,13 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class StockAdjustmentApprovalForSupervisor
+    public partial class RequisitionHistoryDetail
     {
-        public int RequestId { get; set; }
-        public System.DateTime DateRequested { get; set; }
-        public string Requestor { get; set; }
-        public string Approver { get; set; }
-        public string ItemCode { get; set; }
+        public string FormID { get; set; }
         public string Description { get; set; }
-        public string CategoryName { get; set; }
-        public int ItemQuantity { get; set; }
-        public float Amount { get; set; }
-        public string Remarks { get; set; }
-        public string Status { get; set; }
+        public string UoM { get; set; }
+        public Nullable<int> QuantityOrdered { get; set; }
+        public Nullable<int> QuantityDelivered { get; set; }
+        public Nullable<int> QuantityBackOrdered { get; set; }
     }
 }
