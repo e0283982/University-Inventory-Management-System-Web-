@@ -194,8 +194,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int count = m.DisbursementHeaders.Count() + 1;
                     string disId = "DH-" + count;
                     newDH.Id = disId;
-                    newDH.Status = "Open";                                        
-                    newDH.RequisitionFormID = reqFormID;
+                    newDH.Status = "Open";
+                    
+                    //------------------------------- TO CHANGE ----------------------------
+                    //To change to stock retrieval id(local variable id) instead of staff req id
+                    newDH.RequisitionFormID = id;
                     
                     newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault().DepartmentCode;                    
                     newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
