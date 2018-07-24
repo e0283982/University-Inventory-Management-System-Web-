@@ -5,6 +5,60 @@
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
+    var table;
+    $(document).ready(function () {
+
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetGoodsReceivedLists/' + $('#lbl-gr-grId').text() ,
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-displayGR').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'ItemCode' },
+                        { 'data': 'Description' },
+                        { 'data': 'UoM' },
+                        { 'data': 'QuantityReceived' },
+                        { 'data': 'UnitCost'},
+                        { 'data': 'Total' },
+                        { 'defaultContent': '7%' }
+                    ]
+                });
+                var date = new Date(data[0]["ReceivedDate"]);
+                var month = date.getMonth() + 1;
+                var newDate = date.getDate() + "/" + month + "/" + date.getFullYear();
+
+                var i;
+                var total = 0;
+                for (i = 0; i < data.length; i++) {
+                    total = total + data[i]["Total"];
+                }
+                var gst = total * 0.07;
+                var netTotal = total + gst;
+
+                $(function () {
+                    $('#lbl-poNumber').val(data[0]["PONumber"]);
+                    $('#lbl-del-date').val(newDate);
+                    $('#lbl-companyName').val(data[0]["CompanyName"]);
+                    $('#lbl-emp').val(data[0]["EmployeeName"]);
+                    $('#lbl-gross-total').val(twoDP(total));
+                    $('#lbl-gst').val(twoDP(gst));
+                    $('#lbl-net-total').val(twoDP(netTotal));
+                    $('#ta-remarks').val(data[0]["Remarks"]);
+                });
+
+                function twoDP(value) {
+                    return parseFloat(Math.round(value * 100) / 100).toFixed(2);
+                }
+
+            }
+        });
+    });
 
     $(function () {
         $("#datepicker-GR-Date").datepicker();
@@ -23,8 +77,6 @@
    
 </script>
 
-@Helper.GoodsReceivedDetailedDatatable()
-
 <div>
     <h2>Goods Receipt</h2>
 </div>
@@ -39,20 +91,20 @@
 </div>
 
 <div>
-    <label>Goods Receipt Number: @ViewBag.Id</label>
+    <label>Goods Receipt Number: <label id="lbl-gr-grId">@Session["grId"]</label></label>
     <br />
-    <label>PO Number: @ViewBag.po</label>
+    <label>PO Number: <input type="text" id="lbl-poNumber"></label>
     <br />
-    <label>Date: @ViewBag.date</label>
+    <label>Date: <input type="text" id="lbl-del-date"></label>
     <br />
-    <label>Supplier: @ViewBag.sup</label>
+    <label>Supplier: <input type="text" id="lbl-companyName"></label>
     <br />
-    <label>Created By: @ViewBag.rec</label>
+    <label>Created By: <input type="text" id="lbl-emp"></label>
 </div>
 
 <div>
     <p>Remarks:</p>
-    @ViewBag.rem
+    <textarea id="ta-remarks"></textarea>
 </div>
 
 <table id="dataTable-displayGR" class="display" style="width:80%;">
@@ -64,13 +116,15 @@
             <th>Qty</th>
             <th>Price ($)</th>
             <th>Total ($)</th>
+            <th>GST ($)</th>
         </tr>
     </thead>
 </table>
 
 <div>
-    <label>Net Total ($): <input type="text" id="GR-net-total"></label>
-    <label>Gross Total ($): <input type="text" id="GR-gross-total"></label>
+    <label>Gross Total ($): <input type="text" id="lbl-gross-total"></label>
+    <label>GST ($): <input type="text" id="lbl-gst"></label>
+    <label>Net Total ($): <input type="text" id="lbl-net-total"></label>
 </div>
 
 

@@ -2,63 +2,134 @@
     Layout = null;
 }
 
+
+@using SA46Team1_Web_ADProj.Models;
+@model CollectionPoint
+
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
+
     $(document).ready(function () {
-        $('#dataTable-storeMaintenanceCollectionPts').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
+
+    var table;
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetCollectionPointList',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            table = $('#dataTable-store-collection-points').DataTable({
+                paging: true,
+                sort: true,
+                searching: true,
+                scrollY: 200,
+                data: data,
+                columns: [
+                    { 'data': 'CollectionPointID' },
+                    { 'data': 'CollectionPointDescription' },
+                    { 'data': 'CollectionTime' },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status != 0 ? 'Active' : 'Inactive';
+                        }
+                    },                ],
+                drawCallback: function (settings) {
+                    $('#dataTable-store-collection-points tbody').on('click', 'tr', function () {
+                        var data = table.row(this).data();
+
+                        $.ajax({
+                            url: '/StoreMaintenance/DisplayCollectionPointDetails',
+                            data: { maintenanceCollectionPtCode: data["CollectionPointID"] },
+                            type: 'POST',
+                        });
+
+                        window.location.href = '@Url.Action("Maintenance", "Store")';
+
+                    });
+                },
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
         });
     });
 
-    var table = $('#dataTable-storeMaintenanceCollectionPts').DataTable();
 
-    $('#dataTable-storeMaintenanceCollectionPts tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-        var dataToBeSent = data[0];
-        alert('You clicked on Item: ' + data[0] + '.');
-
-        $.ajax({
-            url: '/StoreMaintenance/DisplayCollectionPointDetails',
-            data: dataToBeSent,
-            type: 'POST',
+    $(function () {
+        $("#dialog-add-new-collection-point").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
+    });
 
-        window.location.href = '@Url.Action("Maintenance", "Store")';
+    $('#btn-add-new-collection-point').on('click', function () {
+        $('#dialog-add-new-collection-point').dialog('open');
+    });
 
+    $(function () {
+        $("#dialog-submit-add-collection-point").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-submit-add-collection-point').on('click', function () {
+        $('#dialog-add-new-collection-point').dialog('close');
+        $('#dialog-submit-add-collection-point').dialog('open');
     });
 </script>
 
 <div>
     <h2>Maintenance - Collection Point</h2>
-    <button class="btn-blue">@Html.ActionLink("Add New Collection Point", "Home", "Store")</button>
 </div>
 
 
-<table id="dataTable-storeMaintenanceCollectionPts" class="display" style="width:80%;">
+<table id="dataTable-store-collection-points" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>Collection Point</th>
+            <th>Collection Point Id</th>
+            <th>Collection Point Description</th>
             <th>Time</th>
-            <th>Staff-in-charge</th>
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <td>Colletion Point A</td>
-            <td>9.30am</td>
-            <td>Ms Irene Tan</td>
-            <td>
-                <input type="checkbox" name="updatCollectionPtStatus" value="collectionPtStatus" checked>
-                <br>
-            </td>
-        </tr>
-
-    </tbody>
 </table>
+
+
+<button id="btn-add-new-collection-point" class="btn-blue">Add New Collection Point</button>
+
+<div id="dialog-add-new-collection-point" class="hidden" title="Add Collection Point (Maintenance)">
+    @using (Html.BeginForm("AddNewCollectionPoint", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-collection-point" }))
+    {
+    <div>
+        <div>
+            <label>Collection Point Description: </label>
+            @Html.EditorFor(model => model.CollectionPointDescription, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-collection-pt-desc" }, })
+        </div>
+
+        <div>
+            <label>Collection Point Time: </label>
+            @Html.EditorFor(model => model.CollectionTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Time", @id = "new-collection-pt-time" , @type = "time" }, })
+        </div>
+
+        <input id="btn-submit-add-collection-point" class="btn-blue" type="submit" value="Add" />
+
+    </div>
+    }
+</div>
+
+<div id="dialog-submit-add-collection-point" class="hidden" title="Add Collection Point Successful (Maintenance)">
+    <p>New Collection Point has been successfully added.</p>
+</div>
 
