@@ -33,9 +33,15 @@
                 var month = date.getMonth() + 1;
                 var newDate = date.getDate() + "/" + month + "/" + date.getFullYear();
 
-                var dateRec = new Date(data[0]["ReceivedDate"]);
-                var monthRec = dateRec.getMonth() + 1;
-                var newDateRec = dateRec.getDate() + "/" + monthRec + "/" + dateRec.getFullYear();
+                var newDateRec;
+                if (data[0]["ReceivedDate"] == null) {
+                    newDateRec = "-";
+                } else {
+                    var dateRec = new Date(data[0]["ReceivedDate"]);
+                    var monthRec = dateRec.getMonth() + 1;
+                    newDateRec = dateRec.getDate() + "/" + monthRec + "/" + dateRec.getFullYear();
+                }
+
 
                 var i;
                 var total =0;
@@ -51,6 +57,7 @@
                     $('#lbl-del-date').val(newDateRec);
                     $('#lbl-status').val(data[0]["Status"]);
                     $('#displayPO-gross-total').val(twoDP(total));
+                    $('#lbl-supplier').val(data[0]["CompanyName"]);
                     $('#displayPO-gst').val(twoDP(gst));
                     $('#displayPO-net-total').val(twoDP(netTotal));
                     $('#ta-remarks').val(data[0]["Remarks"]);
@@ -104,7 +111,8 @@
 
 <div class="create-PO-dates">
     <label>PO Number:&nbsp <label id="lbl-poNumber">@Session["poNumber"]</label></label>
-    <br/>
+    <br />
+    <label>Supplier: <input type="text" id="lbl-supplier" readonly="readonly"></label>
     <label>Date Created: <input type="text" id="lbl-dateCreated" readonly="readonly"></label>
     <label>Delivery Date:<input type="text" id="lbl-del-date" readonly="readonly"></label>
 </div>
