@@ -23,7 +23,6 @@ namespace SA46Team1_Web_ADProj.Models
         public string s1 { get; set; }
         public string s2 { get; set; }
         public string s3 { get; set; }
-        public byte Active { get; set; }
         public Nullable<int> BackOrder { get; set; }
     }
 }
