@@ -580,6 +580,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
             
                 stockAdjustmentHeader.RequestId = "SA-" + stockAdjustmentHeaderCount;
+
+                //DateTime
                 DateTime localDate = DateTime.Now;
                 stockAdjustmentHeader.DateRequested = localDate;
                 stockAdjustmentHeader.Requestor = stockAdjustmentModel.RequestorId;
@@ -600,6 +602,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 stockAdjustmentDetail.Remarks = stockAdjustmentModel.Remarks;
                 stockAdjustmentDetail.Status = "Pending";
                 m.StockAdjustmentDetails.Add(stockAdjustmentDetail);
+
+                //Update Stock Retrieval Details
+                StockRetrievalDetail stockRetrievalDetail = new StockRetrievalDetail();
+                stockRetrievalDetail = m.StockRetrievalDetails.Where(x => x.Id == stockAdjustmentModel.StockRetrievalId && x.ItemCode == itemCode).FirstOrDefault();
+                stockRetrievalDetail.QuantityRetrieved = stockRetrievalDetail.QuantityRetrieved - stockAdjustmentModel.AdjustedQuantity;
+                stockRetrievalDetail.QuantityAdjusted = stockAdjustmentModel.AdjustedQuantity;
+
+                //Update Item Transaction
+
+
+
 
                 m.SaveChanges();
             }
