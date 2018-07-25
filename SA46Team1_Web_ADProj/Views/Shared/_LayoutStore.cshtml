@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        @if (Session["Role"] == "Store")
+        @if (User.IsInRole("Store Clerk"))
         {
             <div class="item1">@Html.ActionLink("Home", "Home", "Store")</div>
             <div class="item2">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
@@ -48,7 +48,7 @@
             <div class="item4">@Html.ActionLink("Purchase", "Purchase", "Store")</div>
             <div class="item5">@Html.ActionLink("Report", "Report", "Store")</div>
         }
-        else if (Session["Role"] == "StoreManager")
+        else if ((User.IsInRole("Store Manager") || User.IsInRole("Store Supervisor")))
         {
             <div class="item1">@Html.ActionLink("Home", "Home", "Store")</div>
             <div class="item2">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
