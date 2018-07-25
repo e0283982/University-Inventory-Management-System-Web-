@@ -4,7 +4,6 @@
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-
 <script>
 
      var table;
@@ -58,6 +57,14 @@
         });
     });
 
+    $(function () {
+        $("#dialog-discard-backorder-no-item-selected").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
 
     $(function () {
         $("#dialog-confirm-discard-backorder-item").dialog({
@@ -68,7 +75,14 @@
     });
 
     $('#btn-submit-discard-backorder-items').on('click', function () {
-        $('#dialog-confirm-discard-backorder-item').dialog('open');
+
+        //check if no items are selected
+        var noSelected = table.rows('.selected').data().length;
+        if (noSelected == 0) {
+            $("#dialog-discard-backorder-no-item-selected").dialog('open');
+        } else {
+            $('#dialog-confirm-discard-backorder-item').dialog('open');
+        }
     });
 
     $('#btn-confirm-discard-no').on('click', function () {
@@ -86,10 +100,7 @@
             toDeleteArray.push(data[i].ItemCode);
             toDeleteArray2.push(data[i].ReqId);
         }
-
-        //alert(toDeleteArray);
-        //alert(toDeleteArray2);
-
+        
         table.row('.selected').remove().draw(false);
 
         $.ajax({
@@ -106,8 +117,7 @@
         $('#dialog-confirm-discard-backorder-item').dialog('close');
          table.draw(false);
         $('#dialog-discard-backorder-item-submitted').dialog('open');
-
-        //window.location.href = '@Url.Action("Requisition", "Dept")';
+        
     });
 
 </script>
@@ -152,5 +162,9 @@
 
 <div id="dialog-discard-backorder-item-submitted" class="hidden" title="Backorder Item Discarded">
     <p>Selected back order has been cancelled.</p>
+</div>
+
+<div id="dialog-discard-backorder-no-item-selected" class="hidden" title="No Item Selected (BackOrder)">
+    <p>No item was selected for discard.</p>
 </div>
 
