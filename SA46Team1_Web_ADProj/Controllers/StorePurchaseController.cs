@@ -17,9 +17,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                int count = m.POHeaders.Count();
-                string poId = "PO-" + count.ToString();
-                Session["newPoId"] = poId;
                 Tuple<Item, PODetail> tuple = new Tuple<Item, PODetail>(new Item(), new PODetail());
                 ViewBag.ItemsList = new SelectList((from s in m.Items.ToList()
                                                     select new
@@ -50,6 +47,89 @@ namespace SA46Team1_Web_ADProj.Controllers
             poFullDetailsList.Remove(pod);
             Session["newPOList"] = poFullDetailsList;
             return RedirectToAction("Purchase", "Store");
+        }
+
+        [HttpPost]
+        public ActionResult SavePO()
+        {
+            // Iterate through list
+            List<POFullDetail> itemList = new List<POFullDetail>();
+            List<PODetail> poDetailsList = (List<PODetail>) Session["newPOList"];
+            List<Supplier> supplierList = new List<Supplier>();
+            List<POFullDetail> itemAdded = new List<POFullDetail>();
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                // Checking Suppliers
+                foreach (PODetail p in poDetailsList)
+                {
+                    Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == p.Item.Supplier1).FirstOrDefault();
+                    if (!supplierList.Contains(supplier))
+                    {
+                        supplierList.Add(supplier);
+                    }
+                    POFullDetail f = new POFullDetail();
+                    f.ItemCode = p.ItemCode;
+                    f.QuantityOrdered = p.QuantityOrdered;
+                    f.UnitCost = p.UnitCost;
+                    itemList.Add(f);
+                }
+
+                foreach (Supplier s in supplierList)
+                {
+                    // Create new PO number
+                    int count = m.POHeaders.Count();
+                    string poId = "PO-" + count.ToString();
+
+                    // Create PO, line by line based on supplier
+                    POHeader newPOHeader = new POHeader();
+                    newPOHeader.PONumber = poId;
+                    newPOHeader.Date = DateTime.Now;
+                    newPOHeader.SupplierCode = s.SupplierCode;
+                    newPOHeader.ContactName = s.ContactName;
+                    newPOHeader.DeliverTo = "Logic University";
+                    newPOHeader.EmployeeID = "E1";
+                    newPOHeader.Remarks = "";
+                    newPOHeader.Status = "Open";
+                    newPOHeader.TransactionType = "PO";
+                    m.POHeaders.Add(newPOHeader);
+                    m.SaveChanges();
+
+                    foreach (PODetail pod in poDetailsList)
+                    {
+                        // Create PO Details, Line by line based on items
+                        Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == pod.Item.Supplier1).FirstOrDefault();
+                        if (supplier.Equals(s))
+                        {
+                            foreach (POFullDetail item in itemList)
+                            {
+                                if (!itemAdded.Contains(item))
+                                {
+                                    // Need to double check after changing UI
+                                    PODetail poDetailToAdd = new PODetail();
+                                    float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == supplier.SupplierCode 
+                                        && x.ItemCode == item.ItemCode).Select(y=> y.UnitCost).FirstOrDefault();
+                                    poDetailToAdd.PONumber = poId;
+                                    poDetailToAdd.ItemCode = item.ItemCode;
+                                    poDetailToAdd.QuantityOrdered = item.QuantityOrdered;
+                                    poDetailToAdd.QuantityBackOrdered = 0;
+                                    poDetailToAdd.QuantityDelivered = 0;
+                                    poDetailToAdd.UnitCost = itemUnitPrice;
+                                    poDetailToAdd.CancelledBackOrdered = 0;
+                                    m.PODetails.Add(poDetailToAdd);
+                                    m.SaveChanges();
+                                    itemAdded.Add(item);
+                                }
+
+                            }
+                        }
+                    }
+
+                    // Send PO to Supplier
+                }
+            }
+            Session["newPOList"] = new List<PODetail>();
+            return View();
         }
 
         [HttpPost]
