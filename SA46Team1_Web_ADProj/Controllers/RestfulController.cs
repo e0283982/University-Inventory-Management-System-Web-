@@ -604,10 +604,16 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.StockAdjustmentDetails.Add(stockAdjustmentDetail);
 
                 //Update Stock Retrieval Details
-                StockRetrievalDetail stockRetrievalDetail = new StockRetrievalDetail();
-                stockRetrievalDetail = m.StockRetrievalDetails.Where(x => x.Id == stockAdjustmentModel.StockRetrievalId && x.ItemCode == itemCode).FirstOrDefault();
-                stockRetrievalDetail.QuantityRetrieved = stockRetrievalDetail.QuantityRetrieved - stockAdjustmentModel.AdjustedQuantity;
-                stockRetrievalDetail.QuantityAdjusted = stockAdjustmentModel.AdjustedQuantity;
+                //If it is from item screen then there will not be any stock retrieval
+                if (!stockAdjustmentModel.StockRetrievalId.Equals("NoStockRetrieval"))
+                {
+                    StockRetrievalDetail stockRetrievalDetail = new StockRetrievalDetail();
+                    stockRetrievalDetail = m.StockRetrievalDetails.Where(x => x.Id == stockAdjustmentModel.StockRetrievalId && x.ItemCode == itemCode).FirstOrDefault();
+                    stockRetrievalDetail.QuantityRetrieved = stockRetrievalDetail.QuantityRetrieved - stockAdjustmentModel.AdjustedQuantity;
+                    stockRetrievalDetail.QuantityAdjusted = stockRetrievalDetail.QuantityAdjusted + stockAdjustmentModel.AdjustedQuantity;
+                    stockRetrievalDetail.Remarks = stockAdjustmentModel.Remarks;
+                }
+                
 
                 //Create new Item Transaction
                 ItemTransaction itemTransaction = new ItemTransaction();
