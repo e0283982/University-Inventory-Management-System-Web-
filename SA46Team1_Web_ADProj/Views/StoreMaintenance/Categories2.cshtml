@@ -6,44 +6,96 @@
 
 
 <script>
-    $(document).ready(function () {
-
     var table;
 
-    $.ajax({
-        url: 'http://localhost:49921/api/Restful/GetCategoryList/'+ '@Session["MaintenanceCategoryId"]',
-        method: 'get',
-        dataType: 'json',
-        success: function (data) {
-            table = $('#dataTable-store-categories-details').DataTable({
-                paging: true,
-                sort: true,
-                searching: true,
-                scrollY: 200,
-                data: data,
-                columns: [
-                    { 'data': 'CategoryID' },
-                    { 'data': 'CategoryName' },
-                    {
-                        'data': 'Active',
-                        render: function (data, type, row) {
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetCategoryList/'+ '@Session["MaintenanceCategoryId"]',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                d = data;
 
-                            var status = data;
-                            return status !=0 ? 'Active' : 'Inactive';
+                table = $('#dataTable-store-categories-details').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'CategoryID' },
+                        {
+                            'data': 'CategoryName',
+                            "render": function (data, type, full, meta) {
+                                return '<input id="input-category-name" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            }},
+                        {
+                            'data': 'Active',
+                            render: function (data, type, row) {
+
+                                if (data != 0) {
+                                    //active status
+                                    return '<input id="input-category-active" type="checkbox" checked>';
+                                } else {
+                                    return '<input id="input-category-active" type="checkbox">';
+                                }
+                            }
+                        },
+                    ],
+                    columnDefs: [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
                         }
-                    },
-                ],
-                columnDefs: [
-                    {
-                        "targets": [0],
-                        "visible": false,
-                        "searchable": false
-                    }
-                ]
+                    ],
+
+                });
+            }
             });
-        }
+        
+    });
+
+    $(function () {
+        $("#dialog-submit-edit-category").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
     });
+
+
+    $(document).ajaxComplete(function () {
+        $('#btn-edit-category').click(function () {
+            var dataToSend = "";
+            var arr = [];
+            //alert($("#input-category-active").prop('checked'));
+
+            dataToSend = table.rows(0).data();
+            for (var i = 0; i < Object.keys(d).length; i++) {
+                var rowData = dataToSend[i];
+                rowData.CategoryName = $("#input-category-name").val();
+                rowData.Active = $("#input-category-active").prop('checked');
+
+                arr.push(rowData);
+            }
+
+            $('#dialog-submit-edit-category').dialog('open');
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/Store/StoreMaintenance/Categories/EditCategory',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({ arr: arr })
+            });
+
+            window.location.href = '@Url.Action("Maintenance", "Store")';
+
+        });
+    });
+    
 </script>
 
 <div>
@@ -59,10 +111,18 @@
             <th>Active</th>
         </tr>
     </thead>
+
+    <tbody>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tbody>
 </table>
 
 
-<button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>
+<button id="btn-edit-category" class="btn-blue">Edit</button>
 
 
 <div id="details-back-btn">
@@ -71,4 +131,9 @@
     {
         <input class="btn-blue" type="submit" value="Back" />
     }
+</div>
+
+
+<div id="dialog-submit-edit-category" class="hidden" title="Edit Category Successful (Maintenance)">
+    <p>Category has been successfully edited.</p>
 </div>

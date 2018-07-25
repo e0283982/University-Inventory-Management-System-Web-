@@ -1,37 +1,13 @@
 ﻿@*This must be inside folder - App_Code*@
 
-@*@helper SearchInventoryTextBox()
-{
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    </head>
-    <body>
-        <div class="ui-widget">
-            <label for="tags">Tags: </label>
-            <input id="tags">
-        </div>
-        <script>
-            $(function () {
-                $("#tags").autocomplete({
-                    source: ["Test1", "ATest1"]
-                });
-            });
-        </script>
-    </body>
-}
-@helper InventoryOverviewDatatable()
+@helper InventoryOverviewTable()
 {
     <script>
         var table;
         $(document).ready(function () {
 
             $.ajax({
-                url: 'http://localhost:49921/api/Restful/getInventoryoverviewlist/c001',
+                url: 'http://localhost:49921/api/Restful/getInventoryoverviewlist',
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -46,11 +22,12 @@
                             { 'data': 'Description' },
                             { 'data': 'CategoryName' },
                             { 'data': 'Quantity' },
-                            { 'data': 'UoM' },
                             { 'data': 'PONotFulfilled' },
-                            { 'data': 'StaffOrderNotFulfilled' }
+                            { 'data': 'StaffOrderNotFulfilled' },
+                            { 'data': 'UoM' }
                         ]
                     });
+                    table.column(0).visible(false);
                 }
             });
         });
@@ -76,49 +53,13 @@
                 <th>Item</th>
                 <th>Category</th>
                 <th>Available</th>
-                <th>Units</th>
-                <th>PO Backorders not fulfilled</th>
-                <th>Staff Requisitions not fulfilled</th>
+                <th>PO Back Orders</th>
+                <th>Staff Requisitions Back Orders</th>
+                <th>Unit of Measure</th>
             </tr>
         </thead>
     </table>
 }
-
-@helper GoodsReceivedDetailedDatatable()
-{
-    <script>
-        var table;
-        $(document).ready(function () {
-
-            $.ajax({
-                url: 'http://localhost:49921/api/Restful/GetGoodsReceivedLists/c001',
-                type: 'get',
-                dataType: 'json',
-                success: function (data) {
-                    table = $('#dataTable-displayGR').DataTable({
-                        paging: true,
-                        sort: true,
-                        searching: true,
-                        scrollY: 200,
-                        data: data,
-                        columns: [
-                            { 'data': 'ItemCode' },
-                            { 'data': 'Description' },
-                            { 'data': 'UoM' },
-                            { 'data': 'QuantityReceived' },
-                            { 'data': 'UnitCost' },
-                            { 'data': 'Total' },
-                            //{ 'data': 'ReceiptNo' }
-                            //{ 'data': 'ReceivedDate' },
-                            //{ 'data': 'CompanyName' },
-                            //{ 'data': 'Receiver' }
-                        ]
-                    });
-                }
-            });
-        });
-    </script>
-}*@
 
 @helper AddDeptNewItemButton()
 {

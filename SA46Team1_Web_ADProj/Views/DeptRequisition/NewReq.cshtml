@@ -2,6 +2,7 @@
     Layout = null;
     List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
     List<int> rowIndexes = (List<int>) TempData["RowIndexesToDiscard"];
+    bool editMode = (bool) Session["newReqEditMode"];
 }
 
 
@@ -13,6 +14,14 @@
 <script>
     var table;
     $(document).ready(function () {
+        if (@editMode.ToString().ToLower()== true) {
+            $("#btn-save-items").show();
+            $("#btn-edit-items").hide();
+        } else {
+            $("#btn-save-items").hide();
+            $("#btn-edit-items").show();
+        }
+
         table = $('#dataTable-newReq').DataTable({
             scrollY: '30vh',
             scrollCollapse: true,
@@ -20,6 +29,7 @@
             paging: true
         });
     });
+    
 
     $('#dataTable-newReq tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -69,10 +79,6 @@
     });
 
     $('#btn-discard-items').on('click', function () {
-        //rowIndexes= table.rows('.selected').indexes();
-        //alert(table.rows('.selected').indexes());
-        //alert(table.rows('.selected').data().length);
-
         var data = table.rows('.selected').indexes();
         var noSelected = table.rows('.selected').data().length;
         var toDeleteArray = [];
@@ -94,6 +100,53 @@
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
     });
+
+    $('#btn-edit-items').on('click', function () {
+        var data = table.data();
+
+        //toggle save/edit btn visibility
+        $("#btn-save-items").show();
+        $("#btn-edit-items").hide();
+
+        $.ajax({
+            url: '/DeptRequisition/EditNewOrderQty',
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("Requisition", "Dept")';
+
+    });
+
+    $('#btn-save-items').on('click', function () {
+        var data = table.column(2).data();
+        var dataToSend = "";
+        var arr = [];
+        var arr1 = []
+        for (var i = 0; i < table.rows().data().length; i++) {
+            dataToSend = table.rows(i).data();
+            arr1.push(table.cell(i, 2).nodes().to$().find('input').val());
+            arr.push(dataToSend[0]);
+        }
+        
+        //toggle save/edit btn visibility
+        $("#btn-save-items").hide();
+        $("#btn-edit-items").show();
+
+        $.ajax({
+            url: '/DeptRequisition/ExitEditNewOrderQty',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ arr: arr, arr1: arr1 }),
+            success: function () {
+
+                alert('success');
+            }
+        });
+
+        window.location.href = '@Url.Action("Requisition", "Dept")';
+
+    });
 </script>
 
     <div class="row">
@@ -103,7 +156,9 @@
         </div>
         <div class="col-md-6">
             <span style="float: right; padding-top:35px;">
-                <button class="btn btn-info" id="btn-discard-items">Discard</button>
+                <button class="btn-blue" id="btn-edit-items">Edit</button>
+                <button class="btn-blue" id="btn-save-items">Save</button>
+                <button class="btn btn-danger" id="btn-discard-items">Discard</button>
             </span>
         </div>    
     </div>        
@@ -122,7 +177,17 @@
             <tr>
                 <td>@item.Item.Description</td>
                 <td>@item.Item.UoM</td>
-                <td>@item.QuantityOrdered</td>
+                <td>
+                    @if (editMode == true)
+                    {
+                        //this cell contains a textbox
+                        <input id="input-edit-order-qty" value=@item.QuantityOrdered />
+                    }
+                    else
+                    {
+                        @item.QuantityOrdered
+                    }
+                </td>
             </tr>
         }
         <tbody></tbody>
@@ -130,14 +195,16 @@
 
     <hr />
 
-    <div class="container">
-        <div class="row">
-            <span>
-                <button class="btn btn-info" id="btn-add-item">Add New Item</button> 
-            </span>  
-            <span>
-                <button class="btn btn-info" id="btn-submit-new-req">Submit for Approval</button>
-            </span>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right">
+                <span>
+                    <button class="btn btn-primary" id="btn-add-item">Add New Item</button>
+                </span>
+                <span>
+                    <button class="btn btn-info" id="btn-submit-new-req">Submit for Approval</button>
+                </span>
+            </div>         
         </div>
     </div>
 
@@ -176,3 +243,14 @@
             <p>New requisition request has been submitted for approval.</p>
         </div>
     </div>
+
+<style>
+    #btn-edit-items,
+    #btn-save-items {
+        margin-left:-10vw;
+    }
+
+    #btn-discard-items {
+        margin-left: -12vw;
+    }
+</style>

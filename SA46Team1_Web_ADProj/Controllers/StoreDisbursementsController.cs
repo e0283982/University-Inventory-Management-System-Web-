@@ -153,7 +153,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         float itemUnitCost = m.Items.Where(x => x.ItemCode == sad.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
                         sad.Amount = itemUnitCost * sad.ItemQuantity;
 
-                        sad.Remarks = srd.Remarks;
+                        //sad.Remarks = srd.Remarks;
                         sad.Status = "Pending";
 
                         m.StockAdjustmentDetails.Add(sad);                        
@@ -194,8 +194,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int count = m.DisbursementHeaders.Count() + 1;
                     string disId = "DH-" + count;
                     newDH.Id = disId;
-                    newDH.Status = "Open";                                        
-                    newDH.RequisitionFormID = reqFormID;
+                    newDH.Status = "Open";
+                    
+                    //------------------------------- TO CHANGE ----------------------------
+                    //To change to stock retrieval id(local variable id) instead of staff req id
+                    newDH.Id = id;
                     
                     newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault().DepartmentCode;                    
                     newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
@@ -319,7 +322,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srd.QuantityAdjusted = srd.QuantityAdjusted + qtyAdjusted;
                 srd.QuantityRetrieved = srd.QuantityRetrieved - qtyAdjusted;
 
-                srd.Remarks = item1.Remarks;
+                //srd.Remarks = item1.Remarks;
 
                 m.SaveChanges();
 
