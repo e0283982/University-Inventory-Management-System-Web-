@@ -567,7 +567,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        //TODO: Hendri new save post method
+        //TODO: Hendri new restful controllers
         [System.Web.Mvc.HttpPost]
         [System.Web.Mvc.Route("CreateNewStockAdjustment")]
         public void CreateNewStockAdjustment(StockAdjustmentModel stockAdjustmentModel)
@@ -604,6 +604,24 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.SaveChanges();
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetLatestStockRetrievalId")]
+        public StockRetrievalHeader GetLatestStockRetrievalId()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.StockRetrievalHeaders.OrderByDescending(x => x.Date).FirstOrDefault();
+
+            }
+        }
+
+
+
+
+
+
 
 
     }
