@@ -408,6 +408,7 @@
     <Compile Include="Models\StockAdjustmentHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockAdjustmentModel.cs" />
     <Compile Include="Models\StockAdjustmentOverview.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -687,7 +688,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\DefaultCollectionPoint\" />
   </ItemGroup>
   <ItemGroup>

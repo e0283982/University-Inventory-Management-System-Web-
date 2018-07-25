@@ -374,13 +374,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetItemsList/{id}")]
-        public List<ItemFullDetail> GetItemsList(string id)
+        [System.Web.Mvc.Route("GetItemsById/{id}")]
+        public ItemFullDetail GetItemsById(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<ItemFullDetail> item = m.ItemFullDetails.Where(x => x.ItemCode == id).ToList<ItemFullDetail>();
+                ItemFullDetail item = m.ItemFullDetails.Where(x => x.ItemCode == id).FirstOrDefault();                
                 return item;
             }
         }
@@ -566,5 +566,45 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             }
         }
+
+        //TODO: Hendri new save post method
+        [System.Web.Mvc.HttpPost]
+        [System.Web.Mvc.Route("CreateNewStockAdjustment")]
+        public void CreateNewStockAdjustment(StockAdjustmentModel stockAdjustmentModel)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                //Adding new StockAdjustmentHeader            
+                StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
+
+                int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
+            
+                stockAdjustmentHeader.RequestId = "SA-" + stockAdjustmentHeaderCount;
+                DateTime localDate = DateTime.Now;
+                stockAdjustmentHeader.DateRequested = localDate;
+                stockAdjustmentHeader.Requestor = stockAdjustmentModel.RequestorId;
+                stockAdjustmentHeader.TransactionType = "Stock Adjustment";
+                m.StockAdjustmentHeaders.Add(stockAdjustmentHeader);
+
+                //Adding new StockAdjustmentDetails
+                StockAdjustmentDetail stockAdjustmentDetail = new StockAdjustmentDetail();
+                stockAdjustmentDetail.RequestId = stockAdjustmentHeader.RequestId;
+
+                String itemDescription = stockAdjustmentModel.ItemDescription;
+                String itemCode = m.Items.Where(x => x.Description == itemDescription).Select(x => x.ItemCode).FirstOrDefault();
+                stockAdjustmentDetail.ItemCode = itemCode;
+                stockAdjustmentDetail.ItemQuantity = stockAdjustmentModel.AdjustedQuantity;
+
+                float itemUnitCost = m.Items.Where(x => x.ItemCode == stockAdjustmentDetail.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                stockAdjustmentDetail.Amount = itemUnitCost * stockAdjustmentDetail.ItemQuantity;
+                stockAdjustmentDetail.Remarks = stockAdjustmentModel.Remarks;
+                stockAdjustmentDetail.Status = "Pending";
+                m.StockAdjustmentDetails.Add(stockAdjustmentDetail);
+
+                m.SaveChanges();
+            }
+        }
+
+
     }
 }
