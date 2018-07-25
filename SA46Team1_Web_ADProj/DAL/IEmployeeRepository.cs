@@ -19,7 +19,7 @@ namespace SA46Team1_Web_ADProj.DAL
 
         void UpdateEmployee(Employee employee);
 
-        bool FindEmployeeEmailId(string emailId);
+        Employee FindEmployeeEmailId(string emailId);
 
         void Save();
 
