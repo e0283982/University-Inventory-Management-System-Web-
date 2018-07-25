@@ -1,16 +1,35 @@
 ﻿@{
     Layout = null;
+    ReqHistoryModel req = (ReqHistoryModel)Session["CurrentReqHistory"];
+    bool editMode = (bool)Session["existingReqEditMode"];
 }
 
+@using SA46Team1_Web_ADProj.Models;
+
 <script>
+    var table;
+
     $(document).ready(function () {
 
-        var table;
+        if (@editMode.ToString().ToLower()== true) {
+            $("#btn-save-req-history").show();
+            $("#btn-edit-req-history").hide();
+        } else {
+            $("#btn-save-req-history").hide();
+            $("#btn-edit-req-history").show();
+        }
+
+        //check: disable edit btn on intialisation IF SRH's approval status is !=pending
+        if ('@req.ApprovalStatus' != 'Pending') {
+            $("#btn-edit-req-history").prop('disabled', true);
+        }
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRequisitionHistoryDetail/' + '@Session["id"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
+                d = data;
+
                 table = $('#dataTable-pastReq-details').DataTable({
                     paging: true,
                     sort: true,
@@ -20,7 +39,16 @@
                     columns: [
                         { 'data': 'Description' },
                         { 'data': 'UoM' },
-                        { 'data': 'QuantityOrdered' },
+                        {
+                            'data': 'QuantityOrdered',
+                            "render": function (data, type, full, meta) {
+                                if (@editMode.ToString().ToLower() == true) {
+                                    return '<input id="edit-qty-order" type="number" value="' + $('<div/>').text(data).html() + '" min="1">';
+                                } else {
+                                    return data;
+                                }
+                            }
+                        },
                         { 'data': 'QuantityDelivered' },
                         { 'data': 'QuantityBackOrdered' }
                     ]
@@ -28,10 +56,84 @@
             }
         });
     });
+
+
+    $(function () {
+        $("#dialog-edit-req-zero-input-alert").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-edit-req-history').on('click', function () {
+
+        //toggle save/edit btn visibility
+        $('#btn-edit-req-history').hide();
+        $('#btn-save-req-history').show();
+
+        $.ajax({
+            url: '/DeptRequisitionHistory/EditExisitingOrderQty',
+            type: 'POST',
+        });
+
+        table.draw(false);
+        window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
+    });
+
+    $('#btn-save-req-history').on('click', function () {
+
+        var data = table.column(2).data();
+        var dataToSend = "";
+        var arr = [];
+        var arr1 = []
+        for (var i = 0; i < table.rows().data().length; i++) {
+            var newOrderQty = table.cell(i, 2).nodes().to$().find('input').val();
+            dataToSend = table.rows(i).data();
+            arr1.push(newOrderQty);
+            arr.push(dataToSend[0]);
+
+            if (newOrderQty == "0") {
+                editMode = false;
+                $("#dialog-edit-req-zero-input-alert").dialog('open');
+                return;
+            }
+        }
+
+        //toggle save/edit btn visibility
+        $("#btn-save-req-history").hide();
+        $("#btn-edit-req-history").show();
+
+        $.ajax({
+            url: '/DeptRequisitionHistory/ExitEditExistingOrderQty',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ arr: arr, arr1: arr1 }),
+            success: function () {
+
+                alert('success');
+            }
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
+    });
+
+
 </script>
 
 <div>
     <h2>Requisition Form # @Session["id"]</h2>
+
+    <span class="col-md-12">
+        <button id="btn-print-req-history" class="btn btn-info" type="submit" style="float: right">
+            Print
+        </button>
+    </span>
 </div>
 
 
@@ -45,12 +147,64 @@
             <th>Back Order Qty</th>
         </tr>
     </thead>
+
+    <tbody>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tbody>
 </table>
 
 <hr />
+<div class="row">
+    <div>
+        <label>Approval Status</label>
+        <input type="text" name="country" value=@req.ApprovalStatus readonly />
+    </div>
+
+    <div>
+        <label>Request Date</label>
+        <input type="text" name="country" value=@req.RequestDate readonly />
+    </div>
+
+    <div>
+        <label>Representative</label>
+        <input type="text" name="country" value=@req.RepName readonly />
+    </div>
+
+    <div>
+        <label>Approved By</label>
+        <input type="text" name="country" value=@req.ApproverName readonly />
+    </div>
+
+    <div>
+        <span class="col-md-12">
+            <button id="btn-edit-req-history" class="btn btn-info" type="submit" style="float: right">
+                Edit
+            </button>
+        </span>
+
+
+        <span class="col-md-12">
+            <button id="btn-save-req-history" class="btn btn-info" type="submit" style="float: right">
+                Save
+            </button>
+        </span>
+    </div>
+
+</div>
 
 <div class="row">
     <span class="col-md-12">
         <div style="float: right">@Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info" })</div>
     </span>
+</div>
+
+
+<div id="dialog-edit-req-zero-input-alert" class="hidden" title="New Order Qty cannot be 0 (Edit Requisition)">
+    <p>Requisition order qty cannot be 0.</p>
 </div>
