@@ -609,10 +609,20 @@ namespace SA46Team1_Web_ADProj.Controllers
                 stockRetrievalDetail.QuantityRetrieved = stockRetrievalDetail.QuantityRetrieved - stockAdjustmentModel.AdjustedQuantity;
                 stockRetrievalDetail.QuantityAdjusted = stockAdjustmentModel.AdjustedQuantity;
 
-                //Update Item Transaction
+                //Create new Item Transaction
+                ItemTransaction itemTransaction = new ItemTransaction();
+                itemTransaction.TransDateTime = localDate;
+                itemTransaction.DocumentRefNo = stockAdjustmentHeader.RequestId;
+                itemTransaction.ItemCode = stockAdjustmentDetail.ItemCode;
+                itemTransaction.TransactionType = "Stock Adjustment";
+                itemTransaction.Quantity = stockAdjustmentDetail.ItemQuantity;
+                itemTransaction.UnitCost = itemUnitCost;
+                itemTransaction.Amount = itemTransaction.Quantity * itemTransaction.UnitCost;
+                m.ItemTransactions.Add(itemTransaction);
 
-
-
+                //Update Item Quantity
+                Item item = m.Items.Where(x => x.Description == itemDescription).FirstOrDefault();
+                item.Quantity = item.Quantity - stockAdjustmentDetail.ItemQuantity;
 
                 m.SaveChanges();
             }
