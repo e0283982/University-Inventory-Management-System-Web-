@@ -14,9 +14,17 @@
         if (@editMode.ToString().ToLower()== true) {
             $("#btn-save-req-history").show();
             $("#btn-edit-req-history").hide();
+            $("#btn-submit-discard-req-items").show();
+
+
+            $('#dataTable-pastReq-details tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
         } else {
             $("#btn-save-req-history").hide();
             $("#btn-edit-req-history").show();
+            $("#btn-submit-discard-req-items").hide();
         }
 
         //check: disable edit btn on intialisation IF SRH's approval status is !=pending
@@ -36,6 +44,9 @@
                     searching: true,
                     scrollY: 200,
                     data: data,
+                    select: {
+                        style: 'multi'
+                    },
                     columns: [
                         { 'data': 'Description' },
                         { 'data': 'UoM' },
@@ -57,6 +68,31 @@
         });
     });
 
+    $(function () {
+        $("#dialog-confirm-discard-req-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+
+    $(function () {
+        $("#dialog-discard-req-item-submitted").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $(function () {
+        $("#dialog-discard-req-no-item-submitted").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
 
     $(function () {
         $("#dialog-edit-req-zero-input-alert").dialog({
@@ -66,11 +102,29 @@
         });
     });
 
+    $(function () {
+        $("#dialog-update-req-items-success").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $(function () {
+        $("#dialog-confirm-discard-req-item-error").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+
     $('#btn-edit-req-history').on('click', function () {
 
         //toggle save/edit btn visibility
-        $('#btn-edit-req-history').hide();
-        $('#btn-save-req-history').show();
+        //$('#btn-edit-req-history').hide();
+        //$('#btn-save-req-history').show();
+        //$("#btn-submit-discard-req-items").show();
 
         $.ajax({
             url: '/DeptRequisitionHistory/EditExisitingOrderQty',
@@ -79,6 +133,55 @@
 
         table.draw(false);
         window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
+    });
+
+   $('#btn-submit-discard-req-items').on('click', function () {
+        //check if no items are selected
+       var noSelected = table.rows('.selected').data().length;
+       
+       if (noSelected == Object.keys(d).length) {
+           $('#dialog-confirm-discard-req-item-error').dialog('open');
+           return;
+       }
+
+        if (noSelected == 0) {
+            $("#dialog-discard-req-no-item-selected").dialog('open');
+        } else {
+            $('#dialog-confirm-discard-req-item').dialog('open');
+        }
+    });
+
+    $('#btn-confirm-discard-no').on('click', function () {
+        $('#dialog-confirm-discard-req-item').dialog('close');
+    });
+
+    $('#btn-confirm-discard-yes').click(function () {
+
+        var data = table.rows('.selected').data();
+        var noSelected = table.rows('.selected').data().length;
+        var toDeleteArray = [];
+
+        for (i = 0; i < noSelected; i++) {
+            toDeleteArray.push(data[i].Description);
+        }
+
+        table.row('.selected').remove().draw(false);
+
+        $.ajax({
+            url: '/DeptRequisitionHistory/DiscardSelReqItems',
+            data:
+                JSON.stringify({
+                    deleteItemDesc: toDeleteArray
+                }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        $('#dialog-confirm-discard-req-item').dialog('close');
+         table.draw(false);
+        $('#dialog-discard-req-item-submitted').dialog('open');
 
     });
 
@@ -117,10 +220,45 @@
             }
         });
 
+        $("#dialog-update-req-items-success").dialog('open');
+        editMode = false;
         table.draw(false);
 
         window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
 
+    });
+
+    $('#btn-confirm-withdrawal-no').on('click', function () {
+        $('#dialog-confirm-discard-req-item-error').dialog('close');
+    });
+
+    $('#btn-confirm-withdrawal-yes').click(function () {
+
+        var data = table.rows('.selected').data();
+        var noSelected = table.rows('.selected').data().length;
+        var toDeleteArray = [];
+        
+        for (i = 0; i < noSelected; i++) {
+            toDeleteArray.push(data[i].Description);
+        }
+
+        table.row('.selected').remove().draw(false);
+
+        $.ajax({
+            url: '/DeptRequisitionHistory/DiscardSelReqItems',
+            data:
+                JSON.stringify({
+                    deleteItemDesc: toDeleteArray
+                }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        $('#dialog-confirm-discard-req-item').dialog('close');
+        table.draw(false);
+        $('#dialog-discard-req-item-submitted').dialog('open');
+        
     });
 
 
@@ -188,6 +326,12 @@
             </button>
         </span>
 
+        <span class="col-md-12">
+            <button id="btn-submit-discard-req-items" class="btn btn-info" type="submit" style="float: right">
+                Discard
+            </button>
+        </span>
+
 
         <span class="col-md-12">
             <button id="btn-save-req-history" class="btn btn-info" type="submit" style="float: right">
@@ -208,3 +352,40 @@
 <div id="dialog-edit-req-zero-input-alert" class="hidden" title="New Order Qty cannot be 0 (Edit Requisition)">
     <p>Requisition order qty cannot be 0.</p>
 </div>
+
+
+<div id="dialog-confirm-discard-req-item" class="hidden" title="Confirm Discard Selected (Edit Requisition)">
+    <p>Are you sure you want to cancel the selected request item?</p>
+    <span>
+        <button class="btn btn-primary" id="btn-confirm-discard-no">No</button>
+    </span>
+
+    <span>
+        <button class="btn btn-primary" id="btn-confirm-discard-yes">Yes</button>
+    </span>
+</div>
+
+
+<div id="dialog-update-req-items-success" class="hidden" title="Request Item(s) updated (Edit Requisition)">
+    <p>Requisition request has been successfully.</p>
+</div>
+
+<div id="dialog-discard-req-item-submitted" class="hidden" title="Item(s) Removed (Edit Requisition)">
+    <p>Selected request item(s) have been removed.</p>
+</div>
+
+<div id="dialog-discard-req-no-item-submitted" class="hidden" title="No Item Selected (Edit Requisition)">
+    <p>No request item is selected for removal.</p>
+</div>
+
+<div id="dialog-confirm-discard-req-item-error" class="hidden" title="Request Withdrawal warning (Edit Requisition)">
+    <p>Are you sure you want to withdraw this request?</p>
+    <span>
+        <button class="btn btn-primary" id="btn-confirm-withdrawal-no">No</button>
+    </span>
+
+    <span>
+        <button class="btn btn-primary" id="btn-confirm-withdrawal-yes">Yes</button>
+    </span>
+</div>
+

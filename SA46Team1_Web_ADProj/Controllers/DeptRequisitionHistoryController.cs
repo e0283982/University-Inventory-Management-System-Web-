@@ -110,7 +110,45 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("RequisitionHistory", "Dept");
             
         }
-         
+
+        [HttpPost]
+        public RedirectToRouteResult DiscardSelReqItems(string[] deleteItemDesc)
+        {
+            string formId = Session["id"].ToString();
+
+            Session["existingReqEditMode"] = false;
+
+            //update details of current req history
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                DAL.StaffRequisitionDetailsRepositoryImpl dal = new DAL.StaffRequisitionDetailsRepositoryImpl(m);
+                int index = 0;
+
+                foreach (string s in deleteItemDesc) {
+                    string itemDesc = deleteItemDesc[index];
+                    string itemCode = m.Items.Where(x => x.Description == itemDesc).Select(x => x.ItemCode).FirstOrDefault();
+                    dal.DeleteStaffRequisitionDetail(formId,itemCode);
+                    index++;
+                }
+
+                int noOfItemsInRequest = m.StaffRequisitionDetails.Where(x => x.FormID == formId).ToList().Count();
+
+                if (noOfItemsInRequest == deleteItemDesc.Length) {
+                    DAL.StaffRequisitionRepositoryImpl dalHeader = new DAL.StaffRequisitionRepositoryImpl(m);
+                    StaffRequisitionHeader srh = m.StaffRequisitionHeaders.Where(x => x.FormID == formId).FirstOrDefault();
+                    srh.Status = "Withdrawn"; //to add in list of constants
+                    dalHeader.UpdateStaffRequisitionHeader(srh);
+                }
+
+                m.SaveChanges();
+
+            }
+
+            return RedirectToAction("RequisitionHistory", "Dept");
+
+        }
+
 
         [Route("CollectionList")]
         public ActionResult CollectionList()
