@@ -594,7 +594,6 @@ warning 6002: The table/view 'SSISdb.dbo.ReorderList' does not have a primary ke
             <PropertyRef Name="s1" />
             <PropertyRef Name="s2" />
             <PropertyRef Name="s3" />
-            <PropertyRef Name="Active" />
           </Key>
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
@@ -605,7 +604,6 @@ warning 6002: The table/view 'SSISdb.dbo.ReorderList' does not have a primary ke
           <Property Name="s1" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="s2" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="s3" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Active" Type="tinyint" Nullable="false" />
           <Property Name="BackOrder" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -1499,7 +1497,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [ReorderList].[s1] AS [s1], 
     [ReorderList].[s2] AS [s2], 
     [ReorderList].[s3] AS [s3], 
-    [ReorderList].[Active] AS [Active], 
     [ReorderList].[BackOrder] AS [BackOrder]
     FROM [dbo].[ReorderList] AS [ReorderList]</DefiningQuery>
           </EntitySet>
@@ -2441,7 +2438,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <PropertyRef Name="s1" />
             <PropertyRef Name="s2" />
             <PropertyRef Name="s3" />
-            <PropertyRef Name="Active" />
           </Key>
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2452,7 +2448,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="s1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="s2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="s3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Active" Type="Byte" Nullable="false" />
           <Property Name="BackOrder" Type="Int32" />
         </EntityType>
         <EntityType Name="ReorderReport">
@@ -3896,7 +3891,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="s1" ColumnName="s1" />
                 <ScalarProperty Name="s2" ColumnName="s2" />
                 <ScalarProperty Name="s3" ColumnName="s3" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="BackOrder" ColumnName="BackOrder" />
               </MappingFragment>
             </EntityTypeMapping>
