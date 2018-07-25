@@ -52,15 +52,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public ActionResult SavePO()
         {
-            // Iterate through list
             List<POFullDetail> itemList = new List<POFullDetail>();
             List<PODetail> poDetailsList = (List<PODetail>) Session["newPOList"];
             List<Supplier> supplierList = new List<Supplier>();
-            List<POFullDetail> itemAdded = new List<POFullDetail>();
+            List<Item> itemAdded = new List<Item>();
 
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                // Checking Suppliers
+                // Grouping Suppliers & Extract Items out of PODetailsList
                 foreach (PODetail p in poDetailsList)
                 {
                     Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == p.Item.Supplier1).FirstOrDefault();
@@ -75,13 +74,13 @@ namespace SA46Team1_Web_ADProj.Controllers
                     itemList.Add(f);
                 }
 
+                // Each Supplier iterates once such that only 1 PO is created for each of them
                 foreach (Supplier s in supplierList)
                 {
-                    // Create new PO number
+                    // Create new PO based on supplier
                     int count = m.POHeaders.Count();
                     string poId = "PO-" + count.ToString();
-
-                    // Create PO, line by line based on supplier
+                    
                     POHeader newPOHeader = new POHeader();
                     newPOHeader.PONumber = poId;
                     newPOHeader.Date = DateTime.Now;
@@ -95,33 +94,30 @@ namespace SA46Team1_Web_ADProj.Controllers
                     m.POHeaders.Add(newPOHeader);
                     m.SaveChanges();
 
+                    // Loop through PODetails to check suppliers
                     foreach (PODetail pod in poDetailsList)
                     {
                         // Create PO Details, Line by line based on items
                         Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == pod.Item.Supplier1).FirstOrDefault();
                         if (supplier.Equals(s))
                         {
-                            foreach (POFullDetail item in itemList)
-                            {
-                                if (!itemAdded.Contains(item))
+                                if (!itemAdded.Contains(pod.Item))
                                 {
                                     // Need to double check after changing UI
                                     PODetail poDetailToAdd = new PODetail();
                                     float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == supplier.SupplierCode 
-                                        && x.ItemCode == item.ItemCode).Select(y=> y.UnitCost).FirstOrDefault();
+                                        && x.ItemCode == pod.Item.ItemCode).Select(y=> y.UnitCost).FirstOrDefault();
                                     poDetailToAdd.PONumber = poId;
-                                    poDetailToAdd.ItemCode = item.ItemCode;
-                                    poDetailToAdd.QuantityOrdered = item.QuantityOrdered;
+                                    poDetailToAdd.ItemCode = pod.ItemCode;
+                                    poDetailToAdd.QuantityOrdered = pod.QuantityOrdered;
                                     poDetailToAdd.QuantityBackOrdered = 0;
                                     poDetailToAdd.QuantityDelivered = 0;
                                     poDetailToAdd.UnitCost = itemUnitPrice;
                                     poDetailToAdd.CancelledBackOrdered = 0;
                                     m.PODetails.Add(poDetailToAdd);
                                     m.SaveChanges();
-                                    itemAdded.Add(item);
+                                    itemAdded.Add(pod.Item);
                                 }
-
-                            }
                         }
                     }
 
