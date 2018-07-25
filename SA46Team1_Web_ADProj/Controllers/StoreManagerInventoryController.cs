@@ -9,6 +9,7 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
+    [Authorize(Roles = "Store Manager")]
     [RoutePrefix("Store/StoreInventoryManager")]
     public class StoreManagerInventoryController : Controller
     {
