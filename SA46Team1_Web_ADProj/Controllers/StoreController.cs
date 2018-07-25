@@ -19,7 +19,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             this.itemRepository = new ItemsRepositoryImpl(new SSISdbEntities());
         }
 
-        [Authorize(Roles = "Store Clerk, Store Manager")]
+        [Authorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         public ActionResult Home()
         {
             return View();
@@ -30,7 +30,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return new JsonResult { Data = itemRepository.GetItemById(search), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        [Authorize(Roles = "Store Clerk, Store Manager")]
+        [Authorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         public ActionResult Inventory()
         {
             return View();

@@ -45,7 +45,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     case "Employee":
                         return RedirectToAction("Home", "Dept", new { area = "" });
                     case "Employee Representative":
-                        return RedirectToAction("MyAction");
+                        return RedirectToAction("Home", "Dept", new { area = "" });
                     case "Store Clerk":
                         return RedirectToAction("Home", "Store", new { area = "" });                     
                     case "Store Manager":
