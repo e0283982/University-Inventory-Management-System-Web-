@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using SA46Team1_Web_ADProj.Models;
 
@@ -21,16 +19,13 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 Tuple<Item, StaffRequisitionDetail> tuple = new Tuple<Item, StaffRequisitionDetail>(new Item(), new StaffRequisitionDetail());
 
-                //ViewBag.ItemsList = new SelectList(e.Items.ToList(), "ItemCode", "Description");
-                ViewBag.ItemsList = new SelectList((from s in e.Items.ToList()
+                ViewBag.ItemsList = new SelectList((from s in e.Items.OrderBy(x=>x.Description).ToList()
                                                     select new
                                                     {
                                                         ItemCode = s.ItemCode,
                                                         Description = s.Description + " (" + s.UoM + ")"
                                                     }),
-                                                    "ItemCode",
-                                                    "Description",
-                                                    null);
+                                                    "ItemCode","Description", null);
 
                 TempData["RowIndexesToDiscard"] = new List<int>();
 
@@ -91,7 +86,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srd.QuantityOrdered = item2.QuantityOrdered;
                 srd.QuantityDelivered = 0;
                 srd.QuantityBackOrdered = 0;
-                //srd.CancelledBackOrdered = 0;
+                srd.CancelledBackOrdered = 0;
 
                 srd.Item = e.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
 
@@ -119,9 +114,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.DepartmentCode = Session["DepartmentCode"].ToString();
                 srh.EmployeeID = Session["UserId"].ToString();
                 srh.DateRequested = System.DateTime.Now;
-                srh.Status = "Pending"; //to check
-                srh.ApprovalStatus = "Pending";
-                srh.DateProcessed = System.DateTime.Now;
+                srh.Status = "Open"; 
+                srh.ApprovalStatus = "Pending"; 
+                srh.DateProcessed = System.DateTime.Now; //to change to null (default)
                 srh.Approver = e.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.ReportsTo).FirstOrDefault();
 
                 dalHeader.InsertStaffRequisitionHeader(srh);
@@ -176,7 +171,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
 
                 Session["newReqList"] = list;
-
                 Session["newReqEditMode"] = false;
                 
                 return RedirectToAction("Requisition", "Dept");
