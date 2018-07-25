@@ -9,10 +9,10 @@
 
 namespace SA46Team1_Web_ADProj.Models
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Collections.Generic;
-    using Microsoft.AspNet.Identity.EntityFramework;
-
+    
     public partial class Employee : IdentityUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

@@ -16,13 +16,11 @@ namespace SA46Team1_Web_ADProj.Models
     public partial class Role : IdentityRole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Role() : base()
+        public Role()
         {
             this.Employees = new HashSet<Employee>();
         }
-
-        public Role(string name) : base(name) { }
-
+    
         public string Designation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
