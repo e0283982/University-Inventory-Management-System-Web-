@@ -11,6 +11,7 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Dept/DeptAuthorisation")]
     public class DeptAuthorisationController : Controller
     {
+        [Authorize(Roles ="Department Head")]
         [Route("RoleDelegation")]
         public ActionResult RoleDelegation()
         {
@@ -23,7 +24,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return View(tuple);
             }
         }
-
+        [Authorize(Roles = "Department Head")]
         [HttpPost]
         [Route("RoleDelegation/SubmitNewDelegation")]
         public RedirectToRouteResult SubmitNewDelegation(ApprovalDelegation item1, Employee item2)

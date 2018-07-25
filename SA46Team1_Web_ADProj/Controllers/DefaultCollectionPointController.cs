@@ -6,8 +6,10 @@ using System.Web.Mvc;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
+    [Authorize(Roles = "Store Manager")]
     public class DefaultCollectionPointController : Controller
     {
+
         // GET: DefaultCollectionPoint
         public ActionResult Index()
         {
