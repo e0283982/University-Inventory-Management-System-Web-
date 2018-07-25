@@ -33,6 +33,8 @@ namespace SA46Team1_Web_ADProj
 
             //Session variables for inner pages of DEPT tabs
             Session["newReqList"] = new List<Models.StaffRequisitionDetail>();
+            Session["newReqEditMode"] = false;
+
             Session["ReviewNewRequisitionId"] = "";
             Session["DeptReqTabIndex"] = "0";
             Session["currentFormId"] = "";
