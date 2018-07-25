@@ -24,7 +24,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         public JsonResult Search(string search)
         {
             return new JsonResult { Data = itemRepository.GetItemById(search), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -35,22 +35,23 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         public ActionResult Disbursements()
         {
             return View();
         }
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         public ActionResult Purchase()
         {
             return View();
         }
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         public ActionResult Report()
         {
             return View();
         }
 
+        [Authorize(Roles = "Store Manager")]
         public ActionResult Maintenance()
         {
             return View();
