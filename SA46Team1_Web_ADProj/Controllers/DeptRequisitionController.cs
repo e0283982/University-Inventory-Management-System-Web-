@@ -43,20 +43,47 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DiscardSelBackorders(string[] deleteItemCodes, string[] deleteReqId)
         {
-            //Session["DeptReqTabIndex"] = "1";
-
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 DAL.StaffRequisitionDetailsRepositoryImpl dal = new DAL.StaffRequisitionDetailsRepositoryImpl(e);
+                DAL.StaffRequisitionRepositoryImpl dalHeader = new DAL.StaffRequisitionRepositoryImpl(e);
+
                 int index = 0;
 
                 foreach (string i in deleteItemCodes) {
+                    string formId = deleteReqId[index];
+
+                    //update SRD
                     StaffRequisitionDetail srd = new StaffRequisitionDetail();
                     srd=
-                        dal.GetStaffRequisitionDetailById(deleteReqId[index], deleteItemCodes[index]);
+                        dal.GetStaffRequisitionDetailById(formId, deleteItemCodes[index]);
                     srd.CancelledBackOrdered = srd.QuantityBackOrdered;
                     srd.QuantityBackOrdered = 0;
                     dal.UpdateStaffRequisitionDetail(srd);
+
+                    //update SRH
+                    StaffRequisitionHeader srh = new StaffRequisitionHeader();
+                    srh = dalHeader.GetStaffRequisitionHeaderById(formId);
+                    string stockRetrievalId = e.StockRetrievalReqForms.Where(x => x.ReqFormID == formId).Select(x=>x.StockRetrievalID).FirstOrDefault();
+                    byte? disbursedStatus = e.StockRetrievalHeaders.Where(x => x.ID == stockRetrievalId).Select(x => x.Disbursed).FirstOrDefault();
+                    bool backOrderStatus = false;
+                    List<StaffRequisitionDetail> reqDetailsList = e.StaffRequisitionDetails.Where(x => x.FormID == formId).ToList();
+                    foreach (StaffRequisitionDetail detail in reqDetailsList) {
+                        if (detail.QuantityBackOrdered > 0) {
+                            backOrderStatus = true;
+                        }
+                    }
+
+                    switch (backOrderStatus) {
+                        case true: //backorder exists for current SR
+                            srh.Status = disbursedStatus == 1 ? "Outstanding" : "Open";
+                            break;
+                        case false:
+                            srh.Status = "Cancelled";
+                            break;
+                    }
+
+                    dalHeader.UpdateStaffRequisitionHeader(srh);
 
                     index++;
                     e.SaveChanges();

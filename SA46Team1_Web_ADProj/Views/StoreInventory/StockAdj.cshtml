@@ -69,16 +69,17 @@
 
 </table>
 
-<div id="btns-grp-btm">
+<hr />
 
-    @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
-    {
-        <input class="btn btn-info" type="submit" value="Create New Stock Adjustments" />
-    }
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
+                {
+                    <input class="btn btn-info" type="submit" value="Create New Stock Adjustment" />
+                }
+            </span>
+        </div>
+    </div>
 </div>
-
-<style>
-    #btns-grp-btm {
-        margin-right: 10vw;
-    }
-</style>
