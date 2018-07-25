@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using SA46Team1_Web_ADProj.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace SA46Team1_Web_ADProj
 {
@@ -14,29 +13,18 @@ namespace SA46Team1_Web_ADProj
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            app.CreatePerOwinContext(() => new SSISdbEntities());
+            app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
+            app.CreatePerOwinContext<RoleManager<Role>>((options, context) =>
+                new RoleManager<Role>(
+                    new RoleStore<Role>(context.Get<SSISdbEntities>())));
             // Enable the application to use a cookie to store information for the signed in user
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/Login")
             });
-            // Use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            // clientId: "",
-            // clientSecret: "");
-
-            //app.UseTwitterAuthentication(
-            // consumerKey: "",
-            // consumerSecret: "");
-
-            //app.UseFacebookAuthentication(
-            // appId: "",
-            // appSecret: "");
-
-            //app.UseGoogleAuthentication();
+            
         }
     }
 }

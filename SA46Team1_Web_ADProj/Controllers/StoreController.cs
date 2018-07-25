@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Security;
 using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
@@ -18,6 +19,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             this.itemRepository = new ItemsRepositoryImpl(new SSISdbEntities());
         }
 
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         public ActionResult Home()
         {
             return View();
@@ -28,7 +30,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return new JsonResult { Data = itemRepository.GetItemById(search), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         public ActionResult Inventory()
         {
             return View();
