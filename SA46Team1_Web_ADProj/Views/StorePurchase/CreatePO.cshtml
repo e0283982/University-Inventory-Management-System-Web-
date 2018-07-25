@@ -1,44 +1,71 @@
-﻿@{
+﻿@using SA46Team1_Web_ADProj.Models;
+@model Tuple<Item, PODetail>
+@{
     Layout = null;
+    List<PODetail> poDetailList = (List<PODetail>)Session["newPOList"];
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-
 <script>
+    var table;
+    // Load Datatable
     $(document).ready(function () {
-        $('#dataTable-newPO').DataTable({
+        table = $('#dataTable-newPO').DataTable({
             scrollY: '30vh',
             scrollCollapse: true,
-            paging: true
+            paging: true,
+            "columnDefs": [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button>Delete</button>"
+            }]
+        });
+        var counter = 1;
+
+        $('#addRow').on('click', function () {
+            t.row.add([
+                counter + '.1',
+                counter + '.2',
+                counter + '.3',
+                counter + '.4',
+                counter + '.5',
+                counter + '.6',
+                counter + '.7',
+                counter + '.8'
+            ]).draw(false);
+
+            counter++;
+        });
+
+        // Automatically add a first row of data
+        $('#addRow').click();
+    });
+
+    // Remove row
+    $('#dataTable-newPO tbody').on('click', 'button', function () {
+        var data = table.row($(this).closest('tr')).data();
+        table.row($(this).parents('tr')).remove().draw();
+
+        jQuery.ajax({
+            url: '/StorePurchase/DeletePOItem',
+            type: 'POST',
+            data: data
         });
     });
 
-    $(function () {
-        $("#datepicker-PODate").datepicker();
-        $("#datepicker-PODeliveryDate").datepicker();
+    // Open Dialog
+    $('#btn-add-item').on('click', function () {
+        $('#dialog-add-po-item').dialog('open');
     });
 
+    // Dialog
     $(function () {
-        $("#dialog-addItem-createPO").dialog({
-            autoOpen: false
+        $("#dialog-add-po-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
-    });
-
-    $('#btn-addItem-createPO').click(function () {
-        $('#dialog-addItem-createPO').dialog('open');
-        return false;
-    });
-
-    $(function () {
-        $("#dialog-create-createPO").dialog({
-            autoOpen: false
-        });
-    });
-
-    $('#btn-create-createPO').click(function () {
-        $('#dialog-create-createPO').dialog('open');
-        return false;
     });
 
 </script>
@@ -48,63 +75,89 @@
 </div>
 
 <div class="create-PO-dates">
-    <label>Date: <input type="text" id="datepicker-PODate"></label>
-    <label>Expected Delivery Date: <input type="text" id="datepicker-PODeliveryDate"></label>
+    <label>Date: @DateTime.Now</label>
 </div>
 
 <div>
     <p>Remarks:</p>
     <textarea rows="4" cols="50">
-        Enter remarks here.
-    </textarea>
+            </textarea>
 </div>
+
+@*--- Table ---*@
 
 <table id="dataTable-newPO" class="display" style="width:80%;">
     <thead>
         <tr>
             <th>Item Code</th>
-            <th>Product Name</th>
+            <th>Item Description</th>
             <th>Supplier</th>
             <th>Qty</th>
             <th>Unit of Measure</th>
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
             <th>GST ($)</th>
+            <th>Delete</th>
         </tr>
     </thead>
-
-    <tbody>
+    @foreach (var item in poDetailList)
+    {
         <tr>
-            <td id="getItemCode"></td>
-            <td>Pad Postit "2</td>
-            <td>Supplier A</td>
-            <td>30</td>
-            <td>Box</td>
-            <td>30</td>
-            <td>300</td>
-            <td>21</td>
+            <td>@item.ItemCode</td>
+            <td>@item.Item.Description</td>
+            <td>@item.Item.Supplier1</td>
+            <td>@item.QuantityOrdered</td>
+            <td>@item.Item.UoM</td>
+            <td>@item.Item.AvgUnitCost</td>
+            <td>$10</td>
+            <td>7%</td>
+            <td></td>
         </tr>
-    </tbody>
+    }
 </table>
 
-<div id="btns-grp-btm">
+@*--- End of Table ---*@
 
-    @Helper.POAddNewItemBtn()
-    <div id="dialog-addItem-createPO" class="hidden" title="Basic dialog">
-        <p>Add New Item for new Purchase Order.</p>
-    </div>
+@*--- Buttons ---*@
 
-    <button class="btn-blue">@Html.ActionLink("Cancel", "Home", "Store")</button>
-
-    <button class="btn-blue" id="btn-create-createPO">Create</button>
-    <div id="dialog-create-createPO" class="hidden" title="Basic dialog">
-        <p>New Purchase Order has been created.</p>
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button class="btn btn-primary" id="btn-add-item">Add New Item</button>
+            </span>
+            <span>
+                <button class="btn btn-info" id="btn-submit-new-req">Submit for Approval</button>
+            </span>
+        </div>
     </div>
 </div>
 
+@*--- End of Buttons ---*@
 
-<style>
-    #btns-grp-btm {
-        margin-right: 10vw;
+@*--- Dialog Box ---*@
+
+<div id="dialog-add-po-item" class="hidden" title="Add Item (Store PO)">
+    @using (Html.BeginForm("AddPOItem", "StorePurchase", FormMethod.Post, new { id = "form-submit-add-new-item" }))
+    {
+        <div>
+            <div>
+                <label>Item Description: </label>
+                @Html.DropDownList("SelectItemChose", ViewBag.ItemsList as SelectList)
+            </div>
+            <div>
+                <label>New Order Qty: </label>
+                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty" }, })
+            </div>
+
+            <br />
+
+            <div>
+                <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
+            </div>
+        </div>
     }
-</style>
+</div>
+
+@*--- End of Dialog Box ---*@
+

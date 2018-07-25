@@ -1,87 +1,9 @@
 ﻿@{
     Layout = null;
 }
-
-@using SA46Team1_Web_ADProj.Models
+@using SA46Team1_Web_ADProj.Models;
 @model Item
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-<script>
-    var table;
-    $(document).ready(function () {
-
-        $.ajax({
-            url: 'http://localhost:49921/api/Restful/getreorderlist',
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                table = $('#dataTable-storeManagerInventoryReorder').DataTable({
-                    paging: true,
-                    sort: true,
-                    searching: true,
-                    scrollY: 200,
-                    data: data,
-                    columns: [
-                        { 'data': 'Description' },
-                        {
-                            'data': 'ReOrderQuantity',
-                            "render": function (data, type, full, meta) {
-                                return '<input type="number" value="' + $('<div/>').text(data).html() + '">';
-                            }
-                        },
-                        { 'data': 'UoM' },
-                        {
-                            'data': 's1',   
-                            "render": function (data, type, full, meta) {
-                                return '<select>' +
-                                    '<option value="' + full.s1 +'"></option>' +
-                                    '<option value="saab">Saab</option>' +
-                                    '<option value="mercedes">Mercedes</option>' +
-                                '</select>';
-                            }
-                        }
-                    ]
-                });
-            }
-        });
-    });
-
-    $(function () {
-        $("#dialog").dialog({
-            autoOpen: false
-        });
-    });
-
-    $('#btn-create-POs').click(function () {
-        $('#dialog').dialog('open');
-        return false;
-    });
-</script>
-
-<div>
-    <h2>Inventory - Reorder</h2>
-</div>
-
-
-
-<table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th>Qty</th>
-            <th>Unit</th>
-            <th>Choose Supplier</th>
-        </tr>
-    </thead>
-</table>
-
-<div>
-    <button class="btn btn-info" id="btn-create-POs">Create Purchase Order</button>
-</div>
-
-<div id="dialog" class="hidden" title="Basic dialog">
-    <p>Purchase order(s) have been created.</p>
-</div>
-
-
+@Helper.ReorderStock()
