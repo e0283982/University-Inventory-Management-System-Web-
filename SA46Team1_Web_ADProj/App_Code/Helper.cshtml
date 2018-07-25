@@ -1,5 +1,6 @@
 ﻿@*This must be inside folder - App_Code*@
 
+
 @helper InventoryOverviewTable()
 {
     <script>
@@ -40,12 +41,9 @@
 
         });
     </script>
-
     <div>
         <h2>Inventory - Overview</h2>
     </div>
-
-
     <table id="dataTable-storeInventory" class="display" style="width:80%">
         <thead>
             <tr>
@@ -60,6 +58,101 @@
         </thead>
     </table>
 }
+
+@helper ReorderStock()
+{
+    <script>
+        var table;
+        $(document).ready(function () {
+
+            $.ajax({
+                url: 'http://localhost:49921/api/Restful/getreorderlist',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    table = $('#dataTable-storeManagerInventoryReorder').DataTable({
+                        paging: true,
+                        sort: true,
+                        searching: true,
+                        scrollY: 200,
+                        data: data,
+                        columns: [
+                            { 'data': 'Description' },
+                            {
+                                'data': 'BackOrder',
+                                "render": function (data, type, full, meta) {
+                                    return '<input type="number" value="' + $('<div/>').text(data).html() + '">';
+                                }
+                            },
+                            { 'data': 'UoM' },
+                            {
+                                'data': 's1',
+                                "render": function (data, type, full, meta) {
+                                    return '<select>' +
+                                        '<option value="' + full.s1 + '"></option>' +
+                                        '<option value="saab">Saab</option>' +
+                                        '<option value="mercedes">Mercedes</option>' +
+                                        '</select>';
+                                }
+                            }
+                        ],
+                        columnDefs: [
+                            { className: 'text-center', targets: [1, 3] },
+                        ]
+                    });
+                }
+            });
+        });
+
+        $(function () {
+            $("#dialog").dialog({
+                autoOpen: false
+            });
+        });
+
+        $('#btn-create-POs').click(function () {
+            $('#dialog').dialog('open');
+            return false;
+        });
+    </script>
+
+    <div>
+        <h2>Inventory - Reorder</h2>
+    </div>
+
+    <table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
+        <thead>
+            <tr>
+                <th>Item Description</th>
+                <th>Reorder Qty</th>
+                <th>Unit</th>
+                <th>Supplier</th>
+            </tr>
+        </thead>
+    </table>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right">
+                <span>
+                    <button class="btn btn-info" id="btn-create-POs">Create Purchase Order</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog" class="hidden" title="Basic dialog">
+        <p>Purchase order(s) have been created.</p>
+    </div>
+
+
+
+
+}
+
+@*  ---- Old version of add item button --- *@
 
 @helper AddDeptNewItemButton()
 {
