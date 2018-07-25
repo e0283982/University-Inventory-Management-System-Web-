@@ -87,7 +87,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srd.QuantityDelivered = 0;
                 srd.QuantityBackOrdered = 0;
                 srd.CancelledBackOrdered = 0;
-
+                
                 srd.Item = e.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
 
                 srd.Item.Description = itemToAdd.Description;
@@ -118,6 +118,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.ApprovalStatus = "Pending"; 
                 srh.DateProcessed = System.DateTime.Now; //to change to null (default)
                 srh.Approver = e.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.ReportsTo).FirstOrDefault();
+                srh.NotificationStatus = "Unread";
 
                 dalHeader.InsertStaffRequisitionHeader(srh);
 
