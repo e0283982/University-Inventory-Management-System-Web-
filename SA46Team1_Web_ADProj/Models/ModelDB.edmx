@@ -398,12 +398,14 @@ warning 6002: The table/view 'SSISdb.dbo.DisbursementList' does not have a prima
             <PropertyRef Name="Id" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="RepresentativeName" />
             <PropertyRef Name="Status" />
             <PropertyRef Name="CollectionPointDescription" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="RepresentativeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="80" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
@@ -600,10 +602,12 @@ warning 6002: The table/view 'SSISdb.dbo.ReorderList' does not have a primary ke
           <Property Name="ReOrderLevel" Type="int" Nullable="false" />
           <Property Name="ReOrderQuantity" Type="int" Nullable="false" />
           <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="POBO" Type="int" />
+          <Property Name="SRBO" Type="int" />
+          <Property Name="ActualReorder" Type="int" />
           <Property Name="s1" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="s2" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="s3" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="BackOrder" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.ReorderReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1402,6 +1406,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [DisbursementList].[Id] AS [Id], 
     [DisbursementList].[Date] AS [Date], 
     [DisbursementList].[DepartmentName] AS [DepartmentName], 
+    [DisbursementList].[RepresentativeName] AS [RepresentativeName], 
     [DisbursementList].[Status] AS [Status], 
     [DisbursementList].[CollectionPointDescription] AS [CollectionPointDescription]
     FROM [dbo].[DisbursementList] AS [DisbursementList]</DefiningQuery>
@@ -1513,10 +1518,12 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [ReorderList].[ReOrderLevel] AS [ReOrderLevel], 
     [ReorderList].[ReOrderQuantity] AS [ReOrderQuantity], 
     [ReorderList].[UoM] AS [UoM], 
+    [ReorderList].[POBO] AS [POBO], 
+    [ReorderList].[SRBO] AS [SRBO], 
+    [ReorderList].[ActualReorder] AS [ActualReorder], 
     [ReorderList].[s1] AS [s1], 
     [ReorderList].[s2] AS [s2], 
-    [ReorderList].[s3] AS [s3], 
-    [ReorderList].[BackOrder] AS [BackOrder]
+    [ReorderList].[s3] AS [s3]
     FROM [dbo].[ReorderList] AS [ReorderList]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ReorderReport" EntityType="Self.ReorderReport" store:Type="Views" store:Schema="dbo">
@@ -2289,12 +2296,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <PropertyRef Name="Id" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="RepresentativeName" />
             <PropertyRef Name="Status" />
             <PropertyRef Name="CollectionPointDescription" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RepresentativeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
@@ -2471,10 +2480,12 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="ReOrderLevel" Type="Int32" Nullable="false" />
           <Property Name="ReOrderQuantity" Type="Int32" Nullable="false" />
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="POBO" Type="Int32" />
+          <Property Name="SRBO" Type="Int32" />
+          <Property Name="ActualReorder" Type="Int32" />
           <Property Name="s1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="s2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="s3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="BackOrder" Type="Int32" />
         </EntityType>
         <EntityType Name="ReorderReport">
           <Key>
@@ -3799,6 +3810,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="RepresentativeName" ColumnName="RepresentativeName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
               </MappingFragment>
@@ -3930,10 +3942,12 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="ReOrderLevel" ColumnName="ReOrderLevel" />
                 <ScalarProperty Name="ReOrderQuantity" ColumnName="ReOrderQuantity" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="POBO" ColumnName="POBO" />
+                <ScalarProperty Name="SRBO" ColumnName="SRBO" />
+                <ScalarProperty Name="ActualReorder" ColumnName="ActualReorder" />
                 <ScalarProperty Name="s1" ColumnName="s1" />
                 <ScalarProperty Name="s2" ColumnName="s2" />
                 <ScalarProperty Name="s3" ColumnName="s3" />
-                <ScalarProperty Name="BackOrder" ColumnName="BackOrder" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

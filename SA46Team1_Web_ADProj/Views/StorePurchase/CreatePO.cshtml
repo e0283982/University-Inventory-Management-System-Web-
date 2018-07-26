@@ -102,7 +102,7 @@
             <td>@item.ItemCode</td>
             <td>@item.Item.Description</td>
             <td>@item.Item.Supplier1</td>
-            <td><input id="input-qty" value="@item.QuantityOrdered"/></td>
+            <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered"/></td>
             <td>@item.Item.UoM</td>
             <td>@item.Item.AvgUnitCost</td>
             <td><label id="lbl-totalitemprice"></label></td>
