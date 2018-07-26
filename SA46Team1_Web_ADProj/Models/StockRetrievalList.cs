@@ -16,6 +16,7 @@ namespace SA46Team1_Web_ADProj.Models
     {
         public string Id { get; set; }
         public int Bin { get; set; }
+        public string Location { get; set; }
         public string Description { get; set; }
         public int QuantityRetrieved { get; set; }
         public string CollectionPointDescription { get; set; }

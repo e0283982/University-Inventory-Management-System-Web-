@@ -798,12 +798,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="Bin" />
+            <PropertyRef Name="Location" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="QuantityRetrieved" />
             <PropertyRef Name="CollectionPointDescription" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Bin" Type="int" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="int" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
@@ -1628,6 +1630,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <DefiningQuery>SELECT 
     [StockRetrievalList].[Id] AS [Id], 
     [StockRetrievalList].[Bin] AS [Bin], 
+    [StockRetrievalList].[Location] AS [Location], 
     [StockRetrievalList].[Description] AS [Description], 
     [StockRetrievalList].[QuantityRetrieved] AS [QuantityRetrieved], 
     [StockRetrievalList].[CollectionPointDescription] AS [CollectionPointDescription]
@@ -2646,12 +2649,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="Bin" />
+            <PropertyRef Name="Location" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="QuantityRetrieved" />
             <PropertyRef Name="CollectionPointDescription" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Bin" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="Int32" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
@@ -4062,6 +4067,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
               <MappingFragment StoreEntitySet="StockRetrievalList">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Bin" ColumnName="Bin" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="QuantityRetrieved" ColumnName="QuantityRetrieved" />
                 <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
