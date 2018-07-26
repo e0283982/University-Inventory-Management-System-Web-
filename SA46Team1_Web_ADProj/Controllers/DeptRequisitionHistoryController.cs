@@ -179,14 +179,5 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("RequisitionHistory", "Dept");
 
         }
-
-
-        [Route("CollectionList")]
-        public ActionResult CollectionList()
-        {
-            return View();
-        }
-
-     
     }
 }
