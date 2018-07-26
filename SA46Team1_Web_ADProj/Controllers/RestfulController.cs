@@ -576,5 +576,35 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return m.ReorderLists.ToList();
             }
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRptInventory")]
+        public List<InventoryValuationReport> GetRptInventory()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.InventoryValuationReports.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRptReorder")]
+        public List<ReorderReport> GetRptReorder()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.ReorderReports.ToList();
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRptDepartmentUsage")]
+        public List<DepartmentUsageReport> GetRptDepartmentUsage()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                return m.DepartmentUsageReports.ToList();
+            }
+        }
     }
 }
