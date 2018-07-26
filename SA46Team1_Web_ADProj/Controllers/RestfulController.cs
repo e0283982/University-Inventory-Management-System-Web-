@@ -438,7 +438,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<CollectionPoint> list = m.CollectionPoints.ToList<CollectionPoint>();
+                List<CollectionPoint> list = m.CollectionPoints.OrderBy(x=>x.CollectionPointID).ToList<CollectionPoint>();
 
                 return list;
             }
