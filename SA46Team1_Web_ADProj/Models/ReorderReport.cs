@@ -23,6 +23,6 @@ namespace SA46Team1_Web_ADProj.Models
         public string CategoryName { get; set; }
         public int POBackOrdered { get; set; }
         public int SRBackOrdered { get; set; }
-        public int RecommendQty { get; set; }
+        public Nullable<int> RecommendQty { get; set; }
     }
 }

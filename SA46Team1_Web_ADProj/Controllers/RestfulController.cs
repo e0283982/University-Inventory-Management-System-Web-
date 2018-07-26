@@ -653,7 +653,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     stockRetrievalDetail.QuantityAdjusted = stockRetrievalDetail.QuantityAdjusted + stockAdjustmentModel.AdjustedQuantity;
                     stockRetrievalDetail.Remarks = stockAdjustmentModel.Remarks;
                 }
-                
+
 
                 //Create new Item Transaction
                 ItemTransaction itemTransaction = new ItemTransaction();
