@@ -32,9 +32,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DeletePOItem(FormCollection data)
+        public RedirectToRouteResult DeletePOItem(string data)
         {
-            string itemCode = data["0"];
+            string itemCode = data;
             List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
             PODetail pod = new PODetail();
             foreach (PODetail p in poFullDetailsList)
@@ -65,11 +65,12 @@ namespace SA46Team1_Web_ADProj.Controllers
                     // Finalize PODetailsList
                     p.QuantityOrdered = Convert.ToInt32(arrQty[arrayCount]);
                     string coy = arrSupplier[arrayCount];
-                    Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
+                    Supplier sup = m.Suppliers.Where(x => x.SupplierCode == coy).FirstOrDefault();
                     p.Item.Supplier = sup;
 
                     // Grouping Suppliers & Extract Items out of PODetailsList
-                    Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == p.Item.Supplier.SupplierCode).FirstOrDefault();
+                    string supCode = p.Item.Supplier.SupplierCode;
+                    Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
                     if (!supplierList.Contains(supplier))
                     {
                         supplierList.Add(supplier);
@@ -86,7 +87,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 foreach (Supplier s in supplierList)
                 {
                     // Create new PO based on supplier
-                    int count = m.POHeaders.Count();
+                    int count = m.POHeaders.Count() + 1;
                     string poId = "PO-" + count.ToString();
 
                     POHeader newPOHeader = new POHeader();
@@ -111,7 +112,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                     foreach (PODetail pod in poDetailsList)
                     {
                         // Create PO Details, Line by line based on items
-                        Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == pod.Item.Supplier.SupplierCode).FirstOrDefault();
+                        string supCode = pod.Item.Supplier.SupplierCode;
+                        Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
                         if (supplier.Equals(s))
                         {
 // ---------------------------------- IMPORTANT : Not sure this is 100% working ---------------------------------------------//
@@ -264,5 +266,28 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Purchase", "Store");
         }
 
+        [HttpPost]
+        public ActionResult EditPO()
+        {
+            //string poNumber = (string)Session["poNumber"];
+            //using(SSISdbEntities m = new SSISdbEntities())
+            //{
+            //    PODetail poDetail = m.PODetails.Where(x => x.PONumber == poNumber).FirstOrDefault();
+            //}
+
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult CancelPO()
+        {
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult GoodsReceipt()
+        {
+            return null;
+        }
     }
 }

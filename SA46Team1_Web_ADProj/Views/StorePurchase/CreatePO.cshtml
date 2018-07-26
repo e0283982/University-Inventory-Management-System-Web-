@@ -26,14 +26,13 @@
     // Remove row
     $('#dataTable-newPO tbody').on('click', 'button', function () {
         var data = table.row($(this).closest('tr')).data();
-        table.row($(this).parents('tr')).remove().draw();
-
-        jQuery.ajax({
+        $.ajax({
             url: '/StorePurchase/DeletePOItem',
             type: 'POST',
-            data: data
+            data: JSON.stringify(data[0])
         });
 
+        table.row($(this).parents('tr')).remove().draw();
     });
 
     // Open Dialog
@@ -52,16 +51,26 @@
 
     // Submit
     $('#btn-submit-new-req').on('click', function () {
-        $.ajax({
-            type: 'POST',
-            url: '/StorePurchase/SavePO',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json'
-            //data: JSON.stringify({ arr: arr })
-        });
+        var dataToSend = "";
+        var arrQty = [];
+        var arrSupplier = [];
+        for (var i = 0; i < table.rows().data().length; i++) {
+            arrQty.push(table.cell(i, 3).nodes().to$().find('input').val());
+            arrSupplier.push(table.cell(i, 2).nodes().to$().find('select').val());
+        }
 
+        $.ajax({
+            url: '/StorePurchase/SavePO',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier })
+        });
+        alert('Items Added');
+
+        // This should reset table
         table.draw(false);
-        
+
     });
 
 </script>
@@ -108,7 +117,7 @@
                     <option value="@item.Item.Supplier3">@item.Item.Supplier3</option>
                 </select>
             </td>
-            <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered"/></td>
+            <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
             <td>@item.Item.UoM</td>
             <td>@item.Item.AvgUnitCost</td>
             <td><label id="lbl-totalitemprice"></label></td>
@@ -119,6 +128,14 @@
 </table>
 
 @*--- End of Table ---*@
+
+@*--- Dynamic boxes ---*@
+<div>
+    <label>Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>
+    <label>GST ($): <input type="text" id="displayPO-gst"></label>
+    <label>Net Total ($): <input type="text" id="displayPO-net-total"></label>
+</div>
+@*--- End of Dynamic boxes ---*@
 
 @*--- Buttons ---*@
 
