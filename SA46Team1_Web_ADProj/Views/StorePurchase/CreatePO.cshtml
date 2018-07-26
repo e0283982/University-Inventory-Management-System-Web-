@@ -21,25 +21,6 @@
                 "defaultContent": "<button>Delete</button>"
             }]
         });
-        var counter = 1;
-
-        $('#addRow').on('click', function () {
-            t.row.add([
-                counter + '.1',
-                counter + '.2',
-                counter + '.3',
-                counter + '.4',
-                counter + '.5',
-                counter + '.6',
-                counter + '.7',
-                counter + '.8'
-            ]).draw(false);
-
-            counter++;
-        });
-
-        // Automatically add a first row of data
-        $('#addRow').click();
     });
 
     // Remove row
@@ -52,6 +33,7 @@
             type: 'POST',
             data: data
         });
+
     });
 
     // Open Dialog
@@ -66,6 +48,20 @@
             width: "40%",
             maxWidth: "40%"
         });
+    });
+
+    // Submit
+    $('#btn-submit-new-req').on('click', function () {
+        $.ajax({
+            type: 'POST',
+            url: '/StorePurchase/SavePO',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+            //data: JSON.stringify({ arr: arr })
+        });
+
+        table.draw(false);
+        
     });
 
 </script>
@@ -106,10 +102,10 @@
             <td>@item.ItemCode</td>
             <td>@item.Item.Description</td>
             <td>@item.Item.Supplier1</td>
-            <td>@item.QuantityOrdered</td>
+            <td><input id="input-qty" value="@item.QuantityOrdered"/></td>
             <td>@item.Item.UoM</td>
             <td>@item.Item.AvgUnitCost</td>
-            <td>$10</td>
+            <td><label id="lbl-totalitemprice"></label></td>
             <td>7%</td>
             <td></td>
         </tr>

@@ -40,6 +40,8 @@ namespace SA46Team1_Web_ADProj
             Session["currentFormId"] = "";
             //Session variables for Dept - Requisition History
             Session["ReqHistoryPage"] = "1";
+            Session["CurrentReqHistory"] = new Models.ReqHistoryModel();
+            Session["existingReqEditMode"] = false;
 
             //Session variables for Dept - Requisition Approval
             Session["ReqApprovalPage"] = "1";
