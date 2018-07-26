@@ -686,7 +686,31 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetDeptStaffReqs/{id}")]
+        public List<StaffReqModel> GetDeptStaffReqs(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id && x.ApprovalStatus=="Approved" && (x.Status=="Open" || x.Status=="Outstanding"))
+                    .OrderBy(x => x.DateRequested).ToList<StaffRequisitionHeader>();
+                List<StaffReqModel> list2 = new List<StaffReqModel>();
+                list2 = list.ConvertAll(x => new StaffReqModel
+                {
+                    FormId = x.FormID,
+                    RequestDate = x.DateRequested,
+                    ReqName = m.Employees.Where(y => y.EmployeeID == x.EmployeeID).Select(y => y.EmployeeName).FirstOrDefault()
+                });
+
+                return list2;
+            }
+        }
+
+
+
+
 
 
 

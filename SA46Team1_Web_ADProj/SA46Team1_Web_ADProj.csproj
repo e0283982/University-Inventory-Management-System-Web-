@@ -391,6 +391,7 @@
     <Compile Include="Models\ReorderReport.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StaffReqModel.cs" />
     <Compile Include="Models\ReqHistoryModel.cs" />
     <Compile Include="Models\EmployeeDelegationModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
@@ -740,6 +741,8 @@
     <Content Include="Views\StoreReports\RptReorder.cshtml" />
     <Content Include="Views\StoreReports\RptDepartmentUsage.cshtml" />
     <Content Include="Views\Dept\CollectionPoint.cshtml" />
+    <Content Include="Views\DeptRequisition\UpcomingDelivery.cshtml" />
+    <Content Include="Views\DeptRequisition\CollectionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
