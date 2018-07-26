@@ -1,0 +1,78 @@
+﻿@{
+    Layout = null;
+}
+
+@{
+    ViewBag.Title = "Inventory Valuation Report";
+}
+<div>
+    <h2>Inventory Valuation Report</h2>
+
+    <h4>
+        @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-info" })
+    </h4>
+</div>
+
+<div>
+    <label>Item Description: </label>
+    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+</div>
+
+<div>
+    <label>Category: </label>
+    @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+</div>
+<p></p>
+<p></p>
+
+<div>
+    <p>
+        <input class="btn-blue" type="submit">
+    </p>
+
+</div>
+
+<table id="dataTable-storeInventoryVal" class="table">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Item Code</th>
+            <th>Description</th>
+            <th>Unit of Measure</th>
+            <th>Quantity</th>
+            <th>Avg Unit Cost ($)</th>
+            <th>Total Cost ($)</th>
+        </tr>
+    </thead>
+</table>
+
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetRptInventory',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $('#dataTable-storeInventoryVal').dataTable({
+                    paging: true,
+                    sort: true,
+                    searching: false,
+                    scrollY: 200,
+                    data: data,
+                    columns: [
+                        { 'data': 'CategoryName' },
+                        { 'data': 'ItemCode' },
+                        { 'data': 'Description' },
+                        { 'data': 'UoM' },
+                        { 'data': 'Quantity' },
+                        { 'data': 'AvgUnitCost' },
+                        { 'data': 'TotalCost' }
+                    ]
+                });
+            }
+        });
+
+
+    });
+</script>

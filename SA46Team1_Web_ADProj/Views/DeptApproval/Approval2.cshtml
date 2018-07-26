@@ -42,7 +42,11 @@
             type: 'POST',
         });
 
+        table.draw(false);
+
         $('#dialog-approve-req-form').dialog('open');
+        window.location.href = '@Url.Action("Approval", "Dept")';
+
         return false;
     });
 
@@ -58,7 +62,11 @@
             type: 'POST',
         });
 
+        table.draw(false);
+
         $('#dialog-reject-req-form').dialog('open');
+        window.location.href = '@Url.Action("Approval", "Dept")';
+
         return false;
     });
 </script>
@@ -72,16 +80,16 @@
 <table id="dataTable-approval-details" class="display" style="width:80%;">
     <thead>
         <tr>
-            <th>Description</th>
+            <th>Item Description</th>
             <th>Unit of Measure</th>
             <th>Order Qty</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>Item A</td>
-            <td>Each</td>
-            <td>12</td>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </tbody>
 </table>
@@ -103,7 +111,7 @@
         <p>The displayed Stationary request has been rejected.</p>
     </div>
 
-    <button class="btn-blue" id="btn-approve-req-form">Approval</button>
+    <button class="btn-blue" id="btn-approve-req-form">Approve</button>
     <div id="dialog-approve-req-form" class="hidden" title="Approve Requisition">
         <p>The displayed Stationary request has been approved.</p>
     </div>

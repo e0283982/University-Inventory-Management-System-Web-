@@ -9,7 +9,6 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Dept/DeptRequisition")]
     public class DeptRequisitionController : Controller
     {
-
         [Route("NewReq")]
         public ActionResult NewReq()
         {
@@ -203,6 +202,48 @@ namespace SA46Team1_Web_ADProj.Controllers
                 
                 return RedirectToAction("Requisition", "Dept");
             }
+        }
+
+        [Route("UpcomingDelivery")]
+        public ActionResult UpcomingDelivery()
+        {
+            return View();
+        }
+
+        [Route("CollectionList")]
+        public ActionResult CollectionList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                string deptCode = Session["DepartmentCode"].ToString();
+                m.Configuration.ProxyCreationEnabled = false;
+                List<DateTime> collectionDates = m.DisbursementHeaders.Where(x => x.DepartmentCode == deptCode && x.Status == "Open").Select(x => x.Date).ToList();
+                DateTime displayedCollectionDate = new DateTime();
+                
+                foreach (DateTime dt in collectionDates)
+                {
+                    if (dt > displayedCollectionDate)
+                    {
+                        displayedCollectionDate = dt;
+                    }
+                }
+
+                if (displayedCollectionDate == new DateTime())
+                {
+                    //all open disbursements belonging to dept are alr past
+                }
+                else {
+                    List<DisbursementDetail> disbursementDetails = m.DisbursementDetails.Where(x => x.DisbursementHeader.DepartmentCode == deptCode && x.DisbursementHeader.Status == "Open").ToList();
+                    ViewBag.CollectionPointDesc = m.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).Select(x => x.CollectionPoint.CollectionPointDescription).FirstOrDefault();
+                    ViewBag.CollectionTime = m.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).Select(x => x.CollectionPoint.CollectionTime).FirstOrDefault();
+                    ViewBag.ExpectedDelivery = displayedCollectionDate;
+                }
+
+               
+            }
+
+
+            return View();
         }
 
     }
