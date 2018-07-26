@@ -97,6 +97,18 @@
         return false;
     }
 
+    function RoleChange(val) {
+        if (val == "Approver") {
+            $('#lbl-period').show();
+            $('#datepicker-assign-role-start').show();
+            $('#datepicker-assign-role-end').show();
+        } else {
+            $('#lbl-period').hide();
+            $('#datepicker-assign-role-start').hide();
+            $('#datepicker-assign-role-end').hide();
+        }
+    }
+
 </script>
 
 <h2>Role Delegation</h2>
@@ -127,14 +139,15 @@
                 <label>Employee Name: </label>
                 @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName" , @id = "assign-emp-role-name" }, })
             </div>
+            <br />
             <div>
                 <label>Role: </label>
-                @Html.DropDownList("SelectNewEmpRole", ViewBag.RolesList as SelectList)
+                @Html.DropDownList("SelectNewEmpRole", ViewBag.RolesList as SelectList, new { @onchange = "RoleChange(this.value)" })
             </div>
 
             <div>
-                <label>Period: </label>
-                @Html.EditorFor(tuple => tuple.Item1.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "FromDate", @id = "datepicker-assign-role-start" }, })
+                <label id="lbl-period" class="hidden">Period: </label>
+                @Html.EditorFor(tuple => tuple.Item1.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "FromDate", @id = "datepicker-assign-role-start"}, })
                 @Html.EditorFor(tuple => tuple.Item1.ToDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "ToDate", @id = "datepicker-assign-role-end" }, })
             </div>
 
