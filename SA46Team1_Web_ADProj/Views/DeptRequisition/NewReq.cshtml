@@ -1,8 +1,8 @@
 ﻿@{
     Layout = null;
     List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
-    List<int> rowIndexes = (List<int>) TempData["RowIndexesToDiscard"];
-    bool editMode = (bool) Session["newReqEditMode"];
+    List<int> rowIndexes = (List<int>)TempData["RowIndexesToDiscard"];
+    bool editMode = (bool)Session["newReqEditMode"];
 }
 
 
@@ -29,7 +29,7 @@
             paging: true
         });
     });
-    
+
 
     $('#dataTable-newReq tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -39,7 +39,10 @@
         $("#dialog-add-req-item").dialog({
             autoOpen: false,
             width: "40%",
-            maxWidth: "40%"
+            maxWidth: "40%",
+            beforeClose: function () {
+                $("#form-submit-add-new-item").trigger("reset");
+            },
         });
     });
 
@@ -51,13 +54,25 @@
         });
     });
 
+    $(function () {
+        $("#dialog-confirm-submit-new-req").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
 
     $('#btn-add-item').on('click', function () {
         $('#dialog-add-req-item').dialog('open');
     });
 
+    $('#btn-submit-new-req').on('click', function () {
+        $('#dialog-confirm-submit-new-req').dialog('open');
+    });
 
-    var counter = 1;
+    $('#btn-confirm-submit-cancel').on('click', function () {
+        $('#dialog-confirm-submit-new-req').dialog('close');
+    });
 
     $('#btn-submit-add-item').on('click', function () {
         $.ajax({
@@ -66,13 +81,15 @@
         });
     });
 
-    $('#btn-submit-new-req').on('click', function () {
+    $('#btn-confirm-submit-submit').on('click', function () {
         $('#dialog-new-req-submited').dialog('open');
 
         $.ajax({
             url: '/DeptRequisition/SubmitNewRequestForm',
             type: 'POST',
         });
+
+        table.draw(false);
 
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
@@ -87,8 +104,6 @@
              toDeleteArray.push(data[i]);
         }
 
-        alert(toDeleteArray);
-
         $.ajax({
             url: '/DeptRequisition/DiscardNewItems',
             data: JSON.stringify(toDeleteArray),
@@ -97,12 +112,13 @@
             type: 'POST',
         });
 
+        table.draw(false);
+
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
     });
 
     $('#btn-edit-items').on('click', function () {
-        var data = table.data();
 
         //toggle save/edit btn visibility
         $("#btn-save-items").show();
@@ -112,6 +128,8 @@
             url: '/DeptRequisition/EditNewOrderQty',
             type: 'POST',
         });
+
+        table.draw(false);
 
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
@@ -127,7 +145,7 @@
             arr1.push(table.cell(i, 2).nodes().to$().find('input').val());
             arr.push(dataToSend[0]);
         }
-        
+
         //toggle save/edit btn visibility
         $("#btn-save-items").hide();
         $("#btn-edit-items").show();
@@ -144,30 +162,38 @@
             }
         });
 
+        table.draw(false);
+
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
     });
 </script>
 
-    <div class="row">
-        <div class="col-md-6" style="padding: -30px;">
-            <h2>New Requisition</h2>
-            <h4>Requisition Form: @Session["currentFormId"]</h4>
-        </div>
-        <div class="col-md-6">
-            <span style="float: right; padding-top:35px;">
-                <button class="btn-blue" id="btn-edit-items">Edit</button>
-                <button class="btn-blue" id="btn-save-items">Save</button>
+<div class="row">
+    <div class="col-md-6" style="padding: -30px;">
+        <h2>New Requisition</h2>
+    </div>
+    <div class="col-md-6">
+        <span style="float: right; padding-top:35px;">
+            <span>
+                <button class="btn btn-primary" id="btn-add-item">Add</button>
+            </span>
+            <span>
+                <button class="btn btn-info" id="btn-edit-items">Edit</button>
+                <button class="btn btn-info" id="btn-save-items">Save</button>
+            </span>
+            <span>
                 <button class="btn btn-danger" id="btn-discard-items">Discard</button>
             </span>
-        </div>    
-    </div>        
+        </span>
+    </div>
+</div>
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
     <table id="dataTable-newReq" class="table-hover" style="width:80%;">
         <thead>
             <tr>
-                <th>Description</th>
+                <th>Item Description</th>
                 <th>Unit of Measure</th>
                 <th>New Order Qty</th>
             </tr>
@@ -180,7 +206,6 @@
                 <td>
                     @if (editMode == true)
                     {
-                        //this cell contains a textbox
                         <input id="input-edit-order-qty" value=@item.QuantityOrdered />
                     }
                     else
@@ -192,65 +217,59 @@
         }
         <tbody></tbody>
     </table>
-
     <hr />
 
     <div class="row">
         <div class="col-md-12">
             <div style="float: right">
-                <span>
+                @*<span>
                     <button class="btn btn-primary" id="btn-add-item">Add New Item</button>
-                </span>
+                </span>*@
                 <span>
-                    <button class="btn btn-info" id="btn-submit-new-req">Submit for Approval</button>
+                    <button class="btn btn-info" id="btn-submit-new-req">Submit</button>
                 </span>
-            </div>         
+            </div>
         </div>
     </div>
 
-        <div id="dialog-add-req-item" class="hidden" title="Add Item (Requisition)">
-            @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
-            {
+
+
+    <div id="dialog-add-req-item" class="hidden" title="Add Item (New Requisition)">
+        @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
+        {
+            <div>
                 <div>
-                    <div>
-                        <label>Item Description: </label>
-                        @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
-                    </div>
-                    <div>
-                        @*<label>Unit of Measure: </label>*@
-                        @*@Html.DropDownList("SelectUOM", new List<SelectListItem>
-                        {
-                            new SelectListItem{ Text="Each", Value = "each" },
-                            new SelectListItem{ Text="Box", Value = "box" },
-                            new SelectListItem{ Text="Dozen", Value = "dozen" }
-                        })*@
-                    </div>
-                    <div>
-                        <label>New Order Qty: </label>
-                        @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty" }, })
-                    </div>
-
-                    <br />
-
-                    <div>
-                        <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
-                    </div>              
+                    <label>Item Description: </label>
+                    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
                 </div>
-            }
-        </div>
 
-        <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
-            <p>New requisition request has been submitted for approval.</p>
-        </div>
+                <div>
+                    <label>New Order Qty: </label>
+                    @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
+                </div>
+
+                <br />
+
+                <div>
+                    <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
+                </div>
+            </div>
+        }
     </div>
 
-<style>
-    #btn-edit-items,
-    #btn-save-items {
-        margin-left:-10vw;
-    }
+    <div id="dialog-confirm-submit-new-req" class="hidden" title="Confirm Submission (New Requisition)">
+        <p>Are you sure you want to submit the requisition?</p>
+        <span>
+            <button class="btn btn-primary" id="btn-confirm-submit-cancel">Cancel</button>
+        </span>
 
-    #btn-discard-items {
-        margin-left: -12vw;
-    }
-</style>
+        <span>
+            <button class="btn btn-primary" id="btn-confirm-submit-submit">Submit</button>
+        </span>
+    </div>
+
+    <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
+        <p>New requisition request has been submitted for approval.</p>
+    </div>
+
+</div>

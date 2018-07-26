@@ -12,20 +12,20 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Store/StoreInventory")]
     public class StoreInventoryController : Controller
     {
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         [Route("Overview")]
         public ActionResult Overview()
         {
             return View();
         }
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         [Route("Reorder")]
         public ActionResult Reorder()
         {
 
             return View();
         }
-
+        [Authorize(Roles = "Store Clerk")]
         [Route("StockAdj")]
         public ActionResult StockAdj()
         {
@@ -66,14 +66,14 @@ namespace SA46Team1_Web_ADProj.Controllers
                 
             }
         }
-
+        [Authorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
         {                        
             Session["StockAdjPage"] = "2";            
             return RedirectToAction("Inventory", "Store");
         }
-
+        [Authorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
         {
@@ -93,7 +93,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-
+        [Authorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult SubmitNewStockAdj(StockAdjustmentDetail stockAdjustmentDetail)
         {
@@ -132,7 +132,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-
+        [Authorize(Roles = "Store Clerk")]
         [Route("StockTake")]
         public ActionResult StockTake()
         {

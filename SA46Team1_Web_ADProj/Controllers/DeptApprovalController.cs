@@ -4,10 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Security;
 using SA46Team1_Web_ADProj.Models;
-
 namespace SA46Team1_Web_ADProj.Controllers
 {
+
     [RoutePrefix("Dept/DeptApproval")]
     public class DeptApprovalController : Controller
     {
@@ -84,10 +85,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
             }
-
             return RedirectToAction("Approval", "Dept");
         }
-
-
     }
 }

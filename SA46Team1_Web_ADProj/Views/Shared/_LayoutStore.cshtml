@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        @if (Session["Role"] == "Store")
+        @if (User.IsInRole("Store Clerk"))
         {
             <div class="item1">@Html.ActionLink("Home", "Home", "Store")</div>
             <div class="item2">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
@@ -48,7 +48,17 @@
             <div class="item4">@Html.ActionLink("Purchase", "Purchase", "Store")</div>
             <div class="item5">@Html.ActionLink("Report", "Report", "Store")</div>
         }
-        else if (Session["Role"] == "StoreManager")
+        else if (User.IsInRole("Store Manager"))
+        {
+            <div class="item1">@Html.ActionLink("Home", "Home", "Store")</div>
+            <div class="item2">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
+            <div class="item3">@Html.ActionLink("Disbursements", "Disbursements", "Store")</div>
+            <div class="item4">@Html.ActionLink("Purchase", "Purchase", "Store")</div>
+            <div class="item5">@Html.ActionLink("Approval", "Purchase", "Store")</div>
+            <div class="item6">@Html.ActionLink("Report", "Report", "Store")</div>
+            <div class="item7">@Html.ActionLink("Maintenance", "Maintenance", "Store")</div>
+        }
+        else if (User.IsInRole("Store Supervisor"))
         {
             <div class="item1">@Html.ActionLink("Home", "Home", "Store")</div>
             <div class="item2">@Html.ActionLink("Inventory", "Inventory", "Store")</div>

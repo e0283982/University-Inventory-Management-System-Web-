@@ -46,15 +46,9 @@ namespace SA46Team1_Web_ADProj.DAL
             context.Entry(employee).State = EntityState.Modified;
         }
 
-        public bool FindEmployeeEmailId(string emailId)
+        public Employee FindEmployeeEmailId(string emailId)
         {
-
-            var employee = context.Employees.Where(x => x.EmployeeEmail == emailId).FirstOrDefault();
-            if(employee != null)
-            {
-                return true;
-            }
-            return false;
+            return context.Employees.Where(x => x.EmployeeEmail == emailId).FirstOrDefault();         
         }
 
         private bool disposed = false;

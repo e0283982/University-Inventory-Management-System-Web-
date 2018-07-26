@@ -536,12 +536,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetRequisitionHistory")]
-        public List<RequisitionHistory> GetRequisitionHistory()
+        [System.Web.Mvc.Route("GetRequisitionHistory/{id}")]
+        public List<RequisitionHistory> GetRequisitionHistory(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                return m.RequisitionHistories.ToList();
+                List<string> deptReqFormIdsList = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList();
+                return m.RequisitionHistories.Where(x=>deptReqFormIdsList.Contains(x.FormID)).OrderBy(x=>x.FormID).ToList();
             }
         }
 

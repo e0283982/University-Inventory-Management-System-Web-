@@ -5,7 +5,7 @@
     });
 </script>
 
-@if (Session["Role"] == "Dept")
+@if (User.IsInRole("Employee"))
 {
     <div id="tabs-min">
         <ul>
@@ -14,7 +14,7 @@
         </ul>
     </div>
 }
-else if (Session["Role"] == "DeptRep")
+else if (User.IsInRole("Employee Representative"))
 {
     <div id="tabs-min">
         <ul>

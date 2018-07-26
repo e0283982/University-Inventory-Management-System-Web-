@@ -34,6 +34,9 @@
                             }
                         },
                         { 'data': 'UoM' }
+                    ],
+                    columnDefs: [
+                        { className: 'text-center', targets: [4] },
                     ]
                 });
                 table.column(0).visible(false);
@@ -41,33 +44,29 @@
         });
     });
 
-        $('#btn-update').click( function () {
-            var dataToSend = "";
-            var arr = [];
-            var arr1 = []
-            for (var i = 0; i < Object.keys(d).length; i++) {
-                dataToSend = table.rows(i).data();
-                arr1.push(table.cell(i, 4).nodes().to$().find('input').val());
-                arr.push(dataToSend[0]);
-            }
+    $('#btn-update').click(function () {
+        var dataToSend = "";
+        var arr = [];
+        var arr1 = []
+        for (var i = 0; i < Object.keys(d).length; i++) {
+            dataToSend = table.rows(i).data();
+            arr1.push(table.cell(i, 4).nodes().to$().find('input').val());
+            arr.push(dataToSend[0]);
+        }
 
-            $.ajax({
-                type: 'POST',
-                url: '/StoreInventory/StockTakeUpdate',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: JSON.stringify({ arr: arr, arr1: arr1 })
-            });
+        $.ajax({
+            type: 'POST',
+            url: '/StoreInventory/StockTakeUpdate',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ arr: arr, arr1: arr1 })
         });
-
-
-
+    });
 </script>
 
 <div>
     <h2>Inventory - Stock Take</h2>
 </div>
-
 
 <table id="dataTable-storeInventoryStockTake" class="display" style="width:80%;">
     <thead>
@@ -80,7 +79,7 @@
             <th>Units</th>
         </tr>
     </thead>
-    <tbody>
+    @*<tbody>
         <tr>
             <th></th>
             <th></th>
@@ -89,17 +88,21 @@
             <th></th>
             <th></th>
         </tr>
-    </tbody>
+    </tbody>*@
 </table>
 
-<div>
-    <button class="btn btn-info">@Html.ActionLink("Cancel", "Home", "Store")</button>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                @Html.ActionLink("Cancel", "Home", "Store", null, new { @class = "btn btn-danger" })
+            </span>
+            <span>
+                @Html.ActionLink("Update", "Home", "Store", null, new { @class = "btn btn-info", id = "btn-update" })
+                @*<button id="btn-update" class="btn btn-primary">@Html.ActionLink("Update", "Home", "Store")</button>*@
+            </span>
+        </div>
+    </div>
 </div>
-
-<div>
-    <button id="btn-update" class="btn-blue">@Html.ActionLink("Update", "Home", "Store")</button>
-
-</div>
-
-
-
