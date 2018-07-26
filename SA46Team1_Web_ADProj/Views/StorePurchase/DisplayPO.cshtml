@@ -29,6 +29,8 @@
                         { 'defaultContent': '7%' }
                     ]
                 });
+
+                // Parsing Date into readable format
                 var date = new Date(data[0]["Date"]);
                 var month = date.getMonth() + 1;
                 var newDate = date.getDate() + "/" + month + "/" + date.getFullYear();
@@ -42,7 +44,7 @@
                     newDateRec = dateRec.getDate() + "/" + monthRec + "/" + dateRec.getFullYear();
                 }
 
-
+                // Calculation of GST / Total PO price
                 var i;
                 var total =0;
                 for (i = 0; i < data.length; i++) {
@@ -51,6 +53,7 @@
                 var gst = total * 0.07;
                 var netTotal = total + gst;
 
+                // Displaying JSON onto labals
                 $(function () {
                     $('#lbl-poNumber').val(data[0]["PONumber"]);
                     $('#lbl-dateCreated').val(newDate);
@@ -63,6 +66,7 @@
                     $('#ta-remarks').val(data[0]["Remarks"]);
                 });
 
+                // Format into 2 DP
                 function twoDP(value) {
                     return parseFloat(Math.round(value * 100) / 100).toFixed(2);
                 }
@@ -70,36 +74,56 @@
         });
     });
 
+    // Save PO Dialog
     $(function () {
         $("#dialog-save-displayPO").dialog({
             autoOpen: false
         });
     });
 
+    // Save PO Button
     $('#btn-save-displayPO').click(function () {
         $('#dialog-save-displayPO').dialog('open');
         return false;
     });
 
+    // Edit PO Dialog
     $(function () {
         $("#dialog-edit-displayPO").dialog({
             autoOpen: false
         });
     });
 
+    // Edit PO Button
     $('#btn-edit-displayPO').click(function () {
         $('#dialog-edit-displayPO').dialog('open');
         return false;
     });
 
+    // Goods Receipt Dialog
     $(function () {
         $("#dialog-GR-displayPO").dialog({
             autoOpen: false
         });
     });
 
+    // Goods Receipt Button
     $('#btn-GR-displayPO').click(function () {
         $('#dialog-GR-displayPO').dialog('open');
+        return false;
+    });
+
+
+    // Cancel PO Dialog
+    $(function () {
+        $("#dialog-cancelPO").dialog({
+            autoOpen: false
+        });
+    });
+
+    // Cancel PO Button
+    $('#btn-cancelPO').click(function () {
+        $('#dialog-edit-displayPO').dialog('open');
         return false;
     });
 
@@ -147,12 +171,17 @@
 <div id="btns-grp-btm">
     <button class="btn-blue" id="btn-edit-displayPO">Edit</button>
     <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
-        <p>Btn action to edit displayed purchase order.</p>
+        <p>Should change color if Goods Receipt / status is completed</p>
     </div>
 
     <button class="btn-blue" id="btn-save-displayPO">Save</button>
     <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
-        <p>Changes to Purchase Order have been saved.</p>
+        <p>Changes to PO - can only be seen / used if PO is 'open'</p>
+    </div>
+
+    <button class="btn-blue" id="btn-cancelPO">Save</button>
+    <div id="dialog-cancelPO" class="hidden" title="Basic dialog">
+        <p>Cancel entire PO - can only be seen / used if PO is 'open'</p>
     </div>
 
     <button class="btn-blue" id="btn-GR-displayPO">Goods Receipt</button>

@@ -75,7 +75,7 @@
 </div>
 
 <div>
-    <p>Remarks:</p>
+    <p>Remarks: </p>
     <textarea rows="4" cols="50">
             </textarea>
 </div>
@@ -101,7 +101,13 @@
         <tr>
             <td>@item.ItemCode</td>
             <td>@item.Item.Description</td>
-            <td>@item.Item.Supplier1</td>
+            <td>
+                <select>
+                    <option value="@item.Item.Supplier1">@item.Item.Supplier1</option>
+                    <option value="@item.Item.Supplier2">@item.Item.Supplier2</option>
+                    <option value="@item.Item.Supplier3">@item.Item.Supplier3</option>
+                </select>
+            </td>
             <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered"/></td>
             <td>@item.Item.UoM</td>
             <td>@item.Item.AvgUnitCost</td>
