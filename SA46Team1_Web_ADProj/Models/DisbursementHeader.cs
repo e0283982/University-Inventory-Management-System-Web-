@@ -28,13 +28,13 @@ namespace SA46Team1_Web_ADProj.Models
         public float Amount { get; set; }
         public string Status { get; set; }
         public byte[] Signature { get; set; }
-        public string StockRetrievalID { get; set; }
+        public string StockRetrievalId { get; set; }
     
         public virtual CollectionPoint CollectionPoint { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DisbursementDetail> DisbursementDetails { get; set; }
         public virtual Employee Employee { get; set; }
-        public virtual StaffRequisitionHeader StaffRequisitionHeader { get; set; }
+        public virtual StockRetrievalHeader StockRetrievalHeader { get; set; }
     }
 }
