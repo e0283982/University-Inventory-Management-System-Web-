@@ -9,7 +9,6 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Dept/DeptRequisition")]
     public class DeptRequisitionController : Controller
     {
-
         [Route("NewReq")]
         public ActionResult NewReq()
         {
@@ -203,6 +202,18 @@ namespace SA46Team1_Web_ADProj.Controllers
                 
                 return RedirectToAction("Requisition", "Dept");
             }
+        }
+
+        [Route("UpcomingDelivery")]
+        public ActionResult UpcomingDelivery()
+        {
+            return View();
+        }
+
+        [Route("CollectionList")]
+        public ActionResult CollectionList()
+        {
+            return View();
         }
 
     }

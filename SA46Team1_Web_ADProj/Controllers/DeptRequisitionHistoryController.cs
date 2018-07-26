@@ -57,6 +57,37 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("RequisitionHistory", "Dept");
         }
 
+        [HttpPost]
+        public ActionResult DisplayReqHistoryDetails2(string formId)
+        {
+            string deptCode = Session["DepartmentCode"].ToString();
+            ReqHistoryModel model;
+
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                StaffRequisitionHeader srh = e.StaffRequisitionHeaders.Where(x => x.FormID == formId).FirstOrDefault();
+
+                string repId = e.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).Select(x => x.RepresentativeID).FirstOrDefault();
+                string repName = e.Employees.Where(x => x.EmployeeID == repId).Select(x => x.EmployeeName).FirstOrDefault();
+                string approverName = e.Employees.Where(x => x.EmployeeID == srh.Approver).Select(x => x.EmployeeName).FirstOrDefault();
+                string approvalStatus = srh.ApprovalStatus;
+                DateTime requestDate = srh.DateRequested;
+
+                model = new ReqHistoryModel();
+                model.ApprovalStatus = approvalStatus;
+                model.ApproverName = approverName;
+                model.RepName = repName;
+                model.RequestDate = requestDate;
+
+                Session["CurrentReqHistory"] = model;
+            }
+
+
+            Session["ReqHistoryPage"] = "2";
+            Session["id"] = formId;
+            return RedirectToAction("RequisitionHistory", "Dept");
+        }
+
 
         [HttpPost]
         public RedirectToRouteResult BackToReqHistoryList()
@@ -148,14 +179,5 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("RequisitionHistory", "Dept");
 
         }
-
-
-        [Route("CollectionList")]
-        public ActionResult CollectionList()
-        {
-            return View();
-        }
-
-     
     }
 }

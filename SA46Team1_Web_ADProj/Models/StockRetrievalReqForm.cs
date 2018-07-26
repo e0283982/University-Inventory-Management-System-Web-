@@ -19,6 +19,7 @@ namespace SA46Team1_Web_ADProj.Models
         public string ReqFormID { get; set; }
     
         public virtual StaffRequisitionHeader StaffRequisitionHeader { get; set; }
+        public virtual StaffRequisitionHeader StaffRequisitionHeader1 { get; set; }
         public virtual StockRetrievalHeader StockRetrievalHeader { get; set; }
     }
 }
