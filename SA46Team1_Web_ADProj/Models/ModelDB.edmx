@@ -398,12 +398,14 @@ warning 6002: The table/view 'SSISdb.dbo.DisbursementList' does not have a prima
             <PropertyRef Name="Id" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="RepresentativeName" />
             <PropertyRef Name="Status" />
             <PropertyRef Name="CollectionPointDescription" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="RepresentativeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="80" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
@@ -1402,6 +1404,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [DisbursementList].[Id] AS [Id], 
     [DisbursementList].[Date] AS [Date], 
     [DisbursementList].[DepartmentName] AS [DepartmentName], 
+    [DisbursementList].[RepresentativeName] AS [RepresentativeName], 
     [DisbursementList].[Status] AS [Status], 
     [DisbursementList].[CollectionPointDescription] AS [CollectionPointDescription]
     FROM [dbo].[DisbursementList] AS [DisbursementList]</DefiningQuery>
@@ -2289,12 +2292,14 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <PropertyRef Name="Id" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="DepartmentName" />
+            <PropertyRef Name="RepresentativeName" />
             <PropertyRef Name="Status" />
             <PropertyRef Name="CollectionPointDescription" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RepresentativeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
@@ -3799,6 +3804,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="RepresentativeName" ColumnName="RepresentativeName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
               </MappingFragment>
