@@ -21,17 +21,19 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 m.Configuration.ProxyCreationEnabled = false;
 
-                List<Employee> list = m.Employees.Where(x => x.DepartmentCode == id).OrderBy(x => x.EmployeeName).ToList<Employee>();
+                List<Employee> list = m.Employees.Where(x => x.DepartmentCode == id && x.Active==1).OrderBy(x => x.EmployeeName).ToList<Employee>();
                 List<EmployeeDelegationModel> list2 = new List<EmployeeDelegationModel>();
                 list2 = list.ConvertAll(x => new EmployeeDelegationModel
                 {
                     EmpId = x.EmployeeID,
                     EmpName = x.EmployeeName,
                     Role = x.Designation,
-                    ToDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active == 1).
-                    Select(y => y.ToDate).FirstOrDefault(),
-                    FromDate = m.ApprovalDelegations.Where(y => y.EmployeeID == x.EmployeeID && y.Active == 1).
-                    Select(y => y.FromDate).FirstOrDefault()
+                    ToDate = m.ApprovalDelegations.Where(y => y.EmployeeID == m.DepartmentDetails.Where(z =>z.Active==1 && z.DepartmentCode == id 
+                        && z.ApproverID == x.EmployeeID).Select(z => z.ApproverID).FirstOrDefault() && y.Active==1)
+                        .Select(y => y.ToDate).FirstOrDefault(),
+                    FromDate = m.ApprovalDelegations.Where(y => y.EmployeeID == m.DepartmentDetails.Where(z=> z.Active == 1 && z.DepartmentCode==id 
+                        && z.ApproverID==x.EmployeeID).Select(z=>z.ApproverID).FirstOrDefault() && y.Active == 1)
+                        .Select(y=>y.FromDate).FirstOrDefault()
                 });
 
                 return list2;
