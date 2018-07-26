@@ -39,14 +39,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [System.Web.Mvc.Route("GetPendingApprovals")]
-        public List<RequisitionModel> GetPendingApprovals()
+        [System.Web.Mvc.Route("GetPendingApprovals/{id}")]
+        public List<RequisitionModel> GetPendingApprovalsByDept(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus != "Approved").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus == "Pending" && x.DepartmentCode==id).OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
                 list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
