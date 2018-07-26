@@ -391,6 +391,7 @@
     <Compile Include="Models\ReorderReport.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeptCollectionItemModel.cs" />
     <Compile Include="Models\StaffReqModel.cs" />
     <Compile Include="Models\ReqHistoryModel.cs" />
     <Compile Include="Models\EmployeeDelegationModel.cs" />

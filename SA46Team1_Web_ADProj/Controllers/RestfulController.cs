@@ -709,6 +709,28 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetDeptCollectionItems/{id}")]
+        public List<DeptCollectionItemModel> GetDeptCollectionItems(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                List<DisbursementDetail> list = m.DisbursementDetails.Where(x => x.DisbursementHeader.DepartmentCode == id && x.DisbursementHeader.Status == "Open").ToList();
+
+                List<DeptCollectionItemModel> list2 = new List<DeptCollectionItemModel>();
+                list2 = list.ConvertAll(x => new DeptCollectionItemModel
+                {
+                    ItemCode = x.ItemCode,
+                    ItemDesc = m.Items.Where(y => y.ItemCode == x.ItemCode).Select(y => y.Description).FirstOrDefault(),
+                    UoM = m.Items.Where(y => y.ItemCode == x.ItemCode).Select(y => y.UoM).FirstOrDefault(),
+                    ExpectedQty = x.QuantityOrdered - x.QuantityReceived //check that for partial disbursement, status is open.
+                });
+
+                return list2;
+            }
+        }
 
 
 
