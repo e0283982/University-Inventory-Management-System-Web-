@@ -1,9 +1,16 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
@@ -12,16 +19,20 @@ namespace SA46Team1_Web_ADProj.Controllers
     public class MainController : Controller
     {
         IEmployeeRepository emplRepo;
+        BearerTokenModel token;
+        
         public MainController()
         {
-            emplRepo = new EmployeeRepositoryImpl(new SSISdbEntities());
+            emplRepo = new EmployeeRepositoryImpl(new SSISdbEntities());           
         }
+
         public ActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
-        public ActionResult Login(UserModel user)
+        public async System.Threading.Tasks.Task<ActionResult> Login(UserModel user)
         {
             if (new AppUserManager(new UserStore<Employee>(new SSISdbEntities())).IsValid(user.Username, user.Password))
             {
@@ -37,8 +48,25 @@ namespace SA46Team1_Web_ADProj.Controllers
                 DefaultAuthenticationTypes.ApplicationCookie);
                 HttpContext.GetOwinContext().Authentication.SignIn(
                 new AuthenticationProperties { IsPersistent = false }, ident);
+                using (HttpClient client = new HttpClient())
+                {
+                    var tokenRequest = new List<KeyValuePair<string, string>>
+                            {
+                                new KeyValuePair<string, string>("grant_type", "password"),
+                                new KeyValuePair<string, string>("username", user.Username),
+                                new KeyValuePair<string, string>("password", user.Password)
+                            };
+                    HttpContent encodedRequest = new FormUrlEncodedContent(tokenRequest);
+                    HttpResponseMessage response = client.PostAsync("http://localhost:49921/token", encodedRequest).Result;
+                    token = response.Content.ReadAsAsync<BearerTokenModel>().Result;
 
-                switch (employee.Designation)
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Session["access-token"] = token.AccessToken;
+                    }
+                }
+
+                    switch (employee.Designation)
                 {               
                     case "Department Head":
                         return RedirectToAction("Home", "Dept", new { area = "" });
@@ -63,10 +91,11 @@ namespace SA46Team1_Web_ADProj.Controllers
             }               
         }
         [HttpPost]
-        public ActionResult Logout()
-        {         
+        public void Logout()
+        {
             HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return View("Login");
+            
+            //return View("Login");
         }
     }
 }

@@ -226,6 +226,7 @@
     <Compile Include="Controllers\StoreInventoryController.cs" />
     <Compile Include="Controllers\StoreMaintenanceController.cs" />
     <Compile Include="Controllers\StorePurchaseController.cs" />
+    <Compile Include="CustomAuthorizeAttribute.cs" />
     <Compile Include="DAL\ApprovalDelegationRepositoryImpl.cs" />
     <Compile Include="DAL\AuthRepository.cs" />
     <Compile Include="DAL\BinRepositoryImpl.cs" />
@@ -293,6 +294,7 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
+    <Compile Include="Models\BearerTokenModel.cs" />
     <Compile Include="Models\ReqHistoryModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>

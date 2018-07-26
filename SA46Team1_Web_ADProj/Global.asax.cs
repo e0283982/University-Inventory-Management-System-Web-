@@ -27,6 +27,7 @@ namespace SA46Team1_Web_ADProj
             Session["Role"] = "Dept";
             Session["UserId"] = "E4";
             Session["DepartmentCode"] = "COMM";
+            Session["access-token"] = "test";
 
             //Session variable for PO
             Session["newPOList"] = new List<Models.PODetail>();
