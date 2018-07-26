@@ -46,7 +46,7 @@
                         {
                             'data': null,
                             'render': function (data, type, row) {
-                                return '<button id="btn-edit-employee-auth" class="btn-blue-small" onclick="myFunction(\'' + data["EmpName"] + '\')" data-toggle="modal" data-target="#dialog-show-employee-auth">Edit</button>';
+                                return '<div style="align-content:center"><button id="btn-edit-employee-auth" class="btn btn-info" onclick="myFunction(\'' + data["EmpName"] + '\')" data-toggle="modal" data-target="#dialog-show-employee-auth">Edit</button></div>';
                             }
 
                         },
@@ -113,7 +113,6 @@
         </tr>
     </thead>
 </table>
-
 
 <div id="dialog-saved-employee-auth-edit" class="hidden" title="Changes saved">
     <p>Changes to employee's role delegation have been saved.</p>

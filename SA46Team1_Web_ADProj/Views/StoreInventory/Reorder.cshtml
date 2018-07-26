@@ -1,89 +1,9 @@
 ﻿@{
     Layout = null;
 }
+@using SA46Team1_Web_ADProj.Models;
+@model Item
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-<script>
-    $(document).ready(function () {
-        $('#dataTable-storeInventoryReorder').DataTable({
-            scrollY: '30vh',
-            scrollCollapse: true,
-            paging: true
-        });
-    });
-
-    $(function () {
-        $("#dialog").dialog({
-            autoOpen: false
-        });
-    });
-
-    $('#btn-create-POs').click(function () {
-        $('#dialog').dialog('open');
-        return false;
-    });
-</script>
-
-<div>
-    <h2>Inventory - Reorder</h2>
-</div>
-
-
-<table id="dataTable-storeInventoryReorder" class="display" style="width:80%;">
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th>Qty</th>
-            <th>Unit</th>
-            <th>Choose Supplier</th>
-            <th>Select</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <tr>
-            <td>Clip "2</td>
-            <td>50</td>
-            <td>Dozen</td>
-            <td>
-                <select>
-                    <option value="supplierA">supplierA</option>
-                    <option value="supplierB">supplierB</option>
-                    <option value="supplierC">supplierC</option>
-                </select>
-            </td>
-            <td>
-                <input type="checkbox" name="newItem" value="AddToPO" checked>
-                <br>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Clip "2.5</td>
-            <td>50</td>
-            <td>Dozen</td>
-            <td>
-                <select>
-                    <option value="supplierA">supplierB</option>
-                    <option value="supplierB">supplierC</option>
-                    <option value="supplierC">supplierF</option>
-                </select>
-            </td>
-            <td>
-                <input type="checkbox" name="newItem" value="AddToPO" checked>
-                <br>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<div>
-    <button class="btn btn-info" id="btn-create-POs">Create Purchase Order</button>
-</div>
-
-<div id="dialog" class="hidden" title="Basic dialog">
-    <p>Purchase order(s) have been created.</p>
-</div>
-
-
+@Helper.ReorderStock()

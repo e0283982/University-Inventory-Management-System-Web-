@@ -28,6 +28,9 @@ namespace SA46Team1_Web_ADProj
             Session["UserId"] = "E4";
             Session["DepartmentCode"] = "COMM";
 
+            //Session variable for PO
+            Session["newPOList"] = new List<Models.PODetail>();
+
             //Session variables for inner pages of DEPT tabs
             Session["newReqList"] = new List<Models.StaffRequisitionDetail>();
             Session["newReqEditMode"] = false;
@@ -37,6 +40,8 @@ namespace SA46Team1_Web_ADProj
             Session["currentFormId"] = "";
             //Session variables for Dept - Requisition History
             Session["ReqHistoryPage"] = "1";
+            Session["CurrentReqHistory"] = new Models.ReqHistoryModel();
+            Session["existingReqEditMode"] = false;
 
             //Session variables for Dept - Requisition Approval
             Session["ReqApprovalPage"] = "1";
