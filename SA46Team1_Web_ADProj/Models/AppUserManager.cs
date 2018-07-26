@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SA46Team1_Web_ADProj.Models
 {
@@ -32,6 +33,13 @@ namespace SA46Team1_Web_ADProj.Models
             using (SSISdbEntities context = new SSISdbEntities())
             {
                 return context.Users.Where(x => x.EmployeeEmail == username).Select(x => x.Designation).FirstOrDefault();
+            }
+        }
+        public IdentityUser Find(string username, string password)
+        {
+            using (SSISdbEntities context = new SSISdbEntities())
+            {
+                return context.Employees.Where(x => x.EmployeeEmail == username && x.Password == password).FirstOrDefault();
             }
         }
     }

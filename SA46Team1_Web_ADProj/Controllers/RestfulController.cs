@@ -339,7 +339,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-
+        //[System.Web.Mvc.Authorize]
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetStockAdjustmentSupervisorApproval")]
         public List<StockAdjustmentApprovalForSupervisor> GetStockAdjustmentSupervisorApproval()
