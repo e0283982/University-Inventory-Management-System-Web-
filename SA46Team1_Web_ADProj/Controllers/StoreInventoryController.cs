@@ -12,20 +12,20 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Store/StoreInventory")]
     public class StoreInventoryController : Controller
     {
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         [Route("Overview")]
         public ActionResult Overview()
         {
             return View();
         }
-
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         [Route("Reorder")]
         public ActionResult Reorder()
         {
 
             return View();
         }
-
+        [Authorize(Roles = "Store Clerk")]
         [Route("StockAdj")]
         public ActionResult StockAdj()
         {
@@ -66,14 +66,14 @@ namespace SA46Team1_Web_ADProj.Controllers
                 
             }
         }
-
+        [Authorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
         {                        
             Session["StockAdjPage"] = "2";            
             return RedirectToAction("Inventory", "Store");
         }
-
+        [Authorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
         {
@@ -93,7 +93,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-
+        [Authorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult SubmitNewStockAdj(StockAdjustmentDetail stockAdjustmentDetail)
         {
@@ -132,7 +132,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-
+        [Authorize(Roles = "Store Clerk")]
         [Route("StockTake")]
         public ActionResult StockTake()
         {
@@ -140,16 +140,71 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult StockTakeUpdate(StockTakeList[] arr)
+        public ActionResult StockTakeUpdate(StockTakeList[] arr, string[] arr1)
         {
-            if (arr != null)
+            int count = 0;
+            
+            string transType = "Stock Take";
+            List<StockTakeList> list = new List<StockTakeList>();
+            for (int i = 0; i < arr.Length; i++)
             {
-                return null;
+                list.Add(arr[i]);
             }
-            else
+
+            using (SSISdbEntities m = new SSISdbEntities())
             {
-                return null;
+                int itemTransCount = m.StockTakeHeaders.Count() + 1;
+                string itemTransactionId = "ST-" + itemTransCount.ToString();
+                
+                // Update StockTakeHeader Table
+                StockTakeHeader stockTakeHeader = new StockTakeHeader();
+                stockTakeHeader.StockTakeID = itemTransactionId;
+                stockTakeHeader.Date = DateTime.Now;
+                stockTakeHeader.TransactionType = transType;
+                m.StockTakeHeaders.Add(stockTakeHeader);
+                m.SaveChanges();
+
+                foreach (StockTakeList l in list)
+                {
+                    Item item = m.Items.Where(x => x.ItemCode == l.ItemCode).FirstOrDefault();
+                    int itemQty = Convert.ToInt32(arr1[count]);
+                    float avgCost = item.AvgUnitCost;
+                    int qtyOnHand = item.Quantity;
+                    int qtyAdjusted = itemQty - qtyOnHand;
+                    float totalAmt = avgCost * (float) qtyAdjusted;
+                    string itemcode = l.ItemCode;
+
+                    if(qtyAdjusted != 0)
+                    {
+                        // Update Item Table
+                        item.Quantity = itemQty;
+
+                        // Update ItemTransaction Table
+                        ItemTransaction itemTransaction = new ItemTransaction();
+                        itemTransaction.TransDateTime = DateTime.Now;
+                        itemTransaction.DocumentRefNo = itemTransactionId;
+                        itemTransaction.ItemCode = itemcode;
+                        itemTransaction.TransactionType = transType;
+                        itemTransaction.Quantity = qtyAdjusted;
+                        itemTransaction.UnitCost = avgCost;
+                        itemTransaction.Amount = totalAmt;
+                        m.ItemTransactions.Add(itemTransaction);
+                        m.SaveChanges();
+                    }
+
+                    // Update StockTakeDetails Table
+                    StockTakeDetail stockTakeDetail = new StockTakeDetail();
+                    stockTakeDetail.StockTakeID = itemTransactionId;
+                    stockTakeDetail.ItemCode = itemcode;
+                    stockTakeDetail.QuantityOnHand = qtyOnHand;
+                    stockTakeDetail.QuantityCounted = itemQty;
+                    stockTakeDetail.QuantityAdjusted = qtyAdjusted;
+                    m.StockTakeDetails.Add(stockTakeDetail);
+                    m.SaveChanges();
+                    count++;
+                }
             }
+            return View();
         }
         
     }

@@ -9,11 +9,12 @@
 
 namespace SA46Team1_Web_ADProj.Models
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SSISdbEntities : DbContext
+    public partial class SSISdbEntities : IdentityDbContext<Employee>
     {
         public SSISdbEntities()
             : base("name=SSISdbEntities")
@@ -76,5 +77,8 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
         public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
         public virtual DbSet<StockTakeList> StockTakeLists { get; set; }
+        public virtual DbSet<InventoryValuationReport> InventoryValuationReports { get; set; }
+        public virtual DbSet<ReorderReport> ReorderReports { get; set; }
+        public virtual DbSet<DepartmentUsageReport> DepartmentUsageReports { get; set; }
     }
 }

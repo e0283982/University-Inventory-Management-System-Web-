@@ -14,12 +14,11 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class StockTakeDetail
     {
-        public int StockTakeID { get; set; }
+        public string StockTakeID { get; set; }
         public string ItemCode { get; set; }
         public int QuantityOnHand { get; set; }
         public int QuantityCounted { get; set; }
         public int QuantityAdjusted { get; set; }
-        public string Remarks { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual StockTakeHeader StockTakeHeader { get; set; }

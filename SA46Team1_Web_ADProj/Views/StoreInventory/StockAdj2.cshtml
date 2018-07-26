@@ -200,74 +200,124 @@
 
     </table>
 
-    <div id="btns-grp-btm">
+    <hr />
 
-        @*<button class="btn-blue" id="btn-submit-newStockAdj">Submit for Approval</button>
-        <div id="dialog-submit-newStockAdj" class="hidden" title="Submitted">
-            <p>New Stock Adjustment request has been submitted for approval.</p>
-        </div>*@
-
-
-        <input class="btn-blue" type="submit" value="Submit for Approval" />
-
-        
-
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right">
+                <span>
+                    <button class="btn btn-primary" id="btn-addItem-newStockAdj">Add Item</button>                  
+                </span>
+                <span>
+                    @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
+                    {
+                        <input class="btn btn-info" type="submit" value="Submit for Approval" />
+                    }
+                </span>
+            </div>
+        </div>
     </div>
-}
 
-<div id="btns-grp-btm">
-
-    <button class="btn-blue" id="btn-addItem-newStockAdj">Add Item</button>
     <div id="dialog-addItem-newStockAdj" class="hidden" title="Add Item">
 
 
         @Html.Label("Item")
         <br />
-        @Html.TextBox("txt-Item")       
+        @Html.TextBox("txt-Item")
 
         @*<table>
-        <tr>
-            <td>@Html.Label("Item")  </td>
-        </tr>
-        <tr>
-            @Html.TextBox("txt-Item")
-            @*<td><input type="text" id="txt-Item" /></td>*@
+            <tr>
+                <td>@Html.Label("Item")  </td>
+            </tr>
+            <tr>
+                @Html.TextBox("txt-Item")
+                @*<td><input type="text" id="txt-Item" /></td>*@
         @*</tr>
-        <tr>
-            <td>Missing/Damaged</td>
-        </tr>
-        <tr>
-            <td>
-                <select id="option">
-                    <option value="missing">Missing</option>
-                    <option value="damaged">Damaged</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Quantity</td>
-        </tr>
-        <tr>
-            <td><input type="number" id="txt-Quantity" /></td>
-        </tr>
-        <tr>
-            <td>Reason</td>
-        </tr>
-        <tr>
-            <td><input type="text" id="txt-Reason" /></td>
-        </tr>
-        </table>*@
+            <tr>
+                <td>Missing/Damaged</td>
+            </tr>
+            <tr>
+                <td>
+                    <select id="option">
+                        <option value="missing">Missing</option>
+                        <option value="damaged">Damaged</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Quantity</td>
+            </tr>
+            <tr>
+                <td><input type="number" id="txt-Quantity" /></td>
+            </tr>
+            <tr>
+                <td>Reason</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="txt-Reason" /></td>
+            </tr>
+            </table>*@
 
 
         @*<p>Add a new item via here.</p>
-        <p>(Todo: on this btn click, add a new datatable row.)</p>*@
+            <p>(Todo: on this btn click, add a new datatable row.)</p>*@
 
     </div>
+}
 
-</div>
+@*<div id="btns-grp-btm">
 
-<style>
+    <button class="btn btn-info" id="btn-addItem-newStockAdj">Add Item</button>
+    <div id="dialog-addItem-newStockAdj" class="hidden" title="Add Item">
+
+
+        @Html.Label("Item")
+        <br />
+        @Html.TextBox("txt-Item")*@
+
+        @*<table>
+            <tr>
+                <td>@Html.Label("Item")  </td>
+            </tr>
+            <tr>
+                @Html.TextBox("txt-Item")
+                @*<td><input type="text" id="txt-Item" /></td>*@
+        @*</tr>
+            <tr>
+                <td>Missing/Damaged</td>
+            </tr>
+            <tr>
+                <td>
+                    <select id="option">
+                        <option value="missing">Missing</option>
+                        <option value="damaged">Damaged</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Quantity</td>
+            </tr>
+            <tr>
+                <td><input type="number" id="txt-Quantity" /></td>
+            </tr>
+            <tr>
+                <td>Reason</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="txt-Reason" /></td>
+            </tr>
+            </table>*@
+
+
+        @*<p>Add a new item via here.</p>
+            <p>(Todo: on this btn click, add a new datatable row.)</p>*@
+
+    @*</div>
+
+</div>*@
+
+@*<style>
     #btns-grp-btm {
         margin-right: 10vw;
     }
-</style>
+</style>*@

@@ -4,15 +4,8 @@
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-
 <script>
-    //$(document).ready(function () {
-    //    $('#dataTable-backOrders').DataTable({
-    //        scrollY: '30vh',
-    //        scrollCollapse: true,
-    //        paging: true
-    //    });
-    //});
+
      var table;
 
     $(document).ready(function () {
@@ -55,26 +48,64 @@
             }
         });
     });
-    
-    $('#btn-submit-discard-backorder-items').click(function () {
+
+    $(function () {
+        $("#dialog-discard-backorder-item-submitted").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $(function () {
+        $("#dialog-discard-backorder-no-item-selected").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+
+    $(function () {
+        $("#dialog-confirm-discard-backorder-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-submit-discard-backorder-items').on('click', function () {
+
+        //check if no items are selected
+        var noSelected = table.rows('.selected').data().length;
+        if (noSelected == 0) {
+            $("#dialog-discard-backorder-no-item-selected").dialog('open');
+        } else {
+            $('#dialog-confirm-discard-backorder-item').dialog('open');
+        }
+    });
+
+    $('#btn-confirm-discard-no').on('click', function () {
+        $('#dialog-confirm-discard-backorder-item').dialog('close');
+    });
+
+    $('#btn-confirm-discard-yes').click(function () {
+
         var data = table.rows('.selected').data();
         var noSelected = table.rows('.selected').data().length;
         var toDeleteArray = [];
         var toDeleteArray2 = [];
-        
+
         for (i = 0; i < noSelected; i++) {
             toDeleteArray.push(data[i].ItemCode);
             toDeleteArray2.push(data[i].ReqId);
         }
-
-        alert(toDeleteArray);
-        alert(toDeleteArray2);
-
+        
         table.row('.selected').remove().draw(false);
 
         $.ajax({
             url: '/DeptRequisition/DiscardSelBackorders',
-            data: 
+            data:
                 JSON.stringify({
                     deleteItemCodes: toDeleteArray, deleteReqId: toDeleteArray2
                 }),
@@ -82,6 +113,11 @@
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
         });
+
+        $('#dialog-confirm-discard-backorder-item').dialog('close');
+         table.draw(false);
+        $('#dialog-discard-backorder-item-submitted').dialog('open');
+        
     });
 
 </script>
@@ -96,7 +132,7 @@
         <tr>
             <th>Item Code</th>
             <th>Requisition Form #</th>
-            <th>Description</th>
+            <th>Item Description</th>
             <th>Unit of Measure</th>
             <th>Outstanding Qty</th>
         </tr>
@@ -105,6 +141,30 @@
 
 <hr />
 
-<button id="btn-submit-discard-backorder-items" class="btn btn-info" type="submit" value="Discard Items">Discard Selected Items</button> 
+<div class="row">
+    <span class="col-md-12">
+        <button id="btn-submit-discard-backorder-items" class="btn btn-danger" type="submit" style="float: right">
+            Discard Selected Items
+        </button>
+    </span>
+</div>
 
+<div id="dialog-confirm-discard-backorder-item" class="hidden" title="Confirm Discard Selected (BackOrder)">
+    <p>Are you sure you want to cancel the selected back order?</p>
+    <span>
+        <button class="btn btn-primary" id="btn-confirm-discard-no">No</button>
+    </span>
+
+    <span>
+        <button class="btn btn-primary" id="btn-confirm-discard-yes">Yes</button>
+    </span>
+</div>
+
+<div id="dialog-discard-backorder-item-submitted" class="hidden" title="Backorder Item Discarded">
+    <p>Selected back order has been cancelled.</p>
+</div>
+
+<div id="dialog-discard-backorder-no-item-selected" class="hidden" title="No Item Selected (BackOrder)">
+    <p>No item was selected for discard.</p>
+</div>
 

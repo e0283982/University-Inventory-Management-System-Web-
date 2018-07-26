@@ -12,11 +12,11 @@ namespace SA46Team1_Web_ADProj.DAL
 
         IEnumerable<StockTakeDetail> GetStockTakeDetails();
 
-        StockTakeDetail GetStockTakeDetailById(int stockTakeId, string itemCode);
+        StockTakeDetail GetStockTakeDetailById(string stockTakeId, string itemCode);
 
         void InsertStockTakeDetail(StockTakeDetail stockTakeDetail);
 
-        void DeleteStockTakeDetail(int stockTakeId, string itemCode);
+        void DeleteStockTakeDetail(string stockTakeId, string itemCode);
 
         void UpdateStockTakeDetail(StockTakeDetail stockTakeDetail);
 

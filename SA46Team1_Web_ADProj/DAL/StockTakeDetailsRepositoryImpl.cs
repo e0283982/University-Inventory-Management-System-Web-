@@ -38,7 +38,7 @@ namespace SA46Team1_Web_ADProj.DAL
             return context.StockTakeDetails.ToList();
         }
 
-        public StockTakeDetail GetStockTakeDetailById(int stockTakeId, string itemCode)
+        public StockTakeDetail GetStockTakeDetailById(string stockTakeId, string itemCode)
         {
             return context.StockTakeDetails.Where(x => x.StockTakeID == stockTakeId && x.ItemCode == itemCode).First();
         }
@@ -48,7 +48,7 @@ namespace SA46Team1_Web_ADProj.DAL
             context.StockTakeDetails.Add(stockTakeDetail);
         }
 
-        public void DeleteStockTakeDetail(int stockTakeId, string itemCode)
+        public void DeleteStockTakeDetail(string stockTakeId, string itemCode)
         {
             StockTakeDetail stockTakeDetail = context.StockTakeDetails.Where(x => x.StockTakeID == stockTakeId && x.ItemCode == itemCode).First();
             context.StockTakeDetails.Remove(stockTakeDetail);
