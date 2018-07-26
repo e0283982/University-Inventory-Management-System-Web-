@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Evelyn\source\repos\SA46Team1_ADProject_Web\SA46Team1_Web_ADProj\Models\ModelDB.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\mayta\OneDrive\Documents\GitHub\SA46Team1_ADProject_Web\SA46Team1_Web_ADProj\Models\ModelDB.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

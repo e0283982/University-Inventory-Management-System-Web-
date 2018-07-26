@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApprovalDelegation">
           <Key>
             <PropertyRef Name="Id" />
@@ -557,9 +557,7 @@ warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary 
             <PropertyRef Name="UnitCost" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="EmployeeName" />
-            <PropertyRef Name="Supplier1" />
-            <PropertyRef Name="Supplier2" />
-            <PropertyRef Name="Supplier3" />
+            <PropertyRef Name="ReceivedDate" />
           </Key>
           <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
@@ -571,9 +569,7 @@ warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary 
           <Property Name="Total" Type="real" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Supplier1" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="Supplier2" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="Supplier3" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ReceivedDate" Type="date" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.POList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1488,9 +1484,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [POFullDetails].[Total] AS [Total], 
     [POFullDetails].[Date] AS [Date], 
     [POFullDetails].[EmployeeName] AS [EmployeeName], 
-    [POFullDetails].[Supplier1] AS [Supplier1], 
-    [POFullDetails].[Supplier2] AS [Supplier2], 
-    [POFullDetails].[Supplier3] AS [Supplier3]
+    [POFullDetails].[ReceivedDate] AS [ReceivedDate]
     FROM [dbo].[POFullDetails] AS [POFullDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="POList" EntityType="Self.POList" store:Type="Views" store:Schema="dbo">
@@ -1806,7 +1800,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SSISdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2258,6 +2253,29 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityBackOrdered" Type="Int32" />
         </EntityType>
+        <EntityType Name="DepartmentUsageReport">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="AvgUnitCost" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="DepartmentName" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AvgUnitCost" Type="Single" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+          <Property Name="TotalCost" Type="Single" />
+          <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+        </EntityType>
         <EntityType Name="DisbursementList">
           <Key>
             <PropertyRef Name="Id" />
@@ -2338,6 +2356,23 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="PONotFulfilled" Type="Int32" />
           <Property Name="StaffOrderNotFulfilled" Type="Int32" />
         </EntityType>
+        <EntityType Name="InventoryValuationReport">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="AvgUnitCost" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AvgUnitCost" Type="Single" Nullable="false" />
+          <Property Name="TotalCost" Type="Single" />
+        </EntityType>
         <EntityType Name="ItemFullDetail">
           <Key>
             <PropertyRef Name="ItemCode" />
@@ -2380,9 +2415,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <PropertyRef Name="UnitCost" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="EmployeeName" />
-            <PropertyRef Name="Supplier1" />
-            <PropertyRef Name="Supplier2" />
-            <PropertyRef Name="Supplier3" />
+            <PropertyRef Name="ReceivedDate" />
           </Key>
           <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2394,9 +2427,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="Total" Type="Single" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Supplier1" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Supplier2" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Supplier3" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="POList">
           <Key>
@@ -2432,6 +2463,29 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="s2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="s3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BackOrder" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ReorderReport">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="ReOrderLevel" />
+            <PropertyRef Name="ReOrderQuantity" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="POBackOrdered" />
+            <PropertyRef Name="SRBackOrdered" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReOrderLevel" Type="Int32" Nullable="false" />
+          <Property Name="ReOrderQuantity" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="POBackOrdered" Type="Int32" Nullable="false" />
+          <Property Name="SRBackOrdered" Type="Int32" Nullable="false" />
+          <Property Name="RecommendQty" Type="Int32" />
         </EntityType>
         <EntityType Name="RequisitionHistory">
           <Key>
@@ -3133,16 +3187,19 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <EntitySet Name="SupplierPriceLists" EntityType="Self.SupplierPriceList" />
           <EntitySet Name="AllItemPrices" EntityType="Self.AllItemPrice" />
           <EntitySet Name="CollectionLists" EntityType="Self.CollectionList" />
+          <EntitySet Name="DepartmentUsageReports" EntityType="Self.DepartmentUsageReport" />
           <EntitySet Name="DisbursementLists" EntityType="Self.DisbursementList" />
           <EntitySet Name="DisbursementListDetails" EntityType="Self.DisbursementListDetail" />
           <EntitySet Name="GoodsReceivedLists" EntityType="Self.GoodsReceivedList" />
           <EntitySet Name="GRLists" EntityType="Self.GRList" />
           <EntitySet Name="InventoryOverviews" EntityType="Self.InventoryOverview" />
+          <EntitySet Name="InventoryValuationReports" EntityType="Self.InventoryValuationReport" />
           <EntitySet Name="ItemFullDetails" EntityType="Self.ItemFullDetail" />
           <EntitySet Name="PendingApprovals" EntityType="Self.PendingApproval" />
           <EntitySet Name="POFullDetails" EntityType="Self.POFullDetail" />
           <EntitySet Name="POLists" EntityType="Self.POList" />
           <EntitySet Name="ReorderLists" EntityType="Self.ReorderList" />
+          <EntitySet Name="ReorderReports" EntityType="Self.ReorderReport" />
           <EntitySet Name="RequisitionHistories" EntityType="Self.RequisitionHistory" />
           <EntitySet Name="RequisitionHistoryDetails" EntityType="Self.RequisitionHistoryDetail" />
           <EntitySet Name="RequisitionLists" EntityType="Self.RequisitionList" />
@@ -3317,73 +3374,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierPriceList" EntitySet="SupplierPriceLists" />
           </AssociationSet>
-          <EntitySet Name="InventoryValuationReports" EntityType="SSISdbModel.InventoryValuationReport" />
-          <EntitySet Name="ReorderReports" EntityType="SSISdbModel.ReorderReport" />
-          <EntitySet Name="DepartmentUsageReports" EntityType="SSISdbModel.DepartmentUsageReport" />
         </EntityContainer>
-        <EntityType Name="InventoryValuationReport">
-          <Key>
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="Quantity" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="AvgUnitCost" />
-          </Key>
-          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="AvgUnitCost" Type="Single" Nullable="false" />
-          <Property Name="TotalCost" Type="Single" />
-        </EntityType>
-        <EntityType Name="ReorderReport">
-          <Key>
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="Quantity" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="ReOrderLevel" />
-            <PropertyRef Name="ReOrderQuantity" />
-            <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="POBackOrdered" />
-            <PropertyRef Name="SRBackOrdered" />
-          </Key>
-          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ReOrderLevel" Type="Int32" Nullable="false" />
-          <Property Name="ReOrderQuantity" Type="Int32" Nullable="false" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="POBackOrdered" Type="Int32" Nullable="false" />
-          <Property Name="SRBackOrdered" Type="Int32" Nullable="false" />
-          <Property Name="RecommendQty" Type="Int32" />
-        </EntityType>
-        <EntityType Name="DepartmentUsageReport">
-          <Key>
-            <PropertyRef Name="ItemCode" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="AvgUnitCost" />
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="QuantityReceived" />
-            <PropertyRef Name="DepartmentName" />
-          </Key>
-          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UoM" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="AvgUnitCost" Type="Single" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
-          <Property Name="TotalCost" Type="Single" />
-          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Month" Type="Int32" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3764,6 +3755,23 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DepartmentUsageReports">
+            <EntityTypeMapping TypeName="SSISdbModel.DepartmentUsageReport">
+              <MappingFragment StoreEntitySet="DepartmentUsageReport">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="AvgUnitCost" ColumnName="AvgUnitCost" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DisbursementLists">
             <EntityTypeMapping TypeName="SSISdbModel.DisbursementList">
               <MappingFragment StoreEntitySet="DisbursementList">
@@ -3826,6 +3834,19 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="InventoryValuationReports">
+            <EntityTypeMapping TypeName="SSISdbModel.InventoryValuationReport">
+              <MappingFragment StoreEntitySet="InventoryValuationReport">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="AvgUnitCost" ColumnName="AvgUnitCost" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ItemFullDetails">
             <EntityTypeMapping TypeName="SSISdbModel.ItemFullDetail">
               <MappingFragment StoreEntitySet="ItemFullDetails">
@@ -3863,9 +3884,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="Supplier1" ColumnName="Supplier1" />
-                <ScalarProperty Name="Supplier2" ColumnName="Supplier2" />
-                <ScalarProperty Name="Supplier3" ColumnName="Supplier3" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3892,6 +3911,22 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="s2" ColumnName="s2" />
                 <ScalarProperty Name="s3" ColumnName="s3" />
                 <ScalarProperty Name="BackOrder" ColumnName="BackOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReorderReports">
+            <EntityTypeMapping TypeName="SSISdbModel.ReorderReport">
+              <MappingFragment StoreEntitySet="ReorderReport">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="ReOrderLevel" ColumnName="ReOrderLevel" />
+                <ScalarProperty Name="ReOrderQuantity" ColumnName="ReOrderQuantity" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="POBackOrdered" ColumnName="POBackOrdered" />
+                <ScalarProperty Name="SRBackOrdered" ColumnName="SRBackOrdered" />
+                <ScalarProperty Name="RecommendQty" ColumnName="RecommendQty" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4024,52 +4059,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="InventoryValuationReports">
-            <EntityTypeMapping TypeName="SSISdbModel.InventoryValuationReport">
-              <MappingFragment StoreEntitySet="InventoryValuationReport">
-                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
-                <ScalarProperty Name="AvgUnitCost" ColumnName="AvgUnitCost" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ReorderReports">
-            <EntityTypeMapping TypeName="SSISdbModel.ReorderReport">
-              <MappingFragment StoreEntitySet="ReorderReport">
-                <ScalarProperty Name="RecommendQty" ColumnName="RecommendQty" />
-                <ScalarProperty Name="SRBackOrdered" ColumnName="SRBackOrdered" />
-                <ScalarProperty Name="POBackOrdered" ColumnName="POBackOrdered" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="ReOrderQuantity" ColumnName="ReOrderQuantity" />
-                <ScalarProperty Name="ReOrderLevel" ColumnName="ReOrderLevel" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DepartmentUsageReports">
-            <EntityTypeMapping TypeName="SSISdbModel.DepartmentUsageReport">
-              <MappingFragment StoreEntitySet="DepartmentUsageReport">
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
-                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
-                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="AvgUnitCost" ColumnName="AvgUnitCost" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
