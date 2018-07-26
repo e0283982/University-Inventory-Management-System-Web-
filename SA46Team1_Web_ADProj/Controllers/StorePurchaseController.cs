@@ -110,7 +110,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                     poDetailToAdd.PONumber = poId;
                                     poDetailToAdd.ItemCode = pod.ItemCode;
                                     poDetailToAdd.QuantityOrdered = pod.QuantityOrdered;
-                                    poDetailToAdd.QuantityBackOrdered = 0;
+                                    poDetailToAdd.QuantityBackOrdered = pod.QuantityOrdered;
                                     poDetailToAdd.QuantityDelivered = 0;
                                     poDetailToAdd.UnitCost = itemUnitPrice;
                                     poDetailToAdd.CancelledBackOrdered = 0;
@@ -120,8 +120,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                 }
                         }
                     }
-
-                    // Send PO to Supplier
                 }
             }
             Session["newPOList"] = new List<PODetail>();

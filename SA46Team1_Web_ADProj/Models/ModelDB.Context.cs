@@ -30,7 +30,6 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<Bin> Bins { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CollectionPoint> CollectionPoints { get; set; }
-        public virtual DbSet<CollectionPointTran> CollectionPointTrans { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<DepartmentDetail> DepartmentDetails { get; set; }
         public virtual DbSet<DisbursementDetail> DisbursementDetails { get; set; }

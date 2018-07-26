@@ -9,17 +9,17 @@ namespace SA46Team1_Web_ADProj.DAL
 {
     interface ICollectionPointTransRepository : IDisposable
     {
-        IEnumerable<CollectionPointTran> GetCollectionPointTrans();
+        //IEnumerable<CollectionPointTran> GetCollectionPointTrans();
 
-        CollectionPointTran GetCollectionPointTranById(string departmentCode, string collectionId);
+        //CollectionPointTran GetCollectionPointTranById(string departmentCode, string collectionId);
 
-        void InsertCollectionPointTran(CollectionPointTran collectionPointTran);
+        //void InsertCollectionPointTran(CollectionPointTran collectionPointTran);
 
-        void DeleteCollectionPointTran(string departmentCode, string collectionId);
+        //void DeleteCollectionPointTran(string departmentCode, string collectionId);
 
-        void UpdateCollectionPointTran(CollectionPointTran collectionPointTran);
+        //void UpdateCollectionPointTran(CollectionPointTran collectionPointTran);
 
-        void Save();
+        //void Save();
 
     }
 }

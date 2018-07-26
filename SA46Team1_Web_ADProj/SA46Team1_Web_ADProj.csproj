@@ -274,7 +274,6 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
-    <Compile Include="Models\ReqHistoryModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -285,9 +284,6 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CollectionPoint.cs">
-      <DependentUpon>ModelDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CollectionPointTran.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Department.cs">
@@ -314,9 +310,6 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmployeeDelegationModel.cs" />
-    <Compile Include="Models\ErrorViewModel.cs" />
-    <Compile Include="Models\BackOrderModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -380,6 +373,10 @@
     <Compile Include="Models\ReorderReport.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReqHistoryModel.cs" />
+    <Compile Include="Models\EmployeeDelegationModel.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\BackOrderModel.cs" />
     <Compile Include="Models\RequisitionDetModel.cs" />
     <Compile Include="Models\DeptFullDetailsModel.cs" />
     <Compile Include="Models\RequisitionHistory.cs">

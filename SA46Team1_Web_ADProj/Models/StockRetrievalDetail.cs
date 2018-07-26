@@ -21,6 +21,7 @@ namespace SA46Team1_Web_ADProj.Models
         public string CollectionPointID { get; set; }
         public string DepartmentCode { get; set; }
         public int QuantityAdjusted { get; set; }
+        public string Remarks { get; set; }
     
         public virtual CollectionPoint CollectionPoint { get; set; }
         public virtual Department Department { get; set; }
