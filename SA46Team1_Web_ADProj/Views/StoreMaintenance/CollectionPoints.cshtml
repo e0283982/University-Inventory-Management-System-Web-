@@ -23,7 +23,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
-                scrollY: 200,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     { 'data': 'CollectionPointID' },
@@ -106,26 +106,37 @@
     </thead>
 </table>
 
+<hr />
 
-<button id="btn-add-new-collection-point" class="btn-blue">Add New Collection Point</button>
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button id="btn-add-new-collection-point" class="btn btn-info">Add New Collection Point</button>
+            </span>
+        </div>
+    </div>
+</div>
 
 <div id="dialog-add-new-collection-point" class="hidden" title="Add Collection Point (Maintenance)">
     @using (Html.BeginForm("AddNewCollectionPoint", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-collection-point" }))
     {
-    <div>
         <div>
-            <label>Collection Point Description: </label>
-            @Html.EditorFor(model => model.CollectionPointDescription, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-collection-pt-desc" }, })
+            <div>
+                <label>Collection Point Description: </label>
+                @Html.EditorFor(model => model.CollectionPointDescription, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-collection-pt-desc" }, })
+            </div>
+
+            <div>
+                <label>Collection Point Time: </label>
+                @Html.EditorFor(model => model.CollectionTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Time", @id = "new-collection-pt-time", @type = "time" }, })
+            </div>
+
+            <hr />
+
+            <input id="btn-submit-add-collection-point" class="btn btn-info btn-block" type="submit" value="Add" />
+
         </div>
-
-        <div>
-            <label>Collection Point Time: </label>
-            @Html.EditorFor(model => model.CollectionTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Time", @id = "new-collection-pt-time" , @type = "time" }, })
-        </div>
-
-        <input id="btn-submit-add-collection-point" class="btn-blue" type="submit" value="Add" />
-
-    </div>
     }
 </div>
 
