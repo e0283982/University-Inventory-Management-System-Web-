@@ -15,7 +15,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'FormID' },
@@ -48,16 +48,17 @@
 </script>
 
 <div>
-    <h2>Requisition History</h2>
+    <h5>Requisition History</h5>
 </div>
 
 
 <table id="dataTable-pastReq" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Requisition Form #</th>
             <th>Date Requested</th>
             <th>Approval Status</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>

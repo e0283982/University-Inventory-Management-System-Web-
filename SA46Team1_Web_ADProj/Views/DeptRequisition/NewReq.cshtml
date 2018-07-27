@@ -171,27 +171,27 @@
 
 <div class="row">
     <div class="col-md-6" style="padding: -30px;">
-        <h2>New Requisition</h2>
+        <h5>New Requisition</h5>
     </div>
     <div class="col-md-6">
         <span style="float: right; padding-top:35px;">
             <span>
-                <button class="btn btn-primary" id="btn-add-item">Add</button>
+                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
             </span>
             <span>
-                <button class="btn btn-info" id="btn-edit-items">Edit</button>
-                <button class="btn btn-info" id="btn-save-items">Save</button>
+                <button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;">Edit</button>
+                <button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>
             </span>
             <span>
-                <button class="btn btn-danger" id="btn-discard-items">Discard</button>
+                <button class="btn btn-lu-red" id="btn-discard-items" style="font-size: 10pt;">Discard</button>
             </span>
         </span>
     </div>
 </div>
-
+<br />
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
     <table id="dataTable-newReq" class="table-hover" style="width:80%;">
-        <thead>
+        <thead style="font-size: 10pt;">
             <tr>
                 <th>Item Description</th>
                 <th>Unit of Measure</th>
@@ -215,7 +215,7 @@
                 </td>
             </tr>
         }
-        <tbody></tbody>
+        <tbody style="font-size: 10pt;"></tbody>
     </table>
     <hr />
 
@@ -226,7 +226,7 @@
                     <button class="btn btn-primary" id="btn-add-item">Add New Item</button>
                 </span>*@
                 <span>
-                    <button class="btn btn-info" id="btn-submit-new-req">Submit</button>
+                    <button class="btn btn-lu-blue" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
                 </span>
             </div>
         </div>
@@ -251,7 +251,7 @@
                 <br />
 
                 <div>
-                    <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
+                    <input id="btn-submit-add-item" class="btn btn-lu-green btn-block" type="submit" value="Add" />
                 </div>
             </div>
         }
@@ -260,11 +260,11 @@
     <div id="dialog-confirm-submit-new-req" class="hidden" title="Confirm Submission (New Requisition)">
         <p>Are you sure you want to submit the requisition?</p>
         <span>
-            <button class="btn btn-primary" id="btn-confirm-submit-cancel">Cancel</button>
+            <button class="btn btn-primary" id="btn-confirm-submit-cancel" style="font-size: 10pt;">Cancel</button>
         </span>
 
         <span>
-            <button class="btn btn-primary" id="btn-confirm-submit-submit">Submit</button>
+            <button class="btn btn-primary" id="btn-confirm-submit-submit" style="font-size: 10pt;">Submit</button>
         </span>
     </div>
 

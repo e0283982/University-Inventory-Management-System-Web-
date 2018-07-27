@@ -79,7 +79,7 @@
         margin-left: 10px;
     }
 
-.footer {
+/*.footer {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -87,9 +87,8 @@
     background-color: grey;
     color: white;
     text-align: center;
-}
+}*/
 
 span + span {
     margin-left: 10px;
 }
-

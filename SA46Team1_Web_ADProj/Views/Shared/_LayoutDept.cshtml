@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Dept</title>
-    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/sidebar.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/fonts/font-awesome.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/tabs.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 
     @Scripts.Render("~/bundles/modernizr")
@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link href="@Url.Content("~/Content/buttons.css")" rel="stylesheet" type="text/css" />
 
     <script>
         $(function () {
@@ -33,10 +34,13 @@
 
 </head>
 <body>
-
     <div class="sidenav" style="font-family: 'Oxygen', sans-serif;">
-        <div style="background-color: #818181;">
-            <div style="color: #2b2b2b; padding-left: 10px;">
+        <div class="pic">
+            <img src="~/Content/images/logic1.png" />
+        </div>
+
+        <div style="background-color: #1b1b1b;">
+            <div style="color: #A9A9A9; padding-left: 10px; padding-top: 50px;">
                 <h3>Logic University</h3>
             </div>
         </div>
@@ -61,38 +65,40 @@
             <div class="item3">@Html.ActionLink("Authorisation", "Authorisation", "Dept")</div>
             <div class="item4">@Html.ActionLink("Report", "RequisitionHistory", "Dept")</div>
         }
+
+        <div class="foot">
+            <h6>&nbsp;&nbsp; &copy; 2018 - SA46_ADProject </h6>
+        </div>
     </div>
 
     <div class="main">
 
-        <div class="container" style="font-family: 'Oxygen', sans-serif;">
+        <div class="container" style="font-family: 'Oxygen', sans-serif; padding-bottom: 10px;">
             <div style="float: right; padding-top:10px;">
                 <span>
-                    <a href="@Url.Action("Notifications", "Dept")" class="btn btn-warning">
-                        <i class="fas fa-bell" style="font-size:20px;"></i>
+                    <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
+                        <i class="fas fa-bell" style="font-size:28px; color:#F9BE4F;"></i>
                     </a>
                 </span>
-                    <span>
-                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-danger" })
-                    </span>
-                    </div>
-                    </div>
+                <span>
+                    @Html.ActionLink("LOGOUT", "Login", "Main", null, new { @class = "btn btn-lu-red", style = "font-size: 8pt;" })
+                </span>
+            </div>
+        </div>
 
-                    <br />
-                    <br />
-                    <hr />
+        <br />
+        <hr />
 
-                    <div class="container" style="align-content:center;">
-                    @RenderBody()
-                    </div>
-
-                    </div>
+        <div class="container" style="align-content:center;">
+            @RenderBody()
+        </div>
+    </div>
 
             @*<div class="footer">
                 <p>&copy; 2018 - SA46_ADProject</p>
             </div>*@
 
-                    <script>
+                    @*<script>
                         $(function () {
 
                             var div = $('.sidenav');
@@ -115,6 +121,6 @@
                             divItem5.animate({ right: '+=100', opacity: '1' });
 
                         });
-                    </script>
+                    </script>*@
 </body>
 </html>

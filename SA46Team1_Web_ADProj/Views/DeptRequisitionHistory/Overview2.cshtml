@@ -42,7 +42,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     select: {
                         style: 'multi'
@@ -139,7 +139,7 @@
    $('#btn-submit-discard-req-items').on('click', function () {
         //check if no items are selected
        var noSelected = table.rows('.selected').data().length;
-       
+
        if (noSelected == Object.keys(d).length) {
            $('#dialog-confirm-discard-req-item-error').dialog('open');
            return;
@@ -237,7 +237,7 @@
         var data = table.rows('.selected').data();
         var noSelected = table.rows('.selected').data().length;
         var toDeleteArray = [];
-        
+
         for (i = 0; i < noSelected; i++) {
             toDeleteArray.push(data[i].Description);
         }
@@ -258,25 +258,24 @@
         $('#dialog-confirm-discard-req-item').dialog('close');
         table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
-        
+
     });
 
 
 </script>
 
 <div>
-    <h2>Requisition Form # @Session["id"]</h2>
+    <h5>Requisition Form # @Session["id"]</h5>
 
     <span class="col-md-12">
-        <button id="btn-print-req-history" class="btn btn-info" type="submit" style="float: right">
+        <button id="btn-print-req-history" class="btn btn-lu-blue" type="submit" style="float: right">
             Print
         </button>
     </span>
 </div>
-
-
+<br />
 <table id="dataTable-pastReq-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Description</th>
             <th>Unit of Measure</th>
@@ -286,7 +285,7 @@
         </tr>
     </thead>
 
-    <tbody>
+    <tbody style="font-size: 10pt;">
         <tr>
             <th></th>
             <th></th>
@@ -318,36 +317,26 @@
         <label>Approved By</label>
         <input type="text" name="country" value=@req.ApproverName readonly />
     </div>
-
-    <div>
-        <span class="col-md-12">
-            <button id="btn-edit-req-history" class="btn btn-info" type="submit" style="float: right">
-                Edit
-            </button>
-        </span>
-
-        <span class="col-md-12">
-            <button id="btn-submit-discard-req-items" class="btn btn-info" type="submit" style="float: right">
-                Discard
-            </button>
-        </span>
-
-
-        <span class="col-md-12">
-            <button id="btn-save-req-history" class="btn btn-info" type="submit" style="float: right">
-                Save
-            </button>
-        </span>
-    </div>
-
 </div>
 
 <div class="row">
-    <span class="col-md-12">
-        <div style="float: right">@Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info" })</div>
-    </span>
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button id="btn-edit-req-history" class="btn btn-lu-green" type="submit" style="float: right">Edit</button>
+            </span>
+            <span>
+                <button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="float: right">Discard</button>
+            </span>
+            <span>
+                <button id="btn-save-req-history" class="btn btn-lu-green" type="submit" style="float: right">Save</button>
+            </span>
+            <span>
+                <div style="float: right">@Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-lu-blue" })</div>
+            </span>
+        </div>
+    </div>
 </div>
-
 
 <div id="dialog-edit-req-zero-input-alert" class="hidden" title="New Order Qty cannot be 0 (Edit Requisition)">
     <p>Requisition order qty cannot be 0.</p>

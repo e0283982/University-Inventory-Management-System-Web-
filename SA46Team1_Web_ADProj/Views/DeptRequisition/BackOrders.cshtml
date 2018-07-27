@@ -18,7 +18,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     select: {
@@ -123,12 +123,12 @@
 </script>
 
 <div>
-    <h2>Back Order</h2>
+    <h5>Back Order</h5>
 </div>
 
 
 <table id="dataTable-backOrders" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Requisition Form #</th>
@@ -137,13 +137,14 @@
             <th>Outstanding Qty</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
 
 <div class="row">
     <span class="col-md-12">
-        <button id="btn-submit-discard-backorder-items" class="btn btn-danger" type="submit" style="float: right">
+        <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;">
             Discard Selected Items
         </button>
     </span>
@@ -152,11 +153,11 @@
 <div id="dialog-confirm-discard-backorder-item" class="hidden" title="Confirm Discard Selected (BackOrder)">
     <p>Are you sure you want to cancel the selected back order?</p>
     <span>
-        <button class="btn btn-primary" id="btn-confirm-discard-no">No</button>
+        <button class="btn btn-lu-red" id="btn-confirm-discard-no" style="font-size: 10pt;">No</button>
     </span>
 
     <span>
-        <button class="btn btn-primary" id="btn-confirm-discard-yes">Yes</button>
+        <button class="btn btn-lu-green" id="btn-confirm-discard-yes" style="font-size: 10pt;">Yes</button>
     </span>
 </div>
 
