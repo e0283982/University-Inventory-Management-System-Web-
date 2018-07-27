@@ -23,10 +23,10 @@
             $("#btn-submit-discard-req-items").hide();
         }
 
-        //check: disable edit btn on intialisation IF SRH's approval status is !=pending
-        if ('@req.ApprovalStatus' != 'Pending') {
+        if ('@req.ApprovalStatus' != 'Pending'  || '@req.Status'!='Open') {
             $("#btn-edit-req-history").prop('disabled', true);
         }
+
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRequisitionHistoryDetail/' + '@Session["id"]',
             method: 'get',

@@ -40,6 +40,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string repName = e.Employees.Where(x => x.EmployeeID == repId).Select(x => x.EmployeeName).FirstOrDefault();
                 string approverName = e.Employees.Where(x => x.EmployeeID == srh.Approver).Select(x => x.EmployeeName).FirstOrDefault();
                 string approvalStatus = srh.ApprovalStatus;
+                string status = srh.Status;
                 DateTime requestDate = srh.DateRequested;
 
                 model = new ReqHistoryModel();
@@ -47,6 +48,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 model.ApproverName = approverName;
                 model.RepName = repName;
                 model.RequestDate = requestDate;
+                model.Status = status;
 
                 Session["CurrentReqHistory"] = model;
             }
