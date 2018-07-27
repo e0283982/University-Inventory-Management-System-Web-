@@ -706,6 +706,61 @@ namespace SA46Team1_Web_ADProj.Controllers
                 disbursementDetail.QuantityReceived = disbursementDetailModel.QuantityReceived;
                 disbursementDetail.QuantityAdjusted = disbursementDetailModel.QuantityAdjusted;
 
+                if(disbursementDetail.QuantityAdjusted > 0)
+                {
+
+                    //Adding new StockAdjustmentHeader            
+                    StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
+                    int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
+                    stockAdjustmentHeader.RequestId = "SA-" + stockAdjustmentHeaderCount;
+
+                    //DateTime
+                    DateTime localDate = DateTime.Now;
+                    stockAdjustmentHeader.DateRequested = localDate;
+                    stockAdjustmentHeader.Requestor = disbursementDetailModel.RequestorId;
+                    stockAdjustmentHeader.TransactionType = "Stock Adjustment";
+                    m.StockAdjustmentHeaders.Add(stockAdjustmentHeader);
+
+                    //Adding new StockAdjustmentDetails
+                    StockAdjustmentDetail stockAdjustmentDetail = new StockAdjustmentDetail();
+                    stockAdjustmentDetail.RequestId = stockAdjustmentHeader.RequestId;
+
+                    stockAdjustmentDetail.ItemCode = itemCode;
+                    stockAdjustmentDetail.ItemQuantity = disbursementDetail.QuantityAdjusted;
+
+                    float itemUnitCost = m.Items.Where(x => x.ItemCode == stockAdjustmentDetail.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                    stockAdjustmentDetail.Amount = itemUnitCost * stockAdjustmentDetail.ItemQuantity;
+                    stockAdjustmentDetail.Remarks = "Damaged";
+                    stockAdjustmentDetail.Status = "Pending";
+                    m.StockAdjustmentDetails.Add(stockAdjustmentDetail);
+
+                    //Create 2 Item Transactions to plus and minus
+                    //to add back damaged items that are not taken by the employee
+                    DateTime localDate1 = DateTime.Now;
+                    ItemTransaction itemTransaction1 = new ItemTransaction();
+                    itemTransaction1.TransDateTime = localDate1;
+                    itemTransaction1.DocumentRefNo = disbursementHeader.Id;
+                    itemTransaction1.ItemCode = disbursementDetail.ItemCode;
+                    itemTransaction1.TransactionType = "Disbursement Adjustment";
+                    itemTransaction1.Quantity = disbursementDetail.QuantityAdjusted;
+                    itemTransaction1.UnitCost = itemUnitCost;
+                    itemTransaction1.Amount = itemTransaction1.Quantity * itemTransaction1.UnitCost;
+                    m.ItemTransactions.Add(itemTransaction1);
+
+                    //To create stock adjustment
+                    DateTime localDate2 = DateTime.Now;
+                    ItemTransaction itemTransaction2 = new ItemTransaction();
+                    itemTransaction2.TransDateTime = localDate2;
+                    itemTransaction2.DocumentRefNo = stockAdjustmentHeader.RequestId;
+                    itemTransaction2.ItemCode = stockAdjustmentDetail.ItemCode;
+                    itemTransaction2.TransactionType = "Stock Adjustment";
+                    itemTransaction2.Quantity = stockAdjustmentDetail.ItemQuantity;
+                    itemTransaction2.UnitCost = itemUnitCost;
+                    itemTransaction2.Amount = itemTransaction2.Quantity * itemTransaction2.UnitCost;
+                    m.ItemTransactions.Add(itemTransaction2);
+
+                }
+
                 m.SaveChanges();            
 
             }
