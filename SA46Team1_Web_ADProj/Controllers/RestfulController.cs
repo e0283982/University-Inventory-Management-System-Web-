@@ -686,7 +686,41 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        
+        [System.Web.Mvc.HttpPost]
+        [System.Web.Mvc.Route("UpdateDisbursement")]
+        public void UpdateDisbursement(DisbursementDetailModel disbursementDetailModel)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                //Update Disbursement Header to completed
+                DisbursementHeader disbursementHeader = m.DisbursementHeaders.Where(x => x.Id == disbursementDetailModel.DisbursementId).FirstOrDefault();
+                disbursementHeader.Status = "Completed";
+
+                //Update Disbursement Detail               
+                Item item = m.Items.Where(x => x.Description == disbursementDetailModel.ItemDescription).FirstOrDefault();
+                string itemCode = item.ItemCode;
+
+                DisbursementDetail disbursementDetail = m.DisbursementDetails.Where(x => x.Id == disbursementDetailModel.DisbursementId && x.ItemCode == itemCode).FirstOrDefault();
+                disbursementDetail.QuantityReceived = disbursementDetailModel.QuantityReceived;
+                disbursementDetail.QuantityAdjusted = disbursementDetailModel.QuantityAdjusted;
+
+                m.SaveChanges();            
+
+            }
+
+
+
+
+
+
+        }
+
+
+
+
+
 
 
 

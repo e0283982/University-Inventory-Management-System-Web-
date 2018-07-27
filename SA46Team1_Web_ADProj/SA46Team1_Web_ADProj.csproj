@@ -315,6 +315,7 @@
     <Compile Include="Models\DisbursementDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DisbursementDetailModel.cs" />
     <Compile Include="Models\DisbursementHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
