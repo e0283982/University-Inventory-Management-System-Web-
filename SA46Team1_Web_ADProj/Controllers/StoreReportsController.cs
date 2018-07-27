@@ -10,7 +10,6 @@ using System.IO;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
-
     [RoutePrefix("Store/StoreReports")]
     public class StoreReportsController : Controller
     {
