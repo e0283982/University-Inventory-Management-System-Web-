@@ -16,7 +16,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'Description' },
@@ -52,10 +52,17 @@
    
 </table>
 
-<div id="details-back-btn">
+<hr />
 
-    @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
-    {
-        <input class="btn btn-info" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
+                {
+                    <input class="btn btn-info" type="submit" value="Back" />
+                }
+            </span>
+        </div>
+    </div>
 </div>

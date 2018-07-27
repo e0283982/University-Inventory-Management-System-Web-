@@ -7,56 +7,70 @@
 }
 <div>
     <h2>Department Usage Cost Report</h2>
-
-    <h4>
-        @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-info" })
-    </h4>
 </div>
 
-
-<div>
-    <label>Department: </label>
-    @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <label>Department: </label>
+            @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
+        </div>
+        <div>
+            <label>Category: </label>
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <span>
+                    <label>Year</label>
+                </span>
+                <span>
+                    <form action="/Store/Home">
+                        <select name="year" multiple>
+                            <option value="year2017">2017</option>
+                            <option value="year2018">2018</option>
+                        </select>
+                </span>              
+            </div>
+            <div class="col-md-2">
+                <span>
+                    <label>Month(s)</label>
+                </span>
+                <span>
+                    <form action="/Store/Home">
+                        <select name="months" multiple>
+                            <option value="jan">Jan</option>
+                            <option value="feb">Feb</option>
+                            <option value="mar">Mar</option>
+                            <option value="apr">Aor</option>
+                            <option value="may">May</option>
+                            <option value="jun">Jun</option>
+                            <option value="jul">Jul</option>
+                            <option value="aug">Aug</option>
+                            <option value="sep">Sep</option>
+                            <option value="oct">Oct</option>
+                            <option value="nov">Nov</option>
+                            <option value="dec">Dec</option>
+                        </select>
+                </span>               
+            </div>
+        </div>      
+        <div>
+            <span>
+                <input class="btn btn-info" type="submit">
+            </span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div style="float: right; padding-top: 205px;">
+            <span>
+                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-info" })
+            </span>
+        </div>
+    </div>
 </div>
 
-<div>
-    <label>Category: </label>
-    @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
-</div>
-<div>
-    <p>Year</p>
-    <form action="/Store/Home">
-        <select name="year" multiple>
-            <option value="year2017">2017</option>
-            <option value="year2018">2018</option>           
-        </select>
-        <p></p>
-        <p></p>
-        <p>Month(s)</p>
-        <form action="/Store/Home">
-            <select name="months" multiple>
-                <option value="jan">Jan</option>
-                <option value="feb">Feb</option>
-                <option value="mar">Mar</option>
-                <option value="apr">Aor</option>
-                <option value="may">May</option>
-                <option value="jun">Jun</option>
-                <option value="jul">Jul</option>
-                <option value="aug">Aug</option>
-                <option value="sep">Sep</option>
-                <option value="oct">Oct</option>
-                <option value="nov">Nov</option>
-                <option value="dec">Dec</option>
-            </select>
-            <p></p>
-            <p></p>
-            <p>
-                <input class="btn-blue" type="submit">
-            </p>
-        </form>
-</div>
-
-
+<hr />
 
 <table id="dataTable-deptUsage" class="table">
     <thead>

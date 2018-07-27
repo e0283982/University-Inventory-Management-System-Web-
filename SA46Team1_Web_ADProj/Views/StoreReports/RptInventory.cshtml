@@ -7,30 +7,35 @@
 }
 <div>
     <h2>Inventory Valuation Report</h2>
-
-    <h4>
-        @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-info" })
-    </h4>
 </div>
 
-<div>
-    <label>Item Description: </label>
-    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <label>Item Description: </label>
+            @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+        </div>
+
+        <div>
+            <label>Category: </label>
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+        </div>
+        <div>
+            <div>
+                <input class="btn btn-info" type="submit">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div style="float: right; padding-top: 62px;">
+            <span>
+                @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-info" })
+            </span>
+        </div>
+    </div>
 </div>
 
-<div>
-    <label>Category: </label>
-    @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
-</div>
-<p></p>
-<p></p>
-
-<div>
-    <p>
-        <input class="btn-blue" type="submit">
-    </p>
-
-</div>
+<hr />
 
 <table id="dataTable-storeInventoryVal" class="table">
     <thead>

@@ -24,8 +24,6 @@ namespace SA46Team1_Web_ADProj.Models
         public Nullable<float> Total { get; set; }
         public System.DateTime Date { get; set; }
         public string EmployeeName { get; set; }
-        public string Supplier1 { get; set; }
-        public string Supplier2 { get; set; }
-        public string Supplier3 { get; set; }
+        public System.DateTime ReceivedDate { get; set; }
     }
 }

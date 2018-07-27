@@ -18,6 +18,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             return View();
         }
+
         [Authorize(Roles = "Store Clerk, Store Manager")]
         [Route("Reorder")]
         public ActionResult Reorder()
@@ -30,6 +31,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             return View();
         }
+
+        [Authorize(Roles = "Store Clerk, Store Manager")]
         [HttpPost]
         public ActionResult AddToPO(string[] arr1, string[] arrSupplier)
         {
@@ -155,6 +158,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["StockAdjPage"] = "2";            
             return RedirectToAction("Inventory", "Store");
         }
+
         [Authorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
@@ -214,13 +218,14 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-        [Authorize(Roles = "Store Clerk")]
+        [Authorize(Roles = "Store Manager")]
         [Route("StockTake")]
         public ActionResult StockTake()
         {
             return View();
         }
 
+        [Authorize(Roles = "Store Manager")]
         [HttpPost]
         public ActionResult StockTakeUpdate(StockTakeList[] arr, string[] arr1)
         {

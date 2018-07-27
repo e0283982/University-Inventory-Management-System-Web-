@@ -550,9 +550,7 @@ warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary 
             <PropertyRef Name="UnitCost" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="EmployeeName" />
-            <PropertyRef Name="Supplier1" />
-            <PropertyRef Name="Supplier2" />
-            <PropertyRef Name="Supplier3" />
+            <PropertyRef Name="ReceivedDate" />
           </Key>
           <Property Name="PONumber" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
@@ -564,9 +562,7 @@ warning 6002: The table/view 'SSISdb.dbo.POFullDetails' does not have a primary 
           <Property Name="Total" Type="real" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Supplier1" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="Supplier2" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="Supplier3" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ReceivedDate" Type="date" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.POList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1497,9 +1493,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [POFullDetails].[Total] AS [Total], 
     [POFullDetails].[Date] AS [Date], 
     [POFullDetails].[EmployeeName] AS [EmployeeName], 
-    [POFullDetails].[Supplier1] AS [Supplier1], 
-    [POFullDetails].[Supplier2] AS [Supplier2], 
-    [POFullDetails].[Supplier3] AS [Supplier3]
+    [POFullDetails].[ReceivedDate] AS [ReceivedDate]
     FROM [dbo].[POFullDetails] AS [POFullDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="POList" EntityType="Self.POList" store:Type="Views" store:Schema="dbo">
@@ -2432,9 +2426,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <PropertyRef Name="UnitCost" />
             <PropertyRef Name="Date" />
             <PropertyRef Name="EmployeeName" />
-            <PropertyRef Name="Supplier1" />
-            <PropertyRef Name="Supplier2" />
-            <PropertyRef Name="Supplier3" />
+            <PropertyRef Name="ReceivedDate" />
           </Key>
           <Property Name="PONumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2446,9 +2438,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="Total" Type="Single" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Supplier1" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Supplier2" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Supplier3" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReceivedDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="POList">
           <Key>
@@ -3917,9 +3907,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="Supplier1" ColumnName="Supplier1" />
-                <ScalarProperty Name="Supplier2" ColumnName="Supplier2" />
-                <ScalarProperty Name="Supplier3" ColumnName="Supplier3" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

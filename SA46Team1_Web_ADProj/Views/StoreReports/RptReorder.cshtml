@@ -7,30 +7,35 @@
 }
 <div>
     <h2>Reorder Report</h2>
-
-    <h4>
-        @Html.ActionLink("Export to PDF", "ExportRptReorder", "StoreReports", null, new { @class = "btn btn-info" })
-    </h4>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <label>Item Description: </label>
+            @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+        </div>
 
-<div>
-    <label>Item Description: </label>
-    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+        <div>
+            <label>Category: </label>
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+        </div>
+        <div>
+            <span>
+                <input class="btn btn-info" type="submit">
+            </span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div style="float: right; padding-top: 62px;">
+            <span>
+                @Html.ActionLink("Export to PDF", "ExportRptReorder", "StoreReports", null, new { @class = "btn btn-info" })
+            </span>
+        </div>      
+    </div>
 </div>
 
-<div>
-    <label>Category: </label>
-    @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
-</div>
-<p></p>
-<p></p>
-<div>
-    <p>
-        <input class="btn-blue" type="submit">
-    </p>
-    </form>
-</div>
+<hr />     
 
 <table id="dataTable-storeReorder" class="table">
     <thead>
@@ -51,7 +56,6 @@
 
 <script>
     $(document).ready(function () {
-
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRptReorder',
             method: 'get',
@@ -78,7 +82,5 @@
                 });
             }
         });
-
-
     });
 </script>
