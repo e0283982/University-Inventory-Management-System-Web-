@@ -16,7 +16,8 @@
                         paging: true,
                         sort: true,
                         searching: true,
-                        scrollY: 200,
+                        "iDisplayLength": 5,
+                        //scrollY: 200,
                         data: data,
                         columns: [
                             { 'data': 'ItemCode' },
@@ -42,10 +43,10 @@
         });
     </script>
     <div>
-        <h2>Inventory - Overview</h2>
+        <h5>Inventory - Overview</h5>
     </div>
     <table id="dataTable-storeInventory" class="display" style="width:80%">
-        <thead>
+        <thead style="font-size: 10pt;">
             <tr>
                 <th>#</th>
                 <th>Item</th>
@@ -56,6 +57,7 @@
                 <th>Unit of Measure</th>
             </tr>
         </thead>
+        <tbody style="font-size: 10pt;"></tbody>
     </table>
 }
 
@@ -66,7 +68,8 @@
         // Load Datatable
         $(document).ready(function () {
             table = $('#dataTable-storeManagerInventoryReorder').DataTable({
-                scrollY: '30vh',
+                //scrollY: '30vh',
+                "iDisplayLength": 5,
                 scrollCollapse: true,
                 paging: true,
                 "columnDefs": [{
@@ -90,11 +93,11 @@
     </script>
 
     <div>
-        <h2>Inventory - Reorder</h2>
+        <h5>Inventory - Reorder</h5>
     </div>
 
     <table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
-        <thead>
+        <thead style="font-size: 10pt;">
             <tr>
                 <th>Item Description</th>
                 <th>Reorder Qty</th>
@@ -103,6 +106,7 @@
                 <th>Include In PO</th>
             </tr>
         </thead>
+        <tbody style="font-size: 10pt;"></tbody>
     </table>
 
     <hr />
@@ -111,7 +115,7 @@
         <div class="col-md-12">
             <div style="float: right">
                 <span>
-                    <button class="btn btn-info" id="btn-create-POs">Create Purchase Order</button>
+                    <button class="btn btn-lu-blue" id="btn-create-POs" style="font-size: 10pt;">Create Purchase Order</button>
                 </span>
             </div>
         </div>
@@ -127,7 +131,7 @@
 @helper AddDeptNewItemButton()
 {
     <div>
-        <button class="btn-blue" id="btn-print-displaySNewItem">Add New Item</button>
+        <button class="btn btn-lu-blue" id="btn-print-displaySNewItem">Add New Item</button>
         <div id="dialog-print-displaySNewItem" class="hidden" title="Add New Item">
             <table id="dataTable-addSNewItem" class="display" style="width:80%;">
                 <thead>
@@ -167,7 +171,8 @@
                         paging: false,
                         sort: true,
                         searching: true,
-                        scrollY: 200,
+                        "iDisplayLength": 5,
+                        //scrollY: 200,
                         data: data,
                         columns: [
                             { 'data': 'ItemCode' },
@@ -194,16 +199,17 @@
 @helper AddStoreNewItemButton()
 {
     <div>
-        <button class="btn-blue" id="btn-print-displaySNewItem">Add New Item</button>
+        <button class="btn btn-lu-blue" id="btn-print-displaySNewItem">Add New Item</button>
         <div id="dialog-print-displaySNewItem" class="hidden" title="Add New Item">
             <table id="dataTable-addSNewItem" class="display" style="width:80%;">
-                <thead>
+                <thead style="font-size: 10pt;">
                     <tr>
                         <th>Item Code</th>
                         <th>Item</th>
                         <th>Unit of Measurement</th>
                     </tr>
                 </thead>
+                <tbody style="font-size: 10pt;"></tbody>
             </table>
         </div>
     </div>
@@ -233,7 +239,8 @@
                         paging: false,
                         sort: true,
                         searching: true,
-                        scrollY: 200,
+                        "iDisplayLength": 5,
+                        //scrollY: 200,
                         data: data,
                         columns: [
                             { 'data': 'ItemCode' },
@@ -264,10 +271,10 @@
 @helper POAddNewItemBtn()
 {
     <div>
-        <button class="btn-blue" id="btn-print-displaySNewItem">Add New Item</button>
+        <button class="btn btn-lu-blue" id="btn-print-displaySNewItem">Add New Item</button>
         <div id="dialog-print-displaySNewItem" class="hidden" title="Add New Item">
             <table id="dataTable-addSNewItem" class="display" style="width:80%;">
-                <thead>
+                <thead style="font-size: 10pt;">
                     <tr>
                         <th>Item Code</th>
                         <th>Item Description</th>
@@ -276,6 +283,7 @@
                         <th>Supplier</th>
                     </tr>
                 </thead>
+                <tbody style="font-size: 10pt;"></tbody>
             </table>
         </div>
     </div>
@@ -305,7 +313,8 @@
                         paging: false,
                         sort: true,
                         searching: true,
-                        scrollY: 200,
+                        "iDisplayLength": 5,
+                        //scrollY: 200,
                         data: data,
                         columns: [
                             { 'data': 'ItemCode' },

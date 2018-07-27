@@ -19,8 +19,9 @@
             table = $('#dataTable-store-suppliers-details').DataTable({
                 paging: true,
                 sort: true,
-                searching: true,
-                scrollY: 200,
+                searching: false,
+                //scrollY: 200,
+                scrollX: 1000,
                 data: data,
                 columns: [
                     { 'data': 'SupplierCode' },
@@ -140,31 +141,32 @@
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </tbody>
 </table>
 
-<button class="btn-blue">@Html.ActionLink("View Price List", "Home", "Store")</button>
-<button id="btn-edit-supplier" class="btn-blue">Edit</button>
+<hr />
 
-<div id="details-back-btn">
-
-    @using (Html.BeginForm("BackToSuppliersMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-10">
+        <div style="float: right">
+            <span>
+                <button class="btn btn-info">@Html.ActionLink("View Price List", "Home", "Store")</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            @using (Html.BeginForm("BackToSuppliersMaintenanceList", "StoreMaintenance", FormMethod.Post))
+            {
+                <input class="btn btn-danger" type="submit" value="Back" />
+            }
+        </span>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button id="btn-edit-supplier" class="btn btn-info">Edit</button>
+        </span>
+    </div>
 </div>
-
 
 <div id="dialog-submit-edit-supplier" class="hidden" title="Edit Supplier Successful (Maintenance)">
     <p>Supplier has been successfully edited.</p>

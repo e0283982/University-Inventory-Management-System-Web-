@@ -21,7 +21,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'RequestId' },
@@ -38,7 +38,7 @@
                     columnDefs: [{
                         targets: [-1], render: function (data, type, row) {
                             switch (data) {
-                                case 'Pending': return '<button type ="submit" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
+                                case 'Pending': return '<button type ="submit" class="btn btn-info" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-danger" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
                                 case 'Approved': return 'Approved'; break;
                                 default: return 'Rejected';
                             }

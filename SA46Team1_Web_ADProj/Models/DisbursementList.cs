@@ -17,6 +17,7 @@ namespace SA46Team1_Web_ADProj.Models
         public string Id { get; set; }
         public System.DateTime Date { get; set; }
         public string DepartmentName { get; set; }
+        public string RepresentativeName { get; set; }
         public string Status { get; set; }
         public string CollectionPointDescription { get; set; }
     }

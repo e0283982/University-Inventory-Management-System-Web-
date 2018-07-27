@@ -1,35 +1,43 @@
 /* The sidebar menu */
 .sidenav {
-   height: 100%; /* Full-height: remove this if you want "auto" height */
-   width: 160px; /* Set the width of the sidebar */
-   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-   z-index: 1; /* Stay on top */
-   top: 0; /* Stay at the top */
-   left: 0;
-   background-color: #2b2b2b; /*not black*/
-   overflow-x: hidden; /* Disable horizontal scroll */
-   padding-top: 20px;
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 220px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #A9A9A9; /*not black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    /*padding-top: 10px;*/
+    box-shadow: 20px;
 }
 
 /* The navigation menu links */
 .sidenav a {
    padding: 6px 8px 6px 16px;
    text-decoration: none;
-   font-size: 20px;
-   color: #f2f2f2;
+   font-family: 'Oxygen', sans-serif;
+   font-size: 16px;
+   color: #2b2b2b;
    display: block;
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-   color: #818181;
-    background-color:azure;
+   color: #A9A9A9;
+   background-color: #F9BE4F;
+   
+}
+
+.sidenav .active {
+    color: #F9BE4F;
 }
 
 /* Style page content */
 .main {
-   margin-left: 160px; /* Same as the width of the sidebar */
+   margin-left: 220px; /* Same as the width of the sidebar */
    padding: 0px 10px;
+   background-color: #f4f4f4;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
@@ -38,11 +46,36 @@
    .sidenav a {font-size: 18px;}
 }
 
+.sidenav .pic {
+    position: fixed;
+    top: 0;
+}
+
+.sidenav .foot {
+    position: fixed;
+    bottom: 0;
+    color: aliceblue;
+}
+
+a.icon-block {
+    display: inline-block;
+    vertical-align: top;
+    width: 2em;
+    text-align: center;
+}
+
+    a.icon-block i,
+    a.icon-block span {
+        display:block;
+        /*width:100%;
+        clear:both;*/
+    }
+
 span + span {
     margin-left: 10px;
 }
 
-.item1{
+/*.item1{
     position: relative;
     opacity: 0;
 }
@@ -69,5 +102,5 @@ span + span {
 .item7 {
     position: relative;
     opacity: 0;
-}
+}*/
 

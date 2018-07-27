@@ -20,7 +20,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
@@ -61,7 +61,7 @@
                 });
             }
         });
-        
+
         $(function () {
             $("#dialog-show-employee-auth").dialog({
                 autoOpen: false,
@@ -71,10 +71,19 @@
         });
 
 
-        $(function () {
-            $("#datepicker-assign-role-start").datepicker({ dateFormat: 'dd-mm-yy' }).datepicker("setDate", new Date());
-            $("#datepicker-assign-role-end").datepicker({ dateFormat: 'dd-mm-yy' }).datepicker("setDate", new Date());
-        });
+        $("#datepicker-assign-role-start").datepicker({
+            dateFormat: 'dd-mm-yy',
+            minDate: new Date(),
+            onSelect: function (dateText, inst) {
+                $("#datepicker-assign-role-end").datepicker("option", "minDate", $("#datepicker-assign-role-start").datepicker("getDate"));
+            }
+        }).datepicker("setDate", new Date());
+
+        $("#datepicker-assign-role-end").datepicker({
+            dateFormat: 'dd-mm-yy',
+            minDate: new Date()
+        }).datepicker("setDate", new Date());
+        
 
         $(function () {
             $("#dialog-saved-employee-auth-edit").dialog({
@@ -83,6 +92,7 @@
                 maxWidth: "40%"
             });
         });
+        
 
         $("#form-submit-new-auth").submit(function () {
             $('#dialog-show-employee-auth').dialog('close');
@@ -97,12 +107,24 @@
         return false;
     }
 
+    function RoleChange(val) {
+        if (val == "Approver") {
+            $('#lbl-period').show();
+            $('#datepicker-assign-role-start').show();
+            $('#datepicker-assign-role-end').show();
+        } else {
+            $('#lbl-period').hide();
+            $('#datepicker-assign-role-start').hide();
+            $('#datepicker-assign-role-end').hide();
+        }
+    }
+
 </script>
 
-<h2>Role Delegation</h2>
+<h5>Role Delegation</h5>
 
 <table id="dataTable-roles-delegation" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Employee Id</th>
             <th>Employee Name</th>
@@ -112,12 +134,12 @@
             <th>Assign</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <div id="dialog-saved-employee-auth-edit" class="hidden" title="Changes saved">
     <p>Changes to employee's role delegation have been saved.</p>
 </div>
-
 
 <div id="dialog-show-employee-auth" class="hidden" title="Update Employee Role">
     @using (Html.BeginForm("SubmitNewDelegation", "DeptAuthorisation", FormMethod.Post, new { id = "form-submit-new-auth" }))
@@ -125,20 +147,21 @@
         <div>
             <div>
                 <label>Employee Name: </label>
-                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName" , @id = "assign-emp-role-name" }, })
+                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName", @id = "assign-emp-role-name" }, })
             </div>
+            <br />
             <div>
                 <label>Role: </label>
-                @Html.DropDownList("SelectNewEmpRole", ViewBag.RolesList as SelectList)
+                @Html.DropDownList("SelectNewEmpRole", ViewBag.RolesList as SelectList, new { @onchange = "RoleChange(this.value)" })
             </div>
 
             <div>
-                <label>Period: </label>
+                <label id="lbl-period" class="hidden">Period: </label>
                 @Html.EditorFor(tuple => tuple.Item1.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "FromDate", @id = "datepicker-assign-role-start" }, })
                 @Html.EditorFor(tuple => tuple.Item1.ToDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "ToDate", @id = "datepicker-assign-role-end" }, })
             </div>
-
-            <input id="btn-submit-emp-role-changes" class="btn-blue" type="submit" value="Save" />
+            <hr />
+            <input id="btn-submit-emp-role-changes" class="btn btn-lu-green btn-block" type="submit" value="Save" />
 
         </div>
     }

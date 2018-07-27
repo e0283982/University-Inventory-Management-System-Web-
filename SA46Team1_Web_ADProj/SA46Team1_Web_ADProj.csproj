@@ -64,15 +64,15 @@
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Owin.Cors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Cors.4.0.0\lib\net451\Microsoft.Owin.Cors.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.HttpListener, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.2.0.2\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.0\lib\net451\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
@@ -92,6 +92,9 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Quartz, Version=3.0.6.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.0.6\lib\net452\Quartz.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -99,13 +102,11 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -232,7 +233,6 @@
     <Compile Include="DAL\BinRepositoryImpl.cs" />
     <Compile Include="DAL\CategoryRepositoryImpl.cs" />
     <Compile Include="DAL\CollectionPointRepositoryImpl.cs" />
-    <Compile Include="DAL\CollectionPointTranRepositoryImpl.cs" />
     <Compile Include="DAL\DepartmentDetailsRepositoryImpl.cs" />
     <Compile Include="DAL\DepartmentRepositoryImpl.cs" />
     <Compile Include="DAL\DisbursementDetailsRepositoryImpl.cs" />
@@ -241,7 +241,6 @@
     <Compile Include="DAL\IBinRepository.cs" />
     <Compile Include="DAL\ICategoryRepository.cs" />
     <Compile Include="DAL\ICollectionPointRepository.cs" />
-    <Compile Include="DAL\ICollectionPointTransRepository.cs" />
     <Compile Include="DAL\IDepartmentDetailsRepository.cs" />
     <Compile Include="DAL\IDepartmentRepository.cs" />
     <Compile Include="DAL\IDisbursementDetailsRepository.cs" />
@@ -308,9 +307,6 @@
     <Compile Include="Models\CollectionPoint.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CollectionPointTran.cs">
-      <DependentUpon>ModelDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Department.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -335,9 +331,6 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmployeeDelegationModel.cs" />
-    <Compile Include="Models\ErrorViewModel.cs" />
-    <Compile Include="Models\BackOrderModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -401,8 +394,7 @@
     <Compile Include="Models\ReorderReport.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RequisitionDetModel.cs" />
-    <Compile Include="Models\DeptFullDetailsModel.cs" />
+    <Compile Include="Models\ReqHistoryModel.cs" />
     <Compile Include="Models\RequisitionHistory.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -415,10 +407,16 @@
     <Compile Include="Models\RequisitionListDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RequisitionModel.cs" />
     <Compile Include="Models\Role.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StaffReqModel.cs" />
+    <Compile Include="Models\EmployeeDelegationModel.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\BackOrderModel.cs" />
+    <Compile Include="Models\RequisitionDetModel.cs" />
+    <Compile Include="Models\DeptFullDetailsModel.cs" />
+    <Compile Include="Models\DeptCollectionItemModel.cs" />
     <Compile Include="Models\StaffRequisitionDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -440,6 +438,8 @@
     <Compile Include="Models\StockAdjustmentHeader.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockAdjustmentModel.cs" />
+    <Compile Include="Models\RequisitionModel.cs" />
     <Compile Include="Models\StockAdjustmentOverview.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -588,8 +588,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\buttons.css" />
     <Content Include="Content\common.css" />
     <Content Include="Content\images\campaign.jpg" />
+    <Content Include="Content\images\logic1.png" />
     <Content Include="Content\Login-Form-Clean.css" />
     <Content Include="Content\sidebar.css" />
     <Content Include="Content\site.css" />
@@ -741,9 +743,6 @@
     <Content Include="Views\DeptNotifications\UnreadMsgs.cshtml" />
     <Content Include="Views\DeptCollectionPoint\DefaultCollectionPoint.cshtml" />
     <None Include="Views\DeptNotifications\AllMsgs.cshtml" />
-    <Content Include="Views\StoreReports\RptInventory.cshtml" />
-    <Content Include="Views\StoreReports\RptReorder.cshtml" />
-    <Content Include="Views\StoreReports\RptDepartmentUsage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -760,9 +759,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Reports\Frm_PurchaseOrder.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Frm_PurchaseOrder.cs</LastGenOutput>
@@ -794,7 +790,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49921</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

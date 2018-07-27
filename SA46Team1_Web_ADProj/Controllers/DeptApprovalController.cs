@@ -65,6 +65,14 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
+
+                if (srh.NotificationStatus == "Unread")
+                {
+                    int noUnreadRequests = (int)Session["NoUnreadRequests"];
+                    noUnreadRequests--;
+                    Session["NoUnreadRequests"] = noUnreadRequests;
+                }
+
             }
             return RedirectToAction("Approval", "Dept");
         }
@@ -84,6 +92,14 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
+
+                if (srh.NotificationStatus == "Unread")
+                {
+                    int noUnreadRequests = (int)Session["NoUnreadRequests"];
+                    noUnreadRequests--;
+                    Session["NoUnreadRequests"] = noUnreadRequests;
+                }
+
             }
             return RedirectToAction("Approval", "Dept");
         }

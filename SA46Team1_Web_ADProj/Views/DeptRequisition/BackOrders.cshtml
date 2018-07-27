@@ -18,13 +18,19 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     responsive: true,
-                    select: {
-                        style: 'multi'
-                    },
+                    //select: {
+                    //    style: 'multi'
+                    //},
                     columns: [
+                        {   'data': null,
+                            'render': function (data, type, row) {
+                                return '<input class="select-checkbox-discard" type="checkbox" name="check-discard" value="check-checkbox-discard" />';
+                            }
+
+                        },
                         { 'data': 'ItemCode' },
                         { 'data': 'ReqId' },
                         { 'data': 'ItemDesc' },
@@ -33,16 +39,16 @@
                     ],
                     columnDefs: [
                         {
-                            "targets": [0],
+                            "targets": [1],
                             "visible": false,
                             "searchable": false
                         }
                     ],
-                    drawCallback: function (settings) {
-                        $('#dataTable-backOrders tbody').on('click', 'tr', function () {
-                            $(this).toggleClass('selected');
-                        });
-                    }
+                    //drawCallback: function (settings) {
+                    //    $('#dataTable-backOrders tbody').on('click', 'tr', function () {
+                    //        $(this).toggleClass('selected');
+                    //    });
+                    //}
 
                 });
             }
@@ -75,11 +81,20 @@
     });
 
     $('#btn-submit-discard-backorder-items').on('click', function () {
+        var arr1 = []
+        for (var i = 0; i < table.rows().data().length; i++) {
+            var rowChecked =
+                table.cell(i, 0).nodes().to$().find('input').prop('checked');
+            if (rowChecked == true) {
+                arr1.push(rowChecked);
+            }
+        }
 
+        alert(arr1.length);
         //check if no items are selected
-        var noSelected = table.rows('.selected').data().length;
-        if (noSelected == 0) {
+        if (arr1.length == 0) {
             $("#dialog-discard-backorder-no-item-selected").dialog('open');
+            return;
         } else {
             $('#dialog-confirm-discard-backorder-item').dialog('open');
         }
@@ -91,31 +106,60 @@
 
     $('#btn-confirm-discard-yes').click(function () {
 
-        var data = table.rows('.selected').data();
-        var noSelected = table.rows('.selected').data().length;
-        var toDeleteArray = [];
-        var toDeleteArray2 = [];
+        //var data = table.rows('.selected').data();
+        //var noSelected = table.rows('.selected').data().length;
+        //var toDeleteArray = [];
+        //var toDeleteArray2 = [];
 
-        for (i = 0; i < noSelected; i++) {
-            toDeleteArray.push(data[i].ItemCode);
-            toDeleteArray2.push(data[i].ReqId);
-        }
+        //for (i = 0; i < noSelected; i++) {
+        //    toDeleteArray.push(data[i].ItemCode);
+        //    toDeleteArray2.push(data[i].ReqId);
+        //}
         
-        table.row('.selected').remove().draw(false);
+        //table.row('.selected').remove().draw(false);
+
+        //$.ajax({
+        //    url: '/DeptRequisition/DiscardSelBackorders',
+        //    data:
+        //        JSON.stringify({
+        //            deleteItemCodes: toDeleteArray, deleteReqId: toDeleteArray2
+        //        }),
+        //    dataType: "json",
+        //    contentType: 'application/json; charset=utf-8',
+        //    type: 'POST',
+        //});
+
+        var dataToSend = "";
+        var arr = [];
+        var arr1 = [];
+
+        for (var i = 0; i < table.rows().data().length; i++) {
+            dataToSend = table.rows(i).data();
+
+            var rowChecked =
+                table.cell(i, 0).nodes().to$().find('input').prop('checked');
+            if (rowChecked == true) {
+                arr.push(dataToSend[0].ItemCode);
+                arr1.push(dataToSend[0].ReqId);
+            }          
+
+        }
 
         $.ajax({
             url: '/DeptRequisition/DiscardSelBackorders',
-            data:
-                JSON.stringify({
-                    deleteItemCodes: toDeleteArray, deleteReqId: toDeleteArray2
-                }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ itemCodes: arr, formIds: arr1 }),
+            success: function () {
+
+                alert('success');
+            }
         });
 
         $('#dialog-confirm-discard-backorder-item').dialog('close');
-         table.draw(false);
+        //table.draw(false);
+        window.location.href = '@Url.Action("Requisition", "Dept")';
         $('#dialog-discard-backorder-item-submitted').dialog('open');
         
     });
@@ -123,13 +167,14 @@
 </script>
 
 <div>
-    <h2>Back Order</h2>
+    <h5>Back Order</h5>
 </div>
 
 
 <table id="dataTable-backOrders" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
+            <th><input class="select-checkbox-discard" type="checkbox" name="check-discard" value="check-checkbox-discard" /></th>
             <th>Item Code</th>
             <th>Requisition Form #</th>
             <th>Item Description</th>
@@ -137,13 +182,14 @@
             <th>Outstanding Qty</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
 
 <div class="row">
     <span class="col-md-12">
-        <button id="btn-submit-discard-backorder-items" class="btn btn-danger" type="submit" style="float: right">
+        <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;">
             Discard Selected Items
         </button>
     </span>
@@ -152,11 +198,11 @@
 <div id="dialog-confirm-discard-backorder-item" class="hidden" title="Confirm Discard Selected (BackOrder)">
     <p>Are you sure you want to cancel the selected back order?</p>
     <span>
-        <button class="btn btn-primary" id="btn-confirm-discard-no">No</button>
+        <button class="btn btn-lu-red" id="btn-confirm-discard-no" style="font-size: 10pt;">No</button>
     </span>
 
     <span>
-        <button class="btn btn-primary" id="btn-confirm-discard-yes">Yes</button>
+        <button class="btn btn-lu-green" id="btn-confirm-discard-yes" style="font-size: 10pt;">Yes</button>
     </span>
 </div>
 

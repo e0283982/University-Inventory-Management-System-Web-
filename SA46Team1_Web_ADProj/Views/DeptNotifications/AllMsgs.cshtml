@@ -9,7 +9,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetAllPendingApprovals',
+            url: 'http://localhost:49921/api/Restful/GetAllPendingApprovals/'+ '@Session["DepartmentCode"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -17,11 +17,20 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
-                        { 'data': 'DateReq' },
+                        {
+                            'data': 'DateReq',
+                            'render': function (jsonDate) {
+
+                                var date = new Date(jsonDate.substr(0));
+                                var month = date.getMonth() + 1;
+                                return date > 1 ? date.getDate() + "/" + month + "/" + date.getFullYear() : "";
+                            }
+                        
+                        },
                         {
                             'data': 'ReqFormId',
                             'render': function (data, type, row) {
@@ -59,13 +68,14 @@
 
 </script>
 
-<h3>Notifications - All</h3>
+<h5>Notifications - All</h5>
 
 <table id="dataTable-notifications-all" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Date Requested</th>
             <th>Message</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>

@@ -17,7 +17,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                ViewBag.RolesList = new SelectList(e.Roles.Select(x=>x.Designation).ToList(), "Designation");
+                List<string> roleList = new List<string>() { "Approver", "Representative"};
+                ViewBag.RolesList = new SelectList(roleList, "Designation");
 
                 var tuple = new Tuple<ApprovalDelegation, Employee>(new ApprovalDelegation(), new Employee());
 
@@ -39,42 +40,107 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 Employee emp = new Employee();
                 emp = e.Employees.Where(x => x.EmployeeName == item2.EmployeeName).FirstOrDefault();
+                string role = Request.Form["SelectNewEmpRole"].ToString();
+                Employee HODemp = e.Employees.Where(x => x.DepartmentCode == deptCode && x.Designation == "Department Head" && x.Active==1).FirstOrDefault();
+
                 if (emp != null) {
-                    DAL.ApprovalDelegationRepositoryImpl dal1 = new DAL.ApprovalDelegationRepositoryImpl(e);
-                    item1.EmployeeID = emp.EmployeeID;
-                    item1.Active = 1;
-                    item1.DateAssigned = System.DateTime.Now;
-
-                    //todo: update other role del records belonging to this employee to inactive
-                    List<ApprovalDelegation> pastApprovalsByEmp =
-                        e.ApprovalDelegations.Where(x => x.EmployeeID == item1.EmployeeID).ToList();
-
-                    foreach (ApprovalDelegation ad in pastApprovalsByEmp)
-                    {
-                        ad.Active = 0;
-                        dal1.UpdateApprovalDelegation(ad);
-                    }
-
-                    dal1.InsertApprovalDelegation(item1); //ok
-
                     
-                    string role = Request.Form["SelectNewEmpRole"].ToString();
-                    emp.Designation = role;
-                    dal3.UpdateEmployee(emp);
-
-                    if (deptDetails != null)
+                    if (role == "Approver")
                     {
-                        deptDetails.RepresentativeID = item1.EmployeeID;
+                        //1. If delegated approver,
+                        //Insert New Approval Delegation (and inactivate others of same department)
+                        DAL.ApprovalDelegationRepositoryImpl dal1 = new DAL.ApprovalDelegationRepositoryImpl(e);
+                        item1.EmployeeID = emp.EmployeeID;
+                        item1.Active = 1;  
+                        item1.DateAssigned = System.DateTime.Now;
+                        item1.Id = e.ApprovalDelegations.ToList().Count() + 1;
+                        
+
+                        //(1.1 loop Approval Delegation - same dept)
+                        List<string> employeeList = 
+                            e.Employees.Where(x => x.DepartmentCode == deptCode && x.Active == 1).Select(x=>x.EmployeeID).ToList();
+                        
+                        List<ApprovalDelegation> pastActiveApprovalsOfDept =
+                            e.ApprovalDelegations.Where(x => employeeList.Contains(x.EmployeeID)).ToList();
+
+                        if (pastActiveApprovalsOfDept != null)
+                        {
+                            foreach (ApprovalDelegation ad in pastActiveApprovalsOfDept)
+                            {
+                                ad.Active = 0;
+                                dal1.UpdateApprovalDelegation(ad);
+                            }
+                        }
+                        
+                        if (emp.Designation == "Employee Representative")
+                        {
+                            deptDetails.RepresentativeID = HODemp.EmployeeID; 
+                            //assuming only HOD (not just any approver) can delegate roles
+                        }
+
+                        if (emp.Designation != "Department Head")
+                        {
+                            //(1.2 loop employee - same dept)
+                            Employee prevApprover = e.Employees.Where(x => x.DepartmentCode == deptCode && x.Approver == 1).FirstOrDefault();
+                            if (prevApprover != null)
+                            {
+                                prevApprover.Approver = 0;
+                            }
+
+                            emp.Designation = "Employee";
+                            dal1.InsertApprovalDelegation(item1);
+                        }
+
+                        
+                        //2. Update Employee role and approver flag
+                        //3. Update department details (rep and approver id)
+                        emp.Approver = 1;
                         deptDetails.ApproverID = emp.EmployeeID;
-                        dal2.UpdateDepartmentDetail(deptDetails); //ok
-                    }
-                    else
-                    {
-                        //no active dept details exist
                     }
 
+                    if (role == "Representative") {
+                        Employee prevRep = e.Employees.Where(x => x.DepartmentCode == deptCode 
+                            && x.EmployeeID==deptDetails.RepresentativeID).FirstOrDefault();
+
+                        if (prevRep != null && prevRep.Designation!="Department Head")
+                        {
+                            prevRep.Designation = "Employee";
+                        }
+
+                        //inactivate any prev approver del
+                        ApprovalDelegation ad = e.ApprovalDelegations.Where(x => x.EmployeeID == emp.EmployeeID && x.Active == 1).FirstOrDefault();
+                        if (ad != null) {
+                            ad.Active = 0;
+                        }
+
+                        //check if dept has no approver, default to dept's HOD
+                        if (emp.Approver == 1)
+                        {
+                            deptDetails.ApproverID = HODemp.EmployeeID;
+                        }
+
+                        if (emp.Designation != "Department Head")
+                        {
+                            emp.Designation = "Employee Representative";
+                            emp.Approver = 0;
+                        }
+
+                        deptDetails.RepresentativeID = emp.EmployeeID;
+                       
+
+                        //4. Update rep in Disbursement Header (with status 'Open')
+                        List<DisbursementHeader> openDisbursements = e.DisbursementHeaders.Where(x => x.DepartmentCode == deptCode && x.Status == "Open").ToList();
+                        foreach (DisbursementHeader d in openDisbursements)
+                        {
+                            d.RepresentativeID = emp.EmployeeID;
+                        }
+                    }
+
+                    dal3.UpdateEmployee(emp); 
+                    dal2.UpdateDepartmentDetail(deptDetails);
+                   
                 }
-
+                
                 e.SaveChanges();
             }
 
