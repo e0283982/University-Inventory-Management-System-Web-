@@ -1,5 +1,9 @@
-﻿@{
+﻿@using SA46Team1_Web_ADProj.Models;
+@model POFullDetail
+
+@{
     Layout = null;
+    List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
@@ -8,27 +12,22 @@
 <script>
     var table;
     $(document).ready(function () {
+        table = $('#dataTable-displayPO').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            "columnDefs": [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button>Delete</button>"
+            }]
+        });
+
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetPOFullDetails/' + $('#lbl-poNumber').text(),
             type: 'get',
             dataType: 'json',
             success: function (data) {
-                table = $('#dataTable-displayPO').DataTable({
-                    paging: true,
-                    sort: true,
-                    searching: true,
-                    scrollY: 200,
-                    data: data,
-                    columns: [
-                        { 'data': 'ItemCode' },
-                        { 'data': 'Description' },
-                        { 'data': 'QuantityOrdered' },
-                        { 'data': 'UoM' },
-                        { 'data': 'UnitCost' },
-                        { 'data': 'Total' },
-                        { 'defaultContent': '7%' }
-                    ]
-                });
+
 
                 // Parsing Date into readable format
                 var date = new Date(data[0]["Date"]);
@@ -46,7 +45,7 @@
 
                 // Calculation of GST / Total PO price
                 var i;
-                var total =0;
+                var total = 0;
                 for (i = 0; i < data.length; i++) {
                     total = total + data[i]["Total"];
                 }
@@ -66,13 +65,15 @@
                     $('#ta-remarks').val(data[0]["Remarks"]);
                 });
 
-                // Format into 2 DP
-                function twoDP(value) {
-                    return parseFloat(Math.round(value * 100) / 100).toFixed(2);
-                }
+
             }
         });
     });
+
+    // Format into 2 DP
+    function twoDP(value) {
+        return parseFloat(Math.round(value * 100) / 100).toFixed(2);
+    }
 
     // Save PO Dialog
     $(function () {
@@ -131,7 +132,7 @@
 
     // Cancel PO Button
     $('#btn-cancelPO').click(function () {
-        $('#dialog-edit-displayPO').dialog('open');
+        $('#dialog-cancelPO').dialog('open');
         return false;
     });
 
@@ -165,8 +166,22 @@
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
             <th>GST ($)</th>
+            <th></th>
         </tr>
     </thead>
+    @foreach(var item in poFullDetailList)
+    {
+        <tr>
+            <th>@item.ItemCode</th>
+            <th>@item.Description</th>
+            <th>@item.QuantityOrdered</th>
+            <th>@item.UoM</th>
+            <th>@item.UnitCost</th>
+            <th>@item.Total</th>
+            <th>7%</th>
+            <th></th>
+        </tr>
+    }
 </table>
 
 <div>
@@ -187,7 +202,7 @@
         <p>Changes to PO - can only be seen / used if PO is 'open'</p>
     </div>
 
-    <button class="btn-blue" id="btn-cancelPO">Save</button>
+    <button class="btn-blue" id="btn-cancelPO">Cancel PO</button>
     <div id="dialog-cancelPO" class="hidden" title="Basic dialog">
         <p>Cancel entire PO - can only be seen / used if PO is 'open'</p>
     </div>

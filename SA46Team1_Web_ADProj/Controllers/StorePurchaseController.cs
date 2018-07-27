@@ -220,7 +220,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult DisplayPO(FormCollection data)
         {
             Session["POListPage"] = "2";
-            Session["poNumber"] = data["PONumber"];
+            string poNumber = data["PONumber"];
+            Session["poNumber"] = poNumber;
+            using(SSISdbEntities m = new SSISdbEntities())
+            {
+                List<POFullDetail> poFullDetailList = m.POFullDetails.Where(x => x.PONumber == poNumber).ToList();
+                Session["POItems"] = poFullDetailList;
+            }
             return RedirectToAction("Purchase", "Store");
         }
 
