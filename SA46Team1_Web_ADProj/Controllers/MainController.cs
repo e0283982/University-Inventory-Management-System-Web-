@@ -1,16 +1,13 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
@@ -38,7 +35,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //Auth success
                 Employee employee = emplRepo.FindEmployeeEmailId(user.Username);
-                var ident = new ClaimsIdentity(
+                var identity = new ClaimsIdentity(
                 new[] {                   
                     new Claim(ClaimTypes.NameIdentifier, employee.EmployeeEmail),
                     new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string"),
@@ -47,7 +44,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                       },
                 DefaultAuthenticationTypes.ApplicationCookie);
                 HttpContext.GetOwinContext().Authentication.SignIn(
-                new AuthenticationProperties { IsPersistent = false }, ident);
+                new AuthenticationProperties { IsPersistent = true }, identity);
                 using (HttpClient client = new HttpClient())
                 {
                     var tokenRequest = new List<KeyValuePair<string, string>>
@@ -90,12 +87,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return View("Login");
             }               
         }
-        [HttpPost]
-        public void Logout()
+
+        public ActionResult Logout()
         {
             HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            
-            //return View("Login");
+            return View("Login");
         }
     }
 }
