@@ -9,7 +9,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetUnreadPendingApprovals',
+            url: 'http://localhost:49921/api/Restful/GetUnreadPendingApprovals/'+ '@Session["DepartmentCode"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -21,7 +21,16 @@
                     data: data,
                     responsive: true,
                     columns: [
-                        { 'data': 'DateReq' },
+                        {
+                            'data': 'DateReq',
+                            'render': function (jsonDate) {
+
+                                var date = new Date(jsonDate.substr(0));
+                                var month = date.getMonth() + 1;
+                                return date > 1 ? date.getDate() + "/" + month + "/" + date.getFullYear() : "";
+                            }
+                        
+                        },
                         {
                             'data': 'ReqFormId',
                             'render': function (data, type, row) {
