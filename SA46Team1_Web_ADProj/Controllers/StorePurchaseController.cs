@@ -273,15 +273,41 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPO()
+        public RedirectToRouteResult EditMode()
         {
-            //string poNumber = (string)Session["poNumber"];
-            //using(SSISdbEntities m = new SSISdbEntities())
-            //{
-            //    PODetail poDetail = m.PODetails.Where(x => x.PONumber == poNumber).FirstOrDefault();
-            //}
+            Session["poDetailsEditMode"] = true;
+            Session["POListPage"] = "2";
+            return RedirectToAction("Purchase", "Store");
+        }
 
-            return null;
+        [HttpPost]
+        public RedirectToRouteResult SaveEdit(string[] arrQty)
+        {
+            Session["poDetailsEditMode"] = false;
+            Session["POListPage"] = "2";
+            List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
+            string poNumber = (string)Session["poNumber"];
+            int arrayCount = 0;
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                foreach(POFullDetail p in poFullDetailList)
+                {
+                    PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
+                    pod.QuantityBackOrdered = Convert.ToInt32(arrQty[arrayCount]);
+                    pod.QuantityOrdered = pod.QuantityBackOrdered;
+                    m.SaveChanges();
+                    arrayCount++;
+                }
+            }
+            return RedirectToAction("Purchase", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult ExitEditMode()
+        {
+            Session["poDetailsEditMode"] = false;
+            Session["POListPage"] = "2";
+            return RedirectToAction("Purchase", "Store");
         }
 
         [HttpPost]

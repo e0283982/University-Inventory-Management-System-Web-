@@ -69,33 +69,33 @@
 </script>
 
 <div>
-    <h2>Requisition Form # @Session["storeReqFormId"]</h2>
+    <h5>Requisition Form # @Session["storeReqFormId"]</h5>
 </div>
 
 <div>
     @*<label>Department Name: <input type="text" id="store-req-det-deptName" readonly="readonly" style="outline-width: 0;"></label>*@
-    <label>Department Name:&nbsp;</label><label id="deptName" />
+    <label style="font-size: 10pt;">Department Name:&nbsp;</label><label id="deptName" style="font-size: 10pt;"/>
 </div>
 
 <div>
     @*<label>Department Code: <input type="text" id="store-req-det-deptCode" readonly="readonly"></label>*@
     @*<label>Employee: <input type="text" id="store-req-det-empName" readonly="readonly"></label>*@
-    <label>Employee:&nbsp;</label><label id="empName" />
+    <label style="font-size: 10pt;">Employee:&nbsp;</label><label id="empName" style="font-size: 10pt;"/>
     @*<label>Employee Number: <input type="text" id="store-req-det-empNo" readonly="readonly"></label>*@
 </div>
 
 <div>
     @*<label>Approved By: <input type="text" id="store-req-det-approverName" readonly="readonly"></label>*@
-    <label>Approved By:&nbsp;</label><label id="approverName" />
+    <label style="font-size: 10pt;">Approved By:&nbsp;</label><label id="approverName" style="font-size: 10pt;"/>
 </div>
 
 <div>
     @*<label>Request Date: <input type="text" id="store-req-det-approvedDate" readonly="readonly"></label>*@
-    <label>Request Date:&nbsp;</label><label id="approvedDate" />
+    <label style="font-size: 10pt;">Request Date:&nbsp;</label><label id="approvedDate" style="font-size: 10pt;"/>
 </div>
 
 <table id="dataTable-storeDisbursementReqList-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Description</th>
@@ -103,7 +103,7 @@
             <th>Delivered Qty</th>
         </tr>
     </thead>
-
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -114,7 +114,7 @@
             <span>
                 @using (Html.BeginForm("BackToRequisitionsList", "StoreDisbursements", FormMethod.Post))
                 {
-                    <input class="btn btn-info" type="submit" value="Back" />
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
                 }
             </span>
         </div>

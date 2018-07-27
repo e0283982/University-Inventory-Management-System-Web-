@@ -76,30 +76,30 @@
         <div class="foot">
             <h6>&nbsp;&nbsp; &copy; 2018 - SA46_ADProject </h6>
         </div>
-
     </div>
 
-        <div class="main">
-            <div class="container" style="font-family: 'Oxygen', sans-serif;">
-                <div style="float: right; padding-top:10px;">
-                    <span>
-                        <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
-                            <i class="fas fa-bell" style="font-size:32px; color:#F9BE4F;"></i>
-                        </a>
-                    </span>
-                    <span>
-                        @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-lu-red", style = "font-size: 10pt;" })
-                    </span>
-                </div>
-            </div>
-
-            <br />
-            <hr />
-
-            <div class="container" style="align-content:center;">
-                @RenderBody()
+    <div class="main">
+        <div class="container" style="font-family: 'Oxygen', sans-serif; padding-bottom: 10px;">
+            <div style="float: right; padding-top:10px;">
+                <span>
+                    <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
+                        <i class="fas fa-bell" style="font-size:32px; color:#F9BE4F;"></i>
+                    </a>
+                    <label>  @Session["NoUnreadRequests"] </label>
+                </span>
+                <span>
+                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-lu-red", style = "font-size: 10pt;" })
+                </span>
             </div>
         </div>
+
+        <br />
+        <hr />
+
+        <div class="container" style="align-content:center;">
+            @RenderBody()
+        </div>
+    </div>
  
         @*<div class="footer">
             <p>&copy; 2018 - SA46_ADProject</p>

@@ -120,31 +120,7 @@
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
     });
-
-    //$('#btn-discard-items').on('click', function () {
-        //var data = table.rows('.selected').indexes();
-        //var noSelected = table.rows('.selected').data().length;
-        //var toDeleteArray = [];
-
-        //for (i = 0; i < noSelected; i++){
-        //     toDeleteArray.push(data[i]);
-        //}
-
-
-        @*$.ajax({
-            url: '/DeptRequisition/DiscardNewItems',
-            data: JSON.stringify(toDeleteArray),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            type: 'POST',
-        });
-
-        table.draw(false);
-
-        window.location.href = '@Url.Action("Requisition", "Dept")';
-
-    });*@
-
+        
     $('#btn-edit-items').on('click', function () {
 
         if (@list.Count()== 0) {
@@ -201,19 +177,19 @@
     });
     </script>
 
-    <div class="row">
-        <div class="col-md-6" style="padding: -30px;">
-            <h2>New Requisition</h2>
-        </div>
-        <div class="col-md-6">
-            <span style="float: right; padding-top:35px;">
-                <span>
-                    <button class="btn btn-primary" id="btn-add-item">Add</button>
-                </span>
-                <span>
-                    <button class="btn btn-info" id="btn-edit-items">Edit</button>
-                    <button class="btn btn-info" id="btn-save-items">Save</button>
-                </span>
+
+<div class="row">
+    <div class="col-md-6" style="padding: -30px;">
+        <h5>New Requisition</h5>
+    </div>
+    <div class="col-md-6">
+        <span style="float: right; padding-top:35px;">
+            <span>
+                <button class="btn btn-primary" id="btn-add-item">Add</button>
+            </span>
+            <span>
+                <button class="btn btn-info" id="btn-edit-items">Edit</button>
+                <button class="btn btn-info" id="btn-save-items">Save</button>
             </span>
         </div>
     </div>
@@ -263,6 +239,7 @@
                         <button class="btn btn-info" id="btn-submit-new-req">Submit</button>
                     </span>
                 </div>
+
             </div>
         </div>
 
