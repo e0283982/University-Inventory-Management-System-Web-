@@ -17,14 +17,31 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["currentFormId"]= "SR-" + SRcount;
 
                 Tuple<Item, StaffRequisitionDetail> tuple = new Tuple<Item, StaffRequisitionDetail>(new Item(), new StaffRequisitionDetail());
+                List<String> tempList = (List<String>)Session["tempList"];
 
-                ViewBag.ItemsList = new SelectList((from s in e.Items.OrderBy(x=>x.Description).ToList()
-                                                    select new
-                                                    {
-                                                        ItemCode = s.ItemCode,
-                                                        Description = s.Description + " (" + s.UoM + ")"
-                                                    }),
-                                                    "ItemCode","Description", null);
+                if (tempList.Count==0)
+                {
+                    ViewBag.ItemsList = new SelectList((from s in e.Items.OrderBy(x => x.Description).ToList()
+                                                        select new
+                                                        {
+                                                            ItemCode = s.ItemCode,
+                                                            Description = s.Description + " (" + s.UoM + ")"
+                                                        }),
+                                                    "ItemCode", "Description", null);
+                }
+                else {
+
+                    List<Item> newItemList = e.Items.Where(x => !tempList.Contains(x.ItemCode)).OrderBy(x => x.Description).ToList();
+                    //update ddl to remove items
+                    ViewBag.ItemsList = new SelectList((from s in newItemList
+                                                            select new
+                                                            {
+                                                                ItemCode = s.ItemCode,
+                                                                Description = s.Description + " (" + s.UoM + ")"
+                                                            }),
+                                                        "ItemCode", "Description", null);
+                }
+                
 
                 TempData["RowIndexesToDiscard"] = new List<int>();
 
@@ -121,6 +138,15 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 list.Add(srd);
                 Session["newReqList"] = list;
+
+                //add to list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Add(itemToAdd.ItemCode);
+                Session["tempList"] = tempList;
+
+                List<Item> newItemList = new List<Item>();
+              
+
 
                 return RedirectToAction("Requisition", "Dept");
             }
