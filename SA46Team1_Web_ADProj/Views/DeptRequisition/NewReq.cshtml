@@ -30,10 +30,27 @@
         });
     });
 
+    $('#dataTable-newReq tbody').on('click', '#btn-discard-items', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
 
-    $('#dataTable-newReq tbody').on('click', 'tr', function () {
-        $(this).toggleClass('selected');
+        alert(data[0]);
+        $.ajax({
+            url: '/DeptRequisition/DiscardNewItems',
+            data: JSON.stringify({ data: data[0], index: index }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Requisition", "Dept")';
     });
+
+    //$('#dataTable-newReq tbody').on('click', 'tr', function () {
+    //    $(this).toggleClass('selected');
+    //});
 
     $(function () {
         $("#dialog-add-req-item").dialog({
@@ -53,6 +70,15 @@
             maxWidth: "40%"
         });
     });
+
+    $(function () {
+        $("#dialog-new-req-edit-no-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
 
     $(function () {
         $("#dialog-confirm-submit-new-req").dialog({
@@ -95,16 +121,17 @@
 
     });
 
-    $('#btn-discard-items').on('click', function () {
-        var data = table.rows('.selected').indexes();
-        var noSelected = table.rows('.selected').data().length;
-        var toDeleteArray = [];
+    //$('#btn-discard-items').on('click', function () {
+        //var data = table.rows('.selected').indexes();
+        //var noSelected = table.rows('.selected').data().length;
+        //var toDeleteArray = [];
 
-        for (i = 0; i < noSelected; i++){
-             toDeleteArray.push(data[i]);
-        }
+        //for (i = 0; i < noSelected; i++){
+        //     toDeleteArray.push(data[i]);
+        //}
 
-        $.ajax({
+
+        @*$.ajax({
             url: '/DeptRequisition/DiscardNewItems',
             data: JSON.stringify(toDeleteArray),
             dataType: "json",
@@ -116,10 +143,15 @@
 
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
-    });
+    });*@
 
     $('#btn-edit-items').on('click', function () {
 
+        if (@list.Count()== 0) {
+            //no item to edit
+            $('#dialog-new-req-edit-no-item').dialog('open');
+            return;
+        }
         //toggle save/edit btn visibility
         $("#btn-save-items").show();
         $("#btn-edit-items").hide();
@@ -171,7 +203,7 @@
 
 <div class="row">
     <div class="col-md-6" style="padding: -30px;">
-        <h2>New Requisition</h2>
+        <h5>New Requisition</h5>
     </div>
     <div class="col-md-6">
         <span style="float: right; padding-top:35px;">
@@ -182,20 +214,18 @@
                 <button class="btn btn-info" id="btn-edit-items">Edit</button>
                 <button class="btn btn-info" id="btn-save-items">Save</button>
             </span>
-            <span>
-                <button class="btn btn-danger" id="btn-discard-items">Discard</button>
-            </span>
         </span>
     </div>
 </div>
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
     <table id="dataTable-newReq" class="table-hover" style="width:80%;">
-        <thead>
+        <thead style="font-size: 10pt;">
             <tr>
                 <th>Item Description</th>
                 <th>Unit of Measure</th>
                 <th>New Order Qty</th>
+                <th></th>
             </tr>
         </thead>
         @foreach (var item in list)
@@ -213,18 +243,22 @@
                         @item.QuantityOrdered
                     }
                 </td>
+                <td>
+                    <span>
+                        <button class="btn btn-danger" id="btn-discard-items">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </span>
+                </td>
             </tr>
         }
-        <tbody></tbody>
+        <tbody style="font-size: 10pt;"></tbody>
     </table>
     <hr />
 
     <div class="row">
         <div class="col-md-12">
             <div style="float: right">
-                @*<span>
-                    <button class="btn btn-primary" id="btn-add-item">Add New Item</button>
-                </span>*@
                 <span>
                     <button class="btn btn-info" id="btn-submit-new-req">Submit</button>
                 </span>
@@ -270,6 +304,10 @@
 
     <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
         <p>New requisition request has been submitted for approval.</p>
+    </div>
+
+    <div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
+        <p>There are no items to edit.</p>
     </div>
 
 </div>

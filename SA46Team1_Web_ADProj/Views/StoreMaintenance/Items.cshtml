@@ -22,7 +22,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
-                scrollY: 200,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     { 'data': 'ItemCode' },
@@ -108,8 +108,17 @@
     </thead>
 </table>
 
+<hr />
 
-<button id="btn-add-new-item" class="btn-blue">Add New Item</button>
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button id="btn-add-new-item" class="btn btn-info">Add New Item</button>
+            </span>
+        </div>
+    </div>
+</div>
 
 <div id="dialog-add-new-item" class="hidden" title="Add Item (Maintenance)">
     @using (Html.BeginForm("AddNewItem", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-item" }))
@@ -119,7 +128,7 @@
             <label>Item Description: </label>
             @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-item-desc" }, })
         </div>
-
+        <hr />
         <div>
             <label>Category: </label>
             @Html.DropDownList("SelectItemCategory", ViewBag.CategoryList as SelectList)
@@ -129,7 +138,7 @@
             <label>Unit of Measure: </label>
             @Html.DropDownList("SelectItemUOM", ViewBag.UOMList as SelectList)
         </div>
-
+        <hr />
         <div>
             <label>Quantity: </label>
             @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Quantity", @id = "new-item-qty" }, })
@@ -144,7 +153,7 @@
             <label>Reorder Qty: </label>
             @Html.EditorFor(model => model.ReOrderQuantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Quantity", @id = "new-item-reorder-qty" }, })
         </div>
-
+        <hr />
         <div>
             <label>Supplier 1: </label>
             @Html.DropDownList("SelectSupplier1", ViewBag.SupplierList as SelectList)
@@ -159,7 +168,7 @@
             <label>Supplier 3: </label>
             @Html.DropDownList("SelectSupplier3", ViewBag.SupplierList as SelectList)
         </div>
-        <input id="btn-submit-add-item" class="btn-blue" type="submit" value="Add" />
+        <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
 
     </div>
     }

@@ -4,9 +4,6 @@
 
 <script>
     $(document).ready(function () {
-
-        //var id = 'DH-1';
-
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetDisbursementListDetails/' + '@Session["storeDisbursementFormId"]',
             method: 'get',
@@ -16,7 +13,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'Description' },
@@ -28,20 +25,17 @@
 
             }
         });       
-
-
-
     });
 </script>
 
 <div>
-    <h2>Disbursement Information</h2>
-    <h3>Disbursement #: @Session["storeDisbursementFormId"]</h3>
+    <h5>Disbursement Information</h5>
+    <h6>Disbursement #: @Session["storeDisbursementFormId"]</h6>
 </div>
 
 
 <table id="dataTable-storeDisbursementList-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Description</th>
             <th>Unit of Measurement</th>
@@ -49,13 +43,20 @@
             <th>Qty Delivered</th>
         </tr>
     </thead>
-   
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-<div id="details-back-btn">
+<hr />
 
-    @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
-    {
-        <input class="btn btn-info" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" />
+                }
+            </span>
+        </div>
+    </div>
 </div>

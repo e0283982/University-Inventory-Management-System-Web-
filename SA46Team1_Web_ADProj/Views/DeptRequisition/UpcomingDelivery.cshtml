@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+<script>
+     var table;
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetDeptStaffReqs/'+ '@Session["DepartmentCode"]',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-upcoming-delivery').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    responsive: true,
+                    columns: [
+                        { 'data': 'FormId' },
+                        {
+                            'data': 'RequestDate',
+                            'render': function (jsonDate) {
+
+                                var date = new Date(jsonDate.substr(0));
+                                var month = date.getMonth() + 1;
+                                return date > 1 ? date.getDate() + "/" + month + "/" + date.getFullYear() : "";
+                            }
+                        },
+                        { 'data': 'ReqName' }
+                    ],
+                    drawCallback: function (settings) {
+                        $('#dataTable-upcoming-delivery tbody').on('click', 'tr', function () {
+                            var data = table.row(this).data();
+
+                            $.ajax({
+                                url: '/DeptRequisitionHistory/DisplayReqHistoryDetails2',
+                                data: { formId: data["FormId"] },
+                                type: 'POST',
+                            });
+
+                            window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+                        });
+                    }
+
+                });
+            }
+        });
+    });
+
+</script>
+
+<h3>Upcoming Delivery</h3>
+
+<table id="dataTable-upcoming-delivery" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Requisition Form #</th>
+            <th>Date Requested</th>
+            <th>Requestor</th>
+        </tr>
+    </thead>
+</table>

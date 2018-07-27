@@ -17,8 +17,8 @@
             table = $('#dataTable-store-departments-details').DataTable({
                 paging: true,
                 sort: true,
-                searching: true,
-                scrollY: 200,
+                searching: false,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     { 'data': 'DepartmentCode' },
@@ -72,13 +72,22 @@
     </thead>
 </table>
 
-<button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>
+<hr />
 
-
-<div id="details-back-btn">
-
-    @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-danger" type="submit" value="Back" />
+                }
+            </span>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button class="btn btn-info">@Html.ActionLink("Edit", "Home", "Store")</button>
+        </span>
+    </div>
 </div>

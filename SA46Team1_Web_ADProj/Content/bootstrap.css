@@ -180,11 +180,13 @@ optgroup {
   font-weight: bold;
 }
 table {
+  font-size: 6pt;
   border-spacing: 0;
   border-collapse: collapse;
 }
 td,
 th {
+  font-size: 8px;
   padding: 0;
 }
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
@@ -219,6 +221,7 @@ th {
     page-break-inside: avoid;
   }
   thead {
+    font-size: 6pt;
     display: table-header-group;
   }
   tr,
@@ -1083,7 +1086,7 @@ html {
 }
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.42857143;
   color: #333;
   background-color: #fff;
@@ -1297,7 +1300,7 @@ p {
 }
 @media (min-width: 768px) {
   .lead {
-    font-size: 21px;
+    font-size: 16px;
   }
 }
 small,
@@ -2249,6 +2252,7 @@ pre code {
   }
 }
 table {
+  font-size: 6pt;
   background-color: transparent;
 }
 caption {
@@ -2258,9 +2262,11 @@ caption {
   text-align: left;
 }
 th {
-  text-align: left;
+  font-size: 6pt;
+  text-align: center;
 }
 .table {
+  font-size: 6pt;
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
@@ -2271,12 +2277,14 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
+  font-size: 6pt;
   padding: 8px;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #ddd;
 }
 .table > thead > tr > th {
+  font-size: 6pt;
   vertical-align: bottom;
   border-bottom: 2px solid #ddd;
 }

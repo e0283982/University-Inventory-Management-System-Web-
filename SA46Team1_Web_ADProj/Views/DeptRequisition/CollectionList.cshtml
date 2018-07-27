@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+
+<script>
+    var table;
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:49921/api/Restful/GetDeptCollectionItems/'+ '@Session["DepartmentCode"]',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                table = $('#dataTable-collection').DataTable({
+                    paging: true,
+                    sort: true,
+                    searching: true,
+                    scrollY: 200,
+                    data: data,
+                    responsive: true,
+                    columns: [
+                        { 'data': 'ItemCode' },
+                        { 'data': 'ItemDesc' },
+                        { 'data': 'UoM' },
+                        { 'data': 'ExpectedQty' }
+                    ],
+
+                    columnDefs: [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ]
+
+                });
+            }
+        });
+    });
+</script>
+
+<h2>Collection list</h2>
+
+
+<table id="dataTable-collection" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Item Code</th>
+            <th>Item Description</th>
+            <th>Unit of Measure</th>
+            <th>Total Expected Delivery</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tbody>
+</table>
+
+<p> <label>Expected Delivery: </label> @ViewBag.ExpectedDelivery </p>
+<p> <label>Collection Point: </label> @ViewBag.CollectionPointDesc</p>
+<p> <label>Collection Time: </label> @ViewBag.CollectionTime </p>

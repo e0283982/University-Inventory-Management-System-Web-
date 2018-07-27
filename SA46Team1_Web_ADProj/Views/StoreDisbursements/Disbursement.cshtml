@@ -16,7 +16,7 @@ var table;
                 paging: true,
                 sort: true,
                 searching: true,
-                scrollY: 200,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     {
@@ -78,12 +78,11 @@ var table;
 </script>
 
 <div>
-    <h2>List of Disbursements</h2>
+    <h5>List of Disbursements</h5>
 </div>
 
-
 <table id="dataTable-storeDisbursementList" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Date</th>
             <th>Department</th>
@@ -92,8 +91,8 @@ var table;
         </tr>
     </thead>
 
-    @*<tbody>
-        <tr>
+    <tbody style="font-size: 10pt;">
+        @*<tr>
             <td>20-JUN-2018</td>
             <td>MATH</td>
             <td>Outstanding</td>
@@ -105,10 +104,7 @@ var table;
             <td>SCIENCE</td>
             <td>Completed</td>
             <td>Collection Point A</td>
-        </tr>
-    </tbody>*@
-
-
-
+        </tr>*@
+    </tbody>
 </table>
 

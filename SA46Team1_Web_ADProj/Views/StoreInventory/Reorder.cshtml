@@ -1,9 +1,111 @@
 ﻿@{
     Layout = null;
+    List<ReorderList> list = (List<ReorderList>)Session["ReorderList"];
 }
 @using SA46Team1_Web_ADProj.Models;
 @model Item
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-@Helper.ReorderStock()
+<script>
+    var table;
+    // Load Datatable
+    $(document).ready(function () {
+        table = $('#dataTable-storeManagerInventoryReorder').DataTable({
+            //scrollY: '30vh',
+            scrollCollapse: true,
+            paging: true,
+            "columnDefs": [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<input type='checkbox' checked/>"
+            }]
+        });
+    });
+
+    $(function () {
+        $("#dialog").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-create-POs').on('click', function () {
+        if (table.cell(i, 3).nodes().to$().find('option').val() != null) {
+            var dataToSend = "";
+            var arr = [];
+            var arr1 = [];
+            var arrSupplier = [];
+            for (var i = 0; i < table.rows().data().length; i++) {
+                // if Checkbox is checked then do this.
+                arr1.push(table.cell(i, 1).nodes().to$().find('input').val());
+                arrSupplier.push(table.cell(i, 3).nodes().to$().find('option').val());
+            }
+
+            $.ajax({
+                url: '/StoreInventory/AddToPO',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({ arr1: arr1, arrSupplier: arrSupplier })
+            });
+            alert('Items Added');
+        }
+        else {
+            alert('An error has occured. Please try again.');
+        }
+    });
+
+    // Checkbox uncheck, remove from list
+
+    // Checkbox check, add to list
+</script>
+
+<div>
+    <h2>Inventory - Reorder</h2>
+</div>
+
+<table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Item Description</th>
+            <th>Reorder Qty</th>
+            <th>Unit of Measure</th>
+            <th>Supplier</th>
+            <th>Include In PO</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in list)
+    {
+        <tr>
+            <th>@item.Description</th>
+            <th><input id="input-qty" value=@item.ReOrderQuantity /></th>
+            <th>@item.UoM</th>
+            <th>
+                <select>
+                    <option value="@item.s1">@item.s1</option>
+                    <option value="@item.s2">@item.s2</option>
+                    <option value="@item.s3">@item.s3</option>
+                </select>
+            </th>
+            <th></th>
+        </tr>
+    }
+
+</table>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button class="btn btn-info" id="btn-create-POs">Create Purchase Order</button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div id="dialog" class="hidden" title="Basic dialog">
+    <p>Purchase order(s) have been created.</p>
+</div>

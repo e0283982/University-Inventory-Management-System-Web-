@@ -9,12 +9,12 @@
 
 <script>
     var table;
+    var count = 0;
     // Load Datatable
     $(document).ready(function () {
         table = $('#dataTable-newPO').DataTable({
-            scrollY: '30vh',
+            //scrollY: '30vh',
             scrollCollapse: true,
-            paging: true,
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
@@ -25,15 +25,19 @@
 
     // Remove row
     $('#dataTable-newPO tbody').on('click', 'button', function () {
-        var data = table.row($(this).closest('tr')).data();
-        table.row($(this).parents('tr')).remove().draw();
+        var data = table.row($(this).parents('tr')).data();
 
-        jQuery.ajax({
+        $.ajax({
             url: '/StorePurchase/DeletePOItem',
             type: 'POST',
-            data: data
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            data: JSON.stringify({ data: data[0] })
         });
 
+        table.row($(this).parents('tr')).remove().draw();
+        return false;
     });
 
     // Open Dialog
@@ -52,16 +56,26 @@
 
     // Submit
     $('#btn-submit-new-req').on('click', function () {
-        $.ajax({
-            type: 'POST',
-            url: '/StorePurchase/SavePO',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json'
-            //data: JSON.stringify({ arr: arr })
-        });
+        var dataToSend = "";
+        var arrQty = [];
+        var arrSupplier = [];
+        for (var i = 0; i < table.rows().data().length; i++) {
+            arrQty.push(table.cell(i, 3).nodes().to$().find('input').val());
+            arrSupplier.push(table.cell(i, 2).nodes().to$().find('select').val());
+        }
 
+        $.ajax({
+            url: '/StorePurchase/SavePO',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier })
+        });
+        alert('Items Added');
+
+        // This should reset table
         table.draw(false);
-        
+
     });
 
 </script>
@@ -75,7 +89,7 @@
 </div>
 
 <div>
-    <p>Remarks:</p>
+    <p>Remarks: </p>
     <textarea rows="4" cols="50">
             </textarea>
 </div>
@@ -101,8 +115,14 @@
         <tr>
             <td>@item.ItemCode</td>
             <td>@item.Item.Description</td>
-            <td>@item.Item.Supplier1</td>
-            <td><input id="input-qty" value="@item.QuantityOrdered"/></td>
+            <td>
+                <select>
+                    <option value="@item.Item.Supplier1">@item.Item.Supplier1</option>
+                    <option value="@item.Item.Supplier2">@item.Item.Supplier2</option>
+                    <option value="@item.Item.Supplier3">@item.Item.Supplier3</option>
+                </select>
+            </td>
+            <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
             <td>@item.Item.UoM</td>
             <td>@item.Item.AvgUnitCost</td>
             <td><label id="lbl-totalitemprice"></label></td>
@@ -113,6 +133,14 @@
 </table>
 
 @*--- End of Table ---*@
+
+@*--- Dynamic boxes ---*@
+<div>
+    <label>Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>
+    <label>GST ($): <input type="text" id="displayPO-gst"></label>
+    <label>Net Total ($): <input type="text" id="displayPO-net-total"></label>
+</div>
+@*--- End of Dynamic boxes ---*@
 
 @*--- Buttons ---*@
 

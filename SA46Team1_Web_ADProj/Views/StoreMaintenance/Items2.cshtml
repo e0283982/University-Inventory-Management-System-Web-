@@ -26,8 +26,9 @@
             table = $('#dataTable-store-items-details').DataTable({
                 paging: true,
                 sort: true,
-                searching: true,
-                scrollY: 200,
+                searching: false,
+                //scrollY: 200,
+                scrollX: 800,
                 data: data,
                 columns: [
                     { 'data': 'ItemCode' },
@@ -187,32 +188,27 @@
             <th>Active</th>
         </tr>
     </thead>
-
-
-    <tbody>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </tbody>
 </table>
 
-<div id="details-back-btn">
+<hr />
 
-    @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-danger" type="submit" value="Back" />
+                }
+            </span>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button id="btn-edit-item" class="btn btn-info">Edit</button>
+        </span>
+    </div>
 </div>
-
-
-<button id="btn-edit-item" class="btn-blue">Edit</button>
 
 <div id="dialog-submit-edit-item" class="hidden" title="Edit Item Successful (Maintenance)">
     <p>Item has been successfully edited.</p>

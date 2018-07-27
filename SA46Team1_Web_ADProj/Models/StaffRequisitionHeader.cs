@@ -17,9 +17,9 @@ namespace SA46Team1_Web_ADProj.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StaffRequisitionHeader()
         {
-            this.DisbursementHeaders = new HashSet<DisbursementHeader>();
             this.StaffRequisitionDetails = new HashSet<StaffRequisitionDetail>();
             this.StockRetrievalReqForms = new HashSet<StockRetrievalReqForm>();
+            this.StockRetrievalReqForms1 = new HashSet<StockRetrievalReqForm>();
         }
     
         public string FormID { get; set; }
@@ -27,17 +27,17 @@ namespace SA46Team1_Web_ADProj.Models
         public string EmployeeID { get; set; }
         public System.DateTime DateRequested { get; set; }
         public string Approver { get; set; }
-        public System.DateTime DateProcessed { get; set; }
+        public Nullable<System.DateTime> DateProcessed { get; set; }
         public string Status { get; set; }
         public string ApprovalStatus { get; set; }
         public string Remarks { get; set; }
         public string NotificationStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DisbursementHeader> DisbursementHeaders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StaffRequisitionDetail> StaffRequisitionDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockRetrievalReqForm> StockRetrievalReqForms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockRetrievalReqForm> StockRetrievalReqForms1 { get; set; }
     }
 }

@@ -24,7 +24,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
-                scrollY: 200,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     { 'data': 'Number' },
@@ -105,7 +105,18 @@
     </thead>
 </table>
 
-<button id="btn-add-new-bin" class="btn-blue">Add New Bin</button>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button id="btn-add-new-bin" class="btn btn-info">Add New Bin</button>
+            </span>
+        </div>
+    </div>
+</div>
+
 
 <div id="dialog-add-new-bin" class="hidden" title="Add Bin (Maintenance)">
     @using (Html.BeginForm("AddNewBin", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-bin" }))
@@ -115,13 +126,15 @@
                 <label>Location: </label>
                 @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bin Location", @id = "new-bin-location" }, })
             </div>
-
+            <br />
             <div>
                 <label>Item Code: </label>
                 @Html.DropDownList("SelectBinItem", ViewBag.ItemsList as SelectList)
             </div>
 
-            <input id="btn-submit-add-bin" class="btn-blue" type="submit" value="Add" />
+            <hr />
+
+            <input id="btn-submit-add-bin" class="btn btn-info btn-block" type="submit" value="Add" />
 
         </div>
     }

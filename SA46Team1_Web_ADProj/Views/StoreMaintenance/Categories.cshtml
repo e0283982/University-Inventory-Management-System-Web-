@@ -23,7 +23,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
-                scrollY: 200,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     { 'data': 'CategoryID' },
@@ -104,8 +104,17 @@
     </thead>
 </table>
 
+<hr />
 
-<button id="btn-add-new-category" class="btn-blue">Add New Category</button>
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button id="btn-add-new-category" class="btn btn-info">Add New Category</button>
+            </span>
+        </div>
+    </div>
+</div>
 
 <div id="dialog-add-new-category" class="hidden" title="Add Category (Maintenance)">
     @using (Html.BeginForm("AddNewCategory", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-category" }))
@@ -116,7 +125,9 @@
                 @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
             </div>
 
-            <input id="btn-submit-add-category" class="btn-blue" type="submit" value="Add" />
+            <hr />
+
+            <input id="btn-submit-add-category" class="btn btn-info btn-block" type="submit" value="Add" />
 
         </div>
     }

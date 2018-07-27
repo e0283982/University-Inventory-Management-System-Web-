@@ -27,9 +27,13 @@ namespace SA46Team1_Web_ADProj
             Session["Role"] = "Dept";
             Session["UserId"] = "E4";
             Session["DepartmentCode"] = "COMM";
+            Session["NoUnreadRequests"] = 0;
 
             //Session variable for PO
             Session["newPOList"] = new List<Models.PODetail>();
+
+            // Session variable for Reorders
+            Session["ReorderList"] = new List<Models.ReorderList>();
 
             //Session variables for inner pages of DEPT tabs
             Session["newReqList"] = new List<Models.StaffRequisitionDetail>();

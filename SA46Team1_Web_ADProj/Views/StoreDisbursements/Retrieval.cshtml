@@ -7,7 +7,6 @@
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-
 <script>
     $(document).ready(function () {
 
@@ -34,7 +33,7 @@
                         paging: true,
                         sort: true,
                         searching: true,
-                        scrollY: 200,
+                        //scrollY: 200,
                         data: data,
                         responsive: true,
                         //"columnDefs": [{
@@ -44,6 +43,7 @@
                         //}],
                         columns: [
                             { 'data': 'Bin' },
+                            { 'data': 'Location' },
                             { 'data': 'Description' },
                             { 'data': 'QuantityRetrieved' },
                             { 'data': 'CollectionPointDescription' },
@@ -79,12 +79,7 @@
                 maxWidth: "40%"
             });
         });
-
-
-
     });
-
-    
 
     function myFunction(param1, param2) {
         $('#assign-stock-req-id').val(param1);
@@ -101,46 +96,50 @@
 </script>
 
 <div>
-    <h2>List of Retrievals</h2>
+    <h5>List of Retrievals</h5>
 </div>
 
 
 <table id="dataTable-storeDisbursementRetrievalList" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Bin</th>
-            <th>Item</th>
+            <th>Location</th>
+            <th>Item Description</th>
             <th>Items to Retrieve</th>
             <th>Collection Point</th>
-            <th>Report Damaged/Missing items</th>
+            <th>Damaged/Missing items</th>
         </tr>
     </thead>
 
-
+    <tbody style="font-size: 10pt;"></tbody>
 
 </table>
-
-<br />
-<br />
+<hr />
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("DisburseItems", "StoreDisbursements", FormMethod.Post))
+                {
+                    <button class="btn btn-lu-blue" id="btn-disburse-retrieval" style="font-size: 10pt;">Disburse Items</button>
+                }
+            </span>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button class="btn btn-lu-blue" style="font-size: 10pt;">@Html.ActionLink("Print List", "Home", "Store")</button>
+        </span>
+    </div>
+</div>
 
 <div id="div-disbursed">
     <p align="center" style="font-weight:bold; font-size:large;">
         All items have been disbursed
     </p>
-
 </div>
 
-<div class="row">
-    <span>
-        <button class="btn btn-info">@Html.ActionLink("Print List", "Home", "Store")</button>
-    </span>
-    <span>
-        @using (Html.BeginForm("DisburseItems", "StoreDisbursements", FormMethod.Post))
-        {
-            <button class="btn btn-info" id="btn-disburse-retrieval">Disburse Items</button>
-        }
-    </span>
-</div>
 
 
 <div id="dialog-adjust-retrieval" class="hidden" title="Adjust Item">
