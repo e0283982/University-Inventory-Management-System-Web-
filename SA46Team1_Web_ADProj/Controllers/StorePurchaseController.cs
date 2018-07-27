@@ -220,7 +220,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult DisplayPO(FormCollection data)
         {
             Session["POListPage"] = "2";
-            Session["poNumber"] = data["PONumber"];
+            string poNumber = data["PONumber"];
+            Session["poNumber"] = poNumber;
+            using(SSISdbEntities m = new SSISdbEntities())
+            {
+                List<POFullDetail> poFullDetailList = m.POFullDetails.Where(x => x.PONumber == poNumber).ToList();
+                Session["POItems"] = poFullDetailList;
+            }
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -281,7 +287,29 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public ActionResult CancelPO()
         {
-            return null;
+            string poNumber = (string) Session["poNumber"];
+            using(SSISdbEntities m = new SSISdbEntities())
+            {
+                POHeader poHeader = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
+                poHeader.Status = "Cancelled";
+                m.SaveChanges();
+
+                List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["POItems"];
+                List<PODetail> podItems = m.PODetails.Where(x => x.PONumber == poNumber).ToList();
+                foreach(POFullDetail p in poFullDetailsList)
+                {
+                    foreach(PODetail pod in podItems)
+                    {
+                        if(pod.ItemCode == p.ItemCode)
+                        {
+                            pod.CancelledBackOrdered = pod.QuantityBackOrdered;
+                            pod.QuantityBackOrdered = 0;
+                            m.SaveChanges();
+                        }
+                    }
+                }
+            }
+            return View();
         }
 
         [HttpPost]

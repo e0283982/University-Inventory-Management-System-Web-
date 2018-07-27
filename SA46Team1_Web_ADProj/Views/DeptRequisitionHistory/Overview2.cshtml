@@ -8,6 +8,8 @@
 
 <script>
     var table;
+    var passData;
+    var passIndex;
 
     $(document).ready(function () {
 
@@ -15,12 +17,6 @@
             $("#btn-save-req-history").show();
             $("#btn-edit-req-history").hide();
             $("#btn-submit-discard-req-items").show();
-
-
-            $('#dataTable-pastReq-details tbody').on('click', 'tr', function () {
-                $(this).toggleClass('selected');
-            });
-
         } else {
             $("#btn-save-req-history").hide();
             $("#btn-edit-req-history").show();
@@ -42,11 +38,8 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    //scrollY: 200,
+                    scrollY: 200,
                     data: data,
-                    select: {
-                        style: 'multi'
-                    },
                     columns: [
                         { 'data': 'Description' },
                         { 'data': 'UoM' },
@@ -61,8 +54,21 @@
                             }
                         },
                         { 'data': 'QuantityDelivered' },
-                        { 'data': 'QuantityBackOrdered' }
-                    ]
+                        { 'data': 'QuantityBackOrdered' },
+                        {
+                            'data': null,
+                            "render": function (data, type, full, meta) {
+                                return '<span>' +
+                                            '<button class="btn btn-danger" id="btn-discard-items">' +
+                                                '<i class="far fa-trash-alt"></i>' +
+                                            '</button>' +
+                                       '</span>';
+                            }
+                        },
+                    ],
+                    drawCallback: function (settings) {
+                        
+                    }
                 });
             }
         });
@@ -118,14 +124,24 @@
         });
     });
 
+    $('#dataTable-pastReq-details tbody').on('click', '#btn-discard-items', function () {
 
-    $('#btn-edit-req-history').on('click', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
 
-        //toggle save/edit btn visibility
-        //$('#btn-edit-req-history').hide();
-        //$('#btn-save-req-history').show();
-        //$("#btn-submit-discard-req-items").show();
+        passData = data.Description;
+        passIndex = index;
 
+        if (table.rows().data().length == 1) {
+            $('#dialog-confirm-discard-req-item-error').dialog('open');
+        } else {
+            $('#dialog-confirm-discard-req-item').dialog('open');
+        }
+    });
+    
+
+     $('#btn-edit-req-history').on('click', function () {
+         
         $.ajax({
             url: '/DeptRequisitionHistory/EditExisitingOrderQty',
             type: 'POST',
@@ -135,54 +151,24 @@
         window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
 
     });
-
-   $('#btn-submit-discard-req-items').on('click', function () {
-        //check if no items are selected
-       var noSelected = table.rows('.selected').data().length;
-
-       if (noSelected == Object.keys(d).length) {
-           $('#dialog-confirm-discard-req-item-error').dialog('open');
-           return;
-       }
-
-        if (noSelected == 0) {
-            $("#dialog-discard-req-no-item-selected").dialog('open');
-        } else {
-            $('#dialog-confirm-discard-req-item').dialog('open');
-        }
-    });
-
+    
     $('#btn-confirm-discard-no').on('click', function () {
         $('#dialog-confirm-discard-req-item').dialog('close');
     });
 
     $('#btn-confirm-discard-yes').click(function () {
 
-        var data = table.rows('.selected').data();
-        var noSelected = table.rows('.selected').data().length;
-        var toDeleteArray = [];
-
-        for (i = 0; i < noSelected; i++) {
-            toDeleteArray.push(data[i].Description);
-        }
-
-        table.row('.selected').remove().draw(false);
-
         $.ajax({
             url: '/DeptRequisitionHistory/DiscardSelReqItems',
-            data:
-                JSON.stringify({
-                    deleteItemDesc: toDeleteArray
-                }),
+            data: JSON.stringify({ data: passData, index: passIndex }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
         });
-
+        
         $('#dialog-confirm-discard-req-item').dialog('close');
-         table.draw(false);
+        table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
-
     });
 
     $('#btn-save-req-history').on('click', function () {
@@ -234,22 +220,9 @@
 
     $('#btn-confirm-withdrawal-yes').click(function () {
 
-        var data = table.rows('.selected').data();
-        var noSelected = table.rows('.selected').data().length;
-        var toDeleteArray = [];
-
-        for (i = 0; i < noSelected; i++) {
-            toDeleteArray.push(data[i].Description);
-        }
-
-        table.row('.selected').remove().draw(false);
-
         $.ajax({
             url: '/DeptRequisitionHistory/DiscardSelReqItems',
-            data:
-                JSON.stringify({
-                    deleteItemDesc: toDeleteArray
-                }),
+            data: JSON.stringify({ data: passData, index: passIndex }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
@@ -258,35 +231,38 @@
         $('#dialog-confirm-discard-req-item').dialog('close');
         table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
-
+        
     });
 
 
 </script>
 
 <div>
-    <h5>Requisition Form # @Session["id"]</h5>
+    <h2>Requisition Form # @Session["id"]</h2>
 
     <span class="col-md-12">
-        <button id="btn-print-req-history" class="btn btn-lu-blue" type="submit" style="float: right">
+        <button id="btn-print-req-history" class="btn btn-info" type="submit" style="float: right">
             Print
         </button>
     </span>
 </div>
-<br />
+
+
 <table id="dataTable-pastReq-details" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
+    <thead>
         <tr>
             <th>Item Description</th>
             <th>Unit of Measure</th>
             <th>Requested Qty</th>
             <th>Delivered Qty</th>
             <th>Back Order Qty</th>
+            <th></th>
         </tr>
     </thead>
 
-    <tbody style="font-size: 10pt;">
+    <tbody>
         <tr>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -317,26 +293,36 @@
         <label>Approved By</label>
         <input type="text" name="country" value=@req.ApproverName readonly />
     </div>
+
+    <div>
+        <span class="col-md-12">
+            <button id="btn-edit-req-history" class="btn btn-info" type="submit" style="float: right">
+                Edit
+            </button>
+        </span>
+
+        <span class="col-md-12">
+            <button id="btn-submit-discard-req-items" class="btn btn-info" type="submit" style="float: right">
+                Discard
+            </button>
+        </span>
+
+
+        <span class="col-md-12">
+            <button id="btn-save-req-history" class="btn btn-info" type="submit" style="float: right">
+                Save
+            </button>
+        </span>
+    </div>
+
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <div style="float: right">
-            <span>
-                <button id="btn-edit-req-history" class="btn btn-lu-green" type="submit" style="float: right">Edit</button>
-            </span>
-            <span>
-                <button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="float: right">Discard</button>
-            </span>
-            <span>
-                <button id="btn-save-req-history" class="btn btn-lu-green" type="submit" style="float: right">Save</button>
-            </span>
-            <span>
-                <div style="float: right">@Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-lu-blue" })</div>
-            </span>
-        </div>
-    </div>
+    <span class="col-md-12">
+        <div style="float: right">@Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info" })</div>
+    </span>
 </div>
+
 
 <div id="dialog-edit-req-zero-input-alert" class="hidden" title="New Order Qty cannot be 0 (Edit Requisition)">
     <p>Requisition order qty cannot be 0.</p>

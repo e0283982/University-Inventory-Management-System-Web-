@@ -61,7 +61,7 @@
                 });
             }
         });
-        
+
         $(function () {
             $("#dialog-show-employee-auth").dialog({
                 autoOpen: false,
@@ -71,10 +71,19 @@
         });
 
 
-        $(function () {
-            $("#datepicker-assign-role-start").datepicker({ dateFormat: 'dd-mm-yy' }).datepicker("setDate", new Date());
-            $("#datepicker-assign-role-end").datepicker({ dateFormat: 'dd-mm-yy' }).datepicker("setDate", new Date());
-        });
+        $("#datepicker-assign-role-start").datepicker({
+            dateFormat: 'dd-mm-yy',
+            minDate: new Date(),
+            onSelect: function (dateText, inst) {
+                $("#datepicker-assign-role-end").datepicker("option", "minDate", $("#datepicker-assign-role-start").datepicker("getDate"));
+            }
+        }).datepicker("setDate", new Date());
+
+        $("#datepicker-assign-role-end").datepicker({
+            dateFormat: 'dd-mm-yy',
+            minDate: new Date()
+        }).datepicker("setDate", new Date());
+        
 
         $(function () {
             $("#dialog-saved-employee-auth-edit").dialog({
@@ -83,6 +92,7 @@
                 maxWidth: "40%"
             });
         });
+        
 
         $("#form-submit-new-auth").submit(function () {
             $('#dialog-show-employee-auth').dialog('close');
@@ -131,14 +141,13 @@
     <p>Changes to employee's role delegation have been saved.</p>
 </div>
 
-
 <div id="dialog-show-employee-auth" class="hidden" title="Update Employee Role">
     @using (Html.BeginForm("SubmitNewDelegation", "DeptAuthorisation", FormMethod.Post, new { id = "form-submit-new-auth" }))
     {
         <div>
             <div>
                 <label>Employee Name: </label>
-                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName" , @id = "assign-emp-role-name" }, })
+                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName", @id = "assign-emp-role-name" }, })
             </div>
             <br />
             <div>
@@ -148,7 +157,7 @@
 
             <div>
                 <label id="lbl-period" class="hidden">Period: </label>
-                @Html.EditorFor(tuple => tuple.Item1.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "FromDate", @id = "datepicker-assign-role-start"}, })
+                @Html.EditorFor(tuple => tuple.Item1.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "FromDate", @id = "datepicker-assign-role-start" }, })
                 @Html.EditorFor(tuple => tuple.Item1.ToDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "ToDate", @id = "datepicker-assign-role-end" }, })
             </div>
             <hr />

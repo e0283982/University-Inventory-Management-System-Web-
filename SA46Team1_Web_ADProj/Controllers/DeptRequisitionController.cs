@@ -40,7 +40,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DiscardSelBackorders(string[] deleteItemCodes, string[] deleteReqId)
+        public RedirectToRouteResult DiscardSelBackorders(string[] itemCodes, string[] formIds)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
@@ -49,13 +49,13 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 int index = 0;
 
-                foreach (string i in deleteItemCodes) {
-                    string formId = deleteReqId[index];
+                foreach (string i in itemCodes) {
+                    string formId = formIds[index];
 
                     //update SRD
                     StaffRequisitionDetail srd = new StaffRequisitionDetail();
                     srd=
-                        dal.GetStaffRequisitionDetailById(formId, deleteItemCodes[index]);
+                        dal.GetStaffRequisitionDetailById(formId, itemCodes[index]);
                     srd.CancelledBackOrdered = srd.QuantityBackOrdered;
                     srd.QuantityBackOrdered = 0;
                     dal.UpdateStaffRequisitionDetail(srd);
@@ -155,18 +155,23 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 e.SaveChanges();
                 Session["newReqList"] = new List<StaffRequisitionDetail>();
+                
+                int noUnreadRequests = (int)Session["NoUnreadRequests"];
+                noUnreadRequests++;
+                Session["NoUnreadRequests"] = noUnreadRequests;
             }
 
             return RedirectToAction("Requisition", "Dept");
         }
 
         [HttpPost]
-        public RedirectToRouteResult DiscardNewItems(int[] rowIndexToDelete)
+        public RedirectToRouteResult DiscardNewItems(string data, int index)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
+                //data is item desc, index is list index
                 List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
-                list.RemoveAll(x=> rowIndexToDelete.Contains(list.IndexOf(x)));
+                list.RemoveAt(index);
                 Session["newReqList"] = list;
 
                 return RedirectToAction("Requisition", "Dept");

@@ -56,7 +56,6 @@
             <div class="item1">@Html.ActionLink("Home", "Home", "Dept")</div>
             <div class="item2">@Html.ActionLink("Requisition", "Requisition", "Dept")</div>
             <div class="item3">@Html.ActionLink("Requisition History", "RequisitionHistory", "Dept")</div>
-            <div class="item4">@Html.ActionLink("Collection Point", "CollectionPoint", "Dept")</div>
         }
         else if (User.IsInRole("Department Head"))
         {
@@ -79,6 +78,7 @@
                     <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
                         <i class="fas fa-bell" style="font-size:28px; color:#F9BE4F;"></i>
                     </a>
+                    <label>  @Session["NoUnreadRequests"] </label>
                 </span>
                 <span>
                     @Html.ActionLink("LOGOUT", "Login", "Main", null, new { @class = "btn btn-lu-red", style = "font-size: 8pt;" })
