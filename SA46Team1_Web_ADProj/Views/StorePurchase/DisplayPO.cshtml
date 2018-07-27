@@ -27,8 +27,6 @@
             type: 'get',
             dataType: 'json',
             success: function (data) {
-
-
                 // Parsing Date into readable format
                 var date = new Date(data[0]["Date"]);
                 var month = date.getMonth() + 1;
@@ -98,13 +96,8 @@
     // Edit PO Button
     $('#btn-edit-displayPO').click(function () {
         $('#dialog-edit-displayPO').dialog('open');
-
-        var data = table.row($(this).closest('tr')).data();
-        $.ajax({
-            url: '/StorePurchase/DeletePOItem',
-            type: 'POST',
-            data: JSON.stringify(data[0])
-        });
+        
+    // Some code here to go into edit mode
 
         return false;
     });
@@ -132,7 +125,13 @@
 
     // Cancel PO Button
     $('#btn-cancelPO').click(function () {
-        $('#dialog-cancelPO').dialog('open');
+        //$('#dialog-cancelPO').dialog('open');
+
+        $.ajax({
+            url: '/StorePurchase/CancelPO',
+            type: 'POST'
+        });
+
         return false;
     });
 

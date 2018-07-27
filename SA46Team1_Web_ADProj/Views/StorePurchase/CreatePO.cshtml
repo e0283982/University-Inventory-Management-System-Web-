@@ -9,6 +9,7 @@
 
 <script>
     var table;
+    var count = 0;
     // Load Datatable
     $(document).ready(function () {
         table = $('#dataTable-newPO').DataTable({
@@ -24,11 +25,15 @@
 
     // Remove row
     $('#dataTable-newPO tbody').on('click', 'button', function () {
-        var data = table.row($(this).closest('tr')).data();
+        var data = table.row($(this).parents('tr')).data();
+
         $.ajax({
             url: '/StorePurchase/DeletePOItem',
             type: 'POST',
-            data: JSON.stringify(data[0])
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            data: JSON.stringify({ data: data[0] })
         });
 
         table.row($(this).parents('tr')).remove().draw();
