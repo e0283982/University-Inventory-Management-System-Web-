@@ -97,6 +97,14 @@
     // Edit PO Button
     $('#btn-edit-displayPO').click(function () {
         $('#dialog-edit-displayPO').dialog('open');
+
+        var data = table.row($(this).closest('tr')).data();
+        $.ajax({
+            url: '/StorePurchase/DeletePOItem',
+            type: 'POST',
+            data: JSON.stringify(data[0])
+        });
+
         return false;
     });
 
