@@ -31,6 +31,7 @@ namespace SA46Team1_Web_ADProj
 
             //Session variable for PO
             Session["newPOList"] = new List<Models.PODetail>();
+            Session["poDetailsEditMode"] = false;
 
             // Session variable for Reorders
             Session["ReorderList"] = new List<Models.ReorderList>();
