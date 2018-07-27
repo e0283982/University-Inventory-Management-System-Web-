@@ -143,7 +143,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DiscardSelReqItems(string[] deleteItemDesc)
+        public RedirectToRouteResult DiscardSelReqItems(string data, int index)
         {
             string formId = Session["id"].ToString();
 
@@ -154,18 +154,12 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 DAL.StaffRequisitionDetailsRepositoryImpl dal = new DAL.StaffRequisitionDetailsRepositoryImpl(m);
-                int index = 0;
-
-                foreach (string s in deleteItemDesc) {
-                    string itemDesc = deleteItemDesc[index];
-                    string itemCode = m.Items.Where(x => x.Description == itemDesc).Select(x => x.ItemCode).FirstOrDefault();
-                    dal.DeleteStaffRequisitionDetail(formId,itemCode);
-                    index++;
-                }
+                string itemCode = m.Items.Where(x => x.Description == data).Select(x => x.ItemCode).FirstOrDefault();
+                dal.DeleteStaffRequisitionDetail(formId,itemCode);
 
                 int noOfItemsInRequest = m.StaffRequisitionDetails.Where(x => x.FormID == formId).ToList().Count();
 
-                if (noOfItemsInRequest == deleteItemDesc.Length) {
+                if (noOfItemsInRequest == 1) {
                     DAL.StaffRequisitionRepositoryImpl dalHeader = new DAL.StaffRequisitionRepositoryImpl(m);
                     StaffRequisitionHeader srh = m.StaffRequisitionHeaders.Where(x => x.FormID == formId).FirstOrDefault();
                     srh.Status = "Withdrawn"; //to add in list of constants
