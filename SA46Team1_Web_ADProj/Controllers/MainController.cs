@@ -66,16 +66,22 @@ namespace SA46Team1_Web_ADProj.Controllers
                     switch (employee.Designation)
                 {               
                     case "Department Head":
+                        Session["Role"] = "Department Head";
                         return RedirectToAction("Home", "Dept", new { area = "" });
                     case "Employee":
+                        Session["Role"] = "Employee";
                         return RedirectToAction("Home", "Dept", new { area = "" });
                     case "Employee Representative":
+                        Session["Role"] = "Employee Representative";
                         return RedirectToAction("Home", "Dept", new { area = "" });
                     case "Store Clerk":
+                        Session["Role"] = "Store Clerk";
                         return RedirectToAction("Home", "Store", new { area = "" });                     
                     case "Store Manager":
+                        Session["Role"] = "Store Manager";
                         return RedirectToAction("Home", "Store", new { area = "" });
                     case "Store Supervisor":
+                        Session["Role"] = "Store Supervisor";
                         return RedirectToAction("Home", "Store", new { area = "" });     
                     default:
                         return View("Login");                        
