@@ -155,6 +155,10 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 e.SaveChanges();
                 Session["newReqList"] = new List<StaffRequisitionDetail>();
+                
+                int noUnreadRequests = (int)Session["NoUnreadRequests"];
+                noUnreadRequests++;
+                Session["NoUnreadRequests"] = noUnreadRequests;
             }
 
             return RedirectToAction("Requisition", "Dept");

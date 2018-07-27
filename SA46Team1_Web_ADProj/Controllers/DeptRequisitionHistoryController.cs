@@ -170,6 +170,13 @@ namespace SA46Team1_Web_ADProj.Controllers
                     StaffRequisitionHeader srh = m.StaffRequisitionHeaders.Where(x => x.FormID == formId).FirstOrDefault();
                     srh.Status = "Withdrawn"; //to add in list of constants
                     dalHeader.UpdateStaffRequisitionHeader(srh);
+
+                    if (srh.NotificationStatus == "Unread") {
+                        int noUnreadRequests = (int)Session["NoUnreadRequests"];
+                        noUnreadRequests--;
+                        Session["NoUnreadRequests"] = noUnreadRequests;
+                    }
+                    
                 }
 
                 m.SaveChanges();
