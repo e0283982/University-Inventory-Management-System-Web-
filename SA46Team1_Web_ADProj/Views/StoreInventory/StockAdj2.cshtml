@@ -14,6 +14,7 @@
 
         var table = $('#dataTable-storeInventoryNewAdj').DataTable({
             //scrollY: '30vh',
+            "iDisplayLength": 5,
             scrollCollapse: true,
             paging: true,
             "columnDefs": [{
@@ -150,7 +151,7 @@
 </script>
 
 <div>
-    <h2>Inventory - New Stock Adjustment</h2>
+    <h5>Inventory - New Stock Adjustment</h5>
 </div>
 
 @*@using (Html.BeginForm("SubmitNewStockAdj", "StoreInventory", FormMethod.Post))*@
@@ -159,7 +160,7 @@
 {
 
     <table id="dataTable-storeInventoryNewAdj" class="display" style="width:80%;">
-        <thead>
+        <thead style="font-size: 10pt;">
             <tr>
                 <th>Item</th>
                 <th>Missing/Damaged</th>
@@ -169,7 +170,7 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody style="font-size: 10pt;">
             @{
                 //To make unique Id
                 int i = 0;
@@ -206,12 +207,12 @@
         <div class="col-md-12">
             <div style="float: right">
                 <span>
-                    <button class="btn btn-primary" id="btn-addItem-newStockAdj">Add Item</button>                  
+                    <button class="btn btn-lu-blue" id="btn-addItem-newStockAdj">Add Item</button>                  
                 </span>
                 <span>
                     @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
                     {
-                        <input class="btn btn-info" type="submit" value="Submit for Approval" />
+                        <input class="btn btn-lu-green" type="submit" value="Submit for Approval" />
                     }
                 </span>
             </div>
