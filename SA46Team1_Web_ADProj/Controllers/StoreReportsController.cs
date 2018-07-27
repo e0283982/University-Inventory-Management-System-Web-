@@ -185,6 +185,12 @@ namespace SA46Team1_Web_ADProj.Controllers
                 throw;
             }
         }
+
+        [Route("Report3")]
+        public ActionResult RptChartCategory()
+        {
+            return View();
+        }
         //[Route("Report1")]
         //public ActionResult Report1()
         //{

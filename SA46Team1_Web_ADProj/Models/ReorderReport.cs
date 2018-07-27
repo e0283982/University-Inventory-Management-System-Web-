@@ -16,13 +16,13 @@ namespace SA46Team1_Web_ADProj.Models
     {
         public string ItemCode { get; set; }
         public string Description { get; set; }
-        public int Quantity { get; set; }
+        public string CategoryName { get; set; }
         public string UoM { get; set; }
+        public int Quantity { get; set; }
         public int ReOrderLevel { get; set; }
         public int ReOrderQuantity { get; set; }
-        public string CategoryName { get; set; }
         public int POBackOrdered { get; set; }
         public int SRBackOrdered { get; set; }
-        public int RecommendQty { get; set; }
+        public int SuggestedQty { get; set; }
     }
 }

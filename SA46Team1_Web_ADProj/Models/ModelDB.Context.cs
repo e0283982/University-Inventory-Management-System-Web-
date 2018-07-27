@@ -15,6 +15,7 @@ namespace SA46Team1_Web_ADProj.Models
     using System.Data.Entity.Infrastructure;
     
     public partial class SSISdbEntities : IdentityDbContext<Employee>
+
     {
         public SSISdbEntities()
             : base("name=SSISdbEntities")
@@ -30,7 +31,6 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<Bin> Bins { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CollectionPoint> CollectionPoints { get; set; }
-        public virtual DbSet<CollectionPointTran> CollectionPointTrans { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<DepartmentDetail> DepartmentDetails { get; set; }
         public virtual DbSet<DisbursementDetail> DisbursementDetails { get; set; }
@@ -57,16 +57,19 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<SupplierPriceList> SupplierPriceLists { get; set; }
         public virtual DbSet<AllItemPrice> AllItemPrices { get; set; }
         public virtual DbSet<CollectionList> CollectionLists { get; set; }
+        public virtual DbSet<DepartmentUsageReport> DepartmentUsageReports { get; set; }
         public virtual DbSet<DisbursementList> DisbursementLists { get; set; }
         public virtual DbSet<DisbursementListDetail> DisbursementListDetails { get; set; }
         public virtual DbSet<GoodsReceivedList> GoodsReceivedLists { get; set; }
         public virtual DbSet<GRList> GRLists { get; set; }
         public virtual DbSet<InventoryOverview> InventoryOverviews { get; set; }
+        public virtual DbSet<InventoryValuationReport> InventoryValuationReports { get; set; }
         public virtual DbSet<ItemFullDetail> ItemFullDetails { get; set; }
         public virtual DbSet<PendingApproval> PendingApprovals { get; set; }
         public virtual DbSet<POFullDetail> POFullDetails { get; set; }
         public virtual DbSet<POList> POLists { get; set; }
         public virtual DbSet<ReorderList> ReorderLists { get; set; }
+        public virtual DbSet<ReorderReport> ReorderReports { get; set; }
         public virtual DbSet<RequisitionHistory> RequisitionHistories { get; set; }
         public virtual DbSet<RequisitionHistoryDetail> RequisitionHistoryDetails { get; set; }
         public virtual DbSet<RequisitionList> RequisitionLists { get; set; }
@@ -77,8 +80,5 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
         public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
         public virtual DbSet<StockTakeList> StockTakeLists { get; set; }
-        public virtual DbSet<InventoryValuationReport> InventoryValuationReports { get; set; }
-        public virtual DbSet<ReorderReport> ReorderReports { get; set; }
-        public virtual DbSet<DepartmentUsageReport> DepartmentUsageReports { get; set; }
     }
 }

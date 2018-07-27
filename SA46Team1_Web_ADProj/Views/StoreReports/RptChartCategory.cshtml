@@ -1,0 +1,80 @@
+﻿<html>
+
+<h2>Chart by Category</h2>
+
+<head>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/HighCharts/highcharts.js"></script>
+    <script src="~/Scripts/HighCharts/annotations.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var elevationData = [
+                [1, 225],
+                [2, 226],
+                [3, 228],
+                [4, 228],
+                [5, 229],
+                [6, 229],
+                [7, 230],
+                [8, 234],
+                [9, 235],
+                [10, 236],
+                [11, 235],
+                [12, 232],
+                [13, 228],
+                [14, 218],
+                [15, 214],
+                [16, 207],
+                [17, 202],
+                [18, 198],
+                [19, 196],
+                [20, 197],
+
+
+            ];
+
+            // line, spline, area, areaspline, column, bar, scatter, gauge, arearange,areasplinerange,columnrange
+            HighCharts.chart('container', {
+                chart: {
+                    type: 'line',
+                    zoomType: 'x',
+                    width: 900
+                },
+                title: {
+                    text: 'Distance and Time Graph'
+                },
+                subtitle: {
+                    text: 'Sub Title'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Distance'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Time'
+                    }
+                },
+                series: [{
+                    name: 'Distance Time',
+                    data: elevationData
+                }]
+            });
+
+        });
+
+    </script>
+
+</head>
+<body>
+
+    <div id="container" style="height:400px;min-width:105px"></div>
+
+</body>
+</html>
+
+
+
