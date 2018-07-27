@@ -161,12 +161,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DiscardNewItems(int[] rowIndexToDelete)
+        public RedirectToRouteResult DiscardNewItems(string data, int index)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
+                //data is item desc, index is list index
                 List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
-                list.RemoveAll(x=> rowIndexToDelete.Contains(list.IndexOf(x)));
+                list.RemoveAt(index);
                 Session["newReqList"] = list;
 
                 return RedirectToAction("Requisition", "Dept");
