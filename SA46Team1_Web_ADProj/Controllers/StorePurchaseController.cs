@@ -32,14 +32,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DeletePOItem(FormCollection data)
+        public RedirectToRouteResult DeletePOItem(string data)
         {
-            string itemCode = data["0"];
+            string itemCode = data;
             List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
             PODetail pod = new PODetail();
-            foreach(PODetail p in poFullDetailsList)
+            foreach (PODetail p in poFullDetailsList)
             {
-                if(p.ItemCode == itemCode)
+                if (p.ItemCode == itemCode)
                 {
                     pod = p;
                 }
@@ -50,45 +50,59 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult SavePO()
+        public ActionResult SavePO(string[] arrQty, string[] arrSupplier)
         {
             List<POFullDetail> itemList = new List<POFullDetail>();
-            List<PODetail> poDetailsList = (List<PODetail>) Session["newPOList"];
+            List<PODetail> poDetailsList = (List<PODetail>)Session["newPOList"];
             List<Supplier> supplierList = new List<Supplier>();
             List<Item> itemAdded = new List<Item>();
-
+            int arrayCount = 0;
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                // Grouping Suppliers & Extract Items out of PODetailsList
                 foreach (PODetail p in poDetailsList)
                 {
-                    Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == p.Item.Supplier1).FirstOrDefault();
+                    // Adding <input> Qty & <select> Supplier into poDetailsList 
+                    // Finalize PODetailsList
+                    p.QuantityOrdered = Convert.ToInt32(arrQty[arrayCount]);
+                    string coy = arrSupplier[arrayCount];
+                    Supplier sup = m.Suppliers.Where(x => x.SupplierCode == coy).FirstOrDefault();
+                    p.Item.Supplier = sup;
+
+                    // Grouping Suppliers & Extract Items out of PODetailsList
+                    string supCode = p.Item.Supplier.SupplierCode;
+                    Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
                     if (!supplierList.Contains(supplier))
                     {
                         supplierList.Add(supplier);
                     }
-                    POFullDetail f = new POFullDetail();
-                    f.ItemCode = p.ItemCode;
-                    f.QuantityOrdered = p.QuantityOrdered;
-                    f.UnitCost = p.UnitCost;
-                    itemList.Add(f);
+
+                    //POFullDetail f = new POFullDetail();
+                    //f.ItemCode = p.ItemCode;
+                    //f.QuantityOrdered = p.QuantityOrdered;
+                    //f.UnitCost = p.UnitCost;
+                    //itemList.Add(f);
                 }
 
                 // Each Supplier iterates once such that only 1 PO is created for each of them
                 foreach (Supplier s in supplierList)
                 {
                     // Create new PO based on supplier
-                    int count = m.POHeaders.Count();
+                    int count = m.POHeaders.Count() + 1;
                     string poId = "PO-" + count.ToString();
-                    
+
                     POHeader newPOHeader = new POHeader();
                     newPOHeader.PONumber = poId;
                     newPOHeader.Date = DateTime.Now;
                     newPOHeader.SupplierCode = s.SupplierCode;
                     newPOHeader.ContactName = s.ContactName;
                     newPOHeader.DeliverTo = "Logic University";
+
+// ---------------------------------- IMPORTANT : Need to change this based on Sesson Role ---------------------------------------------//
                     newPOHeader.EmployeeID = "E1";
+// --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
                     newPOHeader.Remarks = "";
+// ------------------------------------------------------------------------------------------------------------------------------------//
+
                     newPOHeader.Status = "Open";
                     newPOHeader.TransactionType = "PO";
                     m.POHeaders.Add(newPOHeader);
@@ -98,30 +112,30 @@ namespace SA46Team1_Web_ADProj.Controllers
                     foreach (PODetail pod in poDetailsList)
                     {
                         // Create PO Details, Line by line based on items
-                        Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == pod.Item.Supplier1).FirstOrDefault();
+                        string supCode = pod.Item.Supplier.SupplierCode;
+                        Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
                         if (supplier.Equals(s))
                         {
-                                if (!itemAdded.Contains(pod.Item))
-                                {
-                                    // Need to double check after changing UI
-                                    PODetail poDetailToAdd = new PODetail();
-                                    float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == supplier.SupplierCode 
-                                        && x.ItemCode == pod.Item.ItemCode).Select(y=> y.UnitCost).FirstOrDefault();
-                                    poDetailToAdd.PONumber = poId;
-                                    poDetailToAdd.ItemCode = pod.ItemCode;
-                                    poDetailToAdd.QuantityOrdered = pod.QuantityOrdered;
-                                    poDetailToAdd.QuantityBackOrdered = 0;
-                                    poDetailToAdd.QuantityDelivered = 0;
-                                    poDetailToAdd.UnitCost = itemUnitPrice;
-                                    poDetailToAdd.CancelledBackOrdered = 0;
-                                    m.PODetails.Add(poDetailToAdd);
-                                    m.SaveChanges();
-                                    itemAdded.Add(pod.Item);
-                                }
+// ---------------------------------- IMPORTANT : Not sure this is 100% working ---------------------------------------------//
+                            if (!itemAdded.Contains(pod.Item))
+                            {
+                                // Need to double check after changing UI
+                                PODetail poDetailToAdd = new PODetail();
+                                float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == supplier.SupplierCode
+                                    && x.ItemCode == pod.Item.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
+                                poDetailToAdd.PONumber = poId;
+                                poDetailToAdd.ItemCode = pod.ItemCode;
+                                poDetailToAdd.QuantityOrdered = pod.QuantityOrdered;
+                                poDetailToAdd.QuantityBackOrdered = pod.QuantityOrdered;
+                                poDetailToAdd.QuantityDelivered = 0;
+                                poDetailToAdd.UnitCost = itemUnitPrice;
+                                poDetailToAdd.CancelledBackOrdered = 0;
+                                m.PODetails.Add(poDetailToAdd);
+                                m.SaveChanges();
+                                itemAdded.Add(pod.Item);
+                            }
                         }
                     }
-
-                    // Send PO to Supplier
                 }
             }
             Session["newPOList"] = new List<PODetail>();
@@ -135,27 +149,44 @@ namespace SA46Team1_Web_ADProj.Controllers
             bool existingItem = false;
             using (SSISdbEntities m = new SSISdbEntities())
             {
+                // Get Item to add into Datatable
                 string itemCode = Request.Form["SelectItemChose"].ToString();
                 List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
                 PODetail pod = new PODetail();
                 PODetail existingPoD = new PODetail();
                 pod.PONumber = (string)Session["newPoId"];
-                    foreach(PODetail p in poFullDetailsList.ToList())
-                    {
-                        if(p.ItemCode == itemCode)
-                        {
-                            existingItem = true;
-                            existingPoD = p;
-                            existingPoD.QuantityOrdered += item2.QuantityOrdered;
-                            poFullDetailsList.Remove(p);
-                            poFullDetailsList.Add(existingPoD);
-                        }
-                    }
-                if(existingItem == false)
+
+                // Checking if Item is already in list
+                foreach (PODetail p in poFullDetailsList.ToList())
                 {
+                    // Iterate through whole list to check for itemcode
+                    if (p.ItemCode == itemCode)
+                    {
+                        // Combine 2 same items (Adding new qty to exisiting qty)
+                        existingItem = true;
+                        // Create new item so that we can remove old qty & add back new qty
+                        existingPoD = p;
+
+// ---------------------------------- IMPORTANT : Need to change this qty based on JSON of array ---------------------------------------------//
+                        existingPoD.QuantityOrdered += item2.QuantityOrdered;
+//--------------------------------------------------------------------------------------------------------------------------------------------//
+
+                        poFullDetailsList.Remove(p);
+                        poFullDetailsList.Add(existingPoD);
+                    }
+                }
+
+                // Execute when item is not in the list
+                if (existingItem == false)
+                {
+                    // Creating the new item with these 
                     itemToAdd = m.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
                     pod.ItemCode = itemToAdd.ItemCode;
+
+// ---------------------------------- IMPORTANT : Need to change this qty based on JSON of array ---------------------------------------------//
                     pod.QuantityOrdered = item2.QuantityOrdered;
+// -------------------------------------------------------------------------------------------------------------------------------------------//
+
                     pod.Item = m.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
 
                     pod.Item.Description = itemToAdd.Description;
@@ -235,5 +266,28 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Purchase", "Store");
         }
 
+        [HttpPost]
+        public ActionResult EditPO()
+        {
+            //string poNumber = (string)Session["poNumber"];
+            //using(SSISdbEntities m = new SSISdbEntities())
+            //{
+            //    PODetail poDetail = m.PODetails.Where(x => x.PONumber == poNumber).FirstOrDefault();
+            //}
+
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult CancelPO()
+        {
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult GoodsReceipt()
+        {
+            return null;
+        }
     }
 }
