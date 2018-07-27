@@ -20,7 +20,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
@@ -121,10 +121,10 @@
 
 </script>
 
-<h2>Role Delegation</h2>
+<h5>Role Delegation</h5>
 
 <table id="dataTable-roles-delegation" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Employee Id</th>
             <th>Employee Name</th>
@@ -134,6 +134,7 @@
             <th>Assign</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <div id="dialog-saved-employee-auth-edit" class="hidden" title="Changes saved">
@@ -159,8 +160,8 @@
                 @Html.EditorFor(tuple => tuple.Item1.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "FromDate", @id = "datepicker-assign-role-start" }, })
                 @Html.EditorFor(tuple => tuple.Item1.ToDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "ToDate", @id = "datepicker-assign-role-end" }, })
             </div>
-
-            <input id="btn-submit-emp-role-changes" class="btn-blue" type="submit" value="Save" />
+            <hr />
+            <input id="btn-submit-emp-role-changes" class="btn btn-lu-green btn-block" type="submit" value="Save" />
 
         </div>
     }

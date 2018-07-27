@@ -17,7 +17,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
@@ -72,20 +72,20 @@
 </script>
 
 <div>
-    <h2>Requisition Approval</h2>
-    <h3>Requisition Form @Session["ReviewNewRequisitionId"]</h3>
+    <h5>Requisition Approval</h5>
+    <h6>Requisition Form @Session["ReviewNewRequisitionId"]</h6>
 </div>
 
 
 <table id="dataTable-approval-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Description</th>
             <th>Unit of Measure</th>
             <th>Order Qty</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="font-size: 10pt;">
         <tr>
             <th></th>
             <th></th>
@@ -105,29 +105,29 @@
     </textarea>
 </div>
 
-<div id="btns-grp-btm">
-    <button class="btn-blue" id="btn-reject-req-form">Reject</button>
+<div id="btns-grp-btm" style="font-size: 10pt;">
+    <button class="btn-lu-red" id="btn-reject-req-form">Reject</button>
     <div id="dialog-reject-req-form" class="hidden" title="Reject Requisition">
         <p>The displayed Stationary request has been rejected.</p>
     </div>
 
-    <button class="btn-blue" id="btn-approve-req-form">Approve</button>
+    <button class="btn-lu-green" id="btn-approve-req-form">Approve</button>
     <div id="dialog-approve-req-form" class="hidden" title="Approve Requisition">
         <p>The displayed Stationary request has been approved.</p>
     </div>
 </div>
 
-<div id="details-back-btn">
+<div id="details-back-btn" style="font-size: 10pt;">
 
     @using (Html.BeginForm("BackToApprovalList", "DeptApproval", FormMethod.Post))
     {
-        <input class="btn-blue" type="submit" value="Back" />
+        <input class="btn-lu-blue" type="submit" value="Back" />
     }
 </div>
 
 
-<style>
+@*<style>
     #btns-grp-btm {
         margin-right: 10vw;
     }
-</style>
+</style>*@
