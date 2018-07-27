@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link href="@Url.Content("~/Content/buttons.css")" rel="stylesheet" type="text/css" />
 
     <script>
         $(function () {
@@ -33,70 +34,72 @@
 
 <body>
     <div class="sidenav" style="font-family: 'Oxygen', sans-serif;">
-        <div style="background-color: #1b1b1b;">
-            <div style="color: #A9A9A9; padding-left: 10px; padding-top: 40px;">
-                <h3>Logic University</h3>
-            </div>
-        </div>
-
-                @if (User.IsInRole("Store Clerk"))
-                {
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Home", "Store")</div>
-                    <div>@Html.ActionLink("Inventory", "Inventory", "Store")</div>
-                    <div>@Html.ActionLink("Disbursements", "Disbursements", "Store")</div>
-                    <div>@Html.ActionLink("Purchase", "Purchase", "Store")</div>
-                    <div>@Html.ActionLink("Report", "Report", "Store")</div>
-                }
-                else if (User.IsInRole("Store Manager"))
-                {
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Home", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Inventory" ? "active" : "")">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Disbursements" ? "active" : "")">@Html.ActionLink("Disbursements", "Disbursements", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Purchase" ? "active" : "")">@Html.ActionLink("Purchase", "Purchase", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Purchase" ? "active" : "")">@Html.ActionLink("Approval", "Purchase", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Report" ? "active" : "")">@Html.ActionLink("Report", "Report", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Maintenance" ? "active" : "")">@Html.ActionLink("Maintenance", "Maintenance", "Store")</div>
-                }
-                else if (User.IsInRole("Store Supervisor"))
-                {
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Home", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Inventory" ? "active" : "")">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Disbursements" ? "active" : "")">@Html.ActionLink("Disbursements", "Disbursements", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Purchase" ? "active" : "")">@Html.ActionLink("Purchase", "Purchase", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Purchase" ? "active" : "")">@Html.ActionLink("Approval", "Purchase", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Report" ? "active" : "")">@Html.ActionLink("Report", "Report", "Store")</div>
-                    <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Maintenance" ? "active" : "")">@Html.ActionLink("Maintenance", "Maintenance", "Store")</div>
-                }
-
         <div class="pic">
             <img src="~/Content/images/logic1.png" />
         </div>
 
+        <div style="background-color: #1b1b1b;">
+            <div style="color: #A9A9A9; padding-left: 10px; padding-top: 50px;">
+                <h3>Logic University</h3>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Store Clerk"))
+        {
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Home", "Store")</div>
+            <div>@Html.ActionLink("Inventory", "Inventory", "Store")</div>
+            <div>@Html.ActionLink("Disbursements", "Disbursements", "Store")</div>
+            <div>@Html.ActionLink("Purchase", "Purchase", "Store")</div>
+            <div>@Html.ActionLink("Report", "Report", "Store")</div>
+        }
+        else if (User.IsInRole("Store Manager"))
+        {
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Home", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Inventory" ? "active" : "")">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Disbursements" ? "active" : "")">@Html.ActionLink("Disbursements", "Disbursements", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Purchase" ? "active" : "")">@Html.ActionLink("Purchase", "Purchase", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Purchase" ? "active" : "")">@Html.ActionLink("Approval", "Purchase", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Report" ? "active" : "")">@Html.ActionLink("Report", "Report", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Maintenance" ? "active" : "")">@Html.ActionLink("Maintenance", "Maintenance", "Store")</div>
+        }
+        else if (User.IsInRole("Store Supervisor"))
+        {
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Home" ? "active" : "")">@Html.ActionLink("Home", "Home", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Inventory" ? "active" : "")">@Html.ActionLink("Inventory", "Inventory", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Disbursements" ? "active" : "")">@Html.ActionLink("Disbursements", "Disbursements", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Purchase" ? "active" : "")">@Html.ActionLink("Purchase", "Purchase", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Purchase" ? "active" : "")">@Html.ActionLink("Approval", "Purchase", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Report" ? "active" : "")">@Html.ActionLink("Report", "Report", "Store")</div>
+            <div class="@(ViewContext.RouteData.Values["Action"].ToString() == "Maintenance" ? "active" : "")">@Html.ActionLink("Maintenance", "Maintenance", "Store")</div>
+        }
+
+        <div class="foot">
+            <h6>&nbsp;&nbsp; &copy; 2018 - SA46_ADProject </h6>
+        </div>
     </div>
 
-        <div class="main">
-            <div class="container" style="font-family: 'Oxygen', sans-serif;">
-                <div style="float: right; padding-top:10px;">
-                    <span>
-                        <a href="@Url.Action("Notifications", "Dept")" class="btn btn-warning">
-                            <i class="fas fa-bell" style="font-size:20px;"></i>
-                        </a>
-                    </span>
-                    <span>
-                        @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-danger" })
-                    </span>
-                </div>
+    <div class="main">
+        <div class="container" style="font-family: 'Oxygen', sans-serif; padding-bottom: 10px;">
+            <div style="float: right; padding-top:10px;">
+                <span>
+                    <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
+                        <i class="fas fa-bell" style="font-size:32px; color:#F9BE4F;"></i>
+                    </a>
+                    <label>  @Session["NoUnreadRequests"] </label>
+                </span>
+                <span>
+                    @Html.ActionLink("Logout", "Login", "Main", null, new { @class = "btn btn-lu-red", style = "font-size: 10pt;" })
+                </span>
             </div>
-
-            <br />
-            <br />
-            <hr />
-
-            <div class="container" style="align-content:center;">
-                @RenderBody()
-            </div>
-
         </div>
+
+        <br />
+        <hr />
+
+        <div class="container" style="align-content:center;">
+            @RenderBody()
+        </div>
+    </div>
  
         @*<div class="footer">
             <p>&copy; 2018 - SA46_ADProject</p>

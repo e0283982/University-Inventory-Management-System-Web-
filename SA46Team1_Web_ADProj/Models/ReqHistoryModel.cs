@@ -14,5 +14,7 @@ namespace SA46Team1_Web_ADProj.Models
         public string RepName { get; set; }
 
         public string ApproverName { get; set; }
+
+        public string Status { get; set; }
     }
 }

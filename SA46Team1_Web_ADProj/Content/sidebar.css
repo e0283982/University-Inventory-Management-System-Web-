@@ -37,6 +37,7 @@
 .main {
    margin-left: 220px; /* Same as the width of the sidebar */
    padding: 0px 10px;
+   background-color: #f4f4f4;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
@@ -47,8 +48,28 @@
 
 .sidenav .pic {
     position: fixed;
-    bottom: 0;
+    top: 0;
 }
+
+.sidenav .foot {
+    position: fixed;
+    bottom: 0;
+    color: aliceblue;
+}
+
+a.icon-block {
+    display: inline-block;
+    vertical-align: top;
+    width: 2em;
+    text-align: center;
+}
+
+    a.icon-block i,
+    a.icon-block span {
+        display:block;
+        /*width:100%;
+        clear:both;*/
+    }
 
 span + span {
     margin-left: 10px;
