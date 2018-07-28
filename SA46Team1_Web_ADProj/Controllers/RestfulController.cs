@@ -781,9 +781,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [System.Web.Mvc.HttpPost]
         [System.Web.Mvc.Route("CreateNewRequisition")]
         public void CreateNewRequisition(NewRequisitionModel newRequisitionModel)
-        {
-            
-            
+        {                        
 
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -816,8 +814,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     m.SaveChanges();
                 }
 
-                
-
+               
                 //Create new Staff Requisition Details
                 StaffRequisitionDetail srd = new StaffRequisitionDetail();
                 String itemCode = m.Items.Where(x => x.Description == newRequisitionModel.ItemDescription).Select(x => x.ItemCode).FirstOrDefault();
@@ -835,12 +832,19 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 m.SaveChanges();
 
+            }           
+
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRequisitionHistoryDepartmentRep/{id}")]
+        public List<RequisitionHistory> GetRequisitionHistoryDepartmentRep(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                List<string> deptReqFormIdsList = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList();
+                return m.RequisitionHistories.Where(x => deptReqFormIdsList.Contains(x.FormID)).OrderByDescending(x => x.ApprovalStatus).ToList();
             }
-
-
-
-
-
         }
 
 
