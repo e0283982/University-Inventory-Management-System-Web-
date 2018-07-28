@@ -161,7 +161,7 @@
 
         <div>
             <label>Quantity to Adjust: </label>
-            @Html.EditorFor(tuple => tuple.Item1.QuantityAdjusted, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityAdjusted", @id = "assign-quantity-adjusted" }, })
+            @Html.EditorFor(tuple => tuple.Item1.QuantityAdjusted, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityAdjusted", @id = "assign-quantity-adjusted", @min = "1", @step = "1", @Value = "1" }, })
         </div>
 
         <hr />
