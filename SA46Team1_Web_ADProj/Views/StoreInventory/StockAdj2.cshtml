@@ -1,323 +1,240 @@
-﻿@model SA46Team1_Web_ADProj.Models.StockAdjustmentDetail
-
-@{
+﻿@{
     Layout = null;
+    List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
+    //List<int> rowIndexes = (List<int>)TempData["RowIndexesToDiscard"];
 }
+
+
+@using SA46Team1_Web_ADProj.Models;
+@model StockAdjItemModel
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-
 <script>
+    var table;
     $(document).ready(function () {
-
-        var dialogDiv = $('#dialog-addItem-newStockAdj');
-
-        var table = $('#dataTable-storeInventoryNewAdj').DataTable({
-            scrollY: '30vh',
+       
+        table = $('#dataTable-new-adj').DataTable({
+            //scrollY: '30vh',
+            "iDisplayLength": 5,
             scrollCollapse: true,
+            ordering: false,
             paging: true,
-            "columnDefs": [{
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<button>Delete</button>"
-            }]
-        });
-
-        $('#dataTable-storeInventoryNewAdj tbody').on('click', 'button', function () {
-            table.row($(this).parents('tr'))
-                .remove()
-                .draw();
-        });
-
-        dialogDiv.dialog({
-            autoOpen: false,
-            modal: true,
-            buttons: {
-                'Create': AddItem,
-                'Cancel': function () {
-                    dialogDiv.dialog('close');
-                    clearInputFields();
+            columnDefs: [
+                {
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
                 }
-            }
+            ]
         });
-
-        function postURL(url, multipart) {
-            var form = document.createElement("FORM");
-            form.method = "POST";
-            if (multipart) {
-                form.enctype = "multipart/form-data";
-            }
-            form.style.display = "none";
-            document.body.appendChild(form);
-            form.action = url.replace(/\?(.*)/, function (_, urlArgs) {
-                urlArgs.replace(/\+/g, " ").replace(/([^&=]+)=([^&=]*)/g, function (input, key, value) {
-                    input = document.createElement("INPUT");
-                    input.type = "hidden";
-                    input.name = decodeURIComponent(key);
-                    input.value = decodeURIComponent(value);
-                    form.appendChild(input);
-                });
-                return "";
-            });
-            form.submit();
-        }
-
-        function AddItem() {
-
-            //url_redirect({
-            //    url: "http://localhost:49921/StoreInventory/AddNewItem",
-            //    method: "post"
-            //});
-
-            postURL("http://localhost:49921/StoreInventory/AddNewItem", "false");
+    });
 
 
+    $(function () {
+        $("#dialog-add-adj-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%",
+            beforeClose: function () {
+                $("#form-submit-add-new-adj").trigger("reset");
+            },
+        });
+    });
 
-
-            //var stockAdjustment = {};
-            //stockAdjustment.Item = $('#txt-Item').val();
-            //stockAdjustment.Option = $("select#option").val().toUpperCase()[0] + $("select#option").val().substring(1);
-            //stockAdjustment.Quantity = $('#txt-Quantity').val();
-            //stockAdjustment.Reason = $('#txt-Reason').val();
-
-            //table.row.add([
-            //    stockAdjustment.Item,
-            //    stockAdjustment.Option,
-            //    stockAdjustment.Quantity,
-            //    stockAdjustment.Reason
-            //]).draw();
-
-            //dialogDiv.dialog('close');
-            //clearInputFields();
-
-        }
-
-        function clearInputFields() {
-            $('#dialog-addItem-newStockAdj input[type="text"]').val('');
-            $('#dialog-addItem-newStockAdj input[type="number"]').val('');
-        }
-
-
-
+    $('#btn-add-adj-item').on('click', function () {
+        $('#dialog-add-adj-item').dialog('open');
     });
 
     $(function () {
-        $("#dialog-submit-newStockAdj").dialog({
-            autoOpen: false
+        $("#dialog-new-adj-submited").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
-    });
-
-    $('#btn-submit-newStockAdj').click(function () {
-
-        //var stockAdjustmentHeader = {};
-        //stockAdjustmentHeader.RequestId = 4;
-        //stockAdjustmentHeader.DateRequested = new Date($.now());
-        //stockAdjustmentHeader.Requestor = "E1";
-        //stockAdjustmentHeader.Approver = "E2";
-        //stockAdjustmentHeader.DateProcessed = new Date($.now());
-        //stockAdjustmentHeader.Status = "Pending";
-        //stockAdjustmentHeader.TransactionType = "Stock Adjustment";
-
-        //alert(JSON.stringify(stockAdjustmentHeader));
-
-        //$.ajax({
-        //    url: 'http://localhost:49921/WCFService.svc/CreateStockAdjustmentList',
-        //    type: 'POST',
-        //    data: '{ stockAdjustmentHeader:' + JSON.stringify(stockAdjustmentHeader) + '}',
-        //    contentType: 'application/json; charset=utf-8',
-        //    dataType: 'json',
-        //    success: function () {
-
-        //    }
-        //});
-
-        $('#dialog-submit-newStockAdj').dialog('open');
-
-
-        //return false;
     });
 
     $(function () {
-        $("#dialog-addItem-newStockAdj").dialog({
-            autoOpen: false
+        $("#dialog-confirm-submit-new-adj").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
         });
     });
 
-    $('#btn-addItem-newStockAdj').click(function () {
-        $('#dialog-addItem-newStockAdj').dialog('open');
-        //return false;
+    $('#dataTable-new-adj tbody').on('click', '#btn-discard-new-adj', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        alert(data[0]);
+        $.ajax({
+            url: '/StoreInventory/DiscardNewAdjItem',
+            data: JSON.stringify({ data: data[0], index: index }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Inventory", "Store")';
+    });
+
+    $('#dataTable-new-adj tbody').on('change', '#input-adj-qty', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 3).nodes().to$().find('input').val();
+       
+        $.ajax({
+            url: '/StoreInventory/EditNewAdjQty',
+            data: JSON.stringify({ data: qty, index: index }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Inventory", "Store")';
+    });
+
+    //form sub btn click
+     $('#btn-submit-new-adj').on('click', function () {
+        $('#dialog-confirm-submit-new-adj').dialog('open');
+    });
+
+    $('#btn-confirm-submit-cancel').on('click', function () {
+        $('#dialog-confirm-submit-new-adj').dialog('close');
+    });
+   
+    $('#btn-confirm-submit-submit').on('click', function () {
+        $('#dialog-new-adj-submited').dialog('open');
+
+        $.ajax({
+            url: '/StoreInventory/SubmitNewAdj',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Inventory", "Store")';
+
     });
 </script>
 
-<div>
-    <h2>Inventory - New Stock Adjustment</h2>
+
+<div class="row">
+    <div class="col-md-6" style="padding: -30px;">
+        <h5>Stock Adjustment</h5>
+    </div>
+    <div class="col-md-6">
+        <div style="float: right; padding-top:35px;">
+            <span>
+                <button class="btn btn-primary" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
+            </span>
+            <span>
+                <button class="btn btn-info" id="btn-submit-new-adj" style="font-size: 10pt;">Submit</button> 
+            </span>
+        </div>
+    </div>
 </div>
 
-@*@using (Html.BeginForm("SubmitNewStockAdj", "StoreInventory", FormMethod.Post))*@
+<br />
 
-@using (Html.BeginForm("AddNewItem", "StoreInventory", FormMethod.Post))
-{
-
-    <table id="dataTable-storeInventoryNewAdj" class="display" style="width:80%;">
-        <thead>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+    <table id="dataTable-new-adj" class="table-hover" style="width:80%;">
+        <thead style="font-size: 10pt;">
             <tr>
-                <th>Item</th>
-                <th>Missing/Damaged</th>
+                <th>Item Code</th>
+                <th>Item Description</th>
+                <th>Damaged/Missing</th>
                 <th>Quantity</th>
+                <th>Adjust Cost ($)</th>
                 <th>Delete</th>
-
             </tr>
         </thead>
-
-        <tbody>
-            @{
-                //To make unique Id
-                int i = 0;
-                foreach (var item in Model.StockAdjustmentDetails.ToList())
-                {
-
-                    <tr>
-                        <td>
-                            @Html.TextBoxFor(o => o.StockAdjustmentDetails[i].ItemCode, new { @id = "ItemCode_" + i, @readonly = "readonly" })
-                        </td>
-                        <td>
-                            @Html.DropDownListFor(o => o.StockAdjustmentDetails[i].Remarks, new List<SelectListItem>
-                       { new SelectListItem{Text="Damaged", Value="Damaged"},
-                         new SelectListItem{Text="Missing", Value="Missing"}}, new { style = "padding: 1px; " })
-
-
-                        </td>
-                        <td>
-                            @Html.EditorFor(o => o.StockAdjustmentDetails[i].ItemQuantity, new { @id = "ItemQuantity_" + i })
-                        </td>
-                        <td></td>
-
-                    </tr>
-                    i++;
-                }
-            }
-        </tbody>
-
+        @foreach (var item in list)
+        {
+            <tr>
+                <td>@item.ItemCode</td>
+                <td>@item.ItemDesc</td>
+                <td>@item.Reason</td>
+                <td>
+                    <input id="input-adj-qty" value="@item.AdjQty" type="number" min="1" />
+                </td>
+                <td>
+                    <input id="input-adj-cost" value="@item.AdjCost.ToString("0.00")" readonly />
+                </td>
+                <td>
+                    <span>
+                        <button class="btn btn-lu-red" id="btn-discard-new-adj">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </span>
+                </td>
+            </tr>
+        }
+        <tbody style="font-size: 10pt;"></tbody>
     </table>
-
     <hr />
 
     <div class="row">
         <div class="col-md-12">
-            <div style="float: right">
+            <div style="float: right;">
                 <span>
-                    <button class="btn btn-primary" id="btn-addItem-newStockAdj">Add Item</button>                  
-                </span>
-                <span>
-                    @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
-                    {
-                        <input class="btn btn-info" type="submit" value="Submit for Approval" />
-                    }
+                    <button class="btn btn-lu-red" style="font-size: 10pt;">Back</button>
                 </span>
             </div>
         </div>
     </div>
 
-    <div id="dialog-addItem-newStockAdj" class="hidden" title="Add Item">
+    <div id="dialog-add-adj-item" class="hidden" title="Add Item (New Adjustment)">
+        @using (Html.BeginForm("AddNewAdjItem", "StoreInventory", FormMethod.Post, new { id = "form-submit-add-new-adj" }))
+        {
+            <div>
+                <div>
+                    <label>Item Description: </label>
+                    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+                </div>
 
+                <div>
+                    <label>Adjustment Qty: </label>
+                    @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @Value = "1" }, })
+                </div>
 
-        @Html.Label("Item")
-        <br />
-        @Html.TextBox("txt-Item")
+                <br />
 
-        @*<table>
-            <tr>
-                <td>@Html.Label("Item")  </td>
-            </tr>
-            <tr>
-                @Html.TextBox("txt-Item")
-                @*<td><input type="text" id="txt-Item" /></td>*@
-        @*</tr>
-            <tr>
-                <td>Missing/Damaged</td>
-            </tr>
-            <tr>
-                <td>
-                    <select id="option">
-                        <option value="missing">Missing</option>
-                        <option value="damaged">Damaged</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Quantity</td>
-            </tr>
-            <tr>
-                <td><input type="number" id="txt-Quantity" /></td>
-            </tr>
-            <tr>
-                <td>Reason</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="txt-Reason" /></td>
-            </tr>
-            </table>*@
+                <div>
+                    <label>Reason: </label>
+                    @Html.DropDownList("SelectAdjReason", ViewBag.AdjustmentReasons as SelectList)
+                </div>
 
+                <hr />
 
-        @*<p>Add a new item via here.</p>
-            <p>(Todo: on this btn click, add a new datatable row.)</p>*@
-
+                <div>
+                    <input id="btn-submit-add-adj-item" class="btn btn-info btn-block" type="submit" value="Add" />
+                </div>
+            </div>
+        }
     </div>
-}
-
-@*<div id="btns-grp-btm">
-
-    <button class="btn btn-info" id="btn-addItem-newStockAdj">Add Item</button>
-    <div id="dialog-addItem-newStockAdj" class="hidden" title="Add Item">
 
 
-        @Html.Label("Item")
-        <br />
-        @Html.TextBox("txt-Item")*@
+    <div id="dialog-confirm-submit-new-adj" class="hidden" title="Confirm Submission (New Adjustment)">
+        <h6>Are you sure you want to submit the adjustment?</h6>
+        <div>
+            <span>
+                <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+            </span>
 
-        @*<table>
-            <tr>
-                <td>@Html.Label("Item")  </td>
-            </tr>
-            <tr>
-                @Html.TextBox("txt-Item")
-                @*<td><input type="text" id="txt-Item" /></td>*@
-        @*</tr>
-            <tr>
-                <td>Missing/Damaged</td>
-            </tr>
-            <tr>
-                <td>
-                    <select id="option">
-                        <option value="missing">Missing</option>
-                        <option value="damaged">Damaged</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Quantity</td>
-            </tr>
-            <tr>
-                <td><input type="number" id="txt-Quantity" /></td>
-            </tr>
-            <tr>
-                <td>Reason</td>
-            </tr>
-            <tr>
-                <td><input type="text" id="txt-Reason" /></td>
-            </tr>
-            </table>*@
+            <span>
+                <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+            </span>
+        </div>
+    </div>
 
+    <div id="dialog-new-adj-submited" class="hidden" title="New Adjustment submitted">
+        <h6>New adjustment request has been submitted for approval.</h6>
+    </div>
 
-        @*<p>Add a new item via here.</p>
-            <p>(Todo: on this btn click, add a new datatable row.)</p>*@
-
-    @*</div>
-
-</div>*@
-
-@*<style>
-    #btns-grp-btm {
-        margin-right: 10vw;
-    }
-</style>*@
+</div>

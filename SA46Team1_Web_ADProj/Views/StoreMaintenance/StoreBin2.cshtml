@@ -19,8 +19,9 @@
             table = $('#dataTable-store-bins-details').DataTable({
                 paging: true,
                 sort: true,
-                searching: true,
-                scrollY: 200,
+                searching: false,
+                "iDisplayLength": 5,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     {
@@ -57,7 +58,7 @@
         });
     });
 
-    
+
     $(function () {
         $("#dialog-submit-edit-bin").dialog({
             autoOpen: false,
@@ -99,35 +100,45 @@
 </script>
 
 <div>
-    <h2>Bin: @Session["MaintenanceBinId"]</h2>
+    <h5>Bin: @Session["MaintenanceBinId"]</h5>
 </div>
 
 
 <table id="dataTable-store-bins-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Bin Number</th>
             <th>Bin Name</th>
             <th>Active</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
+    <tbody style="font-size: 10pt;">
+            @*<tr>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>*@
     </tbody>
 </table>
 
-<button id="btn-edit-bin" class="btn-blue">Edit</button>
+<hr />
 
-<div id="details-back-btn">
-
-    @using (Html.BeginForm("BackToBinsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToBinsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+                }
+            </span>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button id="btn-edit-bin" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+        </span>
+    </div>
 </div>
 
 <div id="dialog-submit-edit-bin" class="hidden" title="Edit Bin Successful (Maintenance)">

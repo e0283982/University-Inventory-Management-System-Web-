@@ -20,9 +20,11 @@ namespace SA46Team1_Web_ADProj.Models
         public int ReOrderLevel { get; set; }
         public int ReOrderQuantity { get; set; }
         public string UoM { get; set; }
+        public Nullable<int> POBO { get; set; }
+        public Nullable<int> SRBO { get; set; }
+        public Nullable<int> ActualReorder { get; set; }
         public string s1 { get; set; }
         public string s2 { get; set; }
         public string s3 { get; set; }
-        public Nullable<int> BackOrder { get; set; }
     }
 }

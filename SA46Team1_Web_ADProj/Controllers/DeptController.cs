@@ -13,6 +13,17 @@ namespace SA46Team1_Web_ADProj.Controllers
     {
         public ActionResult Home()
         {
+            string deptCode = Session["DepartmentCode"].ToString();
+            //initialise number of pending approvals belonging to dept here
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == deptCode && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Unread").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                int deptUnreadPendingApprovalsCount = list.Count();
+
+                Session["NoUnreadRequests"] = deptUnreadPendingApprovalsCount;
+            }
+
             return View();
         }
 
@@ -41,6 +52,10 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
+        public ActionResult CollectionPoint()
+        {
+            return View();
+        }
 
     }
 }

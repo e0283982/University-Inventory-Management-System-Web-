@@ -19,8 +19,9 @@
                 table = $('#dataTable-store-categories-details').DataTable({
                     paging: true,
                     sort: true,
-                    searching: true,
-                    scrollY: 200,
+                    searching: false,
+                    "iDisplayLength": 5,
+                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'CategoryID' },
@@ -53,7 +54,7 @@
                 });
             }
             });
-        
+
     });
 
     $(function () {
@@ -95,16 +96,15 @@
 
         });
     });
-    
+
 </script>
 
 <div>
-    <h2>Category: @Session["MaintenanceCategoryId"]</h2>
+    <h5>Category: @Session["MaintenanceCategoryId"]</h5>
 </div>
 
-
 <table id="dataTable-store-categories-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Category Id</th>
             <th>Name</th>
@@ -112,27 +112,42 @@
         </tr>
     </thead>
 
-    <tbody>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
+    <tbody style="font-size: 10pt;">
+            @*<tr>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>*@
     </tbody>
 </table>
 
+<hr />
 
-<button id="btn-edit-category" class="btn-blue">Edit</button>
-
-
-<div id="details-back-btn">
-
-    @using (Html.BeginForm("BackToCategoriesMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToCategoriesMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+                }
+            </span>           
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button id="btn-edit-category" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+        </span>
+    </div>
 </div>
 
+                @*<button class="btn btn-danger" id="details-back-btn">Back</button>*@
+@*<div id="details-back-btn">
+        @using (Html.BeginForm("BackToCategoriesMaintenanceList", "StoreMaintenance", FormMethod.Post))
+        {
+            <input class="btn btn-danger" type="submit" value="Back" />
+        }
+</div>*@
 
 <div id="dialog-submit-edit-category" class="hidden" title="Edit Category Successful (Maintenance)">
     <p>Category has been successfully edited.</p>

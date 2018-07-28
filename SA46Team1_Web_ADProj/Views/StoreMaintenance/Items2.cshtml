@@ -26,8 +26,10 @@
             table = $('#dataTable-store-items-details').DataTable({
                 paging: true,
                 sort: true,
-                searching: true,
-                scrollY: 200,
+                searching: false,
+                "iDisplayLength": 5,
+                //scrollY: 200,
+                scrollX: 800,
                 data: data,
                 columns: [
                     { 'data': 'ItemCode' },
@@ -170,12 +172,12 @@
 </script>
 
 <div>
-    <h2>Item Code: @Session["MaintenanceItemCode"]</h2>
+    <h5>Item Code: @Session["MaintenanceItemCode"]</h5>
 </div>
 
 
 <table id="dataTable-store-items-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Description</th>
@@ -187,32 +189,28 @@
             <th>Active</th>
         </tr>
     </thead>
-
-
-    <tbody>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </tbody>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-<div id="details-back-btn">
+<hr />
 
-    @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+                }
+            </span>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button id="btn-edit-item" class="btn btn-lu-green">Save</button>
+        </span>
+    </div>
 </div>
-
-
-<button id="btn-edit-item" class="btn-blue">Edit</button>
 
 <div id="dialog-submit-edit-item" class="hidden" title="Edit Item Successful (Maintenance)">
     <p>Item has been successfully edited.</p>

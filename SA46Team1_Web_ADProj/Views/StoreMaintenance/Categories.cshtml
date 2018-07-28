@@ -23,7 +23,8 @@
                 paging: true,
                 sort: true,
                 searching: true,
-                scrollY: 200,
+                "iDisplayLength": 5,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     { 'data': 'CategoryID' },
@@ -90,22 +91,32 @@
 </script>
 
 <div>
-    <h2>Maintenance - Category</h2>
+    <h5>Maintenance - Category</h5>
 </div>
 
 
 <table id="dataTable-store-categories" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Category ID</th>
             <th>Item</th>
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
+<hr />
 
-<button id="btn-add-new-category" class="btn-blue">Add New Category</button>
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button id="btn-add-new-category" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Category</button>
+            </span>
+        </div>
+    </div>
+</div>
 
 <div id="dialog-add-new-category" class="hidden" title="Add Category (Maintenance)">
     @using (Html.BeginForm("AddNewCategory", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-category" }))
@@ -116,7 +127,9 @@
                 @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
             </div>
 
-            <input id="btn-submit-add-category" class="btn-blue" type="submit" value="Add" />
+            <hr />
+
+            <input id="btn-submit-add-category" class="btn btn-lu-green btn-block" type="submit" value="Add" />
 
         </div>
     }

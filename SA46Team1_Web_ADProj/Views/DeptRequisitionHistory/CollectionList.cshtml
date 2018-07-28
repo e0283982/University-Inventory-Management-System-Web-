@@ -15,7 +15,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'Description' },
@@ -30,12 +30,12 @@
 </script>
 
 <div>
-    <h2>Collection List</h2>
+    <h5>Collection List</h5>
 </div>
 
 
 <table id="dataTable-collectionList" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Description</th>
             <th>Unit of Measure</th>
@@ -43,6 +43,8 @@
         </tr>
     </thead>
 
+    <tbody style="font-size: 10pt;"></tbody>
+
 </table>
 
-<div>@Html.ActionLink("Print", "Home", "Dept", null, new { @class = "btn btn-info" })</div>
+<div>@Html.ActionLink("Print", "Home", "Dept", null, new { @class = "btn btn-lu-green" })</div>

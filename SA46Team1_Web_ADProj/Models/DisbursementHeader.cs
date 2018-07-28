@@ -27,7 +27,6 @@ namespace SA46Team1_Web_ADProj.Models
         public string RepresentativeID { get; set; }
         public float Amount { get; set; }
         public string Status { get; set; }
-        public byte[] Signature { get; set; }
         public string StockRetrievalId { get; set; }
     
         public virtual CollectionPoint CollectionPoint { get; set; }

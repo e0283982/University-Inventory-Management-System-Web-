@@ -18,14 +18,12 @@ namespace SA46Team1_Web_ADProj.Models
         public string ItemCode { get; set; }
         public string Description { get; set; }
         public string CompanyName { get; set; }
-        public int QuantityOrdered { get; set; }
-        public string UoM { get; set; }
         public float UnitCost { get; set; }
-        public Nullable<float> Total { get; set; }
+        public int QuantityOrdered { get; set; }
+        public int QuantityDelivered { get; set; }
+        public string UoM { get; set; }
         public System.DateTime Date { get; set; }
         public string EmployeeName { get; set; }
-        public string Supplier1 { get; set; }
-        public string Supplier2 { get; set; }
-        public string Supplier3 { get; set; }
+        public string Status { get; set; }
     }
 }

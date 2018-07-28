@@ -19,8 +19,9 @@
             table = $('#dataTable-store-collection-points-details').DataTable({
                 paging: true,
                 sort: true,
-                searching: true,
-                scrollY: 200,
+                searching: false,
+                "iDisplayLength": 5,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     {
@@ -105,12 +106,12 @@
 </script>
 
 <div>
-    <h2>Collection Point: @Session["MaintenanceCollectionPtCode"]</h2>
+    <h5>Collection Point: @Session["MaintenanceCollectionPtCode"]</h5>
 </div>
 
 
 <table id="dataTable-store-collection-points-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Collection Point Id</th>
             <th>Collection Point Description</th>
@@ -119,27 +120,35 @@
         </tr>
     </thead>
 
-    <tbody>
-        <tr>
+    <tbody style="font-size: 10pt;">
+        @*<tr>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
-        </tr>
+        </tr>*@
     </tbody>
 </table>
 
-<button id="btn-edit-collection-point" class="btn-blue">Edit</button>
+<hr />
 
-
-<div id="details-back-btn">
-
-    @using (Html.BeginForm("BackToCollectionPointsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToCollectionPointsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+                }
+            </span>           
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button id="btn-edit-collection-point" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+        </span>
+    </div>
 </div>
-
 
 <div id="dialog-submit-edit-collection-point" class="hidden" title="Edit Collection Point Successful (Maintenance)">
     <p>Collection Point has been successfully edited.</p>

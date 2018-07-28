@@ -27,13 +27,20 @@ namespace SA46Team1_Web_ADProj
             Session["Role"] = "Dept";
             Session["UserId"] = "E4";
             Session["DepartmentCode"] = "COMM";
+            Session["access-token"] = "test";
+            Session["NoUnreadRequests"] = 0;
 
             //Session variable for PO
             Session["newPOList"] = new List<Models.PODetail>();
+            Session["poDetailsEditMode"] = false;
+
+            // Session variable for Reorders
+            Session["ReorderList"] = new List<Models.ReorderList>();
 
             //Session variables for inner pages of DEPT tabs
             Session["newReqList"] = new List<Models.StaffRequisitionDetail>();
             Session["newReqEditMode"] = false;
+            Session["tempList"] = new List<String>();
 
             Session["ReviewNewRequisitionId"] = "";
             Session["DeptReqTabIndex"] = "0";
@@ -51,6 +58,9 @@ namespace SA46Team1_Web_ADProj
             //Session variables for Store - Inventory
             Session["StockAdjPage"] = "1";
             Session["SelectedPONumber"] = "0";
+            Session["InventoryOverviewPage"] = "1";
+            Session["newAdjList"] = new List<Models.StockAdjItemModel>();
+
 
             //Session variables for Store - Purchase
             Session["POListPage"] = "1";

@@ -2,7 +2,8 @@
     Layout = null;
 }
 
-<script>    
+<script>
+
 
     var table;
 
@@ -15,8 +16,9 @@
                 paging: true,
                 sort: true,
                 searching: true,
-                scrollY: 200,
                 "order": [[3, "desc"]],
+                "iDisplayLength": 5,                
+                //scrollY: 200,
                 data: data,
                 columns: [
                     {
@@ -54,24 +56,24 @@
         }
     });
 
-               
+
 
 
 </script>
 
 <div>
-    <h2>List of Requisitions</h2>
+    <h5>List of Requisitions</h5>
 </div>
 
 
 <table id="dataTable-storeDisbursementReqList" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Date</th>
             <th>Requisition Form #</th>
             <th>Department</th>
             <th>Status</th>
         </tr>
-    </thead>    
-
+    </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>

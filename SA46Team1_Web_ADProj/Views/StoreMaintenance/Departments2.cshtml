@@ -17,8 +17,9 @@
             table = $('#dataTable-store-departments-details').DataTable({
                 paging: true,
                 sort: true,
-                searching: true,
-                scrollY: 200,
+                searching: false,
+                "iDisplayLength": 5,
+                //scrollY: 200,
                 data: data,
                 columns: [
                     { 'data': 'DepartmentCode' },
@@ -52,12 +53,12 @@
 </script>
 
 <div>
-    <h2>Department Code: @Session["MaintenanceDeptCode"]</h2>
+    <h5>Department Code: @Session["MaintenanceDeptCode"]</h5>
 </div>
 
 
 <table id="dataTable-store-departments-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Dept Code</th>
             <th>Name</th>
@@ -70,15 +71,25 @@
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-<button class="btn-blue">@Html.ActionLink("Edit", "Home", "Store")</button>
+<hr />
 
-
-<div id="details-back-btn">
-
-    @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+                }
+            </span>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button class="btn btn-lu-green" style="font-size: 10pt;">@Html.ActionLink("Save", "Home", "Store")</button>
+        </span>
+    </div>
 </div>

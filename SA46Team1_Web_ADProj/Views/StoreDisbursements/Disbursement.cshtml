@@ -16,8 +16,9 @@ var table;
                 paging: true,
                 sort: true,
                 searching: true,
-                scrollY: 200,
                 "order": [[2, "desc"]],
+                "iDisplayLength": 5,                
+                //scrollY: 200,
                 data: data,
                 columns: [
                     {
@@ -58,7 +59,7 @@ var table;
 
     @*$(document).ajaxComplete(function () {
                         $('#dataTable-storeDisbursementList tbody').off().on('click', 'tr', function () {
-                        var data = table.row(this).data();                        
+                        var data = table.row(this).data();
                         var dataToBeSent = data["Id"];
                         alert('You clicked on Requisition Form Number: ' + data["Id"] + '\'s row');
 
@@ -79,12 +80,11 @@ var table;
 </script>
 
 <div>
-    <h2>List of Disbursements</h2>
+    <h5>List of Disbursements</h5>
 </div>
 
-
 <table id="dataTable-storeDisbursementList" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Date</th>
             <th>Department</th>
@@ -93,23 +93,19 @@ var table;
         </tr>
     </thead>
 
-    @*<tbody>
-        <tr>
-            <td>20-JUN-2018</td>
-            <td>MATH</td>
-            <td>Outstanding</td>
-            <td>Collection Point A</td>
-        </tr>
+    <tbody style="font-size: 10pt;">
+        @*<tr>
+                <td>20-JUN-2018</td>
+                <td>MATH</td>
+                <td>Outstanding</td>
+                <td>Collection Point A</td>
+            </tr>
 
-        <tr>
-            <td>20-JUN-2018</td>
-            <td>SCIENCE</td>
-            <td>Completed</td>
-            <td>Collection Point A</td>
-        </tr>
-    </tbody>*@
-
-
-
+            <tr>
+                <td>20-JUN-2018</td>
+                <td>SCIENCE</td>
+                <td>Completed</td>
+                <td>Collection Point A</td>
+            </tr>*@
+    </tbody>
 </table>
-

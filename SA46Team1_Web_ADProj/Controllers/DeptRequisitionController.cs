@@ -9,7 +9,6 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Dept/DeptRequisition")]
     public class DeptRequisitionController : Controller
     {
-
         [Route("NewReq")]
         public ActionResult NewReq()
         {
@@ -18,14 +17,31 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["currentFormId"]= "SR-" + SRcount;
 
                 Tuple<Item, StaffRequisitionDetail> tuple = new Tuple<Item, StaffRequisitionDetail>(new Item(), new StaffRequisitionDetail());
+                List<String> tempList = (List<String>)Session["tempList"];
 
-                ViewBag.ItemsList = new SelectList((from s in e.Items.OrderBy(x=>x.Description).ToList()
-                                                    select new
-                                                    {
-                                                        ItemCode = s.ItemCode,
-                                                        Description = s.Description + " (" + s.UoM + ")"
-                                                    }),
-                                                    "ItemCode","Description", null);
+                if (tempList.Count==0)
+                {
+                    ViewBag.ItemsList = new SelectList((from s in e.Items.OrderBy(x => x.Description).ToList()
+                                                        select new
+                                                        {
+                                                            ItemCode = s.ItemCode,
+                                                            Description = s.Description + " (" + s.UoM + ")"
+                                                        }),
+                                                    "ItemCode", "Description", null);
+                }
+                else {
+
+                    List<Item> newItemList = e.Items.Where(x => !tempList.Contains(x.ItemCode)).OrderBy(x => x.Description).ToList();
+                    //update ddl to remove items
+                    ViewBag.ItemsList = new SelectList((from s in newItemList
+                                                            select new
+                                                            {
+                                                                ItemCode = s.ItemCode,
+                                                                Description = s.Description + " (" + s.UoM + ")"
+                                                            }),
+                                                        "ItemCode", "Description", null);
+                }
+                
 
                 TempData["RowIndexesToDiscard"] = new List<int>();
 
@@ -41,7 +57,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DiscardSelBackorders(string[] deleteItemCodes, string[] deleteReqId)
+        public RedirectToRouteResult DiscardSelBackorders(string[] itemCodes, string[] formIds)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
@@ -50,13 +66,13 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 int index = 0;
 
-                foreach (string i in deleteItemCodes) {
-                    string formId = deleteReqId[index];
+                foreach (string i in itemCodes) {
+                    string formId = formIds[index];
 
                     //update SRD
                     StaffRequisitionDetail srd = new StaffRequisitionDetail();
                     srd=
-                        dal.GetStaffRequisitionDetailById(formId, deleteItemCodes[index]);
+                        dal.GetStaffRequisitionDetailById(formId, itemCodes[index]);
                     srd.CancelledBackOrdered = srd.QuantityBackOrdered;
                     srd.QuantityBackOrdered = 0;
                     dal.UpdateStaffRequisitionDetail(srd);
@@ -123,6 +139,15 @@ namespace SA46Team1_Web_ADProj.Controllers
                 list.Add(srd);
                 Session["newReqList"] = list;
 
+                //add to list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Add(itemToAdd.ItemCode);
+                Session["tempList"] = tempList;
+
+                List<Item> newItemList = new List<Item>();
+              
+
+
                 return RedirectToAction("Requisition", "Dept");
             }
         }
@@ -156,18 +181,23 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 e.SaveChanges();
                 Session["newReqList"] = new List<StaffRequisitionDetail>();
+                
+                int noUnreadRequests = (int)Session["NoUnreadRequests"];
+                noUnreadRequests++;
+                Session["NoUnreadRequests"] = noUnreadRequests;
             }
 
             return RedirectToAction("Requisition", "Dept");
         }
 
         [HttpPost]
-        public RedirectToRouteResult DiscardNewItems(int[] rowIndexToDelete)
+        public RedirectToRouteResult DiscardNewItems(string data, int index)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
+                //data is item desc, index is list index
                 List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
-                list.RemoveAll(x=> rowIndexToDelete.Contains(list.IndexOf(x)));
+                list.RemoveAt(index);
                 Session["newReqList"] = list;
 
                 return RedirectToAction("Requisition", "Dept");
@@ -203,6 +233,48 @@ namespace SA46Team1_Web_ADProj.Controllers
                 
                 return RedirectToAction("Requisition", "Dept");
             }
+        }
+
+        [Route("UpcomingDelivery")]
+        public ActionResult UpcomingDelivery()
+        {
+            return View();
+        }
+
+        [Route("CollectionList")]
+        public ActionResult CollectionList()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                string deptCode = Session["DepartmentCode"].ToString();
+                m.Configuration.ProxyCreationEnabled = false;
+                List<DateTime> collectionDates = m.DisbursementHeaders.Where(x => x.DepartmentCode == deptCode && x.Status == "Open").Select(x => x.Date).ToList();
+                DateTime displayedCollectionDate = new DateTime();
+                
+                foreach (DateTime dt in collectionDates)
+                {
+                    if (dt > displayedCollectionDate)
+                    {
+                        displayedCollectionDate = dt;
+                    }
+                }
+
+                if (displayedCollectionDate == new DateTime())
+                {
+                    //all open disbursements belonging to dept are alr past
+                }
+                else {
+                    List<DisbursementDetail> disbursementDetails = m.DisbursementDetails.Where(x => x.DisbursementHeader.DepartmentCode == deptCode && x.DisbursementHeader.Status == "Open").ToList();
+                    ViewBag.CollectionPointDesc = m.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).Select(x => x.CollectionPoint.CollectionPointDescription).FirstOrDefault();
+                    ViewBag.CollectionTime = m.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).Select(x => x.CollectionPoint.CollectionTime).FirstOrDefault();
+                    ViewBag.ExpectedDelivery = displayedCollectionDate;
+                }
+
+               
+            }
+
+
+            return View();
         }
 
     }

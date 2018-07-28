@@ -15,7 +15,8 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    "iDisplayLength": 5,
+                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'ReceiptNo' },
@@ -54,15 +55,16 @@
 </script>
 
 <div>
-    <h2>List of Goods Receipts</h2>
+    <h5>List of Goods Receipts</h5>
 </div>
 
 <table id="dataTable-goodsReceived" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Goods Received #</th>
             <th>Date</th>
             <th>Supplier</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
