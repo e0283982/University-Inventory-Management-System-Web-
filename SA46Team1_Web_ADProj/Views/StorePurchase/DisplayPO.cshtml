@@ -134,7 +134,22 @@
 
     // Goods Receipt Button
     $('#btn-GR-displayPO').click(function () {
-        $('#dialog-GR-displayPO').dialog('open');
+        //$('#dialog-GR-displayPO').dialog('open');
+
+        var arrQty = [];
+        for (var i = 0; i < table.rows().data().length; i++) {
+            arrQty.push(table.cell(i, 2).nodes().to$().find('input').val());
+        }
+
+        $.ajax({
+            url: '/StorePurchase/GoodsReceipt',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ arrQty: arrQty })
+        });
+
+        window.location.href = '@Url.Action("Purchase", "Store")';
         return false;
     });
 

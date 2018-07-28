@@ -52,87 +52,97 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public ActionResult SavePO(string[] arrQty, string[] arrSupplier)
         {
-            List<PODetail> poDetailsList = (List<PODetail>)Session["newPOList"];
-            List<Supplier> supplierList = new List<Supplier>();
-            List<Item> itemAdded = new List<Item>();
-            int arrayCount = 0;
-            using (SSISdbEntities m = new SSISdbEntities())
+            // To ensure no empty Entries
+            int enteredQty = 0;
+            for(int i = 0; i < arrQty.Length; i++)
             {
-                // Checking for number of suppliers to Iterate & later used for creating no. of PO
-                for(int i = 0; i < arrSupplier.Length; i++)
+                enteredQty += Convert.ToInt32(arrQty[i]);
+            }
+
+            if (enteredQty > 0)
+            {
+                List<PODetail> poDetailsList = (List<PODetail>)Session["newPOList"];
+                List<Supplier> supplierList = new List<Supplier>();
+                List<Item> itemAdded = new List<Item>();
+                int arrayCount = 0;
+                using (SSISdbEntities m = new SSISdbEntities())
                 {
-                    string supCode = arrSupplier[i];
-                    Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
-                    if (!supplierList.Contains(supplier))
+                    // Checking for number of suppliers to Iterate & later used for creating no. of PO
+                    for (int i = 0; i < arrSupplier.Length; i++)
                     {
-                        supplierList.Add(supplier);
-                    }
-                }
-
-                // Change Item Supplier in PODetails for retrieving in list and adding into database later
-                foreach (PODetail p in poDetailsList)
-                {
-                    string coy = arrSupplier[arrayCount];
-                    Supplier sup = m.Suppliers.Where(x => x.SupplierCode == coy).FirstOrDefault();
-                    p.Item.Supplier1 = sup.SupplierCode;
-                    arrayCount++;
-                }
-
-                // Each Supplier iterates once such that only 1 PO is created for each of them
-                foreach (Supplier s in supplierList)
-                {
-                    // Create new PO based on supplier
-                    int count = m.POHeaders.Count() + 1;
-                    string poId = "PO-" + count.ToString();
-
-                    POHeader newPOHeader = new POHeader();
-                    newPOHeader.PONumber = poId;
-                    newPOHeader.Date = DateTime.Now;
-                    newPOHeader.SupplierCode = s.SupplierCode;
-                    newPOHeader.ContactName = s.ContactName;
-                    newPOHeader.DeliverTo = "Logic University";
-                    newPOHeader.EmployeeID = (string) Session["LoginEmployeeID"];
-                    // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
-                    newPOHeader.Remarks = "";
-                    // ------------------------------------------------------------------------------------------------------------------------------------//
-
-                    newPOHeader.Status = "Open";
-                    newPOHeader.TransactionType = "PO";
-                    m.POHeaders.Add(newPOHeader);
-                    m.SaveChanges();
-
-                    // Loop through PODetails to add items based on selected supplier suppliers
-                    foreach (PODetail pod in poDetailsList)
-                    {
-                        // Only add if the item is belonging to the supplier / PO
-                        string supCode = pod.Item.Supplier1;
+                        string supCode = arrSupplier[i];
                         Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
-                        if (supplier == s)
+                        if (!supplierList.Contains(supplier))
                         {
-                            // Only add if the item has not been added
-                            if (!itemAdded.Contains(pod.Item))
+                            supplierList.Add(supplier);
+                        }
+                    }
+
+                    // Change Item Supplier in PODetails for retrieving in list and adding into database later
+                    foreach (PODetail p in poDetailsList)
+                    {
+                        string coy = arrSupplier[arrayCount];
+                        Supplier sup = m.Suppliers.Where(x => x.SupplierCode == coy).FirstOrDefault();
+                        p.Item.Supplier1 = sup.SupplierCode;
+                        arrayCount++;
+                    }
+
+                    // Each Supplier iterates once such that only 1 PO is created for each of them
+                    foreach (Supplier s in supplierList)
+                    {
+                        // Create new PO based on supplier
+                        int count = m.POHeaders.Count() + 1;
+                        string poId = "PO-" + count.ToString();
+
+                        POHeader newPOHeader = new POHeader();
+                        newPOHeader.PONumber = poId;
+                        newPOHeader.Date = DateTime.Now;
+                        newPOHeader.SupplierCode = s.SupplierCode;
+                        newPOHeader.ContactName = s.ContactName;
+                        newPOHeader.DeliverTo = "Logic University";
+                        newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
+                        // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
+                        newPOHeader.Remarks = "";
+                        // ------------------------------------------------------------------------------------------------------------------------------------//
+
+                        newPOHeader.Status = "Open";
+                        newPOHeader.TransactionType = "PO";
+                        m.POHeaders.Add(newPOHeader);
+                        m.SaveChanges();
+
+                        // Loop through PODetails to add items based on selected supplier suppliers
+                        foreach (PODetail pod in poDetailsList)
+                        {
+                            // Only add if the item is belonging to the supplier / PO
+                            string supCode = pod.Item.Supplier1;
+                            Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
+                            if (supplier == s)
                             {
-                                PODetail poDetailToAdd = new PODetail();
-                                float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
-                                    && x.ItemCode == pod.Item.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
-                                poDetailToAdd.PONumber = poId;
-                                poDetailToAdd.ItemCode = pod.ItemCode;
-                                int qty = Convert.ToInt32(arrQty[poDetailsList.IndexOf(pod)]);
-                                poDetailToAdd.QuantityOrdered = qty;
-                                poDetailToAdd.QuantityBackOrdered = qty;
-                                poDetailToAdd.QuantityDelivered = 0;
-                                poDetailToAdd.UnitCost = itemUnitPrice;
-                                poDetailToAdd.CancelledBackOrdered = 0;
-                                m.PODetails.Add(poDetailToAdd);
-                                m.SaveChanges();
-                                itemAdded.Add(pod.Item);
+                                // Only add if the item has not been added
+                                if (!itemAdded.Contains(pod.Item))
+                                {
+                                    PODetail poDetailToAdd = new PODetail();
+                                    float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
+                                        && x.ItemCode == pod.Item.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
+                                    poDetailToAdd.PONumber = poId;
+                                    poDetailToAdd.ItemCode = pod.ItemCode;
+                                    int qty = Convert.ToInt32(arrQty[poDetailsList.IndexOf(pod)]);
+                                    poDetailToAdd.QuantityOrdered = qty;
+                                    poDetailToAdd.QuantityBackOrdered = qty;
+                                    poDetailToAdd.QuantityDelivered = 0;
+                                    poDetailToAdd.UnitCost = itemUnitPrice;
+                                    poDetailToAdd.CancelledBackOrdered = 0;
+                                    m.PODetails.Add(poDetailToAdd);
+                                    m.SaveChanges();
+                                    itemAdded.Add(pod.Item);
+                                }
                             }
                         }
                     }
                 }
+            }
                 Session["newPOList"] = new List<PODetail>();
                 return View();
-            }
         }
 
         [HttpPost]
@@ -357,97 +367,114 @@ namespace SA46Team1_Web_ADProj.Controllers
                 int newId = m.POReceiptHeaders.Count() + 1;
                 receiptNo = "POR-" + newId.ToString();
                 int countQty = 0;
-
-                foreach (POFullDetail p in poFullDetailList)
-                {
-                    PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
-                    int qty = Convert.ToInt32(arrQty[arrayCount]);
-                    countQty += qty;
-
-                    // Only execute if qty > 0, meaning there's good received.
-                    if (qty > 0)
-                    {
-                        if (pod.QuantityBackOrdered == qty)
-                        {
-                            pod.QuantityBackOrdered = 0;
-                        
-                        }
-                        else
-                        {
-                            pod.QuantityBackOrdered = pod.QuantityBackOrdered - qty;
-                        }
-                        pod.QuantityDelivered = qty;
-                        m.SaveChanges();
-
-                        totalInventoryValue += qty * p.UnitCost;
-
-                        // Update Item on Hand
-                        Item item = m.Items.Where(x => x.ItemCode == p.ItemCode).FirstOrDefault();
-                        item.Quantity += qty;
-                        m.SaveChanges();
-
-                        // Update Item Transaction
-                        ItemTransaction itemTransaction = new ItemTransaction();
-                        itemTransaction.TransDateTime = DateTime.Now;
-                        itemTransaction.DocumentRefNo = poNumber;
-                        itemTransaction.ItemCode = item.ItemCode;
-                        itemTransaction.TransactionType = "PO Receipt";
-                        itemTransaction.Quantity = qty;
-                        itemTransaction.UnitCost = pod.UnitCost;
-                        itemTransaction.Amount = pod.UnitCost * qty;
-                        m.ItemTransactions.Add(itemTransaction);
-                        m.SaveChanges();
-
-                        // Update POReceipt Details
-                        POReceiptDetail pord = new POReceiptDetail();
-                        pord.ReceiptNo = receiptNo;
-                        pord.PONumber = poNumber;
-                        pord.ItemCode = item.ItemCode;
-                        pord.QuantityReceived = qty;
-                        pord.UnitCost = pod.UnitCost;
-                        pord.Amount = pod.UnitCost * qty;
-                        m.POReceiptDetails.Add(pord);
-                        m.SaveChanges();
-
-                        p.QuantityOrdered = pod.QuantityBackOrdered;
-                        p.QuantityDelivered = pod.QuantityDelivered;
-                    }
-                    arrayCount++;
-                }
-
                 int countInventory = 0;
 
-                // Checking for completion of PO
-                foreach(POFullDetail p in poFullDetailList)
+                // Tabulate all qty, to ensure total is not 0 (Prevent empty entries)
+                for(int i = 0; i < arrQty.Length; i++)
                 {
-                    PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
-                    countInventory += pod.QuantityBackOrdered;
-                    totalInventoryValue += pod.UnitCost;
+                    countQty += Convert.ToInt32(arrQty[i]);
                 }
 
-                if(countQty == 0)
+                // Create New PO Receipt Header
+                if (countQty > 0)
                 {
+                    // Preparation for database update
+                    foreach (POFullDetail p in poFullDetailList)
+                    {
+                        PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
+                        totalInventoryValue += pod.UnitCost;
+                    }
 
-                    // GR here
+                    // Create PO Receipt Header first (Due to Foreign Key exceptions)
                     POReceiptHeader porh = new POReceiptHeader();
                     porh.ReceiptNo = receiptNo;
                     porh.PONumber = poNumber;
                     porh.DeliveryOrderNo = "Hardcode first";
                     porh.ReceivedDate = DateTime.Now;
-                    porh.Remarks = null;
+                    porh.Receiver = (string)Session["LoginEmployeeID"];
+                    porh.Remarks = "";
                     porh.TransactionType = "PO Receipt";
                     porh.TotalAmount = totalInventoryValue;
                     m.POReceiptHeaders.Add(porh);
                     m.SaveChanges();
 
+                    // Adding into Database based on Items
+                    foreach (POFullDetail p in poFullDetailList)
+                    {
+                        PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
+                        int qty = Convert.ToInt32(arrQty[arrayCount]);
+
+                        // Only execute if qty > 0, meaning there's good received.
+                        if (qty > 0 && (pod.QuantityOrdered - pod.QuantityDelivered) != 0)
+                        {
+                            // Update PO Details Table
+                            if (pod.QuantityBackOrdered == qty)
+                            {
+                                pod.QuantityBackOrdered = 0;
+
+                            }
+                            else
+                            {
+                                pod.QuantityBackOrdered = pod.QuantityBackOrdered - qty;
+                            }
+                            pod.QuantityDelivered = qty;
+                            m.SaveChanges();
+
+                            totalInventoryValue += qty * p.UnitCost;
+
+                            // Update Item on Hand 
+                            Item item = m.Items.Where(x => x.ItemCode == p.ItemCode).FirstOrDefault();
+                            item.Quantity += qty;
+                            m.SaveChanges();
+
+                            // Update Item Transaction
+                            ItemTransaction itemTransaction = new ItemTransaction();
+                            itemTransaction.TransDateTime = DateTime.Now;
+                            itemTransaction.DocumentRefNo = poNumber;
+                            itemTransaction.ItemCode = item.ItemCode;
+                            itemTransaction.TransactionType = "PO Receipt";
+                            itemTransaction.Quantity = qty;
+                            itemTransaction.UnitCost = pod.UnitCost;
+                            itemTransaction.Amount = pod.UnitCost * qty;
+                            m.ItemTransactions.Add(itemTransaction);
+                            m.SaveChanges();
+
+                            // Update POReceipt Details
+                            POReceiptDetail pord = new POReceiptDetail();
+                            pord.ReceiptNo = receiptNo;
+                            pord.PONumber = poNumber;
+                            pord.ItemCode = item.ItemCode;
+                            pord.QuantityReceived = qty;
+                            pord.UnitCost = pod.UnitCost;
+                            pord.Amount = pod.UnitCost * qty;
+                            m.POReceiptDetails.Add(pord);
+                            m.SaveChanges();
+
+                            p.QuantityOrdered = pod.QuantityBackOrdered;
+                            p.QuantityDelivered = pod.QuantityDelivered;
+                        }
+                        arrayCount++;
+                    }
+
+                    // Checking for completion of PO 
+                    foreach (POFullDetail p in poFullDetailList)
+                    {
+                        PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
+                        countInventory += pod.QuantityBackOrdered;
+                    }
+
+
+                    POHeader poh = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
                     // Completed PO
                     if (countInventory == 0)
-                    {
-                        // Update PO Header
-                        POHeader poh = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
+                    {                      
                         poh.Status = "Completed";
-                        m.SaveChanges();
                     }
+                    else
+                    {
+                        poh.Status = "Outstanding";
+                    }
+                    m.SaveChanges();
                 }
             }
 
