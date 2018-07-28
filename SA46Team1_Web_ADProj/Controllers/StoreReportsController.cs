@@ -129,7 +129,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        [Route("Report6")]
+        [Route("Report3")]
         public ActionResult RptDepartmentUsage()
         {
             using (SSISdbEntities e = new SSISdbEntities())
@@ -186,35 +186,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 throw;
             }
         }
-        //[Route("Report1")]
-        //public ActionResult Report1()
-        //{
-        //    return View();
-        //}
-
-        //[Route("Report2")]
-        //public ActionResult Report2()
-        //{
-        //    return View();
-        //}
-
-        //[Route("Report3")]
-        //public ActionResult Report3()
-        //{
-        //    return View();
-        //}
-
-        [Route("Report4")]
-        public ActionResult Report4()
-        {
-            return View();
-        }
-
-        [Route("Report5")]
-        public ActionResult Report5()
-        {
-            return View();
-        }
+        
 
     }
 }

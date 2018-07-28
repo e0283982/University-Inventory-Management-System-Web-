@@ -63,6 +63,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
                 }
 
+                Session["LoginEmployeeID"] = employee.EmployeeID;
+
                     switch (employee.Designation)
                 {               
                     case "Department Head":

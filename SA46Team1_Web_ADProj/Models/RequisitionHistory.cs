@@ -16,7 +16,6 @@ namespace SA46Team1_Web_ADProj.Models
     {
         public string FormID { get; set; }
         public System.DateTime DateRequested { get; set; }
-        public string Status { get; set; }
         public string ApprovalStatus { get; set; }
     }
 }

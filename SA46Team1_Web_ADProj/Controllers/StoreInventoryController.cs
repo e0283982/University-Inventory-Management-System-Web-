@@ -16,7 +16,33 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Overview")]
         public ActionResult Overview()
         {
-            return View();
+            if (Session["InventoryOverviewPage"].ToString() == "1")
+            {
+            
+                return View("Overview");
+            }
+            else
+            {
+                Session["InventoryOverviewPage"] = "1";
+                return View("Overview2");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayItemDetails(string maintenanceItemCode)
+        {
+            Session["InventoryOverviewPage"] = "2";
+            Session["MaintenanceItemCode"] = maintenanceItemCode;
+
+            return RedirectToAction("Inventory", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToInventoryOverviewList()
+        {
+            Session["InventoryOverviewPage"] = "1";
+
+            return RedirectToAction("Inventory", "Store");
         }
 
         [Authorize(Roles = "Store Clerk, Store Manager")]
