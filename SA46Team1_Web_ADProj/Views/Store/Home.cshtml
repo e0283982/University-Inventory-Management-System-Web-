@@ -2,24 +2,20 @@
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
-<script>
-    // Edit PO Button
-    $('#test').click(function () {
-        //$('#dialog-edit-displayPO').dialog('open');
+<button id="test">
+    Test
+</button>
 
-        $.ajax({
-            url: '/Store/Test',
-            type: 'POST'
+    <script type="text/javascript">
+        // Edit PO Button
+        $('#test').click(function () {
+            //$('#dialog-edit-displayPO').dialog('open');
+
+            $.ajax({
+                url: '/Store/Test',
+                type: 'POST'
+            });
+
         });
 
-        alert('works');
-    });
-
-    $("#target").click(function () {
-        alert("Handler for .click() called.");
-    });
-</script>
-
-<div id="target">
-    Trigger the handler
-</div>
+    </script>
