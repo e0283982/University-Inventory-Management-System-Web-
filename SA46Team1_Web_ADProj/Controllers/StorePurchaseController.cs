@@ -270,6 +270,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["poDetailsEditMode"] = true;
             Session["POListPage"] = "2";
+// ----------------------------- Should we add Viewbag for title to differentiate GR / edit ? -------------------------------------------
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -337,9 +338,124 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult GoodsReceipt()
+        public RedirectToRouteResult GoodsReceipt(string[] arrQty)
         {
-            return null;
+            // Need to check if whole PO backorder = 0 -> status = "Completed"
+            // Update qty
+            // Update POHeader status
+            // Update PO Details
+            // Create new PORH if null
+            // POReceiptDetails
+            List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
+            string poNumber = (string)Session["poNumber"];
+            int arrayCount = 0;
+            float totalInventoryValue = 0;
+            string receiptNo = null;
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                int newId = m.POReceiptHeaders.Count() + 1;
+                receiptNo = "POR-" + newId.ToString();
+                int countQty = 0;
+
+                foreach (POFullDetail p in poFullDetailList)
+                {
+                    PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
+                    int qty = Convert.ToInt32(arrQty[arrayCount]);
+                    countQty += qty;
+
+                    // Only execute if qty > 0, meaning there's good received.
+                    if (qty > 0)
+                    {
+                        if (pod.QuantityBackOrdered == qty)
+                        {
+                            pod.QuantityBackOrdered = 0;
+                        
+                        }
+                        else
+                        {
+                            pod.QuantityBackOrdered = pod.QuantityBackOrdered - qty;
+                        }
+                        pod.QuantityDelivered = qty;
+                        m.SaveChanges();
+
+                        totalInventoryValue += qty * p.UnitCost;
+
+                        // Update Item on Hand
+                        Item item = m.Items.Where(x => x.ItemCode == p.ItemCode).FirstOrDefault();
+                        item.Quantity += qty;
+                        m.SaveChanges();
+
+                        // Update Item Transaction
+                        ItemTransaction itemTransaction = new ItemTransaction();
+                        itemTransaction.TransDateTime = DateTime.Now;
+                        itemTransaction.DocumentRefNo = poNumber;
+                        itemTransaction.ItemCode = item.ItemCode;
+                        itemTransaction.TransactionType = "PO Receipt";
+                        itemTransaction.Quantity = qty;
+                        itemTransaction.UnitCost = pod.UnitCost;
+                        itemTransaction.Amount = pod.UnitCost * qty;
+                        m.ItemTransactions.Add(itemTransaction);
+                        m.SaveChanges();
+
+                        // Update POReceipt Details
+                        POReceiptDetail pord = new POReceiptDetail();
+                        pord.ReceiptNo = receiptNo;
+                        pord.PONumber = poNumber;
+                        pord.ItemCode = item.ItemCode;
+                        pord.QuantityReceived = qty;
+                        pord.UnitCost = pod.UnitCost;
+                        pord.Amount = pod.UnitCost * qty;
+                        m.POReceiptDetails.Add(pord);
+                        m.SaveChanges();
+
+                        p.QuantityOrdered = pod.QuantityBackOrdered;
+                        p.QuantityDelivered = pod.QuantityDelivered;
+                    }
+                    arrayCount++;
+                }
+
+                int countInventory = 0;
+
+                // Checking for completion of PO
+                foreach(POFullDetail p in poFullDetailList)
+                {
+                    PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
+                    countInventory += pod.QuantityBackOrdered;
+                    totalInventoryValue += pod.UnitCost;
+                }
+
+                if(countQty == 0)
+                {
+
+                    // GR here
+                    POReceiptHeader porh = new POReceiptHeader();
+                    porh.ReceiptNo = receiptNo;
+                    porh.PONumber = poNumber;
+                    porh.DeliveryOrderNo = "Hardcode first";
+                    porh.ReceivedDate = DateTime.Now;
+                    porh.Remarks = null;
+                    porh.TransactionType = "PO Receipt";
+                    porh.TotalAmount = totalInventoryValue;
+                    m.POReceiptHeaders.Add(porh);
+                    m.SaveChanges();
+
+                    // Completed PO
+                    if (countInventory == 0)
+                    {
+                        // Update PO Header
+                        POHeader poh = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
+                        poh.Status = "Completed";
+                        m.SaveChanges();
+                    }
+                }
+            }
+
+            Session["POItems"] = poFullDetailList;
+            Session["poDetailsEditMode"] = false;
+            Session["GRListPage"] = "2";
+            Session["grId"] = receiptNo;
+            return RedirectToAction("Purchase", "Store");
         }
     }
 }

@@ -269,7 +269,16 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //data is item desc, index is list index
                 int adjCount = e.StockAdjustmentHeaders.ToList().Count() +1;
-                string newAdjHeaderId = "SA-" + adjCount.ToString();
+                string newAdjHeaderId = null;
+                if (adjCount < 10)
+                {
+                    newAdjHeaderId = "SA-00" + adjCount.ToString();
+                }
+                else
+                {
+                    newAdjHeaderId = "SA-0" + adjCount.ToString();
+                }
+                
 
                 StockAdjustmentHeader sah = new StockAdjustmentHeader();
                 sah.RequestId = newAdjHeaderId;
@@ -398,7 +407,15 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 int itemTransCount = m.StockTakeHeaders.Count() + 1;
-                string itemTransactionId = "ST-" + itemTransCount.ToString();
+                string itemTransactionId = null;
+                if (itemTransCount < 10)
+                {
+                    itemTransactionId = "ST-0" + itemTransCount.ToString();
+                }
+                else
+                {
+                    itemTransactionId = "ST-" + itemTransCount.ToString();
+                }
                 
                 // Update StockTakeHeader Table
                 StockTakeHeader stockTakeHeader = new StockTakeHeader();
