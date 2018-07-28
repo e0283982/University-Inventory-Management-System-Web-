@@ -58,6 +58,7 @@ namespace SA46Team1_Web_ADProj
             //Session variables for Store - Inventory
             Session["StockAdjPage"] = "1";
             Session["SelectedPONumber"] = "0";
+            Session["InventoryOverviewPage"] = "1";
 
             //Session variables for Store - Purchase
             Session["POListPage"] = "1";

@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+
+@using SA46Team1_Web_ADProj.Models;
+@model Supplier
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+<script>
+    var table;
+    var list = '@ViewBag.SupplierList';
+    var data = list.replace(/&quot;/g, '"');
+    var dataJSON = JSON.parse(data);
+    var dataKeys = Object.keys(dataJSON);
+
+    $(document).ready(function () {
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetItemsList/' + '@Session["MaintenanceItemCode"]',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            d = data;
+
+            table = $('#dataTable-store-items-details').DataTable({
+                paging: true,
+                sort: true,
+                searching: false,
+                scrollX: 800,
+                data: data,
+                columns: [
+                    { 'data': 'ItemCode' },
+                    {
+                        'data': 'Description'
+                    },
+                    { 'data': 'CategoryName'},
+                    { 'data': 'UoM' },
+                    {
+                        'data': 's1'
+                    },
+                    {
+                        'data': 's2'
+                    },
+                    {
+                        'data': 's3'
+                    },
+                    {
+                        'data': 'Active'
+                    }
+                ],
+            });
+        }
+        });
+    });
+
+    
+    });
+</script>
+
+<div>
+    <h2>Item Code: @Session["MaintenanceItemCode"]</h2>
+</div>
+
+
+<table id="dataTable-store-items-details" class="display" style="width:80%;">
+    <thead>
+        <tr>
+            <th>Item Code</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Unit of Measure</th>
+            <th>Supplier 1</th>
+            <th>Supplier 2</th>
+            <th>Supplier 3</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+</table>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-11">
+        <div style="float: right">
+            <span>
+                @using (Html.BeginForm("BackToInventoryOverviewList", "StoreInventory", FormMethod.Post))
+                {
+                    <input class="btn btn-danger" type="submit" value="Back" />
+                }
+            </span>
+        </div>
+    </div>
+</div>
