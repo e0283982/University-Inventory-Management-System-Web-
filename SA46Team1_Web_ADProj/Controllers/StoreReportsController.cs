@@ -23,20 +23,20 @@ namespace SA46Team1_Web_ADProj.Controllers
                 ViewBag.ItemsList = new SelectList((from s in e.Items.ToList()
                                                     select new
                                                     {
-                                                        ItemCode = s.ItemCode,
+                                                      //  ItemCode = s.ItemCode,
                                                         Description = s.Description + " (" + s.UoM + ")"
                                                     }),
-                                                "ItemCode",
+                                                //"ItemCode",
                                                 "Description",
                                                 null);
 
                 ViewBag.CategoryList = new SelectList((from s in e.Categories.ToList()
                                                        select new
                                                        {
-                                                           CategoryID = s.CategoryID,
+                                                           //CategoryID = s.CategoryID,
                                                            CategoryName = s.CategoryName
                                                        }),
-                                                 "CategoryID",
+                                                // "CategoryID",
                                                  "CategoryName",
                                                  null);
 
@@ -78,15 +78,16 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
+
                 ViewBag.ItemsList = new SelectList((from s in e.Items.ToList()
                                                     select new
                                                     {
                                                         ItemCode = s.ItemCode,
                                                         Description = s.Description + " (" + s.UoM + ")"
                                                     }),
-                                                "ItemCode",
-                                                "Description",
-                                                null);
+                                                 "ItemCode",
+                                                 "Description",
+                                                 null);
 
                 ViewBag.CategoryList = new SelectList((from s in e.Categories.ToList()
                                                        select new
@@ -105,14 +106,11 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         public ActionResult ExportRptReorder()
         {
-            List<ReorderReport> allReorder = new List<ReorderReport>();
-            using (SSISdbEntities dc = new SSISdbEntities())
-            {
-                allReorder = dc.ReorderReports.ToList();
-            }
+            List<ReorderReport> allRptReorders = (List<ReorderReport>)TempData["allRptReorders"];
+
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "RptReorder.rpt"));
-            rd.SetDataSource(allReorder);
+            rd.SetDataSource(allRptReorders);
 
             Response.Buffer = false;
             Response.ClearContent();
@@ -121,6 +119,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             try
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
                 stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, "application/pdf", "ReorderReport.pdf");
             }
@@ -128,6 +127,24 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult ExportRptReorder2(String[] arr)
+        {
+
+            List<ReorderReport> allRptReorders = new List<ReorderReport>();
+
+            foreach (String s in arr)
+            {
+                ReorderReport rp = JsonConvert.DeserializeObject<ReorderReport>(s);
+                allRptReorders.Add(rp);
+            }
+
+            TempData["allRptReorders"] = allRptReorders;
+
+            return RedirectToAction("Report", "Store");
+
         }
 
         [Route("RptDepartmentUsage")]
@@ -163,8 +180,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         public ActionResult ExportRptDepartmentUsage()
         {
-            Session["showExportBtn"] = false;
-
             List<DepartmentUsageReport> allDeptUsage = (List<DepartmentUsageReport>)TempData["allDeptUsage"];
             
             ReportDocument rd = new ReportDocument();
