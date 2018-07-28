@@ -501,6 +501,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="provider\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Scheduler\ChangeRoleJob.cs" />
+    <Compile Include="Scheduler\CreateDisbursementListJob.cs" />
+    <Compile Include="Scheduler\MyScheduler.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

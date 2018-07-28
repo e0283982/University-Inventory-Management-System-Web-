@@ -5,12 +5,38 @@
     Layout = null;
     List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
     bool editMode = (bool)Session["poDetailsEditMode"];
+    bool grEditMode = (bool)Session["grEditMode"];
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 
 <script>
+    @*if (@editMode.ToString().ToLower() == true) {
+        $("btn-edit-displayPO").hide();
+        $("btn-save-displayPO").show();
+        $("#btn-cancel-displayPO").show();
+        $("#btn-cancelPO").hide();
+        $("#btn-edit-GR").hide();
+        $("#btn-GR-displayPO").hide();
+    }
+    else if (@grEditMode.ToString().ToLower() == true) {
+        $("btn-edit-displayPO").hide();
+        $("btn-save-displayPO").hide();
+        $("#btn-cancel-displayPO").show();
+        $("#btn-cancelPO").hide();
+        $("#btn-edit-GR").hide();
+        $("#btn-GR-displayPO").show();
+    }
+    else {
+        $("btn-edit-displayPO").show();
+        $("btn-save-displayPO").hide();
+        $("#btn-cancel-displayPO").hide();
+        $("#btn-cancelPO").show();
+        $("#btn-edit-GR").show();
+        $("#btn-GR-displayPO").hide();
+    }*@
+
     var table;
     $(document).ready(function () {
         table = $('#dataTable-displayPO').DataTable({
@@ -148,7 +174,7 @@
 
         var arrQty = [];
         for (var i = 0; i < table.rows().data().length; i++) {
-            arrQty.push(table.cell(i, 2).nodes().to$().find('input').val());
+            arrQty.push(table.cell(i, 3).nodes().to$().find('input').val());
         }
 
         $.ajax({
@@ -203,6 +229,27 @@
         return false;
     });
 
+       // Edit GR Dialog
+    $(function () {
+        $("#dialog-edit-GR").dialog({
+            autoOpen: false
+        });
+    });
+
+    // Edit GR Button
+    $('#btn-edit-GR').click(function () {
+        //$('#dialog-edit-displayPO').dialog('open');
+
+        $.ajax({
+            url: '/StorePurchase/GREditMode',
+            type: 'POST'
+        });
+        window.location.href = '@Url.Action("Purchase", "Store")';
+
+        return false;
+    });
+
+
 </script>
 
 <div class="row">
@@ -253,27 +300,37 @@
     </thead>
     @foreach (var item in poFullDetailList)
     {
-        <tr>
-            <th>@item.ItemCode</th>
-            <th>@item.Description</th>
-            <th>
-                @if (editMode == true)
-                {
-                    <input type="number" value="@item.QuantityOrdered" />
-                }
-                else
-                {
-                    @item.QuantityOrdered
-                }
+    <tr>
+        <th>@item.ItemCode</th>
+        <th>@item.Description</th>
+        <th>
+            @if (editMode == true)
+            {
+                <input type="number" value="@item.QuantityOrdered" />
+            }
+            else
+            {
+                @item.QuantityOrdered
+            }
 
-            </th>
-            <th>@item.QuantityDelivered</th>
-            <th>@item.UoM</th>
-            <th>@item.UnitCost</th>
-            <th><label id="lbl-total"></label></th>
-            <th>7%</th>
-            <th></th>
-        </tr>
+        </th>
+        <th>
+            @if (grEditMode == true && (item.QuantityOrdered - item.QuantityDelivered) != 0)
+            {
+                <input type="number" value="@item.QuantityDelivered" />
+            }
+            else
+            {
+                @item.QuantityDelivered
+            }
+        </th>
+
+        <th>@item.UoM</th>
+        <th>@item.UnitCost</th>
+        <th><label id="lbl-total"></label></th>
+        <th>7%</th>
+        <th></th>
+    </tr>
     }
     <tbody style="font-size: 10pt;"></tbody>
 </table>
@@ -312,6 +369,12 @@
             <div id="dialog-cancelPO" class="hidden" title="Basic dialog">
                 <p>Cancel entire PO - can only be seen / used if PO is 'open'</p>
             </div>
+
+            <button class="btn-blue" id="btn-edit-GR">Goods Receipt Edit</button>
+            <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
+                <p>Prep GR</p>
+            </div>
+
 
             <button class="btn btn-lu-blue" id="btn-GR-displayPO" style="font-size: 10pt;">Goods Receipt</button>
             <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
