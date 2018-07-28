@@ -99,6 +99,8 @@ namespace SA46Team1_Web_ADProj
             Session["MaintenanceSuppliersPage"] = "1";
             Session["MaintenanceSupplierCode"] = "";
 
+            //Session variables for Store - Report
+
         }
     }
 }

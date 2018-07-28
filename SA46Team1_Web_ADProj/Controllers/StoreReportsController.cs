@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using CrystalDecisions.CrystalReports.Engine;
 using SA46Team1_Web_ADProj.Models;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
@@ -14,7 +15,7 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Store/StoreReports")]
     public class StoreReportsController : Controller
     {
-        [Route("Report1")]
+        [Route("RptInventory")]
         public ActionResult RptInventory()
         {
             using (SSISdbEntities e = new SSISdbEntities())
@@ -72,7 +73,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        [Route("Report2")]
+        [Route("RptReorder")]
         public ActionResult RptReorder()
         {
             using (SSISdbEntities e = new SSISdbEntities())
@@ -129,17 +130,17 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        [Route("Report3")]
+        [Route("RptDepartmentUsage")]
         public ActionResult RptDepartmentUsage()
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 ViewBag.DepartmentList = new SelectList((from s in e.Departments.ToList()
-                                                    select new
-                                                    {
-                                                        DepartmentCode = s.DepartmentCode,
-                                                        DepartmentName = s.DepartmentName 
-                                                    }),
+                                                         select new
+                                                         {
+                                                             DepartmentCode = s.DepartmentCode,
+                                                             DepartmentName = s.DepartmentName
+                                                         }),
                                                 "DepartmentCode",
                                                 "DepartmentName",
                                                 null);
@@ -162,11 +163,10 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         public ActionResult ExportRptDepartmentUsage()
         {
-            List<DepartmentUsageReport> allDeptUsage = new List<DepartmentUsageReport>();
-            using (SSISdbEntities dc = new SSISdbEntities())
-            {
-                allDeptUsage = dc.DepartmentUsageReports.ToList();
-            }
+            Session["showExportBtn"] = false;
+
+            List<DepartmentUsageReport> allDeptUsage = (List<DepartmentUsageReport>)TempData["allDeptUsage"];
+            
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "RptDepartmentUsage.rpt"));
             rd.SetDataSource(allDeptUsage);
@@ -174,10 +174,11 @@ namespace SA46Team1_Web_ADProj.Controllers
             Response.Buffer = false;
             Response.ClearContent();
             Response.ClearHeaders();
-
+            
             try
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
                 stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, "application/pdf", "DepartmentUsageReport.pdf");
             }
@@ -186,7 +187,25 @@ namespace SA46Team1_Web_ADProj.Controllers
                 throw;
             }
         }
-        
 
+
+
+        [HttpPost]
+        public RedirectToRouteResult ExportRptDepartmentUsage2(String[] arr, string[] deptArray, string[] categoryArray)
+        {
+            List<DepartmentUsageReport> allDeptUsage = new List<DepartmentUsageReport>();
+
+            foreach (String s in arr) {
+                DepartmentUsageReport dup = JsonConvert.DeserializeObject<DepartmentUsageReport>(s);
+                allDeptUsage.Add(dup);
+            }
+
+            TempData["allDeptUsage"] = allDeptUsage;
+
+            return RedirectToAction("Report", "Store");
+
+        }
     }
+
 }
+

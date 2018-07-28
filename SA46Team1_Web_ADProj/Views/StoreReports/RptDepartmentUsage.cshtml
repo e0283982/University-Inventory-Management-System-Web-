@@ -5,67 +5,70 @@
 @{
     ViewBag.Title = "Department Usage Cost Report";
 }
+
 <div>
     <h2>Department Usage Cost Report</h2>
 </div>
 
 <div class="row">
     <div class="col-md-6">
-        <div>
-            <label>Department: </label>
-            @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
-        </div>
-        <div>
-            <label>Category: </label>
-            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
-        </div>
+
+            <div>
+                <label>Department: </label>
+                @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
+            </div>
+            <div>
+                <label>Category: </label>
+                @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+            </div>
+
         <div class="row">
             <div class="col-md-2">
                 <span>
                     <label>Year</label>
                 </span>
                 <span>
-                    <form action="/Store/Home">
-                        <select name="year" multiple>
-                            <option value="year2017">2017</option>
-                            <option value="year2018">2018</option>
-                        </select>
-                </span>              
+                    <select id="chosenYear" multiple>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                    </select>
+                </span>
             </div>
             <div class="col-md-2">
                 <span>
                     <label>Month(s)</label>
                 </span>
                 <span>
-                    <form action="/Store/Home">
-                        <select name="months" multiple>
-                            <option value="jan">Jan</option>
-                            <option value="feb">Feb</option>
-                            <option value="mar">Mar</option>
-                            <option value="apr">Aor</option>
-                            <option value="may">May</option>
-                            <option value="jun">Jun</option>
-                            <option value="jul">Jul</option>
-                            <option value="aug">Aug</option>
-                            <option value="sep">Sep</option>
-                            <option value="oct">Oct</option>
-                            <option value="nov">Nov</option>
-                            <option value="dec">Dec</option>
-                        </select>
-                </span>               
+                    <select id="chosenMonths" multiple>
+                        <option value="jan">Jan</option>
+                        <option value="feb">Feb</option>
+                        <option value="mar">Mar</option>
+                        <option value="apr">Aor</option>
+                        <option value="may">May</option>
+                        <option value="jun">Jun</option>
+                        <option value="jul">Jul</option>
+                        <option value="aug">Aug</option>
+                        <option value="sep">Sep</option>
+                        <option value="oct">Oct</option>
+                        <option value="nov">Nov</option>
+                        <option value="dec">Dec</option>
+                    </select>
+                </span>
             </div>
-        </div>      
+        </div>
         <div>
             <span>
-                <input class="btn btn-info" type="submit">
+                <button class="btn btn-info" id="btn-submit-filter">Filter</button>
             </span>
         </div>
     </div>
     <div class="col-md-6">
         <div style="float: right; padding-top: 205px;">
-            <span>
-                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-info" })
+          
+            <span id="btn-submit-export">
+                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-info", @id="btn-export-pdf" })
             </span>
+           
         </div>
     </div>
 </div>
@@ -74,7 +77,9 @@
 
 <table id="dataTable-deptUsage" class="table">
     <thead>
-        <tr>
+        <tr><th>Dept Name</th>
+            <th>Year</th>
+            <th>Month</th>
             <th>Category</th>
             <th>Item Code</th>
             <th>Description</th>
@@ -88,24 +93,44 @@
 </table>
 
 <script>
+    var table;
+
     $(document).ready(function () {
+        $('#btn-submit-export').hide();
 
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRptDepartmentUsage',
             method: 'get',
             dataType: 'json',
             success: function (data) {
-                $('#dataTable-deptUsage').dataTable({
+                d = data;
+
+                table = $('#dataTable-deptUsage').DataTable({
                     paging: true,
                     sort: true,
-                    searching: false,
+                    search: false,
+                    dom: 'lrtip',
                     scrollY: 200,
                     data: data,
                     columns: [
+                        { 'data': 'DepartmentName' },
+                        { 'data': 'Year' },
+                        { 'data': 'Month' },
                         { 'data': 'CategoryName' },
                         { 'data': 'ItemCode' },
                         { 'data': 'Description' },
-                        { 'data': 'Date' },
+                        {
+                            'data': 'Date',
+                            'render': function (jsonDate) {
+                                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                                ];
+
+                                var date = new Date(jsonDate.substr(0));
+                                var month = date.getMonth();
+                                return date.getDate() + "-" + monthNames[month] + "-" + date.getFullYear();
+                            }
+                        },
                         { 'data': 'UoM' },
                         { 'data': 'QuantityReceived' },
                         {
@@ -120,11 +145,85 @@
                                 return parseFloat(Math.round(data * 100) / 100).toFixed(2);;
                             }
                         }
+                    ],
+                    drawCallback: function (settings) {
+                        
+                        $('#btn-submit-filter').on('click', function () {
+                            var selYears = [];
+                            var selMonths = [];
+                            var search = [];
+
+                            $('#chosenYear option:selected').each(function () {
+                                selYears.push($(this).val());
+                            });
+
+                            $('#chosenMonths option:selected').each(function () {
+                                selMonths.push($(this).val());
+                            });
+
+                            if (selMonths.length == 0 || selYears.length == 0) {
+                                alert("Please select at least 1 valid month and year.");
+                                return;
+                            }
+
+                            selYears.forEach(function (element,index1) {
+                                selMonths.forEach(function (element, index2) {
+                                    var monthYear = selMonths[index2] + "-" + selYears[index1];
+                                    search.push(monthYear);
+                                });
+                            });
+
+                            search = search.join('|');
+
+                            table
+                                .columns(6)
+                                .search(search, true, false, true).draw();
+
+                            var data = table.rows({filter: 'applied'}).data();
+                            var deptArray = [];
+                            var categoryArray = [];
+
+                            var dept = $('#SelectDepartmentDesc :selected').text();
+                            var category = $('#SelectCategory :selected').text();
+                            deptArray.push(dept);
+                            categoryArray.push(category);
+
+                            var arr = [];
+                            for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
+                                var rowData = data[i];
+
+                                arr.push(JSON.stringify(rowData));
+                            }
+
+                            $.ajax({
+                                url: '/StoreReports/ExportRptDepartmentUsage2',
+                                data: JSON.stringify({ arr: arr, deptArray: deptArray, categoryArray: categoryArray }),
+                                dataType: "json",
+                                contentType: 'application/json; charset=utf-8',
+                                type: 'POST',
+                            });
+
+                            table.draw(false);
+                            $('#btn-submit-export').show();
+
+                        });
+                        
+                    },
+                    columnDefs: [
+                        {
+                            "targets": [0,1,2],
+                            "visible": false,
+                            "searchable": false
+                        }
                     ]
+
                 });
             }
         });
-
-
     });
+
+    $('#btn-export-pdf').on('click', function () {
+        $('#btn-submit-export').hide();
+    });
+    
 </script>
