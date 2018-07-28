@@ -63,6 +63,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
                 }
 
+                Session["LoginEmployeeID"] = employee.EmployeeID;
+
                     switch (employee.Designation)
                 {               
                     case "Department Head":
@@ -97,7 +99,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult Logout()
         {
             HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return View("Login");
+            return RedirectToAction("Login", "Main", new { area = "" });
         }
     }
 }
