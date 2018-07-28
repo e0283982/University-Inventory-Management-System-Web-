@@ -778,6 +778,58 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpPost]
+        [System.Web.Mvc.Route("CreateNewRequisition")]
+        public void CreateNewRequisition(NewRequisitionModel newRequisitionModel)
+        {
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                //Create new Staff Requisition Header
+                StaffRequisitionHeader srh = new StaffRequisitionHeader();
+
+                int staffRequisitionHeaderCount = m.StaffRequisitionHeaders.Count() + 1;                
+                srh.FormID = "SR-" + staffRequisitionHeaderCount;
+
+                srh.EmployeeID = newRequisitionModel.EmployeeId;
+
+                srh.DepartmentCode = m.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.DepartmentCode).FirstOrDefault();                
+                srh.DateRequested = DateTime.Now;
+                srh.Status = "Open";
+                srh.ApprovalStatus = "Pending";
+
+                //to change to null (default)
+                //srh.DateProcessed = System.DateTime.Now; 
+
+                srh.Approver = m.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.ReportsTo).FirstOrDefault();
+                srh.NotificationStatus = "Unread";
+
+                m.StaffRequisitionHeaders.Add(srh);
+
+                //Create new Staff Requisition Details
+                StaffRequisitionDetail srd = new StaffRequisitionDetail();
+                String itemCode = m.Items.Where(x => x.Description == newRequisitionModel.ItemDescription).Select(x => x.ItemCode).FirstOrDefault();
+                srd.ItemCode = itemCode;
+
+                srd.FormID = srh.FormID;
+                srd.QuantityOrdered = newRequisitionModel.OrderedQuantity;
+                srd.QuantityDelivered = 0;
+                srd.QuantityBackOrdered = 0;
+                srd.CancelledBackOrdered = 0;
+
+                m.StaffRequisitionDetails.Add(srd);
+
+                m.SaveChanges();
+
+            }
+
+
+
+
+
+        }
 
 
 
