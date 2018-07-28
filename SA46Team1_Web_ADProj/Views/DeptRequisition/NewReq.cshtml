@@ -3,15 +3,15 @@
     List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
     List<int> rowIndexes = (List<int>)TempData["RowIndexesToDiscard"];
     bool editMode = (bool)Session["newReqEditMode"];
-}
+    }
 
 
-@using SA46Team1_Web_ADProj.Models;
-@model Tuple<Item, StaffRequisitionDetail>
+    @using SA46Team1_Web_ADProj.Models;
+    @model Tuple<Item, StaffRequisitionDetail>
 
-<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-<script>
+    <script>
     var table;
     $(document).ready(function () {
         if (@editMode.ToString().ToLower()== true) {
@@ -120,31 +120,7 @@
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
     });
-
-    //$('#btn-discard-items').on('click', function () {
-        //var data = table.rows('.selected').indexes();
-        //var noSelected = table.rows('.selected').data().length;
-        //var toDeleteArray = [];
-
-        //for (i = 0; i < noSelected; i++){
-        //     toDeleteArray.push(data[i]);
-        //}
-
-
-        @*$.ajax({
-            url: '/DeptRequisition/DiscardNewItems',
-            data: JSON.stringify(toDeleteArray),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            type: 'POST',
-        });
-
-        table.draw(false);
-
-        window.location.href = '@Url.Action("Requisition", "Dept")';
-
-    });*@
-
+        
     $('#btn-edit-items').on('click', function () {
 
         if (@list.Count()== 0) {
@@ -199,7 +175,8 @@
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
     });
-</script>
+    </script>
+
 
 <div class="row">
     <div class="col-md-6" style="padding: -30px;">
@@ -214,100 +191,100 @@
                 <button class="btn btn-info" id="btn-edit-items">Edit</button>
                 <button class="btn btn-info" id="btn-save-items">Save</button>
             </span>
-        </span>
-    </div>
-</div>
-
-<div id="loading" style="font-family: 'Oxygen', sans-serif;">
-    <table id="dataTable-newReq" class="table-hover" style="width:80%;">
-        <thead style="font-size: 10pt;">
-            <tr>
-                <th>Item Description</th>
-                <th>Unit of Measure</th>
-                <th>New Order Qty</th>
-                <th></th>
-            </tr>
-        </thead>
-        @foreach (var item in list)
-        {
-            <tr>
-                <td>@item.Item.Description</td>
-                <td>@item.Item.UoM</td>
-                <td>
-                    @if (editMode == true)
-                    {
-                        <input id="input-edit-order-qty" value=@item.QuantityOrdered />
-                    }
-                    else
-                    {
-                        @item.QuantityOrdered
-                    }
-                </td>
-                <td>
-                    <span>
-                        <button class="btn btn-danger" id="btn-discard-items">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                    </span>
-                </td>
-            </tr>
-        }
-        <tbody style="font-size: 10pt;"></tbody>
-    </table>
-    <hr />
-
-    <div class="row">
-        <div class="col-md-12">
-            <div style="float: right">
-                <span>
-                    <button class="btn btn-info" id="btn-submit-new-req">Submit</button>
-                </span>
-            </div>
         </div>
     </div>
 
+    <div id="loading" style="font-family: 'Oxygen', sans-serif;">
+        <table id="dataTable-newReq" class="table-hover" style="width:80%;">
+            <thead>
+                <tr>
+                    <th>Item Description</th>
+                    <th>Unit of Measure</th>
+                    <th>New Order Qty</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in list)
+            {
+                <tr>
+                    <td>@item.Item.Description</td>
+                    <td>@item.Item.UoM</td>
+                    <td>
+                        @if (editMode == true)
+                        {
+                            <input id="input-edit-order-qty" value=@item.QuantityOrdered />
+                        }
+                        else
+                        {
+                            @item.QuantityOrdered
+                        }
+                    </td>
+                    <td>
+                        <span>
+                            <button class="btn btn-danger" id="btn-discard-items">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+            }
+            <tbody></tbody>
+        </table>
+        <hr />
 
-
-    <div id="dialog-add-req-item" class="hidden" title="Add Item (New Requisition)">
-        @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
-        {
-            <div>
-                <div>
-                    <label>Item Description: </label>
-                    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+        <div class="row">
+            <div class="col-md-12">
+                <div style="float: right">
+                    <span>
+                        <button class="btn btn-info" id="btn-submit-new-req">Submit</button>
+                    </span>
                 </div>
 
-                <div>
-                    <label>New Order Qty: </label>
-                    @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
-                </div>
-
-                <br />
-
-                <div>
-                    <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
-                </div>
             </div>
-        }
+        </div>
+
+
+
+        <div id="dialog-add-req-item" class="hidden" title="Add Item (New Requisition)">
+            @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
+            {
+                <div>
+                    <div>
+                        <label>Item Description: </label>
+                        @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+                    </div>
+
+                    <div>
+                        <label>New Order Qty: </label>
+                        @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
+                    </div>
+
+                    <br />
+
+                    <div>
+                        <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div id="dialog-confirm-submit-new-req" class="hidden" title="Confirm Submission (New Requisition)">
+            <p>Are you sure you want to submit the requisition?</p>
+            <span>
+                <button class="btn btn-primary" id="btn-confirm-submit-cancel">Cancel</button>
+            </span>
+
+            <span>
+                <button class="btn btn-primary" id="btn-confirm-submit-submit">Submit</button>
+            </span>
+        </div>
+
+        <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
+            <p>New requisition request has been submitted for approval.</p>
+        </div>
+
+        <div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
+            <p>There are no items to edit.</p>
+        </div>
+
     </div>
-
-    <div id="dialog-confirm-submit-new-req" class="hidden" title="Confirm Submission (New Requisition)">
-        <p>Are you sure you want to submit the requisition?</p>
-        <span>
-            <button class="btn btn-primary" id="btn-confirm-submit-cancel">Cancel</button>
-        </span>
-
-        <span>
-            <button class="btn btn-primary" id="btn-confirm-submit-submit">Submit</button>
-        </span>
-    </div>
-
-    <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
-        <p>New requisition request has been submitted for approval.</p>
-    </div>
-
-    <div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
-        <p>There are no items to edit.</p>
-    </div>
-
-</div>

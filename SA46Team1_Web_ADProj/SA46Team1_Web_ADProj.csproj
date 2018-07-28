@@ -167,10 +167,6 @@
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
-    <Reference Include="Antlr3.Runtime">
-      <Private>True</Private>
-      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Diagnostics.DiagnosticSource">
@@ -227,6 +223,7 @@
     <Compile Include="Controllers\StoreInventoryController.cs" />
     <Compile Include="Controllers\StoreMaintenanceController.cs" />
     <Compile Include="Controllers\StorePurchaseController.cs" />
+    <Compile Include="CustomAuthorizeAttribute.cs" />
     <Compile Include="DAL\ApprovalDelegationRepositoryImpl.cs" />
     <Compile Include="DAL\AuthRepository.cs" />
     <Compile Include="DAL\BinRepositoryImpl.cs" />
@@ -292,6 +289,8 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
+    <Compile Include="Models\StockAdjItemModel.cs" />
+    <Compile Include="Models\BearerTokenModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -702,7 +701,6 @@
     <Content Include="Views\StorePurchase\CreatePO.cshtml" />
     <Content Include="Views\StorePurchase\POList.cshtml" />
     <Content Include="Views\StorePurchase\GoodsReceivedList.cshtml" />
-    <Content Include="Views\StoreReports\Report1.cshtml" />
     <Content Include="Views\Store\Disbursements.cshtml" />
     <Content Include="Views\Store\Home.cshtml" />
     <Content Include="Views\Store\Inventory.cshtml" />
@@ -714,10 +712,6 @@
     <Content Include="Views\DeptRequisitionHistory\Overview.cshtml" />
     <Content Include="Views\DeptRequisitionHistory\CollectionList.cshtml" />
     <Content Include="Views\DeptApproval\Approval.cshtml" />
-    <Content Include="Views\StoreReports\Report5.cshtml" />
-    <Content Include="Views\StoreReports\Report2.cshtml" />
-    <Content Include="Views\StoreReports\Report3.cshtml" />
-    <Content Include="Views\StoreReports\Report4.cshtml" />
     <Content Include="Views\StoreInventory\StockAdj2.cshtml" />
     <Content Include="Views\StorePurchase\DisplayPO.cshtml" />
     <Content Include="Views\StorePurchase\GoodsReceivedList2.cshtml" />
@@ -740,10 +734,15 @@
     <Content Include="Views\DeptNotifications\UnreadMsgs.cshtml" />
     <Content Include="Views\DeptCollectionPoint\DefaultCollectionPoint.cshtml" />
     <None Include="Views\DeptNotifications\AllMsgs.cshtml" />
+	<Content Include="Views\StoreReports\RptInventory.cshtml" />
+    <Content Include="Views\StoreReports\RptReorder.cshtml" />
+    <Content Include="Views\StoreReports\RptDepartmentUsage.cshtml" />
+    <Content Include="Views\StoreInventory\Overview2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\DefaultCollectionPoint\" />
+    <Folder Include="Views\StoreReports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

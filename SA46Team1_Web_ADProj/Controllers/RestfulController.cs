@@ -341,7 +341,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        //[System.Web.Mvc.Authorize]
+        [System.Web.Http.Authorize]
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetStockAdjustmentSupervisorApproval")]
         public List<StockAdjustmentApprovalForSupervisor> GetStockAdjustmentSupervisorApproval()
@@ -382,6 +382,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
+                
                 ItemFullDetail item = m.ItemFullDetails.Where(x => x.ItemCode == id).FirstOrDefault();                
                 return item;
             }
