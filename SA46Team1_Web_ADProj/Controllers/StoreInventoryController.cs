@@ -62,26 +62,30 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public ActionResult AddToPO(string[] arr1, string[] arrSupplier)
         {
-            List<ReorderList> reorderList = (List<ReorderList>)Session["ReorderList"];
+            List<ReorderList> poDetailsList = (List<ReorderList>)Session["ReorderList"];
             List<Supplier> supplierList = new List<Supplier>();
             List<Item> itemAdded = new List<Item>();
             int arrayCount = 0;
-
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                // Grouping Suppliers based on array
-                for(int i = 0; i < arrSupplier.Length; i++)
+                // Checking for number of suppliers to Iterate & later used for creating no. of PO
+                for (int i = 0; i < arrSupplier.Length; i++)
                 {
-                    string supName = arrSupplier[i];
-                    Supplier sup = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
-                    supplierList.Add(sup);
+                    string supCode = arrSupplier[i];
+                    Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supCode).FirstOrDefault();
+                    if (!supplierList.Contains(supplier))
+                    {
+                        supplierList.Add(supplier);
+                    }
                 }
-                int qtyCount = 0;
 
-                foreach(ReorderList r in reorderList)
+                // Change Item Supplier in PODetails for retrieving in list and adding into database later
+                foreach (ReorderList p in poDetailsList)
                 {
-                    r.ReOrderQuantity = Convert.ToInt32(arr1[qtyCount]);
-                    qtyCount++;
+                    string coy = arrSupplier[arrayCount];
+                    Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
+                    p.s1 = sup.CompanyName;
+                    arrayCount++;
                 }
 
                 // Each Supplier iterates once such that only 1 PO is created for each of them
@@ -97,48 +101,49 @@ namespace SA46Team1_Web_ADProj.Controllers
                     newPOHeader.SupplierCode = s.SupplierCode;
                     newPOHeader.ContactName = s.ContactName;
                     newPOHeader.DeliverTo = "Logic University";
-                    // I need session of role here
-                    newPOHeader.EmployeeID = "E1";
+                    newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
+                    // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
                     newPOHeader.Remarks = "";
+                    // ------------------------------------------------------------------------------------------------------------------------------------//
+
                     newPOHeader.Status = "Open";
                     newPOHeader.TransactionType = "PO";
                     m.POHeaders.Add(newPOHeader);
                     m.SaveChanges();
 
-                    // Loop through PODetails to check suppliers
-                    foreach (ReorderList r in reorderList)
+                    // Loop through PODetails to add items based on selected supplier suppliers
+                    foreach (ReorderList pod in poDetailsList)
                     {
-                        // Create PO Details, Line by line based on items
-                        string supName = arrSupplier[arrayCount];
+                        // Only add if the item is belonging to the supplier / PO
+                        string supName = pod.s1;
                         Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
-                        if (supplier.Equals(s))
+                        if (supplier == s)
                         {
-                            Item item = m.Items.Where(x => x.ItemCode == r.ItemCode).FirstOrDefault();
-                            if (!itemAdded.Contains(item))
+                            // Only add if the item has not been added
+                            Item i = m.Items.Where(x => x.ItemCode == pod.ItemCode).FirstOrDefault();
+                            if (!itemAdded.Contains(i))
                             {
                                 PODetail poDetailToAdd = new PODetail();
-                                float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == supplier.SupplierCode
-                                    && x.ItemCode == r.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
+                                float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
+                                    && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
                                 poDetailToAdd.PONumber = poId;
-                                poDetailToAdd.ItemCode = r.ItemCode;
-                                poDetailToAdd.QuantityOrdered = r.ReOrderQuantity;
-                                poDetailToAdd.QuantityBackOrdered = r.ReOrderQuantity;
+                                poDetailToAdd.ItemCode = pod.ItemCode;
+                                int qty = Convert.ToInt32(arr1[poDetailsList.IndexOf(pod)]);
+                                poDetailToAdd.QuantityOrdered = qty;
+                                poDetailToAdd.QuantityBackOrdered = qty;
                                 poDetailToAdd.QuantityDelivered = 0;
                                 poDetailToAdd.UnitCost = itemUnitPrice;
                                 poDetailToAdd.CancelledBackOrdered = 0;
                                 m.PODetails.Add(poDetailToAdd);
                                 m.SaveChanges();
-                                itemAdded.Add(item);
+                                itemAdded.Add(i);
                             }
                         }
-                        arrayCount++;
                     }
-                    // Reset Array for new PO
-                    arrayCount = 0;
                 }
+                Session["newPOList"] = new List<PODetail>();
+                return View();
             }
-            Session["newPOList"] = new List<PODetail>();
-            return View();
         }
 
         [Authorize(Roles = "Store Clerk")]
