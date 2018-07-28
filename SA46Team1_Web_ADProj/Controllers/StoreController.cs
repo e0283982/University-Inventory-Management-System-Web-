@@ -57,6 +57,11 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
         
+        public RedirectToRouteResult Test()
+        {
+            Debug.Write("it works");
+            return RedirectToAction("Home", "Store");
+        }
 
 
     }

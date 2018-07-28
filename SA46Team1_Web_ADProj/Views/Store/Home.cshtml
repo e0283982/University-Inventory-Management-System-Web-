@@ -2,10 +2,24 @@
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>
+    // Edit PO Button
+    $('#test').click(function () {
+        //$('#dialog-edit-displayPO').dialog('open');
 
+        $.ajax({
+            url: '/Store/Test',
+            type: 'POST'
+        });
 
-@*----*@
+        alert('works');
+    });
 
+    $("#target").click(function () {
+        alert("Handler for .click() called.");
+    });
+</script>
 
-@*----*@
+<div id="target">
+    Trigger the handler
+</div>

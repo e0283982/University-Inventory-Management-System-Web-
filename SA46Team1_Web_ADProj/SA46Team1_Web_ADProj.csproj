@@ -499,6 +499,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="provider\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Scheduler\ChangeRoleJob.cs" />
+    <Compile Include="Scheduler\CreateDisbursementListJob.cs" />
+    <Compile Include="Scheduler\MyScheduler.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -734,7 +737,7 @@
     <Content Include="Views\DeptNotifications\UnreadMsgs.cshtml" />
     <Content Include="Views\DeptCollectionPoint\DefaultCollectionPoint.cshtml" />
     <None Include="Views\DeptNotifications\AllMsgs.cshtml" />
-	<Content Include="Views\StoreReports\RptInventory.cshtml" />
+    <Content Include="Views\StoreReports\RptInventory.cshtml" />
     <Content Include="Views\StoreReports\RptReorder.cshtml" />
     <Content Include="Views\StoreReports\RptDepartmentUsage.cshtml" />
     <Content Include="Views\StoreInventory\Overview2.cshtml" />
@@ -742,7 +745,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\DefaultCollectionPoint\" />
-    <Folder Include="Views\StoreReports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -285,6 +285,15 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
+        public RedirectToRouteResult GREditMode()
+        {
+            Session["grEditMode"] = true;
+            Session["POListPage"] = "2";
+            // ----------------------------- Should we add Viewbag for title to differentiate GR / edit ? -------------------------------------------
+            return RedirectToAction("Purchase", "Store");
+        }
+
+        [HttpPost]
         public RedirectToRouteResult SaveEdit(string[] arrQty)
         {
             Session["poDetailsEditMode"] = false;
@@ -313,6 +322,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult ExitEditMode()
         {
             Session["poDetailsEditMode"] = false;
+            Session["grEditMode"] = false;
             Session["POListPage"] = "2";
             return RedirectToAction("Purchase", "Store");
         }
@@ -417,7 +427,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                             {
                                 pod.QuantityBackOrdered = pod.QuantityBackOrdered - qty;
                             }
-                            pod.QuantityDelivered = qty;
+                            pod.QuantityDelivered += qty;
                             m.SaveChanges();
 
                             totalInventoryValue += qty * p.UnitCost;
