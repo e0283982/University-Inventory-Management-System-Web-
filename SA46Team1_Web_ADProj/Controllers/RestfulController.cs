@@ -764,13 +764,21 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.SaveChanges();            
 
             }
-
-
-
-
-
-
+                    
         }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStaffRequisitionHeader")]
+        public List<StaffRequisitionHeader> GetStaffRequisitionHeader()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.StaffRequisitionHeaders.OrderByDescending(x => x.ApprovalStatus).ToList<StaffRequisitionHeader>();                
+            }
+        }
+
+
 
 
 
