@@ -59,6 +59,8 @@ namespace SA46Team1_Web_ADProj
             Session["StockAdjPage"] = "1";
             Session["SelectedPONumber"] = "0";
             Session["InventoryOverviewPage"] = "1";
+            Session["newAdjList"] = new List<Models.StockAdjItemModel>();
+
 
             //Session variables for Store - Purchase
             Session["POListPage"] = "1";

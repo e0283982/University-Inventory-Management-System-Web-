@@ -156,32 +156,158 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             else
             {
-                if(TempData["ItemList"] == null)
+                using (SSISdbEntities e = new SSISdbEntities())
                 {
-                    List<StockAdjustmentDetail> sadList = new List<StockAdjustmentDetail>();
-                    StockAdjustmentDetail sad = new StockAdjustmentDetail();
-                    sad.ItemCode = "C001";
-                    sad.RequestId = "SA/1000";
-                    sad.ItemQuantity = 100;
-                    sad.Amount = 100;
-                    sad.Remarks = "Damaged";
-                    sadList.Add(sad);
 
-                    sad.StockAdjustmentDetails = sadList;
+                    ViewBag.AdjustmentReasons = new SelectList(new List<String>() { "Damaged", "Missing" }, null);
+                    List<String> tempList = (List<String>)Session["tempList"];
 
-                    Session["StockAdjPage"] = "1";
-                    return View("StockAdj2", sad);
+                    if (tempList.Count == 0)
+                    {
+                        ViewBag.ItemsList = new SelectList((from s in e.Items.OrderBy(x => x.Description).ToList()
+                                                            select new
+                                                            {
+                                                                ItemCode = s.ItemCode,
+                                                                Description = s.Description + " (" + s.UoM + ")"
+                                                            }),
+                                                        "ItemCode", "Description", null);
+                    }
+                    else
+                    {
+
+                        List<Item> newItemList = e.Items.Where(x => !tempList.Contains(x.ItemCode)).OrderBy(x => x.Description).ToList();
+                        //update ddl to remove items
+                        ViewBag.ItemsList = new SelectList((from s in newItemList
+                                                            select new
+                                                            {
+                                                                ItemCode = s.ItemCode,
+                                                                Description = s.Description + " (" + s.UoM + ")"
+                                                            }),
+                                                            "ItemCode", "Description", null);
+                    }
                 }
-                else
-                {
 
-                    StockAdjustmentDetail sad = TempData["ItemList"] as StockAdjustmentDetail;
 
-                    Session["StockAdjPage"] = "1";
-                    return View("StockAdj2", sad);
-                }                
+
+
+                Session["StockAdjPage"] = "1";
+                return View("StockAdj2");
+
             }
         }
+
+        [HttpPost]
+        [Route("StockAdj/AddNewAdjItem")]
+        public RedirectToRouteResult AddNewAdjItem(StockAdjItemModel item)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                string itemCode = Request.Form["SelectItemDesc"].ToString();
+                string itemDesc = e.Items.Where(x => x.ItemCode == itemCode).Select(x => x.Description).FirstOrDefault();
+                float avgUnitCost = e.Items.Where(x => x.ItemCode == itemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                string reason = Request.Form["SelectAdjReason"].ToString();
+
+                List<StockAdjItemModel> list = new List<StockAdjItemModel>();
+                list = (List<StockAdjItemModel>)Session["newAdjList"];
+                StockAdjItemModel sad = new StockAdjItemModel();
+                sad.ItemCode = itemCode;
+                sad.ItemDesc = itemDesc;
+                sad.AdjQty = item.AdjQty;
+                sad.Reason = reason;
+                sad.AdjCost =  (avgUnitCost * item.AdjQty);
+                sad.AvgUnitCost = avgUnitCost;
+
+                list.Add(sad);
+                Session["newAdjList"] = list;
+
+                //add to list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Add(itemCode);
+                Session["tempList"] = tempList;
+                
+                return RedirectToAction("Inventory", "Store");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult EditNewAdjQty(string data, int index)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                //edit sad item on qty text change
+                //data is item desc, index is list index
+                List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
+                StockAdjItemModel item = list.ElementAt(index);
+                item.AdjQty = Int32.Parse(data);
+                item.AdjCost = Int32.Parse(data) * item.AvgUnitCost;
+                Session["newAdjList"] = list;
+
+                Session["StockAdjPage"] = 2;
+
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DiscardNewAdjItem(string data, int index)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                //data is item desc, index is list index
+                List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
+                list.RemoveAt(index);
+                Session["newAdjList"] = list;
+
+                return RedirectToAction("Inventory", "Store");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult SubmitNewAdj()
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                //data is item desc, index is list index
+                int adjCount = e.StockAdjustmentHeaders.ToList().Count() +1;
+                string newAdjHeaderId = "SA-" + adjCount.ToString();
+
+                StockAdjustmentHeader sah = new StockAdjustmentHeader();
+                sah.RequestId = newAdjHeaderId;
+                sah.DateRequested = DateTime.Now;
+                sah.Requestor = Session["UserId"].ToString();
+                sah.DateProcessed = null;
+                sah.TransactionType = "Stock Adjustment";
+
+                DAL.StockAdjustmentRepositoryImpl dal = new DAL.StockAdjustmentRepositoryImpl(e);
+                dal.InsertStockAdjustmentHeader(sah);
+
+                DAL.StockAdjustmentDetailsRepositoryImpl dalDetails = new DAL.StockAdjustmentDetailsRepositoryImpl(e);
+
+                //insert SAH details
+                foreach (StockAdjItemModel detail in (List<StockAdjItemModel>) Session["NewAdjList"])
+                {
+                    StockAdjustmentDetail sad = new StockAdjustmentDetail();
+                    sad.RequestId = newAdjHeaderId;
+                    sad.ItemCode = detail.ItemCode;
+                    sad.Amount = float.Parse(detail.AdjCost.ToString());
+                    sad.ItemQuantity = detail.AdjQty;
+                    sad.Remarks = detail.Reason;
+                    sad.Status = "Pending";
+
+                    dalDetails.InsertStockAdjustmentDetail(sad);
+                }
+
+                e.SaveChanges();
+
+                Session["NewAdjList"] = new List<StockAdjItemModel>();
+
+                
+
+                return RedirectToAction("Inventory", "Store");
+            }
+        }
+
+
         [Authorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
