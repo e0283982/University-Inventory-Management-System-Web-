@@ -11,7 +11,8 @@ namespace SA46Team1_Web_ADProj.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class InventoryValuationReport
     {
         public string ItemCode { get; set; }
@@ -20,6 +21,7 @@ namespace SA46Team1_Web_ADProj.Models
         public string UoM { get; set; }
         public string CategoryName { get; set; }
         public float AvgUnitCost { get; set; }
-        public Nullable<float> TotalCost { get; set; }
+
+        public float TotalCost { get; set; }
     }
 }

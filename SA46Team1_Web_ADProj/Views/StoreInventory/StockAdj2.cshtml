@@ -146,7 +146,7 @@
                 <th>Item Description</th>
                 <th>Damaged/Missing</th>
                 <th>Quantity</th>
-                <th>Adjust Cost</th>
+                <th>Adjust Cost ($)</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -160,7 +160,7 @@
                     <input id="input-adj-qty" value="@item.AdjQty" type="number" min="1" />
                 </td>
                 <td>
-                    <input id="input-adj-cost" value="@item.AdjCost" readonly/>
+                    <input id="input-adj-cost" value="@item.AdjCost.ToString("0.00")" readonly/>
                 </td>
                 <td>
                     <span>

@@ -124,7 +124,7 @@
             </td>
             <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
             <td>@item.Item.UoM</td>
-            <td>@item.Item.AvgUnitCost</td>
+            <td>@item.Item.AvgUnitCost.ToString("0.00")</td>
             <td><label id="lbl-totalitemprice"></label></td>
             <td>7%</td>
             <td></td>
