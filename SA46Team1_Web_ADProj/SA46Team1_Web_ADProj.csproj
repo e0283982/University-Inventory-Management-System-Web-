@@ -289,8 +289,6 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
-    <Compile Include="Models\StockAdjItemModel.cs" />
-    <Compile Include="Models\BearerTokenModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -390,7 +388,6 @@
     <Compile Include="Models\ReorderReport.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ReqHistoryModel.cs" />
     <Compile Include="Models\RequisitionHistory.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -406,6 +403,17 @@
     <Compile Include="Models\Role.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StaffRequisitionDetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StaffRequisitionHeader.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjItemModel.cs" />
+    <Compile Include="Models\BearerTokenModel.cs" />
+    <Compile Include="Models\DisbursementDetailModel.cs" />
+    <Compile Include="Models\NewRequisitionModel.cs" />
+    <Compile Include="Models\ReqHistoryModel.cs" />
     <Compile Include="Models\StaffReqModel.cs" />
     <Compile Include="Models\EmployeeDelegationModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
@@ -413,12 +421,6 @@
     <Compile Include="Models\RequisitionDetModel.cs" />
     <Compile Include="Models\DeptFullDetailsModel.cs" />
     <Compile Include="Models\DeptCollectionItemModel.cs" />
-    <Compile Include="Models\StaffRequisitionDetail.cs">
-      <DependentUpon>ModelDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\StaffRequisitionHeader.cs">
-      <DependentUpon>ModelDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\StockAdjustmentApproval.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -499,9 +501,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="provider\SimpleAuthorizationServerProvider.cs" />
-    <Compile Include="Scheduler\ChangeRoleJob.cs" />
-    <Compile Include="Scheduler\CreateDisbursementListJob.cs" />
-    <Compile Include="Scheduler\MyScheduler.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -735,7 +734,6 @@
     <Content Include="Views\Dept\Notifications.cshtml" />
     <Content Include="Views\DeptNotifications\ReadMsgs.cshtml" />
     <Content Include="Views\DeptNotifications\UnreadMsgs.cshtml" />
-    <Content Include="Views\DeptCollectionPoint\DefaultCollectionPoint.cshtml" />
     <None Include="Views\DeptNotifications\AllMsgs.cshtml" />
     <Content Include="Views\StoreReports\RptInventory.cshtml" />
     <Content Include="Views\StoreReports\RptReorder.cshtml" />
@@ -745,6 +743,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\DefaultCollectionPoint\" />
+    <Folder Include="Views\DeptCollectionPoint\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -3,11 +3,11 @@
 }
 
 <div>
-    <h2>Purchase Orders</h2>
+    <h5>Purchase Orders</h5>
 </div>
 
 <table id="dataTable-poList" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>PO Number</th>
             <th>Supplier</th>
@@ -15,6 +15,7 @@
             <th>Status</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <script>
@@ -30,6 +31,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
+                    "iDisplayLength": 5,
                     //scrollY: 200,
                     data: data,
                     columns: [

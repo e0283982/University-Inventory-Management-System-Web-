@@ -691,6 +691,167 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpPost]
+        [System.Web.Mvc.Route("UpdateDisbursement")]
+        public void UpdateDisbursement(DisbursementDetailModel disbursementDetailModel)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                //Update Disbursement Header to completed
+                DisbursementHeader disbursementHeader = m.DisbursementHeaders.Where(x => x.Id == disbursementDetailModel.DisbursementId).FirstOrDefault();
+                disbursementHeader.Status = "Completed";
+
+                //Update Disbursement Detail               
+                Item item = m.Items.Where(x => x.Description == disbursementDetailModel.ItemDescription).FirstOrDefault();
+                string itemCode = item.ItemCode;
+
+                DisbursementDetail disbursementDetail = m.DisbursementDetails.Where(x => x.Id == disbursementDetailModel.DisbursementId && x.ItemCode == itemCode).FirstOrDefault();
+                disbursementDetail.QuantityReceived = disbursementDetailModel.QuantityReceived;
+                disbursementDetail.QuantityAdjusted = disbursementDetailModel.QuantityAdjusted;
+
+                if (disbursementDetail.QuantityAdjusted > 0)
+                {
+
+                    //Adding new StockAdjustmentHeader            
+                    StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
+                    int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
+                    stockAdjustmentHeader.RequestId = "SA-" + stockAdjustmentHeaderCount;
+
+                    //DateTime
+                    DateTime localDate = DateTime.Now;
+                    stockAdjustmentHeader.DateRequested = localDate;
+                    stockAdjustmentHeader.Requestor = disbursementDetailModel.RequestorId;
+                    stockAdjustmentHeader.TransactionType = "Stock Adjustment";
+                    m.StockAdjustmentHeaders.Add(stockAdjustmentHeader);
+
+                    //Adding new StockAdjustmentDetails
+                    StockAdjustmentDetail stockAdjustmentDetail = new StockAdjustmentDetail();
+                    stockAdjustmentDetail.RequestId = stockAdjustmentHeader.RequestId;
+
+                    stockAdjustmentDetail.ItemCode = itemCode;
+                    stockAdjustmentDetail.ItemQuantity = disbursementDetail.QuantityAdjusted;
+
+                    float itemUnitCost = m.Items.Where(x => x.ItemCode == stockAdjustmentDetail.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                    stockAdjustmentDetail.Amount = itemUnitCost * stockAdjustmentDetail.ItemQuantity;
+                    stockAdjustmentDetail.Remarks = "Damaged";
+                    stockAdjustmentDetail.Status = "Pending";
+                    m.StockAdjustmentDetails.Add(stockAdjustmentDetail);
+
+                    //Create 2 Item Transactions to plus and minus
+                    //to add back damaged items that are not taken by the employee
+                    DateTime localDate1 = DateTime.Now;
+                    ItemTransaction itemTransaction1 = new ItemTransaction();
+                    itemTransaction1.TransDateTime = localDate1;
+                    itemTransaction1.DocumentRefNo = disbursementHeader.Id;
+                    itemTransaction1.ItemCode = disbursementDetail.ItemCode;
+                    itemTransaction1.TransactionType = "Disbursement Adjustment";
+                    itemTransaction1.Quantity = disbursementDetail.QuantityAdjusted;
+                    itemTransaction1.UnitCost = itemUnitCost;
+                    itemTransaction1.Amount = itemTransaction1.Quantity * itemTransaction1.UnitCost;
+                    m.ItemTransactions.Add(itemTransaction1);
+
+                    //To create stock adjustment
+                    DateTime localDate2 = DateTime.Now;
+                    ItemTransaction itemTransaction2 = new ItemTransaction();
+                    itemTransaction2.TransDateTime = localDate2;
+                    itemTransaction2.DocumentRefNo = stockAdjustmentHeader.RequestId;
+                    itemTransaction2.ItemCode = stockAdjustmentDetail.ItemCode;
+                    itemTransaction2.TransactionType = "Stock Adjustment";
+                    itemTransaction2.Quantity = stockAdjustmentDetail.ItemQuantity;
+                    itemTransaction2.UnitCost = itemUnitCost;
+                    itemTransaction2.Amount = itemTransaction2.Quantity * itemTransaction2.UnitCost;
+                    m.ItemTransactions.Add(itemTransaction2);
+
+                }
+
+                m.SaveChanges();
+
+            }
+
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStaffRequisitionHeader")]
+        public List<StaffRequisitionHeader> GetStaffRequisitionHeader()
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.StaffRequisitionHeaders.OrderByDescending(x => x.ApprovalStatus).ToList<StaffRequisitionHeader>();
+            }
+        }
+
+        [System.Web.Mvc.HttpPost]
+        [System.Web.Mvc.Route("CreateNewRequisition")]
+        public void CreateNewRequisition(NewRequisitionModel newRequisitionModel)
+        {
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                //Only when id match with size then create new requisition Header
+                if (newRequisitionModel.RequisitionId == newRequisitionModel.RequisitionSize)
+                {
+                    //Create new Staff Requisition Header
+                    StaffRequisitionHeader srh = new StaffRequisitionHeader();
+
+                    int staffRequisitionHeaderCount = m.StaffRequisitionHeaders.Count() + 1;
+                    srh.FormID = "SR-" + staffRequisitionHeaderCount;
+
+                    srh.EmployeeID = newRequisitionModel.EmployeeId;
+
+                    srh.DepartmentCode = m.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.DepartmentCode).FirstOrDefault();
+                    srh.DateRequested = DateTime.Now;
+                    srh.Status = "Open";
+                    srh.ApprovalStatus = "Pending";
+
+                    //to change to null (default)
+                    //srh.DateProcessed = System.DateTime.Now; 
+
+                    srh.Approver = m.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.ReportsTo).FirstOrDefault();
+                    srh.NotificationStatus = "Unread";
+
+                    m.StaffRequisitionHeaders.Add(srh);
+
+                    m.SaveChanges();
+                }
+
+
+                //Create new Staff Requisition Details
+                StaffRequisitionDetail srd = new StaffRequisitionDetail();
+                String itemCode = m.Items.Where(x => x.Description == newRequisitionModel.ItemDescription).Select(x => x.ItemCode).FirstOrDefault();
+                srd.ItemCode = itemCode;
+
+                int latestStaffRequisitionHeaderCount = m.StaffRequisitionHeaders.Count();
+
+                srd.FormID = "SR-" + latestStaffRequisitionHeaderCount;
+                srd.QuantityOrdered = newRequisitionModel.OrderedQuantity;
+                srd.QuantityDelivered = 0;
+                srd.QuantityBackOrdered = 0;
+                srd.CancelledBackOrdered = 0;
+
+                m.StaffRequisitionDetails.Add(srd);
+
+                m.SaveChanges();
+
+            }
+
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRequisitionHistoryDepartmentRep/{id}")]
+        public List<RequisitionHistory> GetRequisitionHistoryDepartmentRep(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                List<string> deptReqFormIdsList = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList();
+                return m.RequisitionHistories.Where(x => deptReqFormIdsList.Contains(x.FormID)).OrderByDescending(x => x.ApprovalStatus).ToList();
+            }
+        }
+
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetDeptStaffReqs/{id}")]
         public List<StaffReqModel> GetDeptStaffReqs(string id)
@@ -699,7 +860,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 m.Configuration.ProxyCreationEnabled = false;
 
-                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id && x.ApprovalStatus=="Approved" && (x.Status=="Open" || x.Status=="Outstanding"))
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id && x.ApprovalStatus == "Approved" && (x.Status == "Open" || x.Status == "Outstanding"))
                     .OrderBy(x => x.DateRequested).ToList<StaffRequisitionHeader>();
                 List<StaffReqModel> list2 = new List<StaffReqModel>();
                 list2 = list.ConvertAll(x => new StaffReqModel
@@ -736,8 +897,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return list2;
             }
         }
-
-
 
 
 

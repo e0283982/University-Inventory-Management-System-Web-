@@ -15,7 +15,8 @@
     $(document).ready(function () {
        
         table = $('#dataTable-new-adj').DataTable({
-            scrollY: '30vh',
+            //scrollY: '30vh',
+            "iDisplayLength": 5,
             scrollCollapse: true,
             ordering: false,
             paging: true,
@@ -128,19 +129,22 @@
         <h5>Stock Adjustment</h5>
     </div>
     <div class="col-md-6">
-        <span style="float: right; padding-top:35px;">
+        <div style="float: right; padding-top:35px;">
             <span>
-                <button class="btn btn-primary" id="btn-add-adj-item">Add</button>
+                <button class="btn btn-primary" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
             </span>
             <span>
-                <button class="btn btn-info" id="btn-submit-new-adj">Submit</button>
+                <button class="btn btn-info" id="btn-submit-new-adj" style="font-size: 10pt;">Submit</button> 
             </span>
+        </div>
     </div>
 </div>
 
+<br />
+
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
     <table id="dataTable-new-adj" class="table-hover" style="width:80%;">
-        <thead>
+        <thead style="font-size: 10pt;">
             <tr>
                 <th>Item Code</th>
                 <th>Item Description</th>
@@ -160,21 +164,30 @@
                     <input id="input-adj-qty" value="@item.AdjQty" type="number" min="1" />
                 </td>
                 <td>
-                    <input id="input-adj-cost" value="@item.AdjCost.ToString("0.00")" readonly/>
+                    <input id="input-adj-cost" value="@item.AdjCost.ToString("0.00")" readonly />
                 </td>
                 <td>
                     <span>
-                        <button class="btn btn-danger" id="btn-discard-new-adj">
+                        <button class="btn btn-lu-red" id="btn-discard-new-adj">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </span>
                 </td>
             </tr>
         }
-        <tbody></tbody>
+        <tbody style="font-size: 10pt;"></tbody>
     </table>
     <hr />
 
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right;">
+                <span>
+                    <button class="btn btn-lu-red" style="font-size: 10pt;">Back</button>
+                </span>
+            </div>
+        </div>
+    </div>
 
     <div id="dialog-add-adj-item" class="hidden" title="Add Item (New Adjustment)">
         @using (Html.BeginForm("AddNewAdjItem", "StoreInventory", FormMethod.Post, new { id = "form-submit-add-new-adj" }))
@@ -190,12 +203,14 @@
                     @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @Value = "1" }, })
                 </div>
 
+                <br />
+
                 <div>
                     <label>Reason: </label>
                     @Html.DropDownList("SelectAdjReason", ViewBag.AdjustmentReasons as SelectList)
                 </div>
 
-                <br />
+                <hr />
 
                 <div>
                     <input id="btn-submit-add-adj-item" class="btn btn-info btn-block" type="submit" value="Add" />
@@ -206,18 +221,20 @@
 
 
     <div id="dialog-confirm-submit-new-adj" class="hidden" title="Confirm Submission (New Adjustment)">
-        <p>Are you sure you want to submit the adjustment?</p>
-        <span>
-            <button class="btn btn-primary" id="btn-confirm-submit-cancel">Cancel</button>
-        </span>
+        <h6>Are you sure you want to submit the adjustment?</h6>
+        <div>
+            <span>
+                <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+            </span>
 
-        <span>
-            <button class="btn btn-primary" id="btn-confirm-submit-submit">Submit</button>
-        </span>
+            <span>
+                <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+            </span>
+        </div>
     </div>
 
     <div id="dialog-new-adj-submited" class="hidden" title="New Adjustment submitted">
-        <p>New adjustment request has been submitted for approval.</p>
+        <h6>New adjustment request has been submitted for approval.</h6>
     </div>
 
 </div>
