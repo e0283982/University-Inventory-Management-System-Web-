@@ -25,7 +25,8 @@ namespace SA46Team1_Web_ADProj
            {
                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                LoginPath = new PathString("/Main/login"),
-               ExpireTimeSpan = TimeSpan.FromMinutes(30)
+               ExpireTimeSpan = TimeSpan.FromMinutes(30),
+               LogoutPath = new PathString("/Main/Logout")
            });
 
         }

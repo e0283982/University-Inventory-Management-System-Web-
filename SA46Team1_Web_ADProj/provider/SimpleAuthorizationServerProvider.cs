@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security.OAuth;
 using SA46Team1_Web_ADProj.DAL;
+using SA46Team1_Web_ADProj.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,10 @@ namespace SA46Team1_Web_ADProj.provider
         {
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
-
+            Employee user = new Employee();
             using (AuthRepository _repo = new AuthRepository())
             {
-                IdentityUser user =  _repo.FindUser(context.UserName, context.Password);
-
+                user = (Employee)_repo.FindUser(context.UserName, context.Password);
                 if (user == null)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
@@ -33,8 +33,8 @@ namespace SA46Team1_Web_ADProj.provider
                 }
             }
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            identity.AddClaim(new Claim("sub", context.UserName));
-            identity.AddClaim(new Claim("role", "user"));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.UserName));
+            identity.AddClaim(new Claim(ClaimTypes.Role, user.Designation));
             context.Validated(identity);
         }
     }
