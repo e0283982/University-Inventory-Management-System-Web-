@@ -52,15 +52,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public ActionResult SavePO(string[] arrQty, string[] arrSupplier)
         {
-            //List<POFullDetail> itemList = new List<POFullDetail>();
             List<PODetail> poDetailsList = (List<PODetail>)Session["newPOList"];
             List<Supplier> supplierList = new List<Supplier>();
             List<Item> itemAdded = new List<Item>();
             int arrayCount = 0;
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                // Adding <input> Qty & <select> Supplier into poDetailsList 
-                // Finalize PODetailsList
+                // Checking for number of suppliers to Iterate & later used for creating no. of PO
                 for(int i = 0; i < arrSupplier.Length; i++)
                 {
                     string supCode = arrSupplier[i];
@@ -71,6 +69,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
                 }
 
+                // Change Item Supplier in PODetails for retrieving in list and adding into database later
                 foreach (PODetail p in poDetailsList)
                 {
                     string coy = arrSupplier[arrayCount];
@@ -92,9 +91,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     newPOHeader.SupplierCode = s.SupplierCode;
                     newPOHeader.ContactName = s.ContactName;
                     newPOHeader.DeliverTo = "Logic University";
-
-                    // ---------------------------------- IMPORTANT : Need to change this based on Sesson Role ---------------------------------------------//
-                    newPOHeader.EmployeeID = "E1";
+                    newPOHeader.EmployeeID = (string) Session["LoginEmployeeID"];
                     // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
                     newPOHeader.Remarks = "";
                     // ------------------------------------------------------------------------------------------------------------------------------------//
@@ -104,18 +101,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                     m.POHeaders.Add(newPOHeader);
                     m.SaveChanges();
 
-                    // Loop through PODetails to check suppliers
+                    // Loop through PODetails to add items based on selected supplier suppliers
                     foreach (PODetail pod in poDetailsList)
                     {
-                        // Create PO Details, Line by line based on items
+                        // Only add if the item is belonging to the supplier / PO
                         string supCode = pod.Item.Supplier1;
                         Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
                         if (supplier == s)
                         {
-                            //----------------------------------IMPORTANT : Not sure this is 100 % working-------------------------------------------- -//
-                                if (!itemAdded.Contains(pod.Item))
+                            // Only add if the item has not been added
+                            if (!itemAdded.Contains(pod.Item))
                             {
-                                // Need to double check after changing UI
                                 PODetail poDetailToAdd = new PODetail();
                                 float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
                                     && x.ItemCode == pod.Item.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
