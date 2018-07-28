@@ -23,20 +23,20 @@ namespace SA46Team1_Web_ADProj.Controllers
                 ViewBag.ItemsList = new SelectList((from s in e.Items.ToList()
                                                     select new
                                                     {
-                                                      //  ItemCode = s.ItemCode,
+                                                        ItemCode = s.ItemCode,
                                                         Description = s.Description + " (" + s.UoM + ")"
                                                     }),
-                                                //"ItemCode",
+                                                "ItemCode",
                                                 "Description",
                                                 null);
 
                 ViewBag.CategoryList = new SelectList((from s in e.Categories.ToList()
                                                        select new
                                                        {
-                                                           //CategoryID = s.CategoryID,
+                                                           CategoryID = s.CategoryID,
                                                            CategoryName = s.CategoryName
                                                        }),
-                                                // "CategoryID",
+                                                 "CategoryID",
                                                  "CategoryName",
                                                  null);
 
@@ -48,14 +48,11 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         public ActionResult ExportRptInventory()
         {
-            List<InventoryValuationReport> allInventory = new List<InventoryValuationReport>();
-            using (SSISdbEntities dc = new SSISdbEntities())
-            {
-                allInventory = dc.InventoryValuationReports.ToList();
-            }
+            List<InventoryValuationReport> allRptInventory = (List<InventoryValuationReport>)TempData["allRptInventory"];
+
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "RptInventoryValuation.rpt"));
-            rd.SetDataSource(allInventory);
+            rd.SetDataSource(allRptInventory);
 
             Response.Buffer = false;
             Response.ClearContent();
@@ -64,6 +61,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             try
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
                 stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, "application/pdf", "InventoryValuation.pdf");
             }
@@ -71,6 +69,24 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpPost]
+        public ActionResult ExportRptInventory2(String[] arr)
+        {
+
+            List<InventoryValuationReport> allRptInventory = new List<InventoryValuationReport>();
+
+            foreach (String s in arr)
+            {
+                InventoryValuationReport rp = JsonConvert.DeserializeObject<InventoryValuationReport>(s);
+                allRptInventory.Add(rp);
+            }
+
+            TempData["allRptInventory"] = allRptInventory;
+
+            return RedirectToAction("Report", "Store");
+
         }
 
         [Route("RptReorder")]
