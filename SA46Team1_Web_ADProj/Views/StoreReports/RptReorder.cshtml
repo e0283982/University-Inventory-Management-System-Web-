@@ -7,32 +7,40 @@
 }
 <div>
     <h5>Reorder Report</h5>
+    <span>
+        <label>Filter by:</label>
+        <select id="chosenToggle">
+            <option value="default">Select Option</option>
+            <option value="item">Item</option>
+            <option value="category">Category</option>
+        </select>
+    </span>
 </div>
 
 <div class="row">
     <div class="col-md-6">
         <div>
             <label style="font-size: 10pt;">Item Description: </label>
-            @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+            @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectItemDesc" })
         </div>
 
         <div>
             <label style="font-size: 10pt;">Category: </label>
-            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectCategory" })
         </div>
         <div>
             <span>
-                <input class="btn btn-lu-green" type="submit" style="font-size: 10pt;"/>
+                <input class="btn btn-lu-green" id="btn-submit-filter" type="submit" style="font-size: 10pt;" />
+            </span>
+
+            <span id="btn-submit-export">
+                @Html.ActionLink("Export to PDF", "ExportRptReorder", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf", style = "font-size: 10pt;" })
             </span>
         </div>
+        
     </div>
-    <div class="col-md-6">
-        <div style="float: right; padding-top: 62px;">
-            <span>
-                @Html.ActionLink("Export to PDF", "ExportRptReorder", "StoreReports", null, new { @class = "btn btn-lu-blue", style = "font-size: 10pt;" })
-            </span>
-        </div>      
-    </div>
+
+        
 </div>
 
 <hr />     
@@ -56,18 +64,29 @@
 </table>
 
 <script>
+    var table;
+    var searchItems = [];
+    var searchCategories = [];
+
+    $('#btn-submit-export').hide();
+
     $(document).ready(function () {
+        $("#selectCategory").prop('disabled', true);
+        $("#selectItemDesc").prop('disabled', true);
+
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRptReorder',
             method: 'get',
             dataType: 'json',
             success: function (data) {
-                $('#dataTable-storeReorder').dataTable({
+                d = data;
+
+                table = $('#dataTable-storeReorder').DataTable({
                     paging: true,
                     sort: true,
-                    searching: false,
-                    "iDisplayLength": 5,
-                    //scrollY: 200,
+                    search: false,
+                    dom: 'lrtip',
+                    scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'CategoryName' },
@@ -80,9 +99,86 @@
                         { 'data': 'POBackOrdered' },
                         { 'data': 'SRBackOrdered' },
                         { 'data': 'SuggestedQty' }
-                    ]
+                    ],
+                    drawCallback: function (settings) {
+
+                        $('#btn-submit-filter').on('click', function () {
+                             searchItems = [];
+                             searchCategories = [];
+
+                            $('#selectItemDesc option:selected').each(function () {
+                                searchItems.push($(this).val());
+                            });
+
+                            $('#selectCategory option:selected').each(function () {
+                                searchCategories.push($(this).text());
+                            });
+                            
+                            searchItems = searchItems.join('|');
+                            searchCategories = searchCategories.join('|');
+                           
+                            if (searchCategories.length > 0) {
+                                table
+                                    .columns(0)
+                                    .search(searchCategories, true, false, true).draw();
+                            } else {
+                                table
+                                    .columns(1)
+                                    .search(searchItems, true, false, true).draw();
+                            }
+                            
+                            var data = table.rows({ filter: 'applied' }).data();
+                            
+                            var arr = [];
+                            for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
+                                var rowData = data[i];
+
+                                arr.push(JSON.stringify(rowData));
+                            }
+
+                            if (arr.length == 0) {
+                                alert("No results found.");
+                                $('#btn-submit-export').hide();
+                                return;
+                            }
+
+                            $.ajax({
+                                url: '/StoreReports/ExportRptReorder2',
+                                data: JSON.stringify({ arr: arr }),
+                                dataType: "json",
+                                contentType: 'application/json; charset=utf-8',
+                                type: 'POST',
+                            });
+
+                            table.draw(false);
+                            $('#btn-submit-export').show();
+
+                        });
+
+                    },
                 });
             }
         });
+    });
+
+    $('#btn-export-pdf').on('click', function () {
+        $('#btn-submit-export').hide();
+
+    });
+
+    $('#chosenToggle').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+
+        if (valueSelected == "item") {
+            $("#selectCategory").val([]);
+            $("#selectCategory").prop('disabled', true);
+            $("#selectItemDesc").prop('disabled', false);
+
+        } else if (valueSelected == "category") {
+            $("#selectItemDesc").val([]);
+            $("#selectItemDesc").prop('disabled', true);
+            $("#selectCategory").prop('disabled', false);
+        }
     });
 </script>
