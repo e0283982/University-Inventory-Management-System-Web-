@@ -20,6 +20,7 @@
                 paging: true,
                 sort: true,
                 searching: false,
+                "iDisplayLength": 5,
                 //scrollY: 200,
                 scrollX: 1000,
                 data: data,
@@ -125,12 +126,12 @@
 </script>
 
 <div>
-    <h2>Supplier: @Session["MaintenanceSupplierCode"]</h2>
+    <h5>Supplier: @Session["MaintenanceSupplierCode"]</h5>
 </div>
 
 
 <table id="dataTable-store-suppliers-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Supplier Code</th>
             <th>Name</th>
@@ -141,6 +142,7 @@
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -149,7 +151,7 @@
     <div class="col-md-10">
         <div style="float: right">
             <span>
-                <button class="btn btn-info">@Html.ActionLink("View Price List", "Home", "Store")</button>
+                <button class="btn btn-lu-blue" style="font-size: 10pt;">@Html.ActionLink("View Price List", "Home", "Store")</button>
             </span>
         </div>
     </div>
@@ -157,13 +159,13 @@
         <span>
             @using (Html.BeginForm("BackToSuppliersMaintenanceList", "StoreMaintenance", FormMethod.Post))
             {
-                <input class="btn btn-danger" type="submit" value="Back" />
+                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
             }
         </span>
     </div>
     <div class="col-md-1">
         <span>
-            <button id="btn-edit-supplier" class="btn btn-info">Edit</button>
+            <button id="btn-edit-supplier" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
         </span>
     </div>
 </div>

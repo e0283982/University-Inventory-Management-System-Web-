@@ -23,6 +23,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
+                "iDisplayLength": 5,
                 //scrollY: 200,
                 data: data,
                 columns: [
@@ -91,12 +92,12 @@
 </script>
 
 <div>
-    <h2>Maintenance - Collection Point</h2>
+    <h5>Maintenance - Collection Point</h5>
 </div>
 
 
 <table id="dataTable-store-collection-points" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Collection Point Id</th>
             <th>Collection Point Description</th>
@@ -104,6 +105,7 @@
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -112,7 +114,7 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button id="btn-add-new-collection-point" class="btn btn-info">Add New Collection Point</button>
+                <button id="btn-add-new-collection-point" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Collection Point</button>
             </span>
         </div>
     </div>
@@ -134,7 +136,7 @@
 
             <hr />
 
-            <input id="btn-submit-add-collection-point" class="btn btn-info btn-block" type="submit" value="Add" />
+            <input id="btn-submit-add-collection-point" class="btn btn-lu-green btn-block" type="submit" value="Add" />
 
         </div>
     }

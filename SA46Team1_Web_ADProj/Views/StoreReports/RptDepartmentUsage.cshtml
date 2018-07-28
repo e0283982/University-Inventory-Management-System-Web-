@@ -7,25 +7,25 @@
 }
 
 <div>
-    <h2>Department Usage Cost Report</h2>
+    <h5>Department Usage Cost Report</h5>
 </div>
 
 <div class="row">
     <div class="col-md-6">
 
-            <div>
-                <label>Department: </label>
-                @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
-            </div>
-            <div>
-                <label>Category: </label>
-                @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
-            </div>
+        <div>
+            <label style="font-size: 10pt;">Department: </label>
+            @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
+        </div>
+        <div>
+            <label style="font-size: 10pt;">Category: </label>
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+        </div>
 
         <div class="row">
             <div class="col-md-2">
                 <span>
-                    <label>Year</label>
+                    <label style="font-size: 10pt;">Year</label>
                 </span>
                 <span>
                     <select id="chosenYear" multiple>
@@ -36,7 +36,7 @@
             </div>
             <div class="col-md-2">
                 <span>
-                    <label>Month(s)</label>
+                    <label style="font-size: 10pt;">Month(s)</label>
                 </span>
                 <span>
                     <select id="chosenMonths" multiple>
@@ -58,7 +58,8 @@
         </div>
         <div>
             <span>
-                <button class="btn btn-info" id="btn-submit-filter">Filter</button>
+                @*<button class="btn btn-info" id="btn-submit-filter">Filter</button>*@
+                <input class="btn btn-lu-green" type="submit"  id="btn-submit-filter" style="font-size: 10pt;" value="Filter"/>
             </span>
         </div>
     </div>
@@ -66,7 +67,8 @@
         <div style="float: right; padding-top: 205px;">
           
             <span id="btn-submit-export">
-                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-info", @id="btn-export-pdf" })
+                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id="btn-export-pdf", style = "font-size: 10pt;" })
+                @*@Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", style = "font-size: 10pt;" })*@
             </span>
            
         </div>
@@ -76,8 +78,10 @@
 <hr />
 
 <table id="dataTable-deptUsage" class="table">
-    <thead>
-        <tr><th>Dept Name</th>
+
+    <thead style="font-size: 10pt;">
+        <tr>
+            <th>Dept Name</th>
             <th>Year</th>
             <th>Month</th>
             <th>Category</th>
@@ -90,6 +94,7 @@
             <th>Total Cost ($)</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <script>

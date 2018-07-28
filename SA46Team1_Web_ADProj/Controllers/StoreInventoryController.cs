@@ -18,7 +18,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["InventoryOverviewPage"].ToString() == "1")
             {
-            
+
                 return View("Overview");
             }
             else
@@ -62,79 +62,93 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public ActionResult AddToPO(string[] arr1, string[] arrSupplier)
         {
-            List<ReorderList> reorderList = (List<ReorderList>)Session["ReorderList"];
-            List<Supplier> supplierList = new List<Supplier>();
-            List<Item> itemAdded = new List<Item>();
-            int arrayCount = 0;
-
-            using (SSISdbEntities m = new SSISdbEntities())
+            int enteredQty = 0;
+            for (int i = 0; i < arr1.Length; i++)
             {
-                // Grouping Suppliers based on array
-                for(int i = 0; i < arrSupplier.Length; i++)
+                enteredQty += Convert.ToInt32(arr1[i]);
+            }
+
+            if (enteredQty > 0)
+            {
+                List<ReorderList> poDetailsList = (List<ReorderList>)Session["ReorderList"];
+                List<Supplier> supplierList = new List<Supplier>();
+                List<Item> itemAdded = new List<Item>();
+                int arrayCount = 0;
+                using (SSISdbEntities m = new SSISdbEntities())
                 {
-                    string supName = arrSupplier[i];
-                    Supplier sup = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
-                    supplierList.Add(sup);
-                }
-                int qtyCount = 0;
-
-                foreach(ReorderList r in reorderList)
-                {
-                    r.ReOrderQuantity = Convert.ToInt32(arr1[qtyCount]);
-                    qtyCount++;
-                }
-
-                // Each Supplier iterates once such that only 1 PO is created for each of them
-                foreach (Supplier s in supplierList)
-                {
-                    // Create new PO based on supplier
-                    int count = m.POHeaders.Count() + 1;
-                    string poId = "PO-" + count.ToString();
-
-                    POHeader newPOHeader = new POHeader();
-                    newPOHeader.PONumber = poId;
-                    newPOHeader.Date = DateTime.Now;
-                    newPOHeader.SupplierCode = s.SupplierCode;
-                    newPOHeader.ContactName = s.ContactName;
-                    newPOHeader.DeliverTo = "Logic University";
-                    // I need session of role here
-                    newPOHeader.EmployeeID = "E1";
-                    newPOHeader.Remarks = "";
-                    newPOHeader.Status = "Open";
-                    newPOHeader.TransactionType = "PO";
-                    m.POHeaders.Add(newPOHeader);
-                    m.SaveChanges();
-
-                    // Loop through PODetails to check suppliers
-                    foreach (ReorderList r in reorderList)
+                    // Checking for number of suppliers to Iterate & later used for creating no. of PO
+                    for (int i = 0; i < arrSupplier.Length; i++)
                     {
-                        // Create PO Details, Line by line based on items
-                        string supName = arrSupplier[arrayCount];
-                        Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
-                        if (supplier.Equals(s))
+                        string supCode = arrSupplier[i];
+                        Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supCode).FirstOrDefault();
+                        if (!supplierList.Contains(supplier))
                         {
-                            Item item = m.Items.Where(x => x.ItemCode == r.ItemCode).FirstOrDefault();
-                            if (!itemAdded.Contains(item))
-                            {
-                                PODetail poDetailToAdd = new PODetail();
-                                float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == supplier.SupplierCode
-                                    && x.ItemCode == r.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
-                                poDetailToAdd.PONumber = poId;
-                                poDetailToAdd.ItemCode = r.ItemCode;
-                                poDetailToAdd.QuantityOrdered = r.ReOrderQuantity;
-                                poDetailToAdd.QuantityBackOrdered = r.ReOrderQuantity;
-                                poDetailToAdd.QuantityDelivered = 0;
-                                poDetailToAdd.UnitCost = itemUnitPrice;
-                                poDetailToAdd.CancelledBackOrdered = 0;
-                                m.PODetails.Add(poDetailToAdd);
-                                m.SaveChanges();
-                                itemAdded.Add(item);
-                            }
+                            supplierList.Add(supplier);
                         }
+                    }
+
+                    // Change Item Supplier in PODetails for retrieving in list and adding into database later
+                    foreach (ReorderList p in poDetailsList)
+                    {
+                        string coy = arrSupplier[arrayCount];
+                        Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
+                        p.s1 = sup.CompanyName;
                         arrayCount++;
                     }
-                    // Reset Array for new PO
-                    arrayCount = 0;
+
+                    // Each Supplier iterates once such that only 1 PO is created for each of them
+                    foreach (Supplier s in supplierList)
+                    {
+                        // Create new PO based on supplier
+                        int count = m.POHeaders.Count() + 1;
+                        string poId = "PO-" + count.ToString();
+
+                        POHeader newPOHeader = new POHeader();
+                        newPOHeader.PONumber = poId;
+                        newPOHeader.Date = DateTime.Now;
+                        newPOHeader.SupplierCode = s.SupplierCode;
+                        newPOHeader.ContactName = s.ContactName;
+                        newPOHeader.DeliverTo = "Logic University";
+                        newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
+                        // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
+                        newPOHeader.Remarks = "";
+                        // ------------------------------------------------------------------------------------------------------------------------------------//
+
+                        newPOHeader.Status = "Open";
+                        newPOHeader.TransactionType = "PO";
+                        m.POHeaders.Add(newPOHeader);
+                        m.SaveChanges();
+
+                        // Loop through PODetails to add items based on selected supplier suppliers
+                        foreach (ReorderList pod in poDetailsList)
+                        {
+                            // Only add if the item is belonging to the supplier / PO
+                            string supName = pod.s1;
+                            Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
+                            if (supplier == s)
+                            {
+                                // Only add if the item has not been added
+                                Item i = m.Items.Where(x => x.ItemCode == pod.ItemCode).FirstOrDefault();
+                                if (!itemAdded.Contains(i))
+                                {
+                                    PODetail poDetailToAdd = new PODetail();
+                                    float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
+                                        && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
+                                    poDetailToAdd.PONumber = poId;
+                                    poDetailToAdd.ItemCode = pod.ItemCode;
+                                    int qty = Convert.ToInt32(arr1[poDetailsList.IndexOf(pod)]);
+                                    poDetailToAdd.QuantityOrdered = qty;
+                                    poDetailToAdd.QuantityBackOrdered = qty;
+                                    poDetailToAdd.QuantityDelivered = 0;
+                                    poDetailToAdd.UnitCost = itemUnitPrice;
+                                    poDetailToAdd.CancelledBackOrdered = 0;
+                                    m.PODetails.Add(poDetailToAdd);
+                                    m.SaveChanges();
+                                    itemAdded.Add(i);
+                                }
+                            }
+                        }
+                    }
                 }
             }
             Session["newPOList"] = new List<PODetail>();
@@ -264,7 +278,16 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //data is item desc, index is list index
                 int adjCount = e.StockAdjustmentHeaders.ToList().Count() +1;
-                string newAdjHeaderId = "SA-" + adjCount.ToString();
+                string newAdjHeaderId = null;
+                if (adjCount < 10)
+                {
+                    newAdjHeaderId = "SA-00" + adjCount.ToString();
+                }
+                else
+                {
+                    newAdjHeaderId = "SA-0" + adjCount.ToString();
+                }
+                
 
                 StockAdjustmentHeader sah = new StockAdjustmentHeader();
                 sah.RequestId = newAdjHeaderId;
@@ -393,7 +416,15 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 int itemTransCount = m.StockTakeHeaders.Count() + 1;
-                string itemTransactionId = "ST-" + itemTransCount.ToString();
+                string itemTransactionId = null;
+                if (itemTransCount < 10)
+                {
+                    itemTransactionId = "ST-0" + itemTransCount.ToString();
+                }
+                else
+                {
+                    itemTransactionId = "ST-" + itemTransCount.ToString();
+                }
                 
                 // Update StockTakeHeader Table
                 StockTakeHeader stockTakeHeader = new StockTakeHeader();

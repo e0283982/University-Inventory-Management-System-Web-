@@ -23,6 +23,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
+                "iDisplayLength": 5,
                 //scrollY: 200,
                 data: data,
                 columns: [
@@ -90,18 +91,19 @@
 </script>
 
 <div>
-    <h2>Maintenance - Category</h2>
+    <h5>Maintenance - Category</h5>
 </div>
 
 
 <table id="dataTable-store-categories" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Category ID</th>
             <th>Item</th>
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -110,7 +112,7 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button id="btn-add-new-category" class="btn btn-info">Add New Category</button>
+                <button id="btn-add-new-category" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Category</button>
             </span>
         </div>
     </div>
@@ -127,7 +129,7 @@
 
             <hr />
 
-            <input id="btn-submit-add-category" class="btn btn-info btn-block" type="submit" value="Add" />
+            <input id="btn-submit-add-category" class="btn btn-lu-green btn-block" type="submit" value="Add" />
 
         </div>
     }

@@ -64,39 +64,57 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
 
                 Session["LoginEmployeeID"] = employee.EmployeeID;
+                Session["Role"] = employee.Designation;
 
-                    switch (employee.Designation)
-                {               
-                    case "Department Head":
-                        Session["Role"] = "Department Head";
-                        return RedirectToAction("Home", "Dept", new { area = "" });
-                    case "Employee":
-                        Session["Role"] = "Employee";
-                        return RedirectToAction("Home", "Dept", new { area = "" });
-                    case "Employee Representative":
-                        Session["Role"] = "Employee Representative";
-                        return RedirectToAction("Home", "Dept", new { area = "" });
-                    case "Store Clerk":
-                        Session["Role"] = "Store Clerk";
-                        return RedirectToAction("Home", "Store", new { area = "" });                     
-                    case "Store Manager":
-                        Session["Role"] = "Store Manager";
-                        return RedirectToAction("Home", "Store", new { area = "" });
-                    case "Store Supervisor":
-                        Session["Role"] = "Store Supervisor";
-                        return RedirectToAction("Home", "Store", new { area = "" });     
-                    default:
-                        return View("Login");                        
+                if (employee.Designation == "Department Head"
+                    || employee.Designation == "Employee"
+                    || employee.Designation == "Employee Representative")
+                {
+                    return RedirectToAction("Home", "Dept", new { area = "" });
                 }
+                else if (employee.Designation == "Store Clerk"
+                    || employee.Designation == "Store Supervisor"
+                    || employee.Designation == "Store Manager")
+                {
+                    return RedirectToAction("Home", "Store", new { area = "" });
+                }
+                else
+                {
+                    return View("Login");
+                }
+
+                //switch (employee.Designation)
+                //{
+                //    case "Department Head":
+                //        Session["Role"] = "Department Head";
+                //        return RedirectToAction("Home", "Dept", new { area = "" });
+                //    case "Employee":
+                //        Session["Role"] = "Employee";
+                //        return RedirectToAction("Home", "Dept", new { area = "" });
+                //    case "Employee Representative":
+                //        Session["Role"] = "Employee Representative";
+                //        return RedirectToAction("Home", "Dept", new { area = "" });
+                //    case "Store Clerk":
+                //        Session["Role"] = "Store Clerk";
+                //        return RedirectToAction("Home", "Store", new { area = "" });
+                //    case "Store Manager":
+                //        Session["Role"] = "Store Manager";
+                //        return RedirectToAction("Home", "Store", new { area = "" });
+                //    case "Store Supervisor":
+                //        Session["Role"] = "Store Supervisor";
+                //        return RedirectToAction("Home", "Store", new { area = "" });
+                //    default:
+                //        return View("Login");
+                //}
             }
             else
             {
                 //auth failed
                 return View("Login");
-            }               
+            }
         }
 
-        public ActionResult Logout()
+            public ActionResult Logout()
         {
             HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "Main", new { area = "" });

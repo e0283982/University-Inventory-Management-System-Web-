@@ -16,6 +16,8 @@ var table;
                 paging: true,
                 sort: true,
                 searching: true,
+                "order": [[2, "desc"]],
+                "iDisplayLength": 5,                
                 //scrollY: 200,
                 data: data,
                 columns: [
@@ -57,7 +59,7 @@ var table;
 
     @*$(document).ajaxComplete(function () {
                         $('#dataTable-storeDisbursementList tbody').off().on('click', 'tr', function () {
-                        var data = table.row(this).data();                        
+                        var data = table.row(this).data();
                         var dataToBeSent = data["Id"];
                         alert('You clicked on Requisition Form Number: ' + data["Id"] + '\'s row');
 
@@ -93,18 +95,17 @@ var table;
 
     <tbody style="font-size: 10pt;">
         @*<tr>
-            <td>20-JUN-2018</td>
-            <td>MATH</td>
-            <td>Outstanding</td>
-            <td>Collection Point A</td>
-        </tr>
+                <td>20-JUN-2018</td>
+                <td>MATH</td>
+                <td>Outstanding</td>
+                <td>Collection Point A</td>
+            </tr>
 
-        <tr>
-            <td>20-JUN-2018</td>
-            <td>SCIENCE</td>
-            <td>Completed</td>
-            <td>Collection Point A</td>
-        </tr>*@
+            <tr>
+                <td>20-JUN-2018</td>
+                <td>SCIENCE</td>
+                <td>Completed</td>
+                <td>Collection Point A</td>
+            </tr>*@
     </tbody>
 </table>
-
