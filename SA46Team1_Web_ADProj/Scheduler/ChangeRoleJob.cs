@@ -1,4 +1,5 @@
 ﻿using Quartz;
+using SA46Team1_Web_ADProj.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +15,32 @@ namespace SA46Team1_Web_ADProj.Scheduler
         {
             try
             {
+                using (SSISdbEntities m = new SSISdbEntities())
+                {
+                    // Get only those that are active
+                    List<ApprovalDelegation> adList = m.ApprovalDelegations.Where(x => x.Active == 1).ToList();
 
+                    foreach (ApprovalDelegation a in adList)
+                    {
+                        DateTime dateTo = a.ToDate.Date;
+                        DateTime today = DateTime.Now.Date;
+
+                        // Only execute if Date is less than or equal to Today
+                        if (dateTo <= today)
+                        {
+                            // Remove approving rights
+                            ApprovalDelegation ad = m.ApprovalDelegations.Where(x => x.Id == a.Id).FirstOrDefault();
+                            ad.Active = 0;
+                            Employee e = m.Employees.Where(x => x.EmployeeID == ad.EmployeeID).FirstOrDefault();
+                            e.Approver = 0;
+
+                            // Transfer approving rights back to Mgr
+                            Employee mgr = m.Employees.Where(x => x.EmployeeID == e.ReportsTo).FirstOrDefault();
+                            mgr.Approver = 1;
+                            m.SaveChanges();
+                        }
+                    }
+                }
             }
             catch (NotImplementedException e)
             {
