@@ -23,6 +23,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
+                "iDisplayLength": 5,
                 //scrollY: 200,
                 data: data,
                 columns: [
@@ -95,12 +96,12 @@
 </script>
 
 <div>
-    <h2>Maintenance - Supplier</h2>
+    <h5>Maintenance - Supplier</h5>
 </div>
 
 
 <table id="dataTable-store-suppliers" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Supplier Code</th>
             <th>Name</th>
@@ -111,6 +112,7 @@
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -119,7 +121,7 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button id="btn-add-new-supplier" class="btn btn-info">Add New Supplier</button>
+                <button id="btn-add-new-supplier" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Supplier</button>
             </span>
         </div>
     </div>
@@ -171,7 +173,7 @@
 
             <hr />
 
-            <input id="btn-submit-add-supplier" class="btn btn-info btn-block" type="submit" value="Add" />
+            <input id="btn-submit-add-supplier" class="btn btn-lu-green btn-block" type="submit" value="Add" />
 
         </div>
     }
