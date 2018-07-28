@@ -14,7 +14,8 @@
     var table;
     $(document).ready(function () {
         table = $('#dataTable-displayPO').DataTable({
-            scrollY: '30vh',
+            //scrollY: '30vh',
+            "iDisplayLength": 5,
             scrollCollapse: true,
             "columnDefs": [{
                 "targets": -1,
@@ -56,15 +57,24 @@
                 // Displaying JSON onto labals
                 $(function () {
                     $('#lbl-poNumber').val(data[0]["PONumber"]);
-                    $('#lbl-dateCreated').val(newDate);
-                    $('#lbl-del-date').val(newDateRec);
-                    $('#lbl-status').val(data[0]["Status"]);
-                    $('#displayPO-gross-total').val(twoDP(total));
-                    $('#lbl-supplier').val(data[0]["CompanyName"]);
-                    $('#displayPO-gst').val(twoDP(gst));
-                    $('#displayPO-net-total').val(twoDP(netTotal));
+                    //$('#lbl-dateCreated').val(newDate);
+                    //$('#lbl-del-date').val(newDateRec);
+                    //$('#lbl-status').val(data[0]["Status"]);
+                    //$('#displayPO-gross-total').val(twoDP(total));
+                    //$('#lbl-supplier').val(data[0]["CompanyName"]);
+                    //$('#displayPO-gst').val(twoDP(gst));
+                    //$('#displayPO-net-total').val(twoDP(netTotal));
                     $('#ta-remarks').val(data[0]["Remarks"]);
-                    $('#lbl-total').val(itemTotal);
+                    //$('#lbl-total').val(itemTotal);
+
+                    $("#lbl-supplier").append(data[0]["CompanyName"]);
+                    $("#lbl-dateCreated").append(newDate);
+                    $("#lbl-del-date").append(newDateRec);
+                    $("#lbl-status").append(data[0]["Status"]);
+                    $("#displayPO-gross-total").append(twoDP(total));
+                    $("#displayPO-net-total").append(twoDP(netTotal));
+                    $("#lbl-total").append(itemTotal);
+                    $("#displayPO-gst").append(twoDP(gst));
                 });
 
 
@@ -195,26 +205,40 @@
 
 </script>
 
-<div>
-    <h2>Display/Edit Purchase Order</h2>
-</div>
-
-<div class="create-PO-dates">
-    <label>PO Number:&nbsp <label id="lbl-poNumber">@Session["poNumber"]</label></label>
-    <br />
-    <label>Supplier: <input type="text" id="lbl-supplier" readonly="readonly"></label>
-    <label>Date Created: <input type="text" id="lbl-dateCreated" readonly="readonly"></label>
-    <label>Delivery Date:<input type="text" id="lbl-del-date" readonly="readonly"></label>
-</div>
-
-<div>
-    <p>Remarks:</p>
-    <textarea id="ta-remarks" rows="4" cols="50">
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <h5>Display/Edit Purchase Order</h5>
+        </div>
+        <div>
+            <label style="font-size: 10pt;">PO Number:&nbsp <label id="lbl-poNumber" style="font-size: 10pt;">@Session["poNumber"]</label></label>
+        </div>
+        <div>
+            @*<label style="font-size: 10pt;">Supplier: <input type="text" id="lbl-supplier" readonly="readonly"></label>*@
+            <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-supplier" style="font-size: 10pt;" />
+        </div>
+        <div>
+            @*<label style="font-size: 10pt;">Date Created: <input type="text" id="lbl-dateCreated" readonly="readonly"></label>*@
+            <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
+        </div>
+        <div>
+            @*<label style="font-size: 10pt;">Delivery Date:<input type="text" id="lbl-del-date" readonly="readonly"></label>*@
+            <label style="font-size: 10pt;">Delivery Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div style="float: right;">
+            <div>
+                <p>Remarks:</p>
+                <textarea id="ta-remarks" rows="3" cols="50">
     </textarea>
+            </div>
+        </div>
+    </div>
 </div>
 
 <table id="dataTable-displayPO" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Item Description</th>
@@ -251,54 +275,66 @@
             <th></th>
         </tr>
     }
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <div>
-    <label>Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>
-    <label>GST ($): <input type="text" id="displayPO-gst"></label>
-    <label>Net Total ($): <input type="text" id="displayPO-net-total"></label>
-    <label>PO Status: <input type="text" id="lbl-status" readonly="readonly"></label>
+    @*<label style="font-size: 10pt;">Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>*@
+    <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 10pt;" /></strong>
+    @*<label style="font-size: 10pt;">GST ($): <input type="text" id="displayPO-gst"></label>*@
+    <label style="font-size: 10pt;">&nbsp;GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 10pt;" /></strong>
+    @*<label style="font-size: 10pt;">Net Total ($): <input type="text" id="displayPO-net-total"></label>*@
+    <label style="font-size: 10pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 10pt;" /></strong>
+    @*<label style="font-size: 10pt;">PO Status: <input type="text" id="lbl-status" readonly="readonly"></label>*@
+    <label style="font-size: 10pt;">&nbsp;PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 10pt;" /></strong>
 </div>
 
 @*--- Only can be seen if status = "Open" ---*@
-<div id="btns-grp-btm">
-    <button class="btn-blue" id="btn-edit-displayPO">Edit</button>
-    <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
-        <p>Should change color if Goods Receipt / status is completed</p>
-    </div>
+<div class="row">
+    <div class="col-md-11">
+        <div style="float:right;">
+            <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
+            <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
+                <p>Should change color if Goods Receipt / status is completed</p>
+            </div>
 
-    <button class="btn-blue" id="btn-save-displayPO">Save</button>
-    <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
-        <p>Changes to PO - can only be seen / used if PO is 'open'</p>
-    </div>
+            <button class="btn btn-lu-green" id="btn-save-displayPO" style="font-size: 10pt;">Save</button>
+            <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
+                <p>Changes to PO - can only be seen / used if PO is 'open'</p>
+            </div>
 
-    <button class="btn-blue" id="btn-cancel-displayPO">Cancel</button>
-    <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
-        <p>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</p>
-    </div>
+            <button class="btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
+            <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
+                <p>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</p>
+            </div>
 
-    <button class="btn-blue" id="btn-cancelPO">Cancel PO</button>
-    <div id="dialog-cancelPO" class="hidden" title="Basic dialog">
-        <p>Cancel entire PO - can only be seen / used if PO is 'open'</p>
-    </div>
+            <button class="btn btn-lu-red" id="btn-cancelPO" style="font-size: 10pt;">Cancel PO</button>
+            <div id="dialog-cancelPO" class="hidden" title="Basic dialog">
+                <p>Cancel entire PO - can only be seen / used if PO is 'open'</p>
+            </div>
 
-    <button class="btn-blue" id="btn-GR-displayPO">Goods Receipt</button>
-    <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
-        <p>Goods receipt btn.</p>
+            <button class="btn btn-lu-blue" id="btn-GR-displayPO" style="font-size: 10pt;">Goods Receipt</button>
+            <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
+                <p>Goods receipt btn.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div id="details-back-btn">
+
+            @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
+            {
+                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+            }
+        </div>
     </div>
 </div>
 @*--------------------------------------------*@
 
-<div id="details-back-btn">
 
-    @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
-</div>
 
-<style>
+@*<style>
     #btns-grp-btm {
         margin-right: 10vw;
     }
-</style>
+</style>*@
