@@ -8,7 +8,7 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
-    [Authorize(Roles = "Store Clerk, Store Manager")]
+    [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
     [RoutePrefix("Store/StorePurchase")]
     public class StorePurchaseController : Controller
     {
@@ -305,6 +305,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 List<POFullDetail> poFullDetailList = m.POFullDetails.Where(x => x.PONumber == poNumber).ToList();
                 Session["POItems"] = poFullDetailList;
+                Session["poStatus"] = m.POHeaders.Where(x => x.PONumber == poNumber).Select(x => x.Status).FirstOrDefault();
             }
             return RedirectToAction("Purchase", "Store");
         }

@@ -12,30 +12,6 @@
 
 
 <script>
-    @*if (@editMode.ToString().ToLower() == true) {
-        $("btn-edit-displayPO").hide();
-        $("btn-save-displayPO").show();
-        $("#btn-cancel-displayPO").show();
-        $("#btn-cancelPO").hide();
-        $("#btn-edit-GR").hide();
-        $("#btn-GR-displayPO").hide();
-    }
-    else if (@grEditMode.ToString().ToLower() == true) {
-        $("btn-edit-displayPO").hide();
-        $("btn-save-displayPO").hide();
-        $("#btn-cancel-displayPO").show();
-        $("#btn-cancelPO").hide();
-        $("#btn-edit-GR").hide();
-        $("#btn-GR-displayPO").show();
-    }
-    else {
-        $("btn-edit-displayPO").show();
-        $("btn-save-displayPO").hide();
-        $("#btn-cancel-displayPO").hide();
-        $("#btn-cancelPO").show();
-        $("#btn-edit-GR").show();
-        $("#btn-GR-displayPO").hide();
-    }*@
 
     var table;
     $(document).ready(function () {
@@ -124,6 +100,8 @@
     $('#btn-save-displayPO').click(function () {
         //$('#dialog-save-displayPO').dialog('open');
 
+        @editMode  = false;
+
         var arrQty = [];
         for (var i = 0; i < table.rows().data().length; i++) {
             arrQty.push(table.cell(i, 2).nodes().to$().find('input').val());
@@ -151,14 +129,18 @@
     // Edit PO Button
     $('#btn-edit-displayPO').click(function () {
         //$('#dialog-edit-displayPO').dialog('open');
+        $('#btn-save-displayPO').show();
+        $('#btn-edit-displayPO').hide();
+
+        @editMode = true;
 
         $.ajax({
             url: '/StorePurchase/EditMode',
             type: 'POST'
         });
-        window.location.href = '@Url.Action("Purchase", "Store")';
+        @*window.location.href = '@Url.Action("Purchase", "Store")';*@
 
-        return false;
+        return true;
     });
 
     // Goods Receipt Dialog
@@ -171,6 +153,8 @@
     // Goods Receipt Button
     $('#btn-GR-displayPO').click(function () {
         //$('#dialog-GR-displayPO').dialog('open');
+
+        @grEditMode = false;
 
         var arrQty = [];
         for (var i = 0; i < table.rows().data().length; i++) {
@@ -221,6 +205,8 @@
     $('#btn-cancel-displayPO').click(function () {
         //$('#dialog-cancel-displayPO').dialog('open');
 
+        @editMode = false;
+
         $.ajax({
             url: '/StorePurchase/ExitEditMode',
             type: 'POST'
@@ -239,19 +225,30 @@
     // Edit GR Button
     $('#btn-edit-GR').click(function () {
         //$('#dialog-edit-displayPO').dialog('open');
+        $('#btn-GR-displayPO').show();
+        $('#btn-edit-GR').hide();
+
+        @grEditMode = true;
+
+        //$("#btn-cancel-displayPO").show();
+        //$("#btn-edit-displayPO").hide();
+        //$("btn-cancelPO").hide();
+        //$("btn-edit-GR").hide();
+        //$("btn-GR-displayPO").show();
 
         $.ajax({
             url: '/StorePurchase/GREditMode',
             type: 'POST'
         });
-        window.location.href = '@Url.Action("Purchase", "Store")';
 
+        table.draw(false);
         return false;
     });
 
 
 </script>
 
+@Session["poStatus"].ToString()
 <div class="row">
     <div class="col-md-6">
         <div>
@@ -326,7 +323,7 @@
 
         <th style="font-size: 10pt;">@item.UoM</th>
         <th style="font-size: 10pt;">@item.UnitCost</th>
-        <th style="font-size: 10pt;"><label id="lbl-total"></label></th>
+        <th style="font-size: 10pt;">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</th>
         <th style="font-size: 10pt;">7%</th>
         <th></th>
     </tr>
@@ -348,32 +345,43 @@
 <div class="row">
     <div class="col-md-11">
         <div style="float:right;">
-            <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
+            @if (Session["poStatus"].ToString() == "Open")
+            {
+                <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
+            }
+            else
+            {
+                <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;" disabled>Edit</button>
+            }
             <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
                 <p>Should change color if Goods Receipt / status is completed</p>
             </div>
 
-            <button class="btn btn-lu-green" id="btn-save-displayPO" style="font-size: 10pt;">Save</button>
+            <button class="hidden btn btn-lu-green" id="btn-save-displayPO" style="font-size: 10pt;">Save</button>
             <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
                 <p>Changes to PO - can only be seen / used if PO is 'open'</p>
             </div>
 
-            <button class="btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
+            <button class="hidden btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
             <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
                 <p>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</p>
             </div>
 
-            <button class="btn btn-lu-red" id="btn-cancelPO" style="font-size: 10pt;">Cancel PO</button>
+            <button class="hidden btn btn-lu-red" id="btn-cancelPO" style="font-size: 10pt;">Cancel PO</button>
             <div id="dialog-cancelPO" class="hidden" title="Basic dialog">
                 <p>Cancel entire PO - can only be seen / used if PO is 'open'</p>
             </div>
 
-            <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt Edit</button>
+            @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
+            {
+                <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt Edit</button>
+                <button class="hidden btn btn-lu-blue" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Received</button>
+            }
+
             <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
                 <p>Prep GR</p>
             </div>
 
-            <button class="btn btn-lu-blue" id="btn-GR-displayPO" style="font-size: 10pt;">Goods Receipt</button>
             <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
                 <p>Goods receipt btn.</p>
             </div>

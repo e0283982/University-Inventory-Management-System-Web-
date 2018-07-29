@@ -31,29 +31,47 @@
     });
 
     $('#btn-create-POs').on('click', function () {
-        if (table.cell(i, 3).nodes().to$().find('option').val() != null) {
-            var dataToSend = "";
-            var arr = [];
-            var arr1 = [];
-            var arrSupplier = [];
-            for (var i = 0; i < table.rows().data().length; i++) {
-                // if Checkbox is checked then do this.
-                arr1.push(table.cell(i, 1).nodes().to$().find('input').val());
-                arrSupplier.push(table.cell(i, 3).nodes().to$().find('option').val());
-            }
+        var dataToSend = "";
 
-            $.ajax({
-                url: '/StoreInventory/AddToPO',
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: JSON.stringify({ arr1: arr1, arrSupplier: arrSupplier })
-            });
-            alert('Items Added');
+        var arr1 = []; //item qty
+        var arr2 = []; //item desc
+        var arrSupplier = [];  //supplier
+
+        for (var i = 0; i < table.rows().data().length; i++) {
+            var rowChecked =
+                table.cell(i, 4).nodes().to$().find('input').prop('checked');
+            if (rowChecked == true) {
+                var dataToSend = table.rows(i).data();
+
+                var rowItemQty = table.cell(i, 1).nodes().to$().find('input').val();
+                arr1.push(rowItemQty);
+
+                var json = dataToSend[0];
+                arr2.push(json[0]);
+
+                var rowSupplier = table.cell(i, 3).nodes().to$().find(":selected").text();
+                arrSupplier.push(rowSupplier);
+            }
         }
-        else {
-            alert('An error has occured. Please try again.');
-        }
+
+        alert(arr1);
+        alert(arr2);
+        alert(arrSupplier);
+
+        //for (var i = 0; i < table.rows().data().length; i++) {
+        //    arr1.push();
+        //    arrSupplier.push();
+        //}
+
+        $.ajax({
+            url: '/StoreInventory/AddToPO',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ arr1: arr1, arr2: arr2, arrSupplier: arrSupplier })
+        });
+        alert('Items Added');
+        
     });
 
     // Checkbox uncheck, remove from list

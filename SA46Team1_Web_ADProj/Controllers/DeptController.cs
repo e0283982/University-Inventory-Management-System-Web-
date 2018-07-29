@@ -8,7 +8,7 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
-    [Authorize(Roles = "Department Head, Employee Representative, Employee")]
+    [CustomAuthorize(Roles = "Department Head, Employee Representative, Employee")]
     public class DeptController : Controller
     {
         public ActionResult Home()

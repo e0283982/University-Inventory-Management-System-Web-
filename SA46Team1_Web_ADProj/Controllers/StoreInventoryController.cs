@@ -12,7 +12,7 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Store/StoreInventory")]
     public class StoreInventoryController : Controller
     {
-        [Authorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
         [Route("Overview")]
         public ActionResult Overview()
         {
@@ -45,7 +45,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-        [Authorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
         [Route("Reorder")]
         public ActionResult Reorder()
         {
@@ -58,9 +58,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
         [HttpPost]
-        public ActionResult AddToPO(string[] arr1, string[] arrSupplier)
+        public ActionResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
         {
             int enteredQty = 0;
             for (int i = 0; i < arr1.Length; i++)
@@ -90,10 +90,13 @@ namespace SA46Team1_Web_ADProj.Controllers
                     // Change Item Supplier in PODetails for retrieving in list and adding into database later
                     foreach (ReorderList p in poDetailsList)
                     {
-                        string coy = arrSupplier[arrayCount];
-                        Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
-                        p.s1 = sup.CompanyName;
-                        arrayCount++;
+                        if (arr2.Contains(p.Description)) {
+                            int index = arr2.ToList().FindIndex(x=>x == p.Description);
+                            string coy = arrSupplier[index];
+                            Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
+                            p.s1 = sup.CompanyName;
+                        }
+                        
                     }
 
                     // Each Supplier iterates once such that only 1 PO is created for each of them
@@ -136,13 +139,19 @@ namespace SA46Team1_Web_ADProj.Controllers
                                         && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
                                     poDetailToAdd.PONumber = poId;
                                     poDetailToAdd.ItemCode = pod.ItemCode;
-                                    int qty = Convert.ToInt32(arr1[poDetailsList.IndexOf(pod)]);
-                                    poDetailToAdd.QuantityOrdered = qty;
-                                    poDetailToAdd.QuantityBackOrdered = qty;
-                                    poDetailToAdd.QuantityDelivered = 0;
-                                    poDetailToAdd.UnitCost = itemUnitPrice;
-                                    poDetailToAdd.CancelledBackOrdered = 0;
-                                    m.PODetails.Add(poDetailToAdd);
+
+                                    int index = arr2.ToList().FindIndex(x => x == pod.Description);
+                                    if (index != -1) {
+                                        int qty = Convert.ToInt32(arr1[index]);
+                                        poDetailToAdd.QuantityOrdered = qty;
+                                        poDetailToAdd.QuantityBackOrdered = qty;
+                                        poDetailToAdd.QuantityDelivered = 0;
+                                        poDetailToAdd.UnitCost = itemUnitPrice;
+                                        poDetailToAdd.CancelledBackOrdered = 0;
+                                        m.PODetails.Add(poDetailToAdd);
+                                    }
+
+                                    
                                     m.SaveChanges();
                                     itemAdded.Add(i);
                                 }
@@ -155,7 +164,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk")]
         [Route("StockAdj")]
         public ActionResult StockAdj()
         {
@@ -326,7 +335,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
 
-        [Authorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
         {                        
@@ -334,7 +343,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-        [Authorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
         {
@@ -354,7 +363,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-        [Authorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult SubmitNewStockAdj(StockAdjustmentDetail stockAdjustmentDetail)
         {
@@ -393,14 +402,14 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-        [Authorize(Roles = "Store Manager")]
+        [CustomAuthorize(Roles = "Store Manager")]
         [Route("StockTake")]
         public ActionResult StockTake()
         {
             return View();
         }
 
-        [Authorize(Roles = "Store Manager")]
+        [CustomAuthorize(Roles = "Store Manager")]
         [HttpPost]
         public ActionResult StockTakeUpdate(StockTakeList[] arr, string[] arr1)
         {

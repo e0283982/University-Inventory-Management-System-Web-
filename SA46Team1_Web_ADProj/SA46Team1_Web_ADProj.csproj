@@ -214,6 +214,7 @@
     <Compile Include="Controllers\DeptRequisitionController.cs" />
     <Compile Include="Controllers\DeptAuthorisationController.cs" />
     <Compile Include="Controllers\DeptController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\RestfulController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
@@ -749,6 +750,11 @@
     <Content Include="Views\StoreNotifications\AllMsgs.cshtml" />
     <Content Include="Views\StoreNotifications\ReadMsgs.cshtml" />
     <Content Include="Views\StoreNotifications\UnreadMsgs.cshtml" />
+	<Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
+	<Content Include="Views\Store\Notifications.cshtml" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Store\Notifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
