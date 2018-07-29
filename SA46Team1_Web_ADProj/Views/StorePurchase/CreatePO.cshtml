@@ -164,9 +164,9 @@
     @foreach (var item in poDetailList)
     {
         <tr>
-            <td>@item.ItemCode</td>
-            <td>@item.Description</td>
-            <td>
+            <td style="font-size: 10pt;">@item.ItemCode</td>
+            <td style="font-size: 10pt;">@item.Description</td>
+            <td style="font-size: 10pt;">
                 <select id="select-supplier">
                     @if (item.Supplier1Code == item.CompanyName)
                     {
@@ -195,12 +195,12 @@
                     }
                 </select>
             </td>
-            <td><input id="input-qty" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
-            <td>@item.UoM</td>
-            <td>@item.UnitCost.ToString("0.00")</td>
-            <td>@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-            <td>7%</td>
-            <td></td>
+            <td><input id="input-qty" style="font-size: 10pt;" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
+            <td style="font-size: 10pt;">@item.UoM</td>
+            <td style="font-size: 10pt;">@item.UnitCost.ToString("0.00")</td>
+            <td style="font-size: 10pt;">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+            <td style="font-size: 10pt;">7%</td>
+            <td style="font-size: 10pt;"></td>
         </tr>
     }
     <tbody style="font-size: 10pt;"></tbody>
