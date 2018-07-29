@@ -231,6 +231,7 @@
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="NotificationStatus" Type="nvarchar" MaxLength="60" />
         </EntityType>
         <EntityType Name="StockAdjustmentHeader">
           <Key>
@@ -770,6 +771,31 @@ warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApprovalForSupervisor' d
           <Property Name="Amount" Type="real" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentFullDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StockAdjustmentFullDetails">
+          <Key>
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="Requestor" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="ItemQuantity" />
+            <PropertyRef Name="Amount" />
+            <PropertyRef Name="Remarks" />
+          </Key>
+          <Property Name="RequestId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="DateRequested" Type="datetime" Nullable="false" />
+          <Property Name="Requestor" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DateProcessed" Type="datetime" />
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ItemQuantity" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="real" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="NotificationStatus" Type="nvarchar" MaxLength="60" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentOverview' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1614,6 +1640,21 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [StockAdjustmentApprovalForSupervisor].[Status] AS [Status]
     FROM [dbo].[StockAdjustmentApprovalForSupervisor] AS [StockAdjustmentApprovalForSupervisor]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="StockAdjustmentFullDetails" EntityType="Self.StockAdjustmentFullDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StockAdjustmentFullDetails].[RequestId] AS [RequestId], 
+    [StockAdjustmentFullDetails].[DateRequested] AS [DateRequested], 
+    [StockAdjustmentFullDetails].[Requestor] AS [Requestor], 
+    [StockAdjustmentFullDetails].[EmployeeName] AS [EmployeeName], 
+    [StockAdjustmentFullDetails].[DateProcessed] AS [DateProcessed], 
+    [StockAdjustmentFullDetails].[ItemCode] AS [ItemCode], 
+    [StockAdjustmentFullDetails].[ItemQuantity] AS [ItemQuantity], 
+    [StockAdjustmentFullDetails].[Amount] AS [Amount], 
+    [StockAdjustmentFullDetails].[Remarks] AS [Remarks], 
+    [StockAdjustmentFullDetails].[Status] AS [Status], 
+    [StockAdjustmentFullDetails].[NotificationStatus] AS [NotificationStatus]
+    FROM [dbo].[StockAdjustmentFullDetails] AS [StockAdjustmentFullDetails]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="StockAdjustmentOverview" EntityType="Self.StockAdjustmentOverview" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [StockAdjustmentOverview].[RequestId] AS [RequestId], 
@@ -2105,6 +2146,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="Amount" Type="Single" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NotificationStatus" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Item" Relationship="Self.FK__StockAdju__ItemC__47A6A41B" FromRole="StockAdjustmentDetails" ToRole="Item" />
           <NavigationProperty Name="StockAdjustmentHeader" Relationship="Self.FK__StockAdju__Reque__46B27FE2" FromRole="StockAdjustmentDetails" ToRole="StockAdjustmentHeader" />
         </EntityType>
@@ -2624,6 +2666,29 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="Amount" Type="Single" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StockAdjustmentFullDetail">
+          <Key>
+            <PropertyRef Name="RequestId" />
+            <PropertyRef Name="DateRequested" />
+            <PropertyRef Name="Requestor" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="ItemQuantity" />
+            <PropertyRef Name="Amount" />
+            <PropertyRef Name="Remarks" />
+          </Key>
+          <Property Name="RequestId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Requestor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateProcessed" Type="DateTime" Precision="3" />
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemQuantity" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Single" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NotificationStatus" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="StockAdjustmentOverview">
           <Key>
@@ -3229,6 +3294,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <EntitySet Name="StockAdjustmentApprovals" EntityType="Self.StockAdjustmentApproval" />
           <EntitySet Name="StockAdjustmentApprovalForManagers" EntityType="Self.StockAdjustmentApprovalForManager" />
           <EntitySet Name="StockAdjustmentApprovalForSupervisors" EntityType="Self.StockAdjustmentApprovalForSupervisor" />
+          <EntitySet Name="StockAdjustmentFullDetails" EntityType="Self.StockAdjustmentFullDetail" />
           <EntitySet Name="StockAdjustmentOverviews" EntityType="Self.StockAdjustmentOverview" />
           <EntitySet Name="StockRetrievalLists" EntityType="Self.StockRetrievalList" />
           <EntitySet Name="StockTakeLists" EntityType="Self.StockTakeList" />
@@ -3644,6 +3710,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="NotificationStatus" ColumnName="NotificationStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4043,6 +4110,23 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAdjustmentFullDetails">
+            <EntityTypeMapping TypeName="SSISdbModel.StockAdjustmentFullDetail">
+              <MappingFragment StoreEntitySet="StockAdjustmentFullDetails">
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="ItemQuantity" ColumnName="ItemQuantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="NotificationStatus" ColumnName="NotificationStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

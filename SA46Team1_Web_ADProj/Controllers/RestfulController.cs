@@ -898,6 +898,62 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        //[System.Web.Mvc.HttpGet]
+        //[System.Web.Mvc.Route("GetStoreAllPendingApprovals/{id}")]
+        //public List<AdjustmentModel> GetStoreAllPendingApprovals(string id)
+        //{
+        //    using (SSISdbEntities m = new SSISdbEntities())
+        //    {
+        //        //to further filter by user's deptCode
+        //        m.Configuration.ProxyCreationEnabled = false;
+        //        List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders
+        //            .Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus != "Deleted" && x.Status != "Withdrawn")
+        //            .OrderBy(x => x.FormID).ToList();
+        //        List<AdjustmentModel> list2 = new List<AdjustmentModel>();
+        //        list2 = list.ConvertAll(x => new AdjustmentModel { AdjId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
+        //            .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+
+        //        return list2;
+        //    }
+        //}
+
+        //[System.Web.Mvc.HttpGet]
+        //[System.Web.Mvc.Route("GetStoreReadPendingApprovals/{id}")]
+        //public List<AdjustmentModel> GetStoreReadPendingApprovals(string id)
+        //{
+        //    using (SSISdbEntities m = new SSISdbEntities())
+        //    {
+        //        //to further filter by user's deptCode
+        //        m.Configuration.ProxyCreationEnabled = false;
+        //        List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders
+        //            .Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Read" && x.Status != "Withdrawn")
+        //            .OrderBy(x => x.FormID).ToList();
+        //        List<AdjustmentModel> list2 = new List<AdjustmentModel>();
+        //        list2 = list.ConvertAll(x => new AdjustmentModel { AdjId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
+        //            .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+
+        //        return list2;
+        //    }
+        //}
+
+        //[System.Web.Mvc.HttpGet]
+        //[System.Web.Mvc.Route("GetStoreUnreadPendingApprovals/{id}")]
+        //public List<AdjustmentModel> GetStoreUnreadPendingApprovals(string id)
+        //{
+        //    using (SSISdbEntities m = new SSISdbEntities())
+        //    {
+        //        //to further filter by user's deptCode
+        //        m.Configuration.ProxyCreationEnabled = false;
+        //        List<StockAdjustmentHeader> list = m.StockAdjustmentHeaders
+        //            .Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Unread" && x.Status != "Withdrawn")
+        //            .OrderBy(x => x.FormID).ToList();
+        //        List<AdjustmentModel> list2 = new List<AdjustmentModel>();
+        //        list2 = list.ConvertAll(x => new AdjustmentModel { AdjId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
+        //            .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+
+        //        return list2;
+        //    }
+        //}
 
 
 

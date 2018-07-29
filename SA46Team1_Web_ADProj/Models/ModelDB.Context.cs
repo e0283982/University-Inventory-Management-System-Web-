@@ -15,7 +15,6 @@ namespace SA46Team1_Web_ADProj.Models
     using System.Data.Entity.Infrastructure;
     
     public partial class SSISdbEntities : IdentityDbContext<Employee>
-
     {
         public SSISdbEntities()
             : base("name=SSISdbEntities")
@@ -77,6 +76,7 @@ namespace SA46Team1_Web_ADProj.Models
         public virtual DbSet<StockAdjustmentApproval> StockAdjustmentApprovals { get; set; }
         public virtual DbSet<StockAdjustmentApprovalForManager> StockAdjustmentApprovalForManagers { get; set; }
         public virtual DbSet<StockAdjustmentApprovalForSupervisor> StockAdjustmentApprovalForSupervisors { get; set; }
+        public virtual DbSet<StockAdjustmentFullDetail> StockAdjustmentFullDetails { get; set; }
         public virtual DbSet<StockAdjustmentOverview> StockAdjustmentOverviews { get; set; }
         public virtual DbSet<StockRetrievalList> StockRetrievalLists { get; set; }
         public virtual DbSet<StockTakeList> StockTakeLists { get; set; }

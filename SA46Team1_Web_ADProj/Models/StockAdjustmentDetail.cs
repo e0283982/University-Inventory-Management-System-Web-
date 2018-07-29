@@ -21,10 +21,10 @@ namespace SA46Team1_Web_ADProj.Models
         public float Amount { get; set; }
         public string Remarks { get; set; }
         public string Status { get; set; }
+        public string NotificationStatus { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual StockAdjustmentHeader StockAdjustmentHeader { get; set; }
-
         [NotMapped]
         public List<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
     }
