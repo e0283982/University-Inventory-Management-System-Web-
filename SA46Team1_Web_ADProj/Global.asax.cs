@@ -39,7 +39,7 @@ namespace SA46Team1_Web_ADProj
             Session["NoUnreadRequests"] = 0;
 
             //Session variable for PO
-            Session["newPOList"] = new List<Models.PODetail>();
+            Session["newPOList"] = new List<Models.POFullDetail>();
             Session["poDetailsEditMode"] = false;
             Session["grEditMode"] = true;
 
