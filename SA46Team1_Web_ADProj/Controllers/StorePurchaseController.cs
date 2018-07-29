@@ -17,13 +17,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
+                List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
 
                 double grossTotal = 0;
                 double netTotal = 0;
                 double gst = 0;
 
-                foreach (PODetail p in poFullDetailsList) {
+                foreach (POFullDetail p in poFullDetailsList) {
                     var itemTotal = p.QuantityOrdered * p.UnitCost;
                     grossTotal += itemTotal;
                 }
@@ -36,7 +36,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 gst = grossTotal * 0.07;
                 TempData["gst"]= Math.Round(gst, 2);
 
-                Tuple<Item, PODetail> tuple = new Tuple<Item, PODetail>(new Item(), new PODetail());
+                Tuple<Item, POFullDetail> tuple = new Tuple<Item, POFullDetail>(new Item(), new POFullDetail());
 
                 List<String> tempList = (List<String>)Session["tempList"];
 
@@ -72,9 +72,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult DeletePOItem(string data)
         {
             string itemCode = data;
-            List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
-            PODetail pod = new PODetail();
-            foreach (PODetail p in poFullDetailsList)
+            List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
+            POFullDetail pod = new POFullDetail();
+            foreach (POFullDetail p in poFullDetailsList)
             {
                 if (p.ItemCode == itemCode)
                 {
@@ -98,7 +98,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             if (enteredQty > 0)
             {
-                List<PODetail> poDetailsList = (List<PODetail>)Session["newPOList"];
+                List<POFullDetail> poDetailsList = (List<POFullDetail>)Session["newPOList"];
                 List<Supplier> supplierList = new List<Supplier>();
                 List<Item> itemAdded = new List<Item>();
                 int arrayCount = 0;
@@ -116,11 +116,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
 
                     // Change Item Supplier in PODetails for retrieving in list and adding into database later
-                    foreach (PODetail p in poDetailsList)
+                    foreach (POFullDetail p in poDetailsList)
                     {
                         string coy = arrSupplier[arrayCount];
                         Supplier sup = m.Suppliers.Where(x => x.SupplierCode == coy).FirstOrDefault();
-                        p.Item.Supplier1 = sup.SupplierCode;
+                        p.CompanyName = sup.CompanyName;
                         arrayCount++;
                     }
 
@@ -148,37 +148,40 @@ namespace SA46Team1_Web_ADProj.Controllers
                         m.SaveChanges();
 
                         // Loop through PODetails to add items based on selected supplier suppliers
-                        foreach (PODetail pod in poDetailsList)
+                        foreach (POFullDetail pod in poDetailsList)
                         {
                             // Only add if the item is belonging to the supplier / PO
-                            string supCode = pod.Item.Supplier1;
+                            string supCode = m.Suppliers.Where(x=>x.CompanyName==pod.CompanyName).Select(x=>x.SupplierCode).FirstOrDefault();
                             Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
                             if (supplier == s)
                             {
                                 // Only add if the item has not been added
-                                if (!itemAdded.Contains(pod.Item))
-                                {
+                               // if (!itemAdded.Contains(pod.Item))
+                                //{
                                     PODetail poDetailToAdd = new PODetail();
                                     float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
-                                        && x.ItemCode == pod.Item.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
+                                        && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
                                     poDetailToAdd.PONumber = poId;
                                     poDetailToAdd.ItemCode = pod.ItemCode;
                                     int qty = Convert.ToInt32(arrQty[poDetailsList.IndexOf(pod)]);
                                     poDetailToAdd.QuantityOrdered = qty;
-                                    poDetailToAdd.QuantityBackOrdered = qty;
+                                    poDetailToAdd.QuantityBackOrdered = qty;   //this?
                                     poDetailToAdd.QuantityDelivered = 0;
                                     poDetailToAdd.UnitCost = itemUnitPrice;
                                     poDetailToAdd.CancelledBackOrdered = 0;
                                     m.PODetails.Add(poDetailToAdd);
                                     m.SaveChanges();
-                                    itemAdded.Add(pod.Item);
-                                }
+
+                                    Item item = new Item();
+                                    item = m.Items.Where(x => x.ItemCode == pod.ItemCode && pod.CompanyName == supplier.CompanyName).FirstOrDefault();
+                                    itemAdded.Add(item);
+                              //  }
                             }
                         }
                     }
                 }
             }
-                Session["newPOList"] = new List<PODetail>();
+                Session["newPOList"] = new List<POFullDetail>();
                 return View();
         }
 
@@ -191,13 +194,13 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 // Get Item to add into Datatable
                 string itemCode = Request.Form["SelectItemChose"].ToString();
-                List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
-                PODetail pod = new PODetail();
-                PODetail existingPoD = new PODetail();
+                List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
+                POFullDetail pod = new POFullDetail();
+                POFullDetail existingPoD = new POFullDetail();
                 pod.PONumber = (string)Session["newPoId"];
 
                 // Checking if Item is already in list
-                foreach (PODetail p in poFullDetailsList.ToList())
+                foreach (POFullDetail p in poFullDetailsList.ToList())
                 {
                     // Iterate through whole list to check for itemcode
                     if (p.ItemCode == itemCode)
@@ -227,14 +230,15 @@ namespace SA46Team1_Web_ADProj.Controllers
                     pod.QuantityOrdered = item2.QuantityOrdered;
 // -------------------------------------------------------------------------------------------------------------------------------------------//
 
-                    pod.Item = m.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
+                    //pod.Item = m.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
 
-                    pod.Item.Description = itemToAdd.Description;
-                    pod.Item.UoM = itemToAdd.UoM;
-                    pod.Item.Supplier1 = itemToAdd.Supplier1;
-                    pod.Item.AvgUnitCost = itemToAdd.AvgUnitCost;
+                    pod.Description = itemToAdd.Description;
+                    pod.UoM = itemToAdd.UoM;
+                    pod.CompanyName = itemToAdd.Supplier1; //default ddl at supplier 1's
                     pod.UnitCost = itemToAdd.AvgUnitCost;
-
+                    pod.Supplier1Code = itemToAdd.Supplier1;
+                    pod.Supplier2Code = itemToAdd.Supplier2;
+                    pod.Supplier3Code = itemToAdd.Supplier3;
                     poFullDetailsList.Add(pod);
                 }
 
@@ -254,8 +258,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
-                PODetail item = poFullDetailsList.ElementAt(index);
+                List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
+                POFullDetail item = poFullDetailsList.ElementAt(index);
                 item.QuantityOrdered = Int32.Parse(data);
                 Session["newAdjList"] = poFullDetailsList;
 
@@ -268,9 +272,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
-                PODetail item = poFullDetailsList.ElementAt(index);
-                //item. = Int32.Parse(data);
+                List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
+                POFullDetail item = poFullDetailsList.ElementAt(index);
+                item.CompanyName = data;
                 Session["newAdjList"] = poFullDetailsList;
 
                 return RedirectToAction("Purchase", "Store");

@@ -1,8 +1,8 @@
 ﻿@using SA46Team1_Web_ADProj.Models;
-@model Tuple<Item, PODetail>
+@model Tuple<Item, POFullDetail>
 @{
     Layout = null;
-    List<PODetail> poDetailList = (List<PODetail>)Session["newPOList"];
+    List<POFullDetail> poDetailList = (List<POFullDetail>)Session["newPOList"];
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
@@ -108,7 +108,7 @@
         var data = table.row($(this).parents('tr')).data();
         var index = table.row($(this).parents('tr')).index();
 
-        var qty = table.cell(index, 2).nodes().to$().find('input').val();
+        var qty = table.cell(index, 2).nodes().to$().find(":selected").text();
        
         $.ajax({
             url: '/StorePurchase/EditNewPOSupplier',
@@ -165,17 +165,39 @@
     {
         <tr>
             <td>@item.ItemCode</td>
-            <td>@item.Item.Description</td>
+            <td>@item.Description</td>
             <td>
                 <select id="select-supplier">
-                    <option value="@item.Item.Supplier1">@item.Item.Supplier1</option>
-                    <option value="@item.Item.Supplier2">@item.Item.Supplier2</option>
-                    <option value="@item.Item.Supplier3">@item.Item.Supplier3</option>
+                    @if (item.Supplier1Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier1Code">@item.Supplier1Code</option>
+                    }
+
+                    @if (item.Supplier2Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier2Code">@item.Supplier2Code</option>
+                    }
+                    @if (item.Supplier3Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier3Code">@item.Supplier3Code</option>
+                    }
                 </select>
             </td>
             <td><input id="input-qty" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
-            <td>@item.Item.UoM</td>
-            <td>@item.Item.AvgUnitCost.ToString("0.00")</td>
+            <td>@item.UoM</td>
+            <td>@item.UnitCost.ToString("0.00")</td>
             <td>@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
             <td>7%</td>
             <td></td>

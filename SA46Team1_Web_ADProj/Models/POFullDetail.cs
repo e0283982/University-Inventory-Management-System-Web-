@@ -18,6 +18,7 @@ namespace SA46Team1_Web_ADProj.Models
         public string ItemCode { get; set; }
         public string Description { get; set; }
         public string CompanyName { get; set; }
+
         public float UnitCost { get; set; }
         public int QuantityOrdered { get; set; }
         public int QuantityDelivered { get; set; }
@@ -25,5 +26,10 @@ namespace SA46Team1_Web_ADProj.Models
         public System.DateTime Date { get; set; }
         public string EmployeeName { get; set; }
         public string Status { get; set; }
+
+        public string Supplier1Code { get; set; }
+        public string Supplier2Code { get; set; }
+        public string Supplier3Code { get; set; }
+
     }
 }
