@@ -371,6 +371,23 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
+        public RedirectToRouteResult EditPOQtyOrdered(string data, int index)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
+                POFullDetail item = poFullDetailList.ElementAt(index);
+                item.QuantityOrdered = Int32.Parse(data);
+                Session["POItems"] = poFullDetailList;
+
+                Session["POListPage"] = 2;
+
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
+
+
+        [HttpPost]
         public RedirectToRouteResult SaveEdit(string[] arrQty)
         {
             Session["poDetailsEditMode"] = false;
