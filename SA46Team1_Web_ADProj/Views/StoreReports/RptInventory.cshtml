@@ -10,7 +10,7 @@
     <span>
         <label>Filter by:</label>
         <select id="chosenToggle">
-            <option value="default">Select Option</option>
+            <option value="all">All</option>
             <option value="item">Item</option>
             <option value="category">Category</option>
         </select>
@@ -114,6 +114,17 @@
                     drawCallback: function (settings) {
 
                         $('#btn-submit-filter').on('click', function () {
+                            //check if 'all'
+                            var filter = $('#chosenToggle').val();
+
+                            if (filter == "all") {
+                                table
+                                    .search('')
+                                    .columns().search('')
+                                    .draw();
+                                return;
+                            }
+
                             searchItems = [];
                             searchCategories = [];
 
@@ -132,10 +143,17 @@
                                 table
                                     .columns(0)
                                     .search(searchCategories, true, false, true).draw();
-                            } else {
+                            } else if (searchItems.length > 0) {
                                 table
                                     .columns(1)
                                     .search(searchItems, true, false, true).draw();
+                            } else {
+                                //alert("No item selected.");
+                                table
+                                    .search('')
+                                    .columns().search('')
+                                    .draw();
+                                return;
                             }
 
                             var data = table.rows({ filter: 'applied' }).data();
@@ -190,6 +208,15 @@
             $("#selectItemDesc").val([]);
             $("#selectItemDesc").prop('disabled', true);
             $("#selectCategory").prop('disabled', false);
+        } else {
+            //clear filter on table
+            $("#selectCategory").val([]);
+            $("#selectItemDesc").val([]);
+            $("#selectItemDesc").prop('disabled', true);
+            $("#selectCategory").prop('disabled', true);
         }
+
+        $('#btn-submit-export').hide();
+
     });
 </script>
