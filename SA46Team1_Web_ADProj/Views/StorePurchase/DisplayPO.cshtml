@@ -10,7 +10,6 @@
 
 
 <script>
-
     var table;
     $(document).ready(function () {
         table = $('#dataTable-displayPO').DataTable({
@@ -123,7 +122,8 @@
         $('#input-qty-delivered').prop('disabled', true);
 
         $('#btn-GR-displayPO').hide();
-        $('#btn-edit-GR').show();
+        $('#btn-edit-GR').hide();
+        $('#btn-cancel-displayPO').show();
         table.draw(false);
         @*window.location.href = '@Url.Action("Purchase", "Store")';*@
 
@@ -187,9 +187,11 @@
 
     // Cancel Edit Button
     $('#btn-cancel-displayPO').click(function () {
-
-        window.location.href = '@Url.Action("Purchase", "Store")';
-        return false;
+        jQuery.ajax({
+            url: '/StorePurchase/ExitEditMode',
+            type: 'POST'
+        })
+            window.location.href = '@Url.Action("Purchase", "Store")';
     });
 
        // Edit GR Dialog
@@ -208,7 +210,8 @@
         $('#input-qty-delivered').prop('disabled', false);
         $('#input-qty-ordered').prop('disabled', true);
         $('#btn-save-displayPO').hide();
-        $('#btn-edit-displayPO').show();
+        $('#btn-edit-displayPO').hide();
+        $('#btn-cancel-displayPO').show();
 
 
         table.draw(false);
@@ -228,14 +231,13 @@
         table.draw(false);
     });
 
-    $('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
+    //$('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
         
-        table.draw(false);
-    });
+    //    table.draw(false);
+    //});
 
 </script>
 
-@Session["poStatus"].ToString()
 <div class="row">
     <div class="col-md-6">
         <div>
@@ -309,6 +311,7 @@
 <div class="row">
     <div class="col-md-11">
         <div style="float:right;">
+            
             @if (Session["poStatus"].ToString() == "Open")
             {
                 <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
@@ -326,7 +329,13 @@
                 <p>Changes to PO - can only be seen / used if PO is 'open'</p>
             </div>
 
-            <button class="hidden btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
+            @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
+            {
+                <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt Edit</button>
+                <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Received</button>
+            }
+
+            <button type="reset" class="hidden btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
             <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
                 <p>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</p>
             </div>
@@ -336,11 +345,7 @@
                 <p>Cancel entire PO - can only be seen / used if PO is 'open'</p>
             </div>
 
-            @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
-            {
-                <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt Edit</button>
-                <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Received</button>
-            }
+
 
             <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
                 <p>Prep GR</p>
