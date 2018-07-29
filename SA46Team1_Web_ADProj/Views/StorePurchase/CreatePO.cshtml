@@ -19,7 +19,7 @@
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<button>Delete</button>"
+                "defaultContent": "<button>delete</button>"
             }]
         });
     });
@@ -38,6 +38,8 @@
         });
 
         table.row($(this).parents('tr')).remove().draw();
+        window.location.href = '@Url.Action("Purchase", "Store")';
+
         return false;
     });
 
@@ -79,6 +81,48 @@
 
     });
 
+    $('#dataTable-newPO tbody').on('change', '#input-qty', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 3).nodes().to$().find('input').val();
+        if (qty <= 0) {
+            alert("Order quantity cannot be <1.");
+            table.cell(index, 3).nodes().to$().find('input').val(1);
+            return;
+        }
+        $.ajax({
+            url: '/StorePurchase/EditNewPOQty',
+            data: JSON.stringify({ data: qty, index: index }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Purchase", "Store")';
+    });
+
+    $('#dataTable-newPO tbody').on('change', '#select-supplier', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 2).nodes().to$().find('input').val();
+       
+        $.ajax({
+            url: '/StorePurchase/EditNewPOSupplier',
+            data: JSON.stringify({ data: qty, index: index }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Purchase", "Store")';
+    });
+
 </script>
 
 <div class="row">
@@ -116,22 +160,23 @@
             <th>Delete</th>
         </tr>
     </thead>
+
     @foreach (var item in poDetailList)
     {
         <tr>
             <td>@item.ItemCode</td>
             <td>@item.Item.Description</td>
             <td>
-                <select>
+                <select id="select-supplier">
                     <option value="@item.Item.Supplier1">@item.Item.Supplier1</option>
                     <option value="@item.Item.Supplier2">@item.Item.Supplier2</option>
                     <option value="@item.Item.Supplier3">@item.Item.Supplier3</option>
                 </select>
             </td>
-            <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
+            <td><input id="input-qty" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
             <td>@item.Item.UoM</td>
             <td>@item.Item.AvgUnitCost.ToString("0.00")</td>
-            <td><label id="lbl-totalitemprice"></label></td>
+            <td>@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
             <td>7%</td>
             <td></td>
         </tr>
@@ -143,9 +188,9 @@
 
 @*--- Dynamic boxes ---*@
 <div>
-    <label style="font-size: 10pt;">Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>
-    <label style="font-size: 10pt;">GST ($): <input type="text" id="displayPO-gst"></label>
-    <label style="font-size: 10pt;">Net Total ($): <input type="text" id="displayPO-net-total"></label>
+    <label style="font-size: 10pt;">Gross Total ($):<input type="number" id="displayPO-gross-total" readonly="readonly" value="@TempData["grossTotal"]" ></label>
+    <label style="font-size: 10pt;">GST ($): <input type="text" id="displayPO-gst" value="@TempData["gst"]"></label>
+    <label style="font-size: 10pt;">Net Total ($): <input type="number" id="displayPO-net-total"  readonly="readonly" value="@TempData["netTotal"]"></label>
 </div>
 @*--- End of Dynamic boxes ---*@
 

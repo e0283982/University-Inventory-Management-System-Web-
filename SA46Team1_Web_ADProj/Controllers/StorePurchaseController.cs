@@ -17,16 +17,53 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
+                List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
+
+                double grossTotal = 0;
+                double netTotal = 0;
+                double gst = 0;
+
+                foreach (PODetail p in poFullDetailsList) {
+                    var itemTotal = p.QuantityOrdered * p.UnitCost;
+                    grossTotal += itemTotal;
+                }
+
+                TempData["grossTotal"] = Math.Round(grossTotal,2);
+
+                netTotal = grossTotal * 1.07;
+                TempData["netTotal"] = Math.Round(netTotal,2);
+
+                gst = grossTotal * 0.07;
+                TempData["gst"]= Math.Round(gst, 2);
+
                 Tuple<Item, PODetail> tuple = new Tuple<Item, PODetail>(new Item(), new PODetail());
-                ViewBag.ItemsList = new SelectList((from s in m.Items.ToList()
-                                                    select new
-                                                    {
-                                                        ItemCode = s.ItemCode,
-                                                        Description = s.Description + " (" + s.UoM + ")"
-                                                    }),
-                                                    "ItemCode",
-                                                    "Description",
-                                                    null);
+
+                List<String> tempList = (List<String>)Session["tempList"];
+
+                if (tempList.Count == 0)
+                {
+                    ViewBag.ItemsList = new SelectList((from s in m.Items.OrderBy(x => x.Description).ToList()
+                                                        select new
+                                                        {
+                                                            ItemCode = s.ItemCode,
+                                                            Description = s.Description + " (" + s.UoM + ")"
+                                                        }),
+                                                    "ItemCode", "Description", null);
+                }
+                else
+                {
+
+                    List<Item> newItemList = m.Items.Where(x => !tempList.Contains(x.ItemCode)).OrderBy(x => x.Description).ToList();
+                    //update ddl to remove items
+                    ViewBag.ItemsList = new SelectList((from s in newItemList
+                                                        select new
+                                                        {
+                                                            ItemCode = s.ItemCode,
+                                                            Description = s.Description + " (" + s.UoM + ")"
+                                                        }),
+                                                        "ItemCode", "Description", null);
+                }
+
                 return View(tuple);
             }
         }
@@ -196,11 +233,46 @@ namespace SA46Team1_Web_ADProj.Controllers
                     pod.Item.UoM = itemToAdd.UoM;
                     pod.Item.Supplier1 = itemToAdd.Supplier1;
                     pod.Item.AvgUnitCost = itemToAdd.AvgUnitCost;
+                    pod.UnitCost = itemToAdd.AvgUnitCost;
 
                     poFullDetailsList.Add(pod);
                 }
 
                 Session["newPOList"] = poFullDetailsList;
+
+                //add to list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Add(itemToAdd.ItemCode);
+                Session["tempList"] = tempList;
+
+                return RedirectToAction("Purchase", "Store");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult EditNewPOQty(string data, int index)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
+                PODetail item = poFullDetailsList.ElementAt(index);
+                item.QuantityOrdered = Int32.Parse(data);
+                Session["newAdjList"] = poFullDetailsList;
+
+                return RedirectToAction("Purchase", "Store");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult EditNewPOSupplier(string data, int index)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                List<PODetail> poFullDetailsList = (List<PODetail>)Session["newPOList"];
+                PODetail item = poFullDetailsList.ElementAt(index);
+                //item. = Int32.Parse(data);
+                Session["newAdjList"] = poFullDetailsList;
+
                 return RedirectToAction("Purchase", "Store");
             }
         }
