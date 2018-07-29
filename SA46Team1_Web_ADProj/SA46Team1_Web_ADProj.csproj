@@ -218,6 +218,7 @@
     <Compile Include="Controllers\RestfulController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\StoreManagerInventoryController.cs" />
+    <Compile Include="Controllers\StoreNotificationsController.cs" />
     <Compile Include="Controllers\StoreReportsController.cs" />
     <Compile Include="Controllers\StoreDisbursementsController.cs" />
     <Compile Include="Controllers\StoreInventoryController.cs" />
@@ -289,6 +290,7 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
+    <Compile Include="Models\AdjustmentModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -431,6 +433,9 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StockAdjustmentDetail.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAdjustmentFullDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StockAdjustmentHeader.cs">
@@ -742,6 +747,9 @@
     <Content Include="Views\StoreReports\RptReorder.cshtml" />
     <Content Include="Views\StoreReports\RptDepartmentUsage.cshtml" />
     <Content Include="Views\StoreInventory\Overview2.cshtml" />
+    <Content Include="Views\StoreNotifications\AllMsgs.cshtml" />
+    <Content Include="Views\StoreNotifications\ReadMsgs.cshtml" />
+    <Content Include="Views\StoreNotifications\UnreadMsgs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

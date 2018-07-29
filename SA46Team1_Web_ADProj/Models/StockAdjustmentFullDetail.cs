@@ -12,21 +12,18 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class POFullDetail
+    public partial class StockAdjustmentFullDetail
     {
-        public string PONumber { get; set; }
-        public string ItemCode { get; set; }
-        public string Description { get; set; }
-        public string CompanyName { get; set; }
-        public float UnitCost { get; set; }
-        public int QuantityOrdered { get; set; }
-        public int QuantityDelivered { get; set; }
-        public string UoM { get; set; }
-        public System.DateTime Date { get; set; }
+        public string RequestId { get; set; }
+        public System.DateTime DateRequested { get; set; }
+        public string Requestor { get; set; }
         public string EmployeeName { get; set; }
+        public Nullable<System.DateTime> DateProcessed { get; set; }
+        public string ItemCode { get; set; }
+        public int ItemQuantity { get; set; }
+        public float Amount { get; set; }
+        public string Remarks { get; set; }
         public string Status { get; set; }
-        public string Supplier1Code { get; set; }
-        public string Supplier2Code { get; set; }
-        public string Supplier3Code { get; set; }
+        public string NotificationStatus { get; set; }
     }
 }
