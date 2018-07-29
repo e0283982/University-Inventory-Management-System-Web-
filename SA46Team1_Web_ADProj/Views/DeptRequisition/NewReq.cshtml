@@ -224,7 +224,7 @@
                     </td>
                     <td>
                         <span>
-                            <button class="btn btn-danger" id="btn-discard-items" style="font-size: 10pt;">
+                            <button class="btn btn-lu-red" id="btn-discard-items" style="font-size: 10pt;">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </span>
@@ -272,22 +272,29 @@
         </div>
 
         <div id="dialog-confirm-submit-new-req" class="hidden" title="Confirm Submission (New Requisition)">
-            <p>Are you sure you want to submit the requisition?</p>
-            <span>
-                <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
-            </span>
-
-            <span>
-                <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
-            </span>
+            <h5>Are you sure you want to submit the requisition?</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="float:right">
+                        <span>
+                            <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span>
+                        <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+                    </span>
+                </div>   
+            </div>           
         </div>
 
         <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
-            <p>New requisition request has been submitted for approval.</p>
+            <h5>New requisition request has been submitted for approval.</h5>
         </div>
 
         <div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
-            <p>There are no items to edit.</p>
+            <h5>There are no items to edit.</h5>
         </div>
 
     </div>

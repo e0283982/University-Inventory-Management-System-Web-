@@ -60,7 +60,7 @@
                             'data': null,
                             "render": function (data, type, full, meta) {
                                 return '<span>' +
-                                            '<button class="btn btn-danger" id="btn-discard-items">' +
+                                            '<button class="btn btn-lu-red" id="btn-discard-items">' +
                                                 '<i class="far fa-trash-alt"></i>' +
                                             '</button>' +
                                        '</span>';
@@ -238,19 +238,21 @@
 
 </script>
 
-<div>
-    <h2>Requisition Form # @Session["id"]</h2>
-
-    <span class="col-md-12">
-        <button id="btn-print-req-history" class="btn btn-info" type="submit" style="float: right">
+<div class="row">
+    <div class="col-md-6">
+        <h5>Requisition Form # @Session["id"]</h5>
+    </div>
+    <div class="col-md-6">
+        <button id="btn-print-req-history" class="btn btn-lu-blue" type="submit" style="float: right">
             Print
         </button>
-    </span>
+    </div>
 </div>
 
+<br />
 
 <table id="dataTable-pastReq-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Description</th>
             <th>Unit of Measure</th>
@@ -261,7 +263,7 @@
         </tr>
     </thead>
 
-    <tbody>
+    <tbody style="font-size: 10pt;">
         <tr>
             <th></th>
             <th></th>
@@ -275,93 +277,79 @@
 
 <hr />
 <div class="row">
-    <div>
-        <label>Approval Status</label>
-        <input type="text" name="country" value=@req.ApprovalStatus readonly />
+    <div class="col-md-6">
+        <div>
+            <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
+            @*<input type="text" name="country" value=@req.ApprovalStatus readonly />*@
+        </div>
+        <div>
+            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@req.RequestDate</label>
+            @*<input type="text" name="country" value=@req.RequestDate readonly />*@
+        </div>
+
+        <div>
+            <label style="font-size: 10pt;">Representative:&nbsp;</label><label style="font-size: 10pt;">@req.RepName</label>
+            @*<input type="text" name="country" value=@req.RepName readonly />*@
+        </div>
+
+        <div>
+            <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
+            @*<input type="text" name="country" value=@req.ApproverName readonly />*@
+        </div>
+    </div> 
+    <div class="col-md-6">
+        <div style="float:right;">
+            <button id="btn-edit-req-history" class="btn btn-lu-blue" type="submit" style="font-size: 10pt;">Edit</button>
+            <button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="font-size: 10pt;">Discard</button>
+            <button id="btn-save-req-history" class="btn btn-lu-green" type="submit" style="font-size: 10pt;">Save</button>
+            @Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info", style = "font-size: 10pt;" })
+        </div>       
     </div>
-
-    <div>
-        <label>Request Date</label>
-        <input type="text" name="country" value=@req.RequestDate readonly />
-    </div>
-
-    <div>
-        <label>Representative</label>
-        <input type="text" name="country" value=@req.RepName readonly />
-    </div>
-
-    <div>
-        <label>Approved By</label>
-        <input type="text" name="country" value=@req.ApproverName readonly />
-    </div>
-
-    <div>
-        <span class="col-md-12">
-            <button id="btn-edit-req-history" class="btn btn-info" type="submit" style="float: right">
-                Edit
-            </button>
-        </span>
-
-        <span class="col-md-12">
-            <button id="btn-submit-discard-req-items" class="btn btn-info" type="submit" style="float: right">
-                Discard
-            </button>
-        </span>
-
-
-        <span class="col-md-12">
-            <button id="btn-save-req-history" class="btn btn-info" type="submit" style="float: right">
-                Save
-            </button>
-        </span>
-    </div>
-
 </div>
 
 <div class="row">
     <span class="col-md-12">
-        <div style="float: right">@Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info" })</div>
+        <div style="float: right">
+            
+        </div>
     </span>
 </div>
-
 
 <div id="dialog-edit-req-zero-input-alert" class="hidden" title="New Order Qty cannot be 0 (Edit Requisition)">
-    <p>Requisition order qty cannot be 0.</p>
+    <h5>Requisition order qty cannot be 0.</h5>
 </div>
 
-
 <div id="dialog-confirm-discard-req-item" class="hidden" title="Confirm Discard Selected (Edit Requisition)">
-    <p>Are you sure you want to cancel the selected request item?</p>
+    <h5>Are you sure you want to cancel the selected request item?</h5>
     <span>
-        <button class="btn btn-primary" id="btn-confirm-discard-no">No</button>
+        <button class="btn btn-lu-blue" id="btn-confirm-discard-no">No</button>
     </span>
-
     <span>
-        <button class="btn btn-primary" id="btn-confirm-discard-yes">Yes</button>
+        <button class="btn btn-lu-red" id="btn-confirm-discard-yes">Yes</button>
     </span>
 </div>
 
 
 <div id="dialog-update-req-items-success" class="hidden" title="Request Item(s) updated (Edit Requisition)">
-    <p>Requisition request has been successfully.</p>
+    <h5>Requisition request has been successfully.</h5>
 </div>
 
 <div id="dialog-discard-req-item-submitted" class="hidden" title="Item(s) Removed (Edit Requisition)">
-    <p>Selected request item(s) have been removed.</p>
+    <h5>Selected request item(s) have been removed.</h5>
 </div>
 
 <div id="dialog-discard-req-no-item-submitted" class="hidden" title="No Item Selected (Edit Requisition)">
-    <p>No request item is selected for removal.</p>
+    <h5>No request item is selected for removal.</h5>
 </div>
 
 <div id="dialog-confirm-discard-req-item-error" class="hidden" title="Request Withdrawal warning (Edit Requisition)">
-    <p>Are you sure you want to withdraw this request?</p>
+    <h5>Are you sure you want to withdraw this request?</h5>
     <span>
-        <button class="btn btn-primary" id="btn-confirm-withdrawal-no">No</button>
+        <button class="btn btn-lu-blue" id="btn-confirm-withdrawal-no">No</button>
     </span>
 
     <span>
-        <button class="btn btn-primary" id="btn-confirm-withdrawal-yes">Yes</button>
+        <button class="btn btn-lu-red" id="btn-confirm-withdrawal-yes">Yes</button>
     </span>
 </div>
 
