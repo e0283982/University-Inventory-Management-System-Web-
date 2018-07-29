@@ -27,7 +27,7 @@ namespace SA46Team1_Web_ADProj.Scheduler
             .Build();
 
             // Execute Codes in CreateDisbursementListJob
-            IJobDetail job2 = JobBuilder.Create<CreateDisbursementListJob>()
+            IJobDetail job2 = JobBuilder.Create<CreateRetrievalListJob>()
                     .WithIdentity("job2", "group2")
                     .Build();
 
