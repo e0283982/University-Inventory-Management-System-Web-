@@ -15,5 +15,10 @@ namespace SA46Team1_Web_ADProj.Controllers
             Response.StatusCode = 403;
             return View();
         }
+        public ActionResult PageNotFound()
+        {
+            Response.StatusCode = 404;
+            return View();
+        }
     }
 }

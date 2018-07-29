@@ -751,6 +751,7 @@
     <Content Include="Views\StoreNotifications\ReadMsgs.cshtml" />
     <Content Include="Views\StoreNotifications\UnreadMsgs.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
