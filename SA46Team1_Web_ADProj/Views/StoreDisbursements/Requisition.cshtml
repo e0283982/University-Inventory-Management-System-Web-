@@ -2,7 +2,8 @@
     Layout = null;
 }
 
-<script>    
+<script>
+
 
     var table;
 
@@ -15,6 +16,8 @@
                 paging: true,
                 sort: true,
                 searching: true,
+                "order": [[3, "desc"]],
+                "iDisplayLength": 5,                
                 //scrollY: 200,
                 data: data,
                 columns: [
@@ -53,7 +56,7 @@
         }
     });
 
-               
+
 
 
 </script>
@@ -71,6 +74,6 @@
             <th>Department</th>
             <th>Status</th>
         </tr>
-    </thead>    
+    </thead>
     <tbody style="font-size: 10pt;"></tbody>
 </table>

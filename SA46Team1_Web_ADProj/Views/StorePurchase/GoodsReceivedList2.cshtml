@@ -17,6 +17,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
+                    "iDisplayLength": 5,
                     //scrollY: 200,
                     data: data,
                     columns: [
@@ -42,14 +43,22 @@
                 var netTotal = total + gst;
 
                 $(function () {
-                    $('#lbl-poNumber').val(data[0]["PONumber"]);
-                    $('#lbl-del-date').val(newDate);
-                    $('#lbl-companyName').val(data[0]["CompanyName"]);
-                    $('#lbl-emp').val(data[0]["EmployeeName"]);
-                    $('#lbl-gross-total').val(twoDP(total));
-                    $('#lbl-gst').val(twoDP(gst));
-                    $('#lbl-net-total').val(twoDP(netTotal));
+                    //$('#lbl-poNumber').val(data[0]["PONumber"]);
+                    //$('#lbl-del-date').val(newDate);
+                    //$('#lbl-companyName').val(data[0]["CompanyName"]);
+                    //$('#lbl-emp').val(data[0]["EmployeeName"]);
+                    //$('#lbl-gross-total').val(twoDP(total));
+                    //$('#lbl-gst').val(twoDP(gst));
+                    //$('#lbl-net-total').val(twoDP(netTotal));
                     $('#ta-remarks').val(data[0]["Remarks"]);
+
+                    $("#lbl-poNumber").append(data[0]["PONumber"]);
+                    $("#lbl-del-date").append(newDate);
+                    $("#lbl-companyName").append(data[0]["CompanyName"]);
+                    $("#lbl-emp").append(data[0]["EmployeeName"]);
+                    $("#lbl-gross-total").append(twoDP(total));
+                    $("#lbl-gst").append(twoDP(gst));
+                    $("#lbl-net-total").append(twoDP(netTotal));
                 });
 
                 function twoDP(value) {
@@ -78,37 +87,52 @@
 </script>
 
 <div>
-    <h2>Goods Receipt</h2>
+    <h5>Goods Receipt</h5>
 </div>
 
-<div>
 
 
-    <button class="btn-blue" id="btn-print-displayGR">Goods Receipt</button>
-    <div id="dialog-print-displayGR" class="hidden" title="Basic dialog">
-        <p>Print via here.</p>
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <label style="font-size: 10pt;">Goods Receipt Number:</label><label id="lbl-gr-grId">@Session["grId"]</label>
+        </div>
+        <div>
+            @*<label style="font-size: 10pt;">PO Number: <input type="text" id="lbl-poNumber"></label>*@
+            <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumberr" style="font-size: 10pt;" />
+        </div>
+        <div>
+            @*<label style="font-size: 10pt;">Date: <input type="text" id="lbl-del-date"></label>*@
+            <label style="font-size: 10pt;">Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
+        </div>
+        <div>
+            @*<label style="font-size: 10pt;">Supplier: <input type="text" id="lbl-companyName"></label>*@
+            <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-companyName" style="font-size: 10pt;" />
+        </div>
+        <div>
+            @*<label style="font-size: 10pt;">Created By: <input type="text" id="lbl-emp"></label>*@
+            <label style="font-size: 10pt;">Created By:&nbsp;</label><label id="lbl-emp" style="font-size: 10pt;" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div style="float:right;">
+            <div style="font-size: 10pt;">
+                <p>Remarks:</p>
+                <textarea id="ta-remarks"></textarea>
+            </div>
+            <br />
+            <div style="float:right;">
+                <button class="btn btn-lu-blue" id="btn-print-displayGR" style="font-size: 10pt;">Goods Receipt</button>
+                <div id="dialog-print-displayGR" class="hidden" title="Basic dialog">
+                    <p>Print via here.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div>
-    <label>Goods Receipt Number: <label id="lbl-gr-grId">@Session["grId"]</label></label>
-    <br />
-    <label>PO Number: <input type="text" id="lbl-poNumber"></label>
-    <br />
-    <label>Date: <input type="text" id="lbl-del-date"></label>
-    <br />
-    <label>Supplier: <input type="text" id="lbl-companyName"></label>
-    <br />
-    <label>Created By: <input type="text" id="lbl-emp"></label>
-</div>
-
-<div>
-    <p>Remarks:</p>
-    <textarea id="ta-remarks"></textarea>
-</div>
-
 <table id="dataTable-displayGR" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Product Name</th>
@@ -119,19 +143,30 @@
             <th>GST ($)</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <div>
-    <label>Gross Total ($): <input type="text" id="lbl-gross-total"></label>
-    <label>GST ($): <input type="text" id="lbl-gst"></label>
-    <label>Net Total ($): <input type="text" id="lbl-net-total"></label>
+    @*<label>Gross Total ($): <input type="text" id="lbl-gross-total"></label>*@
+    <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><strong><label id="lbl-gross-total" style="font-size: 10pt;" /></strong>
+    @*<label>GST ($): <input type="text" id="lbl-gst"></label>*@
+    <label style="font-size: 10pt;">&nbsp;GST ($)::&nbsp;</label><strong><label id="lbl-gst" style="font-size: 10pt;" /></strong>
+    @*<label>Net Total ($): <input type="text" id="lbl-net-total"></label>*@
+    <label style="font-size: 10pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="lbl-net-total" style="font-size: 10pt;" /></strong>
 </div>
 
 
-<div id="details-back-btn">
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right;">
+            <div id="details-back-btn">
 
-    @using (Html.BeginForm("BackToGRList", "StorePurchase", FormMethod.Post))
-    {
-        <input class="btn-blue" type="submit" value="Back" />
-    }
+                @using (Html.BeginForm("BackToGRList", "StorePurchase", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                }
+            </div>
+
+        </div>
+    </div>
 </div>

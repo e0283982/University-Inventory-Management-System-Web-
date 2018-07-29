@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/SA46Team1_Web_ADProj/Scripts/HighCharts/highcharts.js
+/SA46Team1_Web_ADProj/Scripts/HighCharts/annotations.js

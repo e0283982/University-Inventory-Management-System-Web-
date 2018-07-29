@@ -1,8 +1,8 @@
 ﻿@using SA46Team1_Web_ADProj.Models;
-@model Tuple<Item, PODetail>
+@model Tuple<Item, POFullDetail>
 @{
     Layout = null;
-    List<PODetail> poDetailList = (List<PODetail>)Session["newPOList"];
+    List<POFullDetail> poDetailList = (List<POFullDetail>)Session["newPOList"];
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
@@ -14,11 +14,12 @@
     $(document).ready(function () {
         table = $('#dataTable-newPO').DataTable({
             //scrollY: '30vh',
+            "iDisplayLength": 5,
             scrollCollapse: true,
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<button>Delete</button>"
+                "defaultContent": "<button>delete</button>"
             }]
         });
     });
@@ -37,6 +38,8 @@
         });
 
         table.row($(this).parents('tr')).remove().draw();
+        window.location.href = '@Url.Action("Purchase", "Store")';
+
         return false;
     });
 
@@ -78,26 +81,73 @@
 
     });
 
+    $('#dataTable-newPO tbody').on('change', '#input-qty', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 3).nodes().to$().find('input').val();
+        if (qty <= 0) {
+            alert("Order quantity cannot be <1.");
+            table.cell(index, 3).nodes().to$().find('input').val(1);
+            return;
+        }
+        $.ajax({
+            url: '/StorePurchase/EditNewPOQty',
+            data: JSON.stringify({ data: qty, index: index }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Purchase", "Store")';
+    });
+
+    $('#dataTable-newPO tbody').on('change', '#select-supplier', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 2).nodes().to$().find(":selected").text();
+       
+        $.ajax({
+            url: '/StorePurchase/EditNewPOSupplier',
+            data: JSON.stringify({ data: qty, index: index }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Purchase", "Store")';
+    });
+
 </script>
 
-<div>
-    <h2>Create Purchase Order</h2>
-</div>
-
-<div class="create-PO-dates">
-    <label>Date: @DateTime.Now</label>
-</div>
-
-<div>
-    <p>Remarks: </p>
-    <textarea rows="4" cols="50">
-            </textarea>
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <h5>Create Purchase Order</h5>
+        </div>
+        <div class="create-PO-dates">
+            <label style="font-size: 10pt;">Date: @DateTime.Now</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div style="float:right;">
+            <div style="font-size: 10pt;">
+                <p>Remarks: </p>
+                <textarea rows="3" cols="50" />
+            </div>
+        </div>
+    </div>
 </div>
 
 @*--- Table ---*@
 
 <table id="dataTable-newPO" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Item Description</th>
@@ -110,35 +160,59 @@
             <th>Delete</th>
         </tr>
     </thead>
+
     @foreach (var item in poDetailList)
     {
         <tr>
-            <td>@item.ItemCode</td>
-            <td>@item.Item.Description</td>
-            <td>
-                <select>
-                    <option value="@item.Item.Supplier1">@item.Item.Supplier1</option>
-                    <option value="@item.Item.Supplier2">@item.Item.Supplier2</option>
-                    <option value="@item.Item.Supplier3">@item.Item.Supplier3</option>
+            <td style="font-size: 10pt;">@item.ItemCode</td>
+            <td style="font-size: 10pt;">@item.Description</td>
+            <td style="font-size: 10pt;">
+                <select id="select-supplier">
+                    @if (item.Supplier1Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier1Code">@item.Supplier1Code</option>
+                    }
+
+                    @if (item.Supplier2Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier2Code">@item.Supplier2Code</option>
+                    }
+                    @if (item.Supplier3Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier3Code">@item.Supplier3Code</option>
+                    }
                 </select>
             </td>
-            <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
-            <td>@item.Item.UoM</td>
-            <td>@item.Item.AvgUnitCost</td>
-            <td><label id="lbl-totalitemprice"></label></td>
-            <td>7%</td>
-            <td></td>
+            <td><input id="input-qty" style="font-size: 10pt;" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
+            <td style="font-size: 10pt;">@item.UoM</td>
+            <td style="font-size: 10pt;">@item.UnitCost.ToString("0.00")</td>
+            <td style="font-size: 10pt;">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+            <td style="font-size: 10pt;">7%</td>
+            <td style="font-size: 10pt;"></td>
         </tr>
     }
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 @*--- End of Table ---*@
 
 @*--- Dynamic boxes ---*@
 <div>
-    <label>Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>
-    <label>GST ($): <input type="text" id="displayPO-gst"></label>
-    <label>Net Total ($): <input type="text" id="displayPO-net-total"></label>
+    <label style="font-size: 10pt;">Gross Total ($):<input type="number" id="displayPO-gross-total" readonly="readonly" value="@TempData["grossTotal"]" ></label>
+    <label style="font-size: 10pt;">GST ($): <input type="text" id="displayPO-gst" value="@TempData["gst"]"></label>
+    <label style="font-size: 10pt;">Net Total ($): <input type="number" id="displayPO-net-total"  readonly="readonly" value="@TempData["netTotal"]"></label>
 </div>
 @*--- End of Dynamic boxes ---*@
 
@@ -148,10 +222,10 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button class="btn btn-primary" id="btn-add-item">Add New Item</button>
+                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
             </span>
             <span>
-                <button class="btn btn-info" id="btn-submit-new-req">Submit for Approval</button>
+                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit for Approval</button>
             </span>
         </div>
     </div>
@@ -171,7 +245,7 @@
             </div>
             <div>
                 <label>New Order Qty: </label>
-                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty" }, })
+                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
             </div>
 
             <br />

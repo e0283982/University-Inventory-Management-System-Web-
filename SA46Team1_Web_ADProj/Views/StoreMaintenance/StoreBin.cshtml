@@ -24,6 +24,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
+                "iDisplayLength": 5,
                 //scrollY: 200,
                 data: data,
                 columns: [
@@ -91,18 +92,19 @@
 </script>
 
 <div>
-    <h2>Maintenance - Bin</h2>
+    <h5>Maintenance - Bin</h5>
 </div>
 
 
 <table id="dataTable-store-bins" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Bin Number</th>
             <th>Bin Name</th>
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -111,7 +113,7 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button id="btn-add-new-bin" class="btn btn-info">Add New Bin</button>
+                <button id="btn-add-new-bin" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Bin</button>
             </span>
         </div>
     </div>
@@ -134,7 +136,7 @@
 
             <hr />
 
-            <input id="btn-submit-add-bin" class="btn btn-info btn-block" type="submit" value="Add" />
+            <input id="btn-submit-add-bin" class="btn btn-lu-green btn-block" type="submit" value="Add" />
 
         </div>
     }

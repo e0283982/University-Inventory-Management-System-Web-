@@ -28,7 +28,12 @@
                         { 'data': 's1'  },
                         { 'data': 's2'  },
                         { 'data': 's3'  },
-                        { 'data': 'Active' }
+                        {
+                            'data': 'Active',
+                            'render': function (data, type, row) {
+                                return data == 1 ? "Active" : "Inactive";
+                            }
+                        }
                     ],
                 });
         

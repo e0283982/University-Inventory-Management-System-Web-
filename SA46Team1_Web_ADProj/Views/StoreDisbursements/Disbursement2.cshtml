@@ -13,6 +13,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
+                    "iDisplayLength": 5,
                     //scrollY: 200,
                     data: data,
                     columns: [
@@ -54,7 +55,7 @@
             <span>
                 @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
                 {
-                    <input class="btn btn-lu-blue" type="submit" value="Back" />
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
                 }
             </span>
         </div>
