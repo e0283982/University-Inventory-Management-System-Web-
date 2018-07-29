@@ -305,6 +305,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 List<POFullDetail> poFullDetailList = m.POFullDetails.Where(x => x.PONumber == poNumber).ToList();
                 Session["POItems"] = poFullDetailList;
+                Session["poStatus"] = m.POHeaders.Where(x => x.PONumber == poNumber).Select(x => x.Status).FirstOrDefault();
             }
             return RedirectToAction("Purchase", "Store");
         }
