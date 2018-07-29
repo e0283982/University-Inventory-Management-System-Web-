@@ -44,7 +44,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             stockadjdet.StockAdjustmentHeader.DateProcessed = DateTime.Now;
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
-            return RedirectToAction("Inventory", "Store");
+            Session["StockAdjPage"] = 2;
+            return RedirectToAction("Inventory", "Store", new { area = "" });
         }
 
         [HttpPost]
@@ -69,7 +70,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             stockadjdet.Status = "Rejected";
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
-            return RedirectToAction("Inventory", "Store");
+            Session["StockAdjPage"] = 2;
+            return RedirectToAction("Inventory", "Store", new { area = "" });
         }
     }
 }
