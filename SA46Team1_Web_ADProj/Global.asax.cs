@@ -73,7 +73,7 @@ namespace SA46Team1_Web_ADProj
 
             //Session variables for Store - Purchase
             Session["POListPage"] = "1";
-
+            
             Session["GRListPage"] = "1";
             Session["BackToGRList"] = "false";
 
