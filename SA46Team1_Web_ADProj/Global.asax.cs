@@ -64,6 +64,7 @@ namespace SA46Team1_Web_ADProj
 
             //Session variables for inner pages of STORE tabs
             Session["StoreInventoryTabIndex"] = "1";
+            Session["StorePurchaseTabIndex"] = "1";
 
             //Session variables for Store - Inventory
             Session["StockAdjPage"] = "1";
