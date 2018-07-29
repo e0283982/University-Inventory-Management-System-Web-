@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace SA46Team1_Web_ADProj
 {
@@ -11,15 +12,15 @@ namespace SA46Team1_Web_ADProj
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                //if not logged, it will work as normal Authorize and redirect to the Login
                 base.HandleUnauthorizedRequest(filterContext);
+
+            }
             else
             {
-                // handle controller access
-                filterContext.Result = new ViewResult { ViewName = "Unauthorized" };
-                filterContext.HttpContext.Response.StatusCode = 403;
-                //handle menu links
-                filterContext.Result = new HttpUnauthorizedResult();
-                filterContext.HttpContext.Response.StatusCode = 403;
+                //logged and wihout the role to access it - redirect to the custom controller action
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Error", action = "AccessDenied" }));
             }
         }
     }
