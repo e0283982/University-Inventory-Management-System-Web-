@@ -393,7 +393,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-        [Authorize(Roles = "Store Manager")]
+        [CustomAuthorize(Roles = "Store Manager")]
         [Route("StockTake")]
         public ActionResult StockTake()
         {
