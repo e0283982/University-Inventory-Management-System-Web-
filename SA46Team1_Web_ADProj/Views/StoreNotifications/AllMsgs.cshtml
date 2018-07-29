@@ -37,7 +37,8 @@
                                 return '<p> Stock Adjustment RequestId: ' + row["RequestId"] +' is ' + row["Status"] + '.</p>';
                             }
 
-                        }
+                        },
+                        { 'data': 'NotificationStatus' }
                     ],
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-all tbody').on('click', 'tr', function () {
@@ -68,6 +69,7 @@
         <tr>
             <th>Date Requested</th>
             <th>Message</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody style="font-size: 10pt;"></tbody>

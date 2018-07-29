@@ -29,12 +29,12 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult MsgClicked(string ReqFormId, string ItemCode)
+        public RedirectToRouteResult MsgClicked(string ReqFormId, string item)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 StockAdjustmentDetail sad = e.StockAdjustmentDetails
-                    .Where(x => x.RequestId == ReqFormId && x.ItemCode == ItemCode).FirstOrDefault();
+                    .Where(x => x.RequestId == ReqFormId && x.ItemCode == item).FirstOrDefault();
                 if (sad.NotificationStatus == "Unread")
                 {
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];

@@ -453,6 +453,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
                 Session["POItems"] = poFullDetailsList;
             }
+            Session["POListPage"] = "2";
             return View();
         }
 
