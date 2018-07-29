@@ -7,6 +7,8 @@
 }
 <div>
     <h5>Inventory Valuation Report</h5>
+    <label id="lbl-cost-info"></label>
+
     <span>
         <label>Filter by:</label>
         <select id="chosenToggle">
@@ -153,6 +155,8 @@
                                     .search('')
                                     .columns().search('')
                                     .draw();
+                                $("#lbl-cost-info").text("");
+
                                 return;
                             }
 
@@ -181,6 +185,14 @@
 
                             table.draw(false);
                             $('#btn-submit-export').show();
+
+                            var sum = 0;
+                            for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
+                                var rowData = data[i].TotalCost;
+                                sum += rowData;
+                            }
+
+                            $("#lbl-cost-info").text("Total cost ($): " + sum.toFixed(2));
 
                         });
 
@@ -217,6 +229,7 @@
         }
 
         $('#btn-submit-export').hide();
+        $("#lbl-cost-info").text("");
 
     });
 </script>
