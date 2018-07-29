@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
+    [CustomAuthorize]
     public class ErrorController : Controller
     {
         // GET: Error

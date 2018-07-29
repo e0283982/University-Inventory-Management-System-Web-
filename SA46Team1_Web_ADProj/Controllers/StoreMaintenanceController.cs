@@ -9,7 +9,7 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
-    [Authorize(Roles = "Store Clerk, Store Manager")]
+    [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
     [RoutePrefix("Store/StoreMaintenance")]
     public class StoreMaintenanceController : Controller
     {
