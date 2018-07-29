@@ -8,6 +8,7 @@
 
 <div>
     <h5>Department Usage Cost Report</h5>
+<label id="lbl-error-info"></label>
 </div>
 
 <div class="row">
@@ -58,18 +59,17 @@
         </div>
         <div>
             <span>
-                @*<button class="btn btn-info" id="btn-submit-filter">Filter</button>*@
-                <input class="btn btn-lu-green" type="submit"  id="btn-submit-filter" style="font-size: 10pt;" value="Filter"/>
+                <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Filter" />
+            </span>
+            <span id="btn-submit-export2">
+                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
             </span>
         </div>
     </div>
     <div class="col-md-6">
         <div style="float: right; padding-top: 205px;">
           
-            <span id="btn-submit-export">
-                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id="btn-export-pdf", style = "font-size: 10pt;" })
-                @*@Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", style = "font-size: 10pt;" })*@
-            </span>
+            
            
         </div>
     </div>
@@ -101,7 +101,7 @@
     var table;
 
     $(document).ready(function () {
-        $('#btn-submit-export').hide();
+        $('#btn-submit-export2').hide();
 
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRptDepartmentUsage',
@@ -153,7 +153,7 @@
                     ],
                     drawCallback: function (settings) {
                         
-                        $('#btn-submit-filter').on('click', function () {
+                        $('#btn-submit-filter2').on('click', function () {
                             var selYears = [];
                             var selMonths = [];
                             var search = [];
@@ -184,16 +184,35 @@
                                 .columns(6)
                                 .search(search, true, false, true).draw();
 
-                            var data = table.rows({filter: 'applied'}).data();
-                            var deptArray = [];
-                            var categoryArray = [];
+                            //var deptArray = [];
+                            //var categoryArray = [];
+                            //deptArray.push(dept);
+                            //categoryArray.push(category);
 
                             var dept = $('#SelectDepartmentDesc :selected').text();
                             var category = $('#SelectCategory :selected').text();
-                            deptArray.push(dept);
-                            categoryArray.push(category);
+                          
+                            table
+                                .columns(0)
+                                .search(dept, true, false, true).draw();
+                            
+                            table
+                                .columns(3)
+                                .search(category, true, false, true).draw();
+
+                            if (table.rows({ filter: 'applied' }).data().length == 0) {
+                                $("#lbl-error-info").text("No data found");
+
+                                table
+                                    .search('')
+                                    .columns().search('')
+                                    .draw();
+                                return;
+                            }
 
                             var arr = [];
+                            var data = table.rows({ filter: 'applied' }).data();
+
                             for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
                                 var rowData = data[i];
 
@@ -202,14 +221,15 @@
 
                             $.ajax({
                                 url: '/StoreReports/ExportRptDepartmentUsage2',
-                                data: JSON.stringify({ arr: arr, deptArray: deptArray, categoryArray: categoryArray }),
+                                data: JSON.stringify({ arr: arr }),
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',
                                 type: 'POST',
                             });
 
                             table.draw(false);
-                            $('#btn-submit-export').show();
+                            $('#btn-submit-export2').show();
+                            $("#lbl-error-info").text("");
 
                         });
                         
@@ -218,7 +238,6 @@
                         {
                             "targets": [0,1,2],
                             "visible": false,
-                            "searchable": false
                         }
                     ]
 
@@ -227,8 +246,24 @@
         });
     });
 
-    $('#btn-export-pdf').on('click', function () {
-        $('#btn-submit-export').hide();
+    $('#btn-export-pdf2').on('click', function () {
+        $('#btn-submit-export2').hide();
     });
-    
+
+    $("#SelectDepartmentDesc").change(function () {
+        $('#btn-submit-export2').hide();
+        $("#lbl-error-info").text("");
+
+        $("#chosenMonths").val([]);
+        $("#chosenYear").val([]);
+
+    });
+
+    $("#SelectCategory").change(function () {
+        $('#btn-submit-export2').hide();
+        $("#lbl-error-info").text("");
+
+        $("#chosenMonths").val([]);
+        $("#chosenYear").val([]);
+    });
 </script>
