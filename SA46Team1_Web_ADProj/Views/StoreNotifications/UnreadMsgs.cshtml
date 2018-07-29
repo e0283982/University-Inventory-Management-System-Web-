@@ -9,7 +9,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetUnreadPendingApprovals/'+ '@Session["DepartmentCode"]',
+            url: 'http://localhost:49921/api/Restful/GetStoreUnreadNotifications/'+ '@Session["LoginEmployeeID"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -23,19 +23,19 @@
                     responsive: true,
                     columns: [
                         {
-                            'data': 'DateReq',
+                            'data': 'DateRequested',
                             'render': function (jsonDate) {
 
                                 var date = new Date(jsonDate.substr(0));
                                 var month = date.getMonth() + 1;
                                 return date > 1 ? date.getDate() + "/" + month + "/" + date.getFullYear() : "";
                             }
-                        
+
                         },
                         {
-                            'data': 'ReqFormId',
+                            'data': 'RequestId',
                             'render': function (data, type, row) {
-                                return '<p> There is a new requisition request ' + row["ReqFormId"] +' pending for approval.</p>';
+                                return '<p> Stock Adjustment RequestId: ' + row["RequestId"] + ' is ' + row["Status"] + '.</p>';
                             }
                         }
                     ],
@@ -45,12 +45,12 @@
                              //alert(data["ReqFormId"]);
 
                              $.ajax({
-                                 url: '/DeptNotifications/MsgClicked',
-                                 data: { reqFormId: data["ReqFormId"] },
+                                 url: '/StoreNotifications/MsgClicked',
+                                 data: { reqFormId: data["RequestId"] },
                                  type: 'POST',
                              });
 
-                            window.location.href = '@Url.Action("Approval", "Dept")';
+                            window.location.href = '@Url.Action("StockAdj", "StoreInventory")';
                         });
                     }
                 });
