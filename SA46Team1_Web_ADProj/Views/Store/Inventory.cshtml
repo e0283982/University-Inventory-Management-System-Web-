@@ -5,10 +5,21 @@
 <script>
 
     $(function () {
-        if (@Session["StockAdjPage"].ToString() == "2") {
-            $("#tabs-min").tabs({ active: 2 });
-        } else {
-            $("#tabs-min").tabs();
+        var pageIndex =@Session["StoreInventoryTabIndex"].ToString();
+
+        switch (pageIndex) {
+            case 1:
+                $("#tabs-min").tabs();
+                break;
+            case 2:
+                $("#tabs-min").tabs({ active: 1 });
+                break;
+            case 3:
+                $("#tabs-min").tabs({ active: 2 });
+                break;
+            default:
+                $("#tabs-min").tabs();
+                break;
         }
     });
 

@@ -29,17 +29,18 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayItemDetails(string maintenanceItemCode)
+        public ActionResult DisplayItemDetails(string maintenanceItemCode)
         {
             Session["InventoryOverviewPage"] = "2";
             Session["MaintenanceItemCode"] = maintenanceItemCode;
 
-            return RedirectToAction("Inventory", "Store");
+            return null;
         }
 
         [HttpPost]
         public RedirectToRouteResult BackToInventoryOverviewList()
         {
+            Session["StoreInventoryTabIndex"] = "1";
             Session["InventoryOverviewPage"] = "1";
 
             return RedirectToAction("Inventory", "Store");
@@ -60,7 +61,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
         [HttpPost]
-        public ActionResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
+        public RedirectToRouteResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
         {
             int enteredQty = 0;
             for (int i = 0; i < arr1.Length; i++)
@@ -161,7 +162,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
             }
             Session["newPOList"] = new List<PODetail>();
-            return View();
+            Session["StoreInventoryTabIndex"] = "2";
+
+            return RedirectToAction("Inventory", "Store");
         }
 
         [CustomAuthorize(Roles = "Store Clerk")]
@@ -215,6 +218,15 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
+        public RedirectToRouteResult BackToStockAdjList()
+        {
+            Session["StoreInventoryTabIndex"] = "3";
+            Session["StockAdjPage"] = "1";
+
+            return RedirectToAction("Inventory", "Store");
+        }
+
+        [HttpPost]
         [Route("StockAdj/AddNewAdjItem")]
         public RedirectToRouteResult AddNewAdjItem(StockAdjItemModel item)
         {
@@ -242,7 +254,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<String> tempList = (List<String>)Session["tempList"];
                 tempList.Add(itemCode);
                 Session["tempList"] = tempList;
-                
+                Session["StockAdjPage"] = "2";
+
                 return RedirectToAction("Inventory", "Store");
             }
         }
@@ -275,6 +288,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
                 list.RemoveAt(index);
                 Session["newAdjList"] = list;
+                Session["StockAdjPage"] = "2";
 
                 return RedirectToAction("Inventory", "Store");
             }
@@ -339,7 +353,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
         {                        
-            Session["StockAdjPage"] = "2";            
+            Session["StockAdjPage"] = "2";
+            Session["StoreInventoryTabIndex"] = "3";
+
             return RedirectToAction("Inventory", "Store");
         }
 
