@@ -9,7 +9,7 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
-    [Authorize(Roles = "Store Manager")]
+    [Authorize(Roles = "Store Manager, Store Supervisor")]
     [RoutePrefix("Store/StoreInventoryManager")]
     public class StoreManagerInventoryController : Controller
     {
@@ -44,8 +44,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             stockadjdet.StockAdjustmentHeader.DateProcessed = DateTime.Now;
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
-
-            return RedirectToAction("Inventory", "Store");
+            Session["StockAdjPage"] = 2;
+            return RedirectToAction("Inventory", "Store", new { area = "" });
         }
 
         [HttpPost]
@@ -70,8 +70,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             stockadjdet.Status = "Rejected";
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
-
-            return RedirectToAction("Inventory", "Store");
+            Session["StockAdjPage"] = 2;
+            return RedirectToAction("Inventory", "Store", new { area = "" });
         }
     }
 }

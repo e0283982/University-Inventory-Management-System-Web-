@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Data.Entity;
-
+using SA46Team1_Web_ADProj.DAL;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
@@ -898,11 +898,91 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStoreAllNotifications/{id}")]
+        public List<StockAdjustmentFullDetail> GetStoreAllNotifications(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StockAdjustmentFullDetail> safdList = new List<StockAdjustmentFullDetail>();
+                Employee emp = m.Employees.Where(x => x.EmployeeID == id).FirstOrDefault();
+                string empRole = emp.Designation;
+                if(empRole == "Store Clerk")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Approved" || x.Status == "Rejected").ToList();
+                }
+                else
+                if(empRole == "Store Supervisor")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount < 250).ToList();
+                }
+                else
+                if(empRole == "Store Manager")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250).ToList();
+                }
+                return safdList;
+            }
+        }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStoreReadNotifications/{id}")]
+        public List<StockAdjustmentFullDetail> GetStoreReadNotifications(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StockAdjustmentFullDetail> safdList = new List<StockAdjustmentFullDetail>();
+                Employee emp = m.Employees.Where(x => x.EmployeeID == id).FirstOrDefault();
+                string empRole = emp.Designation;
+                if (empRole == "Store Clerk")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => (x.Status == "Approved" && x.NotificationStatus == "Read") 
+                    || (x.Status == "Rejected" && x.NotificationStatus == "Read")).ToList();
+                }
+                else
+                if (empRole == "Store Supervisor")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount < 250 && x.NotificationStatus == "Read").ToList();
+                }
+                else
+                if (empRole == "Store Manager")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Read").ToList();
+                }
+                return safdList;
+            }
+        }
 
-
-
-
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStoreUnreadNotifications/{id}")]
+        public List<StockAdjustmentFullDetail> GetStoreUnreadNotifications(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StockAdjustmentFullDetail> safdList = new List<StockAdjustmentFullDetail>();
+                Employee emp = m.Employees.Where(x => x.EmployeeID == id).FirstOrDefault();
+                string empRole = emp.Designation;
+                if (empRole == "Store Clerk")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => (x.Status == "Approved" && x.NotificationStatus == "Unread")
+                    || (x.Status == "Rejected" && x.NotificationStatus == "Unread")).ToList();
+                }
+                else
+                if (empRole == "Store Supervisor")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount < 250 && x.NotificationStatus == "Unread").ToList();
+                }
+                else
+                if (empRole == "Store Manager")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Unread").ToList();
+                }
+                return safdList;
+            }
+        }
 
 
     }
