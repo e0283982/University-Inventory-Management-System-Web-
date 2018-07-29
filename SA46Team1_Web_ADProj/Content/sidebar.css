@@ -6,7 +6,7 @@
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
     left: 0;
-    background-color: #A9A9A9; /*not black*/
+    background-color: #342D34; /*not black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     /*padding-top: 10px;*/
     box-shadow: 20px;
@@ -18,7 +18,7 @@
    text-decoration: none;
    font-family: 'Oxygen', sans-serif;
    font-size: 16px;
-   color: #2b2b2b;
+   color: #A9A9A9;
    display: block;
 }
 
