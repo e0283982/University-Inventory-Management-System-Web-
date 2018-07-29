@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutStore.cshtml";
+}
+
+<h2>Notifications</h2>
+
+<script>
+    $(function () {
+        $("#tabs-min").tabs();
+    });
+</script>
+
+<div id="tabs-min">
+    <ul>
+        <li style="font-size: 10pt;"><a href="/Store/StoreNotifications/All">All</a></li>
+        <li style="font-size: 10pt;"><a href="/Store/StoreNotifications/Unread">Unread</a></li>
+        <li style="font-size: 10pt;"><a href="/Store/StoreNotifications/Read">Read</a></li>
+    </ul>
+</div>

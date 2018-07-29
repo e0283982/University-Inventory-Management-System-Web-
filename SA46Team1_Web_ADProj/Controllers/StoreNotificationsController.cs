@@ -33,23 +33,29 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                DAL.StaffRequisitionRepositoryImpl dal = new DAL.StaffRequisitionRepositoryImpl(e);
-                StaffRequisitionHeader srh = e.StaffRequisitionHeaders.Where(x => x.FormID == ReqFormId).FirstOrDefault();
+                //DAL.StaffRequisitionRepositoryImpl dal = new DAL.StaffRequisitionRepositoryImpl(e);
+                //StaffRequisitionHeader srh = e.StaffRequisitionHeaders.Where(x => x.FormID == ReqFormId).FirstOrDefault();
 
-                if (srh.NotificationStatus == "Unread")
+                //if (srh.NotificationStatus == "Unread")
+                //{
+                //    int noUnreadRequests = (int)Session["NoUnreadRequests"];
+                //    noUnreadRequests--;
+                //    Session["NoUnreadRequests"] = noUnreadRequests;
+                //}
+
+                StockAdjustmentDetail sad = e.StockAdjustmentDetails.Where(x => x.RequestId == ReqFormId).FirstOrDefault();
+                if (sad.NotificationStatus == "Unread")
                 {
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
                 }
 
-                srh.NotificationStatus = "Read";
-
-                dal.UpdateStaffRequisitionHeader(srh);
+                sad.NotificationStatus = "Read";
                 e.SaveChanges();
             }
 
-            return RedirectToAction("Approval", "Dept");
+            return RedirectToAction("StockAdj", "StoreInventory");
         }
     }
 }

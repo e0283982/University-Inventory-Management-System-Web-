@@ -215,6 +215,7 @@
                     <td style="font-size: 10pt;">
                         @if (editMode == true)
                         {
+                            @*@Html.EditorFor(model => model. , new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "input-edit-order-qty", @min = "1", @step = "1", @Value = "1" }, })*@
                             <input id="input-edit-order-qty" value=@item.QuantityOrdered />
                         }
                         else
@@ -238,6 +239,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div style="float: right">
+                    <span>
+                        <button class="btn btn-lu-red" id="btn-cancel" style="font-size: 10pt;">Cancel</button>
+                    </span>
                     <span>
                         <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
                     </span>

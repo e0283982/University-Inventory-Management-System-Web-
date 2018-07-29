@@ -242,11 +242,11 @@
     <div class="col-md-6">
         <h5>Requisition Form # @Session["id"]</h5>
     </div>
-    <div class="col-md-6">
+    @*<div class="col-md-6">
         <button id="btn-print-req-history" class="btn btn-lu-blue" type="submit" style="float: right">
             Print
         </button>
-    </div>
+    </div>*@
 </div>
 
 <br />
@@ -295,6 +295,9 @@
         <div>
             <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
             @*<input type="text" name="country" value=@req.ApproverName readonly />*@
+        </div>
+        <div>
+            <label style="font-size: 10pt;">Delivery Status:&nbsp;</label>@*<label style="font-size: 10pt;">@req.ApproverName</label>*@
         </div>
     </div> 
     <div class="col-md-6">
