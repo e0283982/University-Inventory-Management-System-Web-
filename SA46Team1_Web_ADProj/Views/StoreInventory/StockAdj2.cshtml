@@ -157,14 +157,14 @@
         @foreach (var item in list)
         {
             <tr>
-                <td>@item.ItemCode</td>
-                <td>@item.ItemDesc</td>
-                <td>@item.Reason</td>
+                <td style="font-size: 10pt;">@item.ItemCode</td>
+                <td style="font-size: 10pt;">@item.ItemDesc</td>
+                <td style="font-size: 10pt;">@item.Reason</td>
                 <td>
-                    <input id="input-adj-qty" value="@item.AdjQty" type="number" min="1" />
+                    <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" />
                 </td>
                 <td>
-                    <input id="input-adj-cost" value="@item.AdjCost.ToString("0.00")" readonly />
+                    <input id="input-adj-cost" style="font-size: 10pt;" value="@item.AdjCost.ToString("0.00")" readonly />
                 </td>
                 <td>
                     <span>
@@ -234,7 +234,7 @@
     </div>
 
     <div id="dialog-new-adj-submited" class="hidden" title="New Adjustment submitted">
-        <h6>New adjustment request has been submitted for approval.</h6>
+        <h5>New adjustment request has been submitted for approval.</h5>
     </div>
 
 </div>

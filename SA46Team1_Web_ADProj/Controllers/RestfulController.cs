@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Data.Entity;
-
+using SA46Team1_Web_ADProj.DAL;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
