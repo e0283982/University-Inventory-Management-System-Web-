@@ -91,7 +91,7 @@
                     //$('#displayPO-gst').val(twoDP(gst));
                     //$('#displayPO-net-total').val(twoDP(netTotal));
                     $('#ta-remarks').val(data[0]["Remarks"]);
-                    //$('#lbl-total').val(itemTotal);
+                    $('#lbl-total').val(itemTotal);
 
                     $("#lbl-supplier").append(data[0]["CompanyName"]);
                     $("#lbl-dateCreated").append(newDate);
@@ -99,7 +99,7 @@
                     $("#lbl-status").append(data[0]["Status"]);
                     $("#displayPO-gross-total").append(twoDP(total));
                     $("#displayPO-net-total").append(twoDP(netTotal));
-                    $("#lbl-total").append(itemTotal);
+                    //$("#lbl-total").append(itemTotal);
                     $("#displayPO-gst").append(twoDP(gst));
                 });
 
@@ -277,8 +277,7 @@
         <div style="float: right;">
             <div>
                 <p>Remarks:</p>
-                <textarea id="ta-remarks" rows="3" cols="50">
-    </textarea>
+                <textarea id="ta-remarks" rows="3" cols="50"></textarea>
             </div>
         </div>
     </div>
@@ -300,10 +299,10 @@
     </thead>
     @foreach (var item in poFullDetailList)
     {
-    <tr>
-        <th>@item.ItemCode</th>
-        <th>@item.Description</th>
-        <th>
+    <tr style="font-size: 10pt;">
+        <th style="font-size: 10pt;">@item.ItemCode</th>
+        <th style="font-size: 10pt;">@item.Description</th>
+        <th style="font-size: 10pt;">
             @if (editMode == true)
             {
                 <input type="number" value="@item.QuantityOrdered" />
@@ -314,7 +313,7 @@
             }
 
         </th>
-        <th>
+        <th style="font-size: 10pt;">
             @if (grEditMode == true && (item.QuantityOrdered - item.QuantityDelivered) != 0)
             {
                 <input type="number" value="@item.QuantityDelivered" />
@@ -325,14 +324,13 @@
             }
         </th>
 
-        <th>@item.UoM</th>
-        <th>@item.UnitCost</th>
-        <th><label id="lbl-total"></label></th>
-        <th>7%</th>
+        <th style="font-size: 10pt;">@item.UoM</th>
+        <th style="font-size: 10pt;">@item.UnitCost</th>
+        <th style="font-size: 10pt;"><label id="lbl-total"></label></th>
+        <th style="font-size: 10pt;">7%</th>
         <th></th>
     </tr>
     }
-    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <div>

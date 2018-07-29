@@ -83,12 +83,12 @@
             <div style="float: right; padding-top:10px;">
                 <span>
                     <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
-                        <i class="fas fa-bell" style="font-size:32px; color:#F9BE4F;"></i>
+                        <i class="fas fa-bell" style="font-size:28px; color:#F9BE4F;"></i>
                     </a>
                     <label>  @Session["NoUnreadRequests"] </label>
                 </span>
                 <span>
-                    @Html.ActionLink("Logout", "Logout", "Main", null, new { @class = "btn btn-danger", style = "font-size: 10pt;" })
+                    @Html.ActionLink("Logout", "Logout", "Main", null, new { @class = "btn btn-lu-red", style = "font-size: 8pt;" })
                 </span>
             </div>
         </div>
