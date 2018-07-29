@@ -8,6 +8,11 @@
 <script>
     $(document).ready(function () {
         $.ajax({
+            headers: {
+                'Authorization': 'Bearer @Session["access-token"].ToString()',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             url: 'http://localhost:49921/api/Restful/GetStockAdjustmentSupervisorApproval',
             type: 'get',
             dataType: 'json',
@@ -16,13 +21,14 @@
                     paging: true,
                     sort: true,
                     searching: true,
+                    "iDisplayLength": 5,
                     //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'RequestId' },
                         { 'data': 'DateRequested' },
                         { 'data': 'Requestor' },
-                        {'data': 'ItemCode'},
+                        { 'data': 'ItemCode'},
                         { 'data': 'Description' },
                         { 'data': 'CategoryName' },
                         { 'data': 'ItemQuantity' },
@@ -33,7 +39,7 @@
                     columnDefs: [{
                         targets: [-1], render: function (data, type, row) {
                             switch (data) {
-                                case 'Pending': return '<button type ="submit" class="btn btn-info" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-danger" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
+                                case 'Pending': return '<button type ="submit" class="btn btn-lu-green" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')" style="font-size: 10pt;">Approve</button><button id ="Reject" class="btn btn-lu-red" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')" style="font-size: 10pt;">Reject</button>'; break;
                                 case 'Approved': return 'Approved'; break;
                                 default: return 'Rejected';
                             }
@@ -44,7 +50,7 @@
                     }]
                 });
             }
-        });
+        });      
     });
 
 
@@ -77,18 +83,19 @@
 </script>
 
 <table id="dataTable-storeManagerInventoryReviewAdj" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>RequestID</th>
             <th>Date</th>
             <th>Requestor</th>
             <th>Item Code</th>
-            <th>Name</th>
+            <th>Item Description</th>
             <th>Category</th>
             <th>Missing Count</th>
             <th>Amount</th>
             <th>Remark</th>
-            <th>Status</th>
+            <th>Adjustment Request Status</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>

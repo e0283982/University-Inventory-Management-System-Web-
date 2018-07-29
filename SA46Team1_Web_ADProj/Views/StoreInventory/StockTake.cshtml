@@ -20,6 +20,7 @@
                     paging: true,
                     sort: true,
                     searching: true,
+                    "iDisplayLength": 5,
                     //scrollY: 200,
                     data: data,
                     columns: [
@@ -65,11 +66,11 @@
 </script>
 
 <div>
-    <h2>Inventory - Stock Take</h2>
+    <h5>Inventory - Stock Take</h5>
 </div>
 
 <table id="dataTable-storeInventoryStockTake" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>#</th>
             <th>Item</th>
@@ -79,16 +80,16 @@
             <th>Units</th>
         </tr>
     </thead>
-    @*<tbody>
-        <tr>
+    <tbody style="font-size: 10pt;">
+        @*<tr>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
-        </tr>
-    </tbody>*@
+        </tr>*@
+    </tbody>
 </table>
 
 <hr />
@@ -97,10 +98,10 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                @Html.ActionLink("Cancel", "Home", "Store", null, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Cancel", "Home", "Store", null, new { @class = "btn btn-lu-red" })
             </span>
             <span>
-                @Html.ActionLink("Update", "Home", "Store", null, new { @class = "btn btn-info", id = "btn-update" })
+                @Html.ActionLink("Update", "Home", "Store", null, new { @class = "btn btn-lu-green", id = "btn-update" })
                 @*<button id="btn-update" class="btn btn-primary">@Html.ActionLink("Update", "Home", "Store")</button>*@
             </span>
         </div>

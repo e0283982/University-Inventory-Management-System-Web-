@@ -27,6 +27,7 @@
                 paging: true,
                 sort: true,
                 searching: false,
+                "iDisplayLength": 5,
                 //scrollY: 200,
                 scrollX: 800,
                 data: data,
@@ -171,12 +172,12 @@
 </script>
 
 <div>
-    <h2>Item Code: @Session["MaintenanceItemCode"]</h2>
+    <h5>Item Code: @Session["MaintenanceItemCode"]</h5>
 </div>
 
 
 <table id="dataTable-store-items-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Description</th>
@@ -188,6 +189,7 @@
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -198,14 +200,14 @@
             <span>
                 @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
                 {
-                    <input class="btn btn-danger" type="submit" value="Back" />
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
                 }
             </span>
         </div>
     </div>
     <div class="col-md-1">
         <span>
-            <button id="btn-edit-item" class="btn btn-info">Edit</button>
+            <button id="btn-edit-item" class="btn btn-lu-green">Save</button>
         </span>
     </div>
 </div>

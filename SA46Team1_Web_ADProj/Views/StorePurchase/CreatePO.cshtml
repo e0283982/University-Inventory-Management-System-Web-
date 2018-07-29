@@ -14,6 +14,7 @@
     $(document).ready(function () {
         table = $('#dataTable-newPO').DataTable({
             //scrollY: '30vh',
+            "iDisplayLength": 5,
             scrollCollapse: true,
             "columnDefs": [{
                 "targets": -1,
@@ -80,24 +81,29 @@
 
 </script>
 
-<div>
-    <h2>Create Purchase Order</h2>
-</div>
-
-<div class="create-PO-dates">
-    <label>Date: @DateTime.Now</label>
-</div>
-
-<div>
-    <p>Remarks: </p>
-    <textarea rows="4" cols="50">
-            </textarea>
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <h5>Create Purchase Order</h5>
+        </div>
+        <div class="create-PO-dates">
+            <label>Date: @DateTime.Now</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div style="float:right;">
+            <div>
+                <p>Remarks: </p>
+                <textarea rows="3" cols="50" />
+            </div>
+        </div>
+    </div>
 </div>
 
 @*--- Table ---*@
 
 <table id="dataTable-newPO" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Item Description</th>
@@ -124,21 +130,22 @@
             </td>
             <td><input id="input-qty" min="0" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
             <td>@item.Item.UoM</td>
-            <td>@item.Item.AvgUnitCost</td>
+            <td>@item.Item.AvgUnitCost.ToString("0.00")</td>
             <td><label id="lbl-totalitemprice"></label></td>
             <td>7%</td>
             <td></td>
         </tr>
     }
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 @*--- End of Table ---*@
 
 @*--- Dynamic boxes ---*@
 <div>
-    <label>Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>
-    <label>GST ($): <input type="text" id="displayPO-gst"></label>
-    <label>Net Total ($): <input type="text" id="displayPO-net-total"></label>
+    <label style="font-size: 10pt;">Gross Total ($): <input type="text" id="displayPO-gross-total" readonly="readonly"></label>
+    <label style="font-size: 10pt;">GST ($): <input type="text" id="displayPO-gst"></label>
+    <label style="font-size: 10pt;">Net Total ($): <input type="text" id="displayPO-net-total"></label>
 </div>
 @*--- End of Dynamic boxes ---*@
 
@@ -148,10 +155,10 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button class="btn btn-primary" id="btn-add-item">Add New Item</button>
+                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
             </span>
             <span>
-                <button class="btn btn-info" id="btn-submit-new-req">Submit for Approval</button>
+                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit for Approval</button>
             </span>
         </div>
     </div>
@@ -171,7 +178,7 @@
             </div>
             <div>
                 <label>New Order Qty: </label>
-                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty" }, })
+                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
             </div>
 
             <br />

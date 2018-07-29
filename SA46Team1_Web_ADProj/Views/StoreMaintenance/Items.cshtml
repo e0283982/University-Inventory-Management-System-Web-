@@ -22,6 +22,7 @@
                 paging: true,
                 sort: true,
                 searching: true,
+                "iDisplayLength": 5,
                 //scrollY: 200,
                 data: data,
                 columns: [
@@ -89,12 +90,12 @@
 </script>
 
 <div>
-    <h2>Maintenance - Item</h2>
+    <h5>Maintenance - Item</h5>
 </div>
 
 
 <table id="dataTable-store-items" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Description</th>
@@ -106,6 +107,7 @@
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -114,7 +116,7 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button id="btn-add-new-item" class="btn btn-info">Add New Item</button>
+                <button id="btn-add-new-item" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Item</button>
             </span>
         </div>
     </div>
@@ -168,7 +170,7 @@
             <label>Supplier 3: </label>
             @Html.DropDownList("SelectSupplier3", ViewBag.SupplierList as SelectList)
         </div>
-        <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
+        <input id="btn-submit-add-item" class="btn btn-lu-green btn-block" type="submit" value="Add" />
 
     </div>
     }

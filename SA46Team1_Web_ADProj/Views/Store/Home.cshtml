@@ -2,10 +2,20 @@
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<button id="test">
+    Test
+</button>
 
+    <script type="text/javascript">
+        // Edit PO Button
+        $('#test').click(function () {
+            //$('#dialog-edit-displayPO').dialog('open');
 
-@*----*@
+            $.ajax({
+                url: '/Store/Test',
+                type: 'POST'
+            });
 
+        });
 
-@*----*@
+    </script>

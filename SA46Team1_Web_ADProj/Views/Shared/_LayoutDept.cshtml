@@ -79,11 +79,11 @@
                     </a>
                     <label>  @Session["NoUnreadRequests"] </label>
                 </span>
-                <span>
-                    @Html.ActionLink("LOGOUT", "Login", "Main", null, new { @class = "btn btn-lu-red", style = "font-size: 8pt;" })
-                </span>
-            </div>
-        </div>
+                    <span>
+                    @Html.ActionLink("Logout", "Logout", "Main", new { @class = "btn btn-danger" })
+                    </span>
+                    </div>
+                    </div>
 
         <br />
         <hr />

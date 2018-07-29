@@ -1,7 +1,5 @@
-﻿body {
-}
-
-.btn-lu-red {
+﻿.btn-lu-red {
+    font-size: 10pt;
     color: #FFFFFF;
     background-color: #FF5F53;
     border-color: #FF7A70;
@@ -48,6 +46,7 @@ fieldset[disabled] .btn-lu-red.active {
 }
 
 .btn-lu-blue {
+    font-size: 10pt;
     color: #FFFFFF;
     background-color: #0091D5;
     border-color: #0DAFFA;
@@ -94,6 +93,7 @@ fieldset[disabled] .btn-lu-red.active {
     }
 
 .btn-lu-green {
+    font-size: 10pt;
     color: #FFFFFF;
     background-color: #6AB187;
     border-color: #68A883;

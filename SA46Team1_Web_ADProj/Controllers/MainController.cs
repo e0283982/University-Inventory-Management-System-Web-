@@ -1,4 +1,8 @@
-﻿using System.Security.Claims;
+﻿
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -12,22 +16,26 @@ namespace SA46Team1_Web_ADProj.Controllers
     public class MainController : Controller
     {
         IEmployeeRepository emplRepo;
+        BearerTokenModel token;
+        
         public MainController()
         {
-            emplRepo = new EmployeeRepositoryImpl(new SSISdbEntities());
+            emplRepo = new EmployeeRepositoryImpl(new SSISdbEntities());           
         }
+
         public ActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
-        public ActionResult Login(UserModel user)
+        public async System.Threading.Tasks.Task<ActionResult> Login(UserModel user)
         {
             if (new AppUserManager(new UserStore<Employee>(new SSISdbEntities())).IsValid(user.Username, user.Password))
             {
                 //Auth success
                 Employee employee = emplRepo.FindEmployeeEmailId(user.Username);
-                var ident = new ClaimsIdentity(
+                var identity = new ClaimsIdentity(
                 new[] {                   
                     new Claim(ClaimTypes.NameIdentifier, employee.EmployeeEmail),
                     new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string"),
@@ -36,37 +44,80 @@ namespace SA46Team1_Web_ADProj.Controllers
                       },
                 DefaultAuthenticationTypes.ApplicationCookie);
                 HttpContext.GetOwinContext().Authentication.SignIn(
-                new AuthenticationProperties { IsPersistent = false }, ident);
+                new AuthenticationProperties { IsPersistent = true }, identity);
+                using (HttpClient client = new HttpClient())
+                {
+                    var tokenRequest = new List<KeyValuePair<string, string>>
+                            {
+                                new KeyValuePair<string, string>("grant_type", "password"),
+                                new KeyValuePair<string, string>("username", user.Username),
+                                new KeyValuePair<string, string>("password", user.Password)
+                            };
+                    HttpContent encodedRequest = new FormUrlEncodedContent(tokenRequest);
+                    HttpResponseMessage response = client.PostAsync("http://localhost:49921/token", encodedRequest).Result;
+                    token = response.Content.ReadAsAsync<BearerTokenModel>().Result;
 
-                switch (employee.Designation)
-                {               
-                    case "Department Head":
-                        return RedirectToAction("Home", "Dept", new { area = "" });
-                    case "Employee":
-                        return RedirectToAction("Home", "Dept", new { area = "" });
-                    case "Employee Representative":
-                        return RedirectToAction("Home", "Dept", new { area = "" });
-                    case "Store Clerk":
-                        return RedirectToAction("Home", "Store", new { area = "" });                     
-                    case "Store Manager":
-                        return RedirectToAction("Home", "Store", new { area = "" });
-                    case "Store Supervisor":
-                        return RedirectToAction("Home", "Store", new { area = "" });     
-                    default:
-                        return View("Login");                        
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Session["access-token"] = token.AccessToken;
+                    }
                 }
+
+                Session["LoginEmployeeID"] = employee.EmployeeID;
+                Session["Role"] = employee.Designation;
+
+                if (employee.Designation == "Department Head"
+                    || employee.Designation == "Employee"
+                    || employee.Designation == "Employee Representative")
+                {
+                    return RedirectToAction("Home", "Dept", new { area = "" });
+                }
+                else if (employee.Designation == "Store Clerk"
+                    || employee.Designation == "Store Supervisor"
+                    || employee.Designation == "Store Manager")
+                {
+                    return RedirectToAction("Home", "Store", new { area = "" });
+                }
+                else
+                {
+                    return View("Login");
+                }
+
+                //switch (employee.Designation)
+                //{
+                //    case "Department Head":
+                //        Session["Role"] = "Department Head";
+                //        return RedirectToAction("Home", "Dept", new { area = "" });
+                //    case "Employee":
+                //        Session["Role"] = "Employee";
+                //        return RedirectToAction("Home", "Dept", new { area = "" });
+                //    case "Employee Representative":
+                //        Session["Role"] = "Employee Representative";
+                //        return RedirectToAction("Home", "Dept", new { area = "" });
+                //    case "Store Clerk":
+                //        Session["Role"] = "Store Clerk";
+                //        return RedirectToAction("Home", "Store", new { area = "" });
+                //    case "Store Manager":
+                //        Session["Role"] = "Store Manager";
+                //        return RedirectToAction("Home", "Store", new { area = "" });
+                //    case "Store Supervisor":
+                //        Session["Role"] = "Store Supervisor";
+                //        return RedirectToAction("Home", "Store", new { area = "" });
+                //    default:
+                //        return View("Login");
+                //}
             }
             else
             {
                 //auth failed
                 return View("Login");
-            }               
+            }
         }
-        [HttpPost]
-        public ActionResult Logout()
-        {         
+
+            public ActionResult Logout()
+        {
             HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return View("Login");
+            return RedirectToAction("Login", "Main", new { area = "" });
         }
     }
 }
