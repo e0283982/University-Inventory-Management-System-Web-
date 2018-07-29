@@ -292,6 +292,7 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
+    <Compile Include="Models\BackOrderModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -313,6 +314,7 @@
     <Compile Include="Models\DepartmentUsageReport.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeptFullDetailsModel.cs" />
     <Compile Include="Models\DisbursementDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -328,6 +330,8 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeDelegationModel.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -392,11 +396,7 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReqHistoryModel.cs" />
-    <Compile Include="Models\EmployeeDelegationModel.cs" />
-    <Compile Include="Models\ErrorViewModel.cs" />
-    <Compile Include="Models\BackOrderModel.cs" />
     <Compile Include="Models\RequisitionDetModel.cs" />
-    <Compile Include="Models\DeptFullDetailsModel.cs" />
     <Compile Include="Models\RequisitionHistory.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -413,11 +413,6 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StaffReqModel.cs" />
-    <Compile Include="Models\EmployeeDelegationModel.cs" />
-    <Compile Include="Models\ErrorViewModel.cs" />
-    <Compile Include="Models\BackOrderModel.cs" />
-    <Compile Include="Models\RequisitionDetModel.cs" />
-    <Compile Include="Models\DeptFullDetailsModel.cs" />
     <Compile Include="Models\DeptCollectionItemModel.cs" />
     <Compile Include="Models\StaffRequisitionDetail.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
@@ -619,8 +614,6 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\HighCharts\annotations.js" />
-    <Content Include="Scripts\HighCharts\highcharts.js" />
     <Content Include="Views\ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -750,7 +743,6 @@
     <Content Include="Views\StoreReports\RptInventory.cshtml" />
     <Content Include="Views\StoreReports\RptReorder.cshtml" />
     <Content Include="Views\StoreReports\RptDepartmentUsage.cshtml" />
-    <Content Include="Views\StoreReports\RptChartCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

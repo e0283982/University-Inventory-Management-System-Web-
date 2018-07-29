@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using CrystalDecisions.CrystalReports.Engine;
 using SA46Team1_Web_ADProj.Models;
 using System.IO;
+using System.Web.Helpers;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
@@ -187,9 +188,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [Route("Report3")]
-        public ActionResult RptChartCategory()
-        {
-            return View();
+        public ActionResult Report3()
+        {          
+           return View();
         }
         //[Route("Report1")]
         //public ActionResult Report1()
