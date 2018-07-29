@@ -898,67 +898,91 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        //[System.Web.Mvc.HttpGet]
-        //[System.Web.Mvc.Route("GetStoreAllPendingApprovals/{id}")]
-        //public List<AdjustmentModel> GetStoreAllPendingApprovals(string id)
-        //{
-        //    using (SSISdbEntities m = new SSISdbEntities())
-        //    {
-        //        //to further filter by user's deptCode
-        //        m.Configuration.ProxyCreationEnabled = false;
-        //        List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders
-        //            .Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus != "Deleted" && x.Status != "Withdrawn")
-        //            .OrderBy(x => x.FormID).ToList();
-        //        List<AdjustmentModel> list2 = new List<AdjustmentModel>();
-        //        list2 = list.ConvertAll(x => new AdjustmentModel { AdjId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
-        //            .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStoreAllNotifications/{id}")]
+        public List<StockAdjustmentFullDetail> GetStoreAllNotifications(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StockAdjustmentFullDetail> safdList = new List<StockAdjustmentFullDetail>();
+                Employee emp = m.Employees.Where(x => x.EmployeeID == id).FirstOrDefault();
+                string empRole = emp.Designation;
+                if(empRole == "Store Clerk")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Approved" || x.Status == "Rejected").ToList();
+                }
+                else
+                if(empRole == "Store Supervisor")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount < 250).ToList();
+                }
+                else
+                if(empRole == "Store Manager")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250).ToList();
+                }
+                return safdList;
+            }
+        }
 
-        //        return list2;
-        //    }
-        //}
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStoreReadNotifications/{id}")]
+        public List<StockAdjustmentFullDetail> GetStoreReadNotifications(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StockAdjustmentFullDetail> safdList = new List<StockAdjustmentFullDetail>();
+                Employee emp = m.Employees.Where(x => x.EmployeeID == id).FirstOrDefault();
+                string empRole = emp.Designation;
+                if (empRole == "Store Clerk")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => (x.Status == "Approved" && x.NotificationStatus == "Read") 
+                    || (x.Status == "Rejected" && x.NotificationStatus == "Read")).ToList();
+                }
+                else
+                if (empRole == "Store Supervisor")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount < 250 && x.NotificationStatus == "Read").ToList();
+                }
+                else
+                if (empRole == "Store Manager")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Read").ToList();
+                }
+                return safdList;
+            }
+        }
 
-        //[System.Web.Mvc.HttpGet]
-        //[System.Web.Mvc.Route("GetStoreReadPendingApprovals/{id}")]
-        //public List<AdjustmentModel> GetStoreReadPendingApprovals(string id)
-        //{
-        //    using (SSISdbEntities m = new SSISdbEntities())
-        //    {
-        //        //to further filter by user's deptCode
-        //        m.Configuration.ProxyCreationEnabled = false;
-        //        List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders
-        //            .Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Read" && x.Status != "Withdrawn")
-        //            .OrderBy(x => x.FormID).ToList();
-        //        List<AdjustmentModel> list2 = new List<AdjustmentModel>();
-        //        list2 = list.ConvertAll(x => new AdjustmentModel { AdjId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
-        //            .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
-
-        //        return list2;
-        //    }
-        //}
-
-        //[System.Web.Mvc.HttpGet]
-        //[System.Web.Mvc.Route("GetStoreUnreadPendingApprovals/{id}")]
-        //public List<AdjustmentModel> GetStoreUnreadPendingApprovals(string id)
-        //{
-        //    using (SSISdbEntities m = new SSISdbEntities())
-        //    {
-        //        //to further filter by user's deptCode
-        //        m.Configuration.ProxyCreationEnabled = false;
-        //        List<StockAdjustmentHeader> list = m.StockAdjustmentHeaders
-        //            .Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Unread" && x.Status != "Withdrawn")
-        //            .OrderBy(x => x.FormID).ToList();
-        //        List<AdjustmentModel> list2 = new List<AdjustmentModel>();
-        //        list2 = list.ConvertAll(x => new AdjustmentModel { AdjId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
-        //            .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
-
-        //        return list2;
-        //    }
-        //}
-
-
-
-
-
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetStoreUnreadNotifications/{id}")]
+        public List<StockAdjustmentFullDetail> GetStoreUnreadNotifications(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StockAdjustmentFullDetail> safdList = new List<StockAdjustmentFullDetail>();
+                Employee emp = m.Employees.Where(x => x.EmployeeID == id).FirstOrDefault();
+                string empRole = emp.Designation;
+                if (empRole == "Store Clerk")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => (x.Status == "Approved" && x.NotificationStatus == "Unread")
+                    || (x.Status == "Rejected" && x.NotificationStatus == "Unread")).ToList();
+                }
+                else
+                if (empRole == "Store Supervisor")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount < 250 && x.NotificationStatus == "Unread").ToList();
+                }
+                else
+                if (empRole == "Store Manager")
+                {
+                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Unread").ToList();
+                }
+                return safdList;
+            }
+        }
 
 
     }
