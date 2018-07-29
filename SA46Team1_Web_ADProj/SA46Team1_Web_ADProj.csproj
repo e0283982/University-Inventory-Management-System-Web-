@@ -731,13 +731,13 @@
     <Content Include="Views\Dept\Notifications.cshtml" />
     <Content Include="Views\DeptNotifications\ReadMsgs.cshtml" />
     <Content Include="Views\DeptNotifications\UnreadMsgs.cshtml" />
-    <Content Include="Views\DeptCollectionPoint\DefaultCollectionPoint.cshtml" />
     <None Include="Views\DeptNotifications\AllMsgs.cshtml" />
     <Content Include="Views\StoreInventory\Overview2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\DefaultCollectionPoint\" />
+    <Folder Include="Views\DeptCollectionPoint\" />
     <Folder Include="Views\StoreReports\" />
   </ItemGroup>
   <ItemGroup>

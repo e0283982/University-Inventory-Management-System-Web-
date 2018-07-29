@@ -1,58 +1,122 @@
 ﻿@{
     Layout = null;
 }
-
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
-
-
 <script>
-    $(document).ready(function () {
-        $.ajax({
-            headers: {
-                'Authorization': 'Bearer @Session["access-token"].ToString()',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            url: 'http://localhost:49921/api/Restful/GetStockAdjustmentSupervisorApproval',
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-                $('#dataTable-storeManagerInventoryReviewAdj').dataTable({
-                    paging: true,
-                    sort: true,
-                    searching: true,
-                    //scrollY: 200,
-                    data: data,
-                    columns: [
-                        { 'data': 'RequestId' },
-                        { 'data': 'DateRequested' },
-                        { 'data': 'Requestor' },
-                        {'data': 'ItemCode'},
-                        { 'data': 'Description' },
-                        { 'data': 'CategoryName' },
-                        { 'data': 'ItemQuantity' },
-                        { 'data': 'Amount' },
-                        { 'data': 'Remarks' },
-                        { 'data': 'Status' },
-                    ],
-                    columnDefs: [{
-                        targets: [-1], render: function (data, type, row) {
-                            switch (data) {
-                                case 'Pending': return '<button type ="submit" class="btn btn-info" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-danger" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
-                                case 'Approved': return 'Approved'; break;
-                                default: return 'Rejected';
+    if(@Session["Role"].ToString().CompareTo("Store Manager") == 0) {
+        $(document).ready(function () {
+            $.ajax({
+                headers: {
+                    'Authorization': 'Bearer @Session["access-token"].ToString()',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: 'http://localhost:49921/api/Restful/GetStockAdjustmentManagerApproval',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#dataTable-storeManagerInventoryReviewAdj').dataTable({
+                        paging: true,
+                        sort: true,
+                        order: [[1, "desc"]],
+                        searching: true,
+                        //scrollY: 200,
+                        data: data,
+                        columns: [
+                            { 'data': 'RequestId' },
+                            {
+                                'data': 'DateRequested',
+                                'render': function (jsonDate) {
+
+                                    var date = new Date(jsonDate.substr(0));
+                                    var month = date.getMonth() + 1;
+                                    return date > 1 ? date.getDate() + "/" + month + "/" + date.getFullYear() : "";
+                                }
+                            },
+                            { 'data': 'Requestor' },
+                            { 'data': 'ItemCode' },
+                            { 'data': 'Description' },
+                            { 'data': 'CategoryName' },
+                            { 'data': 'ItemQuantity' },
+                            { 'data': 'Amount' },
+                            { 'data': 'Remarks' },
+                            { 'data': 'Status' },
+                        ],
+                        columnDefs: [{
+                            targets: [-1], render: function (data, type, row) {
+                                switch (data) {
+                                    case 'Pending': return '<button type ="submit" class="btn btn-info" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-danger" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
+                                    case 'Approved': return 'Approved'; break;
+                                    default: return 'Rejected';
+                                }
                             }
+                        },
+                        {
+                            targets: [3], visible: false,
                         }
+                        ]
+                    });
+                }
+            });
+        });
+    }
+    else {
+            $(document).ready(function () {
+                $.ajax({
+                    headers: {
+                        'Authorization': 'Bearer @Session["access-token"].ToString()',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    {
-                        targets: [3], visible: false,
-                    }]
+                    url: 'http://localhost:49921/api/Restful/GetStockAdjustmentSupervisorApproval',
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#dataTable-storeManagerInventoryReviewAdj').dataTable({
+                            paging: true,
+                            sort: true,
+                            order: [[1, "desc"]],
+                            searching: true,
+                            //scrollY: 200,
+                            data: data,
+                            columns: [
+                                { 'data': 'RequestId' },
+                                {
+                                    'data': 'DateRequested',
+                                    'render': function (jsonDate) {
+
+                                        var date = new Date(jsonDate.substr(0));
+                                        var month = date.getMonth() + 1;
+                                        return date > 1 ? date.getDate() + "/" + month + "/" + date.getFullYear() : "";
+                                    }
+                                },
+                                { 'data': 'Requestor' },
+                                { 'data': 'ItemCode' },
+                                { 'data': 'Description' },
+                                { 'data': 'CategoryName' },
+                                { 'data': 'ItemQuantity' },
+                                { 'data': 'Amount' },
+                                { 'data': 'Remarks' },
+                                { 'data': 'Status' },
+                            ],
+                            columnDefs: [{
+                                targets: [-1], render: function (data, type, row) {
+                                    switch (data) {
+                                        case 'Pending': return '<button type ="submit" class="btn btn-info" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-danger" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
+                                        case 'Approved': return 'Approved'; break;
+                                        default: return 'Rejected';
+                                    }
+                                }
+                            },
+                            {
+                                targets: [3], visible: false,
+                            }
+                            ]
+                        });
+                    }
                 });
-            }
-        });      
-    });
-
-
+            });
+    }
     function approveFunction(requestId, itemCode) {
         $.ajax({
             url: '/StoreManagerInventory/Approve',
@@ -64,9 +128,6 @@
         });
         alert("Approve button clicked" + " " + requestId + " " + itemCode);
     }
-
-
-
     function rejectFunction(requestId, itemCode) {
         $.ajax({
             url: '/StoreManagerInventory/Reject',
@@ -77,10 +138,7 @@
             }
         });
     }
-
-
 </script>
-
 <table id="dataTable-storeManagerInventoryReviewAdj" class="display" style="width:80%;">
     <thead>
         <tr>
