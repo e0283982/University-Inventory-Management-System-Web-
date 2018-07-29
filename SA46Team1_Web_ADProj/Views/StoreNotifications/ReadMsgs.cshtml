@@ -42,14 +42,15 @@
                     ],
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-read tbody').on('click', 'tr', function () {
-                            //var data = table.row(this).data();
+                            var data = table.row(this).data();
 
                             $.ajax({
-                                url: '/DeptApproval/Approval',
+                                url: '/StoreNotifications/MsgClicked',
+                                data: { reqFormId: data["RequestId"], item: data["ItemCode"] },
                                 type: 'POST',
                             });
 
-                            window.location.href = '@Url.Action("StockAdj", "StoreInventory")';
+                            window.location.href = '@Url.Action("Inventory", "Store")';
                         });
                     }
                 });

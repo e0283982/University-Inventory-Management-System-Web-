@@ -24,7 +24,7 @@ namespace SA46Team1_Web_ADProj
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // Scheduler using Quartz.Net (See codes in MyScheduler Class & the relevant Jobs
+            // Scheduler using Quartz.Net (See codes in MyScheduler Class & the relevant Jobs)
             MyScheduler sch = new MyScheduler();
             sch.Start();
         }
@@ -34,7 +34,6 @@ namespace SA46Team1_Web_ADProj
             //Session variables for Application
             Session["Role"] = "Dept";
             Session["UserId"] = "E4";
-            Session["DepartmentCode"] = "COMM";
             Session["access-token"] = "test";
             Session["NoUnreadRequests"] = 0;
 

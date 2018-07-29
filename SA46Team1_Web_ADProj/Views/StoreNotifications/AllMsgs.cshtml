@@ -37,14 +37,7 @@
                                 return '<p> Stock Adjustment RequestId: ' + row["RequestId"] +' is ' + row["Status"] + '.</p>';
                             }
 
-                        },
-                        //{
-                        //    'data': null,
-                        //    'render': function (data, type, row) {
-                        //        return '<input type="checkbox" name="check-read" value="ReadMsg"/>';
-                        //    }
-
-                        //}
+                        }
                     ],
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-all tbody').on('click', 'tr', function () {
@@ -53,11 +46,11 @@
 
                             $.ajax({
                                 url: '/StoreNotifications/MsgClicked',
-                                data: { reqFormId: data["RequestId"] },
+                                data: { reqFormId: data["RequestId"], item: data["ItemCode"] },
                                 type: 'POST',
                             });
 
-                            window.location.href = '@Url.Action("StockAdj", "Store")';
+                            window.location.href = '@Url.Action("Inventory", "Store")';
                         });
                     }
 

@@ -18,9 +18,10 @@
                     searching: true,
                     "iDisplayLength": 5,
                     //scrollY: 200,
-                    "order": [[4, "desc"]],
+                    "order": [[5, "desc"], [1, "desc"]],
                     data: data,
                     columns: [
+                        { 'data': 'RequestId' },
                         {
                             'data': 'DateRequested',
                             'render': function (jsonDate) {
@@ -60,6 +61,7 @@
 <table id="dataTable-storeInventoryAdj" class="display" style="width:80%;">
     <thead style="font-size: 10pt;">
         <tr>
+            <th>Request ID</th>
             <th>Date</th>
             <th>Item Description</th>
             <th>Quantity</th>

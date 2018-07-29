@@ -22,6 +22,33 @@ namespace SA46Team1_Web_ADProj.Controllers
         [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         public ActionResult Home()
         {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StockAdjustmentFullDetail> list = new List<StockAdjustmentFullDetail>();
+                string role = (string)Session["Role"];
+                string empId = (string)Session["LoginEmployeeID"];
+                if(role == "Store Clerk")
+                {
+                    list = m.StockAdjustmentFullDetails.Where(x => (x.Status == "Approved" && x.NotificationStatus == "Unread")
+                    || (x.Status == "Rejected" && x.NotificationStatus == "Unread")).ToList();
+                }
+                else
+                if(role == "Store Supervisor")
+                {
+                    list = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" 
+                    && x.NotificationStatus == "Unread" && x.Amount < 250).ToList();
+                }
+                else
+                {
+                    list = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" 
+                    && x.NotificationStatus == "Unread" && x.Amount >= 250).ToList();
+                }
+
+                int UnreadPendingApprovalsCount = list.Count();
+                Session["NoUnreadRequests"] = UnreadPendingApprovalsCount;
+            }
+
             return View();
         }
         [CustomAuthorize(Roles = "Store Clerk, Store Manager")]

@@ -74,7 +74,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<ReorderList> poDetailsList = (List<ReorderList>)Session["ReorderList"];
                 List<Supplier> supplierList = new List<Supplier>();
                 List<Item> itemAdded = new List<Item>();
-                int arrayCount = 0;
                 using (SSISdbEntities m = new SSISdbEntities())
                 {
                     // Checking for number of suppliers to Iterate & later used for creating no. of PO

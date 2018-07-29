@@ -46,7 +46,7 @@
 
                              $.ajax({
                                  url: '/StoreNotifications/MsgClicked',
-                                 data: { reqFormId: data["RequestId"] },
+                                 data: { reqFormId: data["RequestId"], item: data["ItemCode"] },
                                  type: 'POST',
                              });
 
