@@ -59,107 +59,98 @@ namespace SA46Team1_Web_ADProj.Controllers
         
         public RedirectToRouteResult Test()
         {
-            //using(SSISdbEntities m = new SSISdbEntities())
-            //{
-            //    List<StaffRequisitionHeader> staffReqHeadList = m.StaffRequisitionHeaders
-            //        .Where(x => x.Status == "Open" && x.ApprovalStatus == "Approved").ToList();
-            //    List<StaffRequisitionHeader> staffRetrievalList = new List<StaffRequisitionHeader>();
-            //    List<string> formIdList = new List<string>();
-            //    List<string> itemCodeList = new List<string>();
-            //    List<int> qtyList = new List<int>();
-            //    List<string> TitemCodeList = new List<string>();
-            //    List<int> TqtyList = new List<int>();
-            //    int[] qtys = new int[] { };
-            //    List<Department> deptList = new List<Department>();
-            //    List<StaffRequisitionDetail> staffRequisitionDetailsList = new List<StaffRequisitionDetail>();
-            //    // Only loop those with open & Approved
-            //    foreach (StaffRequisitionHeader srh in staffReqHeadList)
-            //    {
-            //        // Convert Dates
-            //        DateTime date = (DateTime) srh.DateProcessed;
-            //        DateTime convertedDate = date.Date;
-            //        Debug.WriteLine(date.ToString());
-            //        DateTime validDate = DateTime.Now.AddDays(-7);
-            //        Debug.WriteLine(validDate.ToString());
-            //        int dateCompare = DateTime.Compare(validDate, convertedDate);
-            //        Debug.WriteLine(dateCompare);
+            using(SSISdbEntities m = new SSISdbEntities())
+            {
+                // List of StaffReq with Open & Approved
+                List<StaffRequisitionHeader> staffReqHeadList = m.StaffRequisitionHeaders
+                        .Where(x => x.Status == "Open" && x.ApprovalStatus == "Approved").ToList();
+                List<Department> deptList = new List<Department>();
 
-            //        // Only collate those new ones (>7 Days with Open means disbursed but not collected)
-            //        if(dateCompare < 7)
-            //        {
-            //            formIdList.Add(srh.FormID);
-            //        }
+                // Prep List for Date sorting (within the week)
+                List<StaffRequisitionHeader> finalSRH = new List<StaffRequisitionHeader>();
 
-            //        Department department = m.Departments.Where(x => x.DepartmentCode == srh.DepartmentCode).FirstOrDefault();
-            //        if (!deptList.Contains(department))
-            //        {
-            //            deptList.Add(department);
-            //        }
-            //    }
+                // Loop through Open & Approve for Dept count & List of StaffReq within week
+                foreach (StaffRequisitionHeader srh in staffReqHeadList)
+                {
+                    // Convert Dates
+                    DateTime date = (DateTime)srh.DateProcessed;
+                    DateTime convertedDate = date.Date;
+                    DateTime validDate = DateTime.Now.Date.AddDays(-7);
+                    double dateCompare = (convertedDate - validDate).TotalDays;
 
-            //    int arrayCount = 0;
-            //    // Search for All relevant StaffRequisitionDetail
-            //    foreach(string s in formIdList)
-            //    {
-            //        StaffRequisitionDetail srd = m.StaffRequisitionDetails.Where(x => x.FormID == s).FirstOrDefault();
-            //        staffRequisitionDetailsList.Add(srd);
-            //        itemCodeList.Add(srd.ItemCode);
-            //        qtys[arrayCount] = srd.QuantityBackOrdered;
-            //        arrayCount++;
-            //    }
+                    // Only collate those new ones (>7 Days with Open means disbursed but not collected)
+                    if (dateCompare < 7)
+                    {
+                        finalSRH.Add(srh);
+                        // To know how many StoR IDs to create
+                        Department department = m.Departments.Where(x => x.DepartmentCode == srh.DepartmentCode).FirstOrDefault();
+                        if (!deptList.Contains(department))
+                        {
+                            deptList.Add(department);
+                        }
+                    }
+                }
 
-            //    arrayCount = 0;
+                // Creating entries based on No. of Dept
+                List<StaffRequisitionHeader> deptSRH;
+                foreach(Department dept in deptList)
+                {
+                    // Refresh List for every department, therefore creating different entry in database based on department
+                    deptSRH = new List<StaffRequisitionHeader>();
 
-            //    // Collate Item code with values
-            //    foreach(string s in itemCodeList)
-            //    {
-            //        if (!TitemCodeList.Contains(s))
-            //        {
-            //            // If new ItemCode
-            //            TitemCodeList.Add(s);
-            //            qtyList.Add(qtys[arrayCount]);
-            //        }
-            //        else
-            //        {
-            //            // If ItemCode exist, replace value & add more qty into the list
-            //            int i = itemCodeList.IndexOf(s);
-            //            int q = qtys[i] + qtys[arrayCount];
-            //            qtyList.RemoveAt(i);
-            //            qtyList.Insert(i, q);
-            //        }
-            //        arrayCount++;
-            //    }
+                    // New StaffReq list based on Department
+                    foreach(StaffRequisitionHeader deptSRHList in finalSRH)
+                    {
+                        StaffRequisitionHeader dSRH = m.StaffRequisitionHeaders
+                            .Where(x => x.DepartmentCode == dept.DepartmentCode && deptSRHList.FormID == x.FormID).FirstOrDefault();
+                        if(dSRH != null)
+                        {
+                            deptSRH.Add(dSRH);
+                        }
+                    }
 
-            //    arrayCount = 0;
+                    // Create StockRetrievalHeader
+                    StockRetrievalHeader newsrh = new StockRetrievalHeader();
+                    int newSRH = m.StockRetrievalHeaders.Count() + 1;
+                    string srhId = "StoR-" + newSRH.ToString();
+                    newsrh.ID = srhId;
+                    newsrh.Date = DateTime.Now;
+                    newsrh.Disbursed = 0;
+                    m.StockRetrievalHeaders.Add(newsrh);
+                    m.SaveChanges();
 
-            //    foreach(Department d in deptList)
-            //    {
-            //        // Create StockRetrievalHeader
-            //        StockRetrievalHeader newsrh = new StockRetrievalHeader();
-            //        int newSRH = m.StockRetrievalHeaders.Count() + 1;
-            //        string srhId = "StoR-" + newSRH.ToString();
-            //        newsrh.ID = srhId;
-            //        newsrh.Date = DateTime.Now;
-            //        newsrh.Disbursed = 0;
-            //        m.SaveChanges();
+                    // Adding database entries based on Department requisition
+                    foreach (StaffRequisitionHeader deptSRHFinalList in deptSRH)
+                    {
+                        // For each new StoR id, create entries based on item
+                        List<StaffRequisitionDetail> staffRd = m.StaffRequisitionDetails.Where(x => x.FormID == deptSRHFinalList.FormID).ToList();
+                        foreach(StaffRequisitionDetail sRd in staffRd)
+                        {
+                            StockRetrievalDetail newsrd = new StockRetrievalDetail();
+                            Bin bin = m.Bins.Where(x => x.ItemCode == sRd.ItemCode).FirstOrDefault();
+                            DepartmentDetail dd = m.DepartmentDetails.Where(x => x.DepartmentCode == dept.DepartmentCode).FirstOrDefault();
+                            newsrd.Id = srhId;
+                            newsrd.Bin = bin.Number;
+                            newsrd.ItemCode = sRd.ItemCode;
+                            newsrd.QuantityRetrieved = 0;
+                            newsrd.CollectionPointID = dd.CollectionPointID;
+                            newsrd.DepartmentCode = dept.DepartmentCode;
+                            newsrd.QuantityAdjusted = 0;
+                            newsrd.Remarks = "";
+                            m.StockRetrievalDetails.Add(newsrd);
+                            m.SaveChanges();
+                        }
 
-            //        foreach(StaffRequisitionDetail s in staffRequisitionDetailsList)
-            //        {
-            //            StockRetrievalDetail srd = new StockRetrievalDetail();
-            //            srd.Id = srhId;
-            //            StaffRequisitionHeader sh = m.StaffRequisitionHeaders
-            //                .Where(x => x.DepartmentCode == d.DepartmentCode && x.FormID == s.FormID).FirstOrDefault();
-            //            if(sh.DepartmentCode == d.DepartmentCode)
-            //            {
-            //                srd.ItemCode = s.ItemCode;
-            //                srd.QuantityRetrieved = 0;
+                        // New StockRetrievalReqForm based on Dept
+                        StockRetrievalReqForm srrf = new StockRetrievalReqForm();
+                        srrf.ReqFormID = deptSRHFinalList.FormID;
+                        srrf.StockRetrievalID = srhId;
+                        m.StockRetrievalReqForms.Add(srrf);
+                        m.SaveChanges();
+                    }
+                }
 
-            //            }
-
-            //        }
-
-            //    }
-            //}
+            }
             return RedirectToAction("Home", "Store");
         }
 
