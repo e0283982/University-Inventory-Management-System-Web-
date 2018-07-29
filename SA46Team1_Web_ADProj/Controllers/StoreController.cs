@@ -57,5 +57,11 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
+        public ActionResult Notifications()
+        {
+            return View();
+        }
+
     }
 }

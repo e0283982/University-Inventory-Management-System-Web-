@@ -62,9 +62,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                         Session["access-token"] = token.AccessToken;
                     }
                 }
-
+// ------------------------------------------- SANDY SEE HERE ---------------------------------------------------------------------
                 Session["LoginEmployeeID"] = employee.EmployeeID;
                 Session["Role"] = employee.Designation;
+                Session["DepartmentCode"] = employee.DepartmentCode;
 
                 if (employee.Designation == "Department Head"
                     || employee.Designation == "Employee"
