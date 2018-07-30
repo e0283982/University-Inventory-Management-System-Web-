@@ -21,7 +21,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 m.Configuration.ProxyCreationEnabled = false;
 
-                List<Employee> list = m.Employees.Where(x => x.DepartmentCode == id && x.Active==1).OrderBy(x => x.EmployeeName).ToList<Employee>();
+                List<Employee> list = m.Employees.Where(x => x.DepartmentCode == id && x.Active==1).OrderBy(x => x.EmployeeName).ToList();
                 List<EmployeeDelegationModel> list2 = new List<EmployeeDelegationModel>();
                 list2 = list.ConvertAll(x => new EmployeeDelegationModel
                 {
@@ -48,7 +48,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus == "Pending" && x.DepartmentCode==id).OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus == "Pending" && x.DepartmentCode==id).OrderBy(x => x.FormID).ToList();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
                 list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
@@ -63,7 +63,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionDetail> list = m.StaffRequisitionDetails.Where(x => x.FormID == id).ToList<StaffRequisitionDetail>();
+                List<StaffRequisitionDetail> list = m.StaffRequisitionDetails.Where(x => x.FormID == id).ToList();
                 List<RequisitionDetModel> list2 = new List<RequisitionDetModel>();
                 list2 = list.ConvertAll(x => new RequisitionDetModel
                 {
@@ -85,9 +85,13 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode==id && x.ApprovalStatus != "Approved" && x.NotificationStatus != "Deleted" && x.Status!="Withdrawn").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders
+                    .Where(x => x.DepartmentCode==id && x.ApprovalStatus != "Approved" && x.NotificationStatus != "Deleted" 
+                    && x.Status!="Withdrawn").OrderBy(x => x.FormID).ToList();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
-                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+                list2 = list.ConvertAll(x => new RequisitionModel
+                { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
+                .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
                 return list2;
             }
@@ -101,9 +105,13 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //to further filter by user's deptCode
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Read" && x.Status != "Withdrawn").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
+                List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders
+                    .Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Read" 
+                    && x.Status != "Withdrawn").OrderBy(x => x.FormID).ToList();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
-                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+                list2 = list.ConvertAll(x => new RequisitionModel
+                { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
+                .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
                 return list2;
             }
@@ -119,7 +127,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
                 List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Unread" && x.Status != "Withdrawn").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
                 List<RequisitionModel> list2 = new List<RequisitionModel>();
-                list2 = list.ConvertAll(x => new RequisitionModel { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID).Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
+                list2 = list.ConvertAll(x => new RequisitionModel
+                { ReqFormId = x.FormID, ReqEmpName = m.Employees
+                .Where(z => z.EmployeeID == x.EmployeeID)
+                .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
 
                 return list2;
             }
@@ -133,14 +144,14 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
 
                 //get list of active SRFs headers belonging to dept
-                List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList<String>();
-                List<StaffRequisitionDetail> list = m.StaffRequisitionDetails.Where(i => deptReqIds.Contains(i.FormID) && i.QuantityBackOrdered > 0).ToList<StaffRequisitionDetail>();
+                List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList();
+                List<StaffRequisitionDetail> list = m.StaffRequisitionDetails
+                    .Where(i => deptReqIds.Contains(i.FormID) && i.QuantityBackOrdered > 0).ToList();
 
                 List<BackOrderModel> list2 = new List<BackOrderModel>();
                 list2 = list.ConvertAll(x => new BackOrderModel
                 {
-                    ItemDesc = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(y => y.Description).First()
-                    ,
+                    ItemDesc = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(y => y.Description).First(),
                     UOM = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(a => a.UoM).First(),
                     OutstandingQty = x.QuantityBackOrdered,
                     ReqId = x.FormID,
@@ -157,7 +168,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                return m.InventoryOverviews.Select(x => x.ItemCode).ToList<String>();
+                return m.InventoryOverviews.Select(x => x.ItemCode).ToList();
             }
         }
 
@@ -168,7 +179,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.InventoryOverviews.ToList<InventoryOverview>();
+                return m.InventoryOverviews.ToList();
             }
         }
 
@@ -179,7 +190,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.GoodsReceivedLists.Where(x => x.ReceiptNo == id).ToList<GoodsReceivedList>();
+                return m.GoodsReceivedLists.Where(x => x.ReceiptNo == id).ToList();
             }
         }
 
@@ -198,16 +209,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         [System.Web.Mvc.Route("GetStockAdjustmentList")]
         public List<StockAdjustmentOverview> GetStockAdjustmentList()
         {
-            //Temporary placeholder to make the requestID = 1
-            string requestorId = "E1";
-
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
 
-                //return m.StockAdjustmentOverviews.ToList<StockAdjustmentOverview>();
-
-                return m.StockAdjustmentOverviews.Where(x => x.Requestor == requestorId).ToList<StockAdjustmentOverview>();
+                return m.StockAdjustmentOverviews.ToList();
             }
 
         }
@@ -219,7 +225,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.RequisitionLists.ToList<RequisitionList>();
+                return m.RequisitionLists.ToList();
             }
         }
 
@@ -242,7 +248,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.RequisitionListDetails.Where(x => x.FormID == id).ToList<RequisitionListDetail>();
+                return m.RequisitionListDetails.Where(x => x.FormID == id).ToList();
             }
         }
 
@@ -253,7 +259,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.DisbursementLists.ToList<DisbursementList>();
+                return m.DisbursementLists.ToList();
             }
         }
 
@@ -264,7 +270,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.DisbursementListDetails.Where(x => x.Id == id).ToList<DisbursementListDetail>();
+                return m.DisbursementListDetails.Where(x => x.Id == id).ToList();
             }
         }
 
@@ -275,7 +281,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.StockRetrievalLists.Where(x => x.Id == id).ToList<StockRetrievalList>();
+                return m.StockRetrievalLists.Where(x => x.Id == id).ToList();
             }
         }
 
@@ -297,7 +303,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.POLists.Where(x => x.PONumber == id).ToList<POList>();
+                return m.POLists.Where(x => x.PONumber == id).ToList();
             }
         }
 
@@ -406,7 +412,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<Category> item = m.Categories.Where(x => x.CategoryID == id).ToList<Category>();
+                List<Category> item = m.Categories.Where(x => x.CategoryID == id).ToList();
                 return item;
             }
         }
@@ -429,7 +435,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<Bin> item = m.Bins.Where(x => x.Number.ToString() == id).ToList<Bin>();
+                List<Bin> item = m.Bins.Where(x => x.Number.ToString() == id).ToList();
                 return item;
             }
         }
@@ -441,7 +447,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<CollectionPoint> list = m.CollectionPoints.OrderBy(x=>x.CollectionPointID).ToList<CollectionPoint>();
+                List<CollectionPoint> list = m.CollectionPoints.OrderBy(x=>x.CollectionPointID).ToList();
 
                 return list;
             }
@@ -454,7 +460,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<CollectionPoint> list = m.CollectionPoints.Where(x => x.CollectionPointID == id).ToList<CollectionPoint>();
+                List<CollectionPoint> list = m.CollectionPoints.Where(x => x.CollectionPointID == id).ToList();
                 return list;
             }
         }
@@ -466,7 +472,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<Supplier> list = m.Suppliers.ToList<Supplier>();
+                List<Supplier> list = m.Suppliers.ToList();
 
                 return list;
             }
@@ -479,7 +485,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<Supplier> list = m.Suppliers.Where(x => x.SupplierCode == id).ToList<Supplier>();
+                List<Supplier> list = m.Suppliers.Where(x => x.SupplierCode == id).ToList();
                 return list;
             }
         }
@@ -491,7 +497,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<DepartmentDetail> list = m.DepartmentDetails.ToList<DepartmentDetail>();
+                List<DepartmentDetail> list = m.DepartmentDetails.ToList();
                 List<DeptFullDetailsModel> list2 = new List<DeptFullDetailsModel>();
                 list2 = list.ConvertAll(x => new DeptFullDetailsModel
                 {
@@ -502,7 +508,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                     TelephoneNo = x.TelephoneNo,
                     FaxNo = x.FaxNo,
                     ApproverName = m.Employees.Where(y => y.EmployeeID == x.ApproverID).Select(y => y.EmployeeName).FirstOrDefault(),
-                    CollectionPointName = m.CollectionPoints.Where(y => y.CollectionPointID == x.CollectionPointID).Select(y => y.CollectionPointDescription).FirstOrDefault(),
+                    CollectionPointName = m.CollectionPoints.Where(y => y.CollectionPointID == x.CollectionPointID)
+                    .Select(y => y.CollectionPointDescription).FirstOrDefault(),
                     RepresentativeName = m.Employees.Where(y => y.EmployeeID == x.RepresentativeID).Select(y => y.EmployeeName).FirstOrDefault(),
                     Active = x.Active
                 });
@@ -518,7 +525,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<DepartmentDetail> list = m.DepartmentDetails.Where(x => x.DepartmentCode == id).ToList<DepartmentDetail>();
+                List<DepartmentDetail> list = m.DepartmentDetails.Where(x => x.DepartmentCode == id).ToList();
                 List<DeptFullDetailsModel> list2 = new List<DeptFullDetailsModel>();
                 list2 = list.ConvertAll(x => new DeptFullDetailsModel
                 {
@@ -529,7 +536,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                     TelephoneNo = x.TelephoneNo,
                     FaxNo = x.FaxNo,
                     ApproverName = m.Employees.Where(y => y.EmployeeID == x.ApproverID).Select(y => y.EmployeeName).FirstOrDefault(),
-                    CollectionPointName = m.CollectionPoints.Where(y => y.CollectionPointID == x.CollectionPointID).Select(y => y.CollectionPointDescription).FirstOrDefault(),
+                    CollectionPointName = m.CollectionPoints.Where(y => y.CollectionPointID == x.CollectionPointID)
+                    .Select(y => y.CollectionPointDescription).FirstOrDefault(),
                     RepresentativeName = m.Employees.Where(y => y.EmployeeID == x.RepresentativeID).Select(y => y.EmployeeName).FirstOrDefault(),
                     Active = x.Active
                 });
@@ -558,7 +566,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.RequisitionHistoryDetails.Where(x => x.FormID == id).ToList<RequisitionHistoryDetail>();
+                return m.RequisitionHistoryDetails.Where(x => x.FormID == id).ToList();
             }
         }
 
@@ -623,8 +631,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
 
                 int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
-            
-                stockAdjustmentHeader.RequestId = "SA-" + stockAdjustmentHeaderCount;
+
+                stockAdjustmentHeader.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderCount, "SA");
 
                 //DateTime
                 DateTime localDate = DateTime.Now;
@@ -653,7 +661,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 if (!stockAdjustmentModel.StockRetrievalId.Equals("NoStockRetrieval"))
                 {
                     StockRetrievalDetail stockRetrievalDetail = new StockRetrievalDetail();
-                    stockRetrievalDetail = m.StockRetrievalDetails.Where(x => x.Id == stockAdjustmentModel.StockRetrievalId && x.ItemCode == itemCode).FirstOrDefault();
+                    stockRetrievalDetail = m.StockRetrievalDetails
+                        .Where(x => x.Id == stockAdjustmentModel.StockRetrievalId && x.ItemCode == itemCode).FirstOrDefault();
                     stockRetrievalDetail.QuantityRetrieved = stockRetrievalDetail.QuantityRetrieved - stockAdjustmentModel.AdjustedQuantity;
                     stockRetrievalDetail.QuantityAdjusted = stockRetrievalDetail.QuantityAdjusted + stockAdjustmentModel.AdjustedQuantity;
                     stockRetrievalDetail.Remarks = stockAdjustmentModel.Remarks;
@@ -700,7 +709,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
 
                 //Update Disbursement Header to completed
-                DisbursementHeader disbursementHeader = m.DisbursementHeaders.Where(x => x.Id == disbursementDetailModel.DisbursementId).FirstOrDefault();
+                DisbursementHeader disbursementHeader = m.DisbursementHeaders
+                    .Where(x => x.Id == disbursementDetailModel.DisbursementId).FirstOrDefault();
                 disbursementHeader.Status = "Completed";
 
                 //Update Disbursement Detail               
@@ -717,7 +727,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     //Adding new StockAdjustmentHeader            
                     StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
                     int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
-                    stockAdjustmentHeader.RequestId = "SA-" + stockAdjustmentHeaderCount;
+                    stockAdjustmentHeader.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderCount, "SA");
 
                     //DateTime
                     DateTime localDate = DateTime.Now;
@@ -733,7 +743,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                     stockAdjustmentDetail.ItemCode = itemCode;
                     stockAdjustmentDetail.ItemQuantity = disbursementDetail.QuantityAdjusted;
 
-                    float itemUnitCost = m.Items.Where(x => x.ItemCode == stockAdjustmentDetail.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                    float itemUnitCost = m.Items.Where(x => x.ItemCode == stockAdjustmentDetail.ItemCode)
+                        .Select(x => x.AvgUnitCost).FirstOrDefault();
                     stockAdjustmentDetail.Amount = itemUnitCost * stockAdjustmentDetail.ItemQuantity;
                     stockAdjustmentDetail.Remarks = "Damaged";
                     stockAdjustmentDetail.Status = "Pending";
@@ -779,7 +790,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.StaffRequisitionHeaders.OrderByDescending(x => x.ApprovalStatus).ToList<StaffRequisitionHeader>();
+                return m.StaffRequisitionHeaders.OrderByDescending(x => x.ApprovalStatus).ToList();
             }
         }
 
@@ -799,7 +810,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     StaffRequisitionHeader srh = new StaffRequisitionHeader();
 
                     int staffRequisitionHeaderCount = m.StaffRequisitionHeaders.Count() + 1;
-                    srh.FormID = "SR-" + staffRequisitionHeaderCount;
+                    srh.FormID = CommonLogic.SerialNo(staffRequisitionHeaderCount, "SR");
 
                     srh.EmployeeID = newRequisitionModel.EmployeeId;
 
@@ -827,7 +838,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 int latestStaffRequisitionHeaderCount = m.StaffRequisitionHeaders.Count();
 
-                srd.FormID = "SR-" + latestStaffRequisitionHeaderCount;
+                srd.FormID = CommonLogic.SerialNo(latestStaffRequisitionHeaderCount, "SR");
                 srd.QuantityOrdered = newRequisitionModel.OrderedQuantity;
                 srd.QuantityDelivered = 0;
                 srd.QuantityBackOrdered = 0;
@@ -944,12 +955,14 @@ namespace SA46Team1_Web_ADProj.Controllers
                 else
                 if (empRole == "Store Supervisor")
                 {
-                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount < 250 && x.NotificationStatus == "Read").ToList();
+                    safdList = m.StockAdjustmentFullDetails
+                        .Where(x => x.Status == "Pending" && x.Amount < 250 && x.NotificationStatus == "Read").ToList();
                 }
                 else
                 if (empRole == "Store Manager")
                 {
-                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Read").ToList();
+                    safdList = m.StockAdjustmentFullDetails
+                        .Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Read").ToList();
                 }
                 return safdList;
             }
@@ -973,12 +986,14 @@ namespace SA46Team1_Web_ADProj.Controllers
                 else
                 if (empRole == "Store Supervisor")
                 {
-                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount < 250 && x.NotificationStatus == "Unread").ToList();
+                    safdList = m.StockAdjustmentFullDetails
+                        .Where(x => x.Status == "Pending" && x.Amount < 250 && x.NotificationStatus == "Unread").ToList();
                 }
                 else
                 if (empRole == "Store Manager")
                 {
-                    safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Unread").ToList();
+                    safdList = m.StockAdjustmentFullDetails
+                        .Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Unread").ToList();
                 }
                 return safdList;
             }

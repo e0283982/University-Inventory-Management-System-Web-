@@ -13,8 +13,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult NewReq()
         {
             using (SSISdbEntities e = new SSISdbEntities()) {
-                string SRcount = (e.StaffRequisitionHeaders.Count()+1).ToString();
-                Session["currentFormId"]= "SR-" + SRcount;
+                int SRcount = e.StaffRequisitionHeaders.Count() + 1;
+                Session["currentFormId"] = CommonLogic.SerialNo(SRcount, "SR");
 
                 Tuple<Item, StaffRequisitionDetail> tuple = new Tuple<Item, StaffRequisitionDetail>(new Item(), new StaffRequisitionDetail());
                 List<String> tempList = (List<String>)Session["tempList"];
@@ -71,8 +71,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     //update SRD
                     StaffRequisitionDetail srd = new StaffRequisitionDetail();
-                    srd=
-                        dal.GetStaffRequisitionDetailById(formId, itemCodes[index]);
+                    srd = dal.GetStaffRequisitionDetailById(formId, itemCodes[index]);
                     srd.CancelledBackOrdered = srd.QuantityBackOrdered;
                     srd.QuantityBackOrdered = 0;
                     dal.UpdateStaffRequisitionDetail(srd);
@@ -164,7 +163,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 StaffRequisitionHeader srh = new StaffRequisitionHeader();
                 srh.FormID = Session["currentFormId"].ToString();
                 srh.DepartmentCode = Session["DepartmentCode"].ToString();
-                srh.EmployeeID = Session["UserId"].ToString();
+                srh.EmployeeID = Session["LoginEmployeeID"].ToString();
                 srh.DateRequested = System.DateTime.Now;
                 srh.Status = "Open"; 
                 srh.ApprovalStatus = "Pending"; 
