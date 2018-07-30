@@ -44,26 +44,30 @@
                             }
 
                         },
-                        //{
-                        //    'data': null,
-                        //    'render': function (data, type, row) {
-                        //        return '<input type="checkbox" name="check-read" value="ReadMsg"/>';
-                        //    }
-
-                        //}
+                        { 'data': 'NotificationStatus'}
                     ],
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-all tbody').on('click', 'tr', function () {
                             var data = table.row(this).data();
                              //alert(data["ReqFormId"]);
 
-                            $.ajax({
-                                url: '/DeptNotifications/MsgClicked',
-                                data: { reqFormId: data["ReqFormId"] },
-                                type: 'POST',
-                            });
+                             if (data["ApprovalStatus"] == "Pending") {
+                                 $.ajax({
+                                     url: '/DeptApproval/Approval',
+                                     type: 'POST',
+                                 });
 
-                            window.location.href = '@Url.Action("Approval", "Dept")';
+                                 window.location.href = '@Url.Action("Approval", "Dept")';
+                             }
+                             else {
+                                 $.ajax({
+                                     url: '/DeptNotifications/MsgClicked',
+                                     data: { reqFormId: data["FormID"] },
+                                     type: 'POST',
+                                 });
+                             }
+
+                                window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
                         });
                     }
 
@@ -81,6 +85,7 @@
         <tr>
             <th>Date Requested</th>
             <th>Message</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody style="font-size: 10pt;"></tbody>
