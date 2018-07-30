@@ -247,6 +247,25 @@
        window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
 
     });
+
+    $('#dataTable-pastReq-details tbody').on('change', '#edit-qty-order', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 2).nodes().to$().find('input').val();
+        if (qty <= 0) {
+            alert("Order quantity cannot be <1.");
+            table.cell(index, 2).nodes().to$().find('input').val(1);
+            return;
+        } else if (qty % 1 != 0) {
+            alert("Order quantity must be whole number.");
+            table.cell(index, 2).nodes().to$().find('input').val(1);
+            return;
+        }
+
+        table.draw(false);
+
+    });
 </script>
 
 <div class="row">
