@@ -223,6 +223,11 @@
         $('#btn-cancel-displayPO').show();
 
         var inputs = document.getElementsByTagName("INPUT");
+
+        for (var i = 0; i < table.rows().data().length; i++) {
+            table.cell(i, 3).nodes().to$().find('input').prop('disabled', false);
+        }
+
         //for (var i = 0; i < inputs.length; i++) {
         //    if (inputs[i].id === 'input-qty-delivered') {
         //        inputs[i].disabled = false;
