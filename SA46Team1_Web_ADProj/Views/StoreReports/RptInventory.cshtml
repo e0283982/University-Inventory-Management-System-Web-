@@ -25,12 +25,20 @@
             <label style="font-size: 10pt;">Item Description: </label>
             @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectItemDesc" })
         </div>
-
+    </div>
+    <div class="col-md-6">
         <div>
             <label style="font-size: 10pt;">Category: </label>
             @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectCategory" })
         </div>
-        <div>
+    </div>   
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <div style="float:right;">
             <span>
                 <input class="btn btn-lu-green" id="btn-submit-filter" type="submit" style="font-size: 10pt;" />
             </span>
@@ -39,19 +47,19 @@
                 @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf", style = "font-size: 10pt;" })
             </span>
             @*<div>
-            <input class="btn btn-lu-green" type="submit" style="font-size: 10pt;" />
-        </div>*@
+                <input class="btn btn-lu-green" type="submit" style="font-size: 10pt;" />
+            </div>*@
             @*</div>
-        </div>
-        <div class="col-md-6">
-            <div style="float: right; padding-top: 62px;">
-                <span>
-                   @* @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-lu-blue", style = "font-size: 10pt;" })*@
+            </div>
+            <div class="col-md-6">
+                <div style="float: right; padding-top: 62px;">
+                    <span>
+                       @* @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-lu-blue", style = "font-size: 10pt;" })*@
             @*</span>*@
         </div>
     </div>
 </div>
-
+        
 <hr />
 
 <table id="dataTable-storeInventoryVal" class="table">
