@@ -12,14 +12,16 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class InventoryValuationReport
+    public partial class AllStaffRequisition
     {
-        public string ItemCode { get; set; }
         public string Description { get; set; }
-        public int Quantity { get; set; }
         public string UoM { get; set; }
-        public string CategoryName { get; set; }
-        public float AvgUnitCost { get; set; }
-        public Nullable<float> TotalCost { get; set; }
+        public int QuantityBackOrdered { get; set; }
+        public string DepartmentCode { get; set; }
+        public string EmployeeName { get; set; }
+        public string FormID { get; set; }
+        public string EmployeeID { get; set; }
+        public string ApprovalStatus { get; set; }
+        public string Status { get; set; }
     }
 }

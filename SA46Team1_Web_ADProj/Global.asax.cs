@@ -24,7 +24,7 @@ namespace SA46Team1_Web_ADProj
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // Scheduler using Quartz.Net (See codes in MyScheduler Class & the relevant Jobs
+            // Scheduler using Quartz.Net (See codes in MyScheduler Class & the relevant Jobs)
             MyScheduler sch = new MyScheduler();
             sch.Start();
         }
@@ -32,9 +32,8 @@ namespace SA46Team1_Web_ADProj
         protected void Session_Start()
         {
             //Session variables for Application
-            Session["Role"] = "Dept";
-            Session["UserId"] = "E4";
-            Session["DepartmentCode"] = "COMM";
+            //Session["Role"] = "Dept";
+            //Session["UserId"] = "E4";
             Session["access-token"] = "test";
             Session["NoUnreadRequests"] = 0;
 
@@ -54,6 +53,10 @@ namespace SA46Team1_Web_ADProj
             Session["ReviewNewRequisitionId"] = "";
             Session["DeptReqTabIndex"] = "0";
             Session["currentFormId"] = "";
+
+            //session var for dept  - requisition
+            Session["DeptReqTabIndex"] = "1";
+
             //Session variables for Dept - Requisition History
             Session["ReqHistoryPage"] = "1";
             Session["CurrentReqHistory"] = new Models.ReqHistoryModel();
@@ -63,6 +66,8 @@ namespace SA46Team1_Web_ADProj
             Session["ReqApprovalPage"] = "1";
 
             //Session variables for inner pages of STORE tabs
+            Session["StoreInventoryTabIndex"] = "1";
+            Session["StorePurchaseTabIndex"] = "1";
 
             //Session variables for Store - Inventory
             Session["StockAdjPage"] = "1";

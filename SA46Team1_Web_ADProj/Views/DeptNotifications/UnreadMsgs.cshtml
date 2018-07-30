@@ -9,7 +9,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetUnreadPendingApprovals/'+ '@Session["DepartmentCode"]',
+            url: 'http://localhost:49921/api/Restful/GetUnreadPendingApprovals/'+ '@Session["LoginEmployeeID"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -23,19 +23,24 @@
                     responsive: true,
                     columns: [
                         {
-                            'data': 'DateReq',
+                            'data': 'DateRequested',
                             'render': function (jsonDate) {
 
                                 var date = new Date(jsonDate.substr(0));
                                 var month = date.getMonth() + 1;
                                 return date > 1 ? date.getDate() + "/" + month + "/" + date.getFullYear() : "";
                             }
-                        
+
                         },
                         {
-                            'data': 'ReqFormId',
+                            'data': 'FormID',
                             'render': function (data, type, row) {
-                                return '<p> There is a new requisition request ' + row["ReqFormId"] +' pending for approval.</p>';
+                                if (row["ApprovalStatus"] == "Pending") {
+                                    return '<p> There is a new requisition request ' + row["FormID"] + ' is pending for approval.</p>';
+                                }
+                                else {
+                                    return '<p> The requisition request ' + row["FormID"] + ' has been ' + row["ApprovalStatus"] + '.</p>';
+                                }
                             }
                         }
                     ],

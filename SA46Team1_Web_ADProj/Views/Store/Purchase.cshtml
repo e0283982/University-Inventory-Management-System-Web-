@@ -4,14 +4,31 @@
 
 <script>
 
-  var pageIndex = @Session["GRListPage"].ToString();
-    var backFlag = @Session["BackToGRList"].ToString().ToLower();
+    @*var pageIndex = @Session["GRListPage"].ToString();
+    var backFlag = @Session["BackToGRList"].ToString().ToLower();*@
+
     $(function () {
-        if (pageIndex == "2" || backFlag == true) {
-            $("#tabs-min").tabs({ active: 2 });
-        } else {
-            $("#tabs-min").tabs();
+         var pageIndex =@Session["StorePurchaseTabIndex"].ToString();
+
+        switch (pageIndex) {
+            case 1:
+                $("#tabs-min").tabs();
+                break;
+            case 2:
+                $("#tabs-min").tabs({ active: 1 });
+                break;
+            case 3:
+                $("#tabs-min").tabs({ active: 2 });
+                break;
+            default:
+                $("#tabs-min").tabs();
+                break;
         }
+        //if (pageIndex == "2" || backFlag == true) {
+        //    $("#tabs-min").tabs({ active: 2 });
+        //} else {
+        //    $("#tabs-min").tabs();
+        //}
     });
 </script>
 

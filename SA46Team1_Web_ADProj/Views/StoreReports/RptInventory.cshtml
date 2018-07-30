@@ -7,10 +7,12 @@
 }
 <div>
     <h5>Inventory Valuation Report</h5>
+    <label id="lbl-cost-info"></label>
+
     <span>
         <label>Filter by:</label>
         <select id="chosenToggle">
-            <option value="default">Select Option</option>
+            <option value="all">All</option>
             <option value="item">Item</option>
             <option value="category">Category</option>
         </select>
@@ -23,12 +25,20 @@
             <label style="font-size: 10pt;">Item Description: </label>
             @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectItemDesc" })
         </div>
-
+    </div>
+    <div class="col-md-6">
         <div>
             <label style="font-size: 10pt;">Category: </label>
             @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectCategory" })
         </div>
-        <div>
+    </div>   
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <div style="float:right;">
             <span>
                 <input class="btn btn-lu-green" id="btn-submit-filter" type="submit" style="font-size: 10pt;" />
             </span>
@@ -37,19 +47,19 @@
                 @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf", style = "font-size: 10pt;" })
             </span>
             @*<div>
-            <input class="btn btn-lu-green" type="submit" style="font-size: 10pt;" />
-        </div>*@
+                <input class="btn btn-lu-green" type="submit" style="font-size: 10pt;" />
+            </div>*@
             @*</div>
-        </div>
-        <div class="col-md-6">
-            <div style="float: right; padding-top: 62px;">
-                <span>
-                   @* @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-lu-blue", style = "font-size: 10pt;" })*@
+            </div>
+            <div class="col-md-6">
+                <div style="float: right; padding-top: 62px;">
+                    <span>
+                       @* @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-lu-blue", style = "font-size: 10pt;" })*@
             @*</span>*@
         </div>
     </div>
 </div>
-
+        
 <hr />
 
 <table id="dataTable-storeInventoryVal" class="table">
@@ -114,6 +124,17 @@
                     drawCallback: function (settings) {
 
                         $('#btn-submit-filter').on('click', function () {
+                            //check if 'all'
+                            var filter = $('#chosenToggle').val();
+
+                            if (filter == "all") {
+                                table
+                                    .search('')
+                                    .columns().search('')
+                                    .draw();
+                                return;
+                            }
+
                             searchItems = [];
                             searchCategories = [];
 
@@ -132,10 +153,19 @@
                                 table
                                     .columns(0)
                                     .search(searchCategories, true, false, true).draw();
-                            } else {
+                            } else if (searchItems.length > 0) {
                                 table
                                     .columns(1)
                                     .search(searchItems, true, false, true).draw();
+                            } else {
+                                //alert("No item selected.");
+                                table
+                                    .search('')
+                                    .columns().search('')
+                                    .draw();
+                                $("#lbl-cost-info").text("");
+
+                                return;
                             }
 
                             var data = table.rows({ filter: 'applied' }).data();
@@ -164,6 +194,14 @@
                             table.draw(false);
                             $('#btn-submit-export').show();
 
+                            var sum = 0;
+                            for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
+                                var rowData = data[i].TotalCost;
+                                sum += rowData;
+                            }
+
+                            $("#lbl-cost-info").text("Total cost ($): " + sum.toFixed(2));
+
                         });
 
                     },
@@ -190,6 +228,16 @@
             $("#selectItemDesc").val([]);
             $("#selectItemDesc").prop('disabled', true);
             $("#selectCategory").prop('disabled', false);
+        } else {
+            //clear filter on table
+            $("#selectCategory").val([]);
+            $("#selectItemDesc").val([]);
+            $("#selectItemDesc").prop('disabled', true);
+            $("#selectCategory").prop('disabled', true);
         }
+
+        $('#btn-submit-export').hide();
+        $("#lbl-cost-info").text("");
+
     });
 </script>

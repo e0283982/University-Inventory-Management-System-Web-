@@ -66,7 +66,6 @@
         var data = table.row($(this).parents('tr')).data();
         var index = table.row($(this).parents('tr')).index();
 
-        alert(data[0]);
         $.ajax({
             url: '/StoreInventory/DiscardNewAdjItem',
             data: JSON.stringify({ data: data[0], index: index }),
@@ -121,6 +120,17 @@
         window.location.href = '@Url.Action("Inventory", "Store")';
 
     });
+
+    $('#btn-back-stock-adj').on('click', function () {
+        $.ajax({
+            url: '/StoreInventory/BackToStockAdjList',
+            type: 'POST',
+        });
+
+        window.location.href = '@Url.Action("Inventory", "Store")';
+
+    });
+
 </script>
 
 
@@ -183,7 +193,7 @@
         <div class="col-md-12">
             <div style="float: right;">
                 <span>
-                    <button class="btn btn-lu-red" style="font-size: 10pt;">Back</button>
+                    <button class="btn btn-lu-blue" id="btn-back-stock-adj" style="font-size: 10pt;">Back</button>
                 </span>
             </div>
         </div>

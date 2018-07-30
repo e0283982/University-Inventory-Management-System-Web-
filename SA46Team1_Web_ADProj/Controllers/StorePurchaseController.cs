@@ -69,7 +69,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DeletePOItem(string data)
+        public ActionResult DeletePOItem(string data)
         {
             string itemCode = data;
             List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
@@ -83,7 +83,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             poFullDetailsList.Remove(pod);
             Session["newPOList"] = poFullDetailsList;
-            return RedirectToAction("Purchase", "Store");
+            return null;
         }
 
         [HttpPost]
@@ -129,7 +129,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     {
                         // Create new PO based on supplier
                         int count = m.POHeaders.Count() + 1;
-                        string poId = "PO-" + count.ToString();
+                        string poId = CommonLogic.SerialNo(count, "PO");
 
                         POHeader newPOHeader = new POHeader();
                         newPOHeader.PONumber = poId;
@@ -248,6 +248,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<String> tempList = (List<String>)Session["tempList"];
                 tempList.Add(itemToAdd.ItemCode);
                 Session["tempList"] = tempList;
+                Session["StorePurchaseTabIndex"] = "2";
 
                 return RedirectToAction("Purchase", "Store");
             }
@@ -307,6 +308,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["POItems"] = poFullDetailList;
                 Session["poStatus"] = m.POHeaders.Where(x => x.PONumber == poNumber).Select(x => x.Status).FirstOrDefault();
             }
+
+            Session["StorePurchaseTabIndex"] = "1";
+
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -336,6 +340,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisplayGR(FormCollection data)
         {
+            Session["StorePurchaseTabIndex"] = "3";
             Session["GRListPage"] = "2";
             string rNo = data["ReceiptNo"];
             Session["grId"] = rNo;
@@ -369,6 +374,23 @@ namespace SA46Team1_Web_ADProj.Controllers
             // ----------------------------- Should we add Viewbag for title to differentiate GR / edit ? -------------------------------------------
             return RedirectToAction("Purchase", "Store");
         }
+
+        [HttpPost]
+        public RedirectToRouteResult EditPOQtyOrdered(string data, int index)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
+                POFullDetail item = poFullDetailList.ElementAt(index);
+                item.QuantityOrdered = Int32.Parse(data);
+                Session["POItems"] = poFullDetailList;
+
+                Session["POListPage"] = 2;
+
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
+
 
         [HttpPost]
         public RedirectToRouteResult SaveEdit(string[] arrQty)
@@ -431,6 +453,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
                 Session["POItems"] = poFullDetailsList;
             }
+            Session["POListPage"] = "2";
             return View();
         }
 
@@ -452,7 +475,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 int newId = m.POReceiptHeaders.Count() + 1;
-                receiptNo = "POR-" + newId.ToString();
+                receiptNo = CommonLogic.SerialNo(newId, "POR");
                 int countQty = 0;
                 int countInventory = 0;
 
@@ -476,6 +499,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     POReceiptHeader porh = new POReceiptHeader();
                     porh.ReceiptNo = receiptNo;
                     porh.PONumber = poNumber;
+                    // ---------------------------------------------------- Need to change this --------------------------------------
                     porh.DeliveryOrderNo = "Hardcode first";
                     porh.ReceivedDate = DateTime.Now;
                     porh.Receiver = (string)Session["LoginEmployeeID"];

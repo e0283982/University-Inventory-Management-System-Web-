@@ -29,27 +29,24 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult MsgClicked(string ReqFormId)
+        public RedirectToRouteResult MsgClicked(string ReqFormId, string item)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                DAL.StaffRequisitionRepositoryImpl dal = new DAL.StaffRequisitionRepositoryImpl(e);
-                StaffRequisitionHeader srh = e.StaffRequisitionHeaders.Where(x => x.FormID == ReqFormId).FirstOrDefault();
-
-                if (srh.NotificationStatus == "Unread")
+                StockAdjustmentDetail sad = e.StockAdjustmentDetails
+                    .Where(x => x.RequestId == ReqFormId && x.ItemCode == item).FirstOrDefault();
+                if (sad.NotificationStatus == "Unread")
                 {
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
                 }
 
-                srh.NotificationStatus = "Read";
-
-                dal.UpdateStaffRequisitionHeader(srh);
+                sad.NotificationStatus = "Read";
                 e.SaveChanges();
             }
-
-            return RedirectToAction("Approval", "Dept");
+            Session["StoreInventoryTabIndex"] = 3;
+            return RedirectToAction("StoreInventory", "StockAdj");
         }
     }
 }

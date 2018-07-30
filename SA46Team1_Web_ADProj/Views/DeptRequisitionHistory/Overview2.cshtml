@@ -2,6 +2,7 @@
     Layout = null;
     ReqHistoryModel req = (ReqHistoryModel)Session["CurrentReqHistory"];
     bool editMode = (bool)Session["existingReqEditMode"];
+    string dateNow = req.RequestDate.ToShortDateString();
 }
 
 @using SA46Team1_Web_ADProj.Models;
@@ -59,16 +60,25 @@
                         {
                             'data': null,
                             "render": function (data, type, full, meta) {
-                                return '<span>' +
-                                            '<button class="btn btn-lu-red" id="btn-discard-items">' +
-                                                '<i class="far fa-trash-alt"></i>' +
-                                            '</button>' +
-                                       '</span>';
+                                //if approval status of req is completed or rejected, then dont show anything here
+                                var reqStatus = '@req.Status';
+                                var reqApprovalStatus = '@req.ApprovalStatus';
+
+                                if (reqStatus == "Open" && reqApprovalStatus == "Pending") {
+                                    return '<span>' +
+                                        '<button class="btn btn-lu-red" id="btn-discard-items">' +
+                                        '<i class="far fa-trash-alt"></i>' +
+                                        '</button>' +
+                                        '</span>';
+                                } else {
+                                    return "";
+                                }
+                                
                             }
                         },
                     ],
                     drawCallback: function (settings) {
-                        
+
                     }
                 });
             }
@@ -99,7 +109,6 @@
             maxWidth: "40%"
         });
     });
-
 
     $(function () {
         $("#dialog-edit-req-zero-input-alert").dialog({
@@ -140,7 +149,6 @@
         }
     });
     
-
      $('#btn-edit-req-history').on('click', function () {
          
         $.ajax({
@@ -170,6 +178,9 @@
         $('#dialog-confirm-discard-req-item').dialog('close');
         table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
+
+        window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
     });
 
     $('#btn-save-req-history').on('click', function () {
@@ -232,20 +243,34 @@
         $('#dialog-confirm-discard-req-item').dialog('close');
         table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
-        
+
+       window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
     });
 
+    $('#dataTable-pastReq-details tbody').on('change', '#edit-qty-order', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
 
+        var qty = table.cell(index, 2).nodes().to$().find('input').val();
+        if (qty <= 0) {
+            alert("Order quantity cannot be <1.");
+            table.cell(index, 2).nodes().to$().find('input').val(1);
+            return;
+        } else if (qty % 1 != 0) {
+            alert("Order quantity must be whole number.");
+            table.cell(index, 2).nodes().to$().find('input').val(1);
+            return;
+        }
+
+        table.draw(false);
+
+    });
 </script>
 
 <div class="row">
     <div class="col-md-6">
         <h5>Requisition Form # @Session["id"]</h5>
-    </div>
-    <div class="col-md-6">
-        <button id="btn-print-req-history" class="btn btn-lu-blue" type="submit" style="float: right">
-            Print
-        </button>
     </div>
 </div>
 
@@ -277,32 +302,33 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">      
         <div>
-            <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
-            @*<input type="text" name="country" value=@req.ApprovalStatus readonly />*@
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@req.RequestDate</label>
-            @*<input type="text" name="country" value=@req.RequestDate readonly />*@
+            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@dateNow</label>
         </div>
 
         <div>
             <label style="font-size: 10pt;">Representative:&nbsp;</label><label style="font-size: 10pt;">@req.RepName</label>
-            @*<input type="text" name="country" value=@req.RepName readonly />*@
         </div>
 
         <div>
-            <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
-            @*<input type="text" name="country" value=@req.ApproverName readonly />*@
+            <label style="font-size: 10pt;">Delivery Status:&nbsp;</label><label style="font-size: 10pt;">@req.Status</label>
         </div>
     </div> 
+    <div class="col-md-3">
+        <div>
+            <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
+        </div>
+        <div>
+            <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
+        </div>
+    </div>
     <div class="col-md-6">
         <div style="float:right;">
             <button id="btn-edit-req-history" class="btn btn-lu-blue" type="submit" style="font-size: 10pt;">Edit</button>
-            <button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="font-size: 10pt;">Discard</button>
+            @*<button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="font-size: 10pt;">Discard</button>*@
             <button id="btn-save-req-history" class="btn btn-lu-green" type="submit" style="font-size: 10pt;">Save</button>
-            @Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info", style = "font-size: 10pt;" })
+            @Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info", style = "font-size: 10pt; color: #f4f4f4;" })
         </div>       
     </div>
 </div>
@@ -323,7 +349,7 @@
 
 
 <div id="dialog-update-req-items-success" class="hidden" title="Request Item(s) updated (Edit Requisition)">
-    <h5>Requisition request has been successfully.</h5>
+    <h5>Requisition request has been saved.</h5>
 </div>
 
 <div id="dialog-discard-req-item-submitted" class="hidden" title="Item(s) Removed (Edit Requisition)">

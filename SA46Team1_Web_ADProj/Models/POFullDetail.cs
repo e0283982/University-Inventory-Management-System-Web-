@@ -11,7 +11,8 @@ namespace SA46Team1_Web_ADProj.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class POFullDetail
     {
         public string PONumber { get; set; }
@@ -25,8 +26,17 @@ namespace SA46Team1_Web_ADProj.Models
         public System.DateTime Date { get; set; }
         public string EmployeeName { get; set; }
         public string Status { get; set; }
+
+
+        [NotMapped]
         public string Supplier1Code { get; set; }
+
+        [NotMapped]
         public string Supplier2Code { get; set; }
+
+        [NotMapped]
         public string Supplier3Code { get; set; }
+
+
     }
 }

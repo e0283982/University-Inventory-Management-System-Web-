@@ -175,6 +175,26 @@
 
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
+     });
+
+    $('#dataTable-newReq tbody').on('change', '#input-edit-order-qty', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 2).nodes().to$().find('input').val();
+        if (qty <= 0) {
+            alert("Order quantity cannot be <1.");
+            table.cell(index, 2).nodes().to$().find('input').val(1);
+            return;
+        } else if (qty % 1 != 0) {
+            alert("Order quantity must be whole number.");
+            table.cell(index, 2).nodes().to$().find('input').val(1);
+            return;
+        }
+        
+        table.draw(false);
+
+        @*window.location.href = '@Url.Action("Purchase", "Store")';*@
     });
     </script>
 
@@ -215,7 +235,8 @@
                     <td style="font-size: 10pt;">
                         @if (editMode == true)
                         {
-                            <input id="input-edit-order-qty" value=@item.QuantityOrdered />
+                            @*@Html.EditorFor(model => model. , new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "input-edit-order-qty", @min = "1", @step = "1", @Value = "1" }, })*@
+                            <input id="input-edit-order-qty" value=@item.QuantityOrdered type="number" step="1" min="1" pattern="[0-9]"/>
                         }
                         else
                         {
@@ -238,6 +259,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div style="float: right">
+                    <span>
+                        <button class="btn btn-lu-red" id="btn-cancel" style="font-size: 10pt;">Cancel</button>
+                    </span>
                     <span>
                         <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
                     </span>

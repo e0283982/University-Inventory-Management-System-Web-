@@ -6,7 +6,6 @@
 @model Item
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
-
 <script>
     var table;
     // Load Datatable
@@ -54,9 +53,9 @@
             }
         }
 
-        alert(arr1);
-        alert(arr2);
-        alert(arrSupplier);
+        //alert(arr1);
+        //alert(arr2);
+        //alert(arrSupplier);
 
         //for (var i = 0; i < table.rows().data().length; i++) {
         //    arr1.push();
@@ -70,13 +69,12 @@
             dataType: 'json',
             data: JSON.stringify({ arr1: arr1, arr2: arr2, arrSupplier: arrSupplier })
         });
+
+        window.location.href = '@Url.Action("Inventory", "Store")';
         alert('Items Added');
-        
+
     });
 
-    // Checkbox uncheck, remove from list
-
-    // Checkbox check, add to list
 </script>
 
 <div>

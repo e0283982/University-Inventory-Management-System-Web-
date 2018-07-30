@@ -37,7 +37,7 @@
             data: JSON.stringify({ data: data[0] })
         });
 
-        table.row($(this).parents('tr')).remove().draw();
+        //table.row($(this).parents('tr')).remove().draw();
         window.location.href = '@Url.Action("Purchase", "Store")';
 
         return false;
@@ -75,9 +75,10 @@
             data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier })
         });
         alert('Items Added');
+        window.location.href = '@Url.Action("Purchase", "Store")';
 
         // This should reset table
-        table.draw(false);
+        //table.draw(false);
 
     });
 

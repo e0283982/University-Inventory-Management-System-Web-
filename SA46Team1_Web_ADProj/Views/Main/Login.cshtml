@@ -4,28 +4,22 @@
 
 @model SA46Team1_Web_ADProj.Models.UserModel
 
+
 <div class="login-clean">
     <form method="post">
 
-        @*title*@
         <div>
             <h2 class="sr-only">Login Form</h2>           
         </div>
 
-        @*image*@
-        @*logo to be designed*@
-        <div class="illustration">@*<i class="icon ion-ios-navigate"></i>*@<img src="~/Content/images/logic1.png"/></div>
+        <div class="illustration"><img src="~/Content/images/logic1.png" /></div>
 
-        @*email*@
         <div class="form-group">
-            @*<input class="form-control" type="email" name="email" placeholder="Email">*@
             @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" }, })
             @Html.ValidationMessageFor(model => model.Username)
         </div>
 
-        @*password*@
         <div class="form-group">
-            @*<input class="form-control" type="password" name="password" placeholder="Password">*@
             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" }, })
             @Html.ValidationMessageFor(model => model.Password)
             @if (ViewBag.IsValid != null && !ViewBag.IsValid)
@@ -34,22 +28,10 @@
             }
         </div>
 
-        @*button*@
         <div class="form-group">
             <button class="btn btn-lu-green btn-block" type="submit">Log In</button>
         </div>
 
-        @*forgot password*@
         <a href="#" class="forgot">Forgot your email or password? Click here.</a>
     </form>
 </div>
-
-@*<script src="assets/js/jquery.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>*@
-
-
-@*@using (Html.BeginForm())
-{
-    Not sure what this is for, so I'll leave this in for now
-
-}*@

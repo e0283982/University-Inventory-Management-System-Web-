@@ -12,9 +12,12 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("NewReq")]
         public ActionResult NewReq()
         {
+
+            Session["DeptReqTabIndex"] = "1";
+
             using (SSISdbEntities e = new SSISdbEntities()) {
-                string SRcount = (e.StaffRequisitionHeaders.Count()+1).ToString();
-                Session["currentFormId"]= "SR-" + SRcount;
+                int SRcount = e.StaffRequisitionHeaders.Count() + 1;
+                Session["currentFormId"] = CommonLogic.SerialNo(SRcount, "SR");
 
                 Tuple<Item, StaffRequisitionDetail> tuple = new Tuple<Item, StaffRequisitionDetail>(new Item(), new StaffRequisitionDetail());
                 List<String> tempList = (List<String>)Session["tempList"];
@@ -71,8 +74,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     //update SRD
                     StaffRequisitionDetail srd = new StaffRequisitionDetail();
-                    srd=
-                        dal.GetStaffRequisitionDetailById(formId, itemCodes[index]);
+                    srd = dal.GetStaffRequisitionDetailById(formId, itemCodes[index]);
                     srd.CancelledBackOrdered = srd.QuantityBackOrdered;
                     srd.QuantityBackOrdered = 0;
                     dal.UpdateStaffRequisitionDetail(srd);
@@ -107,6 +109,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             }
 
+            Session["DeptReqTabIndex"] = "2";
             return RedirectToAction("Requisition", "Dept");
         }
 
@@ -164,7 +167,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 StaffRequisitionHeader srh = new StaffRequisitionHeader();
                 srh.FormID = Session["currentFormId"].ToString();
                 srh.DepartmentCode = Session["DepartmentCode"].ToString();
-                srh.EmployeeID = Session["UserId"].ToString();
+                srh.EmployeeID = Session["LoginEmployeeID"].ToString();
                 srh.DateRequested = System.DateTime.Now;
                 srh.Status = "Open"; 
                 srh.ApprovalStatus = "Pending"; 
@@ -199,6 +202,12 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
                 list.RemoveAt(index);
                 Session["newReqList"] = list;
+
+                //remove from list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                string itemCode = e.Items.Where(x => x.Description == data).Select(x => x.ItemCode).FirstOrDefault();
+                tempList.Remove(itemCode);
+                Session["tempList"] = tempList;
 
                 return RedirectToAction("Requisition", "Dept");
             }

@@ -18,13 +18,13 @@
    text-decoration: none;
    font-family: 'Oxygen', sans-serif;
    font-size: 16px;
-   color: #A9A9A9;
+   color: #f4f4f4;
    display: block;
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-   color: #A9A9A9;
+   color: #f4f4f4;
    background-color: #F9BE4F;
    
 }

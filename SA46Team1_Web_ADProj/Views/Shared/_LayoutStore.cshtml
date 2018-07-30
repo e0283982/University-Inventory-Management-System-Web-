@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Store</title>
-    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/sidebar.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/fonts/font-awesome.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/tabs.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 
     @Scripts.Render("~/bundles/modernizr")
@@ -82,7 +82,7 @@
         <div class="container" style="font-family: 'Oxygen', sans-serif; padding-bottom: 10px;">
             <div style="float: right; padding-top:10px;">
                 <span>
-                    <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
+                    <a href="@Url.Action("Notifications", "Store")" class="icon-block">
                         <i class="fas fa-bell" style="font-size:28px; color:#F9BE4F;"></i>
                     </a>
                     <label>  @Session["NoUnreadRequests"] </label>

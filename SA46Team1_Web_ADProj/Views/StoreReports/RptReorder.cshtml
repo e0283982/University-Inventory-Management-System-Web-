@@ -9,8 +9,8 @@
     <h5>Reorder Report</h5>
     <span>
         <label>Filter by:</label>
-        <select id="chosenToggle">
-            <option value="default">Select Option</option>
+        <select id="chosenToggle1">
+            <option value="all">All</option>
             <option value="item">Item</option>
             <option value="category">Category</option>
         </select>
@@ -21,28 +21,32 @@
     <div class="col-md-6">
         <div>
             <label style="font-size: 10pt;">Item Description: </label>
-            @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectItemDesc" })
+            @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectItemDesc1" })
         </div>
-
+    </div>
+    <div class="col-md-6">
         <div>
             <label style="font-size: 10pt;">Category: </label>
-            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectCategory" })
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectCategory1" })
         </div>
-        <div>
-            <span>
-                <input class="btn btn-lu-green" id="btn-submit-filter" type="submit" style="font-size: 10pt;" />
-            </span>
-
-            <span id="btn-submit-export">
-                @Html.ActionLink("Export to PDF", "ExportRptReorder", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf", style = "font-size: 10pt;" })
-            </span>
-        </div>
-        
     </div>
-
-        
 </div>
+    
+<br />
 
+<div class="row">
+    <div class="col-md-12">
+        <div style="float:right">
+            <span>
+                <input class="btn btn-lu-green" id="btn-submit-filter1" type="submit" style="font-size: 10pt;" />
+            </span>
+            <span id="btn-submit-export1">
+                @Html.ActionLink("Export to PDF", "ExportRptReorder", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf1", style = "font-size: 10pt;" })
+            </span>
+        </div>
+    </div>
+</div>
+    
 <hr />     
 
 <table id="dataTable-storeReorder" class="table">
@@ -68,11 +72,11 @@
     var searchItems = [];
     var searchCategories = [];
 
-    $('#btn-submit-export').hide();
+    $('#btn-submit-export1').hide();
 
     $(document).ready(function () {
-        $("#selectCategory").prop('disabled', true);
-        $("#selectItemDesc").prop('disabled', true);
+        $("#selectCategory1").prop('disabled', true);
+        $("#selectItemDesc1").prop('disabled', true);
 
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRptReorder',
@@ -102,33 +106,51 @@
                     ],
                     drawCallback: function (settings) {
 
-                        $('#btn-submit-filter').on('click', function () {
-                             searchItems = [];
-                             searchCategories = [];
+                        $('#btn-submit-filter1').on('click', function () {
+                            //check if 'all'
+                            var filter = $('#chosenToggle1').val();
 
-                            $('#selectItemDesc option:selected').each(function () {
+                            if (filter == "all") {
+                                table
+                                    .search('')
+                                    .columns().search('')
+                                    .draw();
+                                return;
+                            }
+
+                            searchItems = [];
+                            searchCategories = [];
+
+                            $('#selectItemDesc1 option:selected').each(function () {
                                 searchItems.push($(this).val());
                             });
 
-                            $('#selectCategory option:selected').each(function () {
+                            $('#selectCategory1 option:selected').each(function () {
                                 searchCategories.push($(this).text());
                             });
-                            
+
                             searchItems = searchItems.join('|');
                             searchCategories = searchCategories.join('|');
-                           
+
                             if (searchCategories.length > 0) {
                                 table
                                     .columns(0)
                                     .search(searchCategories, true, false, true).draw();
-                            } else {
+                            } else if (searchItems.length > 0) {
                                 table
                                     .columns(1)
                                     .search(searchItems, true, false, true).draw();
+                            } else {
+                                //alert("No item selected.");
+                                table
+                                    .search('')
+                                    .columns().search('')
+                                    .draw();
+                                return;
                             }
-                            
+
                             var data = table.rows({ filter: 'applied' }).data();
-                            
+
                             var arr = [];
                             for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
                                 var rowData = data[i];
@@ -137,8 +159,8 @@
                             }
 
                             if (arr.length == 0) {
-                                alert("No results found.");
-                                $('#btn-submit-export').hide();
+                                //alert("No results found.");
+                                $('#btn-submit-export1').hide();
                                 return;
                             }
 
@@ -151,7 +173,7 @@
                             });
 
                             table.draw(false);
-                            $('#btn-submit-export').show();
+                            $('#btn-submit-export1').show();
 
                         });
 
@@ -161,24 +183,33 @@
         });
     });
 
-    $('#btn-export-pdf').on('click', function () {
-        $('#btn-submit-export').hide();
+    $('#btn-export-pdf1').on('click', function () {
+        $('#btn-submit-export1').hide();
 
     });
 
-    $('#chosenToggle').on('change', function (e) {
+    $('#chosenToggle1').on('change', function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;
 
         if (valueSelected == "item") {
-            $("#selectCategory").val([]);
-            $("#selectCategory").prop('disabled', true);
-            $("#selectItemDesc").prop('disabled', false);
+            $("#selectCategory1").val([]);
+            $("#selectCategory1").prop('disabled', true);
+            $("#selectItemDesc1").prop('disabled', false);
 
         } else if (valueSelected == "category") {
-            $("#selectItemDesc").val([]);
-            $("#selectItemDesc").prop('disabled', true);
-            $("#selectCategory").prop('disabled', false);
+            $("#selectItemDesc1").val([]);
+            $("#selectItemDesc1").prop('disabled', true);
+            $("#selectCategory1").prop('disabled', false);
+        } else {
+            //clear filter on table
+            $("#selectCategory1").val([]);
+            $("#selectItemDesc1").val([]);
+            $("#selectItemDesc1").prop('disabled', true);
+            $("#selectCategory1").prop('disabled', true);
         }
+
+        $('#btn-submit-export1').hide();
+
     });
 </script>

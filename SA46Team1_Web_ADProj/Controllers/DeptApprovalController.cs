@@ -89,7 +89,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.ApprovalStatus = "Rejected";
                 srh.Approver = Session["UserId"].ToString();
                 srh.DateProcessed = System.DateTime.Now;
-
+                srh.Status = "Cancelled";
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
 
