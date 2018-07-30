@@ -12,6 +12,7 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Dept/DeptApproval")]
     public class DeptApprovalController : Controller
     {
+        [CustomAuthorize(Roles = "Department Head")]
         [Route("Approval")]
         public ActionResult Approval()
         {
@@ -26,6 +27,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [CustomAuthorize(Roles = "Department Head")]
         [HttpPost]
         //[Route("DisplayApprovalDetails")]
         public RedirectToRouteResult DisplayApprovalDetails(string ReqFormId)
@@ -44,6 +46,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Approval", "Dept");
         }
 
+        [CustomAuthorize(Roles = "Department Head")]
         //[HttpPost]
         public RedirectToRouteResult BackToApprovalList()
         {
@@ -51,6 +54,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Approval", "Dept");
         }
 
+        [CustomAuthorize(Roles = "Department Head")]
         [HttpPost]
         public RedirectToRouteResult Approve()
         {
@@ -78,6 +82,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Approval", "Dept");
         }
 
+        [CustomAuthorize(Roles = "Department Head")]
         [HttpPost]
         public RedirectToRouteResult Reject()
         {
