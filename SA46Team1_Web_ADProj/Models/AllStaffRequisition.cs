@@ -14,14 +14,16 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class AllStaffRequisition
     {
-        public string Description { get; set; }
-        public string UoM { get; set; }
-        public int QuantityBackOrdered { get; set; }
-        public string DepartmentCode { get; set; }
-        public string EmployeeName { get; set; }
         public string FormID { get; set; }
         public string EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public string DepartmentCode { get; set; }
+        public string Description { get; set; }
+        public string UoM { get; set; }
+        public int QuantityOrdered { get; set; }
+        public int QuantityDelivered { get; set; }
+        public int QuantityBackOrdered { get; set; }
         public string ApprovalStatus { get; set; }
-        public string Status { get; set; }
+        public string DeliveryStatus { get; set; }
     }
 }

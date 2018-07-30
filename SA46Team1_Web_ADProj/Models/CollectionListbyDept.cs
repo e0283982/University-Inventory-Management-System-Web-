@@ -16,7 +16,7 @@ namespace SA46Team1_Web_ADProj.Models
     {
         public string Description { get; set; }
         public string UoM { get; set; }
-        public Nullable<int> QuantityBackOrdered { get; set; }
+        public Nullable<int> CollectionQty { get; set; }
         public string DepartmentCode { get; set; }
     }
 }
