@@ -15,7 +15,8 @@
                     paging: true,
                     sort: true,
                     searching: true,
-                    scrollY: 200,
+                    "iDisplayLength": 5,
+                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
@@ -39,11 +40,11 @@
     });
 </script>
 
-<h2>Collection list</h2>
+<h5>Collection list</h5>
 
 
 <table id="dataTable-collection" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Item Description</th>
@@ -51,7 +52,7 @@
             <th>Total Expected Delivery</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="font-size: 10pt;">
         <tr>
             <th></th>
             <th></th>
@@ -61,6 +62,14 @@
     </tbody>
 </table>
 
-<p> <label>Expected Delivery: </label> @ViewBag.ExpectedDelivery </p>
-<p> <label>Collection Point: </label> @ViewBag.CollectionPointDesc</p>
-<p> <label>Collection Time: </label> @ViewBag.CollectionTime </p>
+<div>
+    <div>
+        <label style="font-size: 10pt;">Expected Delivery:&nbsp;</label><label style="font-size: 10pt;"@ViewBag.ExpectedDelivery></label>  
+    </div>
+    <div>
+        <label style="font-size: 10pt;">Collection Point:&nbsp;</label><label style="font-size: 10pt;" @ViewBag.CollectionPointDesc></label>
+    </div>
+    <div>
+        <label style="font-size: 10pt;">Collection Time:&nbsp;</label><label style="font-size: 10pt;" @ViewBag.CollectionTime></label>
+    </div>
+</div>

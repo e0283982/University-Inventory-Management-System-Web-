@@ -53,6 +53,10 @@ namespace SA46Team1_Web_ADProj
             Session["ReviewNewRequisitionId"] = "";
             Session["DeptReqTabIndex"] = "0";
             Session["currentFormId"] = "";
+
+            //session var for dept  - requisition
+            Session["DeptReqTabIndex"] = "1";
+
             //Session variables for Dept - Requisition History
             Session["ReqHistoryPage"] = "1";
             Session["CurrentReqHistory"] = new Models.ReqHistoryModel();
