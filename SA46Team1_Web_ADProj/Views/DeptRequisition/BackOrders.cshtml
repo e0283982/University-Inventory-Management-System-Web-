@@ -6,7 +6,7 @@
 
 <script>
 
-     var table;
+    var table;
 
     $(document).ready(function () {
         $.ajax({
@@ -45,13 +45,18 @@
                             "searchable": false
                         }
                     ],
-                    //drawCallback: function (settings) {
+                    drawCallback: function (settings) {
+                        
                     //    $('#dataTable-backOrders tbody').on('click', 'tr', function () {
                     //        $(this).toggleClass('selected');
                     //    });
-                    //}
+                    }
 
                 });
+
+                if (table.rows().data().length > 0) {
+                    $('#btn-submit-discard-backorder-items').prop('disabled', false);
+                }
             }
         });
     });
@@ -91,7 +96,7 @@
             }
         }
 
-        alert(arr1.length);
+        //alert(arr1.length);
         //check if no items are selected
         if (arr1.length == 0) {
             $("#dialog-discard-backorder-no-item-selected").dialog('open');
@@ -190,9 +195,11 @@
 
 <div class="row">
     <span class="col-md-12">
-        <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;">
-            Discard Selected Items
-        </button>
+        
+            <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;" disabled>
+                Discard Selected Items
+            </button>
+        
     </span>
 </div>
 
