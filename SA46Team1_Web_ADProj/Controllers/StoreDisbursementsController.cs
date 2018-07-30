@@ -90,7 +90,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 int id = m.StockRetrievalHeaders.Count();
                 string reqId = CommonLogic.SerialNo(id, "StoR");
                 Session["RetrievalId"] = reqId;
-                ViewBag.IdCount = id;
+                ViewBag.IdCount = reqId;
                 ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;                
             }
 

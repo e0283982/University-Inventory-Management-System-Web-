@@ -1074,14 +1074,22 @@ namespace SA46Team1_Web_ADProj.Controllers
         [System.Web.Http.Authorize]
         [System.Web.Http.HttpGet]
         [System.Web.Mvc.Route("GetEmployeeRole/{email}")]
-        public string GetEmployeeRole(string email)
+        public Employee GetEmployeeRole(string email)
         {
 
-            using (IEmployeeRepository empRepo = new EmployeeRepositoryImpl(new SSISdbEntities()))
+            using (SSISdbEntities m = new SSISdbEntities())
             {
-                Employee employee = empRepo.FindEmployeeEmailId(email);
-                return employee.Designation;
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.Employees.Where(x => x.EmployeeEmail == email).FirstOrDefault();
             }
+
+
+                //using (IEmployeeRepository empRepo = new EmployeeRepositoryImpl(new SSISdbEntities()))
+                //{
+                //    Employee employee = empRepo.FindEmployeeEmailId(email);
+                //    return employee.Designation;
+                //}
+
         }
 
 
