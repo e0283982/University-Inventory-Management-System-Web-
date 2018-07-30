@@ -62,16 +62,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.ApprovalStatus = "Approved";
                 srh.Approver = Session["UserId"].ToString();
                 srh.DateProcessed = System.DateTime.Now;
-
-                dal.UpdateStaffRequisitionHeader(srh);
-                e.SaveChanges();
-
+                
                 if (srh.NotificationStatus == "Unread")
                 {
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
+                    srh.NotificationStatus = "Read";
                 }
+
+                dal.UpdateStaffRequisitionHeader(srh);
+                e.SaveChanges();
 
             }
             return RedirectToAction("Approval", "Dept");
@@ -90,15 +91,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.Approver = Session["UserId"].ToString();
                 srh.DateProcessed = System.DateTime.Now;
                 srh.Status = "Cancelled";
-                dal.UpdateStaffRequisitionHeader(srh);
-                e.SaveChanges();
-
+                
                 if (srh.NotificationStatus == "Unread")
                 {
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
+                    srh.NotificationStatus = "Read";
                 }
+
+                dal.UpdateStaffRequisitionHeader(srh);
+                e.SaveChanges();
 
             }
             return RedirectToAction("Approval", "Dept");

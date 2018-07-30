@@ -9,12 +9,7 @@
     <form method="post">
 
         <div>
-            <h2 class="sr-only">Login Form</h2>
-
-            @if (TempData["IsValid"] != null && TempData["IsValid"].ToString().ToLower()=="false")
-            {
-                <label id="lbl-wrong-pw">Incorrect username or password was entered.</label>
-            }
+            <h2 class="sr-only">Login Form</h2>           
         </div>
 
         <div class="illustration"><img src="~/Content/images/logic1.png" /></div>
@@ -27,6 +22,10 @@
         <div class="form-group">
             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" }, })
             @Html.ValidationMessageFor(model => model.Password)
+            @if (ViewBag.IsValid != null && !ViewBag.IsValid)
+            {
+                <label id="lbl-wrong-pw">Incorrect username or password was entered.</label>
+            }
         </div>
 
         <div class="form-group">
