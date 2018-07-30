@@ -140,6 +140,8 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             }
 
+            Session["ReqHistoryPage"] = "2";
+            
             return RedirectToAction("RequisitionHistory", "Dept");
             
         }
@@ -178,6 +180,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.SaveChanges();
 
             }
+
+            Session["ReqHistoryPage"] = "2";
 
             return RedirectToAction("RequisitionHistory", "Dept");
 
