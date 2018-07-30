@@ -545,7 +545,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<StaffRequisitionHeader> deptReqForms = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).ToList();
+                List<StaffRequisitionHeader> deptReqForms = m.StaffRequisitionHeaders.Where(x => x.EmployeeID == id).ToList();
                 
                 return deptReqForms;
             }

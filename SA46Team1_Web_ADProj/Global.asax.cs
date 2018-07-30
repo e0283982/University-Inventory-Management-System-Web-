@@ -32,8 +32,8 @@ namespace SA46Team1_Web_ADProj
         protected void Session_Start()
         {
             //Session variables for Application
-            Session["Role"] = "Dept";
-            Session["UserId"] = "E4";
+            //Session["Role"] = "Dept";
+            //Session["UserId"] = "E4";
             Session["access-token"] = "test";
             Session["NoUnreadRequests"] = 0;
 

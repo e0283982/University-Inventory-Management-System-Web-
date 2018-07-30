@@ -2,6 +2,7 @@
     Layout = null;
     ReqHistoryModel req = (ReqHistoryModel)Session["CurrentReqHistory"];
     bool editMode = (bool)Session["existingReqEditMode"];
+    string dateNow = req.RequestDate.ToShortDateString();
 }
 
 @using SA46Team1_Web_ADProj.Models;
@@ -100,7 +101,6 @@
         });
     });
 
-
     $(function () {
         $("#dialog-edit-req-zero-input-alert").dialog({
             autoOpen: false,
@@ -140,7 +140,6 @@
         }
     });
     
-
      $('#btn-edit-req-history').on('click', function () {
          
         $.ajax({
@@ -234,19 +233,12 @@
         $('#dialog-discard-req-item-submitted').dialog('open');
         
     });
-
-
 </script>
 
 <div class="row">
     <div class="col-md-6">
         <h5>Requisition Form # @Session["id"]</h5>
     </div>
-    @*<div class="col-md-6">
-        <button id="btn-print-req-history" class="btn btn-lu-blue" type="submit" style="float: right">
-            Print
-        </button>
-    </div>*@
 </div>
 
 <br />
@@ -277,13 +269,9 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">      
         <div>
-            <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
-            @*<input type="text" name="country" value=@req.ApprovalStatus readonly />*@
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@req.RequestDate</label>
+            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@dateNow</label>
             @*<input type="text" name="country" value=@req.RequestDate readonly />*@
         </div>
 
@@ -293,13 +281,19 @@
         </div>
 
         <div>
-            <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
-            @*<input type="text" name="country" value=@req.ApproverName readonly />*@
-        </div>
-        <div>
             <label style="font-size: 10pt;">Delivery Status:&nbsp;</label>@*<label style="font-size: 10pt;">@req.ApproverName</label>*@
         </div>
     </div> 
+    <div class="col-md-3">
+        <div>
+            <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
+            @*<input type="text" name="country" value=@req.ApprovalStatus readonly />*@
+        </div>
+        <div>
+            <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
+            @*<input type="text" name="country" value=@req.ApproverName readonly />*@
+        </div>
+    </div>
     <div class="col-md-6">
         <div style="float:right;">
             <button id="btn-edit-req-history" class="btn btn-lu-blue" type="submit" style="font-size: 10pt;">Edit</button>

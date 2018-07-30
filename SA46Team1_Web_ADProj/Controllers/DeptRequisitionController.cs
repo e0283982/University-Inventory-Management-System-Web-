@@ -200,6 +200,12 @@ namespace SA46Team1_Web_ADProj.Controllers
                 list.RemoveAt(index);
                 Session["newReqList"] = list;
 
+                //remove from list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                string itemCode = e.Items.Where(x => x.Description == data).Select(x => x.ItemCode).FirstOrDefault();
+                tempList.Remove(itemCode);
+                Session["tempList"] = tempList;
+
                 return RedirectToAction("Requisition", "Dept");
             }
         }

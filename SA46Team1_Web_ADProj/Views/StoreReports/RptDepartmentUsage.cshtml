@@ -10,12 +10,10 @@
     <h5>Department Usage Cost Report</h5>
     <label id="lbl-error-info"></label>
     <label id="lbl-cost-info"></label>
-
 </div>
 
 <div class="row">
-    <div class="col-md-6">
-
+    <div class="col-md-3">
         <div>
             <label style="font-size: 10pt;">Department: </label>
             @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
@@ -24,7 +22,8 @@
             <label style="font-size: 10pt;">Category: </label>
             @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
         </div>
-
+    </div>
+    <div class="col-md-6">
         <div class="row">
             <div class="col-md-2">
                 <span>
@@ -59,6 +58,13 @@
                 </span>
             </div>
         </div>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-12">
         <div>
             <span>
                 <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Filter" />
@@ -66,13 +72,6 @@
             <span id="btn-submit-export2">
                 @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
             </span>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div style="float: right; padding-top: 205px;">
-          
-            
-           
         </div>
     </div>
 </div>
