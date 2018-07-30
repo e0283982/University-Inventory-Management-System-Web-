@@ -31,6 +31,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<ActionResult> Login(UserModel user)
         {
+            TempData["IsValid"] = true;
+
             if (new AppUserManager(new UserStore<Employee>(new SSISdbEntities())).IsValid(user.Username, user.Password))
             {
                 //Auth success
@@ -64,6 +66,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
 // ------------------------------------------- SANDY SEE HERE ---------------------------------------------------------------------
                 Session["LoginEmployeeID"] = employee.EmployeeID;
+                Session["UserId"] = employee.EmployeeID;
                 Session["Role"] = employee.Designation;
                 Session["DepartmentCode"] = employee.DepartmentCode;
 
@@ -87,6 +90,10 @@ namespace SA46Team1_Web_ADProj.Controllers
             else
             {
                 //auth failed
+                if (user.Username!=null && user.Password != null && user.Password.Length>3) {
+                    TempData["IsValid"] = false;
+                }
+
                 return View("Login");
             }
         }
