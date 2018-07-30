@@ -8,6 +8,7 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
+    [CustomAuthorize(Roles = "Employee Representative, Employee")]
     [RoutePrefix("Dept/DeptRequisitionHistory")]
     public class DeptRequisitionHistoryController : Controller
     {

@@ -18,7 +18,8 @@
                     paging: true,
                     sort: true,
                     searching: false,
-                    scrollX: 800,
+                    "iDisplayLength": 5,
+                    //scrollX: 800,
                     data: [data],
                     columns: [
                         { 'data': 'ItemCode' },
@@ -43,12 +44,12 @@
 </script>
 
 <div>
-    <h2>Item Code: @Session["MaintenanceItemCode"]</h2>
+    <h5>Item Code: @Session["MaintenanceItemCode"]</h5>
 </div>
 
 
 <table id="dataTable-inventory-items-details" class="display" style="width:80%;">
-    <thead>
+    <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
             <th>Description</th>
@@ -60,6 +61,7 @@
             <th>Active</th>
         </tr>
     </thead>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
@@ -70,7 +72,7 @@
             <span>
                 @using (Html.BeginForm("BackToInventoryOverviewList", "StoreInventory", FormMethod.Post))
                 {
-                    <input class="btn btn-danger" type="submit" value="Back" />
+                    <input class="btn btn-lu-blue" type="submit" value="Back" />
                 }
             </span>
         </div>

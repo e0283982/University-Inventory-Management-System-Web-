@@ -18,7 +18,8 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
+                    scrollY: 200,
+                    scrollCollapse: false,
                     data: data,
                     columns: [
                         { 'data': 'ItemCode' },
@@ -118,15 +119,15 @@
         <div style="float:right;">
             <div style="font-size: 10pt;">
                 <p>Remarks:</p>
-                <textarea id="ta-remarks"></textarea>
+                <textarea id="ta-remarks" rows="3" cols="50"></textarea>
             </div>
-            <br />
+            @*<br />
             <div style="float:right;">
                 <button class="btn btn-lu-blue" id="btn-print-displayGR" style="font-size: 10pt;">Goods Receipt</button>
                 <div id="dialog-print-displayGR" class="hidden" title="Basic dialog">
                     <p>Print via here.</p>
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
@@ -148,13 +149,15 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
+<br />
+
 <div>
     @*<label>Gross Total ($): <input type="text" id="lbl-gross-total"></label>*@
-    <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><strong><label id="lbl-gross-total" style="font-size: 10pt;" /></strong>
+    <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label><strong><label id="lbl-gross-total" style="font-size: 12pt;" /></strong>
     @*<label>GST ($): <input type="text" id="lbl-gst"></label>*@
-    <label style="font-size: 10pt;">&nbsp;GST ($)::&nbsp;</label><strong><label id="lbl-gst" style="font-size: 10pt;" /></strong>
+    <label style="font-size: 12pt;">&nbsp;GST ($)::&nbsp;</label><strong><label id="lbl-gst" style="font-size: 12pt;" /></strong>
     @*<label>Net Total ($): <input type="text" id="lbl-net-total"></label>*@
-    <label style="font-size: 10pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="lbl-net-total" style="font-size: 10pt;" /></strong>
+    <label style="font-size: 12pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="lbl-net-total" style="font-size: 12pt;" /></strong>
 </div>
 
 

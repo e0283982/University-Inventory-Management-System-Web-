@@ -67,7 +67,7 @@
     <div class="col-md-12">
         <div>
             <span>
-                <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Filter" />
+                <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
             </span>
             <span id="btn-submit-export2">
                 @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
@@ -116,7 +116,8 @@
                     sort: true,
                     search: false,
                     dom: 'lrtip',
-                    scrollY: 200,
+                    //scrollY: 200,
+                    "iDisplayLength": 5,
                     data: data,
                     columns: [
                         { 'data': 'DepartmentName' },
