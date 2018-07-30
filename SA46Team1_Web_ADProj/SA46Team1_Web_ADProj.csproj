@@ -327,6 +327,7 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeRoleModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

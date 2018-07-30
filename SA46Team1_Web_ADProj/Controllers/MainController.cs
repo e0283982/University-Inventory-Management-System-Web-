@@ -86,6 +86,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             else
             {
                 //auth failed
+                ViewBag.IsValid = false;
                 return View("Login");
             }
         }

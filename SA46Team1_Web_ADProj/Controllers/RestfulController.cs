@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Data.Entity;
 using SA46Team1_Web_ADProj.DAL;
+using Newtonsoft.Json.Linq;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
@@ -981,6 +982,19 @@ namespace SA46Team1_Web_ADProj.Controllers
                     safdList = m.StockAdjustmentFullDetails.Where(x => x.Status == "Pending" && x.Amount >= 250 && x.NotificationStatus == "Unread").ToList();
                 }
                 return safdList;
+            }
+        }
+
+        [System.Web.Http.Authorize]
+        [System.Web.Http.HttpGet]
+        [System.Web.Mvc.Route("GetEmployeeRole/{email}")]
+        public string GetEmployeeRole(string email)
+        {
+
+            using (IEmployeeRepository empRepo = new EmployeeRepositoryImpl(new SSISdbEntities()))
+            {
+                Employee employee = empRepo.FindEmployeeEmailId(email);
+                return employee.Designation;
             }
         }
 
