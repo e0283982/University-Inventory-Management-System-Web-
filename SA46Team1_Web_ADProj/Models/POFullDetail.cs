@@ -27,7 +27,6 @@ namespace SA46Team1_Web_ADProj.Models
         public string EmployeeName { get; set; }
         public string Status { get; set; }
 
-
         [NotMapped]
         public string Supplier1Code { get; set; }
 
@@ -36,7 +35,5 @@ namespace SA46Team1_Web_ADProj.Models
 
         [NotMapped]
         public string Supplier3Code { get; set; }
-
-
     }
 }

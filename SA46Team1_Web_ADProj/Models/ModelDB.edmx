@@ -359,25 +359,29 @@ warning 6002: The table/view 'SSISdb.dbo.AllItemPrices' does not have a primary 
 warning 6002: The table/view 'SSISdb.dbo.AllStaffRequisition' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AllStaffRequisition">
           <Key>
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="QuantityBackOrdered" />
-            <PropertyRef Name="DepartmentCode" />
-            <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="FormID" />
             <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="DepartmentCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityDelivered" />
+            <PropertyRef Name="QuantityBackOrdered" />
             <PropertyRef Name="ApprovalStatus" />
-            <PropertyRef Name="Status" />
+            <PropertyRef Name="DeliveryStatus" />
           </Key>
-          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="QuantityBackOrdered" Type="int" Nullable="false" />
-          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="int" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="int" Nullable="false" />
+          <Property Name="QuantityBackOrdered" Type="int" Nullable="false" />
           <Property Name="ApprovalStatus" Type="nvarchar" MaxLength="70" Nullable="false" />
-          <Property Name="Status" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="DeliveryStatus" Type="nvarchar" MaxLength="70" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.CollectionList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -388,7 +392,7 @@ warning 6002: The table/view 'SSISdb.dbo.CollectionList' does not have a primary
           </Key>
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="QuantityBackOrdered" Type="int" />
+          <Property Name="QtyBackOrdered" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.CollectionListbyDept' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -396,11 +400,12 @@ warning 6002: The table/view 'SSISdb.dbo.CollectionListbyDept' does not have a p
           <Key>
             <PropertyRef Name="Description" />
             <PropertyRef Name="UoM" />
+            <PropertyRef Name="DepartmentCode" />
           </Key>
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="QuantityBackOrdered" Type="int" />
-          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" />
+          <Property Name="CollectionQty" Type="int" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.DepartmentUsageReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1437,29 +1442,31 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           </EntitySet>
           <EntitySet Name="AllStaffRequisition" EntityType="Self.AllStaffRequisition" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [AllStaffRequisition].[Description] AS [Description], 
-    [AllStaffRequisition].[UoM] AS [UoM], 
-    [AllStaffRequisition].[QuantityBackOrdered] AS [QuantityBackOrdered], 
-    [AllStaffRequisition].[DepartmentCode] AS [DepartmentCode], 
-    [AllStaffRequisition].[EmployeeName] AS [EmployeeName], 
     [AllStaffRequisition].[FormID] AS [FormID], 
     [AllStaffRequisition].[EmployeeID] AS [EmployeeID], 
+    [AllStaffRequisition].[EmployeeName] AS [EmployeeName], 
+    [AllStaffRequisition].[DepartmentCode] AS [DepartmentCode], 
+    [AllStaffRequisition].[Description] AS [Description], 
+    [AllStaffRequisition].[UoM] AS [UoM], 
+    [AllStaffRequisition].[QuantityOrdered] AS [QuantityOrdered], 
+    [AllStaffRequisition].[QuantityDelivered] AS [QuantityDelivered], 
+    [AllStaffRequisition].[QuantityBackOrdered] AS [QuantityBackOrdered], 
     [AllStaffRequisition].[ApprovalStatus] AS [ApprovalStatus], 
-    [AllStaffRequisition].[Status] AS [Status]
+    [AllStaffRequisition].[DeliveryStatus] AS [DeliveryStatus]
     FROM [dbo].[AllStaffRequisition] AS [AllStaffRequisition]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="CollectionList" EntityType="Self.CollectionList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [CollectionList].[Description] AS [Description], 
     [CollectionList].[UoM] AS [UoM], 
-    [CollectionList].[QuantityBackOrdered] AS [QuantityBackOrdered]
+    [CollectionList].[QtyBackOrdered] AS [QtyBackOrdered]
     FROM [dbo].[CollectionList] AS [CollectionList]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="CollectionListbyDept" EntityType="Self.CollectionListbyDept" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [CollectionListbyDept].[Description] AS [Description], 
     [CollectionListbyDept].[UoM] AS [UoM], 
-    [CollectionListbyDept].[QuantityBackOrdered] AS [QuantityBackOrdered], 
+    [CollectionListbyDept].[CollectionQty] AS [CollectionQty], 
     [CollectionListbyDept].[DepartmentCode] AS [DepartmentCode]
     FROM [dbo].[CollectionListbyDept] AS [CollectionListbyDept]</DefiningQuery>
           </EntitySet>
@@ -2351,25 +2358,29 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
         </EntityType>
         <EntityType Name="AllStaffRequisition">
           <Key>
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="UoM" />
-            <PropertyRef Name="QuantityBackOrdered" />
-            <PropertyRef Name="DepartmentCode" />
-            <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="FormID" />
             <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="EmployeeName" />
+            <PropertyRef Name="DepartmentCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityOrdered" />
+            <PropertyRef Name="QuantityDelivered" />
+            <PropertyRef Name="QuantityBackOrdered" />
             <PropertyRef Name="ApprovalStatus" />
-            <PropertyRef Name="Status" />
+            <PropertyRef Name="DeliveryStatus" />
           </Key>
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="QuantityBackOrdered" Type="Int32" Nullable="false" />
-          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EmployeeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
+          <Property Name="QuantityBackOrdered" Type="Int32" Nullable="false" />
           <Property Name="ApprovalStatus" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Status" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliveryStatus" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="CollectionList">
           <Key>
@@ -2378,17 +2389,18 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           </Key>
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="QuantityBackOrdered" Type="Int32" />
+          <Property Name="QtyBackOrdered" Type="Int32" />
         </EntityType>
         <EntityType Name="CollectionListbyDept">
           <Key>
             <PropertyRef Name="Description" />
             <PropertyRef Name="UoM" />
+            <PropertyRef Name="DepartmentCode" />
           </Key>
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="QuantityBackOrdered" Type="Int32" />
-          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="CollectionQty" Type="Int32" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="DepartmentUsageReport">
           <Key>
@@ -3924,15 +3936,17 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <EntitySetMapping Name="AllStaffRequisitions">
             <EntityTypeMapping TypeName="SSISdbModel.AllStaffRequisition">
               <MappingFragment StoreEntitySet="AllStaffRequisition">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
-                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="FormID" ColumnName="FormID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
+                <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
+                <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
                 <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DeliveryStatus" ColumnName="DeliveryStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3941,7 +3955,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
               <MappingFragment StoreEntitySet="CollectionList">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
+                <ScalarProperty Name="QtyBackOrdered" ColumnName="QtyBackOrdered" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3950,7 +3964,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
               <MappingFragment StoreEntitySet="CollectionListbyDept">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="QuantityBackOrdered" ColumnName="QuantityBackOrdered" />
+                <ScalarProperty Name="CollectionQty" ColumnName="CollectionQty" />
                 <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
               </MappingFragment>
             </EntityTypeMapping>

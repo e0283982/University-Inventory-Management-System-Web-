@@ -62,6 +62,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public ActionResult DisplayReqHistoryDetails2(string formId)
         {
+            TempData["goBackToDelivery"] = true;
+            Session["DeptReqTabIndex"] = "3";
+
             string deptCode = Session["DepartmentCode"].ToString();
             ReqHistoryModel model;
 
