@@ -287,6 +287,9 @@
     <Compile Include="Models\AllItemPrice.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AllStaffRequisition.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ApprovalDelegation.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -298,6 +301,9 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CollectionList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CollectionListbyDept.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CollectionPoint.cs">
