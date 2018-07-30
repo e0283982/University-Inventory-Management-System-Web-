@@ -8,7 +8,7 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
-    [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
+    [CustomAuthorize(Roles = "Store Manager, Store Supervisor, Store Clerk")]
     [RoutePrefix("Store/StorePurchase")]
     public class StorePurchaseController : Controller
     {

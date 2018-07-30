@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
-
+    [CustomAuthorize(Roles = "Store Manager, Store Supervisor, Store Clerk")]
     [RoutePrefix("Store/StoreReports")]
     public class StoreReportsController : Controller
     {
