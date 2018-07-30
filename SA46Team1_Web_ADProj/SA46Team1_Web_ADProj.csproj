@@ -762,6 +762,8 @@
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Store\Approval.cshtml" />
+    <Content Include="Views\DeptRequisition\CollectionList.cshtml" />
+    <Content Include="Views\DeptRequisition\UpcomingDelivery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
