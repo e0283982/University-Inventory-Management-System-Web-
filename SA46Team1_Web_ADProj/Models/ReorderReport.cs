@@ -21,8 +21,8 @@ namespace SA46Team1_Web_ADProj.Models
         public int Quantity { get; set; }
         public int ReOrderLevel { get; set; }
         public int ReOrderQuantity { get; set; }
-        public int POBackOrdered { get; set; }
-        public int SRBackOrdered { get; set; }
-        public int SuggestedQty { get; set; }
+        public Nullable<int> POBackOrdered { get; set; }
+        public Nullable<int> SRBackOrdered { get; set; }
+        public Nullable<int> SuggestedQty { get; set; }
     }
 }
