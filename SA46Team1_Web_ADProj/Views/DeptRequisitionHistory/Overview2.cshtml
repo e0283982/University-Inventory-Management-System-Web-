@@ -59,11 +59,20 @@
                         {
                             'data': null,
                             "render": function (data, type, full, meta) {
-                                return '<span>' +
-                                            '<button class="btn btn-lu-red" id="btn-discard-items">' +
-                                                '<i class="far fa-trash-alt"></i>' +
-                                            '</button>' +
-                                       '</span>';
+                                //if approval status of req is completed or rejected, then dont show anything here
+                                var reqStatus = '@req.Status';
+                                var reqApprovalStatus = '@req.ApprovalStatus';
+
+                                if (reqStatus == "Open" && reqApprovalStatus == "Pending") {
+                                    return '<span>' +
+                                        '<button class="btn btn-lu-red" id="btn-discard-items">' +
+                                        '<i class="far fa-trash-alt"></i>' +
+                                        '</button>' +
+                                        '</span>';
+                                } else {
+                                    return "";
+                                }
+                                
                             }
                         },
                     ],
