@@ -2,3 +2,18 @@
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
+<button id="test">
+    Test
+</button>
+<script type="text/javascript">
+        // Edit PO Button
+        $('#test').click(function () {
+            //$('#dialog-edit-displayPO').dialog('open');
+             $.ajax({
+                url: '/Store/Test',
+                type: 'POST'
+            });
+    });
+
+    
+</script> 
