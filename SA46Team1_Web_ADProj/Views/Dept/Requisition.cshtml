@@ -1,8 +1,23 @@
 ﻿
 <script>
     $(function () {
-        $("#tabs-min").tabs();
-    });
+        var pageIndex =@Session["DeptReqTabIndex"].ToString();
+
+        switch (pageIndex) {
+            case 1:
+                $("#tabs-min").tabs();
+                break;
+            case 2:
+                $("#tabs-min").tabs({ active: 1 });
+                break;
+            case 3:
+                $("#tabs-min").tabs({ active: 2 });
+                break;
+            default:
+                $("#tabs-min").tabs();
+                break;
+            }
+        });
 </script>
 
 @if (User.IsInRole("Employee"))

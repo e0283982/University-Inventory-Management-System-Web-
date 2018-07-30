@@ -12,6 +12,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("NewReq")]
         public ActionResult NewReq()
         {
+
+            Session["DeptReqTabIndex"] = "1";
+
             using (SSISdbEntities e = new SSISdbEntities()) {
                 int SRcount = e.StaffRequisitionHeaders.Count() + 1;
                 Session["currentFormId"] = CommonLogic.SerialNo(SRcount, "SR");
@@ -106,6 +109,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             }
 
+            Session["DeptReqTabIndex"] = "2";
             return RedirectToAction("Requisition", "Dept");
         }
 
