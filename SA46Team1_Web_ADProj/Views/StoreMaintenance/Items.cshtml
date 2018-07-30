@@ -137,17 +137,17 @@
         </div>
 
         <div>
-            <label>Unit of Measure: </label>
+            <label>Unit of Measure:</label>
             @Html.DropDownList("SelectItemUOM", ViewBag.UOMList as SelectList)
         </div>
         <hr />
         <div>
-            <label>Quantity: </label>
+            <label>Quantity:</label>
             @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Quantity", @id = "new-item-qty" }, })
         </div>
 
         <div>
-            <label>Reorder Level: </label>
+            <label>Reorder Level:</label>
             @Html.EditorFor(model => model.ReOrderLevel, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Level", @id = "new-item-reorder-lvl" }, })
         </div>
 

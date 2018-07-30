@@ -90,5 +90,11 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Store Manager, Store Supervisor")]
+        public ActionResult Approval()
+        {
+            return View();
+        }
+
     }
 }
