@@ -9,6 +9,7 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Dept/DeptRequisition")]
     public class DeptRequisitionController : Controller
     {
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         [Route("NewReq")]
         public ActionResult NewReq()
         {
@@ -53,12 +54,14 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         [Route("BackOrders")]
         public ActionResult BackOrders()
         {
             return View();
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         [HttpPost]
         public RedirectToRouteResult DiscardSelBackorders(string[] itemCodes, string[] formIds)
         {
@@ -113,6 +116,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Requisition", "Dept");
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         [HttpPost]
         [Route("NewReq/AddNewReqItem")]
         public RedirectToRouteResult AddNewReqItem(Item item1, StaffRequisitionDetail item2)
@@ -155,6 +159,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         [HttpPost]
         //[Route("NewReq/SubmitNewRequestForm")]
         public RedirectToRouteResult SubmitNewRequestForm()
@@ -190,9 +195,12 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["NoUnreadRequests"] = noUnreadRequests;
             }
 
+            Session["tempList"] = new List<String>();
+
             return RedirectToAction("Requisition", "Dept");
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         [HttpPost]
         public RedirectToRouteResult DiscardNewItems(string data, int index)
         {
@@ -213,6 +221,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         [HttpPost]
         public RedirectToRouteResult EditNewOrderQty()
         {
@@ -224,6 +233,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         [HttpPost]
         public RedirectToRouteResult ExitEditNewOrderQty(object[] arr, string[] arr1)
         {
@@ -244,12 +254,14 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [CustomAuthorize(Roles = "Employee Representative")]
         [Route("UpcomingDelivery")]
         public ActionResult UpcomingDelivery()
         {
             return View();
         }
 
+        [CustomAuthorize(Roles = "Employee Representative")]
         [Route("CollectionList")]
         public ActionResult CollectionList()
         {

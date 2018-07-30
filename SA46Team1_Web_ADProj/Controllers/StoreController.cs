@@ -51,7 +51,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return View();
         }
-        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         public JsonResult Search(string search)
         {
             return new JsonResult { Data = itemRepository.GetItemById(search), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -62,23 +62,23 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             return View();
         }
-        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         public ActionResult Disbursements()
         {
             return View();
         }
-        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         public ActionResult Purchase()
         {
             return View();
         }
-        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         public ActionResult Report()
         {
             return View();
         }
 
-        [CustomAuthorize(Roles = "Store Manager")]
+        [CustomAuthorize(Roles = "Store Manager, Store Supervisor")]
         public ActionResult Maintenance()
         {
             return View();
