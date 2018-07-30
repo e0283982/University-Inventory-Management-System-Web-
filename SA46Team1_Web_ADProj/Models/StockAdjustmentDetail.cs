@@ -28,6 +28,5 @@ namespace SA46Team1_Web_ADProj.Models
 
         [NotMapped]
         public List<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
-
     }
 }
