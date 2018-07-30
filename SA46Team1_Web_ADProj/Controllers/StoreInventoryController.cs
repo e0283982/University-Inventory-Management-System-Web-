@@ -104,7 +104,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     {
                         // Create new PO based on supplier
                         int count = m.POHeaders.Count() + 1;
-                        string poId = "PO-" + count.ToString();
+                        string poId = CommonLogic.SerialNo(count, "PO");
 
                         POHeader newPOHeader = new POHeader();
                         newPOHeader.PONumber = poId;
@@ -300,21 +300,12 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 //data is item desc, index is list index
                 int adjCount = e.StockAdjustmentHeaders.ToList().Count() +1;
-                string newAdjHeaderId = null;
-                if (adjCount < 10)
-                {
-                    newAdjHeaderId = "SA-00" + adjCount.ToString();
-                }
-                else
-                {
-                    newAdjHeaderId = "SA-0" + adjCount.ToString();
-                }
-                
+                string newAdjHeaderId = CommonLogic.SerialNo(adjCount, "SA");                
 
                 StockAdjustmentHeader sah = new StockAdjustmentHeader();
                 sah.RequestId = newAdjHeaderId;
                 sah.DateRequested = DateTime.Now;
-                sah.Requestor = Session["UserId"].ToString();
+                sah.Requestor = Session["LoginEmployeeID"].ToString();
                 sah.DateProcessed = null;
                 sah.TransactionType = "Stock Adjustment";
 
@@ -333,6 +324,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     sad.ItemQuantity = detail.AdjQty;
                     sad.Remarks = detail.Reason;
                     sad.Status = "Pending";
+                    sad.NotificationStatus = "Unread";
 
                     dalDetails.InsertStockAdjustmentDetail(sad);
                 }
@@ -358,64 +350,61 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-        [CustomAuthorize(Roles = "Store Clerk")]
-        [HttpPost]
-        public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
-        {
-            StockAdjustmentDetail sad = new StockAdjustmentDetail();
-            sad.ItemCode = "C002";
-            sad.RequestId = "SA/2000";
-            sad.ItemQuantity = 1100;
-            sad.Amount = 1010;
-            sad.Remarks = "Damaged";
-            //sad.Reason = "nil";
+        //[CustomAuthorize(Roles = "Store Clerk")]
+        //[HttpPost]
+        //public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
+        //{
+        //    StockAdjustmentDetail sad = new StockAdjustmentDetail();
+        //    sad.ItemCode = "C002";
+        //    sad.RequestId = "SA/2000";
+        //    sad.ItemQuantity = 1100;
+        //    sad.Amount = 1010;
+        //    sad.Remarks = "Damaged";
+        //    //sad.Reason = "nil";
 
-            stockAdjustmentDetail.StockAdjustmentDetails.Add(sad);
+        //    stockAdjustmentDetail.StockAdjustmentDetails.Add(sad);
 
-            TempData["ItemList"] = stockAdjustmentDetail;
+        //    TempData["ItemList"] = stockAdjustmentDetail;
 
-            Session["StockAdjPage"] = "2";
-            return RedirectToAction("Inventory", "Store");
-        }
+        //    Session["StockAdjPage"] = "2";
+        //    return RedirectToAction("Inventory", "Store");
+        //}
 
-        [CustomAuthorize(Roles = "Store Clerk")]
-        [HttpPost]
-        public RedirectToRouteResult SubmitNewStockAdj(StockAdjustmentDetail stockAdjustmentDetail)
-        {
-            StockAdjustmentHeader sah = new StockAdjustmentHeader();
-            sah.DateRequested = DateTime.Now;
-            sah.Requestor = "E1";
-            //sah.Status = "Pending";
-            sah.TransactionType = "Stock Adjustment";
+        //[CustomAuthorize(Roles = "Store Clerk")]
+        //[HttpPost]
+        //public RedirectToRouteResult SubmitNewStockAdj(StockAdjustmentDetail stockAdjustmentDetail)
+        //{
+        //    StockAdjustmentHeader sah = new StockAdjustmentHeader();
+        //    sah.DateRequested = DateTime.Now;
+        //    sah.Requestor = (string) Session["LoginEmployeeID"];
+        //    //sah.Status = "Pending";
+        //    sah.TransactionType = "Stock Adjustment";
 
-            using(SSISdbEntities m = new SSISdbEntities())
-            {
-                m.StockAdjustmentHeaders.Add(sah);
-                m.SaveChanges();
-            }
+        //    using(SSISdbEntities m = new SSISdbEntities())
+        //    {
+        //        m.StockAdjustmentHeaders.Add(sah);
+        //        m.SaveChanges();
 
-            using (SSISdbEntities m = new SSISdbEntities())
-            {
-                foreach(StockAdjustmentDetail sad in stockAdjustmentDetail.StockAdjustmentDetails)
-                {
-                    StockAdjustmentDetail sadDb = new StockAdjustmentDetail();
-                    sadDb.RequestId = sah.RequestId;
-                    sadDb.ItemCode = sad.ItemCode;
-                    sadDb.ItemQuantity = sad.ItemQuantity;
-                    sadDb.Remarks = sad.Remarks;
-                    //sadDb.Reason = sad.Reason;
-                    //Temporary
-                    sadDb.Amount = 1000;
+        //        foreach(StockAdjustmentDetail sad in stockAdjustmentDetail.StockAdjustmentDetails)
+        //        {
+        //            StockAdjustmentDetail sadDb = new StockAdjustmentDetail();
+        //            sadDb.RequestId = sah.RequestId;
+        //            sadDb.ItemCode = sad.ItemCode;
+        //            sadDb.ItemQuantity = sad.ItemQuantity;
+        //            sadDb.Remarks = sad.Remarks;
+        //            //sadDb.Reason = sad.Reason;
+        //            //Temporary
+        //            sadDb.Amount = 1000;
 
-                    m.StockAdjustmentDetails.Add(sadDb);
-                    m.SaveChanges();
+        //            m.StockAdjustmentDetails.Add(sadDb);
+        //            m.SaveChanges();
 
-                }
+        //        }
 
-            }
+        //    }
 
-            return RedirectToAction("Inventory", "Store");
-        }
+        //    return RedirectToAction("Inventory", "Store");
+        //}
 
         [CustomAuthorize(Roles = "Store Manager")]
         [Route("StockTake")]
@@ -440,15 +429,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 int itemTransCount = m.StockTakeHeaders.Count() + 1;
-                string itemTransactionId = null;
-                if (itemTransCount < 10)
-                {
-                    itemTransactionId = "ST-0" + itemTransCount.ToString();
-                }
-                else
-                {
-                    itemTransactionId = "ST-" + itemTransCount.ToString();
-                }
+                string itemTransactionId = CommonLogic.SerialNo(itemTransCount, "ST");
                 
                 // Update StockTakeHeader Table
                 StockTakeHeader stockTakeHeader = new StockTakeHeader();

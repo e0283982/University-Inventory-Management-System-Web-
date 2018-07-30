@@ -6,11 +6,31 @@ using System.Net;
 using System.Net.Mail;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj
 {
     public static class CommonLogic
     {
+        public static string SerialNo(int count, string id)
+        {
+            //data is item desc, index is list index
+            if (count < 10)
+            {
+                id = id + "-00" + count.ToString();
+            }
+            else
+            if (count < 100 && count >=10)
+            {
+                id = id + "-0" + count.ToString();
+            }
+            else
+            {
+                id = id + "-" + count.ToString();
+            }
+            return id;
+        }
+
         public static class Email
         {
             // To use this simply type: EmailController.SendEmail("", "", "", "", "filepath"); or you can omit the file path

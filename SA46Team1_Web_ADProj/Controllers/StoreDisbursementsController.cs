@@ -88,8 +88,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 int id = m.StockRetrievalHeaders.Count();
-                string reqId = "StoR-" + id;
-                Session["RetrievalId"] = "StoR-" + id;
+                string reqId = CommonLogic.SerialNo(id, "StoR");
+                Session["RetrievalId"] = reqId;
                 ViewBag.IdCount = id;
                 ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;                
             }
@@ -112,7 +112,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 StockRetrievalHeader srh = m.StockRetrievalHeaders.Where(x => x.ID == id).First();
                 srh.Disbursed = 1;
                 
-                List<StockRetrievalDetail> itemsRetrieved = m.StockRetrievalDetails.Where(x => x.Id == id).ToList<StockRetrievalDetail>();
+                List<StockRetrievalDetail> itemsRetrieved = m.StockRetrievalDetails.Where(x => x.Id == id).ToList();
 
                 bool stockAdjustmentHeaderCreated = false;
 
@@ -130,12 +130,12 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                             StockAdjustmentHeader sah = new StockAdjustmentHeader();
                             int stockAdjustmentHeaderId = m.StockAdjustmentHeaders.Count() + 1;
-                            sah.RequestId = "SA-" + stockAdjustmentHeaderId;
+                            sah.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderId, "SA");
                             
                             sah.DateRequested = localDate;
 
                             //TODO, Temporary put the requestor as E1
-                            sah.Requestor = "E1";                            
+                            sah.Requestor = (string) Session["LoginEmployeeID"];                            
 
                             sah.TransactionType = "Stock Adjustment";
 
@@ -146,7 +146,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         //To Create Stock Adjustment Details
                         int stockAdjustmentDetailId = m.StockAdjustmentHeaders.Count();
                         StockAdjustmentDetail sad = new StockAdjustmentDetail();
-                        sad.RequestId = "SA-" + stockAdjustmentDetailId;
+                        sad.RequestId = CommonLogic.SerialNo(stockAdjustmentDetailId, "SA");
                         sad.ItemCode = srd.ItemCode;
                         sad.ItemQuantity = srd.QuantityAdjusted;
 
@@ -192,7 +192,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     DisbursementHeader newDH = new DisbursementHeader();
 
                     int count = m.DisbursementHeaders.Count() + 1;
-                    string disId = "DH-" + count;
+                    string disId = CommonLogic.SerialNo(count, "DH");
                     newDH.Id = disId;
                     newDH.Status = "Open";
                     

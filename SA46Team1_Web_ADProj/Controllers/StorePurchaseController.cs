@@ -129,7 +129,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     {
                         // Create new PO based on supplier
                         int count = m.POHeaders.Count() + 1;
-                        string poId = "PO-" + count.ToString();
+                        string poId = CommonLogic.SerialNo(count, "PO");
 
                         POHeader newPOHeader = new POHeader();
                         newPOHeader.PONumber = poId;
@@ -475,7 +475,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 int newId = m.POReceiptHeaders.Count() + 1;
-                receiptNo = "POR-" + newId.ToString();
+                receiptNo = CommonLogic.SerialNo(newId, "POR");
                 int countQty = 0;
                 int countInventory = 0;
 
@@ -499,6 +499,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     POReceiptHeader porh = new POReceiptHeader();
                     porh.ReceiptNo = receiptNo;
                     porh.PONumber = poNumber;
+                    // ---------------------------------------------------- Need to change this --------------------------------------
                     porh.DeliveryOrderNo = "Hardcode first";
                     porh.ReceivedDate = DateTime.Now;
                     porh.Receiver = (string)Session["LoginEmployeeID"];
