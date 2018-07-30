@@ -190,6 +190,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["NoUnreadRequests"] = noUnreadRequests;
             }
 
+            Session["tempList"] = new List<String>();
+
             return RedirectToAction("Requisition", "Dept");
         }
 
