@@ -178,6 +178,9 @@
         $('#dialog-confirm-discard-req-item').dialog('close');
         table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
+
+        window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
     });
 
     $('#btn-save-req-history').on('click', function () {
@@ -240,7 +243,9 @@
         $('#dialog-confirm-discard-req-item').dialog('close');
         table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
-        
+
+       window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+
     });
 </script>
 
@@ -281,12 +286,10 @@
     <div class="col-md-3">      
         <div>
             <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@dateNow</label>
-            @*<input type="text" name="country" value=@req.RequestDate readonly />*@
         </div>
 
         <div>
             <label style="font-size: 10pt;">Representative:&nbsp;</label><label style="font-size: 10pt;">@req.RepName</label>
-            @*<input type="text" name="country" value=@req.RepName readonly />*@
         </div>
 
         <div>
@@ -296,17 +299,15 @@
     <div class="col-md-3">
         <div>
             <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
-            @*<input type="text" name="country" value=@req.ApprovalStatus readonly />*@
         </div>
         <div>
             <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
-            @*<input type="text" name="country" value=@req.ApproverName readonly />*@
         </div>
     </div>
     <div class="col-md-6">
         <div style="float:right;">
             <button id="btn-edit-req-history" class="btn btn-lu-blue" type="submit" style="font-size: 10pt;">Edit</button>
-            <button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="font-size: 10pt;">Discard</button>
+            @*<button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="font-size: 10pt;">Discard</button>*@
             <button id="btn-save-req-history" class="btn btn-lu-green" type="submit" style="font-size: 10pt;">Save</button>
             @Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info", style = "font-size: 10pt;" })
         </div>       
@@ -329,7 +330,7 @@
 
 
 <div id="dialog-update-req-items-success" class="hidden" title="Request Item(s) updated (Edit Requisition)">
-    <h5>Requisition request has been successfully.</h5>
+    <h5>Requisition request has been saved.</h5>
 </div>
 
 <div id="dialog-discard-req-item-submitted" class="hidden" title="Item(s) Removed (Edit Requisition)">
