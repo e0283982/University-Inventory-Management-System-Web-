@@ -81,20 +81,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [System.Web.Mvc.Route("GetAllPendingApprovals/{id}")]
         public List<StaffRequisitionHeader> GetAllPendingApprovals(string id)
         {
-            //using (SSISdbEntities m = new SSISdbEntities())
-            //{
-            //    //to further filter by user's deptCode
-            //    m.Configuration.ProxyCreationEnabled = false;
-            //    List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders
-            //        .Where(x => x.DepartmentCode==id && x.ApprovalStatus != "Approved" && x.NotificationStatus != "Deleted" 
-            //        && x.Status!="Withdrawn").OrderBy(x => x.FormID).ToList();
-            //    List<RequisitionModel> list2 = new List<RequisitionModel>();
-            //    list2 = list.ConvertAll(x => new RequisitionModel
-            //    { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
-            //    .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
-
-            //    return list2;
-            //}
             List<StaffRequisitionHeader> srhList = new List<StaffRequisitionHeader>();
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -124,21 +110,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [System.Web.Mvc.Route("GetReadPendingApprovals/{id}")]
         public List<StaffRequisitionHeader> GetReadPendingApprovals(string id)
         {
-            //using (SSISdbEntities m = new SSISdbEntities())
-            //{
-            //    //to further filter by user's deptCode
-            //    m.Configuration.ProxyCreationEnabled = false;
-            //    List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders
-            //        .Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Read" 
-            //        && x.Status != "Withdrawn").OrderBy(x => x.FormID).ToList();
-            //    List<RequisitionModel> list2 = new List<RequisitionModel>();
-            //    list2 = list.ConvertAll(x => new RequisitionModel
-            //    { ReqFormId = x.FormID, ReqEmpName = m.Employees.Where(z => z.EmployeeID == x.EmployeeID)
-            //    .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
-
-            //    return list2;
-            //}
-
             List<StaffRequisitionHeader> srhList = new List<StaffRequisitionHeader>();
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -153,7 +124,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 {
                     srhList = m.StaffRequisitionHeaders
                         .Where(x => x.DepartmentCode == emp.DepartmentCode && x.EmployeeID == emp.EmployeeID
-                        && (x.ApprovalStatus == "Approved" || x.ApprovalStatus == "Rejected") && x.NotificationStatus != "Read").ToList();
+                        && (x.ApprovalStatus == "Approved" || x.ApprovalStatus == "Rejected") && x.NotificationStatus == "Read").ToList();
                 }
 
                 if (srhList == null)
@@ -168,20 +139,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [System.Web.Mvc.Route("GetUnreadPendingApprovals/{id}")]
         public List<StaffRequisitionHeader> GetUnreadPendingApprovals(string id)
         {
-            //using (SSISdbEntities m = new SSISdbEntities())
-            //{
-            //    //to further filter by user's deptCode
-            //    m.Configuration.ProxyCreationEnabled = false;
-            //    List<StaffRequisitionHeader> list = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id && x.ApprovalStatus != "Approved" && x.NotificationStatus == "Unread" && x.Status != "Withdrawn").OrderBy(x => x.FormID).ToList<StaffRequisitionHeader>();
-            //    List<RequisitionModel> list2 = new List<RequisitionModel>();
-            //    list2 = list.ConvertAll(x => new RequisitionModel
-            //    { ReqFormId = x.FormID, ReqEmpName = m.Employees
-            //    .Where(z => z.EmployeeID == x.EmployeeID)
-            //    .Select(a => a.EmployeeName).First(), DateReq = x.DateRequested });
-
-            //    return list2;
-            //}
-
             List<StaffRequisitionHeader> srhList = new List<StaffRequisitionHeader>();
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -196,7 +153,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 {
                     srhList = m.StaffRequisitionHeaders
                         .Where(x => x.DepartmentCode == emp.DepartmentCode && x.EmployeeID == emp.EmployeeID
-                        && (x.ApprovalStatus == "Approved" || x.ApprovalStatus == "Rejected") && x.NotificationStatus != "Unread").ToList();
+                        && (x.ApprovalStatus == "Approved" || x.ApprovalStatus == "Rejected") && x.NotificationStatus == "Unread").ToList();
                 }
 
                 if (srhList == null)
