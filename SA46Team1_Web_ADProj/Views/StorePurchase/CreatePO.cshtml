@@ -68,12 +68,14 @@
             arrSupplier.push(table.cell(i, 2).nodes().to$().find('select').val());
         }
 
+        var taData = $("#ta-remarks").val();
+
         $.ajax({
             url: '/StorePurchase/SavePO',
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
-            data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier })
+            data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier, taData: taData })
         });
         alert('Items Added');
         window.location.href = '@Url.Action("Purchase", "Store")';
@@ -140,7 +142,7 @@
         <div style="float:right;">
             <div style="font-size: 10pt;">
                 <p>Remarks: </p>
-                <textarea rows="3" cols="50" />
+                <textarea id="ta-remarks" rows="3" cols="50" />
             </div>
         </div>
     </div>
@@ -148,7 +150,7 @@
 
 @*--- Table ---*@
 
-<table id="dataTable-newPO" class="display" style="width:80%;">
+<table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
     <thead style="font-size: 10pt;">
         <tr>
             <th>Item Code</th>
@@ -223,6 +225,9 @@
 <div class="row">
     <div class="col-md-12">
         <div style="float: right">
+            <span>
+                <button class="btn btn-lu-blue" id="btn-add-export" style="font-size: 10pt;">Export to PDF</button>
+            </span>
             <span>
                 <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
             </span>

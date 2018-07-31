@@ -45,6 +45,9 @@
 
                         }
                     ],
+                    columnDefs: [
+                        { className: 'text-center', targets: [0, 1] },
+                    ]
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-read tbody').on('click', 'tr', function () {
                             //var data = table.row(this).data();

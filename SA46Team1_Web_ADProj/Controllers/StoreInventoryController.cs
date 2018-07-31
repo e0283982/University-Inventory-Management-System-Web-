@@ -20,7 +20,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["InventoryOverviewPage"].ToString() == "1")
             {
-
+                Session["StoreInventoryTabIndex"] = "1";
                 return View("Overview");
             }
             else
@@ -37,7 +37,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["InventoryOverviewPage"] = "2";
             Session["MaintenanceItemCode"] = maintenanceItemCode;
 
-            return null;
+            return View("Overview2");
         }
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]

@@ -5,7 +5,27 @@
 
 <script>
     $(function () {
-        var tabsCurrentPageIndexes = [];
+        var pageIndex =@Session["MaintenanceTabIndex"].ToString();
+
+        switch (pageIndex) {
+            case 1:
+                $("#tabs-min").tabs();
+                break;
+            case 2:
+                $("#tabs-min").tabs({ active: 1 });
+                break;
+            case 3:
+                $("#tabs-min").tabs({ active: 2 });
+                break;
+            case 4:
+                $("#tabs-min").tabs({ active: 3 });
+                break;
+            default:
+                $("#tabs-min").tabs();
+                break;
+            }
+        });
+        @*var tabsCurrentPageIndexes = [];
         var pageVariablesArray = [@Session["MaintenanceItemsPage"].ToString(),@Session["MaintenanceCategoriesPage"].ToString(),
             @Session["MaintenanceStoreBinPage"].ToString(),@Session["MaintenanceCollectionPointsPage"].ToString(),
             @Session["MaintenanceSuppliersPage"].ToString(),@Session["MaintenanceDepartmentsPage"].ToString()];
@@ -31,9 +51,9 @@
             $("#tabs-min").tabs({ active: finalIndex })
         } else {
             $("#tabs-min").tabs();
-        }
+        }*@
     
-    });
+   // });
 </script>
 
 <div id="tabs-min">

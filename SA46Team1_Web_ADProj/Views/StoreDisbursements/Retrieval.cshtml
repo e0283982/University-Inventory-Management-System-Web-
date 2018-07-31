@@ -126,6 +126,8 @@
     //    return false;
     //});
 
+    
+
 </script>
 
 <div>
@@ -150,7 +152,7 @@
 </table>
 <hr />
 <div class="row">
-    <div class="col-md-11">
+    <div class="col-md-12">
         <div style="float: right">
             <span>
                 @*@using (Html.BeginForm("DisburseItems", "StoreDisbursements", FormMethod.Post))
@@ -163,11 +165,11 @@
             </span>
         </div>
     </div>
-    <div class="col-md-1">
+    @*<div class="col-md-1">
         <span>
             <button class="btn btn-lu-blue" style="font-size: 10pt;">@Html.ActionLink("Print List", "Home", "Store", null, new { @style = "color:#f4f4f4;" })</button>
         </span>
-    </div>
+    </div>*@
 </div>
 
 <div id="div-disbursed">

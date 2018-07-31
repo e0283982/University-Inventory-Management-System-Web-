@@ -53,8 +53,7 @@
                 // Displaying JSON onto labals
                 $(function () {
                     $('#lbl-poNumber').val(data[0]["PONumber"]);
-                    $('#ta-remarks').val(data[0]["Remarks"]);
-                    $('#lbl-total').val(itemTotal);
+                    $('#lbl-total').val(twoDP(itemTotal));
 
                     $("#lbl-supplier").append(data[0]["CompanyName"]);
                     $("#lbl-dateCreated").append(newDate);
@@ -75,6 +74,7 @@
                 inputs[i].disabled = false;
             }
         }
+        table.column(4).visible(false);
     });
 
     // Format into 2 DP
@@ -96,13 +96,15 @@
         for (var i = 0; i < table.rows().data().length; i++) {
             arrQty.push(table.cell(i, 2).nodes().to$().find('input').val());
         }
+        var taData = $("#ta-remarks").val();
+
 
         $.ajax({
             url: '/StorePurchase/SaveEdit',
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
-            data: JSON.stringify({ arrQty: arrQty })
+            data: JSON.stringify({ arrQty: arrQty, taData: taData })
         });
 
         window.location.href = '@Url.Action("Purchase", "Store")';
@@ -123,8 +125,9 @@
         $('#btn-edit-displayPO').hide();
         $('#btn-cancelPO').hide();
         $('#input-qty-ordered').prop('disabled', false);
+        $('#input-qty-received').prop('disabled', true);
         $('#input-qty-delivered').prop('disabled', true);
-
+        $('#ta-remarks').prop('disabled', false);
         $('#btn-GR-displayPO').hide();
         $('#btn-edit-GR').hide();
         $('#btn-cancel-displayPO').show();
@@ -160,7 +163,7 @@
 
         var arrQty = [];
         for (var i = 0; i < table.rows().data().length; i++) {
-            arrQty.push(table.cell(i, 3).nodes().to$().find('input').val());
+            arrQty.push(table.cell(i, 4).nodes().to$().find('input').val());
         }
 
         $.ajax({
@@ -220,27 +223,45 @@
 
     // Edit GR Button
     $('#btn-edit-GR').click(function () {
-
+        table.column(4).visible(true);
         $('#btn-GR-displayPO').show();
         $('#btn-edit-GR').hide();
         $('#btn-cancelPO').hide();
-        $('#input-qty-delivered').prop('disabled', false);
+        $('#input-qty-delivered').prop('disabled', true);
         $('#input-qty-ordered').prop('disabled', true);
+        $('#input-qty-received').prop('disabled', false);
         $('#btn-save-displayPO').hide();
         $('#btn-edit-displayPO').hide();
         $('#btn-cancel-displayPO').show();
 
+
         var inputs = document.getElementsByTagName("INPUT");
 
         for (var i = 0; i < table.rows().data().length; i++) {
-            table.cell(i, 3).nodes().to$().find('input').prop('disabled', false);
+            table.cell(i, 4).nodes().to$().find('input').prop('disabled', false);
         }
 
-        //for (var i = 0; i < inputs.length; i++) {
-        //    if (inputs[i].id === 'input-qty-delivered') {
-        //        inputs[i].disabled = false;
-        //    }
-        //}
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 3).nodes().to$().find('input').val();
+        var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
+
+        var newTotal = qty * parseFloat(unitCost);
+        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+        $("#Title").text("Goods Receipt");
         table.draw(false);
         return false;
     });
@@ -250,14 +271,50 @@
         var index = table.row($(this).parents('tr')).index();
 
         var qty = table.cell(index, 2).nodes().to$().find('input').val();
-        var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
+        var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
 
         var newTotal = qty * unitCost;
-        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(newTotal);
-        
+        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+
         table.draw(false);
     });
 
+    $('#dataTable-displayPO tbody').on('change', '#input-qty-received', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 4).nodes().to$().find('input').val();
+        var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
+
+        var newTotal = qty * unitCost;
+        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+
+        table.draw(false);
+    });
     //$('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
         
     //    table.draw(false);
@@ -266,28 +323,38 @@
 </script>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-9">
         <div>
-            <h5>Display/Edit Purchase Order</h5>
+            <h5 id="Title">Display/Edit Purchase Order</h5>
         </div>
-        <div>
-            <label style="font-size: 10pt;">PO Number:&nbsp <label id="lbl-poNumber" style="font-size: 10pt;">@Session["poNumber"]</label></label>
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumber" style="font-size: 10pt;">@Session["poNumber"]</label>
+                </div>
+                <div>
+                    <label style="font-size: 10pt;">PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 10pt;" /></strong>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div>
+                    <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-supplier" style="font-size: 10pt;" />
+                </div>
+                <div>
+                    <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
+                </div>
+            </div>
         </div>
-        <div>
-            <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-supplier" style="font-size: 10pt;" />
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
-        </div>
+
         @*<div>
-            <label style="font-size: 10pt;">Delivery Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
-        </div>*@
+                <label style="font-size: 10pt;">Delivery Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
+            </div>*@
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div style="float: right;">
             <div>
                 <p>Remarks:</p>
-                <textarea id="ta-remarks" rows="3" cols="50"></textarea>
+                <textarea id="ta-remarks" rows="3" cols="40" disabled>@Session["PORemarks"]</textarea>
             </div>
         </div>
     </div>
@@ -300,6 +367,7 @@
             <th>Item Description</th>
             <th>Quantity Ordered</th>
             <th>Quantity Delivered</th>
+            <th>New Quantity Received</th>
             <th>Unit of Measure</th>
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
@@ -317,21 +385,21 @@
         <th style="font-size: 10pt;">
             <input id="input-qty-delivered" class="inputEditDel" type="number" value="@item.QuantityDelivered" disabled />
         </th>
-
+        <th><input id="input-qty-received" class="inputEditRec" type="number" value="0" disabled /></th>
         <th style="font-size: 10pt;">@item.UoM</th>
-        <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost</label></th>
+        <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost.ToString("0.00")</label></th>
         <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
         <th style="font-size: 10pt;">7%</th>
     </tr>
     }
 </table>
 </div>
+<br/> @ViewBag.ErrorAmt
 <br />
 <div>
     <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
     <label style="font-size: 12pt;">&nbsp;GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 12pt;" /></strong>
     <label style="font-size: 12pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 12pt;" /></strong>
-    <label style="font-size: 12pt;">&nbsp;PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 12pt;" /></strong>
 </div>
 
 <div class="row">

@@ -448,25 +448,43 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetBinsList")]
-        public List<Bin> GetBinsList()
+        public List<FullBinModel> GetBinsList()
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.Bins.ToList();
+                List<Bin> list = m.Bins.ToList();
+                List<FullBinModel> list2 = list.ConvertAll(x => new FullBinModel
+                {
+                    Number = x.Number,
+                    Location = x.Location,
+                    Active = x.Active,
+                    ItemDesc=m.Items.Where(y=>y.ItemCode==x.ItemCode).Select(y=>y.Description).FirstOrDefault()
+                });
+
+                return list2;
             }
         }
 
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetBinsList/{id}")]
-        public List<Bin> GetBinsList(string id)
+        public List<FullBinModel> GetBinsList(string id)
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 List<Bin> item = m.Bins.Where(x => x.Number.ToString() == id).ToList();
-                return item;
+                List<FullBinModel> list2 = item.ConvertAll(x => new FullBinModel
+                {
+                    Number = x.Number,
+                    Location = x.Location,
+                    Active = x.Active,
+                    ItemDesc = m.Items.Where(y => y.ItemCode == x.ItemCode).Select(y => y.Description).FirstOrDefault()
+                });
+
+                return list2;
             }
+        
         }
 
         [System.Web.Mvc.HttpGet]
@@ -516,6 +534,29 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
                 List<Supplier> list = m.Suppliers.Where(x => x.SupplierCode == id).ToList();
                 return list;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetSupplierPriceList/{id}")]
+        public List<FullSupplierPriceList> GetSupplierPriceList(string id) //where id is supplier id
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<SupplierPriceList> list = m.SupplierPriceLists.Where(x => x.SupplierCode == id).ToList();
+
+                List<FullSupplierPriceList> list2 = list.ConvertAll(x => new FullSupplierPriceList
+                {
+                    SupplierCode = x.SupplierCode,
+                    ItemCode = x.ItemCode,
+                    ItemDesc = m.Items.Where(y=>y.ItemCode==x.ItemCode).Select(y=>y.Description).FirstOrDefault(),
+                    UnitCost = x.UnitCost,
+                    Active = x.Active,
+                    UoM=x.UoM
+                });
+
+                return list2;
             }
         }
 

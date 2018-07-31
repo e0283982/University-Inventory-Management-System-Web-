@@ -17,10 +17,11 @@
                 d = data;
 
                 table = $('#dataTable-store-categories-details').DataTable({
-                    paging: true,
-                    sort: true,
+                    paging: false,
+                    sort: false,
                     searching: false,
                     "iDisplayLength": 5,
+                    "bInfo": false,
                     //scrollY: 200,
                     data: data,
                     columns: [
@@ -34,12 +35,18 @@
                             'data': 'Active',
                             render: function (data, type, row) {
 
-                                if (data != 0) {
-                                    //active status
-                                    return '<input id="input-category-active" type="checkbox" checked>';
+                                if ('@TempData["countItemsWithQtyNotZero"].ToString().ToLower()' == "false") {
+                                    if (data != 0) {
+                                        //active status
+                                        //to check for item qty balance (readonly if qty balance >0)
+                                        return '<input id="input-category-active" type="checkbox" checked>';
+                                    } else {
+                                        return '<input id="input-category-active" type="checkbox">';
+                                    }
                                 } else {
-                                    return '<input id="input-category-active" type="checkbox">';
+                                    return data != 0 ? 'Active' : 'Inactive';
                                 }
+                                
                             }
                         },
                     ],
@@ -92,6 +99,7 @@
                 data: JSON.stringify({ arr: arr })
             });
 
+            table.draw(false); //this line needed, if not upon save, table does not auto display updated data (until next refresh)
             window.location.href = '@Url.Action("Maintenance", "Store")';
 
         });
