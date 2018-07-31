@@ -321,7 +321,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.POLists.ToList();
+                return m.POLists.OrderBy(x=>x.Date).ToList();
             }
         }
 
