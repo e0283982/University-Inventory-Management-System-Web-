@@ -38,12 +38,23 @@
                         'data': 'Active',
                         render: function (data, type, row) {
 
-                            if (data != 0) {
-                                //active status
-                                return '<input id="input-bin-active" type="checkbox" checked>';
-                            } else {
-                                return '<input id="input-bin-active" type="checkbox">';
-                            }
+                            if ('@TempData["countItemsWithQtyNotZero"].ToString().ToLower()' == "false") {
+                                    if (data != 0) {
+                                        //active status
+                                        //to check for item qty balance (readonly if qty balance >0)
+                                        return '<input id="input-bin-active" type="checkbox" checked>';
+                                    } else {
+                                        return '<input id="input-bin-active" type="checkbox">';
+                                    }
+                                } else {
+                                    return data != 0 ? 'Active' : 'Inactive';
+                                }
+                            //if (data != 0) {
+                            //    //active status
+                            //    return '<input id="input-bin-active" type="checkbox" checked>';
+                            //} else {
+                            //    return '<input id="input-bin-active" type="checkbox">';
+                            //}
                         }
                     },
                 ],
@@ -73,6 +84,7 @@
         $('#btn-edit-bin').click(function () {
             var dataToSend = "";
             var arr = [];
+            var itemDesc = [];
 
             dataToSend = table.rows(0).data();
             for (var i = 0; i < Object.keys(d).length; i++) {
