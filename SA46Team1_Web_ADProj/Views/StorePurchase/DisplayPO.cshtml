@@ -54,7 +54,7 @@
                 $(function () {
                     $('#lbl-poNumber').val(data[0]["PONumber"]);
                     $('#ta-remarks').val(data[0]["Remarks"]);
-                    $('#lbl-total').val(itemTotal);
+                    $('#lbl-total').val(twoDP(itemTotal));
 
                     $("#lbl-supplier").append(data[0]["CompanyName"]);
                     $("#lbl-dateCreated").append(newDate);
@@ -75,6 +75,7 @@
                 inputs[i].disabled = false;
             }
         }
+
     });
 
     // Format into 2 DP
@@ -253,11 +254,22 @@
         var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
 
         var newTotal = qty * unitCost;
-        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(newTotal);
-        
+        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+
         table.draw(false);
     });
-
     //$('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
         
     //    table.draw(false);
@@ -288,10 +300,10 @@
                 </div>
             </div>
         </div>
-       
+
         @*<div>
-            <label style="font-size: 10pt;">Delivery Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
-        </div>*@
+                <label style="font-size: 10pt;">Delivery Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
+            </div>*@
     </div>
     <div class="col-md-3">
         <div style="float: right;">
@@ -303,47 +315,45 @@
     </div>
 </div>
 <div id="datatableDisplayPO">
-    <table id="dataTable-displayPO" class="display" style="width:80%;">
-        <thead style="font-size: 10pt;">
-            <tr>
-                <th>Item Code</th>
-                <th>Item Description</th>
-                <th>Quantity Ordered</th>
-                <th>Quantity Delivered</th>
-                <th>Unit of Measure</th>
-                <th>Unit Price ($)</th>
-                <th>Total ($)</th>
-                <th>GST ($)</th>
-            </tr>
-        </thead>
-        @foreach (var item in poFullDetailList)
-        {
-            <tr style="font-size: 10pt;">
-                <th style="font-size: 10pt;">@item.ItemCode</th>
-                <th style="font-size: 10pt;">@item.Description</th>
-                <th style="font-size: 10pt;">
-                    <input id="input-qty-ordered" class="inputEditOrd" type="number" value="@item.QuantityOrdered" disabled />
-                </th>
-                <th style="font-size: 10pt;">
-                    <input id="input-qty-delivered" class="inputEditDel" type="number" value="@item.QuantityDelivered" disabled />
-                </th>
+<table id="dataTable-displayPO" class="display" style="width:80%;">
+    <thead style="font-size: 10pt;">
+        <tr>
+            <th>Item Code</th>
+            <th>Item Description</th>
+            <th>Quantity Ordered</th>
+            <th>Quantity Delivered</th>
+            <th>Unit of Measure</th>
+            <th>Unit Price ($)</th>
+            <th>Total ($)</th>
+            <th>GST ($)</th>
+        </tr>
+    </thead>
+    @foreach (var item in poFullDetailList)
+    {
+    <tr style="font-size: 10pt;">
+        <th style="font-size: 10pt;">@item.ItemCode</th>
+        <th style="font-size: 10pt;">@item.Description</th>
+        <th style="font-size: 10pt;">
+             <input id="input-qty-ordered" class="inputEditOrd" type="number" value="@item.QuantityOrdered" disabled/>
+        </th>
+        <th style="font-size: 10pt;">
+            <input id="input-qty-delivered" class="inputEditDel" type="number" value="@item.QuantityDelivered" disabled />
+        </th>
 
-                <th style="font-size: 10pt;">@item.UoM</th>
-                <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost</label></th>
-                <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
-                <th style="font-size: 10pt;">7%</th>
-            </tr>
-        }
-    </table>
-
-    @*center all*@
-
+        <th style="font-size: 10pt;">@item.UoM</th>
+        <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost.ToString("0.00")</label></th>
+        <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
+        <th style="font-size: 10pt;">7%</th>
+    </tr>
+    }
+</table>
 </div>
 <br />
 <div>
     <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
     <label style="font-size: 12pt;">&nbsp;GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 12pt;" /></strong>
     <label style="font-size: 12pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 12pt;" /></strong>
+    <label style="font-size: 12pt;">&nbsp;PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 12pt;" /></strong>
 </div>
 
 <div class="row">
