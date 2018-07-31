@@ -95,6 +95,7 @@ namespace SA46Team1_Web_ADProj
 
             //Session variables for Store - Maintenance
             Session["MaintenanceBackFlagPage"] = "0";
+            Session["MaintenanceTabIndex"] = "1";
 
             Session["MaintenanceItemsPage"] = "1";
             Session["MaintenanceItemCode"] = "";

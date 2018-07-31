@@ -16,6 +16,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Categories")]
         public ActionResult Categories()
         {
+            Session["MaintenanceTabIndex"] = "2";
+
             if (Session["MaintenanceCategoriesPage"].ToString() == "1")
             {
                 Session["MaintenanceBackFlagPage"] = "0";
@@ -34,6 +36,20 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["MaintenanceCategoriesPage"] = "2";
             Session["MaintenanceCategoryId"] = maintenanceCategoryId;
 
+            //also pass var if category has item qty >0
+            using (SSISdbEntities e = new SSISdbEntities()) {
+                int countItemsWithQtyNotZero = e.Items.Where(x => x.CategoryID == maintenanceCategoryId && x.Quantity > 0).ToList().Count();
+
+                if (countItemsWithQtyNotZero > 0)
+                {
+                    TempData["countItemsWithQtyNotZero"] = true;
+                }
+                else {
+                    TempData["countItemsWithQtyNotZero"] = false;
+                }
+
+            }
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -50,9 +66,12 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Categories/AddNewCategory")]
         public RedirectToRouteResult AddNewCategory(Category cat)
         {
+            Session["MaintenanceTabIndex"] = "2";
+
             using (SSISdbEntities e = new SSISdbEntities()) {
 
                 string categoryCount = (e.Categories.Count() + 1).ToString();
+
                 cat.CategoryID = "C" + categoryCount;
                 cat.Active = 1;
 
@@ -337,6 +356,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Items")]
         public ActionResult Items()
         {
+            Session["MaintenanceTabIndex"] = "1";
+
             if (Session["MaintenanceItemsPage"].ToString() == "1")
             {
                 Session["MaintenanceBackFlagPage"] = "0";
@@ -386,6 +407,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Items/AddNewItem")]
         public RedirectToRouteResult AddNewItem(Item item)
         {
+
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 string category = Request.Form["SelectItemCategory"].ToString();
@@ -449,6 +471,14 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 return RedirectToAction("Maintenance", "Store");
             }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToItemsMaintenanceList()
+        {
+            Session["MaintenanceItemsPage"] = "1";
+
+            return RedirectToAction("Maintenance", "Store");
         }
     }
 }
