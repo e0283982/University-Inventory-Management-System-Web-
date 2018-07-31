@@ -19,6 +19,11 @@
             $("#div-disbursed").hide();
         }
 
+        if (disbursed == 1) {
+            $("#btn-disburse-retrieval").hide();
+        }
+
+
         if (disbursed == 0) {
 
             $.ajax({
@@ -79,6 +84,36 @@
         });
     });
 
+    $(function () {
+        $("#dialog-confirm-disburse-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $('#btn-disburse-retrieval').on('click', function () {
+        $('#dialog-confirm-disburse-item').dialog('open');
+    });
+
+    $('#btn-confirm-submit-cancel').on('click', function () {
+        $('#dialog-confirm-submit-new-adj').dialog('close');
+    });
+   
+    $('#btn-confirm-submit-submit').on('click', function () {
+        $('#dialog-new-adj-submited').dialog('open');
+
+        $.ajax({
+            url: '/StoreDisbursements/DisburseItems',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Disbursements", "Store")';
+
+    });
+
     function myFunction(param1, param2) {
         $('#assign-stock-req-id').val(param1);
         $('#assign-item-description').val(param2);
@@ -118,10 +153,13 @@
     <div class="col-md-11">
         <div style="float: right">
             <span>
-                @using (Html.BeginForm("DisburseItems", "StoreDisbursements", FormMethod.Post))
+                @*@using (Html.BeginForm("DisburseItems", "StoreDisbursements", FormMethod.Post))
                 {
                     <button class="btn btn-lu-blue" id="btn-disburse-retrieval" style="font-size: 10pt;">Disburse Items</button>
-                }
+                }*@
+
+                <button class="btn btn-lu-blue" id="btn-disburse-retrieval" style="font-size: 10pt;">Disburse Items</button>
+
             </span>
         </div>
     </div>
@@ -179,4 +217,18 @@
 
     </div>
     }
+</div>
+
+
+<div id="dialog-confirm-disburse-item" class="hidden" title="Confirm Item Disbursement?">
+    <h6>Are you sure you want to disburse the item?</h6>
+    <div>
+        <span>
+            <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+        </span>
+
+        <span>
+            <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+        </span>
+    </div>
 </div>
