@@ -12,6 +12,7 @@ namespace SA46Team1_Web_ADProj.Models
         public int QuantityReceived { get; set; }
         public int QuantityAdjusted { get; set; }
         public string RequestorId { get; set; }
+        public int DisbursementAndroidId { get; set; }
 
 
 
