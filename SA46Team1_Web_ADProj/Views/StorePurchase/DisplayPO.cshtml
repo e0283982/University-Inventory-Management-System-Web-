@@ -53,7 +53,6 @@
                 // Displaying JSON onto labals
                 $(function () {
                     $('#lbl-poNumber').val(data[0]["PONumber"]);
-                    $('#ta-remarks').val(data[0]["Remarks"]);
                     $('#lbl-total').val(twoDP(itemTotal));
 
                     $("#lbl-supplier").append(data[0]["CompanyName"]);
@@ -97,13 +96,15 @@
         for (var i = 0; i < table.rows().data().length; i++) {
             arrQty.push(table.cell(i, 2).nodes().to$().find('input').val());
         }
+        var taData = $("#ta-remarks").val();
+
 
         $.ajax({
             url: '/StorePurchase/SaveEdit',
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
-            data: JSON.stringify({ arrQty: arrQty })
+            data: JSON.stringify({ arrQty: arrQty, taData: taData })
         });
 
         window.location.href = '@Url.Action("Purchase", "Store")';
@@ -126,7 +127,7 @@
         $('#input-qty-ordered').prop('disabled', false);
         $('#input-qty-received').prop('disabled', true);
         $('#input-qty-delivered').prop('disabled', true);
-
+        $('#ta-remarks').prop('disabled', false);
         $('#btn-GR-displayPO').hide();
         $('#btn-edit-GR').hide();
         $('#btn-cancel-displayPO').show();
@@ -352,7 +353,7 @@
         <div style="float: right;">
             <div>
                 <p>Remarks:</p>
-                <textarea id="ta-remarks" rows="3" cols="40"></textarea>
+                <textarea id="ta-remarks" rows="3" cols="40" disabled>@Session["PORemarks"]</textarea>
             </div>
         </div>
     </div>
@@ -398,7 +399,6 @@
     <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
     <label style="font-size: 12pt;">&nbsp;GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 12pt;" /></strong>
     <label style="font-size: 12pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 12pt;" /></strong>
-    <label style="font-size: 12pt;">&nbsp;PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 12pt;" /></strong>
 </div>
 
 <div class="row">
