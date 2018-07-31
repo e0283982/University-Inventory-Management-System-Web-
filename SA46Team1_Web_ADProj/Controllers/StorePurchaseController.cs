@@ -282,6 +282,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
                 POFullDetail item = poFullDetailsList.ElementAt(index);
                 item.CompanyName = data;
+                SupplierPriceList spl = e.SupplierPriceLists.Where(y => y.SupplierCode == item.CompanyName).FirstOrDefault();
+                item.UnitCost = spl.UnitCost;
                 Session["newAdjList"] = poFullDetailsList;
 
                 return RedirectToAction("Purchase", "Store");
