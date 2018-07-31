@@ -97,6 +97,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult Logout()
         {
             HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session.Abandon(); //fixed bug
             return RedirectToAction("Login", "Main", new { area = "" });
         }
     }

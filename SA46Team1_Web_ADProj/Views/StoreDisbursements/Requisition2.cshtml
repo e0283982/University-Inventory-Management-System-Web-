@@ -31,7 +31,10 @@
                         { 'data': 'Description' },
                         { 'data': 'QuantityOrdered' },
                         { 'data': 'QuantityDelivered' }
-                    ]
+                    ],
+                    columnDefs: [
+                        { className: 'text-center', targets: [0, 1, 2, 3] },
+                    ],
                 });
 
                 var date = new Date(data[0]["DateProcessed"]);

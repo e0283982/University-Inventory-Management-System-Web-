@@ -12,7 +12,6 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Store/StorePurchase")]
     public class StorePurchaseController : Controller
     {
-        string temp = "";
 
         [Route("CreatePO")]
         public ActionResult CreatePO()
@@ -187,8 +186,14 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
                 }
             }
-                Session["newPOList"] = new List<POFullDetail>();
-                return View();
+
+            //add to list meant for already added items
+            List<String> tempList = (List<String>)Session["tempList"];
+            tempList.Clear();
+            Session["tempList"] = tempList;
+
+            Session["newPOList"] = new List<POFullDetail>();
+            return View();
         }
 
         [HttpPost]
@@ -469,8 +474,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
                 Session["POItems"] = poFullDetailsList;
             }
+            Session["poStatus"] = "Cancelled";
             Session["POListPage"] = "2";
-            return View();
+            return View("DisplayPO");
         }
 
         [HttpPost]
@@ -616,6 +622,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         }
                         m.SaveChanges();
                         Session["GRListPage"] = "2";
+                        Session["poStatus"] = "Completed";
                     }
                 }
                 else

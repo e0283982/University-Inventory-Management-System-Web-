@@ -16,9 +16,11 @@
             scrollCollapse: true,
             paging: true,
             "columnDefs": [{
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<input type='checkbox' checked/>"
+                //"targets": -1,
+                //"data": null,
+                "defaultContent": "<input type='checkbox' checked/>",
+                className: 'text-center', targets: [0, 1, 2, 3, 4, 5]
+                //this might cause issues, just fyi
             }]
         });
     });

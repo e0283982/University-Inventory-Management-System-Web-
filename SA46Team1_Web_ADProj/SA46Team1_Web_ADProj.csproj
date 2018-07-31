@@ -605,6 +605,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\buttons.css" />
     <Content Include="Content\common.css" />
+    <Content Include="Content\dropdowns.css" />
     <Content Include="Content\images\campaign.jpg" />
     <Content Include="Content\images\logic1.png" />
     <Content Include="Content\Login-Form-Clean.css" />
