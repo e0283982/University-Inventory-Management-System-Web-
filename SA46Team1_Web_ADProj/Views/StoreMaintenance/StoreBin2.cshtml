@@ -33,6 +33,7 @@
                             return '<input id="input-bin-location" type="text" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
+                    { 'data': 'ItemDesc' },
                     {
                         'data': 'Active',
                         render: function (data, type, row) {
@@ -109,6 +110,7 @@
         <tr>
             <th>Bin Number</th>
             <th>Bin Name</th>
+            <th>Item</th>
             <th>Active</th>
         </tr>
     </thead>

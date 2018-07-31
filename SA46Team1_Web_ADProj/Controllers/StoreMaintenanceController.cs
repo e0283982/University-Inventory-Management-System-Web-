@@ -16,7 +16,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Categories")]
         public ActionResult Categories()
         {
-            Session["MaintenanceTabIndex"] = "2";
 
             if (Session["MaintenanceCategoriesPage"].ToString() == "1")
             {
@@ -50,6 +49,8 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             }
 
+            Session["MaintenanceTabIndex"] = "2";
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -58,6 +59,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["MaintenanceBackFlagPage"] = "1";
             Session["MaintenanceCategoriesPage"] = "1";
+
+            Session["MaintenanceTabIndex"] = "2";
+
 
             return RedirectToAction("Maintenance", "Store");
         }
@@ -94,6 +98,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 e.SaveChanges();
 
                 Session["MaintenanceCategoriesPage"] = "1";
+                Session["MaintenanceTabIndex"] = "2";
 
                 return RedirectToAction("Maintenance", "Store");
             }
@@ -132,6 +137,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["MaintenanceStoreBinPage"] = "2";
             Session["MaintenanceBinId"] = maintenanceBinId;
+            Session["MaintenanceTabIndex"] = "3";
 
             return RedirectToAction("Maintenance", "Store");
         }
