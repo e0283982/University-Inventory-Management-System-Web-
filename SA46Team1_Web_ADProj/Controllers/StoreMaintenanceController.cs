@@ -139,6 +139,21 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["MaintenanceBinId"] = maintenanceBinId;
             Session["MaintenanceTabIndex"] = "3";
 
+            int binNumber = Int32.Parse(maintenanceBinId);
+
+            using (SSISdbEntities e = new SSISdbEntities()) {
+                string itemCode = e.Bins.Where(x => x.Number == binNumber).Select(x => x.ItemCode).FirstOrDefault();
+                int countItemsWithQtyNotZero = e.Items.Where(x => x.ItemCode == itemCode && x.Quantity > 0).ToList().Count();
+
+                if (countItemsWithQtyNotZero > 0)
+                {
+                    TempData["countItemsWithQtyNotZero"] = true;
+                }
+                else
+                {
+                    TempData["countItemsWithQtyNotZero"] = false;
+                }
+            }
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -176,12 +191,19 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [HttpPost]
         [Route("StoreBin/EditBin")]
-        public RedirectToRouteResult EditBin(Bin[] arr)
+        public RedirectToRouteResult EditBin(FullBinModel[] arr)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 DAL.BinRepositoryImpl dal = new DAL.BinRepositoryImpl(e);
-                dal.UpdateBin(arr[0]);
+                FullBinModel model = arr[0];
+                Bin bin = new Bin();
+                bin.Number = model.Number;
+                bin.Active = model.Active;
+                bin.Location = model.Location;
+                bin.ItemCode = e.Items.Where(x => x.Description == model.ItemDesc).Select(x => x.ItemCode).FirstOrDefault();
+
+                dal.UpdateBin(bin);
                 e.SaveChanges();
 
                 Session["MaintenanceStoreBinPage"] = "1";
@@ -211,6 +233,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["MaintenanceSuppliersPage"] = "2";
             Session["MaintenanceSupplierCode"] = maintenanceSupplierCode;
+            Session["MaintenanceTabIndex"] = "4";
 
             return RedirectToAction("Maintenance", "Store");
         }
@@ -409,6 +432,18 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities e = new SSISdbEntities()) {
                 TempData["ReorderLvl"] = e.Items.Where(x => x.ItemCode == maintenanceItemCode).Select(x => x.ReOrderLevel).FirstOrDefault();
                 TempData["ReorderQty"] = e.Items.Where(x => x.ItemCode == maintenanceItemCode).Select(x => x.ReOrderQuantity).FirstOrDefault();
+
+                //also pass var if category has item qty >0
+                int countItemsWithQtyNotZero = e.Items.Where(x => x.ItemCode == maintenanceItemCode && x.Quantity > 0).ToList().Count();
+
+                if (countItemsWithQtyNotZero > 0)
+                {
+                    TempData["countItemsWithQtyNotZero"] = true;
+                }
+                else
+                {
+                    TempData["countItemsWithQtyNotZero"] = false;
+                }
             }
 
             return RedirectToAction("Maintenance", "Store");

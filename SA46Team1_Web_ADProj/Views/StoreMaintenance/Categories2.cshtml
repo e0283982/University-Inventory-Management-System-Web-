@@ -99,6 +99,7 @@
                 data: JSON.stringify({ arr: arr })
             });
 
+            table.draw(false); //this line needed, if not upon save, table does not auto display updated data (until next refresh)
             window.location.href = '@Url.Action("Maintenance", "Store")';
 
         });
