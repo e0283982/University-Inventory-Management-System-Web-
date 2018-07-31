@@ -234,6 +234,7 @@
         $('#btn-edit-displayPO').hide();
         $('#btn-cancel-displayPO').show();
 
+
         var inputs = document.getElementsByTagName("INPUT");
 
         for (var i = 0; i < table.rows().data().length; i++) {
@@ -260,7 +261,7 @@
         $("#displayPO-gross-total").text(twoDP(total));
         $("#displayPO-net-total").text(twoDP(netTotal));
         $("#displayPO-gst").text(twoDP(gst));
-
+        $("#Title").text("Goods Receipt");
         table.draw(false);
         return false;
     });
@@ -324,7 +325,7 @@
 <div class="row">
     <div class="col-md-9">
         <div>
-            <h5>Display/Edit Purchase Order</h5>
+            <h5 id="Title">Display/Edit Purchase Order</h5>
         </div>
         <div class="row">
             <div class="col-md-4">
