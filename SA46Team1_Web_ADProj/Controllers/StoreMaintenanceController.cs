@@ -406,6 +406,11 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["MaintenanceItemsPage"] = "2";
             Session["MaintenanceItemCode"] = maintenanceItemCode;
 
+            using (SSISdbEntities e = new SSISdbEntities()) {
+                TempData["ReorderLvl"] = e.Items.Where(x => x.ItemCode == maintenanceItemCode).Select(x => x.ReOrderLevel).FirstOrDefault();
+                TempData["ReorderQty"] = e.Items.Where(x => x.ItemCode == maintenanceItemCode).Select(x => x.ReOrderQuantity).FirstOrDefault();
+            }
+
             return RedirectToAction("Maintenance", "Store");
         }
 
@@ -457,18 +462,24 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [HttpPost]
         [Route("Items/EditItem")]
-        public RedirectToRouteResult EditItem(Item[] arr)
+        public RedirectToRouteResult EditItem(String[] suppliers, String[] desc, String[] status)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 string itemCode = Session["MaintenanceItemCode"].ToString();
                 Item item = e.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
                 DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
-                item.Active = arr[0].Active;
-                item.Description = arr[0].Description;
-                item.Supplier1 = arr[0].Supplier1;
-                item.Supplier2 = arr[0].Supplier2;
-                item.Supplier3 = arr[0].Supplier3;
+                if (status[0].ToLower() == "true")
+                {
+                    item.Active = 1;
+                }
+                else {
+                    item.Active = 0;
+                }
+                item.Description = desc[0];
+                item.Supplier1 = suppliers[0];
+                item.Supplier2 = suppliers[1];
+                item.Supplier3 = suppliers[2];
 
                 dal.UpdateItem(item);
                 e.SaveChanges();

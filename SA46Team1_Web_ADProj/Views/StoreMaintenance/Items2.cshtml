@@ -3,7 +3,7 @@
 }
 
 @using SA46Team1_Web_ADProj.Models;
-@model Supplier
+@model Item
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
@@ -17,7 +17,7 @@
     $(document).ready(function () {
 
     $.ajax({
-        url: 'http://localhost:49921/api/Restful/GetItemsList/' + '@Session["MaintenanceItemCode"]',
+        url: 'http://localhost:49921/api/Restful/GetItemsById/' + '@Session["MaintenanceItemCode"]',
         method: 'get',
         dataType: 'json',
         success: function (data) {
@@ -30,7 +30,7 @@
                 "iDisplayLength": 5,
                 //scrollY: 200,
                 scrollX: 800,
-                data: data,
+                data: [data],
                 columns: [
                     { 'data': 'ItemCode' },
                     {
@@ -41,6 +41,18 @@
                     },
                     { 'data': 'CategoryName'},
                     { 'data': 'UoM' },
+                    {
+                        'data': null,
+                        "render": function (data, type, full, meta) {
+                            return '@TempData["ReorderLvl"]';
+                        }
+                    },
+                     {
+                        'data': null,
+                        "render": function (data, type, full, meta) {
+                            return '@TempData["ReorderQty"]';
+                        }
+                    },
                     {
                         'data': 's1',
                         "render": function (d, t, r) {
@@ -141,30 +153,37 @@
     $(document).ajaxComplete(function () {
         $('#btn-edit-item').click(function () {
             var dataToSend = "";
-            var arr = [];
+            //var arr = [];
+            var desc = [];
+            var suppliers = [];
+            var status = [];
 
             dataToSend = table.rows(0).data();
             for (var i = 0; i < Object.keys(d).length; i++) {
+                
                 var rowData = dataToSend[i];
-                rowData.Description = $("#input-item-desc").val();
-                rowData.Supplier1 = $("#select-item-s1").val();
-                rowData.Supplier2 = $("#select-item-s2").val();
-                rowData.Supplier3 = $("#select-item-s3").val();
-                rowData.Active = $("#input-item-active").prop('checked');
+                itemDesc = $("#input-item-desc").val();
+                supplier1 = $("#select-item-s1").val();
+                supplier2 = $("#select-item-s2").val();
+                supplier3 = $("#select-item-s3").val();
+                active = $("#input-item-active").prop('checked');
 
-                arr.push(rowData);
+                desc.push(itemDesc);
+                suppliers.push(supplier1);
+                suppliers.push(supplier2);
+                suppliers.push(supplier3);
+                status.push(active);
             }
-
-            $('#dialog-submit-edit-item').dialog('open');
             
             $.ajax({
                 type: 'POST',
                 url: '/Store/StoreMaintenance/Items/EditItem',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                data: JSON.stringify({ arr: arr })
+                data: JSON.stringify({ suppliers: suppliers, desc: desc, status:status })
             });
 
+            $('#dialog-submit-edit-item').dialog('open');
             window.location.href = '@Url.Action("Maintenance", "Store")';
 
         });
@@ -183,6 +202,8 @@
             <th>Description</th>
             <th>Category</th>
             <th>Unit of Measure</th>
+            <th>Reorder Level</th>
+            <th>Reorder Quantity</th>
             <th>Supplier 1</th>
             <th>Supplier 2</th>
             <th>Supplier 3</th>
