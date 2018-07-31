@@ -19,12 +19,10 @@ namespace SA46Team1_Web_ADProj.Models
         public string ItemCode { get; set; }
         public int QuantityRetrieved { get; set; }
         public string CollectionPointID { get; set; }
-        public string DepartmentCode { get; set; }
         public int QuantityAdjusted { get; set; }
         public string Remarks { get; set; }
     
         public virtual CollectionPoint CollectionPoint { get; set; }
-        public virtual Department Department { get; set; }
         public virtual Item Item { get; set; }
         public virtual StockRetrievalHeader StockRetrievalHeader { get; set; }
     }

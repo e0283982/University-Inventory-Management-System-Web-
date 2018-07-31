@@ -243,7 +243,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                         newsrd.ItemCode = retrievalListWithBO.ItemCode;
                                         newsrd.QuantityRetrieved = qtyToAdd;
                                         newsrd.CollectionPointID = dd.CollectionPointID;
-                                        newsrd.DepartmentCode = srhDeptCode.DepartmentCode;
                                         newsrd.QuantityAdjusted = 0;
                                         newsrd.Remarks = "";
                                         m.StockRetrievalDetails.Add(newsrd);
@@ -259,7 +258,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                         // If there's existing entry (Based on previous collection point / back orders created), add to entry
                                         StockRetrievalDetail existingSRD = m.StockRetrievalDetails
                                             .Where(x => x.Id == srhId && x.ItemCode == itemRetrieved.ItemCode
-                                            && x.DepartmentCode == srhDeptCode.DepartmentCode).FirstOrDefault();
+                                            && x.CollectionPointID == dd.CollectionPointID).FirstOrDefault();
                                         existingSRD.QuantityRetrieved += qtyToAdd;
                                     }
                                 }
@@ -270,13 +269,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                                     newsrd.Bin = bin.Number;
                                     newsrd.ItemCode = retrievalListWithBO.ItemCode;
                                     newsrd.QuantityRetrieved = qtyToAdd;
-                                    newsrd.CollectionPointID = dd.CollectionPointID;
-                                    newsrd.DepartmentCode = srhDeptCode.DepartmentCode;
+                                    newsrd.CollectionPointID = dd.CollectionPointID;                                    
                                     newsrd.QuantityAdjusted = 0;
                                     newsrd.Remarks = "";
                                     m.StockRetrievalDetails.Add(newsrd);
                                     allsrd.Add(retrievalListWithBO);
-
                                     colpt = new List<string>();
                                     colpt.Add(dd.CollectionPointID);
                                     listOfItemsAndColAdded.Add(itemRetrieved, colpt);
@@ -329,7 +326,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                         newsrd.ItemCode = retrievalList.ItemCode;
                                         newsrd.QuantityRetrieved = qtyToAdd;
                                         newsrd.CollectionPointID = dd.CollectionPointID;
-                                        newsrd.DepartmentCode = srhDeptCode.DepartmentCode;
                                         newsrd.QuantityAdjusted = 0;
                                         newsrd.Remarks = "";
                                         m.StockRetrievalDetails.Add(newsrd);
@@ -345,7 +341,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                         // If there's existing entry (Based on previous collection point / back orders created), add to entry
                                         StockRetrievalDetail existingSRD = m.StockRetrievalDetails
                                             .Where(x => x.Id == srhId && x.ItemCode == itemRetrieved.ItemCode
-                                            && x.DepartmentCode == srhDeptCode.DepartmentCode).FirstOrDefault();
+                                            && x.CollectionPointID == dd.CollectionPointID).FirstOrDefault();
                                         existingSRD.QuantityRetrieved += qtyToAdd;
                                     }
                                 }
@@ -357,7 +353,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                     newsrd.ItemCode = retrievalList.ItemCode;
                                     newsrd.QuantityRetrieved = qtyToAdd;
                                     newsrd.CollectionPointID = dd.CollectionPointID;
-                                    newsrd.DepartmentCode = srhDeptCode.DepartmentCode;
                                     newsrd.QuantityAdjusted = 0;
                                     newsrd.Remarks = "";
                                     m.StockRetrievalDetails.Add(newsrd);
