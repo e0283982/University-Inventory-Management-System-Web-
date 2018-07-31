@@ -36,7 +36,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 DAL.StaffRequisitionRepositoryImpl dal = new DAL.StaffRequisitionRepositoryImpl(e);
                 StaffRequisitionHeader srh = e.StaffRequisitionHeaders.Where(x => x.FormID == ReqFormId).FirstOrDefault();
 
-                if (srh.NotificationStatus == "Unread") {
+                if (srh.NotificationStatus != "Read") {
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
@@ -48,7 +48,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 e.SaveChanges();
             }
 
-            return RedirectToAction("Approval", "Dept");
+            return RedirectToAction("RequisitionHistory", "Dept");
         }
     }
 }

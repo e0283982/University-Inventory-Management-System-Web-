@@ -13,13 +13,14 @@
     // Load Datatable
     $(document).ready(function () {
         table = $('#dataTable-newPO').DataTable({
-            //scrollY: '30vh',
+            searching: false,
+            scrollY: 200,
             "iDisplayLength": 5,
-            scrollCollapse: true,
+            scrollCollapse: false,
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<button>delete</button>"
+                "defaultContent": "<button>delete</button>" 
             }]
         });
     });
@@ -158,7 +159,7 @@
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
             <th>GST ($)</th>
-            <th>Delete</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -211,9 +212,9 @@
 
 @*--- Dynamic boxes ---*@
 <div>
-    <label style="font-size: 10pt;">Gross Total ($):<input type="number" id="displayPO-gross-total" readonly="readonly" value="@TempData["grossTotal"]" ></label>
-    <label style="font-size: 10pt;">GST ($): <input type="text" id="displayPO-gst" value="@TempData["gst"]"></label>
-    <label style="font-size: 10pt;">Net Total ($): <input type="number" id="displayPO-net-total"  readonly="readonly" value="@TempData["netTotal"]"></label>
+    <label style="font-size: 12pt;">Gross Total ($):<input type="number" id="displayPO-gross-total" readonly="readonly" value="@TempData["grossTotal"]" style="font-size: 12pt;"></label>
+    <label style="font-size: 12pt;">GST ($): <input type="text" id="displayPO-gst" value="@TempData["gst"]" style="font-size: 12pt;"></label>
+    <label style="font-size: 12pt;">Net Total ($): <input type="number" id="displayPO-net-total"  readonly="readonly" value="@TempData["netTotal"]" style="font-size: 12pt;"></label>
 </div>
 @*--- End of Dynamic boxes ---*@
 
@@ -226,7 +227,7 @@
                 <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
             </span>
             <span>
-                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit for Approval</button>
+                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
             </span>
         </div>
     </div>

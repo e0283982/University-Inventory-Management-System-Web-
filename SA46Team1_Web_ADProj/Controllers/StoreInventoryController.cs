@@ -9,10 +9,12 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
+
     [RoutePrefix("Store/StoreInventory")]
     public class StoreInventoryController : Controller
     {
-        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
+
+        [CustomAuthorize(Roles = "Store Clerk")]
         [Route("Overview")]
         public ActionResult Overview()
         {
@@ -28,6 +30,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public ActionResult DisplayItemDetails(string maintenanceItemCode)
         {
@@ -36,7 +39,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return null;
         }
-
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult BackToInventoryOverviewList()
         {
@@ -45,8 +48,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return RedirectToAction("Inventory", "Store");
         }
-
-        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk")]
         [Route("Reorder")]
         public ActionResult Reorder()
         {
@@ -58,8 +60,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             return View();
         }
-
-        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
         {
@@ -225,6 +226,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         [Route("StockAdj/AddNewAdjItem")]
         public RedirectToRouteResult AddNewAdjItem(StockAdjItemModel item)
@@ -259,6 +261,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult EditNewAdjQty(string data, int index)
         {
@@ -278,6 +281,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult DiscardNewAdjItem(string data, int index)
         {
@@ -293,6 +297,30 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [HttpPost]
+        public RedirectToRouteResult ClearNewAdjItems()
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                Session["StockAdjPage"] = "2";
+
+
+                //clear temp list
+                List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
+                list.Clear();
+                Session["newAdjList"] = list;
+
+                //remove from list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Clear();
+                Session["tempList"] = tempList;
+
+                return RedirectToAction("Inventory", "Store");
+            }
+        }
+
+
+        [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult SubmitNewAdj()
         {
@@ -339,7 +367,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
@@ -350,7 +377,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Inventory", "Store");
         }
 
-        //[CustomAuthorize(Roles = "Store Clerk")]
         //[HttpPost]
         //public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
         //{
@@ -406,14 +432,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         //    return RedirectToAction("Inventory", "Store");
         //}
 
-        [CustomAuthorize(Roles = "Store Manager")]
+        [CustomAuthorize(Roles = "Store Manager, Store Supervisor")]
         [Route("StockTake")]
         public ActionResult StockTake()
         {
             return View();
         }
 
-        [CustomAuthorize(Roles = "Store Manager")]
+        [CustomAuthorize(Roles = "Store Manager, Store Supervisor")]
         [HttpPost]
         public ActionResult StockTakeUpdate(StockTakeList[] arr, string[] arr1)
         {

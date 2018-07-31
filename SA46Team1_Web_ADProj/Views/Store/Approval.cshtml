@@ -2,34 +2,21 @@
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
-@*<script>
+<script>
 
     $(function () {
-        var pageIndex =@Session["StoreInventoryTabIndex"].ToString();
-
-        switch (pageIndex) {
-            case 1:
-                $("#tabs-min").tabs();
-                break;
-            case 2:
-                $("#tabs-min").tabs({ active: 1 });
-                break;
-            case 3:
-                $("#tabs-min").tabs({ active: 2 });
-                break;
-            default:
-                $("#tabs-min").tabs();
-                break;
-        }
+       
+        $("#tabs-min").tabs();
+        
     });
 
-</script>*@
+</script>
 
     @if (User.IsInRole("Store Manager"))
     {
         <div id="tabs-min">
             <ul>
-                <li style="font-size: 10pt;"><a href="/Store/StoreInventoryManager/ReviewAdj">Review Adjustments</a></li>
+                <li style="font-size: 10pt;"><a href="/Store/StoreInventoryManager/ReviewAdj">Adjustment Approval</a></li>
             </ul>
         </div>
     }
@@ -38,7 +25,7 @@
         {
             <div id="tabs-min">
                 <ul>
-                    <li style="font-size: 10pt;"><a href="/Store/StoreInventoryManager/ReviewAdj">Review Adjustments</a></li>
+                    <li style="font-size: 10pt;"><a href="/Store/StoreInventoryManager/ReviewAdj">Adjustment Approval</a></li>
                 </ul>
             </div>
         }
