@@ -46,6 +46,9 @@
                         },
                         { 'data': 'NotificationStatus'}
                     ],
+                    columnDefs: [
+                        { className: 'text-center', targets: [0, 1, 2] },
+                    ],
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-all tbody').on('click', 'tr', function () {
                             var data = table.row(this).data();

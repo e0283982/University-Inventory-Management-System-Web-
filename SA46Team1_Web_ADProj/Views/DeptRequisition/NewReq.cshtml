@@ -40,7 +40,10 @@
             scrollCollapse: true,
             ordering: false,
             paging: true,
-            searching: false
+            searching: false,
+            columnDefs: [
+                { className: 'text-center', targets: [0,1,2] },
+            ]
         });
     });
 
@@ -342,16 +345,16 @@
                 <hr />
 
                 <div class="row">
-                    <div class="col-md-6">
+                    @*<div class="col-md-6">
                         <div style="float:right">
                             <span>
                                 <button class="btn btn-lu-red" id="btn-submit-cancel">Cancel</button>
                             </span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
+                    </div>*@
+                    <div class="col-md-12">
                         <div>
-                            <button class="btn btn-lu-green" id="btn-submit-add-items">&nbsp;Add&nbsp;</button>
+                            <button class="btn btn-lu-green btn-block" id="btn-submit-add-items">Add</button>
                             @*<input id="btn-submit-add-item" class="btn btn-lu-green" type="submit" value="Add" />*@
                         </div>
                     </div>
