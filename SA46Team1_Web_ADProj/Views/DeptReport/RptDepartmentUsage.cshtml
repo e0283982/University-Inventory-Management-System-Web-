@@ -8,9 +8,8 @@
 
 <div>
     <h5>Department Usage Cost Report</h5>
-    <label id="lbl-error-info"></label>
-    <label id="lbl-filter-info">Filter results: All</label>
-    <label id="lbl-cost-info"></label>
+    <label id="lbl-filter-info2">Filter results: All</label>
+    <label id="lbl-cost-info2"></label>
 </div>
 
 <div class="row">
@@ -82,7 +81,7 @@
 
 <hr />
 
-<table id="dataTable-deptUsage" class="table">
+<table id="dataTable-deptUsage2" class="table">
 
     <thead style="font-size: 10pt;">
         <tr>
@@ -112,6 +111,7 @@
 
 <script>
     var table;
+    var initialSum;
 
     $(document).ready(function () {
         $('#btn-submit-export2').hide();
@@ -123,7 +123,7 @@
             success: function (data) {
                 d = data;
 
-                table = $('#dataTable-deptUsage').DataTable({
+                table = $('#dataTable-deptUsage2').DataTable({
                     paging: true,
                     sort: true,
                     search: false,
@@ -165,6 +165,17 @@
                             }
                         }
                     ],
+                    "initComplete": function (settings, json) {
+                        //reset datatable results
+                        initialSum = 0;
+                        for (var i = 0; i < $('#dataTable-deptUsage2').DataTable().rows().data().length; i++) {
+                            var rowData = data[i].TotalCost;
+                            initialSum += rowData;
+                        }
+
+                        initialSum = parseFloat(initialSum).toFixed(2);
+                        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+                    },
                     drawCallback: function (settings) {
 
                         $('#btn-submit-filter2').on('click', function () {
@@ -217,15 +228,15 @@
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
                                 $('#dialog-no-data').dialog('open');
-                                $("#lbl-cost-info").text("");
-
                                 $('#btn-submit-export2').hide();
-                                $("#lbl-error-info").text("");
 
                                 table
                                     .search('')
                                     .columns().search('')
                                     .draw();
+
+                                $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+
                                 return;
                             }
 
@@ -248,7 +259,6 @@
 
                             table.draw(false);
                             $('#btn-submit-export2').show();
-                            $("#lbl-error-info").text("");
 
                             var sum = 0;
                             for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
@@ -256,8 +266,8 @@
                                 sum += rowData;
                             }
 
-                            $("#lbl-cost-info").text("Total cost ($): " + sum);
-                            $("#lbl-filter-info").text("Filter results: " + search + " , " + category);
+                            $("#lbl-cost-info2").text("Total cost ($): " + sum);
+                            $("#lbl-filter-info2").text("Filter results: " + search + " , " + category);
 
                         });
 
@@ -275,47 +285,38 @@
         });
     });
 
+
     $('#btn-export-pdf2').on('click', function () {
         $('#btn-submit-export2').hide();
     });
 
     $('#btn-clear-filter2').on('click', function () {
         $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
+        $("#lbl-error-info2").text("");
 
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);
 
-        $("#lbl-cost-info").text("");
-        $("#lbl-filter-info").text("Filter results: All");
+        $("#lbl-filter-info2").text("Filter results: All");
 
         //reset datatable results
         table
             .search('')
             .columns().search('')
             .draw();
+
+        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+
     });
-
-    $("#SelectDepartmentDesc").change(function () {
-        $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
-
-        $("#chosenMonths").val([]);
-        $("#chosenYear").val([]);
-
-        $("#lbl-cost-info").text("");
-        $("#lbl-filter-info").text("Filter results: All");
-    });
-
+    
     $("#SelectCategory").change(function () {
         $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
 
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);
 
-        $("#lbl-cost-info").text("");
-        $("#lbl-filter-info").text("Filter results: All");
+        $("#lbl-filter-info2").text("Filter results: All");
+
     });
 
     $(function () {
