@@ -72,7 +72,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
         {
             int enteredQty = 0;
-            if (arr1.Count() > 0)
+            if (arr1 != null)
             {
                 for (int i = 0; i < arr1.Length; i++)
                 {
