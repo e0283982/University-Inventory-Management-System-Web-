@@ -64,6 +64,11 @@
         });
     });
 
+    $("#dialog-add-req-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-add-req-item').dialog('close');
+    });
+
     $(function () {
         $("#dialog-new-req-submited").dialog({
             autoOpen: false,
@@ -87,6 +92,12 @@
             width: "30%",
             maxWidth: "40%"
         });
+
+    $("#dialog-confirm-submit-new-req").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-confirm-submit-new-req').dialog('close');
+    });
+
     });
 
     $('#btn-add-item').on('click', function () {
@@ -305,7 +316,7 @@
                     @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
                 </div>
 
-                <br />
+                <hr />
 
                 <div class="row">
                     <div class="col-md-6">
@@ -327,8 +338,11 @@
         </div>
 
         <div id="dialog-confirm-submit-new-req" class="hidden" @*title="Confirm Submission (New Requisition)"*@>
-            <h4>Confirm Submission</h4>
-            <h6>Are you sure you want to submit the requisition?</h6>
+            <div style="text-align:center;">
+                <h4>Confirm Submission</h4>
+                <h6>Are you sure you want to submit the requisition?</h6>
+            </div>         
+            <hr />
             <div class="row">
                 <div class="col-md-6">
                     <div style="float:right">
