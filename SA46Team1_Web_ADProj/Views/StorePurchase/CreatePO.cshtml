@@ -20,7 +20,7 @@
             columnDefs: [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<button>delete</button>",
+                "defaultContent": "<button class='btn btn-lu-red'><i class='far fa-trash-alt'></i></button>"
             }, {
                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                }
@@ -149,6 +149,15 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
+            </span>
+        </div>
+    </div>
+</div>
 @*--- Table ---*@
 
 <table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
@@ -162,7 +171,7 @@
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
             <th>GST ($)</th>
-            <th></th>
+            <th>Delete</th>
         </tr>
     </thead>
 
@@ -237,9 +246,6 @@
 <div class="row">
     <div class="col-md-12">
         <div style="float: right">
-            <span>
-                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
-            </span>
             <span>
                 @if (poDetailList.Count == 0)
                 {
