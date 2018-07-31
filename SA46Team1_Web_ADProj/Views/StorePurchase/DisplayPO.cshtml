@@ -54,7 +54,7 @@
                 $(function () {
                     $('#lbl-poNumber').val(data[0]["PONumber"]);
                     $('#ta-remarks').val(data[0]["Remarks"]);
-                    $('#lbl-total').val(itemTotal);
+                    $('#lbl-total').val(twoDP(itemTotal));
 
                     $("#lbl-supplier").append(data[0]["CompanyName"]);
                     $("#lbl-dateCreated").append(newDate);
@@ -75,6 +75,7 @@
                 inputs[i].disabled = false;
             }
         }
+
     });
 
     // Format into 2 DP
@@ -253,11 +254,22 @@
         var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
 
         var newTotal = qty * unitCost;
-        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(newTotal);
-        
+        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+
         table.draw(false);
     });
-
     //$('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
         
     //    table.draw(false);
@@ -319,7 +331,7 @@
         </th>
 
         <th style="font-size: 10pt;">@item.UoM</th>
-        <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost</label></th>
+        <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost.ToString("0.00")</label></th>
         <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
         <th style="font-size: 10pt;">7%</th>
     </tr>
