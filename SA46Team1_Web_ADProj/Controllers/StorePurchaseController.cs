@@ -10,12 +10,15 @@ namespace SA46Team1_Web_ADProj.Controllers
 {
     [CustomAuthorize(Roles = "Store Manager, Store Supervisor, Store Clerk")]
     [RoutePrefix("Store/StorePurchase")]
-    public class StorePurchaseController : Controller
+    public class StorePurchaseController : Controller //tabs: PO list, Create PO, Goods Received
     {
+        /************Action methods belonging to Store Purchase - Create PO *******************/
 
         [Route("CreatePO")]
         public ActionResult CreatePO()
         {
+            Session["StorePurchaseTabIndex"] = "2";
+
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
@@ -263,7 +266,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<String> tempList = (List<String>)Session["tempList"];
                 tempList.Add(itemToAdd.ItemCode);
                 Session["tempList"] = tempList;
-                Session["StorePurchaseTabIndex"] = "2";
 
                 return RedirectToAction("Purchase", "Store");
             }
@@ -299,9 +301,14 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        /************Action methods belonging to Store Purchase - PO List *******************/
+
+
         [Route("POList")]
         public ActionResult POList()
         {
+            Session["StorePurchaseTabIndex"] = "1";
+
             if (Session["POListPage"].ToString() == "1")
             {
                 return View("POList");
@@ -340,47 +347,11 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Purchase", "Store");
         }
 
-        [Route("GoodsReceivedList")]
-        public ActionResult GoodsReceivedList()
-        {
-            if (Session["GRListPage"].ToString() == "1")
-            {
-                @Session["BackToGRList"] = "false";
-                return View("GoodsReceivedList");
-            }
-            else
-            {
-                Session["GRListPage"] = "1";
-                return View("GoodsReceivedList2");
-            }
-        }
-
-        [HttpPost]
-        public RedirectToRouteResult DisplayGR(FormCollection data)
-        {
-            Session["StorePurchaseTabIndex"] = "3";
-            Session["GRListPage"] = "2";
-            string rNo = data["ReceiptNo"];
-            Session["grId"] = rNo;
-            return RedirectToAction("Purchase", "Store");
-        }
-
-
-        [HttpPost]
-        public RedirectToRouteResult BackToGRList()
-        {
-            Session["GRListPage"] = "1";
-            Session["BackToGRList"] = "true";
-
-            return RedirectToAction("Purchase", "Store");
-        }
-
         [HttpPost]
         public RedirectToRouteResult EditMode()
         {
             Session["poDetailsEditMode"] = true;
-            Session["POListPage"] = "2";
-// ----------------------------- Should we add Viewbag for title to differentiate GR / edit ? -------------------------------------------
+            // ----------------------------- Should we add Viewbag for title to differentiate GR / edit ? -------------------------------------------
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -388,7 +359,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult GREditMode()
         {
             Session["grEditMode"] = true;
-            Session["POListPage"] = "2";
             // ----------------------------- Should we add Viewbag for title to differentiate GR / edit ? -------------------------------------------
             return RedirectToAction("Purchase", "Store");
         }
@@ -403,8 +373,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 item.QuantityOrdered = Int32.Parse(data);
                 Session["POItems"] = poFullDetailList;
 
-                Session["POListPage"] = 2;
-
                 return RedirectToAction("Requisition", "Dept");
             }
         }
@@ -415,13 +383,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
 // --------------------- Validation required ----------------------
             Session["poDetailsEditMode"] = false;
-            Session["POListPage"] = "2";
+
             List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
             string poNumber = (string)Session["poNumber"];
             int arrayCount = 0;
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                foreach(POFullDetail p in poFullDetailList)
+                foreach (POFullDetail p in poFullDetailList)
                 {
                     PODetail pod = m.PODetails.Where(x => x.ItemCode == p.ItemCode && x.PONumber == p.PONumber).FirstOrDefault();
                     pod.QuantityBackOrdered = Convert.ToInt32(arrQty[arrayCount]);
@@ -431,7 +399,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     p.QuantityOrdered = pod.QuantityBackOrdered;
                 }
-                if(taData != null)
+                if (taData != null)
                 {
                     POHeader ph = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
                     ph.Remarks = taData;
@@ -448,15 +416,15 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["poDetailsEditMode"] = false;
             Session["grEditMode"] = false;
-            Session["POListPage"] = "2";
+
             return RedirectToAction("Purchase", "Store");
         }
 
         [HttpPost]
         public ActionResult CancelPO()
         {
-            string poNumber = (string) Session["poNumber"];
-            using(SSISdbEntities m = new SSISdbEntities())
+            string poNumber = (string)Session["poNumber"];
+            using (SSISdbEntities m = new SSISdbEntities())
             {
                 POHeader poHeader = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
                 poHeader.Status = "Cancelled";
@@ -464,11 +432,11 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["POItems"];
                 List<PODetail> podItems = m.PODetails.Where(x => x.PONumber == poNumber).ToList();
-                foreach(POFullDetail p in poFullDetailsList)
+                foreach (POFullDetail p in poFullDetailsList)
                 {
-                    foreach(PODetail pod in podItems)
+                    foreach (PODetail pod in podItems)
                     {
-                        if(pod.ItemCode == p.ItemCode)
+                        if (pod.ItemCode == p.ItemCode)
                         {
                             pod.CancelledBackOrdered = pod.QuantityBackOrdered;
                             pod.QuantityBackOrdered = 0;
@@ -480,10 +448,46 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["POItems"] = poFullDetailsList;
             }
             Session["poStatus"] = "Cancelled";
-            Session["POListPage"] = "2";
             return View("DisplayPO");
         }
 
+        /************Action methods belonging to Store Purchase - GR *******************/
+
+
+        [Route("GoodsReceivedList")]
+        public ActionResult GoodsReceivedList()
+        {
+            Session["StorePurchaseTabIndex"] = "3";
+
+            if (Session["GRListPage"].ToString() == "1")
+            {
+                return View("GoodsReceivedList");
+            }
+            else
+            {
+                Session["GRListPage"] = "1";
+                return View("GoodsReceivedList2");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayGR(FormCollection data)
+        {
+            Session["GRListPage"] = "2";
+            string rNo = data["ReceiptNo"];
+            Session["grId"] = rNo;
+            return RedirectToAction("Purchase", "Store");
+        }
+
+
+        [HttpPost]
+        public RedirectToRouteResult BackToGRList()
+        {
+            Session["GRListPage"] = "1";
+
+            return RedirectToAction("Purchase", "Store");
+        }
+        
         [HttpPost]
         public RedirectToRouteResult GoodsReceipt(string[] arrQty)
         {
@@ -637,10 +641,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
                 
             }
-            Session["POListPage"] = "2";
             Session["POItems"] = poFullDetailList;
             Session["poDetailsEditMode"] = false;
             Session["grId"] = receiptNo;
+
             return RedirectToAction("Purchase", "Store");
         }
     }

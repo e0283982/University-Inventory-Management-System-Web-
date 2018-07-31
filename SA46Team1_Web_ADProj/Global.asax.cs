@@ -78,6 +78,7 @@ namespace SA46Team1_Web_ADProj
 
 
             //Session variables for Store - Purchase
+            Session["StorePurchaseTabIndex"] = "1";
             Session["POListPage"] = "1";
             
             Session["GRListPage"] = "1";
