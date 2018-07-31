@@ -297,7 +297,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult DisplayPO(FormCollection data)
+        public ActionResult DisplayPO(FormCollection data)
         {
             Session["POListPage"] = "2";
             string poNumber = data["PONumber"];
@@ -309,9 +309,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["poStatus"] = m.POHeaders.Where(x => x.PONumber == poNumber).Select(x => x.Status).FirstOrDefault();
             }
 
-            Session["StorePurchaseTabIndex"] = "1";
-
-            return RedirectToAction("Purchase", "Store");
+            return View();
         }
 
         [HttpPost]
