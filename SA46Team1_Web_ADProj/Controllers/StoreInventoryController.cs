@@ -48,7 +48,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return RedirectToAction("Inventory", "Store");
         }
-        [CustomAuthorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager")]
         [Route("Reorder")]
         public ActionResult Reorder()
         {

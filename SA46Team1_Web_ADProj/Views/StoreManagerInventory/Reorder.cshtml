@@ -6,21 +6,24 @@
 @model Item
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
-
 <script>
     var table;
     // Load Datatable
     $(document).ready(function () {
         table = $('#dataTable-storeManagerInventoryReorder').DataTable({
+            //scrollY: '30vh',
             "iDisplayLength": 5,
             scrollCollapse: true,
             paging: true,
-            "columnDefs": [{
-                //"targets": -1,
-                //"data": null,
-                "defaultContent": "<input type='checkbox' checked/>",
-                className: 'text-center', targets: [0, 1, 2, 3, 4, 5]
-            }]
+            columnDefs: [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<input id='selectall' type='checkbox' checked/>"
+            },
+                {
+                    className: 'text-center', targets: [0, 1, 2, 3, 4]
+                }
+            ]
         });
     });
 
@@ -68,6 +71,12 @@
 
     });
 
+    $('body').on('change', '#mass_select_all', function () {
+            table.$('input:checkbox').not(this).prop('checked', this.checked);
+
+    });
+
+
 </script>
 
 <div>
@@ -81,7 +90,7 @@
             <th>Reorder Qty</th>
             <th>Unit of Measure</th>
             <th>Supplier</th>
-            <th>Include In PO</th>
+            <th><input type="checkbox" id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
         </tr>
     </thead>
 
