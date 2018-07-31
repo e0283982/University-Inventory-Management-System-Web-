@@ -29,7 +29,10 @@
                         { 'data': 'UnitCost'},
                         { 'data': 'Total' },
                         { 'defaultContent': '7%' }
-                    ]
+                    ],
+                    columnDef: [{
+                        className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6]
+                    }],
                 });
                 var date = new Date(data[0]["ReceivedDate"]);
                 var month = date.getMonth() + 1;

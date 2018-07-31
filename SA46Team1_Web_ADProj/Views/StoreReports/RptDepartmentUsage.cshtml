@@ -82,9 +82,9 @@
 
     <thead style="font-size: 10pt;">
         <tr>
-            <th>Dept Name</th>
+            @*<th>Dept Name</th>
             <th>Year</th>
-            <th>Month</th>
+            <th>Month</th>*@
             <th>Category</th>
             <th>Item Code</th>
             <th>Description</th>
@@ -120,9 +120,9 @@
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
-                        { 'data': 'DepartmentName' },
-                        { 'data': 'Year' },
-                        { 'data': 'Month' },
+                        //{ 'data': 'DepartmentName' },
+                        //{ 'data': 'Year' },
+                        //{ 'data': 'Month' },
                         { 'data': 'CategoryName' },
                         { 'data': 'ItemCode' },
                         { 'data': 'Description' },
@@ -247,8 +247,9 @@
                     },
                     columnDefs: [
                         {
-                            "targets": [0,1,2],
-                            "visible": false,
+                            //"targets": [0,1,2],
+                            //"visible": false,
+                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     ]
 

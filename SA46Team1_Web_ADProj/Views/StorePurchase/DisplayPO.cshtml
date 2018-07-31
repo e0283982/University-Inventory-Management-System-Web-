@@ -17,7 +17,10 @@
             sort: true,
             scrollY: 200,
             "iDisplayLength": 5,
-            scrollCollapse: false
+            scrollCollapse: false,
+            columnDef: [{
+                className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7]
+            }],
         });
 
         $.ajax({
@@ -394,12 +397,15 @@
     <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
     <label style="font-size: 12pt;">&nbsp;GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 12pt;" /></strong>
     <label style="font-size: 12pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 12pt;" /></strong>
-    <label style="font-size: 12pt;">&nbsp;PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 12pt;" /></strong>
+    @*<label style="font-size: 12pt;">&nbsp;PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 12pt;" /></strong>*@
 </div>
 
 <div class="row">
     <div class="col-md-11">
         <div style="float:right;">
+            <span>
+                <button class="btn btn-lu-blue" id="btn-add-export" style="font-size: 10pt;">Export to PDF</button>
+            </span>
 
             @if (Session["poStatus"].ToString() == "Open")
             {

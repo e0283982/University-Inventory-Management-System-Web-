@@ -17,10 +17,11 @@
             scrollY: 200,
             "iDisplayLength": 5,
             scrollCollapse: false,
-            "columnDefs": [{
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<button>delete</button>" 
+            columnDefs: [{
+                //"targets": -1,
+                //"data": null,
+                "defaultContent": "<button>delete</button>",
+                className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
             }]
         });
     });
@@ -223,9 +224,6 @@
 <div class="row">
     <div class="col-md-12">
         <div style="float: right">
-            <span>
-                <button class="btn btn-lu-blue" id="btn-add-export" style="font-size: 10pt;">Export to PDF</button>
-            </span>
             <span>
                 <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
             </span>
