@@ -2,6 +2,7 @@
     Layout = null;
     List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
     //List<int> rowIndexes = (List<int>)TempData["RowIndexesToDiscard"];
+    bool editMode = (bool)Session["newAdjEditMode"];
 }
 
 
@@ -13,7 +14,14 @@
 <script>
     var table;
     $(document).ready(function () {
-       
+
+        //disable buttons if no items
+        if (@list.Count()> 0) {
+            $("#btn-submit-new-adj").prop('disabled', false);
+            $("#btn-clear-items").prop('disabled', false);
+        }
+
+
         table = $('#dataTable-new-adj').DataTable({
             //scrollY: '30vh',
             "iDisplayLength": 5,
@@ -44,6 +52,15 @@
 
     $('#btn-add-adj-item').on('click', function () {
         $('#dialog-add-adj-item').dialog('open');
+    });
+
+
+    $(function () {
+        $("#dialog-new-req-edit-no-item").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
     });
 
     $(function () {
@@ -131,6 +148,16 @@
 
     });
 
+    $('#btn-clear-items').on('click', function () {
+        $.ajax({
+            url: '/StoreInventory/ClearNewAdjItems',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Inventory", "Store")';
+    });
 </script>
 
 
@@ -139,15 +166,16 @@
         <h5>Stock Adjustment</h5>
     </div>
     <div class="col-md-6">
-        <div style="float: right; padding-top:35px;">
+        <span style="float: right; padding-top:35px;">
             <span>
                 <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
             </span>
             <span>
-                <button class="btn btn-lu-green" id="btn-submit-new-adj" style="font-size: 10pt;">Submit</button> 
+                @*<button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>*@
+                @*<button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>*@
             </span>
-        </div>
     </div>
+    
 </div>
 
 <br />
@@ -191,9 +219,22 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div style="float: right;">
+            <div style="float: left;">
                 <span>
                     <button class="btn btn-lu-blue" id="btn-back-stock-adj" style="font-size: 10pt;">Back</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="float: right;">
+                @*<span>
+                        <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
+                    </span>*@
+                <span>
+                    <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;" disabled>Clear</button>
+                </span>
+                <span>
+                    <button class="btn btn-lu-green" id="btn-submit-new-adj" style="font-size: 10pt;" disabled>Submit</button>
                 </span>
             </div>
         </div>
@@ -247,4 +288,8 @@
         <h5>New adjustment request has been submitted for approval.</h5>
     </div>
 
+
+    <div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
+        <h5>There are no items to edit.</h5>
+    </div>
 </div>
