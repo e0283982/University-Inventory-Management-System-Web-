@@ -26,8 +26,18 @@
                         { 'data': 'Description' },
                         { 'data': 'UoM' },
                         { 'data': 'QuantityReceived' },
-                        { 'data': 'UnitCost'},
-                        { 'data': 'Total' },
+                        {
+                            'data': 'UnitCost',
+                            'render': function (data, type, row) {
+                                return twoDP(data);
+                            }
+                        },
+                        {
+                            'data': 'Total',
+                            'render': function (data, type, row) {
+                                return twoDP(data);
+                            }
+                        },
                         { 'defaultContent': '7%' }
                     ]
                 });
@@ -44,13 +54,6 @@
                 var netTotal = total + gst;
 
                 $(function () {
-                    //$('#lbl-poNumber').val(data[0]["PONumber"]);
-                    //$('#lbl-del-date').val(newDate);
-                    //$('#lbl-companyName').val(data[0]["CompanyName"]);
-                    //$('#lbl-emp').val(data[0]["EmployeeName"]);
-                    //$('#lbl-gross-total').val(twoDP(total));
-                    //$('#lbl-gst').val(twoDP(gst));
-                    //$('#lbl-net-total').val(twoDP(netTotal));
                     $('#ta-remarks').val(data[0]["Remarks"]);
 
                     $("#lbl-poNumber").append(data[0]["PONumber"]);
@@ -117,7 +120,7 @@
         <div style="float:right;">
             <div style="font-size: 10pt;">
                 <p>Remarks:</p>
-                <textarea id="ta-remarks" rows="3" cols="50" readonly></textarea>
+                <textarea id="ta-remarks" rows="3" cols="50" disabled></textarea>
             </div>
             @*<br />
             <div style="float:right;">
