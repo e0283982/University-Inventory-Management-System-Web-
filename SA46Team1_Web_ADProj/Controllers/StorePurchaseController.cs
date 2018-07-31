@@ -29,13 +29,13 @@ namespace SA46Team1_Web_ADProj.Controllers
                     grossTotal += itemTotal;
                 }
 
-                TempData["grossTotal"] = Math.Round(grossTotal,2);
+                TempData["grossTotal"] = Math.Round(grossTotal,2, MidpointRounding.AwayFromZero);
 
                 netTotal = grossTotal * 1.07;
-                TempData["netTotal"] = Math.Round(netTotal,2);
+                TempData["netTotal"] = Math.Round(netTotal,2, MidpointRounding.AwayFromZero);
 
                 gst = grossTotal * 0.07;
-                TempData["gst"]= Math.Round(gst, 2);
+                TempData["gst"]= Math.Round(gst, 2, MidpointRounding.AwayFromZero);
 
                 Tuple<Item, POFullDetail> tuple = new Tuple<Item, POFullDetail>(new Item(), new POFullDetail());
 
@@ -70,7 +70,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeletePOItem(string data)
+        public RedirectToRouteResult DeletePOItem(string data)
         {
             string itemCode = data;
             List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
@@ -83,8 +83,12 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
             }
             poFullDetailsList.Remove(pod);
+            if(poFullDetailsList.Count == 0)
+            {
+                poFullDetailsList = new List<POFullDetail>();
+            }
             Session["newPOList"] = poFullDetailsList;
-            return null;
+            return RedirectToAction("CreatePO", "StorePurchase");
         }
 
         [HttpPost]

@@ -65,10 +65,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
         {
             int enteredQty = 0;
-            for (int i = 0; i < arr1.Length; i++)
+            if (arr1.Count() > 0)
             {
-                enteredQty += Convert.ToInt32(arr1[i]);
+                for (int i = 0; i < arr1.Length; i++)
+                {
+                    enteredQty += Convert.ToInt32(arr1[i]);
+                }
             }
+
 
             if (enteredQty > 0)
             {
@@ -160,6 +164,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                         }
                     }
                 }
+            }
+            else
+            {
+                // Error message
             }
             Session["newPOList"] = new List<PODetail>();
             Session["StoreInventoryTabIndex"] = "2";

@@ -18,11 +18,13 @@
             "iDisplayLength": 5,
             scrollCollapse: false,
             columnDefs: [{
-                //"targets": -1,
-                //"data": null,
+                "targets": -1,
+                "data": null,
                 "defaultContent": "<button>delete</button>",
-                className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-            }]
+            }, {
+                   className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+               }
+            ]
         });
     });
 
@@ -41,8 +43,6 @@
 
         //table.row($(this).parents('tr')).remove().draw();
         window.location.href = '@Url.Action("Purchase", "Store")';
-
-        return false;
     });
 
     // Open Dialog
@@ -114,7 +114,7 @@
         var index = table.row($(this).parents('tr')).index();
 
         var qty = table.cell(index, 2).nodes().to$().find(":selected").text();
-       
+
         $.ajax({
             url: '/StorePurchase/EditNewPOSupplier',
             data: JSON.stringify({ data: qty, index: index }),
@@ -215,9 +215,20 @@
 
 @*--- Dynamic boxes ---*@
 <div>
-    <label style="font-size: 12pt;">Gross Total ($):<input type="number" id="displayPO-gross-total" readonly="readonly" value="@TempData["grossTotal"]" style="font-size: 12pt;"></label>
-    <label style="font-size: 12pt;">GST ($): <input type="text" id="displayPO-gst" value="@TempData["gst"]" style="font-size: 12pt;"></label>
-    <label style="font-size: 12pt;">Net Total ($): <input type="number" id="displayPO-net-total"  readonly="readonly" value="@TempData["netTotal"]" style="font-size: 12pt;"></label>
+    <div style="float: left;">
+        <label style="font-size: 10pt;">Gross Total ($):</label>
+        <br />
+        <label style="font-size: 10pt;">GST ($): </label>
+        <br />
+        <label style="font-size: 10pt;">Net Total ($): </label>
+    </div>
+    <div style="float: left;">
+        <input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt;">
+        <br/>
+        <input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt;">
+        <br />
+        <input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt;">
+    </div>
 </div>
 @*--- End of Dynamic boxes ---*@
 
@@ -230,7 +241,15 @@
                 <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
             </span>
             <span>
-                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
+                @if (poDetailList.Count == 0)
+                {
+                    <button class="btn btn-lu-green" id="btn-submit-new-req" disabled style="font-size: 10pt;">Submit</button>
+                }
+                else
+                {
+                    <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
+                }
+
             </span>
         </div>
     </div>
