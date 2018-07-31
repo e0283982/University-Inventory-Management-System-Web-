@@ -17,10 +17,11 @@
                 d = data;
 
                 table = $('#dataTable-store-categories-details').DataTable({
-                    paging: true,
-                    sort: true,
+                    paging: false,
+                    sort: false,
                     searching: false,
                     "iDisplayLength": 5,
+                    "bInfo": false,
                     //scrollY: 200,
                     data: data,
                     columns: [

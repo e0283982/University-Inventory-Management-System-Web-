@@ -24,11 +24,12 @@
             d = data;
 
             table = $('#dataTable-store-items-details').DataTable({
-                paging: true,
-                sort: true,
+                paging: false,
+                sort: false,
                 searching: false,
                 "iDisplayLength": 5,
                 //scrollY: 200,
+                "bInfo": false,
                 scrollX: 800,
                 data: data,
                 columns: [
