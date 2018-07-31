@@ -17,7 +17,6 @@
                         sort: true,
                         searching: true,
                         "iDisplayLength": 5,
-                        //scrollY: 200,
                         data: data,
                         columns: [
                             { 'data': 'ItemCode' },
@@ -48,6 +47,7 @@
                     url: '/StoreInventory/DisplayItemDetails',
                     data: { maintenanceItemCode: data["ItemCode"] },
                     type: 'POST',
+                    async: false
                 });
 
                 window.location.href = '@Url.Action("Inventory", "Store")';
@@ -73,5 +73,3 @@
     </thead>
     <tbody style="font-size: 10pt;"></tbody>
 </table>
-
-@*center all*@

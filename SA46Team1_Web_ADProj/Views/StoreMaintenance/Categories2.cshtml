@@ -22,7 +22,6 @@
                     searching: false,
                     "iDisplayLength": 5,
                     "bInfo": false,
-                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'CategoryID' },
@@ -78,7 +77,6 @@
         $('#btn-edit-category').click(function () {
             var dataToSend = "";
             var arr = [];
-            //alert($("#input-category-active").prop('checked'));
 
             dataToSend = table.rows(0).data();
             for (var i = 0; i < Object.keys(d).length; i++) {
@@ -97,6 +95,7 @@
                 url: '/Store/StoreMaintenance/Categories/EditCategory',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
+                async: false,
                 data: JSON.stringify({ arr: arr })
             });
 
@@ -149,14 +148,6 @@
         </span>
     </div>
 </div>
-
-                @*<button class="btn btn-danger" id="details-back-btn">Back</button>*@
-@*<div id="details-back-btn">
-        @using (Html.BeginForm("BackToCategoriesMaintenanceList", "StoreMaintenance", FormMethod.Post))
-        {
-            <input class="btn btn-danger" type="submit" value="Back" />
-        }
-</div>*@
 
 <div id="dialog-submit-edit-category" class="hidden" title="Edit Category Successful (Maintenance)">
     <p>Category has been successfully edited.</p>

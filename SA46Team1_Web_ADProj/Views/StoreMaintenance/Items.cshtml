@@ -50,6 +50,7 @@
                             url: '/StoreMaintenance/DisplayItemDetails',
                             data: { maintenanceItemCode: data["ItemCode"] },
                             type: 'POST',
+                            async: false
                         });
 
                         window.location.href = '@Url.Action("Maintenance", "Store")';

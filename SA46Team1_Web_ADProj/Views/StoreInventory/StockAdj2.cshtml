@@ -1,7 +1,6 @@
 ﻿@{
     Layout = null;
     List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
-    //List<int> rowIndexes = (List<int>)TempData["RowIndexesToDiscard"];
     bool editMode = (bool)Session["newAdjEditMode"];
 }
 
@@ -91,6 +90,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -110,6 +110,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -132,6 +133,7 @@
         $.ajax({
             url: '/StoreInventory/SubmitNewAdj',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -144,6 +146,7 @@
         $.ajax({
             url: '/StoreInventory/BackToStockAdjList',
             type: 'POST',
+            async: false
         });
 
         window.location.href = '@Url.Action("Inventory", "Store")';
@@ -154,6 +157,7 @@
         $.ajax({
             url: '/StoreInventory/ClearNewAdjItems',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);

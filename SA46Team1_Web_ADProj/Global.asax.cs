@@ -84,6 +84,8 @@ namespace SA46Team1_Web_ADProj
             Session["BackToGRList"] = "false";
 
             //Session variables for Store - Disbursement
+            Session["StoreDisbursementTabIndex"] = "1";
+
             Session["ReqListPage"] = "1";
             Session["storeReqFormId"] = "";
 

@@ -33,7 +33,6 @@
                     searching: true,
                     "order": [[3, "desc"], [0, "desc"]],
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'PONumber' },
@@ -65,7 +64,8 @@
             jQuery.ajax({
                 type: 'POST',
                 url: '/StorePurchase/DisplayPO',
-                data: data
+                data: data,
+                async: false
             });
 
             window.location.href = '@Url.Action("Purchase", "Store")';
@@ -74,72 +74,4 @@
 
     });
 </script>
-
-
-
-@*----*@
-
-
-@*<script>
-        $(document).ready(function () {
-            $('#dataTable-POList').DataTable({
-                scrollY: '30vh',
-                scrollCollapse: true,
-                paging: true
-            });
-        });
-
-        var table = $('#dataTable-POList').DataTable();
-
-        $('#dataTable-POList tbody').on('click', 'tr', function () {
-            var data = table.row(this).data();
-            //'<%Session["SelectedPONumber"] = "' + data[0] + '"; %>';
-            var dataToBeSent = data[0];
-            alert('You clicked on Purchase Order with Purchase Number: ' + data[0] + '\'s row');
-
-            $.ajax({
-                url: '/StorePurchase/DisplayPO',
-                data: dataToBeSent,
-                type: 'POST',
-            });
-
-            window.location.href = '@Url.Action("Purchase", "Store")';
-
-        });
-    </script>
-
-    <div>
-        <h2>List of Purchase Orders</h2>
-    </div>
-
-
-    <table id="dataTable-POList" class="display" style="width:80%;">
-        <thead>
-            <tr>
-                <th>Purchase Order #</th>
-                <th>Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>001</td>
-                <td>12-MAY-2018</td>
-                <td>OPEN</td>
-            </tr>
-
-            <tr>
-                <td>002</td>
-                <td>12-MAY-2018</td>
-                <td>OUTSTANDING</td>
-            </tr>
-
-            <tr>
-                <td>003</td>
-                <td>12-JUN-2018</td>
-                <td>COMPLETE</td>
-            </tr>
-        </tbody>
-    </table>*@
 

@@ -11,16 +11,12 @@
     // Load Datatable
     $(document).ready(function () {
         table = $('#dataTable-storeManagerInventoryReorder').DataTable({
-            //scrollY: '30vh',
             "iDisplayLength": 5,
             scrollCollapse: true,
             paging: true,
             columnDefs: [{
-                //"targets": -1,
-                //"data": null,
                 "defaultContent": "<input type='checkbox' checked/>",
                 className: 'text-center', targets: [0, 1, 2, 3, 4, 5]
-                //this might cause issues, just fyi
             }]
         });
     });
@@ -54,21 +50,13 @@
                 arrSupplier.push(rowSupplier);
             }
         }
-
-        //alert(arr1);
-        //alert(arr2);
-        //alert(arrSupplier);
-
-        //for (var i = 0; i < table.rows().data().length; i++) {
-        //    arr1.push();
-        //    arrSupplier.push();
-        //}
-
+        
         $.ajax({
             url: '/StoreInventory/AddToPO',
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ arr1: arr1, arr2: arr2, arrSupplier: arrSupplier })
         });
 

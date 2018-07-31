@@ -36,6 +36,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false,
             data: JSON.stringify({ data: data[0] })
         });
 
@@ -76,6 +77,7 @@
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier, taData: taData })
         });
         alert('Items Added');
@@ -102,6 +104,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -121,6 +124,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
