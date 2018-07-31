@@ -18,7 +18,7 @@
             columnDefs: [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<input type='checkbox' checked/>"
+                "defaultContent": "<input id='selectall' type='checkbox' checked/>"
             },
                 {
                     className: 'text-center', targets: [0, 1, 2, 3, 4]
@@ -57,20 +57,12 @@
             }
         }
 
-        //alert(arr1);
-        //alert(arr2);
-        //alert(arrSupplier);
-
-        //for (var i = 0; i < table.rows().data().length; i++) {
-        //    arr1.push();
-        //    arrSupplier.push();
-        //}
-
         $.ajax({
             url: '/StoreInventory/AddToPO',
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ arr1: arr1, arr2: arr2, arrSupplier: arrSupplier })
         });
 
@@ -78,6 +70,12 @@
         alert('Items Added');
 
     });
+
+    $('body').on('change', '#mass_select_all', function () {
+            table.$('input:checkbox').not(this).prop('checked', this.checked);
+
+    });
+
 
 </script>
 
@@ -92,7 +90,7 @@
             <th>Reorder Qty</th>
             <th>Unit of Measure</th>
             <th>Supplier</th>
-            <th>Include In PO</th>
+            <th><input type="checkbox" id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
         </tr>
     </thead>
 
