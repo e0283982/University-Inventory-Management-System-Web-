@@ -6,47 +6,59 @@
     ViewBag.Title = "Department Usage Cost Report";
 }
 
-<div>
-    <h5>Department Usage Cost Report</h5>
-    <label id="lbl-error-info"></label>
-    <label id="lbl-filter-info">Filter results: All</label>
-    <label id="lbl-cost-info"></label>
+<link href="@Url.Content("~/Content/dropdowns.css")" rel="stylesheet" type="text/css" />
+
+<h5>Department Usage Cost Report</h5>
+<div class="row">
+    <div class="col-md-4">       
+        <label id="lbl-filter-info">Filter results: All</label>
+    </div>
+    <div class="col-md-8">
+        <div>
+            <div>
+                <label id="lbl-error-info" style="color: #FF5F53"></label>
+            </div>
+            <div>
+                <label id="lbl-cost-info"></label>
+            </div>
+        </div>        
+    </div>  
 </div>
 
 <div class="row">
     <div class="col-md-3">
         <div>
             <label style="font-size: 10pt;">Department: </label>
-            <label id="lbl-dept">@ViewBag.Department</label>
+            <label id="lbl-dept" style="font-size: 10pt;">@ViewBag.Department</label>
         </div>
         <div>
             <label style="font-size: 10pt;">Category: </label>
-            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, null, new { @class = "styled-slect  semi-square" })
         </div>
     </div>
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-2">
-                <span>
+                <div style="text-align:center;">
                     <label style="font-size: 10pt;">Year</label>
-                </span>
-                <span>
-                    <select id="chosenYear" multiple>
+                </div>
+                <div>
+                    <select id="chosenYear" class="el02" multiple size="2">
                         <option value="2017">2017</option>
                         <option value="2018">2018</option>
                     </select>
-                </span>
+                </div>
             </div>
             <div class="col-md-2">
-                <span>
+                <div style="text-align:center;">
                     <label style="font-size: 10pt;">Month(s)</label>
-                </span>
-                <span>
-                    <select id="chosenMonths" multiple>
+                </div>
+                <div>
+                    <select id="chosenMonths" class="el02" multiple size="2">
                         <option value="jan">Jan</option>
                         <option value="feb">Feb</option>
                         <option value="mar">Mar</option>
-                        <option value="apr">Aor</option>
+                        <option value="apr">Apr</option>
                         <option value="may">May</option>
                         <option value="jun">Jun</option>
                         <option value="jul">Jul</option>
@@ -56,7 +68,7 @@
                         <option value="nov">Nov</option>
                         <option value="dec">Dec</option>
                     </select>
-                </span>
+                </div>
             </div>
         </div>
     </div>
@@ -86,7 +98,7 @@
 
     <thead style="font-size: 10pt;">
         <tr>
-            <th>Dept Name</th>
+            @*<th>Dept Name</th>*@
             <th>Year</th>
             <th>Month</th>
             <th>Category</th>
@@ -128,7 +140,7 @@
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
-                        { 'data': 'DepartmentName' },
+                        //{ 'data': 'DepartmentName' },
                         { 'data': 'Year' },
                         { 'data': 'Month' },
                         { 'data': 'CategoryName' },
@@ -259,7 +271,7 @@
                         {
                             //"targets": [0,1,2],
                             //"visible": false,
-                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
+                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
                         }
                     ]
 
