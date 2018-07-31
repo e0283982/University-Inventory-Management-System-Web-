@@ -80,10 +80,7 @@
 
             for (var i = 0; i < table.rows().data().length; i++) {
                 var dataToSend = table.rows(i).data();
-
-                //alert(JSON.stringify(dataToSend));
-                //alert(dataToSend[0].ItemCode);
-
+                
                 arrItemCodes.push(dataToSend[0].ItemCode);
 
                 var rowChecked =
@@ -101,13 +98,13 @@
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
+                async: false,
                 data: JSON.stringify({ arrItemCodes: arrItemCodes, arrStatus: arrStatus })
             });
 
             window.location.href = '@Url.Action("Maintenance", "Store")';
             alert('Supplier Price List Updated');
-
-
+            
         });
     });
 </script>

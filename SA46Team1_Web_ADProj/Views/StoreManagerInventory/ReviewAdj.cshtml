@@ -124,6 +124,7 @@
         $.ajax({
             url: '/StoreManagerInventory/Approve',
             method: 'POST',
+            async: false,
             data: {
                 'requestId': requestId,
                 'itemCode': itemCode
@@ -135,6 +136,7 @@
         $.ajax({
             url: '/StoreManagerInventory/Reject',
             method: 'POST',
+            async: false,
             data: {
                 'requestId': requestId,
                 'itemCode': itemCode

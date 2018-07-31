@@ -63,8 +63,6 @@
                     $("#displayPO-net-total").append(twoDP(netTotal));
                     $("#displayPO-gst").append(twoDP(gst));
                 });
-
-
             }
         });
 
@@ -104,6 +102,7 @@
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ arrQty: arrQty, taData: taData })
         });
 
@@ -137,13 +136,6 @@
             table.cell(i, 2).nodes().to$().find('input').prop('disabled', false);
         }
 
-        //var inputs = document.getElementsByTagName("INPUT");
-        //for (var i = 0; i < inputs.length; i++) {
-        //    if (inputs[i].id === 'input-qty-ordered') {
-        //        inputs[i].disabled = false;
-        //    }
-        //}
-
         table.draw(false);
         @*window.location.href = '@Url.Action("Purchase", "Store")';*@
 
@@ -170,6 +162,7 @@
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            ásync: false,
             data: JSON.stringify({ arrQty: arrQty })
         });
 
@@ -191,7 +184,8 @@
 
         $.ajax({
             url: '/StorePurchase/CancelPO',
-            type: 'POST'
+            type: 'POST',
+            async: false
         });
         window.location.href = '@Url.Action("Purchase", "Store")';
         //return false;
@@ -208,7 +202,8 @@
     $('#btn-cancel-displayPO').click(function () {
         jQuery.ajax({
             url: '/StorePurchase/ExitEditMode',
-            type: 'POST'
+            type: 'POST',
+            async: false
         })
             window.location.href = '@Url.Action("Purchase", "Store")';
     });

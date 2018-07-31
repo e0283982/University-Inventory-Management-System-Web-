@@ -49,6 +49,7 @@
                             url: '/StoreMaintenance/DisplaySupplierDetails',
                             data: { maintenanceSupplierCode: data["SupplierCode"] },
                             type: 'POST',
+                            async: false
                         });
 
                         window.location.href = '@Url.Action("Maintenance", "Store")';

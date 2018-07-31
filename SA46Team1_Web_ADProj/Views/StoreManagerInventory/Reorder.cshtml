@@ -20,7 +20,6 @@
                 //"data": null,
                 "defaultContent": "<input type='checkbox' checked/>",
                 className: 'text-center', targets: [0, 1, 2, 3, 4, 5]
-                //this might cause issues, just fyi
             }]
         });
     });
@@ -60,6 +59,7 @@
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ arr1: arr1, arr2: arr2, arrSupplier: arrSupplier })
         });
 

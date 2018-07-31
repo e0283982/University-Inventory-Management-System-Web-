@@ -22,7 +22,6 @@
                 searching: false,
                 "iDisplayLength": 5,
                 "bInfo": false,
-                //scrollY: 200,
                 scrollX: 1000,
                 data: data,
                 columns: [
@@ -111,13 +110,13 @@
             }
 
             $('#dialog-submit-edit-supplier').dialog('open');
-
-
+            
             $.ajax({
                 type: 'POST',
                 url: '/Store/StoreMaintenance/Suppliers/EditSupplier',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
+                async: false,
                 data: JSON.stringify({ arr: arr })
             });
 

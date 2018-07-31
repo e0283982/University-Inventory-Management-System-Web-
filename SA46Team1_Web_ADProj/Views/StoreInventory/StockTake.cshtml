@@ -21,7 +21,6 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'ItemCode' },
@@ -60,6 +59,7 @@
             url: '/StoreInventory/StockTakeUpdate',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ arr: arr, arr1: arr1 })
         });
     });
@@ -102,7 +102,6 @@
             </span>
             <span>
                 @Html.ActionLink("Update", "Home", "Store", null, new { @class = "btn btn-lu-green", id = "btn-update", @style = "color:#f4f4f4;" })
-                @*<button id="btn-update" class="btn btn-primary">@Html.ActionLink("Update", "Home", "Store")</button>*@
             </span>
         </div>
     </div>

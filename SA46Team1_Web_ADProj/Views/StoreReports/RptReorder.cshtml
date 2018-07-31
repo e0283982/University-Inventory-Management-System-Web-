@@ -90,7 +90,6 @@
                     sort: true,
                     search: false,
                     dom: 'lrtip',
-                    //scrollY: 200,
                     "iDisplayLength": 3,
                     data: data,
                     columns: [
@@ -160,7 +159,6 @@
                             }
 
                             if (arr.length == 0) {
-                                //alert("No results found.");
                                 $('#btn-submit-export1').hide();
                                 return;
                             }
@@ -171,6 +169,7 @@
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',
                                 type: 'POST',
+                                async: false
                             });
 
                             table.draw(false);

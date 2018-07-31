@@ -55,16 +55,6 @@
             <span id="btn-submit-export">
                 @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf", style = "font-size: 10pt;" })
             </span>
-            @*<div>
-                <input class="btn btn-lu-green" type="submit" style="font-size: 10pt;" />
-            </div>*@
-            @*</div>
-            </div>
-            <div class="col-md-6">
-                <div style="float: right; padding-top: 62px;">
-                    <span>
-                       @* @Html.ActionLink("Export to PDF", "ExportRptInventory", "StoreReports", null, new { @class = "btn btn-lu-blue", style = "font-size: 10pt;" })*@
-            @*</span>*@
         </div>
     </div>
 </div>
@@ -109,7 +99,6 @@
                     sort: true,
                     search: false,
                     dom: 'lrtip',
-                    //scrollY: 200,
                     "iDisplayLength": 4,
                     data: data,
                     columns: [
@@ -168,7 +157,6 @@
                                     .columns(1)
                                     .search(searchItems, true, false, true).draw();
                             } else {
-                                //alert("No item selected.");
                                 table
                                     .search('')
                                     .columns().search('')
@@ -188,7 +176,6 @@
                             }
 
                             if (arr.length == 0) {
-                                //alert("No results found.");
                                 $('#btn-submit-export').hide();
                                 return;
                             }
@@ -199,6 +186,7 @@
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',
                                 type: 'POST',
+                                async: false
                             });
 
                             table.draw(false);

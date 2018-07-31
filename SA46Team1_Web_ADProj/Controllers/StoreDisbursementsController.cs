@@ -10,14 +10,16 @@ namespace SA46Team1_Web_ADProj.Controllers
 {
     [CustomAuthorize(Roles = "Store Manager, Store Supervisor, Store Clerk")]
     [RoutePrefix("Store/StoreDisbursements")]
-    public class StoreDisbursementsController : Controller
+    public class StoreDisbursementsController : Controller //Tabs: Requisition, Retrieval, Disbursement
     {
+        /************Action methods belonging to Store Disbursements - Disbursement*******************/
         [Route("Disbursement")]
         public ActionResult Disbursement()
         {
+            Session["StoreDisbursementTabIndex"] = "3";
+
             if (Session["DisbursementListPage"].ToString() == "1")
             {
-                @Session["BackToDisbursementList"] = "false";
                 return View("Disbursement");
             }
             else
@@ -33,23 +35,23 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["DisbursementListPage"] = "2";
             Session["storeDisbursementFormId"] = storeDisbursementFormId;
 
-            return null;
+            return RedirectToAction("Disbursements", "Store");
         }
 
         [HttpPost]
         public RedirectToRouteResult BackToDisbursementList()
         {
             Session["DisbursementListPage"] = "1";
-            Session["BackToDisbursementList"] = "true";
 
             return RedirectToAction("Disbursements", "Store");
         }
 
+        /************Action methods belonging to Store Disbursements - Requisition *******************/
 
         [Route("Requisition")]
         public ActionResult Requisition()
         {
-            //Session["DisbursementListPage"] = "0";
+            Session["StoreDisbursementTabIndex"] = "1";
 
             if (Session["ReqListPage"].ToString() == "1")
             {
@@ -68,7 +70,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["ReqListPage"] = "2";
             Session["storeReqFormId"] = storeReqFormId;
 
-            return null;
+            return RedirectToAction("Disbursements", "Store");
         }
 
         [HttpPost]
@@ -79,12 +81,14 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Disbursements", "Store");
         }
 
+        /************Action methods belonging to Store Disbursements - Retrieval*******************/
+
+
         [Route("Retrieval")]
         public ActionResult Retrieval()
         {
-            //Use disbursementlistpage equals to 1 to wire the tab
-            Session["RetrievalListPage"] = "1";
-
+            Session["StoreDisbursementTabIndex"] = "2";
+            
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
@@ -103,7 +107,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult DisburseItems()
         {
-            Session["RetrievalListPage"] = "2";
             
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -293,18 +296,15 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     m.SaveChanges();
                 } 
-                              
-
+                
             }
            
-
             return RedirectToAction("Disbursements", "Store");
         }
 
         [HttpPost]
         public RedirectToRouteResult AdjustItem(StockRetrievalDetail item1, Item item2)
         {
-            Session["RetrievalListPage"] = "2";
 
             string itemCode;
 
