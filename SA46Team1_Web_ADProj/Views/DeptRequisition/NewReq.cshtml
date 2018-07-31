@@ -15,11 +15,23 @@
     var table;
     $(document).ready(function () {
         if (@editMode.ToString().ToLower()== true) {
+            $("#btn-clear-items").show();
             $("#btn-save-items").show();
             $("#btn-edit-items").hide();
+            $("#btn-add-item").hide();
+            $("#btn-submit-new-req").hide();
         } else {
+            $("#btn-clear-items").hide();
             $("#btn-save-items").hide();
             $("#btn-edit-items").show();
+            $("#btn-add-item").show();
+            $("#btn-submit-new-req").show();
+        }
+
+        //disable buttons if no items
+        if (@list.Count()> 0) {
+            $("#btn-edit-items").prop('disabled', false);
+            $("#btn-submit-new-req").prop('disabled', false);
         }
 
         table = $('#dataTable-newReq').DataTable({
@@ -35,7 +47,6 @@
         var data = table.row($(this).parents('tr')).data();
         var index = table.row($(this).parents('tr')).index();
 
-        alert(data[0]);
         $.ajax({
             url: '/DeptRequisition/DiscardNewItems',
             data: JSON.stringify({ data: data[0], index: index }),
@@ -106,6 +117,17 @@
             url: '/DeptRequisition/AddReqItem',
             type: 'POST',
         });
+    });
+
+    $('#btn-clear-items').on('click', function () {
+        $.ajax({
+            url: '/DeptRequisition/ClearNewReqItems',
+            type: 'POST',
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Requisition", "Dept")';
     });
 
     $('#btn-confirm-submit-submit').on('click', function () {
@@ -209,7 +231,7 @@
                 <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
             </span>
             <span>
-                <button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;">Edit</button>
+                <button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>
                 <button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>
             </span>
         </div>
@@ -260,10 +282,10 @@
             <div class="col-md-12">
                 <div style="float: right">
                     <span>
-                        <button class="btn btn-lu-red" id="btn-cancel" style="font-size: 10pt;">Cancel</button>
+                        <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;">Clear</button>
                     </span>
                     <span>
-                        <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
+                        <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;" disabled>Submit</button>
                     </span>
                 </div>
 
