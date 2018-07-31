@@ -36,6 +36,9 @@
 }
 
 .hidden {
-    display: none
+    display: none    
 }
 
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}

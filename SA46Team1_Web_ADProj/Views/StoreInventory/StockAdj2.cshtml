@@ -15,12 +15,13 @@
     $(document).ready(function () {
        
         table = $('#dataTable-new-adj').DataTable({
-            //scrollY: '30vh',
+            scrollY: 200,
             "iDisplayLength": 5,
-            scrollCollapse: true,
-            ordering: false,
+            searching: false,
+            scrollCollapse: false,
+            ordering: true,
             paging: true,
-            columnDefs: [
+            "columnDefs": [
                 {
                     "targets": [0],
                     "visible": false,
@@ -153,7 +154,7 @@
 <br />
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
-    <table id="dataTable-new-adj" class="table-hover" style="width:80%;">
+    <table id="dataTable-new-adj" class="display" style="width:80%;">
         <thead style="font-size: 10pt;">
             <tr>
                 <th>Item Code</th>

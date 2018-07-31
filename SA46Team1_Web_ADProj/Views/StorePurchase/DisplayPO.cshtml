@@ -293,38 +293,41 @@
     </div>
 </div>
 <div id="datatableDisplayPO">
-<table id="dataTable-displayPO" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Item Code</th>
-            <th>Item Description</th>
-            <th>Quantity Ordered</th>
-            <th>Quantity Delivered</th>
-            <th>Unit of Measure</th>
-            <th>Unit Price ($)</th>
-            <th>Total ($)</th>
-            <th>GST ($)</th>
-        </tr>
-    </thead>
-    @foreach (var item in poFullDetailList)
-    {
-    <tr style="font-size: 10pt;">
-        <th style="font-size: 10pt;">@item.ItemCode</th>
-        <th style="font-size: 10pt;">@item.Description</th>
-        <th style="font-size: 10pt;">
-             <input id="input-qty-ordered" class="inputEditOrd" type="number" value="@item.QuantityOrdered" disabled/>
-        </th>
-        <th style="font-size: 10pt;">
-            <input id="input-qty-delivered" class="inputEditDel" type="number" value="@item.QuantityDelivered" disabled />
-        </th>
+    <table id="dataTable-displayPO" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Code</th>
+                <th>Item Description</th>
+                <th>Quantity Ordered</th>
+                <th>Quantity Delivered</th>
+                <th>Unit of Measure</th>
+                <th>Unit Price ($)</th>
+                <th>Total ($)</th>
+                <th>GST ($)</th>
+            </tr>
+        </thead>
+        @foreach (var item in poFullDetailList)
+        {
+            <tr style="font-size: 10pt;">
+                <th style="font-size: 10pt;">@item.ItemCode</th>
+                <th style="font-size: 10pt;">@item.Description</th>
+                <th style="font-size: 10pt;">
+                    <input id="input-qty-ordered" class="inputEditOrd" type="number" value="@item.QuantityOrdered" disabled />
+                </th>
+                <th style="font-size: 10pt;">
+                    <input id="input-qty-delivered" class="inputEditDel" type="number" value="@item.QuantityDelivered" disabled />
+                </th>
 
-        <th style="font-size: 10pt;">@item.UoM</th>
-        <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost</label></th>
-        <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
-        <th style="font-size: 10pt;">7%</th>
-    </tr>
-    }
-</table>
+                <th style="font-size: 10pt;">@item.UoM</th>
+                <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost</label></th>
+                <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
+                <th style="font-size: 10pt;">7%</th>
+            </tr>
+        }
+    </table>
+
+    @*center all*@
+
 </div>
 <br />
 <div>
