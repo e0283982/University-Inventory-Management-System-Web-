@@ -195,7 +195,7 @@
                 <th>Item Description</th>
                 <th>Damaged/Missing</th>
                 <th>Quantity</th>
-                <th>Adjust Cost ($)</th>
+                <th>Adjustment Cost ($)</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -209,7 +209,7 @@
                     <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" />
                 </td>
                 <td>
-                    <input id="input-adj-cost" style="font-size: 10pt;" value="@item.AdjCost.ToString("0.00")" readonly />
+                    <label id="input-adj-cost" style="font-size: 10pt;" >@item.AdjCost.ToString("0.00")</label>
                 </td>
                 <td>
                     <span>
