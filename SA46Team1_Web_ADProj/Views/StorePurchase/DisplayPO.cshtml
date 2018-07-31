@@ -13,9 +13,11 @@
     var table;
     $(document).ready(function () {
         table = $('#dataTable-displayPO').DataTable({
-            //scrollY: '30vh',
+            paging: true,
+            sort: true,
+            scrollY: 200,
             "iDisplayLength": 5,
-            scrollCollapse: true
+            scrollCollapse: false
         });
 
         $.ajax({
@@ -277,9 +279,9 @@
         <div>
             <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
         </div>
-        <div>
+        @*<div>
             <label style="font-size: 10pt;">Delivery Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
-        </div>
+        </div>*@
     </div>
     <div class="col-md-6">
         <div style="float: right;">
@@ -324,11 +326,12 @@
     }
 </table>
 </div>
+<br />
 <div>
-    <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 10pt;" /></strong>
-    <label style="font-size: 10pt;">&nbsp;GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 10pt;" /></strong>
-    <label style="font-size: 10pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 10pt;" /></strong>
-    <label style="font-size: 10pt;">&nbsp;PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 10pt;" /></strong>
+    <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
+    <label style="font-size: 12pt;">&nbsp;GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 12pt;" /></strong>
+    <label style="font-size: 12pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 12pt;" /></strong>
+    <label style="font-size: 12pt;">&nbsp;PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 12pt;" /></strong>
 </div>
 
 <div class="row">
@@ -355,8 +358,8 @@
 
             @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
             {
-                <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt Edit</button>
-                <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Received</button>
+                <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt</button>
+                <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Receipt</button>
             }
 
             <button type="reset" class="hidden btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>

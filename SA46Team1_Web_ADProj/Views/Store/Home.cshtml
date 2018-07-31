@@ -1,4 +1,21 @@
-﻿@{
+﻿<iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiODViZDMyODUtNTNhYS00MWRmLThjOWItMzAxYWUwZTA4ZmM4IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+
+@{
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
+<button id="test">
+    Test
+</button>
+<script type="text/javascript">
+        // Edit PO Button
+        $('#test').click(function () {
+            //$('#dialog-edit-displayPO').dialog('open');
+             $.ajax({
+                url: '/Store/Test',
+                type: 'POST'
+            });
+    });
+
+    
+</script> 

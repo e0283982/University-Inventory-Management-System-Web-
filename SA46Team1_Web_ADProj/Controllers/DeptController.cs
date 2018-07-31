@@ -8,9 +8,10 @@ using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
-    [CustomAuthorize(Roles = "Department Head, Employee Representative, Employee")]
+    
     public class DeptController : Controller
     {
+        [CustomAuthorize(Roles = "Department Head, Employee Representative, Employee")]
         public ActionResult Home()
         {
             string deptCode = Session["DepartmentCode"].ToString();
@@ -46,26 +47,31 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         public ActionResult Requisition()
         {
             return View();
         }
 
+        [CustomAuthorize(Roles = "Employee Representative, Employee")]
         public ActionResult RequisitionHistory()
         {
             return View();
         }
 
+        [CustomAuthorize(Roles = "Department Head")]
         public ActionResult Approval()
         {
             return View();
         }
-    
+
+        [CustomAuthorize(Roles = "Department Head")]
         public ActionResult Authorisation()
         {
             return View();
         }
 
+        [CustomAuthorize(Roles = "Department Head, Employee Representative, Employee")]
         public ActionResult Notifications()
         {
             return View();
@@ -76,6 +82,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
+        [CustomAuthorize(Roles = "Department Head")]
         public ActionResult Report()
         {
             return View();
