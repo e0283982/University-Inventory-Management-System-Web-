@@ -254,6 +254,27 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [HttpPost]
+        public RedirectToRouteResult ClearNewReqItems()
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                Session["newReqEditMode"] = false;
+
+                //clear temp list
+                List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
+                list.Clear();
+                Session["newReqList"] = list;
+
+                //remove from list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Clear();
+                Session["tempList"] = tempList;
+
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
+
         [CustomAuthorize(Roles = "Employee Representative")]
         [Route("UpcomingDelivery")]
         public ActionResult UpcomingDelivery()

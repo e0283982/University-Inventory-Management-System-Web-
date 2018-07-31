@@ -9,6 +9,7 @@
 <div>
     <h5>Department Usage Cost Report</h5>
     <label id="lbl-error-info"></label>
+    <label id="lbl-filter-info">Filter results: All</label>
     <label id="lbl-cost-info"></label>
 </div>
 
@@ -16,7 +17,7 @@
     <div class="col-md-3">
         <div>
             <label style="font-size: 10pt;">Department: </label>
-            @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
+            <label id="lbl-dept">@ViewBag.Department</label>
         </div>
         <div>
             <label style="font-size: 10pt;">Category: </label>
@@ -72,6 +73,9 @@
             <span id="btn-submit-export2">
                 @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
             </span>
+            <span>
+                <input class="btn btn-lu-blue" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
+            </span>
         </div>
     </div>
 </div>
@@ -98,6 +102,10 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
+<div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
+    <h5>Please select at least 1 valid month and year.</h5>
+</div>
+
 <script>
     var table;
 
@@ -105,7 +113,7 @@
         $('#btn-submit-export2').hide();
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetRptDepartmentUsage',
+            url: 'http://localhost:49921/api/Restful/GetRptDepartmentUsage/'+'@Session["DepartmentCode"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -169,7 +177,8 @@
                             });
 
                             if (selMonths.length == 0 || selYears.length == 0) {
-                                alert("Please select at least 1 valid month and year.");
+                                //alert("Please select at least 1 valid month and year.");
+                                $('#dialog-invalid-report-date').dialog('open');
                                 return;
                             }
 
@@ -191,7 +200,7 @@
                             //deptArray.push(dept);
                             //categoryArray.push(category);
 
-                            var dept = $('#SelectDepartmentDesc :selected').text();
+                            var dept = $('#lbl-dept').text();
                             var category = $('#SelectCategory :selected').text();
                           
                             table
@@ -240,7 +249,8 @@
                                 sum += rowData;
                             }
 
-                            $("#lbl-cost-info").text("Total cost ($): "+sum);
+                            $("#lbl-cost-info").text("Total cost ($): " + sum);
+                            $("#lbl-filter-info").text("Filter results: " + search + " , " + category);
     
                         });
                         
@@ -261,6 +271,23 @@
         $('#btn-submit-export2').hide();
     });
 
+    $('#btn-clear-filter2').on('click', function () {
+        $('#btn-submit-export2').hide();
+        $("#lbl-error-info").text("");
+
+        $("#chosenMonths").val([]);
+        $("#chosenYear").val([]);
+
+        $("#lbl-cost-info").text("");
+        $("#lbl-filter-info").text("Filter results: All");
+
+        //reset datatable results
+        table
+            .search('')
+            .columns().search('')
+            .draw();
+    });
+
     $("#SelectDepartmentDesc").change(function () {
         $('#btn-submit-export2').hide();
         $("#lbl-error-info").text("");
@@ -269,7 +296,7 @@
         $("#chosenYear").val([]);
 
         $("#lbl-cost-info").text("");
-
+        $("#lbl-filter-info").text("Filter results: All");
     });
 
     $("#SelectCategory").change(function () {
@@ -280,5 +307,15 @@
         $("#chosenYear").val([]);
 
         $("#lbl-cost-info").text("");
+        $("#lbl-filter-info").text("Filter results: All");
     });
+
+    $(function () {
+        $("#dialog-invalid-report-date").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
 </script>

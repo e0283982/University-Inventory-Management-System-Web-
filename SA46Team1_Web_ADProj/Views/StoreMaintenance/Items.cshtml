@@ -33,7 +33,14 @@
                     { 'data': 's1' },
                     { 'data': 's2' },
                     { 'data': 's3' },
-                    { 'data': 'Active' }
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            var status = data;
+                            return status != 0 ? 'Active' : 'Inactive';
+                        }
+                    }
                 ],
                 drawCallback: function (settings) {
                     $('#dataTable-store-items tbody').on('click', 'tr', function () {
@@ -141,10 +148,10 @@
             @Html.DropDownList("SelectItemUOM", ViewBag.UOMList as SelectList)
         </div>
         <hr />
-        <div>
+        @*<div>
             <label>Quantity:</label>
             @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Quantity", @id = "new-item-qty" }, })
-        </div>
+        </div>*@
 
         <div>
             <label>Reorder Level:</label>

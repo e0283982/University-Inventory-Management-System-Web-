@@ -20,7 +20,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             if (Session["InventoryOverviewPage"].ToString() == "1")
             {
-
+                Session["StoreInventoryTabIndex"] = "1";
                 return View("Overview");
             }
             else
@@ -37,7 +37,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["InventoryOverviewPage"] = "2";
             Session["MaintenanceItemCode"] = maintenanceItemCode;
 
-            return null;
+            return View("Overview2");
         }
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
@@ -296,6 +296,29 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return RedirectToAction("Inventory", "Store");
             }
         }
+
+        [HttpPost]
+        public RedirectToRouteResult ClearNewAdjItems()
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                Session["StockAdjPage"] = "2";
+
+
+                //clear temp list
+                List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
+                list.Clear();
+                Session["newAdjList"] = list;
+
+                //remove from list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Clear();
+                Session["tempList"] = tempList;
+
+                return RedirectToAction("Inventory", "Store");
+            }
+        }
+
 
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]

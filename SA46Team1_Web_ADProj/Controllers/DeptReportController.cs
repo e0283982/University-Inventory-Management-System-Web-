@@ -20,15 +20,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                ViewBag.DepartmentList = new SelectList((from s in e.Departments.ToList()
-                                                         select new
-                                                         {
-                                                             DepartmentCode = s.DepartmentCode,
-                                                             DepartmentName = s.DepartmentName
-                                                         }),
-                                                "DepartmentCode",
-                                                "DepartmentName",
-                                                null);
+                string deptCode = Session["DepartmentCode"].ToString();
+                ViewBag.Department = e.Departments.Where(x => x.DepartmentCode == deptCode).Select(x => x.DepartmentName).FirstOrDefault();
 
                 ViewBag.CategoryList = new SelectList((from s in e.Categories.ToList()
                                                        select new

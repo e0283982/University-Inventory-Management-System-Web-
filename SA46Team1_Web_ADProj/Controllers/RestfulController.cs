@@ -321,7 +321,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.POLists.ToList();
+                return m.POLists.OrderBy(x=>x.Date).ToList();
             }
         }
 
@@ -649,6 +649,17 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRptDepartmentUsage/{id}")]
+        public List<DepartmentUsageReport> GetRptDepartmentUsage(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                string deptName = m.Departments.Where(x => x.DepartmentCode == id).Select(x => x.DepartmentName).FirstOrDefault();
+                return m.DepartmentUsageReports.Where(x=>x.DepartmentName==deptName).ToList();
+            }
+        }
+
         //TODO: Hendri new restful controllers
         [System.Web.Mvc.HttpPost]
         [System.Web.Mvc.Route("CreateNewStockAdjustment")]
@@ -753,21 +764,29 @@ namespace SA46Team1_Web_ADProj.Controllers
                 if (disbursementDetail.QuantityAdjusted > 0)
                 {
 
-                    //Adding new StockAdjustmentHeader            
-                    StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
-                    int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
-                    stockAdjustmentHeader.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderCount, "SA");
+                    //Only when id is 1
+                    if (disbursementDetailModel.DisbursementAndroidId == 1)
+                    {
+                        //Adding new StockAdjustmentHeader            
+                        StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
+                        int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
+                        stockAdjustmentHeader.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderCount, "SA");
 
-                    //DateTime
-                    DateTime localDate = DateTime.Now;
-                    stockAdjustmentHeader.DateRequested = localDate;
-                    stockAdjustmentHeader.Requestor = disbursementDetailModel.RequestorId;
-                    stockAdjustmentHeader.TransactionType = "Stock Adjustment";
-                    m.StockAdjustmentHeaders.Add(stockAdjustmentHeader);
+                        //DateTime
+                        DateTime localDate = DateTime.Now;
+                        stockAdjustmentHeader.DateRequested = localDate;
+                        stockAdjustmentHeader.Requestor = disbursementDetailModel.RequestorId;
+                        stockAdjustmentHeader.TransactionType = "Stock Adjustment";
+                        m.StockAdjustmentHeaders.Add(stockAdjustmentHeader);
+
+                        m.SaveChanges();
+                    }                    
 
                     //Adding new StockAdjustmentDetails
                     StockAdjustmentDetail stockAdjustmentDetail = new StockAdjustmentDetail();
-                    stockAdjustmentDetail.RequestId = stockAdjustmentHeader.RequestId;
+
+                    int latestStockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count();                                    
+                    stockAdjustmentDetail.RequestId = CommonLogic.SerialNo(latestStockAdjustmentHeaderCount, "SA");
 
                     stockAdjustmentDetail.ItemCode = itemCode;
                     stockAdjustmentDetail.ItemQuantity = disbursementDetail.QuantityAdjusted;
@@ -796,7 +815,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     DateTime localDate2 = DateTime.Now;
                     ItemTransaction itemTransaction2 = new ItemTransaction();
                     itemTransaction2.TransDateTime = localDate2;
-                    itemTransaction2.DocumentRefNo = stockAdjustmentHeader.RequestId;
+                    itemTransaction2.DocumentRefNo = stockAdjustmentDetail.RequestId;
                     itemTransaction2.ItemCode = stockAdjustmentDetail.ItemCode;
                     itemTransaction2.TransactionType = "Stock Adjustment";
                     itemTransaction2.Quantity = stockAdjustmentDetail.ItemQuantity;
@@ -833,7 +852,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
 
                 //Only when id match with size then create new requisition Header
-                if (newRequisitionModel.RequisitionId == newRequisitionModel.RequisitionSize)
+                if (newRequisitionModel.RequisitionAndroidId == newRequisitionModel.RequisitionSize)
                 {
                     //Create new Staff Requisition Header
                     StaffRequisitionHeader srh = new StaffRequisitionHeader();
@@ -1031,14 +1050,22 @@ namespace SA46Team1_Web_ADProj.Controllers
         [System.Web.Http.Authorize]
         [System.Web.Http.HttpGet]
         [System.Web.Mvc.Route("GetEmployeeRole/{email}")]
-        public string GetEmployeeRole(string email)
+        public Employee GetEmployeeRole(string email)
         {
 
-            using (IEmployeeRepository empRepo = new EmployeeRepositoryImpl(new SSISdbEntities()))
+            using (SSISdbEntities m = new SSISdbEntities())
             {
-                Employee employee = empRepo.FindEmployeeEmailId(email);
-                return employee.Designation;
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.Employees.Where(x => x.EmployeeEmail == email).FirstOrDefault();
             }
+
+
+                //using (IEmployeeRepository empRepo = new EmployeeRepositoryImpl(new SSISdbEntities()))
+                //{
+                //    Employee employee = empRepo.FindEmployeeEmailId(email);
+                //    return employee.Designation;
+                //}
+
         }
 
 
