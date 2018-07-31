@@ -3,62 +3,49 @@
 }
 
 @{
-    ViewBag.Title = "Department Usage Cost Report";
+    ViewBag.Title = "Department Usage Cost Report"; //for dept
 }
 
-<link href="@Url.Content("~/Content/dropdowns.css")" rel="stylesheet" type="text/css" />
-
-<h5>Department Usage Cost Report</h5>
-<div class="row">
-    <div class="col-md-4">       
-        <label id="lbl-filter-info">Filter results: All</label>
-    </div>
-    <div class="col-md-8">
-        <div>
-            <div>
-                <label id="lbl-error-info" style="color: #FF5F53"></label>
-            </div>
-            <div>
-                <label id="lbl-cost-info"></label>
-            </div>
-        </div>        
-    </div>  
+<div>
+    <h5>Department Usage Cost Report</h5>
+    <label id="lbl-filter-info2">Filter results: All</label>
+    <label id="lbl-cost-info2"></label>
 </div>
 
 <div class="row">
     <div class="col-md-3">
         <div>
             <label style="font-size: 10pt;">Department: </label>
-            <label id="lbl-dept" style="font-size: 10pt;">@ViewBag.Department</label>
+            <label id="lbl-dept">@ViewBag.Department</label>
         </div>
         <div>
             <label style="font-size: 10pt;">Category: </label>
-            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, null, new { @class = "styled-slect  semi-square" })
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
         </div>
     </div>
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-2">
-                <div style="text-align:center;">
+                <span>
                     <label style="font-size: 10pt;">Year</label>
-                </div>
-                <div>
-                    <select id="chosenYear" class="el02" multiple size="2">
+                </span>
+                <span>
+                    <select id="chosenYear" multiple>
                         <option value="2017">2017</option>
                         <option value="2018">2018</option>
                     </select>
-                </div>
+                </span>
             </div>
             <div class="col-md-2">
-                <div style="text-align:center;">
+                <span>
                     <label style="font-size: 10pt;">Month(s)</label>
-                </div>
-                <div>
-                    <select id="chosenMonths" class="el02" multiple size="2">
+                </span>
+                <span>
+                    <select id="chosenMonths" multiple>
                         <option value="jan">Jan</option>
                         <option value="feb">Feb</option>
                         <option value="mar">Mar</option>
-                        <option value="apr">Apr</option>
+                        <option value="apr">Aor</option>
                         <option value="may">May</option>
                         <option value="jun">Jun</option>
                         <option value="jul">Jul</option>
@@ -68,7 +55,7 @@
                         <option value="nov">Nov</option>
                         <option value="dec">Dec</option>
                     </select>
-                </div>
+                </span>
             </div>
         </div>
     </div>
@@ -94,11 +81,11 @@
 
 <hr />
 
-<table id="dataTable-deptUsage" class="table">
+<table id="dataTable-deptUsage2" class="table">
 
     <thead style="font-size: 10pt;">
         <tr>
-            @*<th>Dept Name</th>*@
+            <th>Dept Name</th>
             <th>Year</th>
             <th>Month</th>
             <th>Category</th>
@@ -118,8 +105,13 @@
     <h5>Please select at least 1 valid month and year.</h5>
 </div>
 
+<div id="dialog-no-data" class="hidden" title="Information">
+    <h5>No data found.</h5>
+</div>
+
 <script>
     var table;
+    var initialSum;
 
     $(document).ready(function () {
         $('#btn-submit-export2').hide();
@@ -131,7 +123,7 @@
             success: function (data) {
                 d = data;
 
-                table = $('#dataTable-deptUsage').DataTable({
+                table = $('#dataTable-deptUsage2').DataTable({
                     paging: true,
                     sort: true,
                     search: false,
@@ -140,7 +132,7 @@
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
-                        //{ 'data': 'DepartmentName' },
+                        { 'data': 'DepartmentName' },
                         { 'data': 'Year' },
                         { 'data': 'Month' },
                         { 'data': 'CategoryName' },
@@ -173,8 +165,19 @@
                             }
                         }
                     ],
+                    "initComplete": function (settings, json) {
+                        //reset datatable results
+                        initialSum = 0;
+                        for (var i = 0; i < $('#dataTable-deptUsage2').DataTable().rows().data().length; i++) {
+                            var rowData = data[i].TotalCost;
+                            initialSum += rowData;
+                        }
+
+                        initialSum = parseFloat(initialSum).toFixed(2);
+                        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+                    },
                     drawCallback: function (settings) {
-                        
+
                         $('#btn-submit-filter2').on('click', function () {
                             var selYears = [];
                             var selMonths = [];
@@ -214,23 +217,26 @@
 
                             var dept = $('#lbl-dept').text();
                             var category = $('#SelectCategory :selected').text();
-                          
+
                             table
                                 .columns(0)
                                 .search(dept, true, false, true).draw();
-                            
+
                             table
                                 .columns(3)
                                 .search(category, true, false, true).draw();
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
-                                $("#lbl-error-info").text("No data found");
-                                $("#lbl-cost-info").text("");
+                                $('#dialog-no-data').dialog('open');
+                                $('#btn-submit-export2').hide();
 
                                 table
                                     .search('')
                                     .columns().search('')
                                     .draw();
+
+                                $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+
                                 return;
                             }
 
@@ -253,7 +259,6 @@
 
                             table.draw(false);
                             $('#btn-submit-export2').show();
-                            $("#lbl-error-info").text("");
 
                             var sum = 0;
                             for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
@@ -261,17 +266,17 @@
                                 sum += rowData;
                             }
 
-                            $("#lbl-cost-info").text("Total cost ($): " + sum);
-                            $("#lbl-filter-info").text("Filter results: " + search + " , " + category);
-    
+                            $("#lbl-cost-info2").text("Total cost ($): " + sum);
+                            $("#lbl-filter-info2").text("Filter results: " + search + " , " + category);
+
                         });
-                        
+
                     },
                     columnDefs: [
                         {
                             //"targets": [0,1,2],
                             //"visible": false,
-                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
+                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     ]
 
@@ -280,51 +285,50 @@
         });
     });
 
+
     $('#btn-export-pdf2').on('click', function () {
         $('#btn-submit-export2').hide();
     });
 
     $('#btn-clear-filter2').on('click', function () {
         $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
+        $("#lbl-error-info2").text("");
 
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);
 
-        $("#lbl-cost-info").text("");
-        $("#lbl-filter-info").text("Filter results: All");
+        $("#lbl-filter-info2").text("Filter results: All");
 
         //reset datatable results
         table
             .search('')
             .columns().search('')
             .draw();
+
+        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+
     });
-
-    $("#SelectDepartmentDesc").change(function () {
-        $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
-
-        $("#chosenMonths").val([]);
-        $("#chosenYear").val([]);
-
-        $("#lbl-cost-info").text("");
-        $("#lbl-filter-info").text("Filter results: All");
-    });
-
+    
     $("#SelectCategory").change(function () {
         $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
 
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);
 
-        $("#lbl-cost-info").text("");
-        $("#lbl-filter-info").text("Filter results: All");
+        $("#lbl-filter-info2").text("Filter results: All");
+
     });
 
     $(function () {
         $("#dialog-invalid-report-date").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $(function () {
+        $("#dialog-no-data").dialog({
             autoOpen: false,
             width: "40%",
             maxWidth: "40%"

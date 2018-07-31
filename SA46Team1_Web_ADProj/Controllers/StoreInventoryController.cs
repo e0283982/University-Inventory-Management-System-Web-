@@ -355,6 +355,25 @@ namespace SA46Team1_Web_ADProj.Controllers
                     sad.NotificationStatus = "Unread";
 
                     dalDetails.InsertStockAdjustmentDetail(sad);
+
+                    //Create new Item Transaction
+                    ItemTransaction itemTransaction = new ItemTransaction();
+                    itemTransaction.TransDateTime = DateTime.Now;
+                    itemTransaction.DocumentRefNo = sad.RequestId;
+                    itemTransaction.ItemCode = sad.ItemCode;
+                    itemTransaction.TransactionType = "Stock Adjustment";
+                    itemTransaction.Quantity = sad.ItemQuantity;
+
+                    float itemUnitCost = e.Items.Where(x => x.ItemCode == sad.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+
+                    itemTransaction.UnitCost = itemUnitCost;
+                    itemTransaction.Amount = itemTransaction.Quantity * itemTransaction.UnitCost;
+                    e.ItemTransactions.Add(itemTransaction);
+
+                    //Update Item Quantity
+                    Item item = e.Items.Where(x => x.ItemCode == sad.ItemCode).FirstOrDefault();
+                    item.Quantity = item.Quantity - sad.ItemQuantity;                    
+
                 }
 
                 e.SaveChanges();

@@ -3,13 +3,14 @@
 }
 
 @{
-    ViewBag.Title = "Department Usage Cost Report";
+    ViewBag.Title = "Department Usage Cost Report"; //for store
 }
 
 <div>
     <h5>Department Usage Cost Report</h5>
     <label id="lbl-error-info"></label>
-    <label id="lbl-cost-info"></label>
+    <label id="lbl-cost-info2"></label>
+    <label id="lbl-filter-info">Filter results: All</label>
 </div>
 
 <div class="row">
@@ -72,6 +73,9 @@
             <span id="btn-submit-export2">
                 @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
             </span>
+            <span>
+                <input class="btn btn-lu-blue" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
+            </span>
         </div>
     </div>
 </div>
@@ -82,9 +86,9 @@
 
     <thead style="font-size: 10pt;">
         <tr>
-            @*<th>Dept Name</th>
+            <th>Dept Name</th>
             <th>Year</th>
-            <th>Month</th>*@
+            <th>Month</th>
             <th>Category</th>
             <th>Item Code</th>
             <th>Description</th>
@@ -98,8 +102,18 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
+
+<div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
+    <h5>Please select at least 1 valid month and year.</h5>
+</div>
+
+<div id="dialog-no-data" class="hidden" title="Information">
+    <h5>No data found.</h5>
+</div>
+
 <script>
     var table;
+    var initialSum;
 
     $(document).ready(function () {
         $('#btn-submit-export2').hide();
@@ -120,9 +134,9 @@
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
-                        //{ 'data': 'DepartmentName' },
-                        //{ 'data': 'Year' },
-                        //{ 'data': 'Month' },
+                        { 'data': 'DepartmentName' },
+                        { 'data': 'Year' },
+                        { 'data': 'Month' },
                         { 'data': 'CategoryName' },
                         { 'data': 'ItemCode' },
                         { 'data': 'Description' },
@@ -153,7 +167,19 @@
                             }
                         }
                     ],
-                    drawCallback: function (settings) {
+                    "initComplete": function (settings, json) {
+                        //reset datatable results
+
+                        initialSum = 0;
+                        for (var i = 0; i < table.rows().data().length; i++) {
+                            var rowData = data[i].TotalCost;
+                            initialSum += rowData;
+                        }
+
+                        initialSum = parseFloat(initialSum).toFixed(2);
+                        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+                    }
+                    ,drawCallback: function (settings) {
                         
                         $('#btn-submit-filter2').on('click', function () {
                             var selYears = [];
@@ -169,11 +195,12 @@
                             });
 
                             if (selMonths.length == 0 || selYears.length == 0) {
-                                alert("Please select at least 1 valid month and year.");
+                                //alert("Please select at least 1 valid month and year.");
+                                $('#dialog-invalid-report-date').dialog('open');
                                 return;
                             }
 
-                            selYears.forEach(function (element,index1) {
+                            selYears.forEach(function (element, index1) {
                                 selMonths.forEach(function (element, index2) {
                                     var monthYear = selMonths[index2] + "-" + selYears[index1];
                                     search.push(monthYear);
@@ -193,23 +220,31 @@
 
                             var dept = $('#SelectDepartmentDesc :selected').text();
                             var category = $('#SelectCategory :selected').text();
-                          
+
                             table
                                 .columns(0)
                                 .search(dept, true, false, true).draw();
-                            
+
                             table
                                 .columns(3)
                                 .search(category, true, false, true).draw();
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
-                                $("#lbl-error-info").text("No data found");
-                                $("#lbl-cost-info").text("");
+                                //$("#lbl-error-info").text("No data found");
+                                $('#dialog-no-data').dialog('open');
+                                $('#btn-submit-export2').hide();
+                                $("#lbl-error-info").text("");
+
+                                //$("#chosenMonths").val([]);
+                                //$("#chosenYear").val([]);
 
                                 table
                                     .search('')
                                     .columns().search('')
                                     .draw();
+                                
+                                $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+
                                 return;
                             }
 
@@ -240,16 +275,18 @@
                                 sum += rowData;
                             }
 
-                            $("#lbl-cost-info").text("Total cost ($): "+sum);
-    
+                            sum = parseFloat(sum).toFixed(2);
+
+                            $("#lbl-cost-info2").text("Total cost ($): " + sum);
+                            $("#lbl-filter-info").text("Filter results: " + dept + " , " + search + " , " + category);
+
                         });
-                        
+
                     },
                     columnDefs: [
                         {
-                            //"targets": [0,1,2],
-                            //"visible": false,
-                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                            "targets": [0, 1, 2],
+                            "visible": false,
                         }
                     ]
 
@@ -262,6 +299,25 @@
         $('#btn-submit-export2').hide();
     });
 
+    $('#btn-clear-filter2').on('click', function () {
+        $('#btn-submit-export2').hide();
+        $("#lbl-error-info").text("");
+
+        $("#chosenMonths").val([]);
+        $("#chosenYear").val([]);
+
+        $("#lbl-filter-info").text("Filter results: All");
+
+        //reset datatable results
+        table
+            .search('')
+            .columns().search('')
+            .draw();
+
+        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+
+    });
+
     $("#SelectDepartmentDesc").change(function () {
         $('#btn-submit-export2').hide();
         $("#lbl-error-info").text("");
@@ -269,7 +325,7 @@
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);
 
-        $("#lbl-cost-info").text("");
+        $("#lbl-filter-info").text("Filter results: All");
 
     });
 
@@ -280,6 +336,24 @@
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);
 
-        $("#lbl-cost-info").text("");
+        $("#lbl-filter-info").text("Filter results: All");
+        
     });
+
+    $(function () {
+        $("#dialog-invalid-report-date").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $(function () {
+        $("#dialog-no-data").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+    
 </script>

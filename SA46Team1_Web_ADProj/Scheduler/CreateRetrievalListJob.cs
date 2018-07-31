@@ -90,7 +90,6 @@ namespace SA46Team1_Web_ADProj.Scheduler
                                 newsrd.ItemCode = sRd.ItemCode;
                                 newsrd.QuantityRetrieved = 0;
                                 newsrd.CollectionPointID = dd.CollectionPointID;
-                                newsrd.DepartmentCode = dept.DepartmentCode;
                                 newsrd.QuantityAdjusted = 0;
                                 newsrd.Remarks = "";
                                 m.StockRetrievalDetails.Add(newsrd);
