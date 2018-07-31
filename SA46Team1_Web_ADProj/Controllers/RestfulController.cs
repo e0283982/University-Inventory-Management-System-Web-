@@ -649,6 +649,17 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetRptDepartmentUsage/{id}")]
+        public List<DepartmentUsageReport> GetRptDepartmentUsage(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                string deptName = m.Departments.Where(x => x.DepartmentCode == id).Select(x => x.DepartmentName).FirstOrDefault();
+                return m.DepartmentUsageReports.Where(x=>x.DepartmentName==deptName).ToList();
+            }
+        }
+
         //TODO: Hendri new restful controllers
         [System.Web.Mvc.HttpPost]
         [System.Web.Mvc.Route("CreateNewStockAdjustment")]
