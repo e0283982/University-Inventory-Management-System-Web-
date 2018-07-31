@@ -23,12 +23,13 @@
 
 
         table = $('#dataTable-new-adj').DataTable({
-            //scrollY: '30vh',
+            scrollY: 200,
             "iDisplayLength": 5,
-            scrollCollapse: true,
-            ordering: false,
+            searching: false,
+            scrollCollapse: false,
+            ordering: true,
             paging: true,
-            columnDefs: [
+            "columnDefs": [
                 {
                     "targets": [0],
                     "visible": false,
@@ -174,6 +175,7 @@
                 @*<button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>*@
                 @*<button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>*@
             </span>
+        </span>
     </div>
     
 </div>
@@ -181,7 +183,7 @@
 <br />
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
-    <table id="dataTable-new-adj" class="table-hover" style="width:80%;">
+    <table id="dataTable-new-adj" class="display" style="width:80%;">
         <thead style="font-size: 10pt;">
             <tr>
                 <th>Item Code</th>
