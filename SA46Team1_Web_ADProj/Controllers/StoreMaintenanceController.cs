@@ -11,15 +11,171 @@ namespace SA46Team1_Web_ADProj.Controllers
 {
     [CustomAuthorize(Roles = "Store Manager, Store Supervisor")]
     [RoutePrefix("Store/StoreMaintenance")]
-    public class StoreMaintenanceController : Controller
+    public class StoreMaintenanceController : Controller //Tabs: Items, Category, Bin, Suppliers
     {
+        /************Action methods belonging to Store Maintenance - Item *******************/
+
+        [Route("Items")]
+        public ActionResult Items()
+        {
+            Session["MaintenanceTabIndex"] = "1";
+
+            if (Session["MaintenanceItemsPage"].ToString() == "1")
+            {
+                using (SSISdbEntities e = new SSISdbEntities())
+                {
+                    List<String> UOMList = new List<string>()
+                    {
+                        "Box","Dozen","Each","Packet","Set"
+                    };
+                    ViewBag.SupplierList = new SelectList(e.Suppliers.ToList(), "SupplierCode", "CompanyName");
+                    ViewBag.UOMList = new SelectList(UOMList, "UoM");
+                    ViewBag.CategoryList = new SelectList(e.Categories.ToList(), "CategoryID", "CategoryName");
+
+                }
+                return View("Items");
+            }
+            else
+            {
+                Session["MaintenanceItemsPage"] = "1";
+
+                using (SSISdbEntities e = new SSISdbEntities())
+                {
+                    List<Supplier> list = e.Suppliers.ToList();
+                    Dictionary<String, String> dic = new Dictionary<string, string>();
+
+                    dic = list.ToDictionary(x => x.SupplierCode, x => x.CompanyName);
+                    e.Configuration.ProxyCreationEnabled = false;
+
+                    var json = JsonConvert.SerializeObject(dic);
+                    ViewBag.SupplierList = json;
+                }
+
+                return View("Items2");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult DisplayItemDetails(string maintenanceItemCode)
+        {
+            Session["MaintenanceItemsPage"] = "2";
+            Session["MaintenanceItemCode"] = maintenanceItemCode;
+
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                TempData["ReorderLvl"] = e.Items.Where(x => x.ItemCode == maintenanceItemCode).Select(x => x.ReOrderLevel).FirstOrDefault();
+                TempData["ReorderQty"] = e.Items.Where(x => x.ItemCode == maintenanceItemCode).Select(x => x.ReOrderQuantity).FirstOrDefault();
+
+                //also pass var if category has item qty >0
+                int countItemsWithQtyNotZero = e.Items.Where(x => x.ItemCode == maintenanceItemCode && x.Quantity > 0).ToList().Count();
+
+                if (countItemsWithQtyNotZero > 0)
+                {
+                    TempData["countItemsWithQtyNotZero"] = true;
+                }
+                else
+                {
+                    TempData["countItemsWithQtyNotZero"] = false;
+                }
+            }
+
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        [Route("Items/AddNewItem")]
+        public RedirectToRouteResult AddNewItem(Item item)
+        {
+
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                string category = Request.Form["SelectItemCategory"].ToString();
+                string UoM = Request.Form["SelectItemUOM"].ToString();
+                string supplier1 = Request.Form["SelectSupplier1"].ToString();
+                string supplier2 = Request.Form["SelectSupplier2"].ToString();
+                string supplier3 = Request.Form["SelectSupplier3"].ToString();
+
+                string itemFirstChar = item.Description.Substring(0, 1).ToUpper();
+                int countWithItemFirstChar = e.Items.Where(x => x.Description.Substring(0, 1).ToUpper() == itemFirstChar).Count() + 1;
+
+                switch (countWithItemFirstChar.ToString().Length)
+                {
+                    case 1:
+                        item.ItemCode = itemFirstChar + "00" + countWithItemFirstChar;
+                        break;
+                    case 2:
+                        item.ItemCode = itemFirstChar + "0" + countWithItemFirstChar;
+                        break;
+                    case 3:
+                        item.ItemCode = itemFirstChar + countWithItemFirstChar;
+                        break;
+                }
+
+                item.CategoryID = category;
+                item.UoM = UoM;
+                item.Supplier1 = supplier1;
+                item.Supplier2 = supplier2;
+                item.Supplier3 = supplier3;
+                item.Active = 1;
+                item.AvgUnitCost = 0;
+
+                DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
+                dal.InsertItem(item);
+
+                e.SaveChanges();
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
+        [HttpPost]
+        [Route("Items/EditItem")]
+        public RedirectToRouteResult EditItem(String[] suppliers, String[] desc, String[] status)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                string itemCode = Session["MaintenanceItemCode"].ToString();
+                Item item = e.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
+                DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
+                if (status[0].ToLower() == "true")
+                {
+                    item.Active = 1;
+                }
+                else
+                {
+                    item.Active = 0;
+                }
+                item.Description = desc[0];
+                item.Supplier1 = suppliers[0];
+                item.Supplier2 = suppliers[1];
+                item.Supplier3 = suppliers[2];
+
+                dal.UpdateItem(item);
+                e.SaveChanges();
+
+                Session["MaintenanceItemsPage"] = "1";
+
+                return RedirectToAction("Maintenance", "Store");
+            }
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToItemsMaintenanceList()
+        {
+            Session["MaintenanceItemsPage"] = "1";
+
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        /************Action methods belonging to Store Maintenance - Category *******************/
+
         [Route("Categories")]
         public ActionResult Categories()
         {
+            Session["MaintenanceTabIndex"] = "2";
 
             if (Session["MaintenanceCategoriesPage"].ToString() == "1")
             {
-                Session["MaintenanceBackFlagPage"] = "0";
                 return View("Categories");
             }
             else
@@ -49,19 +205,13 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             }
 
-            Session["MaintenanceTabIndex"] = "2";
-
             return RedirectToAction("Maintenance", "Store");
         }
 
         [HttpPost]
         public RedirectToRouteResult BackToCategoriesMaintenanceList()
         {
-            Session["MaintenanceBackFlagPage"] = "1";
             Session["MaintenanceCategoriesPage"] = "1";
-
-            Session["MaintenanceTabIndex"] = "2";
-
 
             return RedirectToAction("Maintenance", "Store");
         }
@@ -70,8 +220,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [Route("Categories/AddNewCategory")]
         public RedirectToRouteResult AddNewCategory(Category cat)
         {
-            Session["MaintenanceTabIndex"] = "2";
-
             using (SSISdbEntities e = new SSISdbEntities()) {
 
                 string categoryCount = (e.Categories.Count() + 1).ToString();
@@ -98,16 +246,18 @@ namespace SA46Team1_Web_ADProj.Controllers
                 e.SaveChanges();
 
                 Session["MaintenanceCategoriesPage"] = "1";
-                Session["MaintenanceTabIndex"] = "2";
 
                 return RedirectToAction("Maintenance", "Store");
             }
         }
 
-        
+        /************Action methods belonging to Store Maintenance - Store Bin *******************/
+
         [Route("StoreBin")]
         public ActionResult StoreBin()
         {
+            Session["MaintenanceTabIndex"] = "3";
+
             if (Session["MaintenanceStoreBinPage"].ToString() == "1")
             {
                 using (SSISdbEntities e = new SSISdbEntities()) {
@@ -122,7 +272,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                                     null);
                 }
                 
-                Session["MaintenanceBackFlagPage"] = "0";
                 return View("StoreBin");
             }
             else
@@ -137,7 +286,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["MaintenanceStoreBinPage"] = "2";
             Session["MaintenanceBinId"] = maintenanceBinId;
-            Session["MaintenanceTabIndex"] = "3";
 
             int binNumber = Int32.Parse(maintenanceBinId);
 
@@ -160,7 +308,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult BackToBinsMaintenanceList()
         {
-            Session["MaintenanceBackFlagPage"] = "2";
             Session["MaintenanceStoreBinPage"] = "1";
 
             return RedirectToAction("Maintenance", "Store");
@@ -168,7 +315,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
 
         [HttpPost]
-        [Route("Departments/AddNewDept")]
+        [Route("StoreBin/AddNewBin")]
         public RedirectToRouteResult AddNewBin(Bin bin)
         {
             using (SSISdbEntities e = new SSISdbEntities())
@@ -212,13 +359,16 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        /************Action methods belonging to Store Maintenance - Suppliers *******************/
+
 
         [Route("Suppliers")]
         public ActionResult Suppliers()
         {
+            Session["MaintenanceTabIndex"] = "4";
+
             if (Session["MaintenanceSuppliersPage"].ToString() == "1")
             {
-                Session["MaintenanceBackFlagPage"] = "0";
                 return View("Suppliers");
             }
             else if (Session["MaintenanceSuppliersPage"].ToString() == "2")
@@ -238,7 +388,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["MaintenanceSuppliersPage"] = "2";
             Session["MaintenanceSupplierCode"] = maintenanceSupplierCode;
-            Session["MaintenanceTabIndex"] = "4";
 
             return RedirectToAction("Maintenance", "Store");
         }
@@ -246,7 +395,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult DisplaySupplierPriceList()
         {
             Session["MaintenanceSuppliersPage"] = "3";
-            Session["MaintenanceTabIndex"] = "4";
 
             return RedirectToAction("Maintenance", "Store");
         }
@@ -292,7 +440,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult BackToSuppliersMaintenanceList()
         {
-            Session["MaintenanceBackFlagPage"] = "4";
             Session["MaintenanceSuppliersPage"] = "1";
 
             return RedirectToAction("Maintenance", "Store");
@@ -329,6 +476,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return RedirectToAction("Maintenance", "Store");
             }
         }
+
+        /************Action methods belonging to Store Maintenance - (obsolete) *******************/
+
 
         [Route("CollectionPoints")]
         public ActionResult CollectionPoints()
@@ -432,156 +582,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["MaintenanceDepartmentsPage"] = "1";
             return RedirectToAction("Maintenance", "Store");
         }
-
-        [Route("Items")]
-        public ActionResult Items()
-        {
-            Session["MaintenanceTabIndex"] = "1";
-
-            if (Session["MaintenanceItemsPage"].ToString() == "1")
-            {
-                Session["MaintenanceBackFlagPage"] = "0";
-                using (SSISdbEntities e = new SSISdbEntities())
-                {
-                    List<String> UOMList = new List<string>()
-                    {
-                        "Box","Dozen","Each","Packet","Set"
-                    };
-                    ViewBag.SupplierList = new SelectList(e.Suppliers.ToList(), "SupplierCode", "CompanyName");
-                    ViewBag.UOMList = new SelectList(UOMList, "UoM");
-                    ViewBag.CategoryList = new SelectList(e.Categories.ToList(), "CategoryID", "CategoryName");
-
-                }
-                return View("Items");
-            }
-            else
-            {
-                Session["MaintenanceItemsPage"] = "1";
-
-                using (SSISdbEntities e = new SSISdbEntities())
-                {
-                    List<Supplier> list = e.Suppliers.ToList();
-                    Dictionary<String, String> dic = new Dictionary<string, string>();
-                   
-                    dic = list.ToDictionary(x=>x.SupplierCode, x=>x.CompanyName);
-                    e.Configuration.ProxyCreationEnabled = false;
-
-                    var json = JsonConvert.SerializeObject(dic);
-                    ViewBag.SupplierList = json;
-                }
-
-                return View("Items2");
-            }
-        }
-
-        [HttpPost]
-        public RedirectToRouteResult DisplayItemDetails(string maintenanceItemCode)
-        {
-            Session["MaintenanceItemsPage"] = "2";
-            Session["MaintenanceItemCode"] = maintenanceItemCode;
-
-            using (SSISdbEntities e = new SSISdbEntities()) {
-                TempData["ReorderLvl"] = e.Items.Where(x => x.ItemCode == maintenanceItemCode).Select(x => x.ReOrderLevel).FirstOrDefault();
-                TempData["ReorderQty"] = e.Items.Where(x => x.ItemCode == maintenanceItemCode).Select(x => x.ReOrderQuantity).FirstOrDefault();
-
-                //also pass var if category has item qty >0
-                int countItemsWithQtyNotZero = e.Items.Where(x => x.ItemCode == maintenanceItemCode && x.Quantity > 0).ToList().Count();
-
-                if (countItemsWithQtyNotZero > 0)
-                {
-                    TempData["countItemsWithQtyNotZero"] = true;
-                }
-                else
-                {
-                    TempData["countItemsWithQtyNotZero"] = false;
-                }
-            }
-
-            return RedirectToAction("Maintenance", "Store");
-        }
-
-        [HttpPost]
-        [Route("Items/AddNewItem")]
-        public RedirectToRouteResult AddNewItem(Item item)
-        {
-
-            using (SSISdbEntities e = new SSISdbEntities())
-            {
-                string category = Request.Form["SelectItemCategory"].ToString();
-                string UoM = Request.Form["SelectItemUOM"].ToString();
-                string supplier1 = Request.Form["SelectSupplier1"].ToString();
-                string supplier2 = Request.Form["SelectSupplier2"].ToString();
-                string supplier3 = Request.Form["SelectSupplier3"].ToString();
-
-                string itemFirstChar = item.Description.Substring(0, 1).ToUpper();
-                int countWithItemFirstChar = e.Items.Where(x => x.Description.Substring(0, 1).ToUpper() == itemFirstChar).Count() +1;
-                
-                switch (countWithItemFirstChar.ToString().Length)
-                {
-                    case 1:
-                        item.ItemCode = itemFirstChar + "00"+countWithItemFirstChar;
-                        break;
-                    case 2:
-                        item.ItemCode = itemFirstChar + "0" + countWithItemFirstChar;
-                        break;
-                    case 3:
-                        item.ItemCode = itemFirstChar + countWithItemFirstChar;
-                        break;
-                }
-
-                item.CategoryID = category;
-                item.UoM = UoM;
-                item.Supplier1 = supplier1;
-                item.Supplier2 = supplier2;
-                item.Supplier3 = supplier3;
-                item.Active = 1;
-                item.AvgUnitCost = 0;
-
-                DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
-                dal.InsertItem(item);
-
-                e.SaveChanges();
-
-                return RedirectToAction("Maintenance", "Store");
-            }
-        }
-
-        [HttpPost]
-        [Route("Items/EditItem")]
-        public RedirectToRouteResult EditItem(String[] suppliers, String[] desc, String[] status)
-        {
-            using (SSISdbEntities e = new SSISdbEntities())
-            {
-                string itemCode = Session["MaintenanceItemCode"].ToString();
-                Item item = e.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
-                DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
-                if (status[0].ToLower() == "true")
-                {
-                    item.Active = 1;
-                }
-                else {
-                    item.Active = 0;
-                }
-                item.Description = desc[0];
-                item.Supplier1 = suppliers[0];
-                item.Supplier2 = suppliers[1];
-                item.Supplier3 = suppliers[2];
-
-                dal.UpdateItem(item);
-                e.SaveChanges();
-
-                Session["MaintenanceItemsPage"] = "1";
-
-                return RedirectToAction("Maintenance", "Store");
-            }
-        }
-
-        [HttpPost]
-        public RedirectToRouteResult BackToItemsMaintenanceList()
-        {
-            Session["MaintenanceItemsPage"] = "1";
-
-            return RedirectToAction("Maintenance", "Store");
-        }
+        
     }
 }
