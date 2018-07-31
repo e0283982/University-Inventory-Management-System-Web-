@@ -206,7 +206,7 @@
                 <td style="font-size: 10pt;">@item.ItemDesc</td>
                 <td style="font-size: 10pt;">@item.Reason</td>
                 <td>
-                    <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" />
+                    <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" pattern="[0-9]" step="1"  />
                 </td>
                 <td>
                     <label id="input-adj-cost" style="font-size: 10pt;" >@item.AdjCost.ToString("0.00")</label>

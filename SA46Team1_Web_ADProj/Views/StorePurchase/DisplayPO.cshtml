@@ -384,19 +384,19 @@
                 <th style="font-size: 10pt;">@item.ItemCode</th>
                 <th style="font-size: 10pt;">@item.Description</th>
                 <th style="font-size: 10pt;">
-                    <input id="input-qty-ordered" class="inputEditOrd" type="number" value="@item.QuantityOrdered" disabled />
+                    <input id="input-qty-ordered" class="inputEditOrd" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityOrdered" disabled />
                 </th>
                 <th style="font-size: 10pt;">
-                    <input id="input-qty-delivered" class="inputEditDel" type="number" value="@item.QuantityDelivered" disabled />
+                    <input id="input-qty-delivered" class="inputEditDel" type="number"  min="1" pattern="[0-9]" step="1"  value="@item.QuantityDelivered" disabled />
                 </th>
                 <th>
                     @if (item.QuantityOrdered - item.QuantityDelivered == 0)
                     {
-                        <input id="input-qty-received" class="inputEditRec" type="number" value="0" disabled />
+                        <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" disabled />
                     }
                     else
                     {
-                        <input id="input-qty-received" class="inputEditRec" type="number" value="0" />
+                        <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" />
                     }
 
                 </th>

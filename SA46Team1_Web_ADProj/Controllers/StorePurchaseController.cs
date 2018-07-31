@@ -413,6 +413,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult SaveEdit(string[] arrQty, string taData)
         {
+// --------------------- Validation required ----------------------
             Session["poDetailsEditMode"] = false;
             Session["POListPage"] = "2";
             List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
