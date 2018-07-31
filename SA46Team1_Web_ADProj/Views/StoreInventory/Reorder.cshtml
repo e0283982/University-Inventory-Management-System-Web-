@@ -15,9 +15,14 @@
             scrollCollapse: true,
             paging: true,
             columnDefs: [{
-                "defaultContent": "<input type='checkbox' checked/>",
-                className: 'text-center', targets: [0, 1, 2, 3, 4, 5]
-            }]
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<input type='checkbox' checked/>"
+            },
+                {
+                    className: 'text-center', targets: [0, 1, 2, 3, 4]
+                }
+            ]
         });
     });
 
