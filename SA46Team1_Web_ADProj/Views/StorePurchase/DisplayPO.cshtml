@@ -75,7 +75,7 @@
                 inputs[i].disabled = false;
             }
         }
-
+        table.column(4).visible(false);
     });
 
     // Format into 2 DP
@@ -124,6 +124,7 @@
         $('#btn-edit-displayPO').hide();
         $('#btn-cancelPO').hide();
         $('#input-qty-ordered').prop('disabled', false);
+        $('#input-qty-received').prop('disabled', true);
         $('#input-qty-delivered').prop('disabled', true);
 
         $('#btn-GR-displayPO').hide();
@@ -161,7 +162,7 @@
 
         var arrQty = [];
         for (var i = 0; i < table.rows().data().length; i++) {
-            arrQty.push(table.cell(i, 3).nodes().to$().find('input').val());
+            arrQty.push(table.cell(i, 4).nodes().to$().find('input').val());
         }
 
         $.ajax({
@@ -221,12 +222,13 @@
 
     // Edit GR Button
     $('#btn-edit-GR').click(function () {
-
+        table.column(4).visible(true);
         $('#btn-GR-displayPO').show();
         $('#btn-edit-GR').hide();
         $('#btn-cancelPO').hide();
-        $('#input-qty-delivered').prop('disabled', false);
+        $('#input-qty-delivered').prop('disabled', true);
         $('#input-qty-ordered').prop('disabled', true);
+        $('#input-qty-received').prop('disabled', false);
         $('#btn-save-displayPO').hide();
         $('#btn-edit-displayPO').hide();
         $('#btn-cancel-displayPO').show();
@@ -234,21 +236,21 @@
         var inputs = document.getElementsByTagName("INPUT");
 
         for (var i = 0; i < table.rows().data().length; i++) {
-            table.cell(i, 3).nodes().to$().find('input').prop('disabled', false);
+            table.cell(i, 4).nodes().to$().find('input').prop('disabled', false);
         }
 
         var data = table.row($(this).parents('tr')).data();
         var index = table.row($(this).parents('tr')).index();
 
         var qty = table.cell(index, 3).nodes().to$().find('input').val();
-        var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
+        var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
 
         var newTotal = qty * parseFloat(unitCost);
-        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
 
         var total = 0
         for (var i = 0; i < table.data().length; i++) {
-            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
             total += parseFloat(number);
         }
 
@@ -267,14 +269,14 @@
         var index = table.row($(this).parents('tr')).index();
 
         var qty = table.cell(index, 2).nodes().to$().find('input').val();
-        var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
+        var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
 
         var newTotal = qty * unitCost;
-        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
 
         var total = 0
         for (var i = 0; i < table.data().length; i++) {
-            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
             total += parseFloat(number);
         }
 
@@ -287,19 +289,19 @@
         table.draw(false);
     });
 
-    $('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
+    $('#dataTable-displayPO tbody').on('change', '#input-qty-received', function () {
         var data = table.row($(this).parents('tr')).data();
         var index = table.row($(this).parents('tr')).index();
 
-        var qty = table.cell(index, 3).nodes().to$().find('input').val();
-        var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
+        var qty = table.cell(index, 4).nodes().to$().find('input').val();
+        var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
 
         var newTotal = qty * unitCost;
-        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
 
         var total = 0
         for (var i = 0; i < table.data().length; i++) {
-            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
             total += parseFloat(number);
         }
 
@@ -363,6 +365,7 @@
             <th>Item Description</th>
             <th>Quantity Ordered</th>
             <th>Quantity Delivered</th>
+            <th>New Quantity Received</th>
             <th>Unit of Measure</th>
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
@@ -380,7 +383,7 @@
         <th style="font-size: 10pt;">
             <input id="input-qty-delivered" class="inputEditDel" type="number" value="@item.QuantityDelivered" disabled />
         </th>
-
+        <th><input id="input-qty-received" class="inputEditRec" type="number" value="0" disabled /></th>
         <th style="font-size: 10pt;">@item.UoM</th>
         <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost.ToString("0.00")</label></th>
         <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
@@ -389,6 +392,7 @@
     }
 </table>
 </div>
+<br/> @ViewBag.ErrorAmt
 <br />
 <div>
     <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
