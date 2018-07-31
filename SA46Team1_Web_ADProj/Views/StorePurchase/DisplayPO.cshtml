@@ -237,11 +237,27 @@
             table.cell(i, 3).nodes().to$().find('input').prop('disabled', false);
         }
 
-        //for (var i = 0; i < inputs.length; i++) {
-        //    if (inputs[i].id === 'input-qty-delivered') {
-        //        inputs[i].disabled = false;
-        //    }
-        //}
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 3).nodes().to$().find('input').val();
+        var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
+
+        var newTotal = qty * parseFloat(unitCost);
+        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+
         table.draw(false);
         return false;
     });
@@ -270,6 +286,31 @@
 
         table.draw(false);
     });
+
+    $('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 3).nodes().to$().find('input').val();
+        var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
+
+        var newTotal = qty * unitCost;
+        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+
+        table.draw(false);
+    });
     //$('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
         
     //    table.draw(false);
@@ -278,28 +319,38 @@
 </script>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-9">
         <div>
             <h5>Display/Edit Purchase Order</h5>
         </div>
-        <div>
-            <label style="font-size: 10pt;">PO Number:&nbsp <label id="lbl-poNumber" style="font-size: 10pt;">@Session["poNumber"]</label></label>
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumber" style="font-size: 10pt;">@Session["poNumber"]</label>
+                </div>
+                <div>
+                    <label style="font-size: 10pt;">PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 10pt;" /></strong>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div>
+                    <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-supplier" style="font-size: 10pt;" />
+                </div>
+                <div>
+                    <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
+                </div>
+            </div>
         </div>
-        <div>
-            <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-supplier" style="font-size: 10pt;" />
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
-        </div>
+
         @*<div>
-            <label style="font-size: 10pt;">Delivery Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
-        </div>*@
+                <label style="font-size: 10pt;">Delivery Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
+            </div>*@
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div style="float: right;">
             <div>
                 <p>Remarks:</p>
-                <textarea id="ta-remarks" rows="3" cols="50"></textarea>
+                <textarea id="ta-remarks" rows="3" cols="40"></textarea>
             </div>
         </div>
     </div>

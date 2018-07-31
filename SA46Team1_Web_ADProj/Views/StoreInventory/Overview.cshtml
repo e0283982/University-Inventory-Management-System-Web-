@@ -35,7 +35,7 @@
 
         $(document).ajaxComplete(function () {
             $('#dataTable-storeInventory tbody').off().on('click', 'tr', function () {
-              
+
                 var data = table.row(this).data();
 
                 $.ajax({
@@ -59,11 +59,13 @@
             <th>#</th>
             <th>Item</th>
             <th>Category</th>
-            <th>Available</th>
-            <th>PO Back Orders</th>
-            <th>Staff Requisitions Back Orders</th>
+            <th>Qty on Hand</th>
+            <th>Qty on PO</th>
+            <th>Qty on Req</th>
             <th>Unit of Measure</th>
         </tr>
     </thead>
     <tbody style="font-size: 10pt;"></tbody>
 </table>
+
+@*center all*@

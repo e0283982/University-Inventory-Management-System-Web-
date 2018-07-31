@@ -2,7 +2,6 @@
     background-color: #1DA1F2; /* Blue */
     color: white;
     border: none;
-    color: white;
     padding: 6px 14px;
     text-align: center;
     text-decoration: none;
@@ -36,6 +35,9 @@
 }
 
 .hidden {
-    display: none
+    display: none    
 }
 
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}

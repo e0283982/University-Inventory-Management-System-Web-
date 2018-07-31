@@ -11,7 +11,7 @@
 
     <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
-    <script>
+<script>
     var table;
     $(document).ready(function () {
         if (@editMode.ToString().ToLower()== true) {
@@ -59,7 +59,7 @@
         table.draw(false);
 
         window.location.href = '@Url.Action("Requisition", "Dept")';
-    });
+        });
 
     //$('#dataTable-newReq tbody').on('click', 'tr', function () {
     //    $(this).toggleClass('selected');
@@ -68,7 +68,7 @@
     $(function () {
         $("#dialog-add-req-item").dialog({
             autoOpen: false,
-            width: "40%",
+            width: "30%",
             maxWidth: "40%",
             beforeClose: function () {
                 $("#form-submit-add-new-item").trigger("reset");
@@ -76,10 +76,15 @@
         });
     });
 
+    $("#dialog-add-req-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-add-req-item').dialog('close');
+    });
+
     $(function () {
         $("#dialog-new-req-submited").dialog({
             autoOpen: false,
-            width: "40%",
+            width: "30%",
             maxWidth: "40%"
         });
     });
@@ -87,7 +92,7 @@
     $(function () {
         $("#dialog-new-req-edit-no-item").dialog({
             autoOpen: false,
-            width: "40%",
+            width: "30%",
             maxWidth: "40%"
         });
     });
@@ -96,24 +101,39 @@
     $(function () {
         $("#dialog-confirm-submit-new-req").dialog({
             autoOpen: false,
-            width: "40%",
+            width: "30%",
             maxWidth: "40%"
         });
+
+    $("#dialog-confirm-submit-new-req").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-confirm-submit-new-req').dialog('close');
+    });
+
     });
 
     $('#btn-add-item').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-add-req-item').dialog('open');
     });
 
+    $('#btn-submit-cancel').on('click', function () {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-add-req-item').dialog('close');
+    });
+
     $('#btn-submit-new-req').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-confirm-submit-new-req').dialog('open');
     });
 
-    $('#btn-confirm-submit-cancel').on('click', function () {
+    $('#btn-confirm-submit-cancel').on('click', function () {       
+        $('#parent_page').css({'opacity': 1, 'pointer-events': 'auto'})
         $('#dialog-confirm-submit-new-req').dialog('close');
     });
 
     $('#btn-submit-add-item').on('click', function () {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $.ajax({
             url: '/DeptRequisition/AddReqItem',
             type: 'POST',
@@ -132,6 +152,7 @@
     });
 
     $('#btn-confirm-submit-submit').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-new-req-submited').dialog('open');
 
         $.ajax({
@@ -219,7 +240,13 @@
 
         @*window.location.href = '@Url.Action("Purchase", "Store")';*@
     });
-    </script>
+
+    $('#closeWindow').on('click', function () {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-confirm-submit-new-req').dialog('close');
+        $('#dialog-add-req-item').dialog('close');
+    })
+</script>
 
 
 <div class="row">
@@ -241,7 +268,7 @@
     <br />
 
     <div id="loading" style="font-family: 'Oxygen', sans-serif;">
-        <table id="dataTable-newReq" class="table-hover" style="width:80%;">
+        <table id="dataTable-newReq" class="display" style="width:80%;">
             <thead style="font-size: 10pt;">
                 <tr>
                     <th>Item Description</th>
@@ -295,31 +322,50 @@
 
 
 
-        <div id="dialog-add-req-item" class="hidden" title="Add Item (New Requisition)">
+        <div id="dialog-add-req-item" class="hidden" @*title="Add Item (New Requisition)"*@>
             @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
             {
+            <div>
+                <h3>Add Item</h3>
                 <div>
-                    <div>
-                        <label>Item Description: </label>
-                        @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
-                    </div>
-
-                    <div>
-                        <label>New Order Qty: </label>
-                        @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
-                    </div>
-
-                    <br />
-
-                    <div>
-                        <input id="btn-submit-add-item" class="btn btn-lu-green btn-block" type="submit" value="Add" />
-                    </div>
+                    <label>Item Description: </label>
+                    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
                 </div>
+
+                <br />
+
+                <div>
+                    <label>New Order Qty: </label>
+                    @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="float:right">
+                            <span>
+                                <button class="btn btn-lu-red" id="btn-submit-cancel">Cancel</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <button class="btn btn-lu-green" id="btn-submit-add-items">&nbsp;Add&nbsp;</button>
+                            @*<input id="btn-submit-add-item" class="btn btn-lu-green" type="submit" value="Add" />*@
+                        </div>
+                    </div>
+                </div>             
+            </div>
             }
         </div>
 
-        <div id="dialog-confirm-submit-new-req" class="hidden" title="Confirm Submission (New Requisition)">
-            <h5>Are you sure you want to submit the requisition?</h5>
+        <div id="dialog-confirm-submit-new-req" class="hidden" @*title="Confirm Submission (New Requisition)"*@>
+            <div style="text-align:center;">
+                <h4>Confirm Submission</h4>
+                <h6>Are you sure you want to submit the requisition?</h6>
+            </div>         
+            <hr />
             <div class="row">
                 <div class="col-md-6">
                     <div style="float:right">
@@ -337,10 +383,12 @@
         </div>
 
         <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
+            <br />
             <h5>New requisition request has been submitted for approval.</h5>
         </div>
 
         <div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
+            <br />
             <h5>There are no items to edit.</h5>
         </div>
 
