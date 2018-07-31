@@ -3,7 +3,7 @@
 }
 
 @{
-    ViewBag.Title = "Department Usage Cost Report";
+    ViewBag.Title = "Department Usage Cost Report"; //for dept
 }
 
 <div>
@@ -106,6 +106,10 @@
     <h5>Please select at least 1 valid month and year.</h5>
 </div>
 
+<div id="dialog-no-data" class="hidden" title="Information">
+    <h5>No data found.</h5>
+</div>
+
 <script>
     var table;
 
@@ -162,7 +166,7 @@
                         }
                     ],
                     drawCallback: function (settings) {
-                        
+
                         $('#btn-submit-filter2').on('click', function () {
                             var selYears = [];
                             var selMonths = [];
@@ -202,18 +206,21 @@
 
                             var dept = $('#lbl-dept').text();
                             var category = $('#SelectCategory :selected').text();
-                          
+
                             table
                                 .columns(0)
                                 .search(dept, true, false, true).draw();
-                            
+
                             table
                                 .columns(3)
                                 .search(category, true, false, true).draw();
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
-                                $("#lbl-error-info").text("No data found");
+                                $('#dialog-no-data').dialog('open');
                                 $("#lbl-cost-info").text("");
+
+                                $('#btn-submit-export2').hide();
+                                $("#lbl-error-info").text("");
 
                                 table
                                     .search('')
@@ -251,15 +258,15 @@
 
                             $("#lbl-cost-info").text("Total cost ($): " + sum);
                             $("#lbl-filter-info").text("Filter results: " + search + " , " + category);
-    
+
                         });
-                        
+
                     },
                     columnDefs: [
                         {
                             //"targets": [0,1,2],
                             //"visible": false,
-                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
+                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     ]
 
@@ -313,6 +320,14 @@
 
     $(function () {
         $("#dialog-invalid-report-date").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+
+    $(function () {
+        $("#dialog-no-data").dialog({
             autoOpen: false,
             width: "40%",
             maxWidth: "40%"

@@ -259,13 +259,13 @@
           <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="Bin" />
+            <PropertyRef Name="CollectionPointID" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Bin" Type="int" Nullable="false" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="int" Nullable="false" />
           <Property Name="CollectionPointID" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="QuantityAdjusted" Type="int" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
         </EntityType>
@@ -1277,18 +1277,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockRetr__Depar__367C1819">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentCode" />
-            </Principal>
-            <Dependent Role="StockRetrievalDetails">
-              <PropertyRef Name="DepartmentCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__StockRetr__ItemC__3493CFA7">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
           <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetails" Multiplicity="*" />
@@ -1878,10 +1866,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <End Role="CollectionPoint" EntitySet="CollectionPoint" />
             <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockRetr__Depar__367C1819" Association="Self.FK__StockRetr__Depar__367C1819">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK__StockRetr__ItemC__3493CFA7" Association="Self.FK__StockRetr__ItemC__3493CFA7">
             <End Role="Item" EntitySet="Item" />
             <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
@@ -1974,7 +1958,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Depar__395884C4" FromRole="Department" ToRole="DisbursementHeader" />
           <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Depart__4316F928" FromRole="Department" ToRole="Employee" />
-          <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetr__Depar__367C1819" FromRole="Department" ToRole="StockRetrievalDetails" />
         </EntityType>
         <EntityType Name="DepartmentDetail">
           <Key>
@@ -2242,17 +2225,16 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="Bin" />
+            <PropertyRef Name="CollectionPointID" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Bin" Type="Int32" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="Int32" Nullable="false" />
           <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__StockRetr__Colle__3587F3E0" FromRole="StockRetrievalDetails" ToRole="CollectionPoint" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__StockRetr__Depar__367C1819" FromRole="StockRetrievalDetails" ToRole="Department" />
           <NavigationProperty Name="Item" Relationship="Self.FK__StockRetr__ItemC__3493CFA7" FromRole="StockRetrievalDetails" ToRole="Item" />
           <NavigationProperty Name="StockRetrievalHeader" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalDetails" ToRole="StockRetrievalHeader" />
         </EntityType>
@@ -2924,18 +2906,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockRetr__Depar__367C1819">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="StockRetrievalDetails" Type="Self.StockRetrievalDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentCode" />
-            </Principal>
-            <Dependent Role="StockRetrievalDetails">
-              <PropertyRef Name="DepartmentCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Departmen__Appro__7B5B524B">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="DepartmentDetails" Type="Self.DepartmentDetail" Multiplicity="*" />
@@ -3429,10 +3399,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <End Role="Department" EntitySet="Departments" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockRetr__Depar__367C1819" Association="Self.FK__StockRetr__Depar__367C1819">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="StockRetrievalDetails" EntitySet="StockRetrievalDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK__Departmen__Appro__7B5B524B" Association="Self.FK__Departmen__Appro__7B5B524B">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="DepartmentDetails" EntitySet="DepartmentDetails" />
@@ -3847,7 +3813,6 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="QuantityRetrieved" ColumnName="QuantityRetrieved" />
                 <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
-                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
                 <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
               </MappingFragment>

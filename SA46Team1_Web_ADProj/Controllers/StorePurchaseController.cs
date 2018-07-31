@@ -12,6 +12,8 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Store/StorePurchase")]
     public class StorePurchaseController : Controller
     {
+        string temp = "";
+
         [Route("CreatePO")]
         public ActionResult CreatePO()
         {
@@ -87,14 +89,18 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult SavePO(string[] arrQty, string[] arrSupplier)
+        public ActionResult SavePO(string[] arrQty, string[] arrSupplier, string taData)
         {
             // To ensure no empty Entries
             int enteredQty = 0;
-            for(int i = 0; i < arrQty.Length; i++)
+            if(arrQty.Count() > 0)
             {
-                enteredQty += Convert.ToInt32(arrQty[i]);
+                for (int i = 0; i < arrQty.Length; i++)
+                {
+                    enteredQty += Convert.ToInt32(arrQty[i]);
+                }
             }
+
 
             if (enteredQty > 0)
             {
@@ -139,7 +145,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         newPOHeader.DeliverTo = "Logic University";
                         newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
                         // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
-                        newPOHeader.Remarks = "";
+                        newPOHeader.Remarks = taData;
                         // ------------------------------------------------------------------------------------------------------------------------------------//
 
                         newPOHeader.Status = "Open";
@@ -276,6 +282,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<POFullDetail> poFullDetailsList = (List<POFullDetail>)Session["newPOList"];
                 POFullDetail item = poFullDetailsList.ElementAt(index);
                 item.CompanyName = data;
+                SupplierPriceList spl = e.SupplierPriceLists.Where(y => y.SupplierCode == item.CompanyName).FirstOrDefault();
+                item.UnitCost = spl.UnitCost;
                 Session["newAdjList"] = poFullDetailsList;
 
                 return RedirectToAction("Purchase", "Store");
@@ -305,6 +313,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             using(SSISdbEntities m = new SSISdbEntities())
             {
                 List<POFullDetail> poFullDetailList = m.POFullDetails.Where(x => x.PONumber == poNumber).ToList();
+                POHeader ph = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
+                Session["PORemarks"] = ph.Remarks;
+
                 Session["POItems"] = poFullDetailList;
                 Session["poStatus"] = m.POHeaders.Where(x => x.PONumber == poNumber).Select(x => x.Status).FirstOrDefault();
             }
@@ -391,7 +402,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
 
         [HttpPost]
-        public RedirectToRouteResult SaveEdit(string[] arrQty)
+        public RedirectToRouteResult SaveEdit(string[] arrQty, string taData)
         {
             Session["poDetailsEditMode"] = false;
             Session["POListPage"] = "2";
@@ -409,6 +420,13 @@ namespace SA46Team1_Web_ADProj.Controllers
                     arrayCount++;
 
                     p.QuantityOrdered = pod.QuantityBackOrdered;
+                }
+                if(taData != null)
+                {
+                    POHeader ph = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
+                    ph.Remarks = taData;
+                    m.SaveChanges();
+                    Session["PORemarks"] = taData;
                 }
             }
             Session["POItems"] = poFullDetailList;

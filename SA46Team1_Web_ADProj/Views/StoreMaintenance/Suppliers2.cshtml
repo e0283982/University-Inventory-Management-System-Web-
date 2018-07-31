@@ -123,6 +123,8 @@
             window.location.href = '@Url.Action("Maintenance", "Store")';
 
         });
+
+        
     });
 </script>
 
@@ -152,7 +154,7 @@
     <div class="col-md-10">
         <div style="float: right">
             <span>
-                @Html.ActionLink("View Price List", "Home", "Store", null, new { @class= "btn btn-lu-blue", @style="font-size: 10pt; color: #f4f4f4;" })
+                @Html.ActionLink("View Price List", "DisplaySupplierPriceList", "StoreMaintenance", null, new { @class= "btn btn-lu-blue", @style="font-size: 10pt; color: #f4f4f4;" })
             </span>
         </div>
     </div>

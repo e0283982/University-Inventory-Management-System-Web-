@@ -1,0 +1,154 @@
+﻿@{
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+<script>
+    var table;
+
+    $(document).ready(function () {
+
+    $.ajax({
+        url: 'http://localhost:49921/api/Restful/GetSupplierPriceList/'+ '@Session["MaintenanceSupplierCode"]',
+        method: 'get',
+        dataType: 'json',
+        success: function (data) {
+            d = data;
+
+            table = $('#dataTable-store-supplier-price-details').DataTable({
+                paging: false,
+                sort: false,
+                searching: false,
+                "iDisplayLength": 5,
+                "bInfo": false,
+                scrollX: 1000,
+                data: data,
+                columns: [
+                    { 'data': 'ItemCode' },
+                    {
+                        'data': 'ItemDesc'
+                    },
+                    {
+                        'data': 'UoM'
+                    },
+                    {
+                        'data': 'UnitCost',
+                        render: function (data, type, row) {
+                            return '$ '+parseFloat(data).toFixed(2);
+                        }
+                    },
+                    {
+                        'data': 'Active',
+                        render: function (data, type, row) {
+
+                            if (data != 0) {
+                                //active status
+                                return '<input id="input-supplier-active" type="checkbox" checked>';
+                            } else {
+                                return '<input id="input-supplier-active" type="checkbox">';
+                            }
+                        }
+                    },
+                ],
+                columnDefs: [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            });
+        }
+        });
+    });
+
+    $(function () {
+        $("#dialog-submit-edit-supplier").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
+    });
+    
+
+    $(document).ajaxComplete(function () {
+        $('#btn-save-supplier-price-list').click(function () {
+
+            var arrItemCodes = []; //item code
+            var arrStatus = [];  //price status
+
+            for (var i = 0; i < table.rows().data().length; i++) {
+                var dataToSend = table.rows(i).data();
+
+                //alert(JSON.stringify(dataToSend));
+                //alert(dataToSend[0].ItemCode);
+
+                arrItemCodes.push(dataToSend[0].ItemCode);
+
+                var rowChecked =
+                    table.cell(i, 4).nodes().to$().find('input').prop('checked');
+
+                if (rowChecked == true) {
+                    arrStatus.push("true");
+                } else {
+                    arrStatus.push("false");
+                }
+            }
+
+            $.ajax({
+                url: '/StoreMaintenance/UpdateSupplierPriceList',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({ arrItemCodes: arrItemCodes, arrStatus: arrStatus })
+            });
+
+            window.location.href = '@Url.Action("Maintenance", "Store")';
+            alert('Supplier Price List Updated');
+
+
+        });
+    });
+</script>
+
+<div>
+    <h4>Supplier Price List</h4>
+    <h5>@Session["MaintenanceSupplierCode"]</h5>
+</div>
+
+
+<table id="dataTable-store-supplier-price-details" class="display" style="width:80%;">
+    <thead style="font-size: 10pt;">
+        <tr>
+            <th>Item Code</th>
+            <th>Description</th>
+            <th>Unit of Measure</th>
+            <th>Unit Price</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody style="font-size: 10pt;"></tbody>
+</table>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-1">
+        <span>
+            @using (Html.BeginForm("BackToSupplierDetails", "StoreMaintenance", FormMethod.Post))
+            {
+                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+            }
+        </span>
+    </div>
+    <div class="col-md-1">
+        <span>
+            <button id="btn-save-supplier-price-list" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+        </span>
+    </div>
+</div>
+
+<div id="dialog-submit-edit-supplier" class="hidden" title="Edit Supplier Successful (Maintenance)">
+    <p>Supplier has been successfully edited.</p>
+</div>
