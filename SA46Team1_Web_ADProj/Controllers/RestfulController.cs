@@ -538,6 +538,29 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetSupplierPriceList/{id}")]
+        public List<FullSupplierPriceList> GetSupplierPriceList(string id) //where id is supplier id
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<SupplierPriceList> list = m.SupplierPriceLists.Where(x => x.SupplierCode == id).ToList();
+
+                List<FullSupplierPriceList> list2 = list.ConvertAll(x => new FullSupplierPriceList
+                {
+                    SupplierCode = x.SupplierCode,
+                    ItemCode = x.ItemCode,
+                    ItemDesc = m.Items.Where(y=>y.ItemCode==x.ItemCode).Select(y=>y.Description).FirstOrDefault(),
+                    UnitCost = x.UnitCost,
+                    Active = x.Active,
+                    UoM=x.UoM
+                });
+
+                return list2;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetDeptsList")]
         public List<DeptFullDetailsModel> GetDeptsList()
         {

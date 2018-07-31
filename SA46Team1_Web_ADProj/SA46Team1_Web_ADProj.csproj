@@ -295,6 +295,7 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
+    <Compile Include="Models\FullSupplierPriceList.cs" />
     <Compile Include="Models\FullBinModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
@@ -768,6 +769,7 @@
     <Content Include="Views\DeptRequisition\UpcomingDelivery.cshtml" />
     <Content Include="Views\DeptReport\RptDepartmentUsage.cshtml" />
     <Content Include="Views\Dept\Report.cshtml" />
+    <Content Include="Views\StoreMaintenance\Suppliers3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
