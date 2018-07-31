@@ -221,10 +221,15 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["MaintenanceBackFlagPage"] = "0";
                 return View("Suppliers");
             }
-            else
+            else if (Session["MaintenanceSuppliersPage"].ToString() == "2")
             {
                 Session["MaintenanceSuppliersPage"] = "1";
                 return View("Suppliers2");
+            }
+            else
+            {
+                Session["MaintenanceSuppliersPage"] = "1";
+                return View("Suppliers3");
             }
         }
 
@@ -234,6 +239,52 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["MaintenanceSuppliersPage"] = "2";
             Session["MaintenanceSupplierCode"] = maintenanceSupplierCode;
             Session["MaintenanceTabIndex"] = "4";
+
+            return RedirectToAction("Maintenance", "Store");
+        }
+        
+        public RedirectToRouteResult DisplaySupplierPriceList()
+        {
+            Session["MaintenanceSuppliersPage"] = "3";
+            Session["MaintenanceTabIndex"] = "4";
+
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult UpdateSupplierPriceList(String[] arrItemCodes, String[] arrStatus)
+        {
+            Session["MaintenanceSuppliersPage"] = "2";
+            String supplierCode = Session["MaintenanceSupplierCode"].ToString();
+
+            using (SSISdbEntities e = new SSISdbEntities()) {
+                DAL.SupplierPriceListRepositoryImpl dal = new DAL.SupplierPriceListRepositoryImpl(e);
+
+                int index = 0;
+                foreach (string s in arrItemCodes) {
+                    SupplierPriceList spl = e.SupplierPriceLists.Where(x => x.SupplierCode == supplierCode && x.ItemCode == s).FirstOrDefault();
+                    if (arrStatus[index] == "true") {
+                        spl.Active = 1;
+                    }
+                    else {
+                        spl.Active = 0;
+                    }
+
+                    dal.UpdateSupplierPriceList(spl);
+                    index++;
+                }
+
+                e.SaveChanges();
+
+            }
+
+            return RedirectToAction("Maintenance", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult BackToSupplierDetails()
+        {
+            Session["MaintenanceSuppliersPage"] = "2";
 
             return RedirectToAction("Maintenance", "Store");
         }
