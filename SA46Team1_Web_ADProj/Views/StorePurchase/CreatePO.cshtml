@@ -80,10 +80,6 @@
         });
         alert('Items Added');
         window.location.href = '@Url.Action("Purchase", "Store")';
-
-        // This should reset table
-        //table.draw(false);
-
     });
 
     $('#dataTable-newPO tbody').on('change', '#input-qty', function () {
@@ -223,11 +219,11 @@
         <label style="font-size: 10pt;">Net Total ($): </label>
     </div>
     <div style="float: left;">
-        <input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt;">
+        <input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; margin: 1.5px;">
         <br/>
-        <input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt;">
+        <input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; margin: 1.5px;">
         <br />
-        <input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt;">
+        <input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; margin: 1.5px;">
     </div>
 </div>
 @*--- End of Dynamic boxes ---*@
