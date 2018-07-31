@@ -237,11 +237,27 @@
             table.cell(i, 3).nodes().to$().find('input').prop('disabled', false);
         }
 
-        //for (var i = 0; i < inputs.length; i++) {
-        //    if (inputs[i].id === 'input-qty-delivered') {
-        //        inputs[i].disabled = false;
-        //    }
-        //}
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 3).nodes().to$().find('input').val();
+        var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
+
+        var newTotal = qty * parseFloat(unitCost);
+        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+
         table.draw(false);
         return false;
     });
@@ -251,6 +267,31 @@
         var index = table.row($(this).parents('tr')).index();
 
         var qty = table.cell(index, 2).nodes().to$().find('input').val();
+        var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
+
+        var newTotal = qty * unitCost;
+        table.cell(index, 6).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 6).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
+
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").text(twoDP(total));
+        $("#displayPO-net-total").text(twoDP(netTotal));
+        $("#displayPO-gst").text(twoDP(gst));
+
+        table.draw(false);
+    });
+
+    $('#dataTable-displayPO tbody').on('change', '#input-qty-delivered', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var qty = table.cell(index, 3).nodes().to$().find('input').val();
         var unitCost = table.cell(index, 5).nodes().to$().find('#lbl-unit-cost').text();
 
         var newTotal = qty * unitCost;

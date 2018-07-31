@@ -125,15 +125,28 @@
                     },
                     {
                         'data': 'Active',
-                        render: function (data, type, row) {
+                         render: function (data, type, row) {
 
-                            if (data != 0) {
-                                //active status
-                                return '<input id="input-item-active" type="checkbox" checked>';
-                            } else {
-                                return '<input id="input-item-active" type="checkbox">';
+                                if ('@TempData["countItemsWithQtyNotZero"].ToString().ToLower()' == "false") {
+                                    if (data != 0) {
+                                        //active status
+                                        //to check for item qty balance (readonly if qty balance >0)
+                                        return '<input id="input-item-active" type="checkbox" checked>';
+                                    } else {
+                                        return '<input id="input-item-active" type="checkbox">';
+                                    }
+                                } else {
+                                    return data != 0 ? 'Active' : 'Inactive';
+                                }
+                                
                             }
-                        }
+                            //if (data != 0) {
+                            //    //active status
+                            //    return '<input id="input-item-active" type="checkbox" checked>';
+                            //} else {
+                            //    return '<input id="input-item-active" type="checkbox">';
+                            //}
+                       // }
                     }
                 ],
             });
@@ -185,6 +198,7 @@
             });
 
             $('#dialog-submit-edit-item').dialog('open');
+            table.draw(false); //this line needed, if not upon save, table does not auto display updated data (until next refresh)
             window.location.href = '@Url.Action("Maintenance", "Store")';
 
         });
