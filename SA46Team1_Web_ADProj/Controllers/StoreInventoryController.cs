@@ -11,16 +11,18 @@ namespace SA46Team1_Web_ADProj.Controllers
 {
 
     [RoutePrefix("Store/StoreInventory")]
-    public class StoreInventoryController : Controller
+    public class StoreInventoryController : Controller //Tabs: Inventory, Reorder, Stock adj, Stock take
     {
+        /************Action methods belonging to Store Inventory - Inventory*******************/
 
         [CustomAuthorize(Roles = "Store Clerk")]
         [Route("Overview")]
         public ActionResult Overview()
         {
+            Session["StoreInventoryTabIndex"] = "1";
+
             if (Session["InventoryOverviewPage"].ToString() == "1")
             {
-                Session["StoreInventoryTabIndex"] = "1";
                 return View("Overview");
             }
             else
@@ -43,15 +45,19 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult BackToInventoryOverviewList()
         {
-            Session["StoreInventoryTabIndex"] = "1";
             Session["InventoryOverviewPage"] = "1";
 
             return RedirectToAction("Inventory", "Store");
         }
+
+        /************Action methods belonging to Store Inventory - Reorder *******************/
+
         [CustomAuthorize(Roles = "Store Clerk")]
         [Route("Reorder")]
         public ActionResult Reorder()
         {
+            Session["StoreInventoryTabIndex"] = "2";
+
             List<ReorderList> reorderLists;
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -60,6 +66,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             return View();
         }
+
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
@@ -170,15 +177,18 @@ namespace SA46Team1_Web_ADProj.Controllers
                 // Error message
             }
             Session["newPOList"] = new List<PODetail>();
-            Session["StoreInventoryTabIndex"] = "2";
 
             return RedirectToAction("Inventory", "Store");
         }
+
+        /************Action methods belonging to Store Inventory - Stock Adjustment *******************/
 
         [CustomAuthorize(Roles = "Store Clerk")]
         [Route("StockAdj")]
         public ActionResult StockAdj()
         {
+            Session["StoreInventoryTabIndex"] = "3";
+
             if (Session["StockAdjPage"].ToString() == "1")
             {
                 return View("StockAdj");
@@ -215,10 +225,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                                             "ItemCode", "Description", null);
                     }
                 }
-
-
-
-
+                
                 Session["StockAdjPage"] = "1";
                 return View("StockAdj2");
 
@@ -228,7 +235,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult BackToStockAdjList()
         {
-            Session["StoreInventoryTabIndex"] = "3";
             Session["StockAdjPage"] = "1";
 
             return RedirectToAction("Inventory", "Store");
@@ -263,7 +269,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<String> tempList = (List<String>)Session["tempList"];
                 tempList.Add(itemCode);
                 Session["tempList"] = tempList;
-                Session["StockAdjPage"] = "2";
 
                 return RedirectToAction("Inventory", "Store");
             }
@@ -283,8 +288,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 item.AdjCost = Int32.Parse(data) * item.AvgUnitCost;
                 Session["newAdjList"] = list;
 
-                Session["StockAdjPage"] = 2;
-
                 return RedirectToAction("Requisition", "Dept");
             }
         }
@@ -299,7 +302,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
                 list.RemoveAt(index);
                 Session["newAdjList"] = list;
-                Session["StockAdjPage"] = "2";
 
                 return RedirectToAction("Inventory", "Store");
             }
@@ -310,9 +312,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                Session["StockAdjPage"] = "2";
-
-
                 //clear temp list
                 List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
                 list.Clear();
@@ -387,9 +386,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 e.SaveChanges();
 
                 Session["NewAdjList"] = new List<StockAdjItemModel>();
-
                 
-
                 return RedirectToAction("Inventory", "Store");
             }
         }
@@ -399,7 +396,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult CreateNewStockAdj()
         {                        
             Session["StockAdjPage"] = "2";
-            Session["StoreInventoryTabIndex"] = "3";
 
             return RedirectToAction("Inventory", "Store");
         }
@@ -459,10 +455,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         //    return RedirectToAction("Inventory", "Store");
         //}
 
+        /************Action methods belonging to Store Inventory - Stock Take *******************/
+
         [CustomAuthorize(Roles = "Store Manager, Store Supervisor")]
         [Route("StockTake")]
         public ActionResult StockTake()
         {
+            Session["StoreInventoryTabIndex"] = "4";
+
             return View();
         }
 
