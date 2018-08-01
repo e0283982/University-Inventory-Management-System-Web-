@@ -295,8 +295,6 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
-    <Compile Include="Models\FullSupplierPriceList.cs" />
-    <Compile Include="Models\FullBinModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -336,6 +334,8 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FullSupplierPriceList.cs" />
+    <Compile Include="Models\FullBinModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -483,6 +483,9 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierPriceList.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tempview.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserModel.cs" />

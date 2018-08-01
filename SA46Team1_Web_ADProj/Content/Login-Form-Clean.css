@@ -1,9 +1,19 @@
 .login-clean {
-    background-image: url("images/campaign.jpg");
+    /*background-image: url("images/campaign.jpg");
     background-repeat: no-repeat;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     /*background: #f1f7fc;*/
+    /*padding: 80px 0;*/
+    
+    background-image: url("images/campaign.jpg");
+    background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    background-size: 100% 100%;
     padding: 80px 0;
 }
 

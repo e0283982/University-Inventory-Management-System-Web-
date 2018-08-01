@@ -11,8 +11,12 @@
     $(document).ready(function () {
         
         var disbursed = parseInt(@ViewBag.Disbursed);
+        var allItemRetrieved = parseInt(@ViewBag.AllItemsRetrieved);
 
-        if (disbursed == 0) {
+        if (disbursed == 0 && allItemRetrieved == 0) {
+            $("#div-disbursed").hide();
+            $("#btn-disburse-retrieval").hide();
+        } else if (disbursed == 0 && allItemRetrieved == 1) {
             $("#div-disbursed").hide();
         }
 
@@ -46,10 +50,22 @@
                                 'render': function (data, type, row) {
                                     return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Id"] + '\', \'' + data["Description"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval">Adjust</button>';
                                 }
+                            },
+                            {
+                                'data': null,
+                                'render': function (data, type, row) {
+
+                                    if (data["Collected"] == 0) {
+                                        return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox"/>';
+                                    } else {
+                                        return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox" checked/>';
+                                    }
+                                    
+                                }
                             }
                         ],
                         columnDefs: [
-                            { className: 'text-center', targets: [0, 1, 2, 3, 4, 5] },
+                            { className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6] }                           
                         ],
                     });
                 }
@@ -87,11 +103,10 @@
     });
 
     $('#btn-confirm-submit-cancel').on('click', function () {
-        $('#dialog-confirm-submit-new-adj').dialog('close');
+        $('#dialog-confirm-disburse-item').dialog('close');
     });
    
     $('#btn-confirm-submit-submit').on('click', function () {
-        $('#dialog-new-adj-submited').dialog('open');
 
         $.ajax({
             url: '/StoreDisbursements/DisburseItems',
@@ -111,6 +126,28 @@
         $('#dialog-adjust-retrieval').dialog('open');
         return false;
     }
+
+    function myCollectedFunction(param1, param2) {
+
+        //alert(param1 + param2);
+
+        $.ajax({
+            url: '/StoreDisbursements/UpdateItemCollection',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: false,
+            data: JSON.stringify({ bin: param1, collectionPointDescription: param2})
+        });
+
+        window.location.href = '@Url.Action("Disbursements", "Store")';
+
+        return false;
+    }
+
+
+
+
 </script>
 
 <div>
@@ -127,6 +164,7 @@
             <th>Items to Retrieve</th>
             <th>Collection Point</th>
             <th>Damaged/Missing items</th>
+            <th>Collected</th>
         </tr>
     </thead>
 

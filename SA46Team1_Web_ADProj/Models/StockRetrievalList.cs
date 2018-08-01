@@ -20,5 +20,6 @@ namespace SA46Team1_Web_ADProj.Models
         public string Description { get; set; }
         public int QuantityRetrieved { get; set; }
         public string CollectionPointDescription { get; set; }
+        public Nullable<byte> Collected { get; set; }
     }
 }

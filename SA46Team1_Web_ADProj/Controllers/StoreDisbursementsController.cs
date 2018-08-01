@@ -96,7 +96,33 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string reqId = CommonLogic.SerialNo(id, "StoR");
                 Session["RetrievalId"] = reqId;
                 ViewBag.IdCount = reqId;
-                ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;                
+                ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;
+
+                //To check whether all items have been retrieved
+                List<StockRetrievalDetail> stockRetrievalDetailsList = m.StockRetrievalDetails.Where(x => x.Id == reqId).ToList<StockRetrievalDetail>();
+                bool allItemCollected = true;
+
+                foreach (StockRetrievalDetail srd in stockRetrievalDetailsList)
+                {
+                    if(srd.Collected == 0)
+                    {
+                        allItemCollected = false;
+                    }
+                }
+
+                StockRetrievalHeader stockRetrievalHeader = m.StockRetrievalHeaders.Where(x => x.ID == reqId).FirstOrDefault();
+                if (allItemCollected)
+                {
+                    stockRetrievalHeader.AllItemsRetrieved = 1;
+                }
+                else
+                {
+                    stockRetrievalHeader.AllItemsRetrieved = 0;
+                }
+
+                ViewBag.AllItemsRetrieved = stockRetrievalHeader.AllItemsRetrieved;
+
+
             }
 
             var tuple = new Tuple<StockRetrievalDetail, Item>(new StockRetrievalDetail(), new Item());
@@ -326,6 +352,35 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.SaveChanges();
 
             }
+
+            return RedirectToAction("Disbursements", "Store");
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult UpdateItemCollection(int bin, string collectionPointDescription)
+        {
+            string retId = (String) Session["RetrievalId"];
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                string collectionPointId = m.CollectionPoints.Where(x => x.CollectionPointDescription == collectionPointDescription).Select(x => x.CollectionPointID).FirstOrDefault();
+
+                StockRetrievalDetail stockRetrievalDetail = m.StockRetrievalDetails.Where(x => x.Id == retId && x.Bin == bin && x.CollectionPointID == collectionPointId).FirstOrDefault();
+
+                if(stockRetrievalDetail.Collected == 0)
+                {
+                    stockRetrievalDetail.Collected = 1;
+                }
+                else
+                {
+                    stockRetrievalDetail.Collected = 0;
+                }
+
+                m.SaveChanges();
+            }
+
 
             return RedirectToAction("Disbursements", "Store");
         }

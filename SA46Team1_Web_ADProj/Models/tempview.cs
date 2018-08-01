@@ -12,18 +12,14 @@ namespace SA46Team1_Web_ADProj.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DepartmentUsageReport
+    public partial class tempview
     {
         public string ItemCode { get; set; }
         public string Description { get; set; }
-        public string UoM { get; set; }
         public string CategoryName { get; set; }
-        public float AvgUnitCost { get; set; }
-        public System.DateTime Date { get; set; }
-        public int QuantityReceived { get; set; }
-        public Nullable<float> TotalCost { get; set; }
-        public string DepartmentName { get; set; }
-        public Nullable<int> Year { get; set; }
-        public Nullable<int> Month { get; set; }
+        public int Quantity { get; set; }
+        public string UoM { get; set; }
+        public Nullable<int> POBO { get; set; }
+        public Nullable<int> SRBO { get; set; }
     }
 }
