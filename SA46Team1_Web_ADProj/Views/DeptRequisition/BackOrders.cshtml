@@ -161,6 +161,11 @@
         
     });
 
+    $('body').on('change', '#mass_select_all', function () {
+        table.$('input:checkbox').not(this).prop('checked', this.checked);
+
+    });
+
 </script>
 
 <div>
@@ -171,7 +176,7 @@
 <table id="dataTable-backOrders" class="display" style="width:80%;">
     <thead style="font-size: 10pt;">
         <tr>
-            <th><input class="select-checkbox-discard" type="checkbox" name="check-discard" value="check-checkbox-discard" /></th>
+            <th>Include <br /><input type="checkbox" checked id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
             <th>Item Code</th>
             <th>Requisition Form #</th>
             <th>Item Description</th>
