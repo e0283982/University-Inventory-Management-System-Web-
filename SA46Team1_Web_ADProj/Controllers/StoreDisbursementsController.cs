@@ -114,14 +114,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 if (allItemCollected)
                 {
                     stockRetrievalHeader.AllItemsRetrieved = 1;
+                    m.SaveChanges();
                 }
                 else
                 {
                     stockRetrievalHeader.AllItemsRetrieved = 0;
+                    m.SaveChanges();
                 }
 
                 ViewBag.AllItemsRetrieved = stockRetrievalHeader.AllItemsRetrieved;
 
+                
 
             }
 
