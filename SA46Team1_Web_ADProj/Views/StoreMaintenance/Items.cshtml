@@ -143,10 +143,13 @@
     </div>
 </div>
 
-<div id="dialog-add-new-item" class="hidden" title="Add Item (Maintenance)">
+<div id="dialog-add-new-item" class="hidden" @*title="Add Item (Maintenance)"*@>
     @using (Html.BeginForm("AddNewItem", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-item" }))
     {
     <div>
+        <br />
+        <div style="text-align:center"><h5>Add New Item</h5></div>
+        <hr />
         <div>
             <label>Item Description: </label>
             @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-item-desc" }, })
