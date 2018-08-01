@@ -217,6 +217,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                 tempList.Remove(itemCode);
                 Session["tempList"] = tempList;
 
+                if (list.Count() == 0) {
+                    Session["newReqEditMode"] = false;
+                }
+
                 return RedirectToAction("Requisition", "Dept");
             }
         }
