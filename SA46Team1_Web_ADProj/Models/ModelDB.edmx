@@ -268,6 +268,7 @@
           <Property Name="CollectionPointID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="QuantityAdjusted" Type="int" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="255" />
+          <Property Name="Collected" Type="tinyint" />
         </EntityType>
         <EntityType Name="StockRetrievalHeader">
           <Key>
@@ -2234,6 +2235,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="CollectionPointID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Collected" Type="Byte" />
           <NavigationProperty Name="CollectionPoint" Relationship="Self.FK__StockRetr__Colle__3587F3E0" FromRole="StockRetrievalDetails" ToRole="CollectionPoint" />
           <NavigationProperty Name="Item" Relationship="Self.FK__StockRetr__ItemC__3493CFA7" FromRole="StockRetrievalDetails" ToRole="Item" />
           <NavigationProperty Name="StockRetrievalHeader" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalDetails" ToRole="StockRetrievalHeader" />
@@ -3815,6 +3817,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="CollectionPointID" ColumnName="CollectionPointID" />
                 <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Collected" ColumnName="Collected" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
