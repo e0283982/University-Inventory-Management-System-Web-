@@ -68,7 +68,7 @@ namespace SA46Team1_Web_ADProj.Scheduler
                         // Create StockRetrievalHeader
                         StockRetrievalHeader newsrh = new StockRetrievalHeader();
                         int newSRH = m.StockRetrievalHeaders.Count() + 1;
-                        string srhId = "StoR-" + newSRH.ToString();
+                        string srhId = CommonLogic.SerialNo(newSRH, "StoR");
                         newsrh.ID = srhId;
                         newsrh.Date = DateTime.Now;
                         newsrh.Disbursed = 0;
