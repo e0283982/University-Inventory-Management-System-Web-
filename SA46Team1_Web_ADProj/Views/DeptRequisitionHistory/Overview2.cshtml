@@ -165,6 +165,7 @@
         $.ajax({
             url: '/DeptRequisitionHistory/EditExisitingOrderQty',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -185,6 +186,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
@@ -230,6 +232,7 @@
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ arr: arr, arr1: arr1 }),
             success: function () {
 
@@ -259,6 +262,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })

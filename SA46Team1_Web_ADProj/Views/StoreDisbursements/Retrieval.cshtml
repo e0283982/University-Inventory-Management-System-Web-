@@ -48,7 +48,7 @@
                             {
                                 'data': null,
                                 'render': function (data, type, row) {
-                                    return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Id"] + '\', \'' + data["Description"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval">Adjust</button>';
+                                    return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Id"] + '\', \'' + data["Description"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval" class="btn btn-lu-blue"><i class="far fa-edit"></i></button>';
                                 }
                             },
                             {
@@ -99,10 +99,17 @@
     });
 
     $('#btn-disburse-retrieval').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-confirm-disburse-item').dialog('open');
     });
 
     $('#btn-confirm-submit-cancel').on('click', function () {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-confirm-disburse-item').dialog('close');
+    });
+
+    $("#dialog-confirm-disburse-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-disburse-item').dialog('close');
     });
    
@@ -123,9 +130,15 @@
     function myFunction(param1, param2) {
         $('#assign-stock-req-id').val(param1);
         $('#assign-item-description').val(param2);
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-adjust-retrieval').dialog('open');
         return false;
     }
+
+    $("#dialog-adjust-retrieval").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-adjust-retrieval').dialog('close');
+    });
 
     function myCollectedFunction(param1, param2) {
 
@@ -183,18 +196,25 @@
 </div>
 
 <div id="div-disbursed">
-    <p align="center" style="font-weight:bold; font-size:large;">
-        All items have been disbursed
-    </p>
+    <div style="font-weight:bold; font-size:large; text-align:center;">
+        <h5>
+            All items have been disbursed
+        </h5>
+    </div>
 </div>
 
 
 
-<div id="dialog-adjust-retrieval" class="hidden" title="Adjust Item">
+<div id="dialog-adjust-retrieval" class="hidden" @*title="Adjust Item"*@>
 
     @using (Html.BeginForm("AdjustItem", "StoreDisbursements", FormMethod.Post))
     {
     <div>
+        <br />
+        <div style="text-align:center;">
+            <h5>Adjust Item</h5>
+        </div>
+        <hr />
         <div>
             @Html.TextBoxFor(tuple => tuple.Item1.Id, new { @placeholder = "StoRId", @id = "assign-stock-req-id", @readonly = "readonly", style = "display: none;" })
         </div>
@@ -209,34 +229,43 @@
         </div>
 
         <hr />
-
         <div>
-            <h5>Damaged/Missing</h5>
+            <div style="text-align:center;">
+                <h5>Damaged/Missing</h5>
+            </div>   
 
             @Html.DropDownListFor(tuple => tuple.Item1.Remarks, new List<SelectListItem>
                        { new SelectListItem{Text="Damaged", Value="Damaged"},
                          new SelectListItem{Text="Missing", Value="Missing"}}, new { style = "padding: 1px; " })
-
         </div>
-
         <hr />
 
-        <input id="btn-submit-qty-adj-changes" class="btn btn-info btn-block" type="submit" value="Save" />
+        <input id="btn-submit-qty-adj-changes" class="btn btn-lu-green btn-block" type="submit" value="Save" />
 
     </div>
     }
 </div>
 
 
-<div id="dialog-confirm-disburse-item" class="hidden" title="Confirm Item Disbursement?">
-    <h6>Are you sure you want to disburse the item?</h6>
-    <div>
-        <span>
-            <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
-        </span>
+<div id="dialog-confirm-disburse-item" class="hidden" @*title="Confirm Item Disbursement?"*@>
+    <br />
+    <div style="text-align:center;">
+        <h4>Confimation</h4>
+    </div>
+    <hr />
+    <div style="text-align:center;">
+        <h6>Are you sure you want to disburse the item?</h6>
+    </div>
 
-        <span>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div style="float:right;">
+                <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+            </div>
+        </div>
+        <div class="col-md-6">
             <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
-        </span>
+        </div>
     </div>
 </div>

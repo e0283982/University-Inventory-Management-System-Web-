@@ -101,7 +101,7 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-<div id="dialog-invalid-report-date" class="hidden" @*title="Invalid report date filter"*@>
+<div id="dialog-invalid-report-date" class="hidden" >
     <br />
     <div style="text-align:center;">
         <h5>Please select at least 1 valid month and year.</h5>
@@ -109,7 +109,7 @@
     <hr />
 </div>
 
-<div id="dialog-no-data" class="hidden" @*title="Information"*@>
+<div id="dialog-no-data" class="hidden" >
     <br />
     <div style="text-align:center;">
         <h5>No data found.</h5>
@@ -136,7 +136,6 @@
                     sort: true,
                     search: false,
                     dom: 'lrtip',
-                    //scrollY: 200,
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
@@ -218,12 +217,7 @@
                             table
                                 .columns(6)
                                 .search(search, true, false, true).draw();
-
-                            //var deptArray = [];
-                            //var categoryArray = [];
-                            //deptArray.push(dept);
-                            //categoryArray.push(category);
-
+                            
                             var dept = $('#lbl-dept').text();
                             var category = $('#SelectCategory :selected').text();
 
@@ -265,6 +259,7 @@
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',
                                 type: 'POST',
+                                async: false
                             });
 
                             table.draw(false);

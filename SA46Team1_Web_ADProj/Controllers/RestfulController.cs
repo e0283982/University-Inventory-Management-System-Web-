@@ -990,7 +990,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srd.FormID = CommonLogic.SerialNo(latestStaffRequisitionHeaderCount, "SR");
                 srd.QuantityOrdered = newRequisitionModel.OrderedQuantity;
                 srd.QuantityDelivered = 0;
-                srd.QuantityBackOrdered = 0;
+                srd.QuantityBackOrdered = newRequisitionModel.OrderedQuantity;
                 srd.CancelledBackOrdered = 0;
 
                 m.StaffRequisitionDetails.Add(srd);

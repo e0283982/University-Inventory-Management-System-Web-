@@ -18,7 +18,6 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
@@ -45,6 +44,7 @@
                                 url: '/DeptApproval/DisplayApprovalDetails',
                                 data: { reqFormId: data["ReqFormId"] },
                                 type: 'POST',
+                                async: false
                             });
 
                             window.location.href = '@Url.Action("Approval", "Dept")';

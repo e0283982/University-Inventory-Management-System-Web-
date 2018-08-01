@@ -29,7 +29,13 @@
     });
 
     $(function () {
-        $("#dialog").dialog({
+        $("#dialog-create-po").dialog({
+            autoOpen: false
+        });
+    });
+
+    $(function () {
+        $("#dialog-create-po-error").dialog({
             autoOpen: false
         });
     });
@@ -40,6 +46,11 @@
         var arr1 = []; //item qty
         var arr2 = []; //item desc
         var arrSupplier = [];  //supplier
+
+        if (table.rows().data().length == 0) {
+            $('#dialog-create-po-error').dialog('open');
+            return;
+        }
 
         var validation = 0;
 
@@ -86,7 +97,7 @@
 <div>
     <h5>Inventory - Reorder</h5>
 </div>
-<form id="test">
+
 <table id="dataTable-storeManagerInventoryReorder" class="display" style="width:100%;">
     <thead style="font-size: 10pt;">
         <tr>
@@ -143,7 +154,11 @@
 
 @TempData["ErrorMsg"]
 
-<div id="dialog" class="hidden" title="Basic dialog">
+<div id="dialog-create-po" class="hidden" title="Basic dialog">
     <p>Purchase order(s) have been created.</p>
 </div>
-</form>
+
+<div id="dialog-create-po-error" class="hidden" title="Basic dialog">
+    <p>There are no reorder items available.</p>
+</div>
+
