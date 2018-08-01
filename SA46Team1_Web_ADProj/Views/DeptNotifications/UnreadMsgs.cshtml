@@ -50,25 +50,26 @@
                          $('#dataTable-notifications-unread tbody').on('click', 'tr', function () {
                              var data = table.row(this).data();
 
-                             if (data["ApprovalStatus"] == "Pending") {
-                                     $.ajax({
-                                         url: '/DeptApproval/Approval',
+                               if (data["ApprovalStatus"] == "Pending") {
+                                         $.ajax({
+                                             url: '/DeptNotifications/MsgClicked',
+                                             data: { reqFormId: data["FormID"] },
+                                             type: 'POST',
+                                             async: false,
+                                         });
+
+                                         window.location.href = '@Url.Action("Approval", "Dept")';
+                                   }
+                                     else {
+                                         $.ajax({
+                                         url: '/DeptNotifications/MsgClicked',
+                                         data: { reqFormId: data["FormID"] },
                                          type: 'POST',
                                          async: false
                                      });
 
-                                     window.location.href = '@Url.Action("Approval", "Dept")';
+                                    window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
                                  }
-                                 else {
-                                     $.ajax({
-                                     url: '/DeptNotifications/MsgClicked',
-                                     data: { reqFormId: data["FormID"] },
-                                     type: 'POST',
-                                     async: false
-                                 });
-
-                                window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
-                             }
                         });
                     }
                 });

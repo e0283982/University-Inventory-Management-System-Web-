@@ -54,13 +54,14 @@
 
                                if (data["ApprovalStatus"] == "Pending") {
                                      $.ajax({
-                                         url: '/DeptApproval/Approval',
+                                         url: '/DeptNotifications/MsgClicked',
+                                         data: { reqFormId: data["FormID"] },
                                          type: 'POST',
-                                         async: false
+                                         async: false,
                                      });
 
                                      window.location.href = '@Url.Action("Approval", "Dept")';
-                             }
+                               }
                                  else {
                                      $.ajax({
                                      url: '/DeptNotifications/MsgClicked',
