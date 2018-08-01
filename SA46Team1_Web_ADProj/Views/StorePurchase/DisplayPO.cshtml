@@ -361,75 +361,76 @@
         </div>
     </div>
 </div>
+
+<div id="datatableDisplayPO">
+    <table id="dataTable-displayPO" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Code</th>
+                <th>Item Description</th>
+                <th>Quantity Ordered</th>
+                <th>Quantity Delivered</th>
+                <th>New Quantity Received</th>
+                <th>Unit of Measure</th>
+                <th>Unit Price ($)</th>
+                <th>Total ($)</th>
+                <th>GST ($)</th>
+            </tr>
+        </thead>
+        @foreach (var item in poFullDetailList)
+        {
+            <tr style="font-size: 10pt;">
+                <th style="font-size: 10pt;">@item.ItemCode</th>
+                <th style="font-size: 10pt;">@item.Description</th>
+                <th style="font-size: 10pt;">
+                    <input id="input-qty-ordered" class="inputEditOrd" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityOrdered" disabled />
+                </th>
+                <th style="font-size: 10pt;">
+                    <input id="input-qty-delivered" class="inputEditDel" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityDelivered" disabled />
+                </th>
+                <th>
+                    @if (item.QuantityOrdered - item.QuantityDelivered == 0)
+                    {
+                        <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" disabled />
+                    }
+                    else
+                    {
+                        <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" />
+                    }
+
+                </th>
+                <th style="font-size: 10pt;">@item.UoM</th>
+                <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost.ToString("0.00")</label></th>
+                <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
+                <th style="font-size: 10pt;">7%</th>
+            </tr>
+        }
+    </table>
+</div>
+
+<div>
+    <div style="float:left;">
+        <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label>
+        <br />
+        <label style="font-size: 12pt;">GST ($):&nbsp;</label>
+        <br />
+        <label style="font-size: 12pt;">Net Total ($):&nbsp;</label>
+    </div>
+    <div style="float:left">
+        <strong><input disabled id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
+        <br />
+        <strong><input disabled id="displayPO-gst" style="font-size: 12pt;" /></strong>
+        <br />
+        <strong><input disabled id="displayPO-net-total" style="font-size: 12pt;" /></strong>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
 @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
 {
-    <div id="datatableDisplayPO">
-        <table id="dataTable-displayPO" class="display" style="width:80%;">
-            <thead style="font-size: 10pt;">
-                <tr>
-                    <th>Item Code</th>
-                    <th>Item Description</th>
-                    <th>Quantity Ordered</th>
-                    <th>Quantity Delivered</th>
-                    <th>New Quantity Received</th>
-                    <th>Unit of Measure</th>
-                    <th>Unit Price ($)</th>
-                    <th>Total ($)</th>
-                    <th>GST ($)</th>
-                </tr>
-            </thead>
-            @foreach (var item in poFullDetailList)
-            {
-                <tr style="font-size: 10pt;">
-                    <th style="font-size: 10pt;">@item.ItemCode</th>
-                    <th style="font-size: 10pt;">@item.Description</th>
-                    <th style="font-size: 10pt;">
-                        <input id="input-qty-ordered" class="inputEditOrd" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityOrdered" disabled />
-                    </th>
-                    <th style="font-size: 10pt;">
-                        <input id="input-qty-delivered" class="inputEditDel" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityDelivered" disabled />
-                    </th>
-                    <th>
-                        @if (item.QuantityOrdered - item.QuantityDelivered == 0)
-                        {
-                            <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" disabled />
-                        }
-                        else
-                        {
-                            <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" />
-                        }
-
-                    </th>
-                    <th style="font-size: 10pt;">@item.UoM</th>
-                    <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost.ToString("0.00")</label></th>
-                    <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
-                    <th style="font-size: 10pt;">7%</th>
-                </tr>
-            }
-        </table>
-    </div>
-
-    <div>
-        <div style="float:left;">
-            <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label>
-            <br />
-            <label style="font-size: 12pt;">GST ($):&nbsp;</label>
-            <br />
-            <label style="font-size: 12pt;">Net Total ($):&nbsp;</label>
-        </div>
-        <div style="float:left">
-            <strong><input disabled id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
-            <br />
-            <strong><input disabled id="displayPO-gst" style="font-size: 12pt;" /></strong>
-            <br />
-            <strong><input disabled id="displayPO-net-total" style="font-size: 12pt;" /></strong>
-        </div>
-    </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <div class="row">
         <div class="col-md-12">
             <div>
