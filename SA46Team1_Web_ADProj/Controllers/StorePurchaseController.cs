@@ -95,7 +95,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult SavePO(string[] arrQty, string[] arrSupplier, string taData)
+        public RedirectToRouteResult SavePO(string[] arrQty, string[] arrSupplier, string taData)
         {
             // To ensure no empty Entries
             int enteredQty = 0;
@@ -200,7 +200,10 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["tempList"] = tempList;
 
             Session["newPOList"] = new List<POFullDetail>();
-            return View();
+
+            Session["POListPage"] = "1";
+
+            return RedirectToAction("POList", "StorePurchase");
         }
 
         [HttpPost]
@@ -407,6 +410,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
             }
             Session["POItems"] = poFullDetailList;
+            Session["POListPage"] = "2";
+
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -415,6 +420,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["poDetailsEditMode"] = false;
             Session["grEditMode"] = false;
+            Session["POListPage"] = "2";
 
             return RedirectToAction("Purchase", "Store");
         }
@@ -447,7 +453,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["POItems"] = poFullDetailsList;
             }
             Session["poStatus"] = "Cancelled";
-            return View("DisplayPO");
+            Session["POListPage"] = "2";
+
+            return RedirectToAction("Purchase", "Store");
         }
 
         /************Action methods belonging to Store Purchase - GR *******************/
@@ -477,8 +485,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["grId"] = rNo;
             return RedirectToAction("Purchase", "Store");
         }
-
-
+        
         [HttpPost]
         public RedirectToRouteResult BackToGRList()
         {
@@ -486,6 +493,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return RedirectToAction("Purchase", "Store");
         }
+        
         
         [HttpPost]
         public RedirectToRouteResult GoodsReceipt(string[] arrQty)
@@ -502,7 +510,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             float totalInventoryValue = 0;
             string receiptNo = null;
             bool invalid = false;
-            int c = 0;
+            int c = 0;            
+
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 // Validation
@@ -522,6 +531,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int countQty = 0;
                     int countInventory = 0;
 
+                    
                     // Tabulate all qty, to ensure total is not 0 (Prevent empty entries)
                     for (int i = 0; i < arrQty.Length; i++)
                     {
@@ -551,6 +561,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                         porh.TotalAmount = totalInventoryValue;
                         m.POReceiptHeaders.Add(porh);
                         m.SaveChanges();
+
+                        TempData["ReceiptNo"] = receiptNo;
 
                         // Adding into Database based on Items
                         foreach (POFullDetail p in poFullDetailList)
@@ -644,7 +656,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["poDetailsEditMode"] = false;
             Session["grId"] = receiptNo;
 
-            return RedirectToAction("Purchase", "Store");
+            Session["StorePurchaseTabIndex"] = "3";
+
+            return RedirectToAction("DisplayGR", "StorePurchase");
         }
     }
 }
