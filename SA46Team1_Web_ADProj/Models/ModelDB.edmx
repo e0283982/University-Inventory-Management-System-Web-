@@ -875,6 +875,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockRetrievalList' does not have a pri
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="int" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Collected" Type="tinyint" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1726,7 +1727,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [StockRetrievalList].[Location] AS [Location], 
     [StockRetrievalList].[Description] AS [Description], 
     [StockRetrievalList].[QuantityRetrieved] AS [QuantityRetrieved], 
-    [StockRetrievalList].[CollectionPointDescription] AS [CollectionPointDescription]
+    [StockRetrievalList].[CollectionPointDescription] AS [CollectionPointDescription], 
+    [StockRetrievalList].[Collected] AS [Collected]
     FROM [dbo].[StockRetrievalList] AS [StockRetrievalList]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="StockTakeList" EntityType="Self.StockTakeList" store:Type="Views" store:Schema="dbo">
@@ -2807,6 +2809,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityRetrieved" Type="Int32" Nullable="false" />
           <Property Name="CollectionPointDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Collected" Type="Byte" />
         </EntityType>
         <EntityType Name="StockTakeList">
           <Key>
@@ -4250,6 +4253,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="QuantityRetrieved" ColumnName="QuantityRetrieved" />
                 <ScalarProperty Name="CollectionPointDescription" ColumnName="CollectionPointDescription" />
+                <ScalarProperty Name="Collected" ColumnName="Collected" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
