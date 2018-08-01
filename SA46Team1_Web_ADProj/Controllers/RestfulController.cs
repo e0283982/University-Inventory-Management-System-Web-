@@ -866,7 +866,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 }
 
-                //To update the list staff headers to completed, there would be multiple staff requisition headers combined
+                //To update the list of staff req headers to be completed, there would be multiple staff requisition headers combined
                 //To update the staff requisition details for quantity delivered
 
                 List<String> listOfReqFormId = m.StockRetrievalReqForms.OrderBy(x => x.Id).Where(x => x.StockRetrievalID == disbursementHeader.StockRetrievalId).Select(x => x.ReqFormID).ToList<String>();
