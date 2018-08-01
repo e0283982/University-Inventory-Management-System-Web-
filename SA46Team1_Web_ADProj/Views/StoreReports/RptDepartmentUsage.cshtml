@@ -70,7 +70,7 @@
                 <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
             </span>
             <span id="btn-submit-export2">
-                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
+                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt; color:#f4f4f4;" })
             </span>
             <span>
                 <input class="btn btn-lu-blue" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
@@ -101,13 +101,20 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-
-<div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
-    <h5>Please select at least 1 valid month and year.</h5>
+<div id="dialog-invalid-report-date" class="hidden" @*title="Invalid report date filter"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>Please select at least 1 valid month and year.</h5>
+    </div>
+    <hr />
 </div>
 
-<div id="dialog-no-data" class="hidden" title="Information">
-    <h5>No data found.</h5>
+<div id="dialog-no-data" class="hidden" @*title="Information"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>No data found.</h5>
+    </div>
+    <hr />
 </div>
 
 <script>

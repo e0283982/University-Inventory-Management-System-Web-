@@ -6,6 +6,7 @@
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/dropdowns.css")" rel="stylesheet" type="text/css" />
 
 <script>
     var table;
@@ -48,7 +49,14 @@
 
     // Open Dialog
     $('#btn-add-item').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-add-po-item').dialog('open');
+    });
+
+    //Close Dialog
+    $("#dialog-add-po-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-add-po-item').dialog('close');
     });
 
     // Dialog
@@ -153,7 +161,7 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 9pt;">Add New Item</button>
+                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
             </span>
         </div>
     </div>
@@ -268,19 +276,20 @@
 </div>
 
 @*--- Dialog Box ---*@
-<div id="dialog-add-po-item" class="hidden" title="Add Item (Store PO)">
+<div id="dialog-add-po-item" class="hidden" @*title="Add Item (Store PO)"*@>
     @using (Html.BeginForm("AddPOItem", "StorePurchase", FormMethod.Post, new { id = "form-submit-add-new-item" }))
     {
         <br />
         <div style="text-align:center;">
-            <h5>Add Item</h5>
+            <h5>Add New Item</h5>
         </div>
         <hr />
         <div>
             <div>
                 <label>Item Description: </label>
-                @Html.DropDownList("SelectItemChose", ViewBag.ItemsList as SelectList)
+                @Html.DropDownList("SelectItemChose", ViewBag.ItemsList as SelectList, null, new { @class = "styled-select semi-square" })
             </div>
+            <br />
             <div>
                 <label>New Order Qty: </label>
                 @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
