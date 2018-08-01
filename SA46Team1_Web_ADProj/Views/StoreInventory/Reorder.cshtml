@@ -81,7 +81,7 @@
                 async: false,
                 data: JSON.stringify({ arr1: arr1, arr2: arr2, arrSupplier: arrSupplier })
             });
-            
+
             window.location.href = '@Url.Action("Inventory", "Store")';
         }
 
@@ -94,11 +94,7 @@
 
 </script>
 
-<div>
-    <h5>Inventory - Reorder</h5>
-</div>
-
-<table id="dataTable-storeManagerInventoryReorder" class="display" style="width:100%;">
+<table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
     <thead style="font-size: 10pt;">
         <tr>
             <th>Item Description</th>
@@ -111,6 +107,7 @@
             <th>Include in PO <br /><input type="checkbox" checked id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
         </tr>
     </thead>
+
     @foreach (var item in list)
     {
         <tr style="font-size: 10pt;">
@@ -118,7 +115,7 @@
             <th>@item.Quantity</th>
             <th>@item.ReOrderLevel</th>
             <th>@item.ActualReorder</th>
-            <th><input type="number" min="0" pattern="[0-9]" id="input-qty" style="text-align: center;" value=@item.ActualReorder /></th>
+            <th><input type="number" id="input-qty" min="1" pattern="[0-9]" style="text-align: center;" value=@item.ActualReorder /></th>
             <th>@item.UoM</th>
             <th>
                 <select>
@@ -139,14 +136,7 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                @if (list.Count == 0)
-                {
-                    <button type="submit" disabled class="btn btn-lu-blue" id="btn-create-POs" style="font-size: 10pt;">Create Purchase Order</button>
-                }
-                else
-                {
-                    <button type="submit" class="btn btn-lu-blue" id="btn-create-POs" style="font-size: 10pt;">Create Purchase Order</button>
-                }
+                <button class="btn btn-lu-blue" id="btn-create-POs" style="font-size: 10pt;">Create Purchase Order</button>
             </span>
         </div>
     </div>
@@ -161,4 +151,3 @@
 <div id="dialog-create-po-error" class="hidden" title="Basic dialog">
     <p>There are no reorder items available.</p>
 </div>
-
