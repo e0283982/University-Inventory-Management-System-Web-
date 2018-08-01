@@ -280,6 +280,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 tempList.Add(itemCode);
                 Session["tempList"] = tempList;
 
+                Session["StockAdjPage"] = "2";
+
                 return RedirectToAction("Inventory", "Store");
             }
         }
@@ -298,6 +300,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 item.AdjCost = Int32.Parse(data) * item.AvgUnitCost;
                 Session["newAdjList"] = list;
 
+                Session["StockAdjPage"] = "2";
+
+
                 return RedirectToAction("Requisition", "Dept");
             }
         }
@@ -312,6 +317,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
                 list.RemoveAt(index);
                 Session["newAdjList"] = list;
+
+                Session["StockAdjPage"] = "2";
+
 
                 return RedirectToAction("Inventory", "Store");
             }
@@ -331,6 +339,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<String> tempList = (List<String>)Session["tempList"];
                 tempList.Clear();
                 Session["tempList"] = tempList;
+
+                Session["StockAdjPage"] = "2";
+
 
                 return RedirectToAction("Inventory", "Store");
             }

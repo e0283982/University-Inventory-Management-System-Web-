@@ -28,7 +28,13 @@
     });
 
     $(function () {
-        $("#dialog").dialog({
+        $("#dialog-create-po").dialog({
+            autoOpen: false
+        });
+    });
+
+    $(function () {
+        $("#dialog-create-po-error").dialog({
             autoOpen: false
         });
     });
@@ -39,6 +45,11 @@
         var arr1 = []; //item qty
         var arr2 = []; //item desc
         var arrSupplier = [];  //supplier
+
+        if (table.rows().data().length == 0) {
+            $('#dialog-create-po-error').dialog('open');
+            return;
+        }
 
         for (var i = 0; i < table.rows().data().length; i++) {
             var rowChecked =
@@ -129,6 +140,10 @@
 
 @TempData["ErrorMsg"]
 
-<div id="dialog" class="hidden" title="Basic dialog">
+<div id="dialog-create-po" class="hidden" title="Basic dialog">
     <p>Purchase order(s) have been created.</p>
+</div>
+
+<div id="dialog-create-po-error" class="hidden" title="Basic dialog">
+    <p>There are no reorder items available.</p>
 </div>
