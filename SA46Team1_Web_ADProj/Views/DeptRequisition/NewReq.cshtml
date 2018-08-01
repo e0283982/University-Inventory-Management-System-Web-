@@ -57,17 +57,14 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
 
         window.location.href = '@Url.Action("Requisition", "Dept")';
-        });
-
-    //$('#dataTable-newReq tbody').on('click', 'tr', function () {
-    //    $(this).toggleClass('selected');
-    //});
-
+    });
+    
     $(function () {
         $("#dialog-add-req-item").dialog({
             autoOpen: false,
@@ -140,6 +137,7 @@
         $.ajax({
             url: '/DeptRequisition/AddReqItem',
             type: 'POST',
+            async: false
         });
     });
 
@@ -147,6 +145,7 @@
         $.ajax({
             url: '/DeptRequisition/ClearNewReqItems',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -161,6 +160,7 @@
         $.ajax({
             url: '/DeptRequisition/SubmitNewRequestForm',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -183,6 +183,7 @@
         $.ajax({
             url: '/DeptRequisition/EditNewOrderQty',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -209,6 +210,7 @@
         $.ajax({
             url: '/DeptRequisition/ExitEditNewOrderQty',
             type: 'POST',
+            async: false,
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             data: JSON.stringify({ arr: arr, arr1: arr1 }),
@@ -289,7 +291,6 @@
                     <td style="font-size: 10pt;">
                         @if (editMode == true)
                         {
-                            @*@Html.EditorFor(model => model. , new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "input-edit-order-qty", @min = "1", @step = "1", @Value = "1" }, })*@
                             <input id="input-edit-order-qty" value=@item.QuantityOrdered type="number" step="1" min="1" pattern="[0-9]"/>
                         }
                         else

@@ -19,7 +19,6 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     //select: {
@@ -147,6 +146,7 @@
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ itemCodes: arr, formIds: arr1 }),
             success: function () {
 
