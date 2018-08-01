@@ -135,7 +135,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srd.FormID = Session["currentFormId"].ToString();
                 srd.QuantityOrdered = item2.QuantityOrdered;
                 srd.QuantityDelivered = 0;
-                srd.QuantityBackOrdered = 0;
+                srd.QuantityBackOrdered = item2.QuantityOrdered;
                 srd.CancelledBackOrdered = 0;
                 
                 srd.Item = e.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
@@ -176,7 +176,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.DateRequested = System.DateTime.Now;
                 srh.Status = "Open"; 
                 srh.ApprovalStatus = "Pending"; 
-                srh.DateProcessed = System.DateTime.Now; //to change to null (default)
+                srh.DateProcessed = null; //to change to null (default)
                 srh.Approver = e.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.ReportsTo).FirstOrDefault();
                 srh.NotificationStatus = "Unread";
 
