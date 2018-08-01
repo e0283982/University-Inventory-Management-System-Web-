@@ -137,11 +137,15 @@
     {
         <div>
             <br />
-            <div style="text-align:center"><h5>Add New Category</h5></div>
+                <div style="text-align:center"><h5>Add New Category</h5></div>
             <hr />
-            <div>
-                <label>Category Name: </label>
-                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Category Name: </label>
+                </div>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
+                </div>      
             </div>
 
             <hr />

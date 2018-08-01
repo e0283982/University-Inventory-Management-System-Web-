@@ -71,9 +71,10 @@
                 ],
                 columnDefs: [
                     {
-                        //"targets": [0],
-                        //"visible": false,
-                        //"searchable": false
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false                     
+                    }, {
                         className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6]
                     }
                 ],
@@ -90,6 +91,10 @@
         });
     });
 
+    $("#dialog-submit-edit-supplier").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        $('#dialog-submit-edit-supplier').dialog('close');
+    });
 
     $(document).ajaxComplete(function () {
         $('#btn-edit-supplier').click(function () {
@@ -109,6 +114,7 @@
                 arr.push(rowData);
             }
 
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
             $('#dialog-submit-edit-supplier').dialog('open');
             
             $.ajax({
@@ -132,6 +138,7 @@
     <h5>Supplier: @Session["MaintenanceSupplierCode"]</h5>
 </div>
 
+<hr />
 
 <table id="dataTable-store-suppliers-details" class="display" style="width:80%;">
     <thead style="font-size: 10pt;">
@@ -151,28 +158,32 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-10">
-        <div style="float: right">
+    <div class="col-md-6">
+        <div>
             <span>
-                @Html.ActionLink("View Price List", "DisplaySupplierPriceList", "StoreMaintenance", null, new { @class= "btn btn-lu-blue", @style="font-size: 10pt; color: #f4f4f4;" })
+                @using (Html.BeginForm("BackToSuppliersMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                }
             </span>
         </div>
     </div>
-    <div class="col-md-1">
-        <span>
-            @using (Html.BeginForm("BackToSuppliersMaintenanceList", "StoreMaintenance", FormMethod.Post))
-            {
-                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
-            }
-        </span>
-    </div>
-    <div class="col-md-1">
-        <span>
-            <button id="btn-edit-supplier" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-        </span>
+    <div class="col-md-6">
+        <div style="float:right;">
+            <span>
+                @Html.ActionLink("View Price List", "DisplaySupplierPriceList", "StoreMaintenance", null, new { @class = "btn btn-lu-blue", @style = "font-size: 10pt; color: #f4f4f4;" })
+            </span>
+            <span>
+                <button id="btn-edit-supplier" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+            </span>
+        </div>      
     </div>
 </div>
 
-<div id="dialog-submit-edit-supplier" class="hidden" title="Edit Supplier Successful (Maintenance)">
-    <p>Supplier has been successfully edited.</p>
+<div id="dialog-submit-edit-supplier" class="hidden" @*title="Edit Supplier Successful (Maintenance)"*@>
+    <br />
+        <div style="text-align:center;">
+            <h5>Supplier has been successfully edited!</h5>
+        </div>
+    <hr />
 </div>

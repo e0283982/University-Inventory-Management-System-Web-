@@ -56,9 +56,10 @@
                 },
                 columnDefs: [
                     {
-                        //"targets": [0],
-                        //"visible": false,
-                        //"searchable": false
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }, {
                         className: 'text-center', targets: [0, 1, 2, 3]
                     }
                 ],
@@ -76,7 +77,13 @@
     });
 
     $('#btn-add-new-bin').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
         $('#dialog-add-new-bin').dialog('open');
+    });
+
+    $("#dialog-add-new-bin").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        $('#dialog-add-new-bin').dialog('close');
     });
 
     $(function () {
@@ -89,6 +96,7 @@
 
     $('#btn-submit-add-bin').on('click', function () {
         $('#dialog-add-new-bin').dialog('close');
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
         $('#dialog-submit-add-bin').dialog('open');
     });
 </script>
@@ -123,28 +131,44 @@
 </div>
 
 
-<div id="dialog-add-new-bin" class="hidden" title="Add Bin (Maintenance)">
+<div id="dialog-add-new-bin" class="hidden" @*title="Add Bin (Maintenance)"*@>
     @using (Html.BeginForm("AddNewBin", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-bin" }))
     {
         <div>
-            <div>
-                <label>Location: </label>
-                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bin Location", @id = "new-bin-location" }, })
+            <hr />
+            <div style="text-align:center;">
+                <h5>Add Bin</h5>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Location: </label>
+                </div>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bin Location", @id = "new-bin-location" }, })
+                </div>
             </div>
             <br />
-            <div>
-                <label>Item Code: </label>
-                @Html.DropDownList("SelectBinItem", ViewBag.ItemsList as SelectList)
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Item Code: </label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownList("SelectBinItem", ViewBag.ItemsList as SelectList)
+                </div>      
             </div>
 
             <hr />
 
             <input id="btn-submit-add-bin" class="btn btn-lu-green btn-block" type="submit" value="Add" />
-
         </div>
     }
 </div>
 
-<div id="dialog-submit-add-bin" class="hidden" title="Add Bin Successful (Maintenance)">
-    <p>New Bin has been successfully added.</p>
+<div id="dialog-submit-add-bin" class="hidden" @*title="Add Bin Successful (Maintenance)"*@>
+    <br />
+    <div style="text-align:center;">
+        <p>New Bin has been successfully added.</p>
+    </div>
+    <hr /> 
 </div>

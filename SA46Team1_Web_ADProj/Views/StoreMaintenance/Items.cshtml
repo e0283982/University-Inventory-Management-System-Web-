@@ -148,21 +148,33 @@
     {
     <div>
         <br />
-        <div style="text-align:center"><h5>Add New Item</h5></div>
+            <div style="text-align:center"><h5>Add New Item</h5></div>
         <hr />
-        <div>
-            <label>Item Description: </label>
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-item-desc" }, })
+        <div class="row">
+            <div class="col-md-3">
+                <label>Item Description: </label>
+            </div>
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-item-desc" }, })
+            </div>        
         </div>
         <hr />
-        <div>
-            <label>Category: </label>
-            @Html.DropDownList("SelectItemCategory", ViewBag.CategoryList as SelectList)
+        <div class="row">
+            <div class="col-md-3">
+                <label>Category: </label>
+            </div>
+            <div class="col-md-9">
+                @Html.DropDownList("SelectItemCategory", ViewBag.CategoryList as SelectList)
+            </div>   
         </div>
 
-        <div>
-            <label>Unit of Measure:</label>
-            @Html.DropDownList("SelectItemUOM", ViewBag.UOMList as SelectList)
+        <div class="row">
+            <div class="col-md-3">
+                <label>Unit of Measure:</label>
+            </div>
+            <div class="col-md-9">
+                @Html.DropDownList("SelectItemUOM", ViewBag.UOMList as SelectList)
+            </div>           
         </div>
         <hr />
         @*<div>
@@ -170,30 +182,51 @@
             @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Quantity", @id = "new-item-qty" }, })
         </div>*@
 
-        <div>
-            <label>Reorder Level:</label>
-            @Html.EditorFor(model => model.ReOrderLevel, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Level", @id = "new-item-reorder-lvl" }, })
+        <div class="row">
+            <div class="col-md-3">
+                <label>Reorder Level:</label>
+            </div>
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.ReOrderLevel, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Level", @id = "new-item-reorder-lvl" }, })
+            </div>  
         </div>
 
-        <div>
-            <label>Reorder Qty: </label>
-            @Html.EditorFor(model => model.ReOrderQuantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Quantity", @id = "new-item-reorder-qty" }, })
+        <div class="row">
+            <div class="col-md-3">
+                <label>Reorder Qty: </label>
+            </div>
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.ReOrderQuantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Quantity", @id = "new-item-reorder-qty" }, })
+            </div>  
         </div>
         <hr />
-        <div>
-            <label>Supplier 1: </label>
-            @Html.DropDownList("SelectSupplier1", ViewBag.SupplierList as SelectList)
+        <div class="row">
+            <div class="col-md-3">
+                <label>Supplier 1: </label>
+            </div>
+            <div class="col-md-9">
+                @Html.DropDownList("SelectSupplier1", ViewBag.SupplierList as SelectList)
+            </div>
         </div>
 
-        <div>
-            <label>Supplier 2: </label>
-            @Html.DropDownList("SelectSupplier2", ViewBag.SupplierList as SelectList)
+        <div class="row">
+            <div class="col-md-3">
+                <label>Supplier 2: </label>
+            </div>
+            <div class="col-md-9">
+                @Html.DropDownList("SelectSupplier2", ViewBag.SupplierList as SelectList)
+            </div>  
         </div>
 
-        <div>
-            <label>Supplier 3: </label>
-            @Html.DropDownList("SelectSupplier3", ViewBag.SupplierList as SelectList)
+        <div class="row">
+            <div class="col-md-3">
+                <label>Supplier 3: </label>
+            </div>
+            <div class="col-md-9">
+                @Html.DropDownList("SelectSupplier3", ViewBag.SupplierList as SelectList)
+            </div>            
         </div>
+        <hr />
         <input id="btn-submit-add-item" class="btn btn-lu-green btn-block" type="submit" value="Add" />
 
     </div>

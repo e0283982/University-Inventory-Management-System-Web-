@@ -77,7 +77,7 @@
     });
 
     $("#dialog-add-req-item").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-add-req-item').dialog('close');
     });
 
@@ -106,34 +106,34 @@
         });
 
     $("#dialog-confirm-submit-new-req").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-confirm-submit-new-req').dialog('close');
     });
 
     });
 
     $('#btn-add-item').on('click', function () {
-        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
         $('#dialog-add-req-item').dialog('open');
     });
 
     $('#btn-submit-cancel').on('click', function () {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-add-req-item').dialog('close');
     });
 
     $('#btn-submit-new-req').on('click', function () {
-        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
         $('#dialog-confirm-submit-new-req').dialog('open');
     });
 
     $('#btn-confirm-submit-cancel').on('click', function () {       
-        $('#parent_page').css({'opacity': 1, 'pointer-events': 'auto'})
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-confirm-submit-new-req').dialog('close');
     });
 
     $('#btn-submit-add-item').on('click', function () {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $.ajax({
             url: '/DeptRequisition/AddReqItem',
             type: 'POST',

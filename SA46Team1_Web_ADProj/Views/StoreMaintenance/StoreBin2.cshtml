@@ -60,9 +60,10 @@
                 ],
                 columnDefs: [
                     {
-                        //"targets": [0],
-                        //"visible": false,
-                        //"searchable": false
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }, {
                         className: 'text-center', targets: [0, 1, 2, 3]
                     }
                 ],
@@ -96,8 +97,8 @@
                 arr.push(rowData);
             }
 
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
             $('#dialog-submit-edit-bin').dialog('open');
-
 
             $.ajax({
                 type: 'POST',
@@ -140,8 +141,8 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-11">
-        <div style="float: right">
+    <div class="col-md-6">
+        <div>
             <span>
                 @using (Html.BeginForm("BackToBinsMaintenanceList", "StoreMaintenance", FormMethod.Post))
                 {
@@ -150,13 +151,19 @@
             </span>
         </div>
     </div>
-    <div class="col-md-1">
-        <span>
-            <button id="btn-edit-bin" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-        </span>
+    <div class="col-md-6">
+        <div style="float: right">
+            <span>
+                <button id="btn-edit-bin" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+            </span>
+        </div>   
     </div>
 </div>
 
-<div id="dialog-submit-edit-bin" class="hidden" title="Edit Bin Successful (Maintenance)">
-    <p>Bin has been successfully edited.</p>
+<div id="dialog-submit-edit-bin" class="hidden" @*title="Edit Item Successful (Maintenance)"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>Bin has been successfully edited.</h5>
+    </div>
+    <hr />
 </div>

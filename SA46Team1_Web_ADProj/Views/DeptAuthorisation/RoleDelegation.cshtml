@@ -97,7 +97,7 @@
         });
         
         $("#form-submit-new-auth").submit(function () {
-            $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+            $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
             $('#dialog-show-employee-auth').dialog('close');
             $('#dialog-saved-employee-auth-edit').dialog('open');
         });
@@ -105,13 +105,13 @@
     });
 
     $("#dialog-show-employee-auth").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-show-employee-auth').dialog('close');
     });
 
     function myFunction(param) {
         $('#assign-emp-role-name').val(param);
-        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
         $('#dialog-show-employee-auth').dialog('open');
         return false;
     }

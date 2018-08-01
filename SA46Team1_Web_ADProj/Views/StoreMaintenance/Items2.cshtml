@@ -206,6 +206,7 @@
                 data: JSON.stringify({ suppliers: suppliers, desc: desc, status:status })
             });
 
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
             $('#dialog-submit-edit-item').dialog('open');
             table.draw(false); //this line needed, if not upon save, table does not auto display updated data (until next refresh)
             window.location.href = '@Url.Action("Maintenance", "Store")';
@@ -240,8 +241,8 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-11">
-        <div style="float: right">
+    <div class="col-md-6">
+        <div>
             <span>
                 @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
                 {
@@ -250,13 +251,19 @@
             </span>
         </div>
     </div>
-    <div class="col-md-1">
-        <span>
-            <button id="btn-edit-item" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-        </span>
+    <div class="col-md-6">
+        <div style="float:right;">
+            <span>
+                <button id="btn-edit-item" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+            </span>
+        </div>      
     </div>
 </div>
 
-<div id="dialog-submit-edit-item" class="hidden" title="Edit Item Successful (Maintenance)">
-    <p>Item has been successfully edited.</p>
+<div id="dialog-submit-edit-item" class="hidden" @*title="Edit Item Successful (Maintenance)"*@>
+    <br />
+        <div style="text-align:center;">
+            <h5>Item has been successfully edited.</h5>
+        </div>
+    <hr />
 </div>
