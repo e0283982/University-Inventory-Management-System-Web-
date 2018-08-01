@@ -21,7 +21,7 @@
                 "defaultContent": "<input id='selectall' type='checkbox' checked/>"
             },
                 {
-                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6]
+                    className: 'text-center', targets: [0, 1, 2, 3, 4]
                 }
             ]
         });
@@ -42,17 +42,17 @@
 
         for (var i = 0; i < table.rows().data().length; i++) {
             var rowChecked =
-                table.cell(i, 6).nodes().to$().find('input').prop('checked');
+                table.cell(i, 4).nodes().to$().find('input').prop('checked');
             if (rowChecked == true) {
                 var dataToSend = table.rows(i).data();
 
-                var rowItemQty = table.cell(i, 3).nodes().to$().find('input').val();
+                var rowItemQty = table.cell(i, 1).nodes().to$().find('input').val();
                 arr1.push(rowItemQty);
 
                 var json = dataToSend[0];
                 arr2.push(json[0]);
 
-                var rowSupplier = table.cell(i, 5).nodes().to$().find(":selected").text();
+                var rowSupplier = table.cell(i, 3).nodes().to$().find(":selected").text();
                 arrSupplier.push(rowSupplier);
             }
         }
@@ -67,6 +67,8 @@
         });
 
         window.location.href = '@Url.Action("Inventory", "Store")';
+        alert('Items Added');
+
     });
 
     $('body').on('change', '#mass_select_all', function () {
@@ -85,12 +87,10 @@
     <thead style="font-size: 10pt;">
         <tr>
             <th>Item Description</th>
-            <th>Quantity On Hand</th>
-            <th>Reorder Level</th>
-            <th>Suggested Reorder Qty</th>
+            <th>Reorder Qty</th>
             <th>Unit of Measure</th>
             <th>Supplier</th>
-            <th>Include in PO <br /><input type="checkbox" checked id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
+            <th><input type="checkbox" id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
         </tr>
     </thead>
 
@@ -98,9 +98,7 @@
     {
         <tr style="font-size: 10pt;">
             <th>@item.Description</th>
-            <th>@item.Quantity</th>
-            <th>@item.ReOrderLevel</th>
-            <th><input type="number" id="input-qty" style="text-align: center;" value=@item.ActualReorder /></th>
+            <th><input type="number" id="input-qty" value=@item.ReOrderQuantity /></th>
             <th>@item.UoM</th>
             <th>
                 <select>
@@ -126,8 +124,6 @@
         </div>
     </div>
 </div>
-
-@TempData["ErrorMsg"]
 
 <div id="dialog" class="hidden" title="Basic dialog">
     <p>Purchase order(s) have been created.</p>
