@@ -27,19 +27,18 @@ namespace SA46Team1_Web_ADProj.Controllers
                 double netTotal = 0;
                 double gst = 0;
 
-                foreach (POFullDetail p in poFullDetailsList)
-                {
+                foreach (POFullDetail p in poFullDetailsList) {
                     var itemTotal = p.QuantityOrdered * p.UnitCost;
                     grossTotal += itemTotal;
                 }
 
-                TempData["grossTotal"] = Math.Round(grossTotal, 2, MidpointRounding.AwayFromZero);
+                TempData["grossTotal"] = Math.Round(grossTotal,2, MidpointRounding.AwayFromZero);
 
                 netTotal = grossTotal * 1.07;
-                TempData["netTotal"] = Math.Round(netTotal, 2, MidpointRounding.AwayFromZero);
+                TempData["netTotal"] = Math.Round(netTotal,2, MidpointRounding.AwayFromZero);
 
                 gst = grossTotal * 0.07;
-                TempData["gst"] = Math.Round(gst, 2, MidpointRounding.AwayFromZero);
+                TempData["gst"]= Math.Round(gst, 2, MidpointRounding.AwayFromZero);
 
                 Tuple<Item, POFullDetail> tuple = new Tuple<Item, POFullDetail>(new Item(), new POFullDetail());
 
@@ -87,7 +86,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
             }
             poFullDetailsList.Remove(pod);
-            if (poFullDetailsList.Count == 0)
+            if(poFullDetailsList.Count == 0)
             {
                 poFullDetailsList = new List<POFullDetail>();
             }
@@ -96,11 +95,11 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public ActionResult SavePO(string[] arrQty, string[] arrSupplier, string taData)
+        public RedirectToRouteResult SavePO(string[] arrQty, string[] arrSupplier, string taData)
         {
             // To ensure no empty Entries
             int enteredQty = 0;
-            if (arrQty.Count() > 0)
+            if(arrQty.Count() > 0)
             {
                 for (int i = 0; i < arrQty.Length; i++)
                 {
@@ -164,31 +163,31 @@ namespace SA46Team1_Web_ADProj.Controllers
                         foreach (POFullDetail pod in poDetailsList)
                         {
                             // Only add if the item is belonging to the supplier / PO
-                            string supCode = m.Suppliers.Where(x => x.CompanyName == pod.CompanyName).Select(x => x.SupplierCode).FirstOrDefault();
+                            string supCode = m.Suppliers.Where(x=>x.CompanyName==pod.CompanyName).Select(x=>x.SupplierCode).FirstOrDefault();
                             Supplier supplier = m.Suppliers.Where(x => x.SupplierCode == supCode).FirstOrDefault();
                             if (supplier == s)
                             {
                                 // Only add if the item has not been added
-                                // if (!itemAdded.Contains(pod.Item))
+                               // if (!itemAdded.Contains(pod.Item))
                                 //{
-                                PODetail poDetailToAdd = new PODetail();
-                                float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
-                                    && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
-                                poDetailToAdd.PONumber = poId;
-                                poDetailToAdd.ItemCode = pod.ItemCode;
-                                int qty = Convert.ToInt32(arrQty[poDetailsList.IndexOf(pod)]);
-                                poDetailToAdd.QuantityOrdered = qty;
-                                poDetailToAdd.QuantityBackOrdered = qty;   //this?
-                                poDetailToAdd.QuantityDelivered = 0;
-                                poDetailToAdd.UnitCost = itemUnitPrice;
-                                poDetailToAdd.CancelledBackOrdered = 0;
-                                m.PODetails.Add(poDetailToAdd);
-                                m.SaveChanges();
+                                    PODetail poDetailToAdd = new PODetail();
+                                    float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
+                                        && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
+                                    poDetailToAdd.PONumber = poId;
+                                    poDetailToAdd.ItemCode = pod.ItemCode;
+                                    int qty = Convert.ToInt32(arrQty[poDetailsList.IndexOf(pod)]);
+                                    poDetailToAdd.QuantityOrdered = qty;
+                                    poDetailToAdd.QuantityBackOrdered = qty;   //this?
+                                    poDetailToAdd.QuantityDelivered = 0;
+                                    poDetailToAdd.UnitCost = itemUnitPrice;
+                                    poDetailToAdd.CancelledBackOrdered = 0;
+                                    m.PODetails.Add(poDetailToAdd);
+                                    m.SaveChanges();
 
-                                Item item = new Item();
-                                item = m.Items.Where(x => x.ItemCode == pod.ItemCode && pod.CompanyName == supplier.CompanyName).FirstOrDefault();
-                                itemAdded.Add(item);
-                                //  }
+                                    Item item = new Item();
+                                    item = m.Items.Where(x => x.ItemCode == pod.ItemCode && pod.CompanyName == supplier.CompanyName).FirstOrDefault();
+                                    itemAdded.Add(item);
+                              //  }
                             }
                         }
                     }
@@ -201,7 +200,10 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["tempList"] = tempList;
 
             Session["newPOList"] = new List<POFullDetail>();
-            return View();
+
+            Session["POListPage"] = "1";
+
+            return RedirectToAction("POList", "StorePurchase");
         }
 
         [HttpPost]
@@ -229,9 +231,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                         // Create new item so that we can remove old qty & add back new qty
                         existingPoD = p;
 
-                        // ---------------------------------- IMPORTANT : Need to change this qty based on JSON of array ---------------------------------------------//
+// ---------------------------------- IMPORTANT : Need to change this qty based on JSON of array ---------------------------------------------//
                         existingPoD.QuantityOrdered += item2.QuantityOrdered;
-                        //--------------------------------------------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------------------------------//
 
                         poFullDetailsList.Remove(p);
                         poFullDetailsList.Add(existingPoD);
@@ -245,9 +247,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                     itemToAdd = m.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
                     pod.ItemCode = itemToAdd.ItemCode;
 
-                    // ---------------------------------- IMPORTANT : Need to change this qty based on JSON of array ---------------------------------------------//
+// ---------------------------------- IMPORTANT : Need to change this qty based on JSON of array ---------------------------------------------//
                     pod.QuantityOrdered = item2.QuantityOrdered;
-                    // -------------------------------------------------------------------------------------------------------------------------------------------//
+// -------------------------------------------------------------------------------------------------------------------------------------------//
 
                     //pod.Item = m.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
 
@@ -327,7 +329,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["POListPage"] = "2";
             string poNumber = data["PONumber"];
             Session["poNumber"] = poNumber;
-            using (SSISdbEntities m = new SSISdbEntities())
+            using(SSISdbEntities m = new SSISdbEntities())
             {
                 List<POFullDetail> poFullDetailList = m.POFullDetails.Where(x => x.PONumber == poNumber).ToList();
                 POHeader ph = m.POHeaders.Where(x => x.PONumber == poNumber).FirstOrDefault();
@@ -382,7 +384,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult SaveEdit(string[] arrQty, string taData)
         {
-            // --------------------- Validation required ----------------------
+// --------------------- Validation required ----------------------
             Session["poDetailsEditMode"] = false;
 
             List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
@@ -409,6 +411,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
             }
             Session["POItems"] = poFullDetailList;
+            Session["POListPage"] = "2";
+
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -417,6 +421,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             Session["poDetailsEditMode"] = false;
             Session["grEditMode"] = false;
+            Session["POListPage"] = "2";
 
             return RedirectToAction("Purchase", "Store");
         }
@@ -449,7 +454,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["POItems"] = poFullDetailsList;
             }
             Session["poStatus"] = "Cancelled";
-            return View("DisplayPO");
+            Session["POListPage"] = "2";
+
+            return RedirectToAction("Purchase", "Store");
         }
 
         /************Action methods belonging to Store Purchase - GR *******************/
@@ -479,8 +486,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["grId"] = rNo;
             return RedirectToAction("Purchase", "Store");
         }
-
-
+        
         [HttpPost]
         public RedirectToRouteResult BackToGRList()
         {
@@ -488,7 +494,8 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return RedirectToAction("Purchase", "Store");
         }
-
+        
+        
         [HttpPost]
         public ActionResult GoodsReceipt(string[] arrQty)
         {
@@ -504,6 +511,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             float totalInventoryValue = 0;
             string receiptNo = null;
             bool invalid = false;
+
             int c = 0;
 
             try
@@ -556,6 +564,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                             porh.TotalAmount = totalInventoryValue;
                             m.POReceiptHeaders.Add(porh);
                             m.SaveChanges();
+                            TempData["ReceiptNo"] = receiptNo;
 
                             // Adding into Database based on Items
                             foreach (POFullDetail p in poFullDetailList)
@@ -647,18 +656,21 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 TempData["ErrorMsg"] = "Please enter a valid number!";
                 Session["StorePurchaseTabIndex"] = "2";
                 return View("DisplayPO");
             }
-
+            
             Session["POItems"] = poFullDetailList;
             Session["poDetailsEditMode"] = false;
             Session["grId"] = receiptNo;
-            Session["GRListPage"] = "2";
-            return View("DisplayPO");
+
+            Session["StorePurchaseTabIndex"] = "3";
+
+            return RedirectToAction("DisplayGR", "StorePurchase");
+
         }
     }
 }

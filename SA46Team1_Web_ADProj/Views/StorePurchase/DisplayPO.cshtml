@@ -157,6 +157,7 @@
             arrQty.push(table.cell(i, 4).nodes().to$().find('input').val());
         }
 
+        alert(arrQty);
         $.ajax({
             url: '/StorePurchase/GoodsReceipt',
             type: 'POST',
