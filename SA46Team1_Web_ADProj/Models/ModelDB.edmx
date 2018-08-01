@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApprovalDelegation">
           <Key>
             <PropertyRef Name="Id" />
@@ -277,6 +277,7 @@
           <Property Name="ID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Disbursed" Type="tinyint" />
+          <Property Name="AllItemsRetrieved" Type="tinyint" />
         </EntityType>
         <EntityType Name="StockRetrievalReqForm">
           <Key>
@@ -1906,8 +1907,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SSISdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2252,6 +2252,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Stock__361203C5" FromRole="StockRetrievalHeader" ToRole="DisbursementHeader" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetails" />
           <NavigationProperty Name="StockRetrievalReqForms" Relationship="Self.FK__StockRetr__Stock__68D28DBC" FromRole="StockRetrievalHeader" ToRole="StockRetrievalReqForm" />
+          <Property Name="AllItemsRetrieved" Type="Byte" />
         </EntityType>
         <EntityType Name="StockRetrievalReqForm">
           <Key>
@@ -3827,6 +3828,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <EntitySetMapping Name="StockRetrievalHeaders">
             <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalHeader">
               <MappingFragment StoreEntitySet="StockRetrievalHeader">
+                <ScalarProperty Name="AllItemsRetrieved" ColumnName="AllItemsRetrieved" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Disbursed" ColumnName="Disbursed" />

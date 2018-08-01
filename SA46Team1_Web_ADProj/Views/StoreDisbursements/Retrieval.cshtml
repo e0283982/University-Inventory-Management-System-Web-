@@ -51,7 +51,12 @@
                                 'data': null,
                                 'render': function (data, type, row) {
 
-                                    return '<input id="selectall" type="checkbox"/>';
+                                    if (data["Collected"] == 0) {
+                                        return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox"/>';
+                                    } else {
+                                        return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox" checked/>';
+                                    }
+                                    
                                 }
                             }
                         ],
@@ -118,6 +123,28 @@
         $('#dialog-adjust-retrieval').dialog('open');
         return false;
     }
+
+    function myCollectedFunction(param1, param2) {
+
+        //alert(param1 + param2);
+
+        $.ajax({
+            url: '/StoreDisbursements/UpdateItemCollection',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: false,
+            data: JSON.stringify({ bin: param1, collectionPointDescription: param2})
+        });
+
+        window.location.href = '@Url.Action("Disbursements", "Store")';
+
+        return false;
+    }
+
+
+
+
 </script>
 
 <div>
@@ -134,7 +161,7 @@
             <th>Items to Retrieve</th>
             <th>Collection Point</th>
             <th>Damaged/Missing items</th>
-            <th></th>
+            <th>Collected</th>
         </tr>
     </thead>
 

@@ -330,6 +330,35 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Disbursements", "Store");
         }
 
+        [HttpPost]
+        public RedirectToRouteResult UpdateItemCollection(int bin, string collectionPointDescription)
+        {
+            string retId = (String) Session["RetrievalId"];
+
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                string collectionPointId = m.CollectionPoints.Where(x => x.CollectionPointDescription == collectionPointDescription).Select(x => x.CollectionPointID).FirstOrDefault();
+
+                StockRetrievalDetail stockRetrievalDetail = m.StockRetrievalDetails.Where(x => x.Id == retId && x.Bin == bin && x.CollectionPointID == collectionPointId).FirstOrDefault();
+
+                if(stockRetrievalDetail.Collected == 0)
+                {
+                    stockRetrievalDetail.Collected = 1;
+                }
+                else
+                {
+                    stockRetrievalDetail.Collected = 0;
+                }
+
+                m.SaveChanges();
+            }
+
+
+            return RedirectToAction("Disbursements", "Store");
+        }
+
 
 
     }
