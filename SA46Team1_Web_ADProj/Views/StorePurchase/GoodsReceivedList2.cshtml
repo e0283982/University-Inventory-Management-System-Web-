@@ -98,7 +98,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div>
             <label style="font-size: 10pt;">Goods Receipt Number:&nbsp;</label><label id="lbl-gr-grId">@Session["grId"]</label>
         </div>
@@ -107,19 +107,15 @@
         </div>
         <div>
             <label style="font-size: 10pt;">Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-companyName" style="font-size: 10pt;" />
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Created By:&nbsp;</label><label id="lbl-emp" style="font-size: 10pt;" />
-        </div>
+        </div>     
     </div>
-    <div class="col-md-6">
-        <div style="float:right;">
-            <div style="font-size: 10pt;">
-                <p>Remarks:</p>
-                <textarea id="ta-remarks" rows="3" cols="50" disabled></textarea>
+    <div class="col-md-3">
+        <div>
+            <div>
+                <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-companyName" style="font-size: 10pt;" />
+            </div>
+            <div>
+                <label style="font-size: 10pt;">Created By:&nbsp;</label><label id="lbl-emp" style="font-size: 10pt;" />
             </div>
         </div>
     </div>
@@ -142,18 +138,28 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-<br />
-
-<div>
-    <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label><strong><label id="lbl-gross-total" style="font-size: 12pt;" /></strong>
-    <label style="font-size: 12pt;">&nbsp;GST ($):&nbsp;</label><strong><label id="lbl-gst" style="font-size: 12pt;" /></strong>
-    <label style="font-size: 12pt;">&nbsp;Net Total ($):&nbsp;</label><strong><label id="lbl-net-total" style="font-size: 12pt;" /></strong>
+<div class="row">
+    <div class="col-md-6">
+        <hr />
+        <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><strong><label id="lbl-gross-total" style="font-size: 10pt;" /></strong>
+        <br />
+        <label style="font-size: 10pt;">GST ($):&nbsp;</label><strong><label id="lbl-gst" style="font-size: 10pt;" /></strong>
+        <br />
+        <label style="font-size: 10pt;">Net Total ($):&nbsp;</label><strong><label id="lbl-net-total" style="font-size: 10pt;" /></strong>
+    </div>
+    <div class="col-md-6">
+        <div style="float:right;">
+            <div style="font-size: 10pt;">
+                <p>Remarks:</p>
+                <textarea id="ta-remarks" rows="3" cols="50" disabled></textarea>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 <div class="row">
     <div class="col-md-12">
-        <div style="float: right;">
+        <div>
             <div id="details-back-btn">
 
                 @using (Html.BeginForm("BackToGRList", "StorePurchase", FormMethod.Post))
@@ -161,7 +167,6 @@
                     <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
                 }
             </div>
-
         </div>
     </div>
 </div>
