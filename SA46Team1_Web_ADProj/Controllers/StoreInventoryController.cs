@@ -182,7 +182,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
                 Session["newPOList"] = new List<PODetail>();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 TempData["ErrorMsg"] = "Please key in a valid quantity";
             }
