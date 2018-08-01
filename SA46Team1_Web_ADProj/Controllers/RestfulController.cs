@@ -921,6 +921,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     if (completedStaffRequisition)
                     {
                         staffRequisitionHeader.Status = "Completed";
+                    }
+                    else
+                    {
+                        staffRequisitionHeader.Status = "Outstanding";
                     }                    
 
                 }                
