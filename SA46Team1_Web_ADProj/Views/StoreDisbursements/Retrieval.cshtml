@@ -130,9 +130,15 @@
     function myFunction(param1, param2) {
         $('#assign-stock-req-id').val(param1);
         $('#assign-item-description').val(param2);
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-adjust-retrieval').dialog('open');
         return false;
     }
+
+    $("#dialog-adjust-retrieval").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-adjust-retrieval').dialog('close');
+    });
 
     function myCollectedFunction(param1, param2) {
 
