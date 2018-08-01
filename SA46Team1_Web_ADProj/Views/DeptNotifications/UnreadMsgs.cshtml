@@ -18,7 +18,6 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
@@ -55,6 +54,7 @@
                                      $.ajax({
                                          url: '/DeptApproval/Approval',
                                          type: 'POST',
+                                         async: false
                                      });
 
                                      window.location.href = '@Url.Action("Approval", "Dept")';
@@ -64,6 +64,7 @@
                                      url: '/DeptNotifications/MsgClicked',
                                      data: { reqFormId: data["FormID"] },
                                      type: 'POST',
+                                     async: false
                                  });
 
                                 window.location.href = '@Url.Action("RequisitionHistory", "Dept")';

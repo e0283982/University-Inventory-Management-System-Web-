@@ -18,7 +18,6 @@
                     sort: true,
                     searching: false,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
@@ -44,6 +43,7 @@
         $.ajax({
             url: '/DeptApproval/Approve',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -65,6 +65,7 @@
         $.ajax({
             url: '/DeptApproval/Reject',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -166,9 +167,3 @@
         </div>
     </div>
 </div>
-
-@*<style>
-    #btns-grp-btm {
-        margin-right: 10vw;
-    }
-</style>*@
