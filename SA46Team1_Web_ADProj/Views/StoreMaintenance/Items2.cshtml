@@ -189,7 +189,12 @@
                 suppliers.push(supplier1);
                 suppliers.push(supplier2);
                 suppliers.push(supplier3);
-                status.push(active);
+
+                if (active != null) {
+                    status.push(active);
+                } else {
+
+                }
             }
             
             $.ajax({

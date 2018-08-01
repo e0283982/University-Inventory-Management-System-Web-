@@ -137,14 +137,18 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string itemCode = Session["MaintenanceItemCode"].ToString();
                 Item item = e.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
                 DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
-                if (status[0].ToLower() == "true")
+                if (status!=null)
                 {
-                    item.Active = 1;
+                    if (status[0].ToLower() == "true")
+                    {
+                        item.Active = 1;
+                    }
+                    else
+                    {
+                        item.Active = 0;
+                    }
                 }
-                else
-                {
-                    item.Active = 0;
-                }
+
                 item.Description = desc[0];
                 item.Supplier1 = suppliers[0];
                 item.Supplier2 = suppliers[1];
