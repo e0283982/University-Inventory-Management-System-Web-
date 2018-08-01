@@ -71,112 +71,122 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
         {
-            int enteredQty = 0;
-            if (arr1 != null)
+            try
             {
-                for (int i = 0; i < arr1.Length; i++)
+                int enteredQty = 0;
+                if (arr1 != null)
                 {
-                    enteredQty += Convert.ToInt32(arr1[i]);
+                    for (int i = 0; i < arr1.Length; i++)
+                    {
+                        enteredQty += Convert.ToInt32(arr1[i]);
+                    }
                 }
-            }
 
 
-            if (enteredQty > 0)
-            {
-                List<ReorderList> poDetailsList = (List<ReorderList>)Session["ReorderList"];
-                List<Supplier> supplierList = new List<Supplier>();
-                List<Item> itemAdded = new List<Item>();
-                using (SSISdbEntities m = new SSISdbEntities())
+                if (enteredQty > 0)
                 {
-                    // Checking for number of suppliers to Iterate & later used for creating no. of PO
-                    for (int i = 0; i < arrSupplier.Length; i++)
+                    List<ReorderList> poDetailsList = (List<ReorderList>)Session["ReorderList"];
+                    List<Supplier> supplierList = new List<Supplier>();
+                    List<Item> itemAdded = new List<Item>();
+                    using (SSISdbEntities m = new SSISdbEntities())
                     {
-                        string supCode = arrSupplier[i];
-                        Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supCode).FirstOrDefault();
-                        if (!supplierList.Contains(supplier))
+                        // Checking for number of suppliers to Iterate & later used for creating no. of PO
+                        for (int i = 0; i < arrSupplier.Length; i++)
                         {
-                            supplierList.Add(supplier);
-                        }
-                    }
-
-                    // Change Item Supplier in PODetails for retrieving in list and adding into database later
-                    foreach (ReorderList p in poDetailsList)
-                    {
-                        if (arr2.Contains(p.Description)) {
-                            int index = arr2.ToList().FindIndex(x=>x == p.Description);
-                            string coy = arrSupplier[index];
-                            Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
-                            p.s1 = sup.CompanyName;
-                        }
-                        
-                    }
-
-                    // Each Supplier iterates once such that only 1 PO is created for each of them
-                    foreach (Supplier s in supplierList)
-                    {
-                        // Create new PO based on supplier
-                        int count = m.POHeaders.Count() + 1;
-                        string poId = CommonLogic.SerialNo(count, "PO");
-
-                        POHeader newPOHeader = new POHeader();
-                        newPOHeader.PONumber = poId;
-                        newPOHeader.Date = DateTime.Now;
-                        newPOHeader.SupplierCode = s.SupplierCode;
-                        newPOHeader.ContactName = s.ContactName;
-                        newPOHeader.DeliverTo = "Logic University";
-                        newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
-                        // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
-                        newPOHeader.Remarks = "";
-                        // ------------------------------------------------------------------------------------------------------------------------------------//
-
-                        newPOHeader.Status = "Open";
-                        newPOHeader.TransactionType = "PO";
-                        m.POHeaders.Add(newPOHeader);
-                        m.SaveChanges();
-
-                        // Loop through PODetails to add items based on selected supplier suppliers
-                        foreach (ReorderList pod in poDetailsList)
-                        {
-                            // Only add if the item is belonging to the supplier / PO
-                            string supName = pod.s1;
-                            Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
-                            if (supplier == s)
+                            string supCode = arrSupplier[i];
+                            Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supCode).FirstOrDefault();
+                            if (!supplierList.Contains(supplier))
                             {
-                                // Only add if the item has not been added
-                                Item i = m.Items.Where(x => x.ItemCode == pod.ItemCode).FirstOrDefault();
-                                if (!itemAdded.Contains(i))
+                                supplierList.Add(supplier);
+                            }
+                        }
+
+                        // Change Item Supplier in PODetails for retrieving in list and adding into database later
+                        foreach (ReorderList p in poDetailsList)
+                        {
+                            if (arr2.Contains(p.Description))
+                            {
+                                int index = arr2.ToList().FindIndex(x => x == p.Description);
+                                string coy = arrSupplier[index];
+                                Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
+                                p.s1 = sup.CompanyName;
+                            }
+
+                        }
+
+                        // Each Supplier iterates once such that only 1 PO is created for each of them
+                        foreach (Supplier s in supplierList)
+                        {
+                            // Create new PO based on supplier
+                            int count = m.POHeaders.Count() + 1;
+                            string poId = CommonLogic.SerialNo(count, "PO");
+
+                            POHeader newPOHeader = new POHeader();
+                            newPOHeader.PONumber = poId;
+                            newPOHeader.Date = DateTime.Now;
+                            newPOHeader.SupplierCode = s.SupplierCode;
+                            newPOHeader.ContactName = s.ContactName;
+                            newPOHeader.DeliverTo = "Logic University";
+                            newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
+                            // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
+                            newPOHeader.Remarks = "";
+                            // ------------------------------------------------------------------------------------------------------------------------------------//
+
+                            newPOHeader.Status = "Open";
+                            newPOHeader.TransactionType = "PO";
+                            m.POHeaders.Add(newPOHeader);
+                            m.SaveChanges();
+
+                            // Loop through PODetails to add items based on selected supplier suppliers
+                            foreach (ReorderList pod in poDetailsList)
+                            {
+                                // Only add if the item is belonging to the supplier / PO
+                                string supName = pod.s1;
+                                Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
+                                if (supplier == s)
                                 {
-                                    PODetail poDetailToAdd = new PODetail();
-                                    float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
-                                        && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
-                                    poDetailToAdd.PONumber = poId;
-                                    poDetailToAdd.ItemCode = pod.ItemCode;
+                                    // Only add if the item has not been added
+                                    Item i = m.Items.Where(x => x.ItemCode == pod.ItemCode).FirstOrDefault();
+                                    if (!itemAdded.Contains(i))
+                                    {
+                                        PODetail poDetailToAdd = new PODetail();
+                                        float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
+                                            && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
+                                        poDetailToAdd.PONumber = poId;
+                                        poDetailToAdd.ItemCode = pod.ItemCode;
 
-                                    int index = arr2.ToList().FindIndex(x => x == pod.Description);
-                                    if (index != -1) {
-                                        int qty = Convert.ToInt32(arr1[index]);
-                                        poDetailToAdd.QuantityOrdered = qty;
-                                        poDetailToAdd.QuantityBackOrdered = qty;
-                                        poDetailToAdd.QuantityDelivered = 0;
-                                        poDetailToAdd.UnitCost = itemUnitPrice;
-                                        poDetailToAdd.CancelledBackOrdered = 0;
-                                        m.PODetails.Add(poDetailToAdd);
+                                        int index = arr2.ToList().FindIndex(x => x == pod.Description);
+                                        if (index != -1)
+                                        {
+                                            int qty = Convert.ToInt32(arr1[index]);
+                                            poDetailToAdd.QuantityOrdered = qty;
+                                            poDetailToAdd.QuantityBackOrdered = qty;
+                                            poDetailToAdd.QuantityDelivered = 0;
+                                            poDetailToAdd.UnitCost = itemUnitPrice;
+                                            poDetailToAdd.CancelledBackOrdered = 0;
+                                            m.PODetails.Add(poDetailToAdd);
+                                        }
+
+
+                                        m.SaveChanges();
+                                        itemAdded.Add(i);
                                     }
-
-                                    
-                                    m.SaveChanges();
-                                    itemAdded.Add(i);
                                 }
                             }
                         }
                     }
                 }
+                else
+                {
+                    TempData["ErrorMsg"] = "You have not included any quantity";
+                }
+                Session["newPOList"] = new List<PODetail>();
             }
-            else
+            catch (Exception)
             {
-                // Error message
+                TempData["ErrorMsg"] = "Please key in a valid quantity";
             }
-            Session["newPOList"] = new List<PODetail>();
+            
 
             return RedirectToAction("Inventory", "Store");
         }

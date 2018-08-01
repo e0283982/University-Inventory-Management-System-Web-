@@ -30,7 +30,7 @@
                         {
                             'data': 'QuantityAdjusted',
                             "render": function (data, type, full, meta) {
-                                return '<input id="input-qc' + i++ + '" type="text" value="' + $('<div/>').text(data).html() + '">';
+                                return '<input id="input-qc' + i++ + '" type="text" min="1" pattern="[0-9]" step="1"  value="' + $('<div/>').text(data).html() + '">';
                             }
                         },
                         { 'data': 'UoM' }

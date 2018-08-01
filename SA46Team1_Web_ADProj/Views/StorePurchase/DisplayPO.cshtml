@@ -168,7 +168,6 @@
         });
 
         window.location.href = '@Url.Action("Purchase", "Store")';
-        return false;
     });
 
 
@@ -385,19 +384,19 @@
                 <th style="font-size: 10pt;">@item.ItemCode</th>
                 <th style="font-size: 10pt;">@item.Description</th>
                 <th style="font-size: 10pt;">
-                    <input id="input-qty-ordered" class="inputEditOrd" type="number" value="@item.QuantityOrdered" disabled />
+                    <input id="input-qty-ordered" class="inputEditOrd" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityOrdered" disabled />
                 </th>
                 <th style="font-size: 10pt;">
-                    <input id="input-qty-delivered" class="inputEditDel" type="number" value="@item.QuantityDelivered" disabled />
+                    <input id="input-qty-delivered" class="inputEditDel" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityDelivered" disabled />
                 </th>
                 <th>
                     @if (item.QuantityOrdered - item.QuantityDelivered == 0)
                     {
-                        <input id="input-qty-received" class="inputEditRec" type="number" value="0" disabled />
+                        <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" disabled />
                     }
                     else
                     {
-                        <input id="input-qty-received" class="inputEditRec" type="number" value="0" />
+                        <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" />
                     }
 
                 </th>
@@ -413,9 +412,9 @@
 <div>
     <div style="float:left;">
         <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label>
-        <br/>
+        <br />
         <label style="font-size: 12pt;">GST ($):&nbsp;</label>
-        <br/>
+        <br />
         <label style="font-size: 12pt;">Net Total ($):&nbsp;</label>
     </div>
     <div style="float:left">
@@ -431,18 +430,20 @@
 <br />
 <br />
 <br />
-<div class="row">
-    <div class="col-md-12">
-        <div>
-            <span>
-                @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
-                {
+@using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <span>
+
                     <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                }
-            </span>
+
+                </span>
+            </div>
         </div>
     </div>
-</div>
+}
 
 <div class="row">
     <div class="col-md-11">
@@ -458,7 +459,7 @@
             {
                 <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Receipt</button>
             }
-
+            @TempData["ErrorMsg"]
 
             <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
                 <p>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</p>
