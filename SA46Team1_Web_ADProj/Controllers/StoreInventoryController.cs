@@ -15,7 +15,7 @@ namespace SA46Team1_Web_ADProj.Controllers
     {
         /************Action methods belonging to Store Inventory - Inventory*******************/
 
-        [CustomAuthorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         [Route("Overview")]
         public ActionResult Overview()
         {
@@ -32,7 +32,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
-        [CustomAuthorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         [HttpPost]
         public ActionResult DisplayItemDetails(string maintenanceItemCode)
         {
@@ -41,7 +41,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return View("Overview2");
         }
-        [CustomAuthorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         [HttpPost]
         public RedirectToRouteResult BackToInventoryOverviewList()
         {
@@ -52,7 +52,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         /************Action methods belonging to Store Inventory - Reorder *******************/
 
-        [CustomAuthorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         [Route("Reorder")]
         public ActionResult Reorder()
         {
@@ -67,7 +67,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
-        [CustomAuthorize(Roles = "Store Clerk")]
+        [CustomAuthorize(Roles = "Store Clerk, Store Manager, Store Supervisor")]
         [HttpPost]
         public RedirectToRouteResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
         {
