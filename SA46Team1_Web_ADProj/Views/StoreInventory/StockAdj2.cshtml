@@ -297,20 +297,33 @@
         }
     </div>
 
-    <div id="dialog-confirm-submit-new-adj" class="hidden" title="Confirm Submission (New Adjustment)">
-        <h6>Are you sure you want to submit the adjustment?</h6>
-        <div>
-            <span>
-                <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
-            </span>
-
-            <span>
-                <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
-            </span>
+    <div id="dialog-confirm-submit-new-adj" class="hidden" @*title="Confirm Submission (New Adjustment)"*@>
+        <br />
+        <div style="text-align:center;">
+            <h5>Confirm Submission</h5>
+        </div>
+        <hr />
+        <div style="text-align:center;">
+            <h6>Are you sure you want to submit the adjustment?</h6>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div style="float:right;">
+                    <span>
+                        <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <span>
+                    <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+                </span>
+            </div>        
         </div>
     </div>
 
-    <div id="dialog-new-adj-submited" class="hidden" title="New Adjustment submitted">
+    <div id="dialog-new-adj-submited" class="hidden" @*title="New Adjustment submitted"*@>
         <hr />
         <div style="text-align:center;">
             <h5>New adjustment request has been submitted for approval.</h5>
@@ -319,7 +332,11 @@
     </div>
 
 
-    <div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
-        <h5>There are no items to edit.</h5>
+    <div id="dialog-new-req-edit-no-item" class="hidden" @*title="No Item to edit"*@>
+        <hr />
+        <div style="text-align:center;">
+            <h5>There are no items to edit.</h5>
+        </div>
+        <br />
     </div>
 </div>
