@@ -59,9 +59,10 @@
                 },
                 columnDefs: [
                     {
-                        //"targets": [0],
-                        //"visible": false,
-                        //"searchable": false
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }, {
                         className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7]
                     }
                 ],
@@ -69,7 +70,6 @@
         }
         });
     });
-
 
     $(function () {
         $("#dialog-add-new-item").dialog({
@@ -80,7 +80,13 @@
     });
 
     $('#btn-add-new-item').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-add-new-item').dialog('open');
+    });
+
+    $("#dialog-add-new-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-add-new-item').dialog('close');
     });
 
     $(function () {
@@ -93,7 +99,13 @@
 
     $('#btn-submit-add-item').on('click', function () {
         $('#dialog-add-new-item').dialog('close');
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-submit-add-item').dialog('open');
+    });
+
+    $("#dialog-submit-add-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-submit-add-item').dialog('close');
     });
 
 </script>

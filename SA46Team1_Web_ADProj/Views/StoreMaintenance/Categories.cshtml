@@ -54,9 +54,10 @@
                 },
                 columnDefs: [
                     {
-                        //"targets": [0],
-                        //"visible": false,
-                        //"searchable": false
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false                       
+                    }, {
                         className: 'text-center', targets: [0, 1, 2]
                     }
                 ]
@@ -74,7 +75,13 @@
     });
 
     $('#btn-add-new-category').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-add-new-category').dialog('open');
+    });
+
+    $("#dialog-add-new-category").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-add-new-category').dialog('close');
     });
 
     $(function () {
@@ -85,9 +92,15 @@
         });
     });
 
-    $('#btn-submit-add-category').on('click', function () {
+    $('#btn-submit-add-category').on('click', function () {    
         $('#dialog-add-new-category').dialog('close');
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-submit-add-category').dialog('open');
+    });
+
+    $("#dialog-submit-add-category").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-submit-add-category').dialog('close');
     });
 </script>
 
@@ -113,16 +126,19 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button id="btn-add-new-category" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Category</button>
+                <button id="btn-add-new-category" class="btn btn-lu-blue" style="font-size: 10pt;">Add</button>
             </span>
         </div>
     </div>
 </div>
 
-<div id="dialog-add-new-category" class="hidden" title="Add Category (Maintenance)">
+<div id="dialog-add-new-category" class="hidden" @*title="Add Category (Maintenance)"*@>
     @using (Html.BeginForm("AddNewCategory", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-category" }))
     {
         <div>
+            <br />
+            <div style="text-align:center"><h5>Add New Category</h5></div>
+            <hr />
             <div>
                 <label>Category Name: </label>
                 @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
@@ -136,6 +152,10 @@
     }
 </div>
 
-<div id="dialog-submit-add-category" class="hidden" title="Add Category Successful (Maintenance)">
-    <p>New Category has been successfully added.</p>       
+<div id="dialog-submit-add-category" class="hidden" @*title="Add Category Successful (Maintenance)"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>New Category has been successfully added!</h5>
+    </div>
+    <hr />     
 </div>
