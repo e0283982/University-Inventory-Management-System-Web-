@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SSISdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApprovalDelegation">
           <Key>
             <PropertyRef Name="Id" />
@@ -896,6 +896,24 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="QuantityAdjusted" Type="int" Nullable="false" />
           <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SSISdb.dbo.tempview' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tempview">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="UoM" />
+          </Key>
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="POBO" Type="int" />
+          <Property Name="SRBO" Type="int" />
+        </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
           <End Role="Bin" Type="Self.Bin" Multiplicity="*" />
@@ -1742,6 +1760,17 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
     [StockTakeList].[UoM] AS [UoM]
     FROM [dbo].[StockTakeList] AS [StockTakeList]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="tempview" EntityType="Self.tempview" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tempview].[ItemCode] AS [ItemCode], 
+    [tempview].[Description] AS [Description], 
+    [tempview].[CategoryName] AS [CategoryName], 
+    [tempview].[Quantity] AS [Quantity], 
+    [tempview].[UoM] AS [UoM], 
+    [tempview].[POBO] AS [POBO], 
+    [tempview].[SRBO] AS [SRBO]
+    FROM [dbo].[tempview] AS [tempview]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
             <End Role="Item" EntitySet="Item" />
             <End Role="Bin" EntitySet="Bin" />
@@ -1907,7 +1936,8 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
             <End Role="SupplierPriceList" EntitySet="SupplierPriceList" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SSISdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2249,10 +2279,10 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="ID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Disbursed" Type="Byte" />
+          <Property Name="AllItemsRetrieved" Type="Byte" />
           <NavigationProperty Name="DisbursementHeaders" Relationship="Self.FK__Disbursem__Stock__361203C5" FromRole="StockRetrievalHeader" ToRole="DisbursementHeader" />
           <NavigationProperty Name="StockRetrievalDetails" Relationship="Self.FK__StockRetriev__Id__339FAB6E" FromRole="StockRetrievalHeader" ToRole="StockRetrievalDetails" />
           <NavigationProperty Name="StockRetrievalReqForms" Relationship="Self.FK__StockRetr__Stock__68D28DBC" FromRole="StockRetrievalHeader" ToRole="StockRetrievalReqForm" />
-          <Property Name="AllItemsRetrieved" Type="Byte" />
         </EntityType>
         <EntityType Name="StockRetrievalReqForm">
           <Key>
@@ -2828,6 +2858,22 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <Property Name="QuantityAdjusted" Type="Int32" Nullable="false" />
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <EntityType Name="tempview">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="UoM" />
+          </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="POBO" Type="Int32" />
+          <Property Name="SRBO" Type="Int32" />
+        </EntityType>
         <Association Name="FK__Bin__ItemCode__6E01572D">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
           <End Role="Bin" Type="Self.Bin" Multiplicity="*" />
@@ -3377,6 +3423,7 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <EntitySet Name="StockAdjustmentOverviews" EntityType="Self.StockAdjustmentOverview" />
           <EntitySet Name="StockRetrievalLists" EntityType="Self.StockRetrievalList" />
           <EntitySet Name="StockTakeLists" EntityType="Self.StockTakeList" />
+          <EntitySet Name="tempviews" EntityType="Self.tempview" />
           <AssociationSet Name="FK__Bin__ItemCode__6E01572D" Association="Self.FK__Bin__ItemCode__6E01572D">
             <End Role="Item" EntitySet="Items" />
             <End Role="Bin" EntitySet="Bins" />
@@ -3828,10 +3875,10 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
           <EntitySetMapping Name="StockRetrievalHeaders">
             <EntityTypeMapping TypeName="SSISdbModel.StockRetrievalHeader">
               <MappingFragment StoreEntitySet="StockRetrievalHeader">
-                <ScalarProperty Name="AllItemsRetrieved" ColumnName="AllItemsRetrieved" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Disbursed" ColumnName="Disbursed" />
+                <ScalarProperty Name="AllItemsRetrieved" ColumnName="AllItemsRetrieved" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4268,6 +4315,19 @@ warning 6002: The table/view 'SSISdb.dbo.StockTakeList' does not have a primary 
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="QuantityAdjusted" ColumnName="QuantityAdjusted" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tempviews">
+            <EntityTypeMapping TypeName="SSISdbModel.tempview">
+              <MappingFragment StoreEntitySet="tempview">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UoM" ColumnName="UoM" />
+                <ScalarProperty Name="POBO" ColumnName="POBO" />
+                <ScalarProperty Name="SRBO" ColumnName="SRBO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
