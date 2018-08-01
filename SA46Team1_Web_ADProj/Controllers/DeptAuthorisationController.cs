@@ -26,7 +26,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
         [CustomAuthorize(Roles = "Department Head")]
-        [HttpPost]
+        //[HttpPost]
         [Route("RoleDelegation/SubmitNewDelegation")]
         public RedirectToRouteResult SubmitNewDelegation(ApprovalDelegation item1, Employee item2)
         {

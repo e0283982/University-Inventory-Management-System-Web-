@@ -36,6 +36,7 @@ namespace SA46Team1_Web_ADProj
             //Session["UserId"] = "E4";
             Session["access-token"] = "test";
             Session["NoUnreadRequests"] = 0;
+            Session["NoUnreadRequestsEmployee"] = 0;
 
             //Session variable for PO
             Session["newPOList"] = new List<Models.POFullDetail>();
