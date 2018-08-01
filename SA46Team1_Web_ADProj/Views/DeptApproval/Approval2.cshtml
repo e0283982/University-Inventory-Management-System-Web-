@@ -48,6 +48,7 @@
 
         table.draw(false);
 
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-approve-req-form').dialog('open');
         window.location.href = '@Url.Action("Approval", "Dept")';
 
@@ -68,11 +69,23 @@
 
         table.draw(false);
 
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-reject-req-form').dialog('open');
         window.location.href = '@Url.Action("Approval", "Dept")';
 
         return false;
     });
+
+    $("#dialog-reject-req-form").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-reject-req-form').dialog('close');
+    });
+
+    $("#dialog-approve-req-form").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-approve-req-form').dialog('close');
+    });
+
 </script>
 
 <div>
@@ -98,37 +111,61 @@
     </tbody>
 </table>
 
-<div>
-    <p>Requested By: @TempData["RequisitionRequstor"]  </p>
-    <p>Requested Date:  @TempData["RequisitionDateReq"]  </p>
-</div>
+<hr />
 
-<div>
-    <p>Remarks:</p>
-    <textarea rows="4" cols="50">
-    </textarea>
-</div>
-
-<div id="btns-grp-btm" style="font-size: 10pt;">
-    <button class="btn-lu-red" id="btn-reject-req-form">Reject</button>
-    <div id="dialog-reject-req-form" class="hidden" title="Reject Requisition">
-        <p>The displayed Stationary request has been rejected.</p>
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <p>Requested By: @TempData["RequisitionRequstor"]</p>
+            <p>Requested Date:  @TempData["RequisitionDateReq"]</p>
+        </div>
     </div>
-
-    <button class="btn-lu-green" id="btn-approve-req-form">Approve</button>
-    <div id="dialog-approve-req-form" class="hidden" title="Approve Requisition">
-        <p>The displayed Stationary request has been approved.</p>
+    <div class="col-md-6">
+        <div style="float:right;">
+            <div>
+                <p>Remarks:</p>
+                <textarea rows="4" cols="50"></textarea>
+            </div>
+        </div>
     </div>
 </div>
 
-<div id="details-back-btn" style="font-size: 10pt;">
+@*<div id="btns-grp-btm" style="font-size: 10pt;">
+    
+</div>*@
 
-    @using (Html.BeginForm("BackToApprovalList", "DeptApproval", FormMethod.Post))
-    {
-        <input class="btn-lu-blue" type="submit" value="Back" />
-    }
+<div class="row">
+    <div class="col-md-6">
+        <div id="details-back-btn" style="font-size: 10pt;">
+
+            @using (Html.BeginForm("BackToApprovalList", "DeptApproval", FormMethod.Post))
+            {
+                <input class="btn btn-lu-blue" type="submit" value="Back" />
+            }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div style="float:right">
+            <button class="btn btn-lu-red" id="btn-reject-req-form">Reject</button>
+            <div id="dialog-reject-req-form" class="hidden" @*title="Reject Requisition"*@>
+                <br />
+                <div style="text-align:center;">
+                    <h5>The displayed Stationary request has been rejected.</h5>
+                </div>
+                <hr />
+            </div>
+
+            <button class="btn btn-lu-green" id="btn-approve-req-form">Approve</button>
+            <div id="dialog-approve-req-form" class="hidden" @*title="Approve Requisition"*@>
+                <br />
+                <div style="text-align:center;">
+                    <h5>The displayed Stationary request has been approved.</h5>
+                </div>             
+                <hr />
+            </div>
+        </div>
+    </div>
 </div>
-
 
 @*<style>
     #btns-grp-btm {

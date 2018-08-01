@@ -1,7 +1,6 @@
 ﻿@{
     Layout = null;
     List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
-    //List<int> rowIndexes = (List<int>)TempData["RowIndexesToDiscard"];
     bool editMode = (bool)Session["newAdjEditMode"];
 }
 
@@ -21,7 +20,6 @@
             $("#btn-clear-items").prop('disabled', false);
         }
 
-
         table = $('#dataTable-new-adj').DataTable({
             scrollY: 200,
             "iDisplayLength": 5,
@@ -29,16 +27,18 @@
             scrollCollapse: false,
             ordering: true,
             paging: true,
-            "columnDefs": [
+            columnDefs: [
                 {
                     "targets": [0],
                     "visible": false,
                     "searchable": false
-                }
+                    
+                }, {
+                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5],
+                }     
             ]
         });
     });
-
 
     $(function () {
         $("#dialog-add-adj-item").dialog({
@@ -52,9 +52,14 @@
     });
 
     $('#btn-add-adj-item').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-add-adj-item').dialog('open');
     });
 
+    $("#dialog-add-adj-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-add-adj-item').dialog('close');
+    });
 
     $(function () {
         $("#dialog-new-req-edit-no-item").dialog({
@@ -90,6 +95,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -109,6 +115,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -117,20 +124,29 @@
     });
 
     //form sub btn click
-     $('#btn-submit-new-adj').on('click', function () {
+    $('#btn-submit-new-adj').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-confirm-submit-new-adj').dialog('open');
     });
 
+    $("#dialog-confirm-submit-new-adj").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-confirm-submit-new-adj').dialog('close');
+    });
+
     $('#btn-confirm-submit-cancel').on('click', function () {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-submit-new-adj').dialog('close');
     });
    
     $('#btn-confirm-submit-submit').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-new-adj-submited').dialog('open');
 
         $.ajax({
             url: '/StoreInventory/SubmitNewAdj',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -139,10 +155,16 @@
 
     });
 
+    $("#dialog-new-adj-submited").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-new-adj-submited').dialog('close');
+    });
+
     $('#btn-back-stock-adj').on('click', function () {
         $.ajax({
             url: '/StoreInventory/BackToStockAdjList',
             type: 'POST',
+            async: false
         });
 
         window.location.href = '@Url.Action("Inventory", "Store")';
@@ -153,6 +175,7 @@
         $.ajax({
             url: '/StoreInventory/ClearNewAdjItems',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -163,21 +186,20 @@
 
 
 <div class="row">
-    <div class="col-md-6" style="padding: -30px;">
+    <div class="col-md-6" @*style="padding: -30px;"*@>
         <h5>Stock Adjustment</h5>
     </div>
     <div class="col-md-6">
-        <span style="float: right; padding-top:35px;">
+        <div style="float: right; padding-top:10px;">
             <span>
                 <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
             </span>
-            <span>
-                @*<button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>*@
-                @*<button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>*@
-            </span>
-        </span>
-    </div>
-    
+            @*<span>
+                <button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>
+                <button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>
+            </span>*@
+        </div>
+    </div>  
 </div>
 
 <br />
@@ -190,7 +212,7 @@
                 <th>Item Description</th>
                 <th>Damaged/Missing</th>
                 <th>Quantity</th>
-                <th>Adjust Cost ($)</th>
+                <th>Adjustment Cost ($)</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -201,10 +223,10 @@
                 <td style="font-size: 10pt;">@item.ItemDesc</td>
                 <td style="font-size: 10pt;">@item.Reason</td>
                 <td>
-                    <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" />
+                    <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" pattern="[0-9]" step="1" />
                 </td>
                 <td>
-                    <input id="input-adj-cost" style="font-size: 10pt;" value="@item.AdjCost.ToString("0.00")" readonly />
+                    <label id="input-adj-cost" style="font-size: 10pt;">@item.AdjCost.ToString("0.00")</label>
                 </td>
                 <td>
                     <span>
@@ -217,17 +239,14 @@
         }
         <tbody style="font-size: 10pt;"></tbody>
     </table>
+
     <hr />
 
     <div class="row">
-        <div class="col-md-12">
-            <div style="float: left;">
-                <span>
-                    <button class="btn btn-lu-blue" id="btn-back-stock-adj" style="font-size: 10pt;">Back</button>
-                </span>
-            </div>
+        <div class="col-md-6">
+            <button class="btn btn-lu-blue" id="btn-back-stock-adj" style="font-size: 10pt;">Back</button>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div style="float: right;">
                 @*<span>
                         <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
@@ -242,10 +261,16 @@
         </div>
     </div>
 
-    <div id="dialog-add-adj-item" class="hidden" title="Add Item (New Adjustment)">
+    <div id="dialog-add-adj-item" class="hidden" @*title="Add Item (New Adjustment)"*@>
         @using (Html.BeginForm("AddNewAdjItem", "StoreInventory", FormMethod.Post, new { id = "form-submit-add-new-adj" }))
         {
             <div>
+                <div style="text-align:center;">
+                    <h5>Add Item</h5>
+                </div>
+
+                <hr />
+
                 <div>
                     <label>Item Description: </label>
                     @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
@@ -272,7 +297,6 @@
         }
     </div>
 
-
     <div id="dialog-confirm-submit-new-adj" class="hidden" title="Confirm Submission (New Adjustment)">
         <h6>Are you sure you want to submit the adjustment?</h6>
         <div>
@@ -287,7 +311,11 @@
     </div>
 
     <div id="dialog-new-adj-submited" class="hidden" title="New Adjustment submitted">
-        <h5>New adjustment request has been submitted for approval.</h5>
+        <hr />
+        <div style="text-align:center;">
+            <h5>New adjustment request has been submitted for approval.</h5>
+        </div>
+        <br />
     </div>
 
 

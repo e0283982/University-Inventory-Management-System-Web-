@@ -4,15 +4,7 @@
 
 <script>
     $(document).ready(function () {
-
-        //$('#dataTable-storeDisbursementReqList-details').DataTable({
-        //    scrollY: '30vh',
-        //    scrollCollapse: true,
-        //    paging: true
-        //});
-
-        //var id = 'SR-1';
-
+        
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRequisitionListDetails/' + '@Session["storeReqFormId"]',
             method: 'get',
@@ -31,7 +23,10 @@
                         { 'data': 'Description' },
                         { 'data': 'QuantityOrdered' },
                         { 'data': 'QuantityDelivered' }
-                    ]
+                    ],
+                    columnDefs: [
+                        { className: 'text-center', targets: [0, 1, 2, 3] },
+                    ],
                 });
 
                 var date = new Date(data[0]["DateProcessed"]);
@@ -41,25 +36,12 @@
                 var newDate = date.getDate() + "/" + month + "/" + date.getFullYear();
 
                 $(function () {
-                    //$('#store-req-det-reqNo').val(data[0]["FormID"]);
-                    //$('#store-req-det-deptName').val(data[0]["DepartmentName"]);
-                    //$('#store-req-det-deptCode').val(data[0]["DepartmentCode"]);
-                    //$('#store-req-det-empName').val(data[0]["EmployeeName"]);
-                    //$('#store-req-det-empNo').val(data[0]["EmployeeID"]);
-
-                    //$('#store-req-det-approverName').val(data[0]["Manager"]);
-                    //$('#store-req-det-approvedDate').val(newDate);
-
+                    
                     var deptName = data[0]["DepartmentName"];
                     var empName = data[0]["EmployeeName"]
                     var approverName = data[0]["Manager"];
                     var approvedDate = newDate;
-
-                    //document.getElementById("deptName").innerHTML = deptName;
-                    //document.getElementById("empName").innerHTML = empName;
-                    //document.getElementById("approverName").innerHTML = approverName;
-                    //document.getElementById("approvedDate").innerHTML = approvedDate;
-
+                    
                     $("#deptName").append(deptName);
                     $("#empName").append(empName);
                     $("#approverName").append(approverName);
@@ -74,26 +56,23 @@
     <h5>Requisition Form # @Session["storeReqFormId"]</h5>
 </div>
 
-<div>
-    @*<label>Department Name: <input type="text" id="store-req-det-deptName" readonly="readonly" style="outline-width: 0;"></label>*@
-    <label style="font-size: 10pt;">Department Name:&nbsp;</label><label id="deptName" style="font-size: 10pt;"/>
-</div>
-
-<div>
-    @*<label>Department Code: <input type="text" id="store-req-det-deptCode" readonly="readonly"></label>*@
-    @*<label>Employee: <input type="text" id="store-req-det-empName" readonly="readonly"></label>*@
-    <label style="font-size: 10pt;">Employee:&nbsp;</label><label id="empName" style="font-size: 10pt;"/>
-    @*<label>Employee Number: <input type="text" id="store-req-det-empNo" readonly="readonly"></label>*@
-</div>
-
-<div>
-    @*<label>Approved By: <input type="text" id="store-req-det-approverName" readonly="readonly"></label>*@
-    <label style="font-size: 10pt;">Approved By:&nbsp;</label><label id="approverName" style="font-size: 10pt;"/>
-</div>
-
-<div>
-    @*<label>Request Date: <input type="text" id="store-req-det-approvedDate" readonly="readonly"></label>*@
-    <label style="font-size: 10pt;">Request Date:&nbsp;</label><label id="approvedDate" style="font-size: 10pt;"/>
+<div class="row">
+    <div class="col-md-3">
+        <div>
+            <label style="font-size: 10pt;">Department Name:&nbsp;</label><label id="deptName" style="font-size: 10pt;" />
+        </div>
+        <div>
+            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label id="approvedDate" style="font-size: 10pt;" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <label style="font-size: 10pt;">Employee:&nbsp;</label><label id="empName" style="font-size: 10pt;" />
+        </div>
+        <div>
+            <label style="font-size: 10pt;">Approved By:&nbsp;</label><label id="approverName" style="font-size: 10pt;" />
+        </div>
+    </div>
 </div>
 
 <table id="dataTable-storeDisbursementReqList-details" class="display" style="width:80%;">
@@ -112,7 +91,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div style="float: right">
+        <div>
             <span>
                 @using (Html.BeginForm("BackToRequisitionsList", "StoreDisbursements", FormMethod.Post))
                 {

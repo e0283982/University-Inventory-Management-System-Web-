@@ -21,7 +21,6 @@
                 sort: true,
                 searching: false,
                 "iDisplayLength": 5,
-                //scrollY: 200,
                 data: data,
                 columns: [
                     {
@@ -54,9 +53,10 @@
                 ],
                 columnDefs: [
                     {
-                        "targets": [0],
-                        "visible": false,
-                        "searchable": false
+                        //"targets": [0],
+                        //"visible": false,
+                        //"searchable": false
+                        className: 'text-center', targets: [0, 1, 2, 3]
                     }
                 ]
             });
@@ -96,6 +96,7 @@
                 url: '/Store/StoreMaintenance/CollectionPoints/EditCollectionPoint',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
+                async: false,
                 data: JSON.stringify({ arr: arr })
             });
 

@@ -100,15 +100,28 @@
         //alert(arr1.length);
         //check if no items are selected
         if (arr1.length == 0) {
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
             $("#dialog-discard-backorder-no-item-selected").dialog('open');
             return;
         } else {
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
             $('#dialog-confirm-discard-backorder-item').dialog('open');
         }
     });
 
     $('#btn-confirm-discard-no').on('click', function () {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-discard-backorder-item').dialog('close');
+    });
+
+    $("#dialog-confirm-discard-backorder-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-confirm-discard-backorder-item').dialog('close');
+    });
+
+    $("#dialog-discard-backorder-no-item-selected").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-discard-backorder-no-item-selected').dialog('close');
     });
 
     $('#btn-confirm-discard-yes').click(function () {
@@ -172,31 +185,47 @@
 <hr />
 
 <div class="row">
-    <span class="col-md-12">
-        
+    <span class="col-md-12">        
             <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;" disabled>
                 Discard Selected Items
-            </button>
-        
+            </button>        
     </span>
 </div>
 
-<div id="dialog-confirm-discard-backorder-item" class="hidden" title="Confirm Discard Selected (BackOrder)">
-    <p>Are you sure you want to cancel the selected back order?</p>
-    <span>
-        <button class="btn btn-lu-red" id="btn-confirm-discard-no" style="font-size: 10pt;">No</button>
-    </span>
-
-    <span>
-        <button class="btn btn-lu-green" id="btn-confirm-discard-yes" style="font-size: 10pt;">Yes</button>
-    </span>
+<div id="dialog-confirm-discard-backorder-item" class="hidden" @*title="Confirm Discard Selected (BackOrder)"*@>
+    <div style="text-align: center;">
+        <h5>Are you sure you want to discard the selected back order?</h5>
+    </div>    
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div style="float:right">
+                <span>
+                    <button class="btn btn-lu-blue" id="btn-confirm-discard-no" style="font-size: 10pt;">No</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span>
+                <button class="btn btn-lu-red" id="btn-confirm-discard-yes" style="font-size: 10pt;">Yes</button>
+            </span>
+        </div>      
+    </div>    
 </div>
 
-<div id="dialog-discard-backorder-item-submitted" class="hidden" title="Backorder Item Discarded">
-    <p>Selected back order has been cancelled.</p>
+<div id="dialog-discard-backorder-item-submitted" class="hidden" @*title="Backorder Item Discarded"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>Selected back order has been cancelled.</h5>
+    </div>   
+    <hr />
 </div>
 
-<div id="dialog-discard-backorder-no-item-selected" class="hidden" title="No Item Selected (BackOrder)">
-    <p>No item was selected for discard.</p>
+<div id="dialog-discard-backorder-no-item-selected" class="hidden" @*title="No Item Selected (BackOrder)"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>No item was selected for discard.</h5>
+    </div>
+    <hr />
 </div>
 

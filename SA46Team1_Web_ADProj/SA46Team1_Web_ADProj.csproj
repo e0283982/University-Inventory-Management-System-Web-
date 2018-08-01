@@ -295,8 +295,6 @@
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AppUserManager.cs" />
-    <Compile Include="Models\FullSupplierPriceList.cs" />
-    <Compile Include="Models\FullBinModel.cs" />
     <Compile Include="Models\Bin.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -336,6 +334,8 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FullSupplierPriceList.cs" />
+    <Compile Include="Models\FullBinModel.cs" />
     <Compile Include="Models\GoodsReceivedList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -485,6 +485,9 @@
     <Compile Include="Models\SupplierPriceList.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tempview.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
@@ -605,6 +608,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\buttons.css" />
     <Content Include="Content\common.css" />
+    <Content Include="Content\dropdowns.css" />
     <Content Include="Content\images\campaign.jpg" />
     <Content Include="Content\images\logic1.png" />
     <Content Include="Content\Login-Form-Clean.css" />

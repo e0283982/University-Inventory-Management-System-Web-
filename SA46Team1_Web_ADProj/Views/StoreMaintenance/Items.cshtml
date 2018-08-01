@@ -23,7 +23,7 @@
                 sort: true,
                 searching: true,
                 "iDisplayLength": 4,
-                //scrollY: 200,
+                scrollY: 230,
                 data: data,
                 columns: [
                     { 'data': 'ItemCode' },
@@ -50,6 +50,7 @@
                             url: '/StoreMaintenance/DisplayItemDetails',
                             data: { maintenanceItemCode: data["ItemCode"] },
                             type: 'POST',
+                            async: false
                         });
 
                         window.location.href = '@Url.Action("Maintenance", "Store")';
@@ -58,11 +59,12 @@
                 },
                 columnDefs: [
                     {
-                        "targets": [0],
-                        "visible": false,
-                        "searchable": false
+                        //"targets": [0],
+                        //"visible": false,
+                        //"searchable": false
+                        className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7]
                     }
-                ]
+                ],
             });
         }
         });

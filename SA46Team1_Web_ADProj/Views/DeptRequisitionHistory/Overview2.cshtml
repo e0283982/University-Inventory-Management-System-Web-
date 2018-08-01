@@ -147,10 +147,17 @@
         passIndex = index;
 
         if (table.rows().data().length == 1) {
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
             $('#dialog-confirm-discard-req-item-error').dialog('open');
         } else {
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
             $('#dialog-confirm-discard-req-item').dialog('open');
         }
+    });
+
+    $("#dialog-confirm-discard-req-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-confirm-discard-req-item').dialog('close');
     });
     
      $('#btn-edit-req-history').on('click', function () {
@@ -166,6 +173,7 @@
     });
     
     $('#btn-confirm-discard-no').on('click', function () {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-discard-req-item').dialog('close');
     });
 
@@ -178,7 +186,8 @@
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
         });
-        
+
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-discard-req-item').dialog('close');
         table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
@@ -201,10 +210,16 @@
 
             if (newOrderQty == "0") {
                 editMode = false;
+                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
                 $("#dialog-edit-req-zero-input-alert").dialog('open');
                 return;
             }
         }
+
+        $("#dialog-edit-req-zero-input-alert").on("dialogclose", function (event, ui) {
+            $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+            $('#dialog-edit-req-zero-input-alert').dialog('close');
+        });
 
         //toggle save/edit btn visibility
         $("#btn-save-req-history").hide();
@@ -222,6 +237,7 @@
             }
         });
 
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $("#dialog-update-req-items-success").dialog('open');
         editMode = false;
         table.draw(false);
@@ -231,6 +247,7 @@
     });
 
     $('#btn-confirm-withdrawal-no').on('click', function () {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-discard-req-item-error').dialog('close');
     });
 
@@ -244,6 +261,7 @@
             type: 'POST',
         });
 
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-discard-req-item').dialog('close');
         table.draw(false);
         $('#dialog-discard-req-item-submitted').dialog('open');
@@ -345,40 +363,79 @@
 </div>
 
 <div id="dialog-edit-req-zero-input-alert" class="hidden" title="New Order Qty cannot be 0 (Edit Requisition)">
-    <h5>Requisition order qty cannot be 0.</h5>
+    <br />
+    <div style="text-align:center;">
+        <h5>Requisition order qty cannot be 0.</h5>
+    </div>
+    <hr />
 </div>
 
 <div id="dialog-confirm-discard-req-item" class="hidden" title="Confirm Discard Selected (Edit Requisition)">
-    <h5>Are you sure you want to cancel the selected request item?</h5>
-    <span>
-        <button class="btn btn-lu-blue" id="btn-confirm-discard-no">No</button>
-    </span>
-    <span>
-        <button class="btn btn-lu-red" id="btn-confirm-discard-yes">Yes</button>
-    </span>
+    <br />
+    <div style="text-align:center;">
+        <h5>Are you sure you want to cancel the selected request item?</h5>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div style="float:right;">
+                <span>
+                    <button class="btn btn-lu-blue" id="btn-confirm-discard-no">No</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span>
+                <button class="btn btn-lu-red" id="btn-confirm-discard-yes">Yes</button>
+            </span>
+        </div>
+    </div> 
 </div>
 
 
 <div id="dialog-update-req-items-success" class="hidden" title="Request Item(s) updated (Edit Requisition)">
-    <h5>Requisition request has been saved.</h5>
+    <br />
+    <div style="text-align:center;">
+        <h5>Requisition request has been saved.</h5>
+    </div>
+    <hr />
 </div>
 
 <div id="dialog-discard-req-item-submitted" class="hidden" title="Item(s) Removed (Edit Requisition)">
-    <h5>Selected request item(s) have been removed.</h5>
+    <br />
+    <div style="text-align:center;">
+        <h5>Selected request item(s) have been removed.</h5>
+    </div>
+    <hr />
 </div>
 
 <div id="dialog-discard-req-no-item-submitted" class="hidden" title="No Item Selected (Edit Requisition)">
-    <h5>No request item is selected for removal.</h5>
+    <br />
+    <div style="text-align:center;">
+        <h5>No request item is selected for removal.</h5>
+    </div>   
+    <hr />
 </div>
 
 <div id="dialog-confirm-discard-req-item-error" class="hidden" title="Request Withdrawal warning (Edit Requisition)">
-    <h5>Are you sure you want to withdraw this request?</h5>
-    <span>
-        <button class="btn btn-lu-blue" id="btn-confirm-withdrawal-no">No</button>
-    </span>
-
-    <span>
-        <button class="btn btn-lu-red" id="btn-confirm-withdrawal-yes">Yes</button>
-    </span>
+    <br />
+    <div style="text-align:center;">
+        <h5>Are you sure you want to withdraw this request?</h5>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div style="float:right">
+                <span>
+                    <button class="btn btn-lu-blue" id="btn-confirm-withdrawal-no">No</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span>
+                <button class="btn btn-lu-red" id="btn-confirm-withdrawal-yes">Yes</button>
+            </span>
+        </div>
+    </div> 
 </div>
 

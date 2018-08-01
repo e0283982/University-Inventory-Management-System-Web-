@@ -11,16 +11,18 @@ namespace SA46Team1_Web_ADProj.Controllers
 {
 
     [RoutePrefix("Store/StoreInventory")]
-    public class StoreInventoryController : Controller
+    public class StoreInventoryController : Controller //Tabs: Inventory, Reorder, Stock adj, Stock take
     {
+        /************Action methods belonging to Store Inventory - Inventory*******************/
 
         [CustomAuthorize(Roles = "Store Clerk")]
         [Route("Overview")]
         public ActionResult Overview()
         {
+            Session["StoreInventoryTabIndex"] = "1";
+
             if (Session["InventoryOverviewPage"].ToString() == "1")
             {
-                Session["StoreInventoryTabIndex"] = "1";
                 return View("Overview");
             }
             else
@@ -43,15 +45,19 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult BackToInventoryOverviewList()
         {
-            Session["StoreInventoryTabIndex"] = "1";
             Session["InventoryOverviewPage"] = "1";
 
             return RedirectToAction("Inventory", "Store");
         }
+
+        /************Action methods belonging to Store Inventory - Reorder *******************/
+
         [CustomAuthorize(Roles = "Store Clerk")]
         [Route("Reorder")]
         public ActionResult Reorder()
         {
+            Session["StoreInventoryTabIndex"] = "2";
+
             List<ReorderList> reorderLists;
             using (SSISdbEntities m = new SSISdbEntities())
             {
@@ -60,117 +66,139 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             return View();
         }
+
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult AddToPO(string[] arr1, string[] arr2, string[] arrSupplier)
         {
-            int enteredQty = 0;
-            for (int i = 0; i < arr1.Length; i++)
+            try
             {
-                enteredQty += Convert.ToInt32(arr1[i]);
-            }
-
-            if (enteredQty > 0)
-            {
-                List<ReorderList> poDetailsList = (List<ReorderList>)Session["ReorderList"];
-                List<Supplier> supplierList = new List<Supplier>();
-                List<Item> itemAdded = new List<Item>();
-                using (SSISdbEntities m = new SSISdbEntities())
+                int enteredQty = 0;
+                if (arr1 != null)
                 {
-                    // Checking for number of suppliers to Iterate & later used for creating no. of PO
-                    for (int i = 0; i < arrSupplier.Length; i++)
+                    for (int i = 0; i < arr1.Length; i++)
                     {
-                        string supCode = arrSupplier[i];
-                        Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supCode).FirstOrDefault();
-                        if (!supplierList.Contains(supplier))
-                        {
-                            supplierList.Add(supplier);
-                        }
+                        enteredQty += Convert.ToInt32(arr1[i]);
                     }
+                }
 
-                    // Change Item Supplier in PODetails for retrieving in list and adding into database later
-                    foreach (ReorderList p in poDetailsList)
+
+                if (enteredQty > 0)
+                {
+                    List<ReorderList> poDetailsList = (List<ReorderList>)Session["ReorderList"];
+                    List<Supplier> supplierList = new List<Supplier>();
+                    List<Item> itemAdded = new List<Item>();
+                    using (SSISdbEntities m = new SSISdbEntities())
                     {
-                        if (arr2.Contains(p.Description)) {
-                            int index = arr2.ToList().FindIndex(x=>x == p.Description);
-                            string coy = arrSupplier[index];
-                            Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
-                            p.s1 = sup.CompanyName;
-                        }
-                        
-                    }
-
-                    // Each Supplier iterates once such that only 1 PO is created for each of them
-                    foreach (Supplier s in supplierList)
-                    {
-                        // Create new PO based on supplier
-                        int count = m.POHeaders.Count() + 1;
-                        string poId = CommonLogic.SerialNo(count, "PO");
-
-                        POHeader newPOHeader = new POHeader();
-                        newPOHeader.PONumber = poId;
-                        newPOHeader.Date = DateTime.Now;
-                        newPOHeader.SupplierCode = s.SupplierCode;
-                        newPOHeader.ContactName = s.ContactName;
-                        newPOHeader.DeliverTo = "Logic University";
-                        newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
-                        // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
-                        newPOHeader.Remarks = "";
-                        // ------------------------------------------------------------------------------------------------------------------------------------//
-
-                        newPOHeader.Status = "Open";
-                        newPOHeader.TransactionType = "PO";
-                        m.POHeaders.Add(newPOHeader);
-                        m.SaveChanges();
-
-                        // Loop through PODetails to add items based on selected supplier suppliers
-                        foreach (ReorderList pod in poDetailsList)
+                        // Checking for number of suppliers to Iterate & later used for creating no. of PO
+                        for (int i = 0; i < arrSupplier.Length; i++)
                         {
-                            // Only add if the item is belonging to the supplier / PO
-                            string supName = pod.s1;
-                            Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
-                            if (supplier == s)
+                            string supCode = arrSupplier[i];
+                            Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supCode).FirstOrDefault();
+                            if (!supplierList.Contains(supplier))
                             {
-                                // Only add if the item has not been added
-                                Item i = m.Items.Where(x => x.ItemCode == pod.ItemCode).FirstOrDefault();
-                                if (!itemAdded.Contains(i))
+                                supplierList.Add(supplier);
+                            }
+                        }
+
+                        // Change Item Supplier in PODetails for retrieving in list and adding into database later
+                        foreach (ReorderList p in poDetailsList)
+                        {
+                            if (arr2.Contains(p.Description))
+                            {
+                                int index = arr2.ToList().FindIndex(x => x == p.Description);
+                                string coy = arrSupplier[index];
+                                Supplier sup = m.Suppliers.Where(x => x.CompanyName == coy).FirstOrDefault();
+                                p.s1 = sup.CompanyName;
+                            }
+
+                        }
+
+                        // Each Supplier iterates once such that only 1 PO is created for each of them
+                        foreach (Supplier s in supplierList)
+                        {
+                            // Create new PO based on supplier
+                            int count = m.POHeaders.Count() + 1;
+                            string poId = CommonLogic.SerialNo(count, "PO");
+
+                            POHeader newPOHeader = new POHeader();
+                            newPOHeader.PONumber = poId;
+                            newPOHeader.Date = DateTime.Now;
+                            newPOHeader.SupplierCode = s.SupplierCode;
+                            newPOHeader.ContactName = s.ContactName;
+                            newPOHeader.DeliverTo = "Logic University";
+                            newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
+                            // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
+                            newPOHeader.Remarks = "";
+                            // ------------------------------------------------------------------------------------------------------------------------------------//
+
+                            newPOHeader.Status = "Open";
+                            newPOHeader.TransactionType = "PO";
+                            m.POHeaders.Add(newPOHeader);
+                            m.SaveChanges();
+
+                            // Loop through PODetails to add items based on selected supplier suppliers
+                            foreach (ReorderList pod in poDetailsList)
+                            {
+                                // Only add if the item is belonging to the supplier / PO
+                                string supName = pod.s1;
+                                Supplier supplier = m.Suppliers.Where(x => x.CompanyName == supName).FirstOrDefault();
+                                if (supplier == s)
                                 {
-                                    PODetail poDetailToAdd = new PODetail();
-                                    float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
-                                        && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
-                                    poDetailToAdd.PONumber = poId;
-                                    poDetailToAdd.ItemCode = pod.ItemCode;
+                                    // Only add if the item has not been added
+                                    Item i = m.Items.Where(x => x.ItemCode == pod.ItemCode).FirstOrDefault();
+                                    if (!itemAdded.Contains(i))
+                                    {
+                                        PODetail poDetailToAdd = new PODetail();
+                                        float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
+                                            && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
+                                        poDetailToAdd.PONumber = poId;
+                                        poDetailToAdd.ItemCode = pod.ItemCode;
 
-                                    int index = arr2.ToList().FindIndex(x => x == pod.Description);
-                                    if (index != -1) {
-                                        int qty = Convert.ToInt32(arr1[index]);
-                                        poDetailToAdd.QuantityOrdered = qty;
-                                        poDetailToAdd.QuantityBackOrdered = qty;
-                                        poDetailToAdd.QuantityDelivered = 0;
-                                        poDetailToAdd.UnitCost = itemUnitPrice;
-                                        poDetailToAdd.CancelledBackOrdered = 0;
-                                        m.PODetails.Add(poDetailToAdd);
+                                        int index = arr2.ToList().FindIndex(x => x == pod.Description);
+                                        if (index != -1)
+                                        {
+                                            int qty = Convert.ToInt32(arr1[index]);
+                                            poDetailToAdd.QuantityOrdered = qty;
+                                            poDetailToAdd.QuantityBackOrdered = qty;
+                                            poDetailToAdd.QuantityDelivered = 0;
+                                            poDetailToAdd.UnitCost = itemUnitPrice;
+                                            poDetailToAdd.CancelledBackOrdered = 0;
+                                            m.PODetails.Add(poDetailToAdd);
+                                        }
+
+
+                                        m.SaveChanges();
+                                        itemAdded.Add(i);
                                     }
-
-                                    
-                                    m.SaveChanges();
-                                    itemAdded.Add(i);
                                 }
                             }
                         }
                     }
                 }
+                else
+                {
+                    TempData["ErrorMsg"] = "You have not included any quantity";
+                }
+                Session["newPOList"] = new List<PODetail>();
             }
-            Session["newPOList"] = new List<PODetail>();
-            Session["StoreInventoryTabIndex"] = "2";
+            catch (Exception)
+            {
+                TempData["ErrorMsg"] = "Please key in a valid quantity";
+            }
+
 
             return RedirectToAction("Inventory", "Store");
         }
+
+        /************Action methods belonging to Store Inventory - Stock Adjustment *******************/
 
         [CustomAuthorize(Roles = "Store Clerk")]
         [Route("StockAdj")]
         public ActionResult StockAdj()
         {
+            Session["StoreInventoryTabIndex"] = "3";
+
             if (Session["StockAdjPage"].ToString() == "1")
             {
                 return View("StockAdj");
@@ -208,9 +236,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
                 }
 
-
-
-
                 Session["StockAdjPage"] = "1";
                 return View("StockAdj2");
 
@@ -220,7 +245,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult BackToStockAdjList()
         {
-            Session["StoreInventoryTabIndex"] = "3";
             Session["StockAdjPage"] = "1";
 
             return RedirectToAction("Inventory", "Store");
@@ -245,7 +269,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 sad.ItemDesc = itemDesc;
                 sad.AdjQty = item.AdjQty;
                 sad.Reason = reason;
-                sad.AdjCost =  (avgUnitCost * item.AdjQty);
+                sad.AdjCost = (avgUnitCost * item.AdjQty);
                 sad.AvgUnitCost = avgUnitCost;
 
                 list.Add(sad);
@@ -255,7 +279,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<String> tempList = (List<String>)Session["tempList"];
                 tempList.Add(itemCode);
                 Session["tempList"] = tempList;
-                Session["StockAdjPage"] = "2";
 
                 return RedirectToAction("Inventory", "Store");
             }
@@ -275,8 +298,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 item.AdjCost = Int32.Parse(data) * item.AvgUnitCost;
                 Session["newAdjList"] = list;
 
-                Session["StockAdjPage"] = 2;
-
                 return RedirectToAction("Requisition", "Dept");
             }
         }
@@ -291,7 +312,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
                 list.RemoveAt(index);
                 Session["newAdjList"] = list;
-                Session["StockAdjPage"] = "2";
 
                 return RedirectToAction("Inventory", "Store");
             }
@@ -302,9 +322,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                Session["StockAdjPage"] = "2";
-
-
                 //clear temp list
                 List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
                 list.Clear();
@@ -327,8 +344,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 //data is item desc, index is list index
-                int adjCount = e.StockAdjustmentHeaders.ToList().Count() +1;
-                string newAdjHeaderId = CommonLogic.SerialNo(adjCount, "SA");                
+                int adjCount = e.StockAdjustmentHeaders.ToList().Count() + 1;
+                string newAdjHeaderId = CommonLogic.SerialNo(adjCount, "SA");
 
                 StockAdjustmentHeader sah = new StockAdjustmentHeader();
                 sah.RequestId = newAdjHeaderId;
@@ -343,7 +360,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 DAL.StockAdjustmentDetailsRepositoryImpl dalDetails = new DAL.StockAdjustmentDetailsRepositoryImpl(e);
 
                 //insert SAH details
-                foreach (StockAdjItemModel detail in (List<StockAdjItemModel>) Session["NewAdjList"])
+                foreach (StockAdjItemModel detail in (List<StockAdjItemModel>)Session["NewAdjList"])
                 {
                     StockAdjustmentDetail sad = new StockAdjustmentDetail();
                     sad.RequestId = newAdjHeaderId;
@@ -372,15 +389,13 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     //Update Item Quantity
                     Item item = e.Items.Where(x => x.ItemCode == sad.ItemCode).FirstOrDefault();
-                    item.Quantity = item.Quantity - sad.ItemQuantity;                    
+                    item.Quantity = item.Quantity - sad.ItemQuantity;
 
                 }
 
                 e.SaveChanges();
 
                 Session["NewAdjList"] = new List<StockAdjItemModel>();
-
-                
 
                 return RedirectToAction("Inventory", "Store");
             }
@@ -389,9 +404,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
-        {                        
+        {
             Session["StockAdjPage"] = "2";
-            Session["StoreInventoryTabIndex"] = "3";
 
             return RedirectToAction("Inventory", "Store");
         }
@@ -451,10 +465,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         //    return RedirectToAction("Inventory", "Store");
         //}
 
+        /************Action methods belonging to Store Inventory - Stock Take *******************/
+
         [CustomAuthorize(Roles = "Store Manager, Store Supervisor")]
         [Route("StockTake")]
         public ActionResult StockTake()
         {
+            Session["StoreInventoryTabIndex"] = "4";
+
             return View();
         }
 
@@ -463,7 +481,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult StockTakeUpdate(StockTakeList[] arr, string[] arr1)
         {
             int count = 0;
-            
+
             string transType = "Stock Take";
             List<StockTakeList> list = new List<StockTakeList>();
             for (int i = 0; i < arr.Length; i++)
@@ -475,7 +493,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 int itemTransCount = m.StockTakeHeaders.Count() + 1;
                 string itemTransactionId = CommonLogic.SerialNo(itemTransCount, "ST");
-                
+
                 // Update StockTakeHeader Table
                 StockTakeHeader stockTakeHeader = new StockTakeHeader();
                 stockTakeHeader.StockTakeID = itemTransactionId;
@@ -491,10 +509,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     float avgCost = item.AvgUnitCost;
                     int qtyOnHand = item.Quantity;
                     int qtyAdjusted = itemQty - qtyOnHand;
-                    float totalAmt = avgCost * (float) qtyAdjusted;
+                    float totalAmt = avgCost * (float)qtyAdjusted;
                     string itemcode = l.ItemCode;
 
-                    if(qtyAdjusted != 0)
+                    if (qtyAdjusted != 0)
                     {
                         // Update Item Table
                         item.Quantity = itemQty;
@@ -526,6 +544,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             return View();
         }
-        
+
     }
 }

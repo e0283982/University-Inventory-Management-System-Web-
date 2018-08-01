@@ -20,7 +20,6 @@
                     searching: false,
                     "iDisplayLength": 5,
                     "bInfo": false,
-                    //scrollX: 800,
                     data: [data],
                     columns: [
                         { 'data': 'ItemCode' },
@@ -36,6 +35,9 @@
                                 return data == 1 ? "Active" : "Inactive";
                             }
                         }
+                    ],
+                    columnDefs: [
+                        { className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7] },
                     ],
                 });
         
@@ -69,7 +71,7 @@
 
 <div class="row">
     <div class="col-md-11">
-        <div style="float: right">
+        <div>
             <span>
                 @using (Html.BeginForm("BackToInventoryOverviewList", "StoreInventory", FormMethod.Post))
                 {

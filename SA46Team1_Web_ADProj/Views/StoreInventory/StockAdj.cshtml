@@ -17,7 +17,6 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     "order": [[5, "desc"], [1, "desc"]],
                     data: data,
                     columns: [
@@ -37,19 +36,13 @@
                         { 'data': 'ItemQuantity' },
                         { 'data': 'Remarks' },
                         { 'data': 'Status' }                        
-                    ]
+                    ],
+                    columnDefs: [
+                        { className: 'text-center', targets: [0, 1, 2, 3, 4, 5] },
+                    ],
                 });
             }
         });
-    
-       
-
-
-        //$('#dataTable-storeInventoryAdj').DataTable({
-        //    scrollY: '30vh',
-        //    scrollCollapse: true,
-        //    paging: true
-        //});
     });
 </script>
 

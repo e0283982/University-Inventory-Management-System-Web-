@@ -16,7 +16,6 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'ReceiptNo' },
@@ -31,7 +30,10 @@
                             }
                         },
                         { 'data': 'CompanyName' }
-                    ]
+                    ],
+                    columnDef: [{
+                        className: 'text-center', targets: [0, 1, 2]
+                    }],
                 });
             }
         });
@@ -46,6 +48,7 @@
                 url: '/StorePurchase/DisplayGR',
                 data: data,
                 type: 'POST',
+                async: false
             });
 
             window.location.href = '@Url.Action("Purchase", "Store")';

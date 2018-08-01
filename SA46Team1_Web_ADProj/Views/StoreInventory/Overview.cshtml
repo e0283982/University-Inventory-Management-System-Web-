@@ -16,7 +16,6 @@
                         sort: true,
                         searching: true,
                         "iDisplayLength": 5,
-                        //scrollY: 200,
                         data: data,
                         columns: [
                             { 'data': 'ItemCode' },
@@ -26,7 +25,10 @@
                             { 'data': 'PONotFulfilled' },
                             { 'data': 'StaffOrderNotFulfilled' },
                             { 'data': 'UoM' }
-                        ]
+                        ],
+                        columnDefs: [
+                            { className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6] },
+                        ],
                     });
                     table.column(0).visible(false);
                 }
@@ -42,6 +44,7 @@
                     url: '/StoreInventory/DisplayItemDetails',
                     data: { maintenanceItemCode: data["ItemCode"] },
                     type: 'POST',
+                    async:false
                 });
 
                 window.location.href = '@Url.Action("Inventory", "Store")';
@@ -67,5 +70,3 @@
     </thead>
     <tbody style="font-size: 10pt;"></tbody>
 </table>
-
-@*center all*@

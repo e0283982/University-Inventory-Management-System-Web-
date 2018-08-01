@@ -28,7 +28,6 @@
                 sort: false,
                 searching: false,
                 "iDisplayLength": 5,
-                //scrollY: 200,
                 "bInfo": false,
                 scrollX: 800,
                 data: [data],
@@ -146,7 +145,12 @@
                             //} else {
                             //    return '<input id="input-item-active" type="checkbox">';
                             //}
-                       // }
+                            // }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7]
                     }
                 ],
             });
@@ -167,7 +171,6 @@
     $(document).ajaxComplete(function () {
         $('#btn-edit-item').click(function () {
             var dataToSend = "";
-            //var arr = [];
             var desc = [];
             var suppliers = [];
             var status = [];
@@ -194,6 +197,7 @@
                 url: '/Store/StoreMaintenance/Items/EditItem',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
+                async: false,
                 data: JSON.stringify({ suppliers: suppliers, desc: desc, status:status })
             });
 

@@ -54,9 +54,11 @@
                     ],
                     columnDefs: [
                         {
-                            //"targets": [0],
-                            //"visible": false,
-                            //"searchable": false
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                            
+                        }, {
                             className: 'text-center', targets: [0, 1, 2, 3, 4, 5]
                         }
                     ]
@@ -95,16 +97,22 @@
             });
         });
         
-
         $("#form-submit-new-auth").submit(function () {
+            $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
             $('#dialog-show-employee-auth').dialog('close');
             $('#dialog-saved-employee-auth-edit').dialog('open');
         });
 
     });
 
+    $("#dialog-show-employee-auth").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-show-employee-auth').dialog('close');
+    });
+
     function myFunction(param) {
         $('#assign-emp-role-name').val(param);
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-show-employee-auth').dialog('open');
         return false;
     }
@@ -146,12 +154,21 @@
 </table>
 
 <div id="dialog-saved-employee-auth-edit" class="hidden" title="Changes saved">
-    <p>Changes to employee's role delegation have been saved.</p>
+    <br />
+    <div style="text-align:center;">
+        <h5>Changes to employee's role delegation have been saved.</h5>
+    </div>
+    <hr />
 </div>
 
-<div id="dialog-show-employee-auth" class="hidden" title="Update Employee Role">
+<div id="dialog-show-employee-auth" class="hidden" @*title="Update Employee Role"*@>
     @using (Html.BeginForm("SubmitNewDelegation", "DeptAuthorisation", FormMethod.Post, new { id = "form-submit-new-auth" }))
     {
+    <br />
+    <div style="text-align:center;">
+        <h4>Update Employee Role</h4>
+    </div>     
+    <hr />
         <div>
             <div>
                 <label>Employee Name: </label>

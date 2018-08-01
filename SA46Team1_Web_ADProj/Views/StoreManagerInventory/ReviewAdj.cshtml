@@ -44,6 +44,7 @@
                             { 'data': 'Status' },
                         ],
                         columnDefs: [{
+                            className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
                             targets: [-1], render: function (data, type, row) {
                                 switch (data) {
                                     case 'Pending': return '<button type ="submit" class="btn btn-lu-green" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-lu-red" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
@@ -123,6 +124,7 @@
         $.ajax({
             url: '/StoreManagerInventory/Approve',
             method: 'POST',
+            async: false,
             data: {
                 'requestId': requestId,
                 'itemCode': itemCode
@@ -134,6 +136,7 @@
         $.ajax({
             url: '/StoreManagerInventory/Reject',
             method: 'POST',
+            async: false,
             data: {
                 'requestId': requestId,
                 'itemCode': itemCode

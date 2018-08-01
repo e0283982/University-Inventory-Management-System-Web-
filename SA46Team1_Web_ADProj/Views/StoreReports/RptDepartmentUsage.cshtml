@@ -8,7 +8,6 @@
 
 <div>
     <h5>Department Usage Cost Report</h5>
-    <label id="lbl-error-info"></label>
     <label id="lbl-cost-info2"></label>
     <label id="lbl-filter-info">Filter results: All</label>
 </div>
@@ -71,7 +70,7 @@
                 <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
             </span>
             <span id="btn-submit-export2">
-                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
+                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt; color:#f4f4f4;" })
             </span>
             <span>
                 <input class="btn btn-lu-blue" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
@@ -102,13 +101,20 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-
-<div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
-    <h5>Please select at least 1 valid month and year.</h5>
+<div id="dialog-invalid-report-date" class="hidden" @*title="Invalid report date filter"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>Please select at least 1 valid month and year.</h5>
+    </div>
+    <hr />
 </div>
 
-<div id="dialog-no-data" class="hidden" title="Information">
-    <h5>No data found.</h5>
+<div id="dialog-no-data" class="hidden" @*title="Information"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>No data found.</h5>
+    </div>
+    <hr />
 </div>
 
 <script>
@@ -130,7 +136,6 @@
                     sort: true,
                     search: false,
                     dom: 'lrtip',
-                    //scrollY: 200,
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
@@ -195,7 +200,6 @@
                             });
 
                             if (selMonths.length == 0 || selYears.length == 0) {
-                                //alert("Please select at least 1 valid month and year.");
                                 $('#dialog-invalid-report-date').dialog('open');
                                 return;
                             }
@@ -212,12 +216,7 @@
                             table
                                 .columns(6)
                                 .search(search, true, false, true).draw();
-
-                            //var deptArray = [];
-                            //var categoryArray = [];
-                            //deptArray.push(dept);
-                            //categoryArray.push(category);
-
+                            
                             var dept = $('#SelectDepartmentDesc :selected').text();
                             var category = $('#SelectCategory :selected').text();
 
@@ -230,14 +229,9 @@
                                 .search(category, true, false, true).draw();
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
-                                //$("#lbl-error-info").text("No data found");
                                 $('#dialog-no-data').dialog('open');
                                 $('#btn-submit-export2').hide();
-                                $("#lbl-error-info").text("");
-
-                                //$("#chosenMonths").val([]);
-                                //$("#chosenYear").val([]);
-
+                                
                                 table
                                     .search('')
                                     .columns().search('')
@@ -263,11 +257,11 @@
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',
                                 type: 'POST',
+                                async: false
                             });
 
                             table.draw(false);
                             $('#btn-submit-export2').show();
-                            $("#lbl-error-info").text("");
 
                             var sum = 0;
                             for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
@@ -301,7 +295,6 @@
 
     $('#btn-clear-filter2').on('click', function () {
         $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
 
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);
@@ -320,7 +313,6 @@
 
     $("#SelectDepartmentDesc").change(function () {
         $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
 
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);
@@ -331,7 +323,6 @@
 
     $("#SelectCategory").change(function () {
         $('#btn-submit-export2').hide();
-        $("#lbl-error-info").text("");
 
         $("#chosenMonths").val([]);
         $("#chosenYear").val([]);

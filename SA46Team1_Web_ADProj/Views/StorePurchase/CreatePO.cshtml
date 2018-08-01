@@ -6,6 +6,7 @@
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/dropdowns.css")" rel="stylesheet" type="text/css" />
 
 <script>
     var table;
@@ -17,11 +18,14 @@
             scrollY: 200,
             "iDisplayLength": 5,
             scrollCollapse: false,
-            "columnDefs": [{
+            columnDefs: [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<button>delete</button>" 
-            }]
+                "defaultContent": "<button class='btn btn-lu-red'><i class='far fa-trash-alt'></i></button>"
+            }, {
+                   className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+               }
+            ]
         });
     });
 
@@ -35,25 +39,31 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false,
             data: JSON.stringify({ data: data[0] })
         });
 
         //table.row($(this).parents('tr')).remove().draw();
         window.location.href = '@Url.Action("Purchase", "Store")';
-
-        return false;
     });
 
     // Open Dialog
     $('#btn-add-item').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
         $('#dialog-add-po-item').dialog('open');
+    });
+
+    //Close Dialog
+    $("#dialog-add-po-item").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-add-po-item').dialog('close');
     });
 
     // Dialog
     $(function () {
         $("#dialog-add-po-item").dialog({
             autoOpen: false,
-            width: "40%",
+            width: "30%",
             maxWidth: "40%"
         });
     });
@@ -75,14 +85,11 @@
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            async: false,
             data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier, taData: taData })
         });
         alert('Items Added');
         window.location.href = '@Url.Action("Purchase", "Store")';
-
-        // This should reset table
-        //table.draw(false);
-
     });
 
     $('#dataTable-newPO tbody').on('change', '#input-qty', function () {
@@ -101,6 +108,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -113,13 +121,14 @@
         var index = table.row($(this).parents('tr')).index();
 
         var qty = table.cell(index, 2).nodes().to$().find(":selected").text();
-       
+
         $.ajax({
             url: '/StorePurchase/EditNewPOSupplier',
             data: JSON.stringify({ data: qty, index: index }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -138,18 +147,27 @@
             <label style="font-size: 10pt;">Date: @DateTime.Now</label>
         </div>
     </div>
-    <div class="col-md-6">
+    @*<div class="col-md-6">
         <div style="float:right;">
             <div style="font-size: 10pt;">
                 <p>Remarks: </p>
                 <textarea id="ta-remarks" rows="3" cols="50" />
             </div>
         </div>
+    </div>*@
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div style="float: right">
+            <span>
+                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
+            </span>
+        </div>
     </div>
 </div>
 
 @*--- Table ---*@
-
 <table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
     <thead style="font-size: 10pt;">
         <tr>
@@ -161,7 +179,7 @@
             <th>Unit Price ($)</th>
             <th>Total ($)</th>
             <th>GST ($)</th>
-            <th></th>
+            <th>Delete</th>
         </tr>
     </thead>
 
@@ -209,60 +227,79 @@
     }
     <tbody style="font-size: 10pt;"></tbody>
 </table>
-
 @*--- End of Table ---*@
-
-@*--- Dynamic boxes ---*@
-<div>
-    <label style="font-size: 12pt;">Gross Total ($):<input type="number" id="displayPO-gross-total" readonly="readonly" value="@TempData["grossTotal"]" style="font-size: 12pt;"></label>
-    <label style="font-size: 12pt;">GST ($): <input type="text" id="displayPO-gst" value="@TempData["gst"]" style="font-size: 12pt;"></label>
-    <label style="font-size: 12pt;">Net Total ($): <input type="number" id="displayPO-net-total"  readonly="readonly" value="@TempData["netTotal"]" style="font-size: 12pt;"></label>
-</div>
-@*--- End of Dynamic boxes ---*@
-
-@*--- Buttons ---*@
 
 <div class="row">
     <div class="col-md-12">
-        <div style="float: right">
-            <span>
-                <button class="btn btn-lu-blue" id="btn-add-export" style="font-size: 10pt;">Export to PDF</button>
-            </span>
-            <span>
-                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
-            </span>
-            <span>
-                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
-            </span>
+        @*--- Dynamic boxes ---*@
+        <div class="row">
+            <div class="col-md-6">
+                <hr />
+                <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><label id="displayPO-gross-total" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["grossTotal"])</label>
+                <br />
+                <label style="font-size: 10pt;">GST ($):&nbsp;</label><label disabled id="displayPO-gst" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["gst"])</label>
+                <br />
+                <label style="font-size: 10pt;">Net Total ($):&nbsp;</label><label disabled id="displayPO-net-total" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["netTotal"])</label>
+            </div>
+            <div class="col-md-6">
+                @*<input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; margin: 1.5px;">
+                <br />
+                <input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; margin: 1.5px;">
+                <br />
+                <input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; margin: 1.5px;">*@
+                
+                <div style="float:right;">
+                    <div style="font-size: 10pt;">
+                        <p>Remarks: </p>
+                        <textarea id="ta-remarks" rows="3" cols="50" />
+                    </div>
+
+                    @*--- Buttons ---*@
+                    <div style="float: right;">
+                        <span>
+                            @if (poDetailList.Count == 0)
+                            {
+                                <button class="btn btn-lu-green" id="btn-submit-new-req" disabled style="font-size: 10pt;">Submit</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
+                            }
+                        </span>
+                    </div>
+                    @*--- End of Buttons ---*@
+                </div>       
+            </div>
         </div>
+        @*--- End of Dynamic boxes ---*@
     </div>
 </div>
 
-@*--- End of Buttons ---*@
-
 @*--- Dialog Box ---*@
-
-<div id="dialog-add-po-item" class="hidden" title="Add Item (Store PO)">
+<div id="dialog-add-po-item" class="hidden" @*title="Add Item (Store PO)"*@>
     @using (Html.BeginForm("AddPOItem", "StorePurchase", FormMethod.Post, new { id = "form-submit-add-new-item" }))
     {
+        <br />
+        <div style="text-align:center;">
+            <h5>Add New Item</h5>
+        </div>
+        <hr />
         <div>
             <div>
                 <label>Item Description: </label>
-                @Html.DropDownList("SelectItemChose", ViewBag.ItemsList as SelectList)
+                @Html.DropDownList("SelectItemChose", ViewBag.ItemsList as SelectList, null, new { @class = "styled-select semi-square" })
             </div>
+            <br />
             <div>
                 <label>New Order Qty: </label>
                 @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
             </div>
-
-            <br />
-
+            <hr />
             <div>
                 <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
             </div>
         </div>
     }
 </div>
-
 @*--- End of Dialog Box ---*@
 

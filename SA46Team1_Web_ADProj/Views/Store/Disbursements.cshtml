@@ -4,18 +4,34 @@
 
 
 <script>
-    var pageIndex = @Session["DisbursementListPage"].ToString();
+    @*var pageIndex = @Session["DisbursementListPage"].ToString();
     var pageIndexStr = @Session["RetrievalListPage"].ToString();
-    var backFlag = @Session["BackToDisbursementList"].ToString().ToLower();
+    var backFlag = @Session["BackToDisbursementList"].ToString().ToLower();*@
     $(function () {
-        if (pageIndexStr == "2") {
-            $("#tabs-min").tabs({ active: 1 });
+         var pageIndex =@Session["StoreDisbursementTabIndex"].ToString();
+
+        switch (pageIndex) {
+            case 1:
+                $("#tabs-min").tabs();
+                break;
+            case 2:
+                $("#tabs-min").tabs({ active: 1 });
+                break;
+            case 3:
+                $("#tabs-min").tabs({ active: 2 });
+                break;
+            default:
+                $("#tabs-min").tabs();
+                break;
         }
-        else if (pageIndex == "2" || backFlag == true) {
-            $("#tabs-min").tabs({ active: 2 });
-        } else {
-            $("#tabs-min").tabs();
-        }
+        //if (pageIndexStr == "2") {
+        //    $("#tabs-min").tabs({ active: 1 });
+        //}
+        //else if (pageIndex == "2" || backFlag == true) {
+        //    $("#tabs-min").tabs({ active: 2 });
+        //} else {
+        //    $("#tabs-min").tabs();
+        //}
     });
 </script>
 

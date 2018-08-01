@@ -14,14 +14,16 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,                    
                     data: data,
                     columns: [
                         { 'data': 'Description' },
                         { 'data': 'UoM' },
                         { 'data': 'QuantityOrdered' },
                         { 'data': 'QuantityReceived' }
-                    ]
+                    ],
+                    columnDefs: [
+                        { className: 'text-center', targets: [0, 1, 2, 3] },
+                    ],
                 });                
 
             }
@@ -51,7 +53,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div style="float: right">
+        <div>
             <span>
                 @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
                 {

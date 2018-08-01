@@ -9,13 +9,14 @@
 
 <script>
     $(document).ready(function () {
-
-        //$("#div-disbursed").hide();
-        //alert(disbursed);
-
+        
         var disbursed = parseInt(@ViewBag.Disbursed);
+        var allItemRetrieved = parseInt(@ViewBag.AllItemsRetrieved);
 
-        if (disbursed == 0) {
+        if (disbursed == 0 && allItemRetrieved == 0) {
+            $("#div-disbursed").hide();
+            $("#btn-disburse-retrieval").hide();
+        } else if (disbursed == 0 && allItemRetrieved == 1) {
             $("#div-disbursed").hide();
         }
 
@@ -36,14 +37,8 @@
                         sort: true,
                         searching: true,
                         "iDisplayLength": 5,
-                        //scrollY: 200,
                         data: data,
                         responsive: true,
-                        //"columnDefs": [{
-                        //    "targets": -1,
-                        //    "data": null,
-                        //    "defaultContent": "<button>Adjust</button>"
-                        //}],
                         columns: [
                             { 'data': 'Bin' },
                             { 'data': 'Location' },
@@ -51,16 +46,27 @@
                             { 'data': 'QuantityRetrieved' },
                             { 'data': 'CollectionPointDescription' },
                             {
-                                //'data': ''
                                 'data': null,
                                 'render': function (data, type, row) {
-                                    //return "<button>Adjust</button>"
                                     return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Id"] + '\', \'' + data["Description"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval">Adjust</button>';
-                                    //return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Description"] + '\', \'' + data["Id"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval">Adjust</button>';
                                 }
+                            },
+                            {
+                                'data': null,
+                                'render': function (data, type, row) {
 
+                                    if (data["Collected"] == 0) {
+                                        return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox"/>';
+                                    } else {
+                                        return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox" checked/>';
+                                    }
+                                    
+                                }
                             }
-                        ]
+                        ],
+                        columnDefs: [
+                            { className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6] }                           
+                        ],
                     });
                 }
             });
@@ -97,15 +103,15 @@
     });
 
     $('#btn-confirm-submit-cancel').on('click', function () {
-        $('#dialog-confirm-submit-new-adj').dialog('close');
+        $('#dialog-confirm-disburse-item').dialog('close');
     });
    
     $('#btn-confirm-submit-submit').on('click', function () {
-        $('#dialog-new-adj-submited').dialog('open');
 
         $.ajax({
             url: '/StoreDisbursements/DisburseItems',
             type: 'POST',
+            async: false
         });
 
         table.draw(false);
@@ -121,12 +127,26 @@
         return false;
     }
 
-    //$('#btn-disburse-retrieval').click(function () {
-    //    $('#dialog-disburse-retrieval').dialog('open');
-    //    return false;
-    //});
+    function myCollectedFunction(param1, param2) {
 
-    
+        //alert(param1 + param2);
+
+        $.ajax({
+            url: '/StoreDisbursements/UpdateItemCollection',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: false,
+            data: JSON.stringify({ bin: param1, collectionPointDescription: param2})
+        });
+
+        window.location.href = '@Url.Action("Disbursements", "Store")';
+
+        return false;
+    }
+
+
+
 
 </script>
 
@@ -144,6 +164,7 @@
             <th>Items to Retrieve</th>
             <th>Collection Point</th>
             <th>Damaged/Missing items</th>
+            <th>Collected</th>
         </tr>
     </thead>
 
@@ -155,21 +176,10 @@
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                @*@using (Html.BeginForm("DisburseItems", "StoreDisbursements", FormMethod.Post))
-                {
-                    <button class="btn btn-lu-blue" id="btn-disburse-retrieval" style="font-size: 10pt;">Disburse Items</button>
-                }*@
-
                 <button class="btn btn-lu-blue" id="btn-disburse-retrieval" style="font-size: 10pt;">Disburse Items</button>
-
             </span>
         </div>
     </div>
-    @*<div class="col-md-1">
-        <span>
-            <button class="btn btn-lu-blue" style="font-size: 10pt;">@Html.ActionLink("Print List", "Home", "Store", null, new { @style = "color:#f4f4f4;" })</button>
-        </span>
-    </div>*@
 </div>
 
 <div id="div-disbursed">
@@ -186,15 +196,11 @@
     {
     <div>
         <div>
-            @*<label>Stock Requisition Id: </label>*@
-
             @Html.TextBoxFor(tuple => tuple.Item1.Id, new { @placeholder = "StoRId", @id = "assign-stock-req-id", @readonly = "readonly", style = "display: none;" })
-
         </div>
         <div>
             <label>Item Name: </label>
             @Html.TextBoxFor(tuple => tuple.Item2.Description, new { @placeholder = "StoRId", @id = "assign-item-description", @readonly = "readonly" })
-
         </div>
 
         <div>
