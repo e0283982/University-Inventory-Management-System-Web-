@@ -103,11 +103,10 @@
     });
 
     $('#btn-confirm-submit-cancel').on('click', function () {
-        $('#dialog-confirm-submit-new-adj').dialog('close');
+        $('#dialog-confirm-disburse-item').dialog('close');
     });
    
     $('#btn-confirm-submit-submit').on('click', function () {
-        $('#dialog-new-adj-submited').dialog('open');
 
         $.ajax({
             url: '/StoreDisbursements/DisburseItems',
