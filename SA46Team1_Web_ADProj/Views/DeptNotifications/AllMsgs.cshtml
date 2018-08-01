@@ -46,31 +46,32 @@
                         { 'data': 'NotificationStatus'}
                     ],
                     columnDefs: [
-                        { className: 'text-center', targets: [0, 1, 2] },
+                        //{ className: 'text-center', targets: [0, 1, 2] },
                     ],
                     drawCallback: function (settings) {
                          $('#dataTable-notifications-all tbody').on('click', 'tr', function () {
-                            var data = table.row(this).data();
+                             var data = table.row(this).data();
 
-                             if (data["ApprovalStatus"] == "Pending") {
-                                 $.ajax({
-                                     url: '/DeptApproval/Approval',
-                                     type: 'POST',
-                                     async: false
-                                 });
+                               if (data["ApprovalStatus"] == "Pending") {
+                                     $.ajax({
+                                         url: '/DeptApproval/Approval',
+                                         type: 'POST',
+                                         async: false
+                                     });
 
-                                 window.location.href = '@Url.Action("Approval", "Dept")';
+                                     window.location.href = '@Url.Action("Approval", "Dept")';
                              }
-                             else {
-                                 $.ajax({
+                                 else {
+                                     $.ajax({
                                      url: '/DeptNotifications/MsgClicked',
                                      data: { reqFormId: data["FormID"] },
                                      type: 'POST',
                                      async: false
                                  });
-                             }
 
                                 window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+                             }
+                             
                         });
                     }
 
