@@ -59,9 +59,9 @@
                     $("#lbl-dateCreated").append(newDate);
                     $("#lbl-del-date").append(newDateRec);
                     $("#lbl-status").append(data[0]["Status"]);
-                    $("#displayPO-gross-total").val(twoDP(total));
-                    $("#displayPO-net-total").val(twoDP(netTotal));
-                    $("#displayPO-gst").val(twoDP(gst));
+                    $("#displayPO-gross-total").append(twoDP(total));
+                    $("#displayPO-net-total").append(twoDP(netTotal));
+                    $("#displayPO-gst").append(twoDP(gst));
                 });
             }
         });
@@ -305,7 +305,7 @@
 </script>
 
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div>
             <h5 id="Title">Display/Edit Purchase Order</h5>
         </div>
@@ -318,7 +318,7 @@
                     <label style="font-size: 10pt;">PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 10pt;" /></strong>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div>
                     <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-supplier" style="font-size: 10pt;" />
                 </div>
@@ -326,41 +326,72 @@
                     <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div style="float: right;">
-            <div>
-                <p>Remarks:</p>
-                <textarea id="ta-remarks" rows="3" cols="40" disabled>@Session["PORemarks"]</textarea>
+            <div class="col-md-4">
+                @*--buttons--*@
+                <div style="float:right;">
+
+                    @if (Session["poStatus"].ToString() == "Open")
+                    {
+                        <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
+                        <button class="btn btn-lu-red" id="btn-cancelPO" style="font-size: 10pt;">Cancel PO</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;" disabled>Edit</button>
+                    }
+                    <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
+                        <p>Should change color if Goods Receipt / status is completed</p>
+                    </div>
+
+                    @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
+                    {
+                        <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt</button>
+                    }
+
+                    <button type="reset" class="hidden btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
+
+                    <button class="hidden btn btn-lu-green" id="btn-save-displayPO" style="font-size: 10pt;">Save</button>
+                    <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
+                        <p>Changes to PO - can only be seen / used if PO is 'open'</p>
+                    </div>
+
+                    @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
+                    {
+                        <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Receipt</button>
+                    }
+
+                    <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
+                        <br />
+                        <div style="text-align:center;">
+                            <h5>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</h5>
+                        </div>
+                        <hr />
+                    </div>
+                    <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
+                        <br />
+                        <div style="text-align:center;">
+                            <h5>Prep GR</h5>
+                        </div>
+                        <hr />
+                    </div>
+                    <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
+                        <br />
+                        <div>
+                            <h5>Goods receipt btn.</h5>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    @*<div class="col-md-3">
+
+    </div>*@
 </div>
 
 <div class="row">
-    <div class="col-md-11">
-        <div style="float:right;">
-
-            @if (Session["poStatus"].ToString() == "Open")
-            {
-                <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
-                <button class="btn btn-lu-red" id="btn-cancelPO" style="font-size: 10pt;">Cancel PO</button>
-            }
-            else
-            {
-                <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;" disabled>Edit</button>
-            }
-            <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
-                <p>Should change color if Goods Receipt / status is completed</p>
-            </div>
-
-            @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
-            {
-                <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt</button>
-            }
-        </div>
-    </div>
+    
 </div>
 
 <div id="datatableDisplayPO">
@@ -409,27 +440,33 @@
     </table>
 </div>
 
-<div>
-    <div style="float:left;">
-        <label style="font-size: 12pt;">Gross Total ($):&nbsp;</label>
-        <br/>
-        <label style="font-size: 12pt;">GST ($):&nbsp;</label>
-        <br/>
-        <label style="font-size: 12pt;">Net Total ($):&nbsp;</label>
+<div class="row">
+    <div class="col-md-6">
+        <div style="float:left;">
+            <hr />
+            <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 10pt; margin: 1.5px;" /></strong>
+            <br />
+            <label style="font-size: 10pt;">GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 10pt; margin: 1.5px;" /></strong>
+            <br />
+            <label style="font-size: 10pt;">Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 10pt; margin: 1.5px;" /></strong>
+        </div>
+        @*<div style="float:left">
+            <strong><input disabled id="displayPO-gross-total" style="font-size: 10pt;" /></strong>
+            <br />
+            <strong><input disabled id="displayPO-gst" style="font-size: 10pt;" /></strong>
+            <br />
+            <strong><input disabled id="displayPO-net-total" style="font-size: 10pt;" /></strong>
+        </div>*@
     </div>
-    <div style="float:left">
-        <strong><input disabled id="displayPO-gross-total" style="font-size: 12pt;" /></strong>
-        <br />
-        <strong><input disabled id="displayPO-gst" style="font-size: 12pt;" /></strong>
-        <br />
-        <strong><input disabled id="displayPO-net-total" style="font-size: 12pt;" /></strong>
-    </div>
+    <div class="col-md-6">
+        <div style="float: right;">
+            <div>
+                <p>Remarks:</p>
+                <textarea id="ta-remarks" rows="3" cols="50" disabled>@Session["PORemarks"]</textarea>
+            </div>
+        </div>
+    </div>  
 </div>
-<br />
-<br />
-<br />
-<br />
-<br />
 <div class="row">
     <div class="col-md-12">
         <div>
@@ -443,33 +480,10 @@
     </div>
 </div>
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-11">
         <div style="float:right;">
-            <button type="reset" class="hidden btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
-
-            <button class="hidden btn btn-lu-green" id="btn-save-displayPO" style="font-size: 10pt;">Save</button>
-            <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
-                <p>Changes to PO - can only be seen / used if PO is 'open'</p>
-            </div>
-
-            @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
-            {
-                <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Receipt</button>
-            }
-
-
-            <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
-                <p>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</p>
-            </div>
-
-            <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
-                <p>Prep GR</p>
-            </div>
-
-            <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
-                <p>Goods receipt btn.</p>
-            </div>
+            
         </div>
     </div>
-</div>
+</div>*@

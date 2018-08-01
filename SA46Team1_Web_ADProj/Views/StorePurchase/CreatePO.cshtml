@@ -55,7 +55,7 @@
     $(function () {
         $("#dialog-add-po-item").dialog({
             autoOpen: false,
-            width: "40%",
+            width: "30%",
             maxWidth: "40%"
         });
     });
@@ -139,27 +139,27 @@
             <label style="font-size: 10pt;">Date: @DateTime.Now</label>
         </div>
     </div>
-    <div class="col-md-6">
+    @*<div class="col-md-6">
         <div style="float:right;">
             <div style="font-size: 10pt;">
                 <p>Remarks: </p>
                 <textarea id="ta-remarks" rows="3" cols="50" />
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
 
 <div class="row">
     <div class="col-md-12">
         <div style="float: right">
             <span>
-                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add New Item</button>
+                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 9pt;">Add New Item</button>
             </span>
         </div>
     </div>
 </div>
-@*--- Table ---*@
 
+@*--- Table ---*@
 <table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
     <thead style="font-size: 10pt;">
         <tr>
@@ -219,55 +219,63 @@
     }
     <tbody style="font-size: 10pt;"></tbody>
 </table>
-
 @*--- End of Table ---*@
-
-@*--- Dynamic boxes ---*@
-<div>
-    <div style="float: left;">
-        <label style="font-size: 10pt;">Gross Total ($):</label>
-        <br />
-        <label style="font-size: 10pt;">GST ($): </label>
-        <br />
-        <label style="font-size: 10pt;">Net Total ($): </label>
-    </div>
-    <div style="float: left;">
-        <input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; margin: 1.5px;">
-        <br/>
-        <input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; margin: 1.5px;">
-        <br />
-        <input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; margin: 1.5px;">
-    </div>
-</div>
-@*--- End of Dynamic boxes ---*@
-
-@*--- Buttons ---*@
 
 <div class="row">
     <div class="col-md-12">
-        <div style="float: right">
-            <span>
-                @if (poDetailList.Count == 0)
-                {
-                    <button class="btn btn-lu-green" id="btn-submit-new-req" disabled style="font-size: 10pt;">Submit</button>
-                }
-                else
-                {
-                    <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
-                }
+        @*--- Dynamic boxes ---*@
+        <div class="row">
+            <div class="col-md-6">
+                <hr />
+                <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><label id="displayPO-gross-total" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["grossTotal"])</label>
+                <br />
+                <label style="font-size: 10pt;">GST ($):&nbsp;</label><label disabled id="displayPO-gst" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["gst"])</label>
+                <br />
+                <label style="font-size: 10pt;">Net Total ($):&nbsp;</label><label disabled id="displayPO-net-total" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["netTotal"])</label>
+            </div>
+            <div class="col-md-6">
+                @*<input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; margin: 1.5px;">
+                <br />
+                <input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; margin: 1.5px;">
+                <br />
+                <input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; margin: 1.5px;">*@
+                
+                <div style="float:right;">
+                    <div style="font-size: 10pt;">
+                        <p>Remarks: </p>
+                        <textarea id="ta-remarks" rows="3" cols="50" />
+                    </div>
 
-            </span>
+                    @*--- Buttons ---*@
+                    <div style="float: right;">
+                        <span>
+                            @if (poDetailList.Count == 0)
+                            {
+                                <button class="btn btn-lu-green" id="btn-submit-new-req" disabled style="font-size: 10pt;">Submit</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
+                            }
+                        </span>
+                    </div>
+                    @*--- End of Buttons ---*@
+                </div>       
+            </div>
         </div>
+        @*--- End of Dynamic boxes ---*@
     </div>
 </div>
 
-@*--- End of Buttons ---*@
-
 @*--- Dialog Box ---*@
-
 <div id="dialog-add-po-item" class="hidden" title="Add Item (Store PO)">
     @using (Html.BeginForm("AddPOItem", "StorePurchase", FormMethod.Post, new { id = "form-submit-add-new-item" }))
     {
+        <br />
+        <div style="text-align:center;">
+            <h5>Add Item</h5>
+        </div>
+        <hr />
         <div>
             <div>
                 <label>Item Description: </label>
@@ -277,15 +285,12 @@
                 <label>New Order Qty: </label>
                 @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
             </div>
-
-            <br />
-
+            <hr />
             <div>
                 <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
             </div>
         </div>
     }
 </div>
-
 @*--- End of Dialog Box ---*@
 
