@@ -37,9 +37,18 @@ namespace SA46Team1_Web_ADProj.Controllers
                 StaffRequisitionHeader srh = e.StaffRequisitionHeaders.Where(x => x.FormID == ReqFormId).FirstOrDefault();
 
                 if (srh.NotificationStatus != "Read") {
-                    int noUnreadRequests = (int)Session["NoUnreadRequests"];
-                    noUnreadRequests--;
-                    Session["NoUnreadRequests"] = noUnreadRequests;
+                    if (User.IsInRole("Department Head"))
+                    {
+                        int noUnreadRequests = (int)Session["NoUnreadRequests"];
+                        noUnreadRequests--;
+                        Session["NoUnreadRequests"] = noUnreadRequests;
+                    }
+                    else {
+                        int noUnreadRequests = (int)Session["NoUnreadRequestsEmployee"];
+                        noUnreadRequests--;
+                        Session["NoUnreadRequestsEmployee"] = noUnreadRequests;
+                    }
+                    
                 }
 
                 srh.NotificationStatus = "Read";

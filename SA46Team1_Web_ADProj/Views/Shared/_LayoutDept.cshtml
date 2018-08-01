@@ -78,7 +78,19 @@
                     <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
                         <i class="fas fa-bell" style="font-size:28px; color:#F9BE4F;"></i>
                     </a>
-                    <label>  @Session["NoUnreadRequests"] </label>
+
+                    @if (User.IsInRole("Employee"))
+                    {
+                        <label>  @Session["NoUnreadRequestsEmployee"] </label>
+                    }
+                    else if (User.IsInRole("Employee Representative"))
+                    {
+                        <label>  @Session["NoUnreadRequestsEmployee"] </label>
+                    }
+                    else if (User.IsInRole("Department Head"))
+                    {
+                        <label>  @Session["NoUnreadRequests"] </label>
+                    }
                 </span>
                     <span>
                     @Html.ActionLink("Logout", "Logout", "Main", null, new { @class = "btn btn-lu-red", style = "font-size: 8pt;" })

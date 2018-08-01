@@ -72,8 +72,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
-                    srh.NotificationStatus = "Read";
+                    //srh.NotificationStatus = "Read";
                 }
+
+                srh.NotificationStatus = "Unread";
 
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
@@ -102,8 +104,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
-                    srh.NotificationStatus = "Read";
+                    //srh.NotificationStatus = "Read";
                 }
+
+                srh.NotificationStatus = "Unread";
 
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
