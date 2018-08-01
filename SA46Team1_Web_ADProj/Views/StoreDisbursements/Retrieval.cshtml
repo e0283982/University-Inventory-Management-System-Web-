@@ -11,8 +11,12 @@
     $(document).ready(function () {
         
         var disbursed = parseInt(@ViewBag.Disbursed);
+        var allItemRetrieved = parseInt(@ViewBag.AllItemsRetrieved);
 
-        if (disbursed == 0) {
+        if (disbursed == 0 && allItemRetrieved == 0) {
+            $("#div-disbursed").hide();
+            $("#btn-disburse-retrieval").hide();
+        } else if (disbursed == 0 && allItemRetrieved == 1) {
             $("#div-disbursed").hide();
         }
 

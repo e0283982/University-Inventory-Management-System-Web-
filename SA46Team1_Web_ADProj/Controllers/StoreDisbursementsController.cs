@@ -96,7 +96,33 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string reqId = CommonLogic.SerialNo(id, "StoR");
                 Session["RetrievalId"] = reqId;
                 ViewBag.IdCount = reqId;
-                ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;                
+                ViewBag.Disbursed = m.StockRetrievalHeaders.Where(x => x.ID == reqId).First().Disbursed;
+
+                //To check whether all items have been retrieved
+                List<StockRetrievalDetail> stockRetrievalDetailsList = m.StockRetrievalDetails.Where(x => x.Id == reqId).ToList<StockRetrievalDetail>();
+                bool allItemCollected = true;
+
+                foreach (StockRetrievalDetail srd in stockRetrievalDetailsList)
+                {
+                    if(srd.Collected == 0)
+                    {
+                        allItemCollected = false;
+                    }
+                }
+
+                StockRetrievalHeader stockRetrievalHeader = m.StockRetrievalHeaders.Where(x => x.ID == reqId).FirstOrDefault();
+                if (allItemCollected)
+                {
+                    stockRetrievalHeader.AllItemsRetrieved = 1;
+                }
+                else
+                {
+                    stockRetrievalHeader.AllItemsRetrieved = 0;
+                }
+
+                ViewBag.AllItemsRetrieved = stockRetrievalHeader.AllItemsRetrieved;
+
+
             }
 
             var tuple = new Tuple<StockRetrievalDetail, Item>(new StockRetrievalDetail(), new Item());
