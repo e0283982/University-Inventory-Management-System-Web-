@@ -266,16 +266,20 @@ namespace SA46Team1_Web_ADProj.Controllers
                             if (itemRequested.Quantity > srd.QuantityOrdered)
                             {
                                 newDD.QuantityReceived = srd.QuantityOrdered;
-                                srd.QuantityDelivered = newDD.QuantityReceived;
+
+                                //Quantity Delivered is done using the android
+                                //srd.QuantityDelivered = newDD.QuantityReceived;
                             }
                             else
                             {
                                 //QuantityReceived will be the same as item table quantity as that is all that is left
                                 newDD.QuantityReceived = itemRequested.Quantity;
-                                srd.QuantityDelivered = newDD.QuantityReceived;
+                                
+                                //Quantity Delivered is done using the android
+                                //srd.QuantityDelivered = newDD.QuantityReceived;
 
                                 //There would be quantity backordered in this case
-                                srd.QuantityBackOrdered = srd.QuantityOrdered - srd.QuantityDelivered;
+                                srd.QuantityBackOrdered = srd.QuantityOrdered - newDD.QuantityReceived;
                             }                           
 
                             float itemUnitCost = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
