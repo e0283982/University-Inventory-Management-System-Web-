@@ -7,9 +7,8 @@
 }
 
 <div>
-    <h5>Department Usage Cost Report</h5>
-    <label id="lbl-filter-info2">Filter results: All</label>
-    <label id="lbl-cost-info2"></label>
+    <h5>Department Usage Cost Report</h5>    
+    @*<label id="lbl-filter-info2">Filter results: All</label>*@
 </div>
 
 <div class="row">
@@ -26,21 +25,21 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-2">
-                <span>
+                <div style="text-align:center;">
                     <label style="font-size: 10pt;">Year</label>
-                </span>
-                <span>
+                </div>
+                <div>
                     <select id="chosenYear" multiple>
                         <option value="2017">2017</option>
                         <option value="2018">2018</option>
                     </select>
-                </span>
+                </div>
             </div>
             <div class="col-md-2">
-                <span>
+                <div style="text-align:center;">
                     <label style="font-size: 10pt;">Month(s)</label>
-                </span>
-                <span>
+                </div>
+                <div>
                     <select id="chosenMonths" multiple>
                         <option value="jan">Jan</option>
                         <option value="feb">Feb</option>
@@ -55,8 +54,13 @@
                         <option value="nov">Nov</option>
                         <option value="dec">Dec</option>
                     </select>
-                </span>
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div style="float:right;">
+            <label id="lbl-cost-info2"></label>
         </div>
     </div>
 </div>

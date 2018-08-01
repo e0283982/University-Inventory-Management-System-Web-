@@ -40,9 +40,10 @@
                 ],
                 columnDefs: [
                     {
-                        //"targets": [0],
-                        //"visible": false,
-                        //"searchable": false
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }, {
                         className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                     }
                 ]
@@ -77,19 +78,19 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-11">
-        <div style="float: right">
-            <span>
-                @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-                {
-                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
-                }
-            </span>
-        </div>
-    </div>
-    <div class="col-md-1">
+    <div class="col-md-6">
         <span>
-            <button class="btn btn-lu-green" style="font-size: 10pt;">@Html.ActionLink("Save", "Home", "Store")</button>
+            @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+            {
+                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+            }
         </span>
+    </div>
+    <div class="col-md-6">
+        <div style="float:right;">
+            <span>
+                <button class="btn btn-lu-green" style="font-size: 10pt;">@Html.ActionLink("Save", "Home", "Store")</button>
+            </span>
+        </div>      
     </div>
 </div>
