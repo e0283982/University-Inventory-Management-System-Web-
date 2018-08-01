@@ -6,6 +6,7 @@
 @model Item
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
 <script>
     var table;
     // Load Datatable
@@ -21,7 +22,7 @@
                 "defaultContent": "<input id='selectall' type='checkbox' checked/>"
             },
                 {
-                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6]
+                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7]
                 }
             ]
         });
@@ -51,33 +52,39 @@
             return;
         }
 
+        var validation = 0;
+
         for (var i = 0; i < table.rows().data().length; i++) {
             var rowChecked =
-                table.cell(i, 6).nodes().to$().find('input').prop('checked');
+                table.cell(i, 7).nodes().to$().find('input').prop('checked');
             if (rowChecked == true) {
                 var dataToSend = table.rows(i).data();
 
-                var rowItemQty = table.cell(i, 3).nodes().to$().find('input').val();
+                var rowItemQty = table.cell(i, 4).nodes().to$().find('input').val();
+                validation += parseFloat(rowItemQty);
                 arr1.push(rowItemQty);
 
                 var json = dataToSend[0];
                 arr2.push(json[0]);
 
-                var rowSupplier = table.cell(i, 5).nodes().to$().find(":selected").text();
+                var rowSupplier = table.cell(i, 6).nodes().to$().find(":selected").text();
                 arrSupplier.push(rowSupplier);
             }
         }
 
-        $.ajax({
-            url: '/StoreInventory/AddToPO',
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            async: false,
-            data: JSON.stringify({ arr1: arr1, arr2: arr2, arrSupplier: arrSupplier })
-        });
+        if (validation > 0 && validation % 1 == 0) {
+             $.ajax({
+                url: '/StoreInventory/AddToPO',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false,
+                data: JSON.stringify({ arr1: arr1, arr2: arr2, arrSupplier: arrSupplier })
+            });
 
-        window.location.href = '@Url.Action("Inventory", "Store")';
+            window.location.href = '@Url.Action("Inventory", "Store")';
+        }
+
     });
 
     $('body').on('change', '#mass_select_all', function () {
@@ -85,12 +92,7 @@
 
     });
 
-
 </script>
-
-<div>
-    <h5>Inventory - Reorder</h5>
-</div>
 
 <table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
     <thead style="font-size: 10pt;">
@@ -99,6 +101,7 @@
             <th>Quantity On Hand</th>
             <th>Reorder Level</th>
             <th>Suggested Reorder Qty</th>
+            <th>Actual Order Qty</th>
             <th>Unit of Measure</th>
             <th>Supplier</th>
             <th>Include in PO <br /><input type="checkbox" checked id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
@@ -111,7 +114,8 @@
             <th>@item.Description</th>
             <th>@item.Quantity</th>
             <th>@item.ReOrderLevel</th>
-            <th><input type="number" id="input-qty" style="text-align: center;" value=@item.ActualReorder /></th>
+            <th>@item.ActualReorder</th>
+            <th><input type="number" id="input-qty" min="1" pattern="[0-9]" style="text-align: center;" value=@item.ActualReorder /></th>
             <th>@item.UoM</th>
             <th>
                 <select>
