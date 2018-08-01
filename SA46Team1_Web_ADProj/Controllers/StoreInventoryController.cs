@@ -186,7 +186,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 TempData["ErrorMsg"] = "Please key in a valid quantity";
             }
-            
+
 
             return RedirectToAction("Inventory", "Store");
         }
@@ -235,7 +235,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                                             "ItemCode", "Description", null);
                     }
                 }
-                
+
                 Session["StockAdjPage"] = "1";
                 return View("StockAdj2");
 
@@ -269,7 +269,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 sad.ItemDesc = itemDesc;
                 sad.AdjQty = item.AdjQty;
                 sad.Reason = reason;
-                sad.AdjCost =  (avgUnitCost * item.AdjQty);
+                sad.AdjCost = (avgUnitCost * item.AdjQty);
                 sad.AvgUnitCost = avgUnitCost;
 
                 list.Add(sad);
@@ -344,8 +344,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 //data is item desc, index is list index
-                int adjCount = e.StockAdjustmentHeaders.ToList().Count() +1;
-                string newAdjHeaderId = CommonLogic.SerialNo(adjCount, "SA");                
+                int adjCount = e.StockAdjustmentHeaders.ToList().Count() + 1;
+                string newAdjHeaderId = CommonLogic.SerialNo(adjCount, "SA");
 
                 StockAdjustmentHeader sah = new StockAdjustmentHeader();
                 sah.RequestId = newAdjHeaderId;
@@ -360,7 +360,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 DAL.StockAdjustmentDetailsRepositoryImpl dalDetails = new DAL.StockAdjustmentDetailsRepositoryImpl(e);
 
                 //insert SAH details
-                foreach (StockAdjItemModel detail in (List<StockAdjItemModel>) Session["NewAdjList"])
+                foreach (StockAdjItemModel detail in (List<StockAdjItemModel>)Session["NewAdjList"])
                 {
                     StockAdjustmentDetail sad = new StockAdjustmentDetail();
                     sad.RequestId = newAdjHeaderId;
@@ -389,14 +389,14 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     //Update Item Quantity
                     Item item = e.Items.Where(x => x.ItemCode == sad.ItemCode).FirstOrDefault();
-                    item.Quantity = item.Quantity - sad.ItemQuantity;                    
+                    item.Quantity = item.Quantity - sad.ItemQuantity;
 
                 }
 
                 e.SaveChanges();
 
                 Session["NewAdjList"] = new List<StockAdjItemModel>();
-                
+
                 return RedirectToAction("Inventory", "Store");
             }
         }
@@ -404,7 +404,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
         public RedirectToRouteResult CreateNewStockAdj()
-        {                        
+        {
             Session["StockAdjPage"] = "2";
 
             return RedirectToAction("Inventory", "Store");
@@ -481,7 +481,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult StockTakeUpdate(StockTakeList[] arr, string[] arr1)
         {
             int count = 0;
-            
+
             string transType = "Stock Take";
             List<StockTakeList> list = new List<StockTakeList>();
             for (int i = 0; i < arr.Length; i++)
@@ -493,7 +493,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 int itemTransCount = m.StockTakeHeaders.Count() + 1;
                 string itemTransactionId = CommonLogic.SerialNo(itemTransCount, "ST");
-                
+
                 // Update StockTakeHeader Table
                 StockTakeHeader stockTakeHeader = new StockTakeHeader();
                 stockTakeHeader.StockTakeID = itemTransactionId;
@@ -509,10 +509,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     float avgCost = item.AvgUnitCost;
                     int qtyOnHand = item.Quantity;
                     int qtyAdjusted = itemQty - qtyOnHand;
-                    float totalAmt = avgCost * (float) qtyAdjusted;
+                    float totalAmt = avgCost * (float)qtyAdjusted;
                     string itemcode = l.ItemCode;
 
-                    if(qtyAdjusted != 0)
+                    if (qtyAdjusted != 0)
                     {
                         // Update Item Table
                         item.Quantity = itemQty;
@@ -544,6 +544,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             return View();
         }
-        
+
     }
 }
