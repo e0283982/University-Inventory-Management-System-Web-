@@ -76,16 +76,16 @@
         $(function () {
             $("#dialog-disburse-retrieval").dialog({
                 autoOpen: false,
-                width: "40%",
-                maxWidth: "40%"
+                width: "30%",
+                maxWidth: "30%"
             });
         });
 
         $(function () {
             $("#dialog-adjust-retrieval").dialog({
                 autoOpen: false,
-                width: "40%",
-                maxWidth: "40%"
+                width: "30%",
+                maxWidth: "30%"
             });
         });
     });
@@ -93,8 +93,8 @@
     $(function () {
         $("#dialog-confirm-disburse-item").dialog({
             autoOpen: false,
-            width: "40%",
-            maxWidth: "40%"
+            width: "30%",
+            maxWidth: "30%"
         });
     });
 
@@ -218,25 +218,33 @@
         <div>
             @Html.TextBoxFor(tuple => tuple.Item1.Id, new { @placeholder = "StoRId", @id = "assign-stock-req-id", @readonly = "readonly", style = "display: none;" })
         </div>
-        <div>
-            <label>Item Name: </label>
-            @Html.TextBoxFor(tuple => tuple.Item2.Description, new { @placeholder = "StoRId", @id = "assign-item-description", @readonly = "readonly" })
+        <div class="row">
+            <div class="col-md-3">
+                <label>Item Name:&nbsp;</label>
+            </div>
+            <div class="col-md-9">
+                @Html.TextBoxFor(tuple => tuple.Item2.Description, new { @placeholder = "StoRId", @id = "assign-item-description", @readonly = "readonly" })
+            </div> 
         </div>
 
-        <div>
-            <label>Quantity to Adjust: </label>
-            @Html.EditorFor(tuple => tuple.Item1.QuantityAdjusted, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityAdjusted", @id = "assign-quantity-adjusted", @min = "1", @step = "1", @Value = "1" }, })
+        <div class="row" style="padding-top:5px;">
+            <div class="col-md-3">
+                <label>Quantity to Adjust:&nbsp;</label>
+            </div>
+            <div class="col-md-5">
+                @Html.EditorFor(tuple => tuple.Item1.QuantityAdjusted, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityAdjusted", @id = "assign-quantity-adjusted", @min = "1", @step = "1", @Value = "1" }, })
+            </div>
         </div>
 
-        <hr />
-        <div>
-            <div style="text-align:center;">
-                <h5>Damaged/Missing</h5>
+        <div class="row" style="padding-top:5px;">
+            <div class="col-md-3">
+                <label>Status:&nbsp;</label>
             </div>   
-
-            @Html.DropDownListFor(tuple => tuple.Item1.Remarks, new List<SelectListItem>
-                       { new SelectListItem{Text="Damaged", Value="Damaged"},
-                         new SelectListItem{Text="Missing", Value="Missing"}}, new { style = "padding: 1px; " })
+            <div class="col-md-9">
+                @Html.DropDownListFor(tuple => tuple.Item1.Remarks, new List<SelectListItem>
+                      { new SelectListItem{Text="Damaged", Value="Damaged"},
+                        new SelectListItem{Text="Missing", Value="Missing"}}, new { style = "padding: 1px; " })
+            </div>    
         </div>
         <hr />
 
