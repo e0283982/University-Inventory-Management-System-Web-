@@ -171,7 +171,7 @@
         <div>
             <div>
                 <label>Employee Name: </label>
-                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName", @id = "assign-emp-role-name" , disabled = "disabled" }, })
+                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName", @id = "assign-emp-role-name" ,@readonly="readonly"}, })
             </div>
             <br />
             <div>

@@ -176,7 +176,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.DateRequested = System.DateTime.Now;
                 srh.Status = "Open"; 
                 srh.ApprovalStatus = "Pending"; 
-                srh.DateProcessed = System.DateTime.Now; //to change to null (default)
+                srh.DateProcessed = null; //to change to null (default)
                 srh.Approver = e.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.ReportsTo).FirstOrDefault();
                 srh.NotificationStatus = "Unread";
 
