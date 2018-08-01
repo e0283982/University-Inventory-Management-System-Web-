@@ -101,12 +101,20 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-<div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
-    <h5>Please select at least 1 valid month and year.</h5>
+<div id="dialog-invalid-report-date" class="hidden" @*title="Invalid report date filter"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>Please select at least 1 valid month and year.</h5>
+    </div>
+    <hr />
 </div>
 
-<div id="dialog-no-data" class="hidden" title="Information">
-    <h5>No data found.</h5>
+<div id="dialog-no-data" class="hidden" @*title="Information"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>No data found.</h5>
+    </div>
+    <hr />
 </div>
 
 <script>
@@ -193,6 +201,7 @@
 
                             if (selMonths.length == 0 || selYears.length == 0) {
                                 //alert("Please select at least 1 valid month and year.");
+                                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
                                 $('#dialog-invalid-report-date').dialog('open');
                                 return;
                             }
@@ -227,6 +236,7 @@
                                 .search(category, true, false, true).draw();
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
+                                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
                                 $('#dialog-no-data').dialog('open');
                                 $('#btn-submit-export2').hide();
 
@@ -274,8 +284,9 @@
                     },
                     columnDefs: [
                         {
-                            //"targets": [0,1,2],
-                            //"visible": false,
+                            "targets": [0,1,2],
+                            "visible": false,                            
+                        }, {
                             className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     ]
@@ -333,6 +344,16 @@
             width: "40%",
             maxWidth: "40%"
         });
+    });
+
+    $("#dialog-invalid-report-date").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-invalid-report-date').dialog('close');
+    });
+
+    $("#dialog-no-data").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#dialog-no-data').dialog('close');
     });
 
 </script>
