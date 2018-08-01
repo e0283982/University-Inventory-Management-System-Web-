@@ -18,6 +18,7 @@
             scrollY: 200,
             "iDisplayLength": 5,
             scrollCollapse: false,
+            "bLengthChange": false,
             columnDefs: [{
                 "targets": -1,
                 "data": null,
@@ -234,20 +235,23 @@
         @*--- Dynamic boxes ---*@
         <div class="row">
             <div class="col-md-6">
-                <hr />
-                <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><label id="displayPO-gross-total" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["grossTotal"])</label>
-                <br />
-                <label style="font-size: 10pt;">GST ($):&nbsp;</label><label disabled id="displayPO-gst" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["gst"])</label>
-                <br />
-                <label style="font-size: 10pt;">Net Total ($):&nbsp;</label><label disabled id="displayPO-net-total" style="font-size: 10pt; margin: 1.5px;">@String.Format("{0:0.00}", TempData["netTotal"])</label>
+                <hr style="margin-left:0px; width: 300px;" />
+                <div style="float: left;">
+                    <label style="font-size: 10pt; margin: 5px; ">Gross Total</label>
+                    <br />
+                    <label style="font-size: 10pt; margin: 5px;">GST</label>
+                    <br />
+                    <label style="font-size: 10pt; margin: 5px;">Net Total</label>
+                </div>
+                <div style="float: left;">
+                    ($):&nbsp;<input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" ">
+                    <br />
+                    ($):&nbsp;<input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                    <br />
+                    ($):&nbsp;<input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                </div>
             </div>
             <div class="col-md-6">
-                @*<input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; margin: 1.5px;">
-                <br />
-                <input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; margin: 1.5px;">
-                <br />
-                <input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; margin: 1.5px;">*@
-                
                 <div style="float:right;">
                     <div style="font-size: 10pt;">
                         <p>Remarks: </p>
@@ -286,7 +290,7 @@
         <hr />
         <div>
             <div>
-                <label>Item Description: </label>
+                <label>Item Description: </label><br />
                 @Html.DropDownList("SelectItemChose", ViewBag.ItemsList as SelectList, null, new { @class = "styled-select semi-square" })
             </div>
             <br />

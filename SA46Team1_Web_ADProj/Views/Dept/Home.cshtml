@@ -1,1 +1,170 @@
-﻿
+﻿@if (Session["Role"].ToString() == "Department Head" && Session["DepartmentCode"].ToString() == "ENGL")
+{
+    @*Dashboard for Department Head - English Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiZjZlMjZlMDktNDAzNC00YzhjLTk3MjQtNjk4YmFjN2VlOGYyIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Department Head" && Session["DepartmentCode"].ToString() == "REGR")
+{
+    @*Dashboard for Department Head - Registrar Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiY2RkM2Y0NDEtOTEyYy00ZGI5LThmZjgtZmUwOWE2MjUxZDRkIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Department Head" && Session["DepartmentCode"].ToString() == "ZOOL")
+{
+    @*Dashboard for Department Head - Zoology Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiZDAyNGVlNjQtZGQxNy00MzAzLTkxOWYtZDgzNDViYzFkNmQ0IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Employee Representative" && Session["DepartmentCode"].ToString() == "ENGL")
+{
+    @*Dashboard for Department Representative - English Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiYTU2NTNjNjQtYjZjOS00ZWZiLTk0OTQtMmE3OWIwMjdlMzBmIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Employee Representative" && Session["DepartmentCode"].ToString() == "REGR")
+{
+    @*Dashboard for Department Representative - Registrar Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiZWNlMjE5M2ItMzk2ZS00MWRkLWE4ZTEtMGI4M2M5YjVjOGQwIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Employee Representative" && Session["DepartmentCode"].ToString() == "ZOOL")
+{
+    @*Dashboard for Department Representative - Zoology Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiOGY0NWRjYmItYjE4Yi00MjM3LTljNTctZmM2ODQ0OTRmMTA0IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Employee" && Session["DepartmentCode"].ToString() == "ENGL")
+{
+    @*Dashboard for Department User - English Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiYjQ0NmRmNDktZjEyZC00MzgyLThjZGUtMzE3Nzc0YTQzZjVmIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Employee" && Session["DepartmentCode"].ToString() == "REGR")
+{
+    @*Dashboard for Department User - Registrar Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiYTg3YTJkNDgtNGExZS00NjJlLWJmYzUtNGJjYTQ2ZGVkMjkxIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Employee" && Session["DepartmentCode"].ToString() == "ZOOL")
+{
+    @*Dashboard for Department User - Zoology Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiMjYyZmJiYTItNzJiYi00N2FjLThjNTQtMjYzOTMzNmQyNzY3IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+
+}
+else if (Session["Role"].ToString() == "Employee Representative")
+{
+    @*Dashboard for Department Representative - English Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiYTU2NTNjNjQtYjZjOS00ZWZiLTk0OTQtMmE3OWIwMjdlMzBmIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Department Head")
+{
+    @*Dashboard for Department Head - Zoology Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiZDAyNGVlNjQtZGQxNy00MzAzLTkxOWYtZDgzNDViYzFkNmQ0IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else if (Session["Role"].ToString() == "Employee")
+{
+    @*Dashboard for Department User - Zoology Department*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiMjYyZmJiYTItNzJiYi00N2FjLThjNTQtMjYzOTMzNmQyNzY3IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+
+}
