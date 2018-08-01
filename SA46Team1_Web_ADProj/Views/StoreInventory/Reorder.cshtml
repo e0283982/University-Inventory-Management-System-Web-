@@ -11,8 +11,8 @@
     // Load Datatable
     $(document).ready(function () {
         table = $('#dataTable-storeManagerInventoryReorder').DataTable({
-            //scrollY: '30vh',
-            "iDisplayLength": 5,
+            scrollY: 250,
+            "iDisplayLength": 4,
             scrollCollapse: true,
             paging: true,
             columnDefs: [{
@@ -130,5 +130,9 @@
 @TempData["ErrorMsg"]
 
 <div id="dialog" class="hidden" title="Basic dialog">
-    <p>Purchase order(s) have been created.</p>
+    <br />
+    <div>
+        <h5>Purchase order(s) have been created.</h5>
+    </div>
+    <hr />
 </div>
