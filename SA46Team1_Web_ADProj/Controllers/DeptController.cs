@@ -70,13 +70,10 @@ namespace SA46Team1_Web_ADProj.Controllers
             return View();
         }
 
-        [CustomAuthorize(Roles = "Department Head, Employee, Employee Representative")]
+        [CustomAuthorize(Roles = "Department Head, Approver")]
         public ActionResult Approval()
         {
-            if (Session["ApproveRights"].ToString() == "1")
                 return View();
-            else
-                return RedirectToAction("AccessDenied", "Error", new { area = "" });
         }
 
         [CustomAuthorize(Roles = "Department Head")]

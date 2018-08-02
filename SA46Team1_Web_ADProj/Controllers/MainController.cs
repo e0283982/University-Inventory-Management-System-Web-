@@ -73,7 +73,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                     || employee.Designation == "Employee"
                     || employee.Designation == "Employee Representative")
                 {
-                    Session["ApproveRights"] = ((employee.Approver == 1) ?  1 : 0);
+                    if(employee.Approver == 1)
+                        identity.AddClaim(new Claim(ClaimTypes.Role, "Approver"));
                     return RedirectToAction("Home", "Dept", new { area = "" });
                 }
                 else if (employee.Designation == "Store Clerk"

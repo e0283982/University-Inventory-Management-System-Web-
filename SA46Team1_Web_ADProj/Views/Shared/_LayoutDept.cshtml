@@ -48,7 +48,7 @@
 
         @if (User.IsInRole("Employee"))
         {
-            if (Session["ApproveRights"].ToString() == "1")
+            if (User.IsInRole("Approver"))
             {
                 <div class="item1">@Html.ActionLink("Home", "Home", "Dept")</div>
                 <div class="item2">@Html.ActionLink("Requisition", "Requisition", "Dept")</div>
@@ -64,7 +64,7 @@
         }
         else if (User.IsInRole("Employee Representative"))
         {
-            if (Session["ApproveRights"].ToString() == "1")
+            if (User.IsInRole("Approver"))
             {
                 <div class="item1">@Html.ActionLink("Home", "Home", "Dept")</div>
                 <div class="item2">@Html.ActionLink("Requisition", "Requisition", "Dept")</div>
@@ -87,7 +87,7 @@
         }
 
         <div class="foot" style="text-align:center;">
-            <p>&nbsp;&nbsp;&nbsp;&copy; 2018 - SA46_ADProject - Team 1</p>
+            <p>&nbsp;&nbsp;&nbsp;&copy; 2018 - SA46 Team 1</p>
         </div>
     </div>
 
