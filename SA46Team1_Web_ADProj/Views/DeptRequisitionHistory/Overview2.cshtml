@@ -64,7 +64,7 @@
                             }
                         },
                         { 'data': 'QuantityDelivered' },
-                        { 'data': 'QuantityBackOrdered' },
+                        //{ 'data': 'QuantityBackOrdered' },
                         {
                             'data': null,
                             "render": function (data, type, full, meta) {
@@ -93,7 +93,7 @@
                         },
                     ],
                     columnDefs: [
-                        { className: 'text-center', targets: [0, 1, 2, 3, 4, 5] },
+                        { className: 'text-center', targets: [0, 1, 2, 3] },
                     ],
                     "initComplete": function (settings, json) {
                         
@@ -323,14 +323,12 @@
             <th>Unit of Measure</th>
             <th>Requested Qty</th>
             <th>Delivered Qty</th>
-            <th>Back Order Qty</th>
             <th></th>
         </tr>
     </thead>
 
     <tbody style="font-size: 10pt;">
         <tr>
-            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -364,9 +362,14 @@
         <div>
             <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
         </div>
-        <div>
-            <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
-        </div>
+
+        @if (req.ApprovalStatus != "Pending")
+        {
+            <div>
+                <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
+            </div>
+        }
+
     </div>
     <div class="col-md-6">
         <div style="float:right;">
