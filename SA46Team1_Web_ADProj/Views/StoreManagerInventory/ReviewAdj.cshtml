@@ -130,8 +130,8 @@
                 'itemCode': itemCode
             }
         });
-        //alert("Approve button clicked" + " " + requestId + " " + itemCode);
-       window.location.href = '@Url.Action("Inventory", "Store")';
+       
+       window.location.href = '@Url.Action("Approval", "Store")';
 
     }
     function rejectFunction(requestId, itemCode) {
@@ -144,7 +144,9 @@
                 'itemCode': itemCode
             }
         });
+         window.location.href = '@Url.Action("Approval", "Store")';
     }
+
 </script>
 <table id="dataTable-storeManagerInventoryReviewAdj" class="display" style="width:80%;">
     <thead style="font-size: 10pt;">
