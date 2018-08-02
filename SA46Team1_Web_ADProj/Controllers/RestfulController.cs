@@ -92,6 +92,13 @@ namespace SA46Team1_Web_ADProj.Controllers
                     srhList = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == emp.DepartmentCode
                     && x.ApprovalStatus == "Pending" && x.NotificationStatus != "Deleted").ToList();
                 }
+                else if(emp.Approver == 1 && (emp.Designation == "Employee" || emp.Designation == "Employee Representative"))
+                {
+                    srhList = m.StaffRequisitionHeaders.Where(x => (x.DepartmentCode == emp.DepartmentCode
+                    && x.ApprovalStatus == "Pending" && x.NotificationStatus != "Deleted") ||
+                    (x.DepartmentCode == emp.DepartmentCode && x.EmployeeID == emp.EmployeeID
+                        && (x.ApprovalStatus == "Approved" || x.ApprovalStatus == "Rejected") && x.NotificationStatus != "Deleted")).ToList();
+                }
                 else
                 {
                     srhList = m.StaffRequisitionHeaders
