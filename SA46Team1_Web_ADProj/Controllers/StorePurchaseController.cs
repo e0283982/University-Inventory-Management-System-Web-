@@ -86,11 +86,22 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
             }
             poFullDetailsList.Remove(pod);
-            if(poFullDetailsList.Count == 0)
+
+            using (SSISdbEntities e = new SSISdbEntities()) {
+                //remove from list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Remove(pod.ItemCode);
+                Session["tempList"] = tempList;
+            }
+            
+
+            if (poFullDetailsList.Count == 0)
             {
                 poFullDetailsList = new List<POFullDetail>();
             }
             Session["newPOList"] = poFullDetailsList;
+
+
             return RedirectToAction("CreatePO", "StorePurchase");
         }
 

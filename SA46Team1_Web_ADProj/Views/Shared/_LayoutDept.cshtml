@@ -95,11 +95,13 @@
             </div>
             <div style="float: right; padding-top:10px;">
                 <span>
-                    <a href="@Url.Action("Notifications", "Dept")" class="icon-block">
-                        <i class="fas fa-bell" style="font-size:28px; color:#F9BE4F;"></i>
+                    <a href="@Url.Action("Notifications", "Dept")" class="icon-block" id="notification-container">
+                        <i class="fas fa-bell" style="font-size:28px; color:#808080;"></i>
                     </a>
-                    <svg width="25" height="25">
-                        <circle cx="12.5" cy="12.5" r="10" fill="#FF0000" />
+                </span>
+                <span>
+                    <svg width="25" height="25" id="notification-label"> 
+                        <circle cx="12.5" cy="12.5" r="10" fill="#FFDF00" />
                         <text x="50%" y="50%" text-anchor="middle" fill="white" font-size="10px" font-family="Arial" dy=".3em">
                             @if (User.IsInRole("Employee"))
                             {
@@ -162,3 +164,19 @@
 </div>
 </body>
 </html>
+
+<style>
+    #notification-container {
+        position: relative;
+    }
+
+    #notification-label {
+        position: absolute;
+        margin-left: -2vw;
+        margin-top: 2vh;
+    }
+
+    #notification-label {
+        z-index: 10;
+    }
+</style>
