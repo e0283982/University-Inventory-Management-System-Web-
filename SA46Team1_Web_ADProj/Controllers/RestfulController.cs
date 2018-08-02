@@ -164,6 +164,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             return srhList;
         }
+
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetBackOrdersByDept/{id}")]
         public List<BackOrderModel> GetBackOrdersByDept(string id)
@@ -175,7 +176,34 @@ namespace SA46Team1_Web_ADProj.Controllers
                 //get list of active SRFs headers belonging to dept
                 List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList();
                 List<StaffRequisitionDetail> list = m.StaffRequisitionDetails
-                    .Where(i => deptReqIds.Contains(i.FormID) && i.QuantityBackOrdered > 0).ToList();
+                    .Where(i => deptReqIds.Contains(i.FormID) && i.QuantityDelivered!=i.QuantityOrdered && i.QuantityDelivered>0 && i.CancelledBackOrdered==0).ToList();
+
+                List<BackOrderModel> list2 = new List<BackOrderModel>();
+                list2 = list.ConvertAll(x => new BackOrderModel
+                {
+                    ItemDesc = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(y => y.Description).First(),
+                    UOM = m.Items.Where(z => z.ItemCode == x.ItemCode).Select(a => a.UoM).First(),
+                    OutstandingQty = x.QuantityBackOrdered,
+                    ReqId = x.FormID,
+                    ItemCode = x.ItemCode
+                });
+
+                return list2;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetBackOrdersByEmployee/{id}")]
+        public List<BackOrderModel> GetBackOrdersByEmployee(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+
+                //get list of active SRFs headers belonging to dept
+                List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.EmployeeID == id).Select(x => x.FormID).ToList();
+                List<StaffRequisitionDetail> list = m.StaffRequisitionDetails
+                    .Where(i => deptReqIds.Contains(i.FormID) && i.QuantityDelivered != i.QuantityOrdered && i.QuantityDelivered > 0 && i.CancelledBackOrdered == 0).ToList();
 
                 List<BackOrderModel> list2 = new List<BackOrderModel>();
                 list2 = list.ConvertAll(x => new BackOrderModel
@@ -630,6 +658,19 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetDeptRequisitionHistory/{id}")]
+        public List<StaffRequisitionHeader> GetDeptRequisitionHistory(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StaffRequisitionHeader> deptReqForms = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).ToList();
+
+                return deptReqForms;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetRequisitionHistoryDetail/{id}")]
         public List<RequisitionHistoryDetail> GetRequisitionHistoryDetail(string id)
         {
@@ -776,7 +817,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.StockRetrievalHeaders.OrderByDescending(x => x.Date).FirstOrDefault();
+                return m.StockRetrievalHeaders.OrderByDescending(x => x.ID).FirstOrDefault();
 
             }
         }
@@ -866,7 +907,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 }
 
-                //To update the list staff headers to completed, there would be multiple staff requisition headers combined
+                //To update the list of staff req headers to be completed, there would be multiple staff requisition headers combined
                 //To update the staff requisition details for quantity delivered
 
                 List<String> listOfReqFormId = m.StockRetrievalReqForms.OrderBy(x => x.Id).Where(x => x.StockRetrievalID == disbursementHeader.StockRetrievalId).Select(x => x.ReqFormID).ToList<String>();
@@ -921,7 +962,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     if (completedStaffRequisition)
                     {
                         staffRequisitionHeader.Status = "Completed";
-                    }                    
+                    }                                        
 
                 }                
 
@@ -1167,6 +1208,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 //    return employee.Designation;
                 //}
 
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCollectionList/{id}")]
+        public List<CollectionList> GetCollectionList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.CollectionLists.Where(x => x.DepartmentCode == id).ToList();
+            }
         }
 
 

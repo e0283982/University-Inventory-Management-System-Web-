@@ -133,6 +133,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 // Search for all Open && Approved StaffReqDetails
                 foreach (StaffRequisitionHeader srhInWeek in staffReqHeadList)
                 {
+                    srhInWeek.Status = "Outstanding";
+                    m.SaveChanges();
+
                     // Find List of StaffReqDetails based on Header ID
                     List<StaffRequisitionDetail> SRD = m.StaffRequisitionDetails
                         .Where(x => x.FormID == srhInWeek.FormID).ToList();
@@ -157,6 +160,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     newsrh.ID = srhId;
                     newsrh.Date = DateTime.Now;
                     newsrh.Disbursed = 0;
+                    newsrh.AllItemsRetrieved = 0;
                     m.StockRetrievalHeaders.Add(newsrh);
                     m.SaveChanges();
                     #endregion
@@ -245,6 +249,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                         newsrd.CollectionPointID = dd.CollectionPointID;
                                         newsrd.QuantityAdjusted = 0;
                                         newsrd.Remarks = "";
+                                        newsrd.Collected = 0;
                                         m.StockRetrievalDetails.Add(newsrd);
                                         allsrd.Add(retrievalListWithBO);
 
@@ -260,6 +265,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                             .Where(x => x.Id == srhId && x.ItemCode == itemRetrieved.ItemCode
                                             && x.CollectionPointID == dd.CollectionPointID).FirstOrDefault();
                                         existingSRD.QuantityRetrieved += qtyToAdd;
+                                        allsrd.Add(retrievalListWithBO);
                                     }
                                 }
                                 else
@@ -272,6 +278,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                     newsrd.CollectionPointID = dd.CollectionPointID;                                    
                                     newsrd.QuantityAdjusted = 0;
                                     newsrd.Remarks = "";
+                                    newsrd.Collected = 0;
                                     m.StockRetrievalDetails.Add(newsrd);
                                     allsrd.Add(retrievalListWithBO);
                                     colpt = new List<string>();
@@ -328,6 +335,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                         newsrd.CollectionPointID = dd.CollectionPointID;
                                         newsrd.QuantityAdjusted = 0;
                                         newsrd.Remarks = "";
+                                        newsrd.Collected = 0;
                                         m.StockRetrievalDetails.Add(newsrd);
                                         allsrd.Add(retrievalList);
 
@@ -343,6 +351,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                             .Where(x => x.Id == srhId && x.ItemCode == itemRetrieved.ItemCode
                                             && x.CollectionPointID == dd.CollectionPointID).FirstOrDefault();
                                         existingSRD.QuantityRetrieved += qtyToAdd;
+                                        allsrd.Add(retrievalList);
                                     }
                                 }
                                 else
@@ -355,6 +364,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                     newsrd.CollectionPointID = dd.CollectionPointID;
                                     newsrd.QuantityAdjusted = 0;
                                     newsrd.Remarks = "";
+                                    newsrd.Collected = 0;
                                     m.StockRetrievalDetails.Add(newsrd);
                                     allsrd.Add(retrievalList);
 
@@ -373,15 +383,26 @@ namespace SA46Team1_Web_ADProj.Controllers
                     #endregion
 
                     #region Create StockRetrievalReqForm
+                    List<String> allNewlyCreatedReqFormId = new List<String>();
+
                     foreach(StaffRequisitionDetail allNewlyCreated in allsrd)
+                    {
+                        allNewlyCreatedReqFormId.Add(allNewlyCreated.FormID);                        
+                    }
+
+                    //To remove duplicate req form id
+                    allNewlyCreatedReqFormId = allNewlyCreatedReqFormId.Distinct().ToList();
+
+                    foreach(String newReqFormId in allNewlyCreatedReqFormId)
                     {
                         // New StockRetrievalReqForm
                         StockRetrievalReqForm srrf = new StockRetrievalReqForm();
-                        srrf.ReqFormID = allNewlyCreated.FormID;
+                        //srrf.ReqFormID = allNewlyCreated.FormID;
+                        srrf.ReqFormID = newReqFormId;
                         srrf.StockRetrievalID = srhId;
                         m.StockRetrievalReqForms.Add(srrf);
                         m.SaveChanges();
-                    }
+                    }                    
                     #endregion
 
                 }

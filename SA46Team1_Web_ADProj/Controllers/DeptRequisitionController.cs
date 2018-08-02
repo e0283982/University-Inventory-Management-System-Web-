@@ -97,7 +97,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     switch (backOrderStatus) {
                         case true: //backorder exists for current SR
-                            srh.Status = disbursedStatus == 1 ? "Outstanding" : "Open";
+                            //srh.Status = disbursedStatus == 1 ? "Outstanding" : "Open";
                             break;
                         case false:
                             srh.Status = "Cancelled";

@@ -114,14 +114,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 if (allItemCollected)
                 {
                     stockRetrievalHeader.AllItemsRetrieved = 1;
+                    m.SaveChanges();
                 }
                 else
                 {
                     stockRetrievalHeader.AllItemsRetrieved = 0;
+                    m.SaveChanges();
                 }
 
                 ViewBag.AllItemsRetrieved = stockRetrievalHeader.AllItemsRetrieved;
 
+                
 
             }
 
@@ -214,9 +217,26 @@ namespace SA46Team1_Web_ADProj.Controllers
                 //To order by id so the earlier id will mean that the req form was submitted earlier
                 List<String> reqFormIDList = m.StockRetrievalReqForms.OrderBy(x => x.Id).Where(x => x.StockRetrievalID == id).Select(x => x.ReqFormID).ToList<String>();
 
-                //List<String> reqFormIDList = m.StockRetrievalReqForms.Where(x => x.StockRetrievalID == id).Select(x => x.ReqFormID).ToList<String>();
+                //Create distinct disbursement headers
+                List<String> disbHeaderDeptCodes = new List<String>();               
 
-                foreach (String reqFormID in reqFormIDList)
+                //Take from stock retrieval details
+                List<StockRetrievalDetail> stockRetrievalDetails = m.StockRetrievalDetails.Where(x => x.Id == id).ToList<StockRetrievalDetail>();
+
+                foreach (StockRetrievalDetail srd in stockRetrievalDetails)
+                {
+                    //To take care that in case stock adjustment makes the quantity retrieved to be 0
+                    if(srd.QuantityRetrieved > 0)
+                    {
+                        String deptCode = m.DepartmentDetails.Where(x => x.CollectionPointID == srd.CollectionPointID).FirstOrDefault().DepartmentCode;
+                        disbHeaderDeptCodes.Add(deptCode);
+                    }
+                }
+
+                //Make it distinct so that only one disbursement header is created
+                disbHeaderDeptCodes = disbHeaderDeptCodes.Distinct().ToList();
+
+                foreach (String deptCode in disbHeaderDeptCodes)
                 {
                     DisbursementHeader newDH = new DisbursementHeader();
 
@@ -224,56 +244,44 @@ namespace SA46Team1_Web_ADProj.Controllers
                     string disId = CommonLogic.SerialNo(count, "DH");
                     newDH.Id = disId;
                     newDH.Status = "Open";
-                    
-                    //------------------------------- TO CHANGE ----------------------------
-                    //To change to stock retrieval id(local variable id) instead of staff req id
+                    newDH.Date = DateTime.Now;
+                    newDH.Amount = 0; //Put 0 first and then to be calculated after all the disbursement details is done
                     newDH.StockRetrievalId = id;
-                    
-                    newDH.DepartmentCode = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault().DepartmentCode;                    
-                    newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().CollectionPointID;
+                    newDH.DepartmentCode = deptCode;
+                    newDH.CollectionPointID = m.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).FirstOrDefault().CollectionPointID;
                     newDH.RepresentativeID = m.DepartmentDetails.Where(x => x.DepartmentCode == newDH.DepartmentCode).FirstOrDefault().RepresentativeID;
 
                     float totalAmount = 0f;
 
-                    //To create disbursement details, case of no adjustment first
-
-                    List<StaffRequisitionDetail> staffRequisitionDetailsList = m.StaffRequisitionDetails.Where(x => x.FormID == reqFormID).ToList<StaffRequisitionDetail>();
-
-                    foreach(StaffRequisitionDetail srd in staffRequisitionDetailsList)
+                    //Create disbursement details, since one collection point is for one dept, then the entire stock retrieved would be assigned to that dept
+                    foreach (StockRetrievalDetail srd in stockRetrievalDetails)
                     {
-                        
-                        Item itemRequested = m.Items.Where(x => x.ItemCode == srd.ItemCode).FirstOrDefault();
-
-                        //Unable to fulfill any item
-                        if(itemRequested.Quantity <= 0)
+                        //Only disbursed if quantity retrieved is more than 0
+                        if(srd.QuantityRetrieved > 0)
                         {
-                            srd.QuantityDelivered = 0;
-                            srd.QuantityBackOrdered = srd.QuantityOrdered;
-
-                        }
-                        else
-                        {
-                           
                             DisbursementDetail newDD = new DisbursementDetail();
                             newDD.Id = disId;
                             newDD.ItemCode = srd.ItemCode;
-                            newDD.QuantityOrdered = srd.QuantityOrdered;
 
-                            //QuantityReceived will be the same as Quantity Ordered as item table will be able to fulfill all the items
-                            if (itemRequested.Quantity > srd.QuantityOrdered)
+                            int quantityOrdered = 0;
+
+                            foreach(String reqF in reqFormIDList)
                             {
-                                newDD.QuantityReceived = srd.QuantityOrdered;
-                                srd.QuantityDelivered = newDD.QuantityReceived;
+                                StaffRequisitionDetail staffReqDet = m.StaffRequisitionDetails.Where(x => x.FormID == reqF && x.ItemCode == newDD.ItemCode).FirstOrDefault();
+
+                                int reqQtyOrdered = 0;
+
+                                if (staffReqDet != null)
+                                {
+                                    reqQtyOrdered = staffReqDet.QuantityOrdered;
+                                }
+                                
+                                quantityOrdered = quantityOrdered + reqQtyOrdered;
                             }
-                            else
-                            {
-                                //QuantityReceived will be the same as item table quantity as that is all that is left
-                                newDD.QuantityReceived = itemRequested.Quantity;
-                                srd.QuantityDelivered = newDD.QuantityReceived;
 
-                                //There would be quantity backordered in this case
-                                srd.QuantityBackOrdered = srd.QuantityOrdered - srd.QuantityDelivered;
-                            }                           
+
+                            newDD.QuantityOrdered = quantityOrdered;
+                            newDD.QuantityReceived = srd.QuantityRetrieved;
 
                             float itemUnitCost = m.Items.Where(x => x.ItemCode == newDD.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
                             newDD.UnitCost = itemUnitCost;
@@ -287,9 +295,9 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                             m.DisbursementDetails.Add(newDD);
 
+
                             //To add the item transactions
                             DateTime localDate = DateTime.Now;
-                            newDH.Date = localDate;
 
                             ItemTransaction itemTransaction = new ItemTransaction();
                             itemTransaction.TransDateTime = localDate;
@@ -306,22 +314,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                             Item itemDisbursed = m.Items.Where(x => x.ItemCode == itemTransaction.ItemCode).FirstOrDefault();
                             itemDisbursed.Quantity -= itemTransaction.Quantity;
 
-                            
-                        }                       
+                        }
+
+                        
 
                     }
 
                     newDH.Amount = totalAmount;
                     m.DisbursementHeaders.Add(newDH);
 
-                    //To update the status of requisition
-                    //Status would be outstanding when the item is disbursed
-                    //Status would only change to completed when the receiver has acknowledged receipt of the item
-                    StaffRequisitionHeader staffRequisitionHeader = m.StaffRequisitionHeaders.Where(x => x.FormID == reqFormID).FirstOrDefault();
-                    staffRequisitionHeader.Status = "Outstanding";
-
                     m.SaveChanges();
-                } 
+                }               
                 
             }
            

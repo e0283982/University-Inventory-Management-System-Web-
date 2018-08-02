@@ -6,12 +6,23 @@
     $(document).ready(function () {
 
         var table;
+        var url = '';
+
+        if ('@Session["Role"].ToString()' == 'Employee Representative') {
+            url = 'http://localhost:49921/api/Restful/GetDeptRequisitionHistory/' + '@Session["DepartmentCode"]'
+        } else {
+            url = 'http://localhost:49921/api/Restful/GetRequisitionHistory/' + '@Session["LoginEmployeeID"]'
+        }
+
+
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetRequisitionHistory/' + '@Session["LoginEmployeeID"]',
+            url: url,
             method: 'get',
             dataType: 'json',
             success: function (data) {
                 table = $('#dataTable-pastReq').DataTable({
+                    scrollY: 200,
+                    scrollCollapse: false,
                     paging: true,
                     sort: true,
                     searching: true,
@@ -34,9 +45,8 @@
                     columnDefs: [
                         { className: 'text-center', targets: [0, 1, 2, 3] },
                     ]
-                }).on('click', 'tobody tr', function () {
+                }).on('click', 'tbody tr', function () {
                     var datum = table.row(this).data();
-
                     jQuery.ajax({
                         url: '/DeptRequisitionHistory/DisplayReqHistoryDetails',
                         data: datum,

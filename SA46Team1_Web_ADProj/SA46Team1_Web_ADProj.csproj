@@ -611,6 +611,7 @@
     <Content Include="Content\dropdowns.css" />
     <Content Include="Content\images\campaign.jpg" />
     <Content Include="Content\images\logic1.png" />
+    <Content Include="Content\images\People.png" />
     <Content Include="Content\Login-Form-Clean.css" />
     <Content Include="Content\sidebar.css" />
     <Content Include="Content\site.css" />

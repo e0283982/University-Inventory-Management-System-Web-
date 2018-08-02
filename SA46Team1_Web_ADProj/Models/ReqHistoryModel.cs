@@ -9,6 +9,8 @@ namespace SA46Team1_Web_ADProj.Models
     {
         public string ApprovalStatus { get; set; }
 
+        public string Requestor { get; set; }
+
         public DateTime RequestDate { get; set; }
 
         public string RepName { get; set; }
