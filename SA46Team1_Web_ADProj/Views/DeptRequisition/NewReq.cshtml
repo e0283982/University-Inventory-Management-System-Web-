@@ -106,11 +106,7 @@
             maxWidth: "40%"
         });
 
-    $("#dialog-confirm-submit-new-req").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
-        $('#dialog-confirm-submit-new-req').dialog('close');
-    });
-
+   
     });
 
     $('#btn-add-item').on('click', function () {
@@ -156,7 +152,7 @@
 
     $('#btn-confirm-submit-submit').on('click', function () {
         $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
-        $('#dialog-new-req-submited').dialog('open');
+        $('#dialog-confirm-submit-new-req').dialog('close');
 
         $.ajax({
             url: '/DeptRequisition/SubmitNewRequestForm',
@@ -164,11 +160,17 @@
             async: false
         });
 
-        table.draw(false);
-
-        window.location.href = '@Url.Action("Requisition", "Dept")';
+        $('#dialog-new-req-submited').dialog('open');
+        //table.draw(false);
 
     });
+
+    $("#dialog-new-req-submited").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        window.location.href = '@Url.Action("Requisition", "Dept")';
+        //$('#dialog-confirm-submit-new-req').dialog('close');
+    });
+
 
     $('#btn-edit-items').on('click', function () {
 
