@@ -518,6 +518,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="provider\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="RestrictAttribute.cs" />
     <Compile Include="Scheduler\ChangeRoleJob.cs" />
     <Compile Include="Scheduler\CreateRetrievalListJob.cs" />
     <Compile Include="Scheduler\MyScheduler.cs" />
