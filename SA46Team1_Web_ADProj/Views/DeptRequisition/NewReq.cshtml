@@ -3,13 +3,13 @@
     List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
     List<int> rowIndexes = (List<int>)TempData["RowIndexesToDiscard"];
     bool editMode = (bool)Session["newReqEditMode"];
-    }
+}
 
 
-    @using SA46Team1_Web_ADProj.Models;
-    @model Tuple<Item, StaffRequisitionDetail>
+@using SA46Team1_Web_ADProj.Models;
+@model Tuple<Item, StaffRequisitionDetail>
 
-    <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
     var table;
@@ -41,6 +41,7 @@
             ordering: false,
             paging: true,
             searching: false,
+            "bLengthChange": false,
             columnDefs: [
                 { className: 'text-center', targets: [0,1,2] },
             ]
@@ -64,7 +65,7 @@
 
         window.location.href = '@Url.Action("Requisition", "Dept")';
     });
-    
+
     $(function () {
         $("#dialog-add-req-item").dialog({
             autoOpen: false,
@@ -127,7 +128,7 @@
         $('#dialog-confirm-submit-new-req').dialog('open');
     });
 
-    $('#btn-confirm-submit-cancel').on('click', function () {       
+    $('#btn-confirm-submit-cancel').on('click', function () {
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-confirm-submit-new-req').dialog('close');
     });
@@ -168,7 +169,7 @@
         window.location.href = '@Url.Action("Requisition", "Dept")';
 
     });
-        
+
     $('#btn-edit-items').on('click', function () {
 
         if (@list.Count()== 0) {
@@ -197,36 +198,42 @@
         var dataToSend = "";
         var arr = [];
         var arr1 = []
+
+        var validation = 0;
+
         for (var i = 0; i < table.rows().data().length; i++) {
             dataToSend = table.rows(i).data();
+            validation += table.cell(i, 2).nodes().to$().find('input').val();
             arr1.push(table.cell(i, 2).nodes().to$().find('input').val());
             arr.push(dataToSend[0]);
         }
 
-        //toggle save/edit btn visibility
-        $("#btn-save-items").hide();
-        $("#btn-edit-items").show();
+        if (validation > 0 || validation % 1 == 0) {
+                //toggle save/edit btn visibility
+                $("#btn-save-items").hide();
+                $("#btn-edit-items").show();
 
-        $.ajax({
-            url: '/DeptRequisition/ExitEditNewOrderQty',
-            type: 'POST',
-            async: false,
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({ arr: arr, arr1: arr1 }),
-            success: function () {
+                $.ajax({
+                    url: '/DeptRequisition/ExitEditNewOrderQty',
+                    type: 'POST',
+                    async: false,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    data: JSON.stringify({ arr: arr, arr1: arr1 }),
+                    success: function () {
 
-                alert('success');
-            }
-        });
+                        alert('success');
+                    }
+                });
 
-        table.draw(false);
+                table.draw(false);
 
-        window.location.href = '@Url.Action("Requisition", "Dept")';
+                window.location.href = '@Url.Action("Requisition", "Dept")';
+        }
 
      });
 
-    $('#dataTable-newReq tbody').on('change', '#input-edit-order-qty', function () {
+    @*$('#dataTable-newReq tbody').on('change', '#input-edit-order-qty', function () {
         var data = table.row($(this).parents('tr')).data();
         var index = table.row($(this).parents('tr')).index();
 
@@ -240,11 +247,11 @@
             table.cell(index, 2).nodes().to$().find('input').val(1);
             return;
         }
-        
+
         table.draw(false);
 
         @*window.location.href = '@Url.Action("Purchase", "Store")';*@
-    });
+    //});*
 
     //$('#closeWindow').on('click', function () {
     //    $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
@@ -254,147 +261,157 @@
 </script>
 
 
-<div class="row">
-    <div class="col-md-6" style="padding: -30px;">
-        <h5>New Requisition</h5>
-    </div>
-    <div class="col-md-6">
-        <span style="float: right; padding-top:35px;">
-            <span>
-                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
+    <div class="row">
+        <div class="col-md-6" style="padding: -30px;">
+            <h5>New Requisition</h5>
+        </div>
+        <div class="col-md-6">
+            <span style="float: right; padding-top:35px;">
+                <span>
+                    <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
+                </span>
+                <span>
+                    <button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>
+                </span>
             </span>
-            <span>
-                <button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>
-                <button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>
-            </span>
-        </span>
+        </div>
     </div>
- </div>
-
-    <br />
-
-    <div id="loading" style="font-family: 'Oxygen', sans-serif;">
-        <table id="dataTable-newReq" class="display" style="width:80%;">
-            <thead style="font-size: 10pt;">
-                <tr>
-                    <th>Item Description</th>
-                    <th>Unit of Measure</th>
-                    <th>New Order Qty</th>
-                    <th></th>
-                </tr>
-            </thead>
-            @foreach (var item in list)
-            {
-                <tr>
-                    <td style="font-size: 10pt;">@item.Item.Description</td>
-                    <td style="font-size: 10pt;">@item.Item.UoM</td>
-                    <td style="font-size: 10pt;">
-                        @if (editMode == true)
-                        {
-                            <input id="input-edit-order-qty" value=@item.QuantityOrdered type="number" step="1" min="1" pattern="[0-9]"/>
-                        }
-                        else
-                        {
-                            @item.QuantityOrdered
-                        }
-                    </td>
-                    <td>
-                        <span>
-                            <button class="btn btn-lu-red" id="btn-discard-items" style="font-size: 10pt;">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                        </span>
-                    </td>
-                </tr>
-            }
-            <tbody style="font-size: 10pt;"></tbody>
-        </table>
-        <hr />
-
+    <form>
         <div class="row">
             <div class="col-md-12">
                 <div style="float: right">
                     <span>
-                        <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;">Clear</button>
-                    </span>
-                    <span>
-                        <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;" disabled>Submit</button>
+                        <button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>
                     </span>
                 </div>
 
             </div>
         </div>
 
+        <div id="loading" style="font-family: 'Oxygen', sans-serif;">
+            <table id="dataTable-newReq" class="display" style="width:80%;">
+                <thead style="font-size: 10pt;">
+                    <tr>
+                        <th>Item Description</th>
+                        <th>Unit of Measure</th>
+                        <th>New Order Qty</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var item in list)
+                {
+                    <tr>
+                        <td style="font-size: 10pt;">@item.Item.Description</td>
+                        <td style="font-size: 10pt;">@item.Item.UoM</td>
+                        <td style="font-size: 10pt;">
+                            @if (editMode == true)
+                            {
+                                <input id="input-edit-order-qty" style="text-align:center; width: 100px;" value=@item.QuantityOrdered type="number" step="1" min="1" max="100" pattern="[0-9]" />
+                            }
+                            else
+                            {
+                                @item.QuantityOrdered
+                            }
+                        </td>
+                        <td>
+                            <span>
+                                <button class="btn btn-lu-red" id="btn-discard-items" style="font-size: 10pt;">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                }
+                <tbody style="font-size: 10pt;"></tbody>
+            </table>
+            <div class="my-notify-error">@TempData["ErrorMsg"]</div>
+            <hr />
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="float: right">
+                        <span>
+                            <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;">Clear</button>
+                        </span>
+                        <span>
+                            <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;" disabled>Submit</button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
 
 
-        <div id="dialog-add-req-item" class="hidden" @*title="Add Item (New Requisition)"*@>
-            @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
-            {
+
+<div id="dialog-add-req-item" class="hidden" @*title="Add Item (New Requisition)"*@>
+    @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
+    {
+        <div>
+            <h3>Add Item</h3>
             <div>
-                <h3>Add Item</h3>
-                <div>
-                    <label>Item Description: </label>
-                    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
-                </div>
+                <label>Item Description: </label>
+                @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+            </div>
 
-                <br />
+            <br />
 
-                <div>
-                    <label>New Order Qty: </label>
-                    @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
-                </div>
+            <div>
+                <label>New Order Qty: </label>
+                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
+            </div>
 
-                <hr />
+            <hr />
 
-                <div class="row">
-                    @*<div class="col-md-6">
+            <div class="row">
+                @*<div class="col-md-6">
                         <div style="float:right">
                             <span>
                                 <button class="btn btn-lu-red" id="btn-submit-cancel">Cancel</button>
                             </span>
                         </div>
                     </div>*@
-                    <div class="col-md-12">
-                        <div>
-                            <button class="btn btn-lu-green btn-block" id="btn-submit-add-items">Add</button>
-                            @*<input id="btn-submit-add-item" class="btn btn-lu-green" type="submit" value="Add" />*@
-                        </div>
-                    </div>
-                </div>             
-            </div>
-            }
-        </div>
-
-        <div id="dialog-confirm-submit-new-req" class="hidden" @*title="Confirm Submission (New Requisition)"*@>
-            <div style="text-align:center;">
-                <h4>Confirm Submission</h4>
-                <h6>Are you sure you want to submit the requisition?</h6>
-            </div>         
-            <hr />
-            <div class="row">
-                <div class="col-md-6">
-                    <div style="float:right">
-                        <span>
-                            <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
-                        </span>
+                <div class="col-md-12">
+                    <div>
+                        <button class="btn btn-lu-green btn-block" id="btn-submit-add-items">Add</button>
+                        @*<input id="btn-submit-add-item" class="btn btn-lu-green" type="submit" value="Add" />*@
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <span>
-                        <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
-                    </span>
-                </div>   
-            </div>           
+            </div>
         </div>
+    }
+</div>
 
-        <div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
-            <br />
-            <h5>New requisition request has been submitted for approval.</h5>
-        </div>
-
-        <div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
-            <br />
-            <h5>There are no items to edit.</h5>
-        </div>
-
+<div id="dialog-confirm-submit-new-req" class="hidden" @*title="Confirm Submission (New Requisition)"*@>
+    <div style="text-align:center;">
+        <h4>Confirm Submission</h4>
+        <h6>Are you sure you want to submit the requisition?</h6>
     </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div style="float:right">
+                <span>
+                    <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span>
+                <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div id="dialog-new-req-submited" class="hidden" title="New Request submitted">
+    <br />
+    <h5>New requisition request has been submitted for approval.</h5>
+</div>
+
+<div id="dialog-new-req-edit-no-item" class="hidden" title="No Item to edit">
+    <br />
+    <h5>There are no items to edit.</h5>
+</div>
+

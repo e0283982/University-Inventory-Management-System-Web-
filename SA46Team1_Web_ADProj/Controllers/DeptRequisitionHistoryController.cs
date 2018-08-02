@@ -121,34 +121,55 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult ExitEditExistingOrderQty(object[] arr, string[] arr1)
         {
-            string formId = Session["id"].ToString();
-            
-            Session["existingReqEditMode"] = false;
-
-            //update details of current req history
-            using (SSISdbEntities m = new SSISdbEntities())
+            if(arr.Count() == 0 || arr1.Count() == 0)
             {
-                m.Configuration.ProxyCreationEnabled = false;
-                List<RequisitionHistoryDetail> reqDetailsList = m.RequisitionHistoryDetails.Where(x => x.FormID == formId).ToList<RequisitionHistoryDetail>();
-                DAL.StaffRequisitionDetailsRepositoryImpl dal = new DAL.StaffRequisitionDetailsRepositoryImpl(m);
-                StaffRequisitionDetail srd = new StaffRequisitionDetail();
-
-                foreach (RequisitionHistoryDetail rhd in reqDetailsList)
-                {
-                    string itemCode = m.Items.Where(x => x.Description == rhd.Description).Select(x => x.ItemCode).FirstOrDefault();
-                    srd = m.StaffRequisitionDetails.Where(x => x.FormID == formId && x.ItemCode == itemCode).FirstOrDefault();
-
-                    int index = reqDetailsList.IndexOf(rhd);
-                    srd.QuantityOrdered = Int32.Parse(arr1[index]);
-
-                    dal.UpdateStaffRequisitionDetail(srd);
-                }
-
-                m.SaveChanges();
-
+                return null;
             }
+            else
+            {
+                try
+                {
+                    string formId = Session["id"].ToString();
 
-            Session["ReqHistoryPage"] = "2";
+                    Session["existingReqEditMode"] = false;
+
+                    //update details of current req history
+                    using (SSISdbEntities m = new SSISdbEntities())
+                    {
+                        m.Configuration.ProxyCreationEnabled = false;
+                        List<RequisitionHistoryDetail> reqDetailsList = m.RequisitionHistoryDetails.Where(x => x.FormID == formId).ToList<RequisitionHistoryDetail>();
+                        DAL.StaffRequisitionDetailsRepositoryImpl dal = new DAL.StaffRequisitionDetailsRepositoryImpl(m);
+                        StaffRequisitionDetail srd = new StaffRequisitionDetail();
+
+                        foreach (RequisitionHistoryDetail rhd in reqDetailsList)
+                        {
+                            string itemCode = m.Items.Where(x => x.Description == rhd.Description).Select(x => x.ItemCode).FirstOrDefault();
+                            srd = m.StaffRequisitionDetails.Where(x => x.FormID == formId && x.ItemCode == itemCode).FirstOrDefault();
+
+                            int index = reqDetailsList.IndexOf(rhd);
+                            srd.QuantityOrdered = Int32.Parse(arr1[index]);
+
+                            dal.UpdateStaffRequisitionDetail(srd);
+                        }
+
+                        m.SaveChanges();
+
+                    }
+
+                    Session["ReqHistoryPage"] = "2";
+                }
+                catch(FormatException)
+                {
+                    TempData["ErrorMsg"] = "Invalid Quantity!";
+                    return null;
+                }
+                catch (Exception)
+                {
+                    TempData["ErrorMsg"] = "An unexpected error has occured. Please try again.";
+                    return null;
+                }
+            }
+            
             
             return RedirectToAction("RequisitionHistory", "Dept");
             
