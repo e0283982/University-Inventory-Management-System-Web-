@@ -26,7 +26,7 @@
 
                                 var date = new Date(jsonDate.substr(0));
                                 var month = date.getMonth() + 1;
-                                return date.getDate() + "/" + month + "/" + date.getFullYear();
+                                return '<td><span>' + jsonDate + '</span>' + date.getDate() + "/" + month + "/" + date.getFullYear() + '</td>';
 
                             }
                         },
@@ -42,7 +42,7 @@
     });
 
     $(document).ajaxComplete(function () {
-        $('#dataTable-goodsReceived').off().on('click', 'tr', function () {
+        $('#dataTable-goodsReceived tbody').off().on('click', 'tr', function () {
             var data = table.row(this).data();
 
             jQuery.ajax({
@@ -72,3 +72,10 @@
     </thead>
     <tbody style="font-size: 10pt;"></tbody>
 </table>
+
+
+<style>
+    #dataTable-goodsReceived span {
+        display: none;
+    }
+</style>

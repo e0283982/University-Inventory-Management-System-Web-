@@ -43,7 +43,7 @@
 
                                 var date = new Date(jsonDate.substr(0));
                                 var month = date.getMonth() + 1;
-                                return date.getDate() + "/" + month + "/" + date.getFullYear();
+                                return '<td><span>' + jsonDate + '</span>' + date.getDate() + "/" + month + "/" + date.getFullYear() + '</td>';
 
                             }
                         },
@@ -75,3 +75,9 @@
     });
 </script>
 
+
+<style>
+    #dataTable-poList span {
+        display: none;
+    }
+</style>
