@@ -205,11 +205,18 @@
 <hr />
 
 <div class="row">
-    <span class="col-md-12">        
+    @if (Session["Role"].ToString() == "Employee Representative")
+    {
+
+    }
+    else
+    {
+        <span class="col-md-12">
             <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;" disabled>
                 Discard Selected Items
-            </button>        
-    </span>
+            </button>
+        </span>
+    }
 </div>
 
 <div id="dialog-confirm-discard-backorder-item" class="hidden" @*title="Confirm Discard Selected (BackOrder)"*@>
