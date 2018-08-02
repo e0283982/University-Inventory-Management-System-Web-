@@ -40,9 +40,13 @@
     });
 
     $('#btn-approve-req-form').click(function () {
+
+        var data = $('#txt-srh-remarks').val();
+
         $.ajax({
             url: '/DeptApproval/Approve',
             type: 'POST',
+            data: { data: data },
             async: false
         });
 
@@ -62,9 +66,12 @@
     });
 
     $('#btn-reject-req-form').click(function () {
+        var data = $('#txt-srh-remarks').val();
+
         $.ajax({
             url: '/DeptApproval/Reject',
             type: 'POST',
+            data: { data: data },
             async: false
         });
 
@@ -125,7 +132,7 @@
         <div style="float:right;">
             <div>
                 <p>Remarks:</p>
-                <textarea rows="4" cols="50"></textarea>
+                <textarea id="txt-srh-remarks" rows="4" cols="50"></textarea>
             </div>
         </div>
     </div>
