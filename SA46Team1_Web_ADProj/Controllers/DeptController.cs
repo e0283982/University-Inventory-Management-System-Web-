@@ -49,12 +49,14 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         public ActionResult Requisition()
         {
             return View();
         }
 
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         public ActionResult RequisitionHistory()
         {
             return View();

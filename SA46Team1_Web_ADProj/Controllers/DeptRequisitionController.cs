@@ -10,6 +10,7 @@ namespace SA46Team1_Web_ADProj.Controllers
     public class DeptRequisitionController : Controller
     {
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         [Route("NewReq")]
         public ActionResult NewReq()
         {
@@ -55,6 +56,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         [Route("BackOrders")]
         public ActionResult BackOrders()
         {
@@ -117,6 +119,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         [HttpPost]
         [Route("NewReq/AddNewReqItem")]
         public RedirectToRouteResult AddNewReqItem(Item item1, StaffRequisitionDetail item2)
@@ -160,6 +163,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         [HttpPost]
         //[Route("NewReq/SubmitNewRequestForm")]
         public RedirectToRouteResult SubmitNewRequestForm()
@@ -201,6 +205,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         [HttpPost]
         public RedirectToRouteResult DiscardNewItems(string data, int index)
         {
@@ -226,6 +231,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         [HttpPost]
         public RedirectToRouteResult EditNewOrderQty()
         {
@@ -238,6 +244,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative, Employee")]
+        [Restrict("Approver")]
         [HttpPost]
         public RedirectToRouteResult ExitEditNewOrderQty(object[] arr, string[] arr1)
         {
@@ -258,6 +265,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
 
+        [Restrict("Approver")]
         [HttpPost]
         public RedirectToRouteResult ClearNewReqItems()
         {
@@ -280,6 +288,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative")]
+        [Restrict("Approver")]
         [Route("UpcomingDelivery")]
         public ActionResult UpcomingDelivery()
         {
@@ -287,6 +296,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Employee Representative")]
+        [Restrict("Approver")]
         [Route("CollectionList")]
         public ActionResult CollectionList()
         {
