@@ -776,7 +776,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.StockRetrievalHeaders.OrderByDescending(x => x.Date).FirstOrDefault();
+                return m.StockRetrievalHeaders.OrderByDescending(x => x.ID).FirstOrDefault();
 
             }
         }
