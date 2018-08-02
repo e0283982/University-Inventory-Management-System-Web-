@@ -29,7 +29,7 @@
                     ],
                 });
 
-                var date = new Date(data[0]["DateProcessed"]);
+                var date = new Date(data[0]["DateRequested"]);
 
                 var month = date.getMonth() + 1;
 
@@ -40,12 +40,12 @@
                     var deptName = data[0]["DepartmentName"];
                     var empName = data[0]["EmployeeName"]
                     var approverName = data[0]["Manager"];
-                    var approvedDate = newDate;
+                    var requestedDate = newDate;
                     
                     $("#deptName").append(deptName);
                     $("#empName").append(empName);
                     $("#approverName").append(approverName);
-                    $("#approvedDate").append(approvedDate);
+                    $("#requestedDate").append(requestedDate);
                 });
             }
         });
@@ -62,7 +62,7 @@
             <label style="font-size: 10pt;">Department Name:&nbsp;</label><label id="deptName" style="font-size: 10pt;" />
         </div>
         <div>
-            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label id="approvedDate" style="font-size: 10pt;" />
+            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label id="requestedDate" style="font-size: 10pt;" />
         </div>
     </div>
     <div class="col-md-4">
