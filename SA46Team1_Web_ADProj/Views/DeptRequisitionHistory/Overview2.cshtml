@@ -49,6 +49,7 @@
                     "iDisplayLength": 5,
                     scrollY: 200,
                     scrollCollapse: false,
+                    "bLengthChange": false,
                     data: data,
                     columns: [
                         { 'data': 'Description' },
@@ -57,7 +58,7 @@
                             'data': 'QuantityOrdered',
                             "render": function (data, type, full, meta) {
                                 if (@editMode.ToString().ToLower() == true) {
-                                    return '<input id="edit-qty-order" style="text-align: center;" type="number" value="' + $('<div/>').text(data).html() + '" min="1">';
+                                    return '<input id="edit-qty-order" style="text-align: center;" type="number" value="' + $('<div/>').text(data).html() + '" step="1" min="1" max="100" pattern="[0-9]">';
                                 } else {
                                     return data;
                                 }
@@ -218,8 +219,12 @@
         var dataToSend = "";
         var arr = [];
         var arr1 = []
+
+        var validation = 0;
+
         for (var i = 0; i < table.rows().data().length; i++) {
             var newOrderQty = table.cell(i, 2).nodes().to$().find('input').val();
+            validation += newOrderQty;
             dataToSend = table.rows(i).data();
             arr1.push(newOrderQty);
             arr.push(dataToSend[0]);
@@ -231,35 +236,37 @@
                 return;
             }
         }
+        if (validation > 0 && validation % 1 == 0) {
+            $("#dialog-edit-req-zero-input-alert").on("dialogclose", function (event, ui) {
+                $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+                $('#dialog-edit-req-zero-input-alert').dialog('close');
+            });
 
-        $("#dialog-edit-req-zero-input-alert").on("dialogclose", function (event, ui) {
-            $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
-            $('#dialog-edit-req-zero-input-alert').dialog('close');
-        });
+            //toggle save/edit btn visibility
+            $("#btn-save-req-history").hide();
+            $("#btn-edit-req-history").show();
 
-        //toggle save/edit btn visibility
-        $("#btn-save-req-history").hide();
-        $("#btn-edit-req-history").show();
+            $.ajax({
+                url: '/DeptRequisitionHistory/ExitEditExistingOrderQty',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false,
+                data: JSON.stringify({ arr: arr, arr1: arr1 }),
+                success: function () {
 
-        $.ajax({
-            url: '/DeptRequisitionHistory/ExitEditExistingOrderQty',
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            async: false,
-            data: JSON.stringify({ arr: arr, arr1: arr1 }),
-            success: function () {
+                    alert('success');
+                }
+            });     
+                    $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+                    $("#dialog-update-req-items-success").dialog('open');
+                    editMode = false;
+                    table.draw(false);
 
-                alert('success');
-            }
-        });
+                    window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+        }
 
-        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
-        $("#dialog-update-req-items-success").dialog('open');
-        editMode = false;
-        table.draw(false);
 
-        window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
 
     });
 
@@ -288,24 +295,24 @@
 
     });
 
-    $('#dataTable-pastReq-details tbody').on('change', '#edit-qty-order', function () {
-        var data = table.row($(this).parents('tr')).data();
-        var index = table.row($(this).parents('tr')).index();
+    //$('#dataTable-pastReq-details tbody').on('change', '#edit-qty-order', function () {
+    //    var data = table.row($(this).parents('tr')).data();
+    //    var index = table.row($(this).parents('tr')).index();
 
-        var qty = table.cell(index, 2).nodes().to$().find('input').val();
-        if (qty <= 0) {
-            alert("Order quantity cannot be <1.");
-            table.cell(index, 2).nodes().to$().find('input').val(1);
-            return;
-        } else if (qty % 1 != 0) {
-            alert("Order quantity must be whole number.");
-            table.cell(index, 2).nodes().to$().find('input').val(1);
-            return;
-        }
+    //    var qty = table.cell(index, 2).nodes().to$().find('input').val();
+    //    if (qty <= 0) {
+    //        alert("Order quantity cannot be <1.");
+    //        table.cell(index, 2).nodes().to$().find('input').val(1);
+    //        return;
+    //    } else if (qty % 1 != 0) {
+    //        alert("Order quantity must be whole number.");
+    //        table.cell(index, 2).nodes().to$().find('input').val(1);
+    //        return;
+    //    }
 
-        table.draw(false);
+    //    table.draw(false);
 
-    });
+    //});
 </script>
 
 <div class="row">
@@ -315,7 +322,7 @@
 </div>
 
 <br />
-
+<form>
 <table id="dataTable-pastReq-details" class="display" style="width:80%;">
     <thead style="font-size: 10pt;">
         <tr>
@@ -337,7 +344,7 @@
         </tr>
     </tbody>
 </table>
-
+<div class="my-notify-error">@TempData["ErrorMsg"]</div>
 <hr />
 <div class="row">
     <div class="col-md-3">
@@ -358,6 +365,7 @@
             <label style="font-size: 10pt;">Delivery Status:&nbsp;</label><label style="font-size: 10pt;">@req.Status</label>
         </div>
     </div> 
+
     <div class="col-md-3">
         <div>
             <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
@@ -387,6 +395,7 @@
         </div>       
     </div>
 </div>
+    </form>
 
 <div id="dialog-edit-req-zero-input-alert" class="hidden" title="New Order Qty cannot be 0 (Edit Requisition)">
     <br />
