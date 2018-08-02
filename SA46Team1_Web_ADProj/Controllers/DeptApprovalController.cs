@@ -82,6 +82,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
 
+                string title = "[LogicUniversity] Requisition Approved: " + srh.FormID;
+                string message = "Your requisition has approved";
+
+                CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
             }
             return RedirectToAction("Approval", "Dept");
         }
@@ -114,6 +118,11 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
+
+                string title = "[LogicUniversity] Requisition Rejected: " + srh.FormID;
+                string message = "Your requisition has rejected due to: " + data;
+
+                CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
 
             }
             return RedirectToAction("Approval", "Dept");
