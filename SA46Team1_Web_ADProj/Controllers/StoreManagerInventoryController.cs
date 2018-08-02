@@ -37,6 +37,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
+        [Route("Approve")]
         public RedirectToRouteResult Approve(string requestid, string itemcode)
         {
             StockAdjustmentDetail stockadjdet = repo.GetStockAdjustmentDetailById(requestid, itemcode);
@@ -45,7 +46,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
             Session["StockAdjPage"] = 2;
-            return RedirectToAction("Inventory", "Store", new { area = "" });
+            Session["StoreInventoryTabIndex"] = "3";
+
+            return RedirectToAction("Inventory", "Store");
         }
 
         [HttpPost]
