@@ -16,7 +16,6 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     columns: [
                         { 'data': 'FormID' },
@@ -35,13 +34,14 @@
                     columnDefs: [
                         { className: 'text-center', targets: [0, 1, 2, 3] },
                     ]
-                }).on('click', 'tr', function () {
+                }).on('click', 'tobody tr', function () {
                     var datum = table.row(this).data();
 
                     jQuery.ajax({
                         url: '/DeptRequisitionHistory/DisplayReqHistoryDetails',
                         data: datum,
                         type: 'POST',
+                        async: false
                     });
 
                     window.location.href = '@Url.Action("RequisitionHistory", "Dept")';

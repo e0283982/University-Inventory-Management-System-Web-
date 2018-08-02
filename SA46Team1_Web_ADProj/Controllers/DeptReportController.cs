@@ -22,15 +22,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 string deptCode = Session["DepartmentCode"].ToString();
                 ViewBag.Department = e.Departments.Where(x => x.DepartmentCode == deptCode).Select(x => x.DepartmentName).FirstOrDefault();
-
-                ViewBag.CategoryList = new SelectList((from s in e.Categories.ToList()
-                                                       select new
-                                                       {
-                                                           CategoryID = s.CategoryID,
-                                                           CategoryName = s.CategoryName
-                                                       }),
-                                                 "CategoryID",
-                                                 "CategoryName",
+                List<String> categoryList = e.Categories.Select(x => x.CategoryName).ToList();
+                categoryList.Insert(0,"All");
+                ViewBag.CategoryList = new SelectList(categoryList,
                                                  null);
 
                 TempData["RowIndexesToDiscard"] = new List<int>();

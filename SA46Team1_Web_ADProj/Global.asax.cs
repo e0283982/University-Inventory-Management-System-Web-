@@ -36,6 +36,7 @@ namespace SA46Team1_Web_ADProj
             //Session["UserId"] = "E4";
             Session["access-token"] = "test";
             Session["NoUnreadRequests"] = 0;
+            Session["NoUnreadRequestsEmployee"] = 0;
 
             //Session variable for PO
             Session["newPOList"] = new List<Models.POFullDetail>();
@@ -51,7 +52,7 @@ namespace SA46Team1_Web_ADProj
             Session["tempList"] = new List<String>();
 
             Session["ReviewNewRequisitionId"] = "";
-            Session["DeptReqTabIndex"] = "0";
+            Session["DeptReqTabIndex"] = "1";
             Session["currentFormId"] = "";
 
             //session var for dept  - requisition

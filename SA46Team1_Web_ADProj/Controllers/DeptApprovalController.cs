@@ -56,7 +56,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [CustomAuthorize(Roles = "Department Head")]
         [HttpPost]
-        public RedirectToRouteResult Approve()
+        public RedirectToRouteResult Approve(String data)
         {
             //update staff req
             using (SSISdbEntities e = new SSISdbEntities()) {
@@ -66,14 +66,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.ApprovalStatus = "Approved";
                 srh.Approver = Session["UserId"].ToString();
                 srh.DateProcessed = System.DateTime.Now;
-                
+                srh.Remarks = data;
+
                 if (srh.NotificationStatus == "Unread")
                 {
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
-                    srh.NotificationStatus = "Read";
+                    //srh.NotificationStatus = "Read";
                 }
+
+                srh.NotificationStatus = "Unread";
 
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();
@@ -84,7 +87,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [CustomAuthorize(Roles = "Department Head")]
         [HttpPost]
-        public RedirectToRouteResult Reject()
+        public RedirectToRouteResult Reject(String data)
         {
             //update staff req
             using (SSISdbEntities e = new SSISdbEntities())
@@ -96,14 +99,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.Approver = Session["UserId"].ToString();
                 srh.DateProcessed = System.DateTime.Now;
                 srh.Status = "Cancelled";
-                
+                srh.Remarks = data;
+
                 if (srh.NotificationStatus == "Unread")
                 {
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
-                    srh.NotificationStatus = "Read";
+                    //srh.NotificationStatus = "Read";
                 }
+
+                srh.NotificationStatus = "Unread";
 
                 dal.UpdateStaffRequisitionHeader(srh);
                 e.SaveChanges();

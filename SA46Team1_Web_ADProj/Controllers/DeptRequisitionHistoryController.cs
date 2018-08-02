@@ -171,6 +171,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     DAL.StaffRequisitionRepositoryImpl dalHeader = new DAL.StaffRequisitionRepositoryImpl(m);
                     StaffRequisitionHeader srh = m.StaffRequisitionHeaders.Where(x => x.FormID == formId).FirstOrDefault();
                     srh.Status = "Withdrawn"; //to add in list of constants
+                    srh.ApprovalStatus = "Withdrawn";
                     dalHeader.UpdateStaffRequisitionHeader(srh);
 
                     if (srh.NotificationStatus == "Unread") {

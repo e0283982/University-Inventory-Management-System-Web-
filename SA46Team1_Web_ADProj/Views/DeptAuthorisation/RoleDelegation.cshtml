@@ -21,7 +21,6 @@
                     sort: true,
                     searching: true,
                     "iDisplayLength": 5,
-                    //scrollY: 200,
                     data: data,
                     responsive: true,
                     columns: [
@@ -98,7 +97,7 @@
         });
         
         $("#form-submit-new-auth").submit(function () {
-            $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+            $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
             $('#dialog-show-employee-auth').dialog('close');
             $('#dialog-saved-employee-auth-edit').dialog('open');
         });
@@ -106,13 +105,13 @@
     });
 
     $("#dialog-show-employee-auth").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-show-employee-auth').dialog('close');
     });
 
     function myFunction(param) {
         $('#assign-emp-role-name').val(param);
-        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
         $('#dialog-show-employee-auth').dialog('open');
         return false;
     }
@@ -172,7 +171,7 @@
         <div>
             <div>
                 <label>Employee Name: </label>
-                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName", @id = "assign-emp-role-name" , disabled = "disabled" }, })
+                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName", @id = "assign-emp-role-name" ,@readonly="readonly"}, })
             </div>
             <br />
             <div>

@@ -51,9 +51,10 @@
                     ],
                     columnDefs: [
                         {
-                            //"targets": [0],
-                            //"visible": false,
-                            //"searchable": false
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                        }, {
                             className: 'text-center', targets: [0, 1, 2]
                         }
                     ],
@@ -119,36 +120,33 @@
             <th>Active</th>
         </tr>
     </thead>
-
-    <tbody style="font-size: 10pt;">
-            @*<tr>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>*@
-    </tbody>
+    <tbody style="font-size: 10pt;"></tbody>
 </table>
 
 <hr />
 
 <div class="row">
-    <div class="col-md-11">
-        <div style="float: right">
-            <span>
-                @using (Html.BeginForm("BackToCategoriesMaintenanceList", "StoreMaintenance", FormMethod.Post))
-                {
-                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
-                }
-            </span>           
-        </div>
-    </div>
-    <div class="col-md-1">
+    <div class="col-md-6">
         <span>
-            <button id="btn-edit-category" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-        </span>
+            @using (Html.BeginForm("BackToCategoriesMaintenanceList", "StoreMaintenance", FormMethod.Post))
+            {
+                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+            }
+        </span>           
+    </div>
+    <div class="col-md-6">
+        <div style="float: right;">
+            <span>
+                <button id="btn-edit-category" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+            </span>
+        </div>    
     </div>
 </div>
 
-<div id="dialog-submit-edit-category" class="hidden" title="Edit Category Successful (Maintenance)">
-    <p>Category has been successfully edited.</p>
+<div id="dialog-submit-edit-category" class="hidden" @*title="Edit Category Successful (Maintenance)"*@>
+    <br />
+    <div style="text-align:center;">
+        <h5>Category has been successfully edited!</h5>
+    </div>
+    <hr />
 </div>

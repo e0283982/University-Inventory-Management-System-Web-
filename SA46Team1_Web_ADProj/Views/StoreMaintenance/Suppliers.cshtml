@@ -58,9 +58,10 @@
                 },
                 columnDefs: [
                     {
-                        //"targets": [0],
-                        //"visible": false,
-                        //"searchable": false
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }, {
                         className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6]
                     }
                 ],
@@ -74,14 +75,25 @@
     $(function () {
         $("#dialog-add-new-supplier").dialog({
             autoOpen: false,
-            width: "40%",
-            maxWidth: "40%"
+            width: "60%",
+            maxWidth: "60%"
         });
     });
 
     $('#btn-add-new-supplier').on('click', function () {
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
         $('#dialog-add-new-supplier').dialog('open');
     });
+
+    $("#dialog-add-new-supplier").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        $('#dialog-add-new-supplier').dialog('close');
+    });
+
+    $("#dialog-submit-add-supplier").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        $('#dialog-submit-add-supplier').dialog('close');
+    });  
 
     $(function () {
         $("#dialog-submit-add-supplier").dialog({
@@ -93,6 +105,7 @@
 
     $('#btn-submit-add-supplier').on('click', function () {
         $('#dialog-add-new-supplier').dialog('close');
+        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
         $('#dialog-submit-add-supplier').dialog('open');
     });
 </script>
@@ -129,58 +142,99 @@
     </div>
 </div>
 
-<div id="dialog-add-new-supplier" class="hidden" title="Add Supplier (Maintenance)">
+<div id="dialog-add-new-supplier" class="hidden" @*title="Add Supplier (Maintenance)"*@>
     @using (Html.BeginForm("AddNewSupplier", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-supplier" }))
     {
-        <div>
-            <div>
-                <label>Supplier Code: </label>
-                @Html.EditorFor(model => model.SupplierCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Supplier Code", @id = "new-supplier-code" }, })
+        <br />
+            <div style="text-align:center;">
+                <h5>Add Supplier</h5>
             </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Supplier Code:&nbsp;</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.SupplierCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Supplier Code", @id = "new-supplier-code" }, })
+                    </div>
+                </div>
 
-            <div>
-                <label>Company Name: </label>
-                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Company Name", @id = "new-supplier-company-name" }, })
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Company Name:&nbsp;</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Company Name", @id = "new-supplier-company-name" }, })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Contact Name:&nbsp;</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact Name", @id = "new-supplier-contact-name" }, })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Phone Number:&nbsp;</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone No", @id = "new-supplier-phone" }, })
+                    </div>
+                </div>
             </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Fax Number:&nbsp;</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Fax No", @id = "new-supplier-fax" }, })
+                    </div>    
+                </div>
 
-            <div>
-                <label>Contact Name: </label>
-                @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact Name", @id = "new-supplier-contact-name" }, })
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Supplier Address:&nbsp;</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address", @id = "new-supplier-address" }, })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>GST Reg No:&nbsp;</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.GSTRegistrationNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "GST Reg No", @id = "new-supplier-gst-no" }, })
+                    </div>  
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Email:&nbsp;</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @id = "new-supplier-email" }, })
+                    </div> 
+                </div>
             </div>
-
-            <div>
-                <label>Phone Number: </label>
-                @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone No", @id = "new-supplier-phone" }, })
-            </div>
-
-            <div>
-                <label>Fax Number: </label>
-                @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Fax No", @id = "new-supplier-fax" }, })
-            </div>
-
-            <div>
-                <label>Address: </label>
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address", @id = "new-supplier-address" }, })
-            </div>
-
-            <div>
-                <label>GST Reg No: </label>
-                @Html.EditorFor(model => model.GSTRegistrationNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "GST Reg No", @id = "new-supplier-gst-no" }, })
-            </div>
-
-            <div>
-                <label>Email: </label>
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @id = "new-supplier-email" }, })
-            </div>
-
+        </div>    
             <hr />
-
-            <input id="btn-submit-add-supplier" class="btn btn-lu-green btn-block" type="submit" value="Add" />
-
-        </div>
+        <input id="btn-submit-add-supplier" class="btn btn-lu-green btn-block" type="submit" value="Add" />   
     }
 </div>
 
-<div id="dialog-submit-add-supplier" class="hidden" title="Add Supplier Successful (Maintenance)">
-    <p>New Supplier has been successfully added.</p>
+<div id="dialog-submit-add-supplier" class="hidden" @*title="Add Supplier Successful (Maintenance)"*@>
+    <br />
+        <div style="text-align:center;">
+            <h5>New Supplier has been successfully added!</h5>
+        </div>
+    <hr /> 
 </div>
