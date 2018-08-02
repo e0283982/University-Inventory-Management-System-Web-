@@ -36,7 +36,7 @@
 
                                 var date = new Date(jsonDate.substr(0));
                                 var month = date.getMonth() + 1;
-                                return date.getDate() + "/" + month + "/" + date.getFullYear();
+                                return '<td><span>'+jsonDate+'</span>' + date.getDate() + "/" + month + "/" + date.getFullYear() +'</td>';
                             }
                         },
                         { 'data': 'Status' },
@@ -78,3 +78,9 @@
     </thead>
     <tbody style="font-size: 10pt;"></tbody>
 </table>
+
+<style>
+    #dataTable-pastReq span {
+        display: none;
+    }
+</style>
