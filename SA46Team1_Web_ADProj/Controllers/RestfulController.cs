@@ -173,9 +173,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
 
                 //get list of active SRFs headers belonging to dept
-                List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList();
+                List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.EmployeeID == id).Select(x => x.FormID).ToList();
                 List<StaffRequisitionDetail> list = m.StaffRequisitionDetails
-                    .Where(i => deptReqIds.Contains(i.FormID) && i.QuantityBackOrdered > 0).ToList();
+                    .Where(i => deptReqIds.Contains(i.FormID) && i.QuantityDelivered!=i.QuantityOrdered && i.QuantityDelivered>0 && i.CancelledBackOrdered==0).ToList();
 
                 List<BackOrderModel> list2 = new List<BackOrderModel>();
                 list2 = list.ConvertAll(x => new BackOrderModel
