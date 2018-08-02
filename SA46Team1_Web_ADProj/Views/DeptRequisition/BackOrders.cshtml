@@ -181,9 +181,12 @@
 
         $('#dialog-confirm-discard-backorder-item').dialog('close');
         //table.draw(false);
-        window.location.href = '@Url.Action("Requisition", "Dept")';
         $('#dialog-discard-backorder-item-submitted').dialog('open');
         
+    });
+
+    $('#dialog-discard-backorder-item-submitted').on('dialogclose', function (event) {
+          window.location.href = '@Url.Action("Requisition", "Dept")';
     });
 
     $('body').on('change', '#mass_select_all', function () {
@@ -224,7 +227,7 @@
     
 </div>
 
-<div id="dialog-confirm-discard-backorder-item" class="hidden" @*title="Confirm Discard Selected (BackOrder)"*@>
+<div id="dialog-confirm-discard-backorder-item" class="hidden"  style="overflow:hidden;"@*title="Confirm Discard Selected (BackOrder)"*@>
     <div style="text-align: center;">
         <h5>Are you sure you want to discard the selected back order?</h5>
     </div>    
@@ -245,7 +248,7 @@
     </div>    
 </div>
 
-<div id="dialog-discard-backorder-item-submitted" class="hidden" @*title="Backorder Item Discarded"*@>
+<div id="dialog-discard-backorder-item-submitted" class="hidden"  style="overflow:hidden;"@*title="Backorder Item Discarded"*@>
     <br />
     <div style="text-align:center;">
         <h5>Selected back order has been cancelled.</h5>
@@ -253,7 +256,7 @@
     <hr />
 </div>
 
-<div id="dialog-discard-backorder-no-item-selected" class="hidden" @*title="No Item Selected (BackOrder)"*@>
+<div id="dialog-discard-backorder-no-item-selected" class="hidden"  style="overflow:hidden;" @*title="No Item Selected (BackOrder)"*@>
     <br />
     <div style="text-align:center;">
         <h5>No item was selected for discard.</h5>

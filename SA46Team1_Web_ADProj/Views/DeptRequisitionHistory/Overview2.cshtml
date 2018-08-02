@@ -255,19 +255,19 @@
                 data: JSON.stringify({ arr: arr, arr1: arr1 }),
                 success: function () {
 
-                    alert('success');
+                    //alert('success');
                 }
             });     
-                    $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
-                    $("#dialog-update-req-items-success").dialog('open');
-                    editMode = false;
-                    table.draw(false);
-
-                    window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+            $("#dialog-update-req-items-success").dialog('open');
+            editMode = false;
+            table.draw(false);
         }
+        
+    });
 
-
-
+    $('#dialog-update-req-items-success').on('dialogclose', function (event) {
+          window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
     });
 
     $('#btn-confirm-withdrawal-no').on('click', function () {
