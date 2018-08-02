@@ -197,6 +197,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                 int noUnreadRequests = (int)Session["NoUnreadRequests"];
                 noUnreadRequests++;
                 Session["NoUnreadRequests"] = noUnreadRequests;
+
+                string title = "[LogicUniversity] New Requisition: " + srh.FormID;
+                string message = Session["EmpName"].ToString() + " has raised a new requisition.";
+
+                CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
             }
 
             Session["tempList"] = new List<String>();
