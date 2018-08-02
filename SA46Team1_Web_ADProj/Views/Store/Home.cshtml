@@ -3,19 +3,67 @@
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
-<button id="test">
-    Test
-</button>
+@if (Session["Role"].ToString() == "Store Clerk")
+{
+    @*Dashboard for Store Clerk*@<iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiODViZDMyODUtNTNhYS00MWRmLThjOWItMzAxYWUwZTA4ZmM4IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+
+}
+else
+if (Session["Role"].ToString() == "Store Supervisor")
+{
+    @*Dashboard for Store Supervisor*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiZDcxZGE2YmMtMTBhYy00NjE3LTg2ZDItMWM4ZWE0YWQ5OGY0IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+else
+if (Session["Role"].ToString() == "Store Manager")
+{
+    @*Dashboard for Store Manager*@
+    <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiMGY2NTY4MjQtMWRiNi00MzZkLWE3OWUtYzRlOGIyY2YyYWQ2IiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div style="
+        width: 950px;
+        height: 30px;
+        background-color: #eaeaea;
+        padding-top: -50px;
+        margin-top: -36px;
+        margin-left: 0px;
+        position: relative;">
+    </div>
+}
+
+<div>
+    <button id="test">
+        Test
+    </button>
+</div>
+
 <script type="text/javascript">
-        // Edit PO Button
-        $('#test').click(function () {
-            //$('#dialog-edit-displayPO').dialog('open');
-             $.ajax({
-                url: '/Store/Test',
-                type: 'POST'
-            });
-            alert('test');
+    // Edit PO Button
+    $('#test').click(function () {
+        //$('#dialog-edit-displayPO').dialog('open');
+        $.ajax({
+            url: '/Store/Test',
+            type: 'POST'
+        });
+        alert('test');
     });
 
-    
+
 </script> 
