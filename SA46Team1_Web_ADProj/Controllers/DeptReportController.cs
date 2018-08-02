@@ -23,7 +23,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string deptCode = Session["DepartmentCode"].ToString();
                 ViewBag.Department = e.Departments.Where(x => x.DepartmentCode == deptCode).Select(x => x.DepartmentName).FirstOrDefault();
                 List<String> categoryList = e.Categories.Select(x => x.CategoryName).ToList();
-                categoryList.Add("All");
+                categoryList.Insert(0,"All");
                 ViewBag.CategoryList = new SelectList(categoryList,
                                                  null);
 

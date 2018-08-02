@@ -51,7 +51,7 @@
                             <option value="jan">Jan</option>
                             <option value="feb">Feb</option>
                             <option value="mar">Mar</option>
-                            <option value="apr">Aor</option>
+                            <option value="apr">Apr</option>
                             <option value="may">May</option>
                             <option value="jun">Jun</option>
                             <option value="jul">Jul</option>
@@ -228,9 +228,13 @@
                                 .columns(0)
                                 .search(dept, true, false, true).draw();
 
-                            table
-                                .columns(3)
-                                .search(category, true, false, true).draw();
+                            
+                            if ($.trim(category) != "All") {
+                                table
+                                    .columns(3)
+                                    .search(category, true, false, true).draw();
+                            }
+                            
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
                                 $('#dialog-no-data').dialog('open');
@@ -304,6 +308,8 @@
         $("#chosenYear").val([]);
 
         $("#lbl-filter-info2").text("Filter results: All");
+        //$('#SelectCategory :selected').text("All");
+        $("#SelectCategory").val($("#SelectCategory option:first").val());
 
         //reset datatable results
         table
