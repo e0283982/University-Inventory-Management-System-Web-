@@ -15,9 +15,15 @@
         table = $('#dataTable-displayPO').DataTable({
             paging: true,
             sort: true,
+            info: false,
+            searching: false,
+            "bLengthChange": false,
             scrollY: 200,
             "iDisplayLength": 5,
-            scrollCollapse: false
+            scrollCollapse: false,
+            columnDefs: [{
+                className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+            }]
         });
 
         $.ajax({
@@ -59,9 +65,9 @@
                     $("#lbl-dateCreated").append(newDate);
                     $("#lbl-del-date").append(newDateRec);
                     $("#lbl-status").append(data[0]["Status"]);
-                    $("#displayPO-gross-total").append(twoDP(total));
-                    $("#displayPO-net-total").append(twoDP(netTotal));
-                    $("#displayPO-gst").append(twoDP(gst));
+                    $("#displayPO-gross-total").val(twoDP(total));
+                    $("#displayPO-net-total").val(twoDP(netTotal));
+                    $("#displayPO-gst").val(twoDP(gst));
                 });
             }
         });
@@ -333,7 +339,6 @@
                     @if (Session["poStatus"].ToString() == "Open")
                     {
                         <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
-                        <button class="btn btn-lu-red" id="btn-cancelPO" style="font-size: 10pt;">Cancel PO</button>
                     }
                     else
                     {
@@ -389,7 +394,7 @@
 
         </div>*@
 </div>
-
+<br />
 <div class="row">
 
 </div>
@@ -415,19 +420,19 @@
                 <th style="font-size: 10pt;">@item.ItemCode</th>
                 <th style="font-size: 10pt;">@item.Description</th>
                 <th style="font-size: 10pt;">
-                    <input id="input-qty-ordered" class="inputEditOrd" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityOrdered" disabled />
+                    <input id="input-qty-ordered" class="inputEditOrd" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityOrdered" disabled />
                 </th>
                 <th style="font-size: 10pt;">
-                    <input id="input-qty-delivered" class="inputEditDel" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityDelivered" disabled />
+                    <input id="input-qty-delivered" class="inputEditDel" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityDelivered" disabled />
                 </th>
                 <th>
                     @if (item.QuantityOrdered - item.QuantityDelivered == 0)
                     {
-                        <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" disabled />
+                        <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="0" disabled />
                     }
                     else
                     {
-                        <input id="input-qty-received" class="inputEditRec" type="number" min="1" pattern="[0-9]" step="1" value="0" />
+                        <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="0" />
                     }
 
                 </th>
@@ -442,49 +447,45 @@
 
 <div class="row">
     <div class="col-md-6">
+        <hr style="margin-left:0px; width: 300px;" />
         <div style="float:left;">
-            <hr />
-            <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><strong><label id="displayPO-gross-total" style="font-size: 10pt; margin: 1.5px;" /></strong>
+            <label style="font-size: 10pt;">Gross Total</label>
             <br />
-            <label style="font-size: 10pt;">GST ($):&nbsp;</label><strong><label id="displayPO-gst" style="font-size: 10pt; margin: 1.5px;" /></strong>
+            <label style="font-size: 10pt;">GST</label>
             <br />
-            <label style="font-size: 10pt;">Net Total ($):&nbsp;</label><strong><label id="displayPO-net-total" style="font-size: 10pt; margin: 1.5px;" /></strong>
+            <label style="font-size: 10pt;">Net Total</label>
         </div>
-        @*<div style="float:left">
-                <strong><input disabled id="displayPO-gross-total" style="font-size: 10pt;" /></strong>
-                <br />
-                <strong><input disabled id="displayPO-gst" style="font-size: 10pt;" /></strong>
-                <br />
-                <strong><input disabled id="displayPO-net-total" style="font-size: 10pt;" /></strong>
-            </div>*@
+        <div style="float:left">
+            ($):&nbsp;<strong><input disabled id="displayPO-gross-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+            <br />
+            ($):&nbsp;<strong><input disabled id="displayPO-gst" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+            <br />
+            ($):&nbsp;<strong><input disabled id="displayPO-net-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+        </div>
+
+            <div><br /><br /><br /><br />
+                @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
+                {
+                    <div>
+                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                    </div>
+                }
+            </div>
+
     </div>
+
     <div class="col-md-6">
         <div style="float: right;">
             <div>
                 <p>Remarks:</p>
                 <textarea id="ta-remarks" rows="3" cols="50" disabled>@Session["PORemarks"]</textarea>
             </div>
+            @if (Session["poStatus"].ToString() == "Open")
+            {
+                <button class="btn btn-lu-red" id="btn-cancelPO" style="float: right; margin:3px; font-size: 10pt;">Cancel Purchase Order</button>
+                <br /><br />
+            }
         </div>
     </div>
 </div>
-    
-<div class="row">
-    <div class="col-md-12">
-        @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
-        {
-            <div>
-                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-           </div>
-        }
-    </div>
-</div>
 
-
-
-@*<div class="row">
-        <div class="col-md-11">
-            <div style="float:right;">
-
-            </div>
-        </div>
-    </div>*@

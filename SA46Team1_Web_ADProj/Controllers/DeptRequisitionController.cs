@@ -135,7 +135,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srd.FormID = Session["currentFormId"].ToString();
                 srd.QuantityOrdered = item2.QuantityOrdered;
                 srd.QuantityDelivered = 0;
-                srd.QuantityBackOrdered = 0;
+                srd.QuantityBackOrdered = item2.QuantityOrdered;
                 srd.CancelledBackOrdered = 0;
                 
                 srd.Item = e.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();

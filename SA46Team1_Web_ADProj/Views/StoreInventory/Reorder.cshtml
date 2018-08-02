@@ -12,9 +12,10 @@
     // Load Datatable
     $(document).ready(function () {
         table = $('#dataTable-storeManagerInventoryReorder').DataTable({
-            //scrollY: '30vh',
             "iDisplayLength": 5,
             scrollCollapse: true,
+            searching: true,
+            info: true,
             paging: true,
             columnDefs: [{
                 "targets": -1,
@@ -22,7 +23,7 @@
                 "defaultContent": "<input id='selectall' type='checkbox' checked/>"
             },
                 {
-                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7]
+                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 7]
                 }
             ]
         });
@@ -118,7 +119,7 @@
             <th><input type="number" id="input-qty" min="1" pattern="[0-9]" style="text-align: center;" value=@item.ActualReorder /></th>
             <th>@item.UoM</th>
             <th>
-                <select>
+                <select width="50px">
                     <option value="@item.s1">@item.s1</option>
                     <option value="@item.s2">@item.s2</option>
                     <option value="@item.s3">@item.s3</option>
