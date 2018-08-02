@@ -7,7 +7,9 @@
 }
 
 <div>
-    <h5>Department Usage Cost Report</h5>    
+    <h5>Department Usage Cost Report</h5>
+    <label id="lbl-filter-info2">Filter results: All</label>
+    <label id="lbl-cost-info2"></label>
 </div>
 
 <div class="row">
@@ -24,26 +26,26 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-2">
-                <div style="text-align:center;">
+                <span>
                     <label style="font-size: 10pt;">Year</label>
-                </div>
-                <div>
+                </span>
+                <span>
                     <select id="chosenYear" multiple>
                         <option value="2017">2017</option>
                         <option value="2018">2018</option>
                     </select>
-                </div>
+                </span>
             </div>
             <div class="col-md-2">
-                <div style="text-align:center;">
+                <span>
                     <label style="font-size: 10pt;">Month(s)</label>
-                </div>
-                <div>
+                </span>
+                <span>
                     <select id="chosenMonths" multiple>
                         <option value="jan">Jan</option>
                         <option value="feb">Feb</option>
                         <option value="mar">Mar</option>
-                        <option value="apr">Apr</option>
+                        <option value="apr">Aor</option>
                         <option value="may">May</option>
                         <option value="jun">Jun</option>
                         <option value="jul">Jul</option>
@@ -53,17 +55,8 @@
                         <option value="nov">Nov</option>
                         <option value="dec">Dec</option>
                     </select>
-                </div>
+                </span>
             </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div style="float:right;">
-            <label id="lbl-cost-info2"></label>
-        </div>
-        <br />
-        <div style="float:right;">
-            <label id="lbl-filter-info2">Filter results: All</label>
         </div>
     </div>
 </div>
@@ -72,12 +65,12 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div style="float:right;">
+        <div>
             <span>
                 <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
             </span>
             <span id="btn-submit-export2">
-                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt; color:#f4f4f4;" })
+                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "DeptReport", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
             </span>
             <span>
                 <input class="btn btn-lu-blue" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
@@ -108,20 +101,12 @@
     <tbody style="font-size: 10pt;"></tbody>
 </table>
 
-<div id="dialog-invalid-report-date" class="hidden" >
-    <br />
-    <div style="text-align:center;">
-        <h5>Please select at least 1 valid month and year.</h5>
-    </div>
-    <hr />
+<div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
+    <h5>Please select at least 1 valid month and year.</h5>
 </div>
 
-<div id="dialog-no-data" class="hidden" >
-    <br />
-    <div style="text-align:center;">
-        <h5>No data found.</h5>
-    </div>
-    <hr />
+<div id="dialog-no-data" class="hidden" title="Information">
+    <h5>No data found.</h5>
 </div>
 
 <script>
@@ -143,6 +128,7 @@
                     sort: true,
                     search: false,
                     dom: 'lrtip',
+                    //scrollY: 200,
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
@@ -161,7 +147,7 @@
 
                                 var date = new Date(jsonDate.substr(0));
                                 var month = date.getMonth();
-                                return date.getDate() + " " + monthNames[month] + " " + date.getFullYear();
+                                return date.getDate() + "-" + monthNames[month] + "-" + date.getFullYear();
                             }
                         },
                         { 'data': 'UoM' },
@@ -207,24 +193,28 @@
 
                             if (selMonths.length == 0 || selYears.length == 0) {
                                 //alert("Please select at least 1 valid month and year.");
-                                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
                                 $('#dialog-invalid-report-date').dialog('open');
                                 return;
                             }
 
                             selYears.forEach(function (element,index1) {
                                 selMonths.forEach(function (element, index2) {
-                                    var monthYear = selMonths[index2] + " " + selYears[index1];
+                                    var monthYear = selMonths[index2] + "-" + selYears[index1];
                                     search.push(monthYear);
                                 });
                             });
 
-                            search = search.join(',');
+                            search = search.join('|');
 
                             table
                                 .columns(6)
                                 .search(search, true, false, true).draw();
-                            
+
+                            //var deptArray = [];
+                            //var categoryArray = [];
+                            //deptArray.push(dept);
+                            //categoryArray.push(category);
+
                             var dept = $('#lbl-dept').text();
                             var category = $('#SelectCategory :selected').text();
 
@@ -237,7 +227,6 @@
                                 .search(category, true, false, true).draw();
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
-                                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
                                 $('#dialog-no-data').dialog('open');
                                 $('#btn-submit-export2').hide();
 
@@ -261,12 +250,11 @@
                             }
 
                             $.ajax({
-                                url: '/StoreReports/ExportRptDepartmentUsage2',
+                                url: '/DeptReport/ExportRptDepartmentUsage2',
                                 data: JSON.stringify({ arr: arr }),
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',
                                 type: 'POST',
-                                async: false
                             });
 
                             table.draw(false);
@@ -286,9 +274,8 @@
                     },
                     columnDefs: [
                         {
-                            "targets": [0,1,2],
-                            "visible": false,                            
-                        }, {
+                            //"targets": [0,1,2],
+                            //"visible": false,
                             className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     ]
@@ -321,7 +308,7 @@
         $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
 
     });
-    
+
     $("#SelectCategory").change(function () {
         $('#btn-submit-export2').hide();
 
@@ -346,16 +333,6 @@
             width: "40%",
             maxWidth: "40%"
         });
-    });
-
-    $("#dialog-invalid-report-date").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
-        $('#dialog-invalid-report-date').dialog('close');
-    });
-
-    $("#dialog-no-data").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
-        $('#dialog-no-data').dialog('close');
     });
 
 </script>
