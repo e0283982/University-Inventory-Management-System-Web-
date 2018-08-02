@@ -25,7 +25,7 @@ namespace SA46Team1_Web_ADProj.Models
         {
             using (SSISdbEntities context = new SSISdbEntities())
             {
-                return context.Users.Any(x => x.EmployeeEmail == username && x.Password == password);
+                return context.Users.Any(x => x.EmployeeEmail == username && x.Password == password && x.Active == 1);
             }
         }
         public string GetRole(string username)

@@ -26,7 +26,7 @@ namespace SA46Team1_Web_ADProj.provider
             using (AuthRepository _repo = new AuthRepository())
             {
                 user = (Employee)_repo.FindUser(context.UserName, context.Password);
-                if (user == null)
+                if (user == null || user.Active != 1)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
