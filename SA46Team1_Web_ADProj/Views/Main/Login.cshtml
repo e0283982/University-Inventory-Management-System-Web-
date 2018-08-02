@@ -4,11 +4,13 @@
 
 @model SA46Team1_Web_ADProj.Models.UserModel
 
-<div class="login-clean centered">
-    <form method="post">
+<link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
+
+<div class="login-clean">
+    <form class="centered" method="post">
 
         <div>
-            <h2 class="sr-only">Login Form</h2>           
+            <h2 class="sr-only">Login Form</h2>
         </div>
 
         <div class="illustration"><img src="~/Content/images/logic1.png" /></div>
@@ -31,6 +33,12 @@
             <button class="btn btn-lu-green btn-block" type="submit">Log In</button>
         </div>
 
+        <hr />
+
+        <div style="text-align:center;">
+            <h6>&nbsp;&nbsp; &copy; 2018 - SA46_ADProject </h6>
+        </div>
+        
         @*<a href="#" class="forgot">Forgot your email or password? Click here.</a>*@
     </form>
 </div>
