@@ -350,7 +350,7 @@
             <h3>Add Item</h3>
             <div>
                 <label>Item Description: </label>
-                @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+                @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { style = "width: 100%;" })
             </div>
 
             <br />
