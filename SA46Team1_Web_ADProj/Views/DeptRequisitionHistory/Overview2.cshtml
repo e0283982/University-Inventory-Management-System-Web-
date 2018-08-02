@@ -14,17 +14,24 @@
 
     $(document).ready(function () {
 
-        if (@editMode.ToString().ToLower()== true) {
+         if (@editMode.ToString().ToLower()== true) {
             $("#btn-save-req-history").show();
             $("#btn-edit-req-history").hide();
             $("#btn-submit-discard-req-items").show();
+            
         } else {
             $("#btn-save-req-history").hide();
             $("#btn-edit-req-history").show();
             $("#btn-submit-discard-req-items").hide();
         }
 
-        if ( '@req.ApprovalStatus' != 'Pending'  || '@req.Status'!='Open' || '@Session["Role"]' != 'Employee Representative' || '@Session["EmpName"]' != '@req.Requestor') {
+        if ('@req.ApprovalStatus' == 'Pending' && '@req.Status' == 'Open') {
+            if ('@Session["Role"]' == 'Employee Representative' && ('@Session["EmpName"]' == '@req.Requestor')) {
+                $("#btn-edit-req-history").prop('disabled', false);
+            } else if ('@Session["Role"]' != 'Employee Representative') {
+                $("#btn-edit-req-history").prop('disabled', false);
+            }
+        } else {
             $("#btn-edit-req-history").prop('disabled', true);
         }
 
@@ -38,7 +45,7 @@
                 table = $('#dataTable-pastReq-details').DataTable({
                     paging: true,
                     sort: true,
-                    searching: true,
+                    searching: false,
                     "iDisplayLength": 5,
                     scrollY: 200,
                     scrollCollapse: false,
@@ -50,7 +57,7 @@
                             'data': 'QuantityOrdered',
                             "render": function (data, type, full, meta) {
                                 if (@editMode.ToString().ToLower() == true) {
-                                    return '<input id="edit-qty-order" type="number" value="' + $('<div/>').text(data).html() + '" min="1">';
+                                    return '<input id="edit-qty-order" style="text-align: center;" type="number" value="' + $('<div/>').text(data).html() + '" min="1">';
                                 } else {
                                     return data;
                                 }
@@ -65,7 +72,14 @@
                                 var reqStatus = '@req.Status';
                                 var reqApprovalStatus = '@req.ApprovalStatus';
 
-                                if (reqStatus == "Open" && reqApprovalStatus == "Pending") {
+                                if (reqStatus == "Open" && reqApprovalStatus == "Pending" && @editMode.ToString().ToLower()== false) {
+
+                                    return '<span>' +
+                                        '<button class="btn btn-lu-red" id="btn-discard-items" disabled>' +
+                                        '<i class="far fa-trash-alt"></i>' +
+                                        '</button>' +
+                                        '</span>';
+                                } else if (reqStatus == "Open" && reqApprovalStatus == "Pending" && @editMode.ToString().ToLower()== true) {
                                     return '<span>' +
                                         '<button class="btn btn-lu-red" id="btn-discard-items">' +
                                         '<i class="far fa-trash-alt"></i>' +
@@ -81,8 +95,8 @@
                     columnDefs: [
                         { className: 'text-center', targets: [0, 1, 2, 3, 4, 5] },
                     ],
-                    drawCallback: function (settings) {
-
+                    "initComplete": function (settings, json) {
+                        
                     }
                 });
             }
@@ -167,7 +181,7 @@
             type: 'POST',
             async: false
         });
-
+         
         table.draw(false);
         window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
 
