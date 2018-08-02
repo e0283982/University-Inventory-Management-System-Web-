@@ -256,8 +256,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     //Create disbursement details, since one collection point is for one dept, then the entire stock retrieved would be assigned to that dept
                     foreach (StockRetrievalDetail srd in stockRetrievalDetails)
                     {
+                        String deptCodeDH = m.DepartmentDetails.Where(x => x.CollectionPointID == srd.CollectionPointID).Select(x => x.DepartmentCode).FirstOrDefault();
+
                         //Only disbursed if quantity retrieved is more than 0
-                        if(srd.QuantityRetrieved > 0)
+                        if(srd.QuantityRetrieved > 0 && deptCodeDH.Equals(newDH.DepartmentCode))
                         {
                             DisbursementDetail newDD = new DisbursementDetail();
                             newDD.Id = disId;

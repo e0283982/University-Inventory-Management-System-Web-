@@ -196,6 +196,17 @@
         window.location.href = '@Url.Action("Purchase", "Store")';
         //return false;
     });
+    
+    $('#btn-back-to-po-list').click(function () {
+
+        $.ajax({
+            url: '/StorePurchase/BackToPOList',
+            type: 'POST',
+            async: false
+        });
+        window.location.href = '@Url.Action("Purchase", "Store")';
+
+    });
 
     // Cancel Edit Dialog
     $(function () {
@@ -447,7 +458,8 @@
 
 <div class="row">
     <div class="col-md-6">
-        <hr style="margin-left:0px; width: 300px;" />
+        @*<hr style="margin-left:0px; width: 300px;" />*@
+        <br />
         <div style="float:left;">
             <label style="font-size: 10pt;">Gross Total</label>
             <br />
@@ -462,15 +474,25 @@
             <br />
             ($):&nbsp;<strong><input disabled id="displayPO-net-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
         </div>
+        <br /><br /><br /><br />
+        <br /><br />
 
-            <div><br /><br /><br /><br />
-                @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
-                {
-                    <div>
-                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                    </div>
-                }
+        <div class="row">
+            @*@using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
+            {*@
+            <div>
+                <input id="btn-back-to-po-list" class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
             </div>
+            <br /><br /><br /><br />
+
+            @*}*@
+            @using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
+            {
+                <div>
+                    <input class="btn btn-lu-blue" type="submit" value="Print" style="font-size: 10pt;" />
+                </div>
+            }
+        </div>
 
     </div>
 

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
 using SA46Team1_Web_ADProj.Models;
 
 namespace SA46Team1_Web_ADProj.Controllers
@@ -683,5 +685,32 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("DisplayGR", "StorePurchase");
 
         }
+
+        public ActionResult ExportPO()
+        {
+            List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "Frm_PurchaseOrder.rpt"));
+            rd.SetDataSource(poFullDetailList);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", "Frm_PurchaseOrder.pdf");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        
+
     }
 }
