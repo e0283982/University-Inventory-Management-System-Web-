@@ -7,124 +7,115 @@
 }
 
 <div>
-    <h5>Department Usage Cost Report</h5>    
-</div>
-
-<div class="row">
-    <div class="col-md-3">
-        <div>
-            <label style="font-size: 10pt;">Department: </label>
-            <label id="lbl-dept">@ViewBag.Department</label>
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Category: </label>
-            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-2">
-                <div style="text-align:center;">
-                    <label style="font-size: 10pt;">Year</label>
-                </div>
-                <div>
-                    <select id="chosenYear" multiple>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div style="text-align:center;">
-                    <label style="font-size: 10pt;">Month(s)</label>
-                </div>
-                <div>
-                    <select id="chosenMonths" multiple>
-                        <option value="jan">Jan</option>
-                        <option value="feb">Feb</option>
-                        <option value="mar">Mar</option>
-                        <option value="apr">Apr</option>
-                        <option value="may">May</option>
-                        <option value="jun">Jun</option>
-                        <option value="jul">Jul</option>
-                        <option value="aug">Aug</option>
-                        <option value="sep">Sep</option>
-                        <option value="oct">Oct</option>
-                        <option value="nov">Nov</option>
-                        <option value="dec">Dec</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div style="float:right;">
-            <label id="lbl-cost-info2"></label>
-        </div>
-        <br />
-        <div style="float:right;">
+    <h5>Department Usage Cost Report</h5>
+    <div  style="float:right;">
+        <div  class="row">
             <label id="lbl-filter-info2">Filter results: All</label>
         </div>
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-md-12">
-        <div style="float:right;">
-            <span>
-                <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
-            </span>
-            <span id="btn-submit-export2">
-                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt; color:#f4f4f4;" })
-            </span>
-            <span>
-                <input class="btn btn-lu-blue" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
-            </span>
+        <div  class="row">
+            <label id="lbl-cost-info2"></label>
         </div>
     </div>
 </div>
 
-<hr />
+    <div class="row">
+        <div class="col-md-3">
+            <div>
+                <label style="font-size: 10pt;">Department: </label>
+                <label id="lbl-dept">@ViewBag.Department</label>
+            </div>
+            <div>
+                <label style="font-size: 10pt;">Category: </label>
+                @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>
+                        <label style="font-size: 10pt;">Year</label>
+                    </span>
+                    <span>
+                        <select id="chosenYear" multiple>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="col-md-2">
+                    <span>
+                        <label style="font-size: 10pt;">Month(s)</label>
+                    </span>
+                    <span>
+                        <select id="chosenMonths" multiple>
+                            <option value="jan">Jan</option>
+                            <option value="feb">Feb</option>
+                            <option value="mar">Mar</option>
+                            <option value="apr">Apr</option>
+                            <option value="may">May</option>
+                            <option value="jun">Jun</option>
+                            <option value="jul">Jul</option>
+                            <option value="aug">Aug</option>
+                            <option value="sep">Sep</option>
+                            <option value="oct">Oct</option>
+                            <option value="nov">Nov</option>
+                            <option value="dec">Dec</option>
+                        </select>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<table id="dataTable-deptUsage2" class="table">
-
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Dept Name</th>
-            <th>Year</th>
-            <th>Month</th>
-            <th>Category</th>
-            <th>Item Code</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Unit of Measure</th>
-            <th>Quantity</th>
-            <th>Avg Unit Cost ($)</th>
-            <th>Total Cost ($)</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
-
-<div id="dialog-invalid-report-date" class="hidden" >
     <br />
-    <div style="text-align:center;">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <span>
+                    <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
+                </span>
+                <span id="btn-submit-export2">
+                    @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "DeptReport", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
+                </span>
+                <span>
+                    <input class="btn btn-lu-blue" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <table id="dataTable-deptUsage2" class="table">
+
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Dept Name</th>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Category</th>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Unit of Measure</th>
+                <th>Quantity</th>
+                <th>Avg Unit Cost ($)</th>
+                <th>Total Cost ($)</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+
+    <div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
         <h5>Please select at least 1 valid month and year.</h5>
     </div>
-    <hr />
-</div>
 
-<div id="dialog-no-data" class="hidden" >
-    <br />
-    <div style="text-align:center;">
+    <div id="dialog-no-data" class="hidden" title="Information">
         <h5>No data found.</h5>
     </div>
-    <hr />
-</div>
 
-<script>
+    <script>
     var table;
     var initialSum;
 
@@ -143,6 +134,7 @@
                     sort: true,
                     search: false,
                     dom: 'lrtip',
+                    //scrollY: 200,
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
@@ -161,7 +153,7 @@
 
                                 var date = new Date(jsonDate.substr(0));
                                 var month = date.getMonth();
-                                return date.getDate() + " " + monthNames[month] + " " + date.getFullYear();
+                                return date.getDate() + "-" + monthNames[month] + "-" + date.getFullYear();
                             }
                         },
                         { 'data': 'UoM' },
@@ -207,24 +199,28 @@
 
                             if (selMonths.length == 0 || selYears.length == 0) {
                                 //alert("Please select at least 1 valid month and year.");
-                                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
                                 $('#dialog-invalid-report-date').dialog('open');
                                 return;
                             }
 
                             selYears.forEach(function (element,index1) {
                                 selMonths.forEach(function (element, index2) {
-                                    var monthYear = selMonths[index2] + " " + selYears[index1];
+                                    var monthYear = selMonths[index2] + "-" + selYears[index1];
                                     search.push(monthYear);
                                 });
                             });
 
-                            search = search.join(',');
+                            search = search.join('|');
 
                             table
                                 .columns(6)
                                 .search(search, true, false, true).draw();
-                            
+
+                            //var deptArray = [];
+                            //var categoryArray = [];
+                            //deptArray.push(dept);
+                            //categoryArray.push(category);
+
                             var dept = $('#lbl-dept').text();
                             var category = $('#SelectCategory :selected').text();
 
@@ -232,12 +228,15 @@
                                 .columns(0)
                                 .search(dept, true, false, true).draw();
 
-                            table
-                                .columns(3)
-                                .search(category, true, false, true).draw();
+                            
+                            if ($.trim(category) != "All") {
+                                table
+                                    .columns(3)
+                                    .search(category, true, false, true).draw();
+                            }
+                            
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
-                                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
                                 $('#dialog-no-data').dialog('open');
                                 $('#btn-submit-export2').hide();
 
@@ -261,12 +260,11 @@
                             }
 
                             $.ajax({
-                                url: '/StoreReports/ExportRptDepartmentUsage2',
+                                url: '/DeptReport/ExportRptDepartmentUsage2',
                                 data: JSON.stringify({ arr: arr }),
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',
                                 type: 'POST',
-                                async: false
                             });
 
                             table.draw(false);
@@ -286,9 +284,8 @@
                     },
                     columnDefs: [
                         {
-                            "targets": [0,1,2],
-                            "visible": false,                            
-                        }, {
+                            //"targets": [0,1,2],
+                            //"visible": false,
                             className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     ]
@@ -311,6 +308,8 @@
         $("#chosenYear").val([]);
 
         $("#lbl-filter-info2").text("Filter results: All");
+        //$('#SelectCategory :selected').text("All");
+        $("#SelectCategory").val($("#SelectCategory option:first").val());
 
         //reset datatable results
         table
@@ -321,7 +320,7 @@
         $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
 
     });
-    
+
     $("#SelectCategory").change(function () {
         $('#btn-submit-export2').hide();
 
@@ -348,14 +347,4 @@
         });
     });
 
-    $("#dialog-invalid-report-date").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
-        $('#dialog-invalid-report-date').dialog('close');
-    });
-
-    $("#dialog-no-data").on("dialogclose", function (event, ui) {
-        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
-        $('#dialog-no-data').dialog('close');
-    });
-
-</script>
+    </script>

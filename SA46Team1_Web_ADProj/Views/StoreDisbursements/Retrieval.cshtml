@@ -36,6 +36,7 @@
                         paging: true,
                         sort: true,
                         searching: true,
+                        "order": [[4, "asc"]],
                         "iDisplayLength": 5,
                         data: data,
                         responsive: true,
@@ -121,10 +122,10 @@
             async: false
         });
 
-        table.draw(false);
-
+        //table.draw(false);
         window.location.href = '@Url.Action("Disbursements", "Store")';
 
+        return false;
     });
 
     function myFunction(param1, param2) {

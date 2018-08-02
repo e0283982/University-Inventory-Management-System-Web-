@@ -173,9 +173,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
 
                 //get list of active SRFs headers belonging to dept
-                List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).Select(x => x.FormID).ToList();
+                List<String> deptReqIds = m.StaffRequisitionHeaders.Where(x => x.EmployeeID == id).Select(x => x.FormID).ToList();
                 List<StaffRequisitionDetail> list = m.StaffRequisitionDetails
-                    .Where(i => deptReqIds.Contains(i.FormID) && i.QuantityBackOrdered > 0).ToList();
+                    .Where(i => deptReqIds.Contains(i.FormID) && i.QuantityDelivered!=i.QuantityOrdered && i.QuantityDelivered>0 && i.CancelledBackOrdered==0).ToList();
 
                 List<BackOrderModel> list2 = new List<BackOrderModel>();
                 list2 = list.ConvertAll(x => new BackOrderModel
@@ -789,7 +789,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.StockRetrievalHeaders.OrderByDescending(x => x.Date).FirstOrDefault();
+                return m.StockRetrievalHeaders.OrderByDescending(x => x.ID).FirstOrDefault();
 
             }
         }
@@ -879,7 +879,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 }
 
-                //To update the list staff headers to completed, there would be multiple staff requisition headers combined
+                //To update the list of staff req headers to be completed, there would be multiple staff requisition headers combined
                 //To update the staff requisition details for quantity delivered
 
                 List<String> listOfReqFormId = m.StockRetrievalReqForms.OrderBy(x => x.Id).Where(x => x.StockRetrievalID == disbursementHeader.StockRetrievalId).Select(x => x.ReqFormID).ToList<String>();
@@ -934,7 +934,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     if (completedStaffRequisition)
                     {
                         staffRequisitionHeader.Status = "Completed";
-                    }                    
+                    }                                        
 
                 }                
 
