@@ -273,9 +273,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                                 if (staffReqDet != null)
                                 {
-                                    StaffRequisitionHeader staffRequisitionHeader = m.StaffRequisitionHeaders.Where(x => x.FormID == staffReqDet.FormID).FirstOrDefault();
-                                    staffRequisitionHeader.Status = "Disbursed";
-
                                     reqQtyOrdered = staffReqDet.QuantityOrdered;
                                 }
                                 
