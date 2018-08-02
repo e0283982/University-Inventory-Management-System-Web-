@@ -12,13 +12,10 @@ namespace SA46Team1_Web_ADProj.Controllers
     [RoutePrefix("Dept/DeptApproval")]
     public class DeptApprovalController : Controller
     {
-        [CustomAuthorize(Roles = "Department Head, Employee, Employee Representative")]
+        [CustomAuthorize(Roles = "Department Head, Approver")]
         [Route("Approval")]
         public ActionResult Approval()
         {
-
-            if (Session["ApproveRights"].ToString() == "1")
-            { 
                 if (Session["ReqApprovalPage"].ToString() == "1")
                 {
                     return View("Approval");
@@ -28,12 +25,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     Session["ReqApprovalPage"] = "1";
                     return View("Approval2");
                 }
-            }
-            else
-                return RedirectToAction("AccessDenied", "Error", new { area = "" });
+          
         }
 
-        [CustomAuthorize(Roles = "Department Head, Employee, Employee Representative")]
+        [CustomAuthorize(Roles = "Department Head, Approver")]
         [HttpPost]
         //[Route("DisplayApprovalDetails")]
         public RedirectToRouteResult DisplayApprovalDetails(string ReqFormId)
@@ -52,7 +47,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Approval", "Dept");
         }
 
-        [CustomAuthorize(Roles = "Department Head, Employee, Employee Representative")]
+        [CustomAuthorize(Roles = "Department Head, Approver")]
         //[HttpPost]
         public RedirectToRouteResult BackToApprovalList()
         {
@@ -60,7 +55,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Approval", "Dept");
         }
 
-        [CustomAuthorize(Roles = "Department Head, Employee, Employee Representative")]
+        [CustomAuthorize(Roles = "Department Head, Approver")]
         [HttpPost]
         public RedirectToRouteResult Approve(String data)
         {
@@ -91,7 +86,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             return RedirectToAction("Approval", "Dept");
         }
 
-        [CustomAuthorize(Roles = "Department Head, Employee, Employee Representative")]
+        [CustomAuthorize(Roles = "Department Head, Approver")]
         [HttpPost]
         public RedirectToRouteResult Reject(String data)
         {
