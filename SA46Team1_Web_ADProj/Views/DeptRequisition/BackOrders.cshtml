@@ -2,6 +2,8 @@
 
     Layout = null;
     string url = null;
+    string role = Session["Role"].ToString();
+
     if (Session["Role"].ToString() == "Employee Representative")
     {
         var id = Session["DepartmentCode"];
@@ -70,7 +72,14 @@
                 });
 
                 if (table.rows().data().length > 0) {
-                    $('#btn-submit-discard-backorder-items').prop('disabled', false);
+                     if ('@role'== "Employee Representative")
+                     {
+
+                     }
+                     else
+                     {
+                         $('#btn-submit-discard-backorder-items').prop('disabled', false);
+                     }
                 }
             }
         });
@@ -205,18 +214,13 @@
 <hr />
 
 <div class="row">
-    @if (Session["Role"].ToString() == "Employee Representative")
-    {
-
-    }
-    else
-    {
+   
         <span class="col-md-12">
             <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;" disabled>
                 Discard Selected Items
             </button>
         </span>
-    }
+    
 </div>
 
 <div id="dialog-confirm-discard-backorder-item" class="hidden" @*title="Confirm Discard Selected (BackOrder)"*@>
