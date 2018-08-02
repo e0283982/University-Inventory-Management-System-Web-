@@ -122,7 +122,7 @@
     }
     function approveFunction(requestId, itemCode) {
         $.ajax({
-            url: '/StoreManagerInventory/Approve',
+            url: '/Store/StoreInventoryManager/Approve',
             method: 'POST',
             async: false,
             data: {
@@ -130,7 +130,9 @@
                 'itemCode': itemCode
             }
         });
-        alert("Approve button clicked" + " " + requestId + " " + itemCode);
+        //alert("Approve button clicked" + " " + requestId + " " + itemCode);
+       window.location.href = '@Url.Action("Inventory", "Store")';
+
     }
     function rejectFunction(requestId, itemCode) {
         $.ajax({
