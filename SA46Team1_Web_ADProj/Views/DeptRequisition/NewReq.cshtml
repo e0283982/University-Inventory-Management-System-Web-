@@ -341,7 +341,7 @@
 
 
 
-<div id="dialog-add-req-item" class="hidden" @*title="Add Item (New Requisition)"*@>
+<div id="dialog-add-req-item" class="hidden" style="overflow:hidden;"@*title="Add Item (New Requisition)"*@>
     @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
     {
         <div>
@@ -379,7 +379,7 @@
     }
 </div>
 
-<div id="dialog-confirm-submit-new-req" class="hidden" @*title="Confirm Submission (New Requisition)"*@>
+<div id="dialog-confirm-submit-new-req" class="hidden"  style="overflow:hidden;"@*title="Confirm Submission (New Requisition)"*@>
     <div style="text-align:center;">
         <h4>Confirm Submission</h4>
         <h6>Are you sure you want to submit the requisition?</h6>

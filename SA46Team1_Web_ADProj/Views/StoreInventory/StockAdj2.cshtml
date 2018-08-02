@@ -274,10 +274,12 @@
 
                 <div>
                     <label>Item Description: </label>
-                    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList)
+                    <br />
+                    @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { style = "width: 100%;" })                    
                 </div>
 
                 <div>
+                    <br />
                     <label>Adjustment Qty: </label>
                     @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @Value = "1" }, })
                 </div>
