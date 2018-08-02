@@ -20,10 +20,11 @@ namespace SA46Team1_Web_ADProj.Models
         public string EmployeeName { get; set; }
         public string EmployeeID { get; set; }
         public string Manager { get; set; }
-        public System.DateTime? DateProcessed { get; set; }
+        public Nullable<System.DateTime> DateProcessed { get; set; }
         public string ItemCode { get; set; }
         public string Description { get; set; }
         public int QuantityOrdered { get; set; }
         public int QuantityDelivered { get; set; }
+        public System.DateTime DateRequested { get; set; }
     }
 }
