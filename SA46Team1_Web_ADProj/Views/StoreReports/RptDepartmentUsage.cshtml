@@ -74,14 +74,14 @@
     <div class="col-md-12">
         <div style="float:right;">
             <span>
+                <input class="btn btn-lu-red" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
+            </span>
+            <span>
                 <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
             </span>
             <span id="btn-submit-export2">
                 @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt; color:#f4f4f4;" })
-            </span>
-            <span>
-                <input class="btn btn-lu-blue" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
-            </span>
+            </span>           
         </div>
     </div>
 </div>
