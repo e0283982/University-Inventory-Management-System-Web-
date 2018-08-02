@@ -1,5 +1,17 @@
 ﻿@{
+
     Layout = null;
+    string url = null;
+    if (Session["Role"].ToString() == "Employee Representative")
+    {
+        var id = Session["DepartmentCode"];
+        url = "http://localhost:49921/api/Restful/GetBackOrdersByDept/" + id;
+    }
+    else {
+        var id = Session["LoginEmployeeID"];
+        url = "http://localhost:49921/api/Restful/GetBackOrdersByEmployee/" + id;
+    }
+
 }
 
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
@@ -10,7 +22,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetBackOrdersByDept/'+ '@Session["LoginEmployeeID"]',
+            url: '@url',
             method: 'get',
             dataType: 'json',
             success: function (data) {
