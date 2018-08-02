@@ -28,6 +28,16 @@ namespace SA46Team1_Web_ADProj.Controllers
                     && x.ApprovalStatus == "Pending" && x.NotificationStatus == "Unread").ToList();
                 }
                 else
+                    if(emp.Approver == 1)
+                {
+                    List<StaffRequisitionHeader> s = srhList = m.StaffRequisitionHeaders
+                        .Where(x => x.DepartmentCode == emp.DepartmentCode && x.EmployeeID == emp.EmployeeID
+                        && (x.ApprovalStatus == "Approved" || x.ApprovalStatus == "Rejected") && x.NotificationStatus == "Unread").ToList();
+                    srhList = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == emp.DepartmentCode
+                    && x.ApprovalStatus == "Pending" && x.NotificationStatus == "Unread").ToList();
+                    srhList.AddRange(s);
+                }
+                else
                 {
                     srhList = m.StaffRequisitionHeaders
                         .Where(x => x.DepartmentCode == emp.DepartmentCode && x.EmployeeID == emp.EmployeeID
