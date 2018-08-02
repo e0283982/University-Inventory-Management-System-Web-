@@ -7,11 +7,13 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetDeptCollectionItems/'+ '@Session["DepartmentCode"]',
+            url: 'http://localhost:49921/api/Restful/GetCollectionList/'+ '@Session["DepartmentCode"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
                 table = $('#dataTable-collection').DataTable({
+                    scrollY: 200,
+                    scrollCollapse: false,
                     paging: true,
                     sort: true,
                     searching: true,
@@ -20,9 +22,9 @@
                     responsive: true,
                     columns: [
                         { 'data': 'ItemCode' },
-                        { 'data': 'ItemDesc' },
+                        { 'data': 'Description' },
                         { 'data': 'UoM' },
-                        { 'data': 'ExpectedQty' }
+                        { 'data': 'QuantityReceived' }
                     ],
 
                     columnDefs: [
@@ -49,7 +51,7 @@
             <th>Item Code</th>
             <th>Item Description</th>
             <th>Unit of Measure</th>
-            <th>Total Expected Delivery</th>
+            <th>Total Delivery</th>
         </tr>
     </thead>
     <tbody style="font-size: 10pt;">

@@ -389,12 +389,19 @@ warning 6002: The table/view 'SSISdb.dbo.AllStaffRequisition' does not have a pr
 warning 6002: The table/view 'SSISdb.dbo.CollectionList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CollectionList">
           <Key>
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="DepartmentCode" />
           </Key>
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="UoM" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="QtyBackOrdered" Type="int" />
+          <Property Name="QuantityReceived" Type="int" Nullable="false" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="StockRetrievalId" Type="nvarchar" MaxLength="12" />
+          <Property Name="Total" Type="real" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.CollectionListbyDept' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1466,9 +1473,13 @@ warning 6002: The table/view 'SSISdb.dbo.tempview' does not have a primary key d
           </EntitySet>
           <EntitySet Name="CollectionList" EntityType="Self.CollectionList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [CollectionList].[ItemCode] AS [ItemCode], 
     [CollectionList].[Description] AS [Description], 
     [CollectionList].[UoM] AS [UoM], 
-    [CollectionList].[QtyBackOrdered] AS [QtyBackOrdered]
+    [CollectionList].[QuantityReceived] AS [QuantityReceived], 
+    [CollectionList].[DepartmentCode] AS [DepartmentCode], 
+    [CollectionList].[StockRetrievalId] AS [StockRetrievalId], 
+    [CollectionList].[Total] AS [Total]
     FROM [dbo].[CollectionList] AS [CollectionList]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="CollectionListbyDept" EntityType="Self.CollectionListbyDept" store:Type="Views" store:Schema="dbo">
@@ -2401,12 +2412,19 @@ warning 6002: The table/view 'SSISdb.dbo.tempview' does not have a primary key d
         </EntityType>
         <EntityType Name="CollectionList">
           <Key>
+            <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="UoM" />
+            <PropertyRef Name="QuantityReceived" />
+            <PropertyRef Name="DepartmentCode" />
           </Key>
+          <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UoM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="QtyBackOrdered" Type="Int32" />
+          <Property Name="QuantityReceived" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StockRetrievalId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Single" />
         </EntityType>
         <EntityType Name="CollectionListbyDept">
           <Key>
@@ -3973,9 +3991,13 @@ warning 6002: The table/view 'SSISdb.dbo.tempview' does not have a primary key d
           <EntitySetMapping Name="CollectionLists">
             <EntityTypeMapping TypeName="SSISdbModel.CollectionList">
               <MappingFragment StoreEntitySet="CollectionList">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UoM" ColumnName="UoM" />
-                <ScalarProperty Name="QtyBackOrdered" ColumnName="QtyBackOrdered" />
+                <ScalarProperty Name="QuantityReceived" ColumnName="QuantityReceived" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="StockRetrievalId" ColumnName="StockRetrievalId" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

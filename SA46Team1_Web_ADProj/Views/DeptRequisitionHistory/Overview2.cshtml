@@ -24,7 +24,7 @@
             $("#btn-submit-discard-req-items").hide();
         }
 
-        if ('@req.ApprovalStatus' != 'Pending'  || '@req.Status'!='Open') {
+        if ( '@req.ApprovalStatus' != 'Pending'  || '@req.Status'!='Open' || '@Session["Role"]' != 'Employee Representative' || '@Session["EmpName"]' != '@req.Requestor') {
             $("#btn-edit-req-history").prop('disabled', true);
         }
 
@@ -328,11 +328,16 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-3">      
+    <div class="col-md-3">
         <div>
             <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@dateNow</label>
         </div>
-
+        @if (Session["Role"].ToString() == "Employee Representative")
+        {
+            <div>
+                <label style="font-size: 10pt;">Requestor:&nbsp;</label><label style="font-size: 10pt;">@req.Requestor</label>
+            </div>
+        }
         <div>
             <label style="font-size: 10pt;">Representative:&nbsp;</label><label style="font-size: 10pt;">@req.RepName</label>
         </div>

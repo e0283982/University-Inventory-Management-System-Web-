@@ -630,6 +630,19 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetDeptRequisitionHistory/{id}")]
+        public List<StaffRequisitionHeader> GetDeptRequisitionHistory(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                List<StaffRequisitionHeader> deptReqForms = m.StaffRequisitionHeaders.Where(x => x.DepartmentCode == id).ToList();
+
+                return deptReqForms;
+            }
+        }
+
+        [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.Route("GetRequisitionHistoryDetail/{id}")]
         public List<RequisitionHistoryDetail> GetRequisitionHistoryDetail(string id)
         {
@@ -1167,6 +1180,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                 //    return employee.Designation;
                 //}
 
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [System.Web.Mvc.Route("GetCollectionList/{id}")]
+        public List<CollectionList> GetCollectionList(string id)
+        {
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                m.Configuration.ProxyCreationEnabled = false;
+                return m.CollectionLists.Where(x => x.DepartmentCode == id).ToList();
+            }
         }
 
 
