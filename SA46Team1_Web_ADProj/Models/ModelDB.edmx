@@ -729,11 +729,11 @@ warning 6002: The table/view 'SSISdb.dbo.RequisitionListDetails' does not have a
             <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="Manager" />
-            <PropertyRef Name="DateProcessed" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="QuantityOrdered" />
             <PropertyRef Name="QuantityDelivered" />
+            <PropertyRef Name="DateRequested" />
           </Key>
           <Property Name="FormID" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="DepartmentName" Type="nvarchar" MaxLength="80" Nullable="false" />
@@ -741,11 +741,12 @@ warning 6002: The table/view 'SSISdb.dbo.RequisitionListDetails' does not have a
           <Property Name="EmployeeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Manager" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="DateProcessed" Type="date" Nullable="false" />
+          <Property Name="DateProcessed" Type="datetime" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="QuantityOrdered" Type="int" Nullable="false" />
           <Property Name="QuantityDelivered" Type="int" Nullable="false" />
+          <Property Name="DateRequested" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SSISdb.dbo.StockAdjustmentApproval' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1679,7 +1680,8 @@ warning 6002: The table/view 'SSISdb.dbo.tempview' does not have a primary key d
     [RequisitionListDetails].[ItemCode] AS [ItemCode], 
     [RequisitionListDetails].[Description] AS [Description], 
     [RequisitionListDetails].[QuantityOrdered] AS [QuantityOrdered], 
-    [RequisitionListDetails].[QuantityDelivered] AS [QuantityDelivered]
+    [RequisitionListDetails].[QuantityDelivered] AS [QuantityDelivered], 
+    [RequisitionListDetails].[DateRequested] AS [DateRequested]
     FROM [dbo].[RequisitionListDetails] AS [RequisitionListDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="StockAdjustmentApproval" EntityType="Self.StockAdjustmentApproval" store:Type="Views" store:Schema="dbo">
@@ -2716,11 +2718,11 @@ warning 6002: The table/view 'SSISdb.dbo.tempview' does not have a primary key d
             <PropertyRef Name="EmployeeName" />
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="Manager" />
-            <PropertyRef Name="DateProcessed" />
             <PropertyRef Name="ItemCode" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="QuantityOrdered" />
             <PropertyRef Name="QuantityDelivered" />
+            <PropertyRef Name="DateRequested" />
           </Key>
           <Property Name="FormID" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DepartmentName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2728,11 +2730,12 @@ warning 6002: The table/view 'SSISdb.dbo.tempview' does not have a primary key d
           <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EmployeeID" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Manager" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DateProcessed" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateProcessed" Type="DateTime" Precision="3" />
           <Property Name="ItemCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="QuantityOrdered" Type="Int32" Nullable="false" />
           <Property Name="QuantityDelivered" Type="Int32" Nullable="false" />
+          <Property Name="DateRequested" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="StockAdjustmentApproval">
           <Key>
@@ -4234,6 +4237,7 @@ warning 6002: The table/view 'SSISdb.dbo.tempview' does not have a primary key d
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="QuantityOrdered" ColumnName="QuantityOrdered" />
                 <ScalarProperty Name="QuantityDelivered" ColumnName="QuantityDelivered" />
+                <ScalarProperty Name="DateRequested" ColumnName="DateRequested" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
