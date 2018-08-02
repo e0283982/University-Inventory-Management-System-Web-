@@ -14,8 +14,12 @@ namespace SA46Team1_Web_ADProj.Models
     
     public partial class CollectionList
     {
+        public string ItemCode { get; set; }
         public string Description { get; set; }
         public string UoM { get; set; }
-        public Nullable<int> QtyBackOrdered { get; set; }
+        public int QuantityReceived { get; set; }
+        public string DepartmentCode { get; set; }
+        public string StockRetrievalId { get; set; }
+        public Nullable<float> Total { get; set; }
     }
 }

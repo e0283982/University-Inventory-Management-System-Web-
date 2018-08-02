@@ -67,6 +67,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Session["UserId"] = employee.EmployeeID;
                 Session["Role"] = employee.Designation;
                 Session["DepartmentCode"] = employee.DepartmentCode;
+                Session["EmpName"] = employee.EmployeeName;
 
                 if (employee.Designation == "Department Head"
                     || employee.Designation == "Employee"

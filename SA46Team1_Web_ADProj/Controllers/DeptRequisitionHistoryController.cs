@@ -38,6 +38,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 StaffRequisitionHeader srh = e.StaffRequisitionHeaders.Where(x=>x.FormID==formId).FirstOrDefault();
 
                 string repId = e.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).Select(x => x.RepresentativeID).FirstOrDefault();
+                string requestor = e.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.EmployeeName).FirstOrDefault();
                 string repName = e.Employees.Where(x => x.EmployeeID == repId).Select(x => x.EmployeeName).FirstOrDefault();
                 string approverName = e.Employees.Where(x => x.EmployeeID == srh.Approver).Select(x => x.EmployeeName).FirstOrDefault();
                 string approvalStatus = srh.ApprovalStatus;
@@ -50,6 +51,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 model.RepName = repName;
                 model.RequestDate = requestDate;
                 model.Status = status;
+                model.Requestor = requestor;
 
                 Session["CurrentReqHistory"] = model;
             }
@@ -75,6 +77,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 string repId = e.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).Select(x => x.RepresentativeID).FirstOrDefault();
                 string repName = e.Employees.Where(x => x.EmployeeID == repId).Select(x => x.EmployeeName).FirstOrDefault();
+                string requestor = e.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.EmployeeName).FirstOrDefault();
                 string approverName = e.Employees.Where(x => x.EmployeeID == srh.Approver).Select(x => x.EmployeeName).FirstOrDefault();
                 string approvalStatus = srh.ApprovalStatus;
                 DateTime requestDate = srh.DateRequested;
@@ -84,6 +87,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 model.ApproverName = approverName;
                 model.RepName = repName;
                 model.RequestDate = requestDate;
+                model.Requestor = requestor;
 
                 Session["CurrentReqHistory"] = model;
             }

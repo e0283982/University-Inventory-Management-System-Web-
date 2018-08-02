@@ -26,7 +26,6 @@ namespace SA46Team1_Web_ADProj.Models
         public System.DateTime Date { get; set; }
         public string EmployeeName { get; set; }
         public string Status { get; set; }
-
         [NotMapped]
         public string Supplier1Code { get; set; }
 

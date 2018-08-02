@@ -14,6 +14,8 @@
             dataType: 'json',
             success: function (data) {
                 table = $('#dataTable-approval').DataTable({
+                    scrollY: 200,
+                    scrollCollapse: false,
                     paging: true,
                     sort: true,
                     searching: true,

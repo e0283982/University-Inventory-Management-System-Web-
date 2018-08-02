@@ -27,6 +27,8 @@
             dataType: 'json',
             success: function (data) {
                 table = $('#dataTable-backOrders').DataTable({
+                    scrollY: 200,
+                    scrollCollapse: false,
                     paging: true,
                     sort: true,
                     searching: true,
