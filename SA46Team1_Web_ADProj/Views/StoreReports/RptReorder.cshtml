@@ -5,67 +5,71 @@
 @{
     ViewBag.Title = "Reorder Report";
 }
-<div>
-    <h5>Reorder Report</h5>
-    <span>
-        <label>Filter by:</label>
-        <select id="chosenToggle1">
-            <option value="all">All</option>
-            <option value="item">Item</option>
-            <option value="category">Category</option>
-        </select>
-    </span>
-</div>
 
-<div class="row">
-    <div class="col-md-6">
-        <div>
-            <label style="font-size: 10pt;">Item Description: </label>
-            @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectItemDesc1" })
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+
+    <div>
+        <h5>Reorder Report</h5>
+        <span>
+            <label>Filter by:</label>
+            <select id="chosenToggle1">
+                <option value="all">All</option>
+                <option value="item">Item</option>
+                <option value="category">Category</option>
+            </select>
+        </span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <label style="font-size: 10pt;">Item Description: </label>
+                @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectItemDesc1" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <label style="font-size: 10pt;">Category: </label>
+                @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectCategory1" })
+            </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div>
-            <label style="font-size: 10pt;">Category: </label>
-            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList, new { @class = "form-control", multiple = "multiple", size = "5", id = "selectCategory1" })
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float:right">
+                <span>
+                    <input class="btn btn-lu-green" id="btn-submit-filter1" type="submit" style="font-size: 10pt;" />
+                </span>
+                <span id="btn-submit-export1">
+                    @Html.ActionLink("Export to PDF", "ExportRptReorder", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf1", style = "font-size: 10pt; color:#f4f4f4;" })
+                </span>
+            </div>
         </div>
     </div>
-</div>
-    
-<br />
 
-<div class="row">
-    <div class="col-md-12">
-        <div style="float:right">
-            <span>
-                <input class="btn btn-lu-green" id="btn-submit-filter1" type="submit" style="font-size: 10pt;" />
-            </span>
-            <span id="btn-submit-export1">
-                @Html.ActionLink("Export to PDF", "ExportRptReorder", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf1", style = "font-size: 10pt; color:#f4f4f4;" })
-            </span>
-        </div>
-    </div>
-</div>
-    
-<hr />     
+    <hr />
 
-<table id="dataTable-storeReorder" class="table">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Category</th>
-            <th>Item Code</th>
-            <th>Description</th>
-            <th>Unit of Measure</th>
-            <th>Quantity</th>
-            <th>Reorder Level</th>
-            <th>Reorder Quantity</th>
-            <th>PO Backordered</th>
-            <th>Req Backordered</th>
-            <th>Suggested Reorder Qty</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
+    <table id="dataTable-storeReorder" class="table">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Category</th>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Unit of Measure</th>
+                <th>Quantity</th>
+                <th>Reorder Level</th>
+                <th>Reorder Quantity</th>
+                <th>PO Backordered</th>
+                <th>Req Backordered</th>
+                <th>Suggested Reorder Qty</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+</div>
 
 <script>
     var table;
