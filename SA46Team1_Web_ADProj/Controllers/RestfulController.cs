@@ -970,7 +970,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 
 
                 //To update the status to completed for staff requisition
-                foreach (String reqForm in listOfReqFormId)
+                foreach (String reqForm in reqFormIdentified)
                 {
                     bool completedStaffRequisition = true;
 
