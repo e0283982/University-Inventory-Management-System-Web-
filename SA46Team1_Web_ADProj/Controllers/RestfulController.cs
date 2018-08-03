@@ -1014,7 +1014,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [System.Web.Mvc.Route("CreateNewRequisition")]
         public void CreateNewRequisition(NewRequisitionModel newRequisitionModel)
         {
-
+            string name = "";
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
@@ -1024,12 +1024,15 @@ namespace SA46Team1_Web_ADProj.Controllers
                 {
                     //Create new Staff Requisition Header
                     StaffRequisitionHeader srh = new StaffRequisitionHeader();
-
+                    
                     int staffRequisitionHeaderCount = m.StaffRequisitionHeaders.Count() + 1;
                     srh.FormID = CommonLogic.SerialNo(staffRequisitionHeaderCount, "SR");
 
                     srh.EmployeeID = newRequisitionModel.EmployeeId;
-
+                    // Find employee
+                    Employee e = m.Employees.Where(x => x.EmployeeID == srh.EmployeeID).FirstOrDefault();
+                    name = e.EmployeeName;
+                    // end
                     srh.DepartmentCode = m.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.DepartmentCode).FirstOrDefault();
                     srh.DateRequested = DateTime.Now;
                     srh.Status = "Open";
@@ -1064,8 +1067,14 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 m.SaveChanges();
 
-            }
+                // Email
+                string title = "[LogicUniversity] New Requisition: " + CommonLogic.SerialNo(latestStaffRequisitionHeaderCount, "SR");
+                string message = name + " has raised a new requisition.";
 
+                CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+
+            }
+            
         }
 
         [System.Web.Mvc.HttpGet]
