@@ -31,35 +31,38 @@
     });
 </script>
 
-<div>
-    <h5>Disbursement Information</h5>
-    <h6>Disbursement #: @Session["storeDisbursementFormId"]</h6>
-</div>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+
+    <div>
+        <h5>Disbursement Information</h5>
+        <h6>Disbursement #: @Session["storeDisbursementFormId"]</h6>
+    </div>
 
 
-<table id="dataTable-storeDisbursementList-details" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Item Description</th>
-            <th>Unit of Measurement</th>
-            <th>Quantity Needed</th>
-            <th>Qty Delivered</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
+    <table id="dataTable-storeDisbursementList-details" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Description</th>
+                <th>Unit of Measurement</th>
+                <th>Quantity Needed</th>
+                <th>Qty Delivered</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-12">
-        <div>
-            <span>
-                @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
-                {
-                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                }
-            </span>
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <span>
+                    @using (Html.BeginForm("BackToDisbursementList", "StoreDisbursements", FormMethod.Post))
+                    {
+                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                    }
+                </span>
+            </div>
         </div>
     </div>
 </div>

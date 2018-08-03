@@ -46,39 +46,42 @@
         });
     });
 </script>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h5>Item Code: @Session["MaintenanceItemCode"]</h5>
-</div>
+    <div>
+        <h5>Item Code: @Session["MaintenanceItemCode"]</h5>
+    </div>
 
 
-<table id="dataTable-inventory-items-details" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Item Code</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Unit of Measure</th>
-            <th>Supplier 1</th>
-            <th>Supplier 2</th>
-            <th>Supplier 3</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
+    <table id="dataTable-inventory-items-details" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Unit of Measure</th>
+                <th>Supplier 1</th>
+                <th>Supplier 2</th>
+                <th>Supplier 3</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-11">
-        <div>
-            <span>
-                @using (Html.BeginForm("BackToInventoryOverviewList", "StoreInventory", FormMethod.Post))
-                {
-                    <input class="btn btn-lu-blue" type="submit" value="Back" />
-                }
-            </span>
+    <div class="row">
+        <div class="col-md-11">
+            <div>
+                <span>
+                    @using (Html.BeginForm("BackToInventoryOverviewList", "StoreInventory", FormMethod.Post))
+                    {
+                        <input class="btn btn-lu-blue" type="submit" value="Back" />
+                    }
+                </span>
+            </div>
         </div>
     </div>
+
 </div>
