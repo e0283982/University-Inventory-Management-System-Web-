@@ -163,7 +163,7 @@
             arrQty.push(table.cell(i, 4).nodes().to$().find('input').val());
         }
 
-        alert(arrQty);
+        //alert(arrQty);
         $.ajax({
             url: '/StorePurchase/GoodsReceipt',
             type: 'POST',
@@ -460,10 +460,7 @@
 
 <div class="row">
     @*<hr style="margin-left:0px; width: 300px;" />*@
-    <br /><br /><br /><br />
-    <br /><br /><br /><br />
-    <br /><br /><br /><br />
-
+    <br /><br />
     <div style="float:left;">
         <label style="font-size: 10pt;">Gross Total</label>
         <br />
@@ -471,12 +468,12 @@
         <br />
         <label style="font-size: 10pt;">Net Total</label>
 
+        <br /><br />
         <div class="row">
 
             <div>
                 <input id="btn-back-to-po-list" class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
             </div>
-            <br /><br /><br /><br />
 
             @*}*@
             @using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
@@ -488,20 +485,23 @@
 
         </div>
     </div>
-    <div style="float:left">
+
+
+    <div style="float:right; margin-left:2vw">
         ($):&nbsp;<strong><input disabled id="displayPO-gross-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
         <br />
         ($):&nbsp;<strong><input disabled id="displayPO-gst" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
         <br />
         ($):&nbsp;<strong><input disabled id="displayPO-net-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
     </div>
+
     <br /><br /><br /><br />
     <br /><br />
 
 
     <div class="col-md-6">
 
-        <div style="float: right;">
+        <div style="float:left; margin-left:30vw">
             <div>
                 <p>Remarks:</p>
                 <textarea id="ta-remarks" rows="3" cols="50" disabled>@Session["PORemarks"]</textarea>

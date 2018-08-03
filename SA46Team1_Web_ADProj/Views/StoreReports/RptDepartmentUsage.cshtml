@@ -5,123 +5,132 @@
 @{
     ViewBag.Title = "Department Usage Cost Report"; //for store
 }
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h5>Department Usage Cost Report</h5>    
-</div>
-
-<div class="row">
-    <div class="col-md-3">
-        <div>
-            <label style="font-size: 10pt;">Department: </label>
-            @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Category: </label>
-            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
-        </div>
+    <div>
+        <h5>Department Usage Cost Report</h5>
     </div>
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-2">
-                <div style="text-align:center;">
-                    <label style="font-size: 10pt;">Year</label>
-                </div>
-                <div>
-                    <select id="chosenYear" multiple>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                    </select>
-                </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div>
+                <label style="font-size: 10pt;">Department: </label>
+                @Html.DropDownList("SelectDepartmentDesc", ViewBag.DepartmentList as SelectList)
             </div>
-            <div class="col-md-2">
-                <div style="text-align:center;">
-                    <label style="font-size: 10pt;">Month(s)</label>
-                </div>
-                <div>
-                    <select id="chosenMonths" multiple>
-                        <option value="jan">Jan</option>
-                        <option value="feb">Feb</option>
-                        <option value="mar">Mar</option>
-                        <option value="apr">Apr</option>
-                        <option value="may">May</option>
-                        <option value="jun">Jun</option>
-                        <option value="jul">Jul</option>
-                        <option value="aug">Aug</option>
-                        <option value="sep">Sep</option>
-                        <option value="oct">Oct</option>
-                        <option value="nov">Nov</option>
-                        <option value="dec">Dec</option>
-                    </select>
-                </div>
+            <div>
+                <label style="font-size: 10pt;">Category: </label>
+                @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div style="float:right;">
-            <label id="lbl-cost-info2"></label>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-2">
+                    <div style="text-align:center;">
+                        <label style="font-size: 10pt;">Year</label>
+                    </div>
+                    <div>
+                        <select id="chosenYear" multiple>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div style="text-align:center;">
+                        <label style="font-size: 10pt;">Month(s)</label>
+                    </div>
+                    <div>
+                        <select id="chosenMonths" multiple>
+                            <option value="jan">Jan</option>
+                            <option value="feb">Feb</option>
+                            <option value="mar">Mar</option>
+                            <option value="apr">Apr</option>
+                            <option value="may">May</option>
+                            <option value="jun">Jun</option>
+                            <option value="jul">Jul</option>
+                            <option value="aug">Aug</option>
+                            <option value="sep">Sep</option>
+                            <option value="oct">Oct</option>
+                            <option value="nov">Nov</option>
+                            <option value="dec">Dec</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="col-md-3">
+            <div style="float:right;">
+                <label id="lbl-cost-info2"></label>
+            </div>
+            <br />
+            <div style="float:right;">
+                <label id="lbl-filter-info">Filter results: All</label>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float:right;">
+                <span>
+                    <input class="btn btn-lu-red" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
+                </span>
+                <span>
+                    <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
+                </span>
+                <span id="btn-submit-export2">
+                    @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt; color:#f4f4f4;" })
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <table id="dataTable-deptUsage" class="table">
+
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Dept Name</th>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Category</th>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Unit of Measure</th>
+                <th>Quantity</th>
+                <th>Avg Unit Cost ($)</th>
+                <th>Total Cost ($)</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+
+    <div id="dialog-invalid-report-date" class="hidden" @*title="Invalid report date filter"*@>
         <br />
-        <div style="float:right;">
-            <label id="lbl-filter-info">Filter results: All</label>
+        <div style="text-align:center;">
+            <h5>Please select at least 1 valid month and year.</h5>
         </div>
+
+        <span>
+            <button class="btn btn-lu-blue" id="btn-dialog-invalid-date-ok" style="margin-left:40%">ok</button>
+        </span>
+        <hr />
     </div>
-</div>
 
-<br />
-
-<div class="row">
-    <div class="col-md-12">
-        <div style="float:right;">
-            <span>
-                <input class="btn btn-lu-red" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
-            </span>
-            <span>
-                <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
-            </span>
-            <span id="btn-submit-export2">
-                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "StoreReports", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt; color:#f4f4f4;" })
-            </span>           
+    <div id="dialog-no-data" class="hidden" @*title="Information"*@>
+        <br />
+        <div style="text-align:center;">
+            <h5>No data found.</h5>
         </div>
+        <span>
+            <button class="btn btn-lu-blue" id="btn-dialog-no-data-ok" style="margin-left:40%;">ok</button>
+        </span>
+        <hr />
     </div>
-</div>
-
-<hr />
-
-<table id="dataTable-deptUsage" class="table">
-
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Dept Name</th>
-            <th>Year</th>
-            <th>Month</th>
-            <th>Category</th>
-            <th>Item Code</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Unit of Measure</th>
-            <th>Quantity</th>
-            <th>Avg Unit Cost ($)</th>
-            <th>Total Cost ($)</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
-
-<div id="dialog-invalid-report-date" class="hidden" @*title="Invalid report date filter"*@>
-    <br />
-    <div style="text-align:center;">
-        <h5>Please select at least 1 valid month and year.</h5>
-    </div>
-    <hr />
-</div>
-
-<div id="dialog-no-data" class="hidden" @*title="Information"*@>
-    <br />
-    <div style="text-align:center;">
-        <h5>No data found.</h5>
-    </div>
-    <hr />
 </div>
 
 <script>
@@ -191,8 +200,8 @@
                         initialSum = parseFloat(initialSum).toFixed(2);
                         $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
                     }
-                    ,drawCallback: function (settings) {
-                        
+                    , drawCallback: function (settings) {
+
                         $('#btn-submit-filter2').on('click', function () {
                             var selYears = [];
                             var selMonths = [];
@@ -223,7 +232,7 @@
                             table
                                 .columns(6)
                                 .search(search, true, false, true).draw();
-                            
+
                             var dept = $('#SelectDepartmentDesc :selected').text();
                             var category = $('#SelectCategory :selected').text();
 
@@ -238,12 +247,12 @@
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
                                 $('#dialog-no-data').dialog('open');
                                 $('#btn-submit-export2').hide();
-                                
+
                                 table
                                     .search('')
                                     .columns().search('')
                                     .draw();
-                                
+
                                 $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
 
                                 return;
@@ -335,23 +344,34 @@
         $("#chosenYear").val([]);
 
         $("#lbl-filter-info").text("Filter results: All");
-        
+
     });
 
     $(function () {
         $("#dialog-invalid-report-date").dialog({
             autoOpen: false,
-            width: "40%",
-            maxWidth: "40%"
         });
     });
 
     $(function () {
         $("#dialog-no-data").dialog({
-            autoOpen: false,
-            width: "40%",
-            maxWidth: "40%"
+            autoOpen: false
         });
     });
-    
+
+    $("#dialog-no-data").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+    });
+
+    $('#btn-dialog-no-data-ok').on('click', function () {
+        $('#dialog-no-data').dialog('close');
+    });
+
+    $("#dialog-invalid-report-date").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+    });
+
+    $('#btn-dialog-invalid-date-ok').on('click', function () {
+        $('#dialog-invalid-report-date').dialog('close');
+    });
 </script>

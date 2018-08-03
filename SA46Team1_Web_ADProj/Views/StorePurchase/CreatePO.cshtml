@@ -69,6 +69,14 @@
         });
     });
 
+    $(function () {
+        $("#dialog-new-po-submitted").dialog({
+            autoOpen: false,
+            width: "30%",
+            maxWidth: "40%"
+        });
+    });
+
     // Submit
     $('#btn-submit-new-req').on('click', function () {
         var dataToSend = "";
@@ -89,8 +97,9 @@
             async: false,
             data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier, taData: taData })
         });
-        alert('Items Added');
-        window.location.href = '@Url.Action("Purchase", "Store")';
+        //alert('Items Added');
+        $('#dialog-new-po-submitted').dialog('open');
+
     });
 
     $('#dataTable-newPO tbody').on('change', '#input-qty', function () {
@@ -137,173 +146,193 @@
         window.location.href = '@Url.Action("Purchase", "Store")';
     });
 
+    $('#dialog-new-po-submitted').on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        window.location.href = '@Url.Action("Purchase", "Store")';
+    });
+
+    $('#btn-dialog-submitted-ok').on('click', function () {
+        $('#dialog-new-po-submitted').dialog('close');
+        window.location.href = '@Url.Action("Purchase", "Store")';
+    });
+
 </script>
 
-<div class="row">
-    <div class="col-md-6">
-        <div>
-            <h5>Create Purchase Order</h5>
-        </div>
-        <div class="create-PO-dates">
-            <label style="font-size: 10pt;">Date: @DateTime.Now</label>
-        </div>
-    </div>
-    @*<div class="col-md-6">
-        <div style="float:right;">
-            <div style="font-size: 10pt;">
-                <p>Remarks: </p>
-                <textarea id="ta-remarks" rows="3" cols="50" />
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <h5>Create Purchase Order</h5>
+            </div>
+            <div class="create-PO-dates">
+                <label style="font-size: 10pt;">Date: @DateTime.Now</label>
             </div>
         </div>
-    </div>*@
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <div style="float: right">
-            <span>
-                <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
-            </span>
-        </div>
-    </div>
-</div>
-
-@*--- Table ---*@
-<table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Item Code</th>
-            <th>Item Description</th>
-            <th>Supplier</th>
-            <th>Qty</th>
-            <th>Unit of Measure</th>
-            <th>Unit Price ($)</th>
-            <th>Total ($)</th>
-            <th>GST ($)</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-
-    @foreach (var item in poDetailList)
-    {
-        <tr>
-            <td style="font-size: 10pt;">@item.ItemCode</td>
-            <td style="font-size: 10pt;">@item.Description</td>
-            <td style="font-size: 10pt;">
-                <select id="select-supplier">
-                    @if (item.Supplier1Code == item.CompanyName)
-                    {
-                        <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
-                    }
-                    else
-                    {
-                        <option value="@item.Supplier1Code">@item.Supplier1Code</option>
-                    }
-
-                    @if (item.Supplier2Code == item.CompanyName)
-                    {
-                        <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
-                    }
-                    else
-                    {
-                        <option value="@item.Supplier2Code">@item.Supplier2Code</option>
-                    }
-                    @if (item.Supplier3Code == item.CompanyName)
-                    {
-                        <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
-                    }
-                    else
-                    {
-                        <option value="@item.Supplier3Code">@item.Supplier3Code</option>
-                    }
-                </select>
-            </td>
-            <td><input id="input-qty" style="font-size: 10pt;" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
-            <td style="font-size: 10pt;">@item.UoM</td>
-            <td style="font-size: 10pt;">@item.UnitCost.ToString("0.00")</td>
-            <td style="font-size: 10pt;">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-            <td style="font-size: 10pt;">7%</td>
-            <td style="font-size: 10pt;"></td>
-        </tr>
-    }
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
-@*--- End of Table ---*@
-
-<div class="row">
-    <div class="col-md-12">
-        @*--- Dynamic boxes ---*@
-        <div class="row">
-            <div class="col-md-6">
-                <hr style="margin-left:0px; width: 300px;" />
-                <div style="float: left;">
-                    <label style="font-size: 10pt; margin: 5px; ">Gross Total</label>
-                    <br />
-                    <label style="font-size: 10pt; margin: 5px;">GST</label>
-                    <br />
-                    <label style="font-size: 10pt; margin: 5px;">Net Total</label>
-                </div>
-                <div style="float: left;">
-                    ($):&nbsp;<input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
-                    <br />
-                    ($):&nbsp;<input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
-                    <br />
-                    ($):&nbsp;<input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
-                </div>
-            </div>
-            <div class="col-md-6">
+        @*<div class="col-md-6">
                 <div style="float:right;">
                     <div style="font-size: 10pt;">
                         <p>Remarks: </p>
                         <textarea id="ta-remarks" rows="3" cols="50" />
                     </div>
-
-                    @*--- Buttons ---*@
-                    <div style="float: right;">
-                        <span>
-                            @if (poDetailList.Count == 0)
-                            {
-                                <button class="btn btn-lu-green" id="btn-submit-new-req" disabled style="font-size: 10pt;">Submit</button>
-                            }
-                            else
-                            {
-                                <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
-                            }
-                        </span>
-                    </div>
-                    @*--- End of Buttons ---*@
-                </div>       
-            </div>
-        </div>
-        @*--- End of Dynamic boxes ---*@
+                </div>
+            </div>*@
     </div>
-</div>
 
-@*--- Dialog Box ---*@
-<div id="dialog-add-po-item" class="hidden" @*title="Add Item (Store PO)"*@>
-    @using (Html.BeginForm("AddPOItem", "StorePurchase", FormMethod.Post, new { id = "form-submit-add-new-item" }))
-    {
-        <br />
-        <div style="text-align:center;">
-            <h5>Add New Item</h5>
-        </div>
-        <hr />
-        <div>
-            <div>
-                <label>Item Description: </label><br />
-                @Html.DropDownList("SelectItemChose", ViewBag.ItemsList as SelectList, null, new { @class = "styled-select semi-square" })
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right">
+                <span>
+                    <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
+                </span>
             </div>
+        </div>
+    </div>
+
+    @*--- Table ---*@
+    <table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Code</th>
+                <th>Item Description</th>
+                <th>Supplier</th>
+                <th>Qty</th>
+                <th>Unit of Measure</th>
+                <th>Unit Price ($)</th>
+                <th>Total ($)</th>
+                <th>GST ($)</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        @foreach (var item in poDetailList)
+        {
+            <tr>
+                <td style="font-size: 10pt;">@item.ItemCode</td>
+                <td style="font-size: 10pt;">@item.Description</td>
+                <td style="font-size: 10pt;">
+                    <select id="select-supplier">
+                        @if (item.Supplier1Code == item.CompanyName)
+                        {
+                            <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Supplier1Code">@item.Supplier1Code</option>
+                        }
+
+                        @if (item.Supplier2Code == item.CompanyName)
+                        {
+                            <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Supplier2Code">@item.Supplier2Code</option>
+                        }
+                        @if (item.Supplier3Code == item.CompanyName)
+                        {
+                            <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Supplier3Code">@item.Supplier3Code</option>
+                        }
+                    </select>
+                </td>
+                <td><input id="input-qty" style="font-size: 10pt;" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
+                <td style="font-size: 10pt;">@item.UoM</td>
+                <td style="font-size: 10pt;">@item.UnitCost.ToString("0.00")</td>
+                <td style="font-size: 10pt;">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+                <td style="font-size: 10pt;">7%</td>
+                <td style="font-size: 10pt;"></td>
+            </tr>
+        }
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+    @*--- End of Table ---*@
+
+    <div class="row">
+        <div class="col-md-12">
+            @*--- Dynamic boxes ---*@
+            <div class="row">
+                <div class="col-md-6">
+                    <hr style="margin-left:0px; width: 300px;" />
+                    <div style="float: left;">
+                        <label style="font-size: 10pt; margin: 5px; ">Gross Total</label>
+                        <br />
+                        <label style="font-size: 10pt; margin: 5px;">GST</label>
+                        <br />
+                        <label style="font-size: 10pt; margin: 5px;">Net Total</label>
+                    </div>
+                    <div style="float: left;">
+                        ($):&nbsp;<input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                        <br />
+                        ($):&nbsp;<input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                        <br />
+                        ($):&nbsp;<input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div style="float:right;">
+                        <div style="font-size: 10pt;">
+                            <p>Remarks: </p>
+                            <textarea id="ta-remarks" rows="3" cols="50" />
+                        </div>
+
+                        @*--- Buttons ---*@
+                        <div style="float: right;">
+                            <span>
+                                @if (poDetailList.Count == 0)
+                                {
+                                    <button class="btn btn-lu-green" id="btn-submit-new-req" disabled style="font-size: 10pt;">Submit</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
+                                }
+                            </span>
+                        </div>
+                        @*--- End of Buttons ---*@
+                    </div>
+                </div>
+            </div>
+            @*--- End of Dynamic boxes ---*@
+        </div>
+    </div>
+
+    @*--- Dialog Box ---*@
+    <div id="dialog-add-po-item" class="hidden" @*title="Add Item (Store PO)"*@>
+        @using (Html.BeginForm("AddPOItem", "StorePurchase", FormMethod.Post, new { id = "form-submit-add-new-item" }))
+        {
             <br />
-            <div>
-                <label>New Order Qty: </label>
-                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
+            <div style="text-align:center;">
+                <h5>Add New Item</h5>
             </div>
             <hr />
             <div>
-                <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
+                <div>
+                    <label>Item Description: </label><br />
+                    @Html.DropDownList("SelectItemChose", ViewBag.ItemsList as SelectList, null, new { @class = "styled-select semi-square", style = "width: 100%;" })
+                </div>
+                <br />
+                <div>
+                    <label>New Order Qty: </label>
+                    @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
+                </div>
+                <hr />
+                <div>
+                    <input id="btn-submit-add-item" class="btn btn-info btn-block" type="submit" value="Add" />
+                </div>
             </div>
-        </div>
-    }
-</div>
-@*--- End of Dialog Box ---*@
+        }
+    </div>
 
+    <div id="dialog-new-po-submitted" class="hidden" style="text-align:center;">
+        <p>New purchase order has been submitted.</p>
+        <span>
+            <button class="btn btn-lu-blue" id="btn-dialog-submitted-ok">ok</button>
+        </span>
+    </div>
+    @*--- End of Dialog Box ---*@
+
+</div>

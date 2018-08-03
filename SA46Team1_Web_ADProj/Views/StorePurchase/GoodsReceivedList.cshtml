@@ -58,21 +58,24 @@
     });
 </script>
 
-<div>
-    <h5>List of Goods Receipts</h5>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+
+    <div>
+        <h5>List of Goods Receipts</h5>
+    </div>
+
+    <table id="dataTable-goodsReceived" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Goods Received #</th>
+                <th>Date</th>
+                <th>Supplier</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+
 </div>
-
-<table id="dataTable-goodsReceived" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Goods Received #</th>
-            <th>Date</th>
-            <th>Supplier</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
-
 
 <style>
     #dataTable-goodsReceived span {
