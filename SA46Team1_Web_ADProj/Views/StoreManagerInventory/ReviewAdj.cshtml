@@ -98,7 +98,12 @@
                                 { 'data': 'Description' },
                                 { 'data': 'CategoryName' },
                                 { 'data': 'ItemQuantity' },
-                                { 'data': 'Amount' },
+                                {
+                                    'data': 'Amount',
+                                    'render': function (data, type, row) {
+                                        return parseFloat(Math.round(data * 100) / 100).toFixed(2);;
+                                    }
+                                },
                                 { 'data': 'Remarks' },
                                 { 'data': 'Status' },
                             ],
@@ -148,20 +153,23 @@
     }
 
 </script>
-<table id="dataTable-storeManagerInventoryReviewAdj" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>RequestID</th>
-            <th>Date</th>
-            <th>Requestor</th>
-            <th>Item Code</th>
-            <th>Item Description</th>
-            <th>Category</th>
-            <th>Missing Count</th>
-            <th>Amount</th>
-            <th>Remark</th>
-            <th>Adjustment Request Status</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+
+    <table id="dataTable-storeManagerInventoryReviewAdj" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>RequestID</th>
+                <th>Date</th>
+                <th>Requestor</th>
+                <th>Item Code</th>
+                <th>Item Description</th>
+                <th>Category</th>
+                <th>Missing Count</th>
+                <th>Amount</th>
+                <th>Remark</th>
+                <th>Adjustment Request Status</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+</div>
