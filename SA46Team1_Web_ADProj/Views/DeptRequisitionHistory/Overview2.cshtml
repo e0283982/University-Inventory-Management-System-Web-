@@ -319,83 +319,89 @@
     <div class="col-md-6">
         <h5>Requisition Form # @Session["id"]</h5>
     </div>
-</div>
-
-<br />
-<form onsubmit="event.preventDefault(); validateMyForm();">
-<table id="dataTable-pastReq-details" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Item Description</th>
-            <th>Unit of Measure</th>
-            <th>Requested Qty</th>
-            <th>Delivered Qty</th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody style="font-size: 10pt;">
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </tbody>
-</table>
-<div class="my-notify-error">@TempData["ErrorMsg"]</div>
-<hr />
-<div class="row">
-    <div class="col-md-3">
-        <div>
-            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@dateNow</label>
-        </div>
-        @if (Session["Role"].ToString() == "Employee Representative")
-        {
-            <div>
-                <label style="font-size: 10pt;">Requestor:&nbsp;</label><label style="font-size: 10pt;">@req.Requestor</label>
-            </div>
-        }
-        <div>
-            <label style="font-size: 10pt;">Representative:&nbsp;</label><label style="font-size: 10pt;">@req.RepName</label>
-        </div>
-
-        <div>
-            <label style="font-size: 10pt;">Delivery Status:&nbsp;</label><label style="font-size: 10pt;">@req.Status</label>
-        </div>
-    </div> 
-
-    <div class="col-md-3">
-        <div>
-            <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
-        </div>
-
-        @if (req.ApprovalStatus != "Pending")
-        {
-            <div>
-                <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
-            </div>
-        }
-
-    </div>
     <div class="col-md-6">
         <div style="float:right;">
             <button id="btn-edit-req-history" class="btn btn-lu-blue" type="submit" style="font-size: 10pt;">Edit</button>
             @*<button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="font-size: 10pt;">Discard</button>*@
             <button id="btn-save-req-history" class="btn btn-lu-green" type="submit" style="font-size: 10pt;">Save</button>
-            @if (TempData["goBackToDelivery"] == null)
-            {
-                @Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info", style = "font-size: 10pt; color: #f4f4f4;" })
-            }
-            else
-            {
-                @Html.ActionLink("Back", "Requisition", "Dept", null, new { @class = "btn btn-info", style = "font-size: 10pt; color: #f4f4f4;" })
-            }
-        </div>       
+           
+        </div>
     </div>
 </div>
-    </form>
+
+<br />
+<form onsubmit="event.preventDefault(); validateMyForm();">
+    <table id="dataTable-pastReq-details" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Description</th>
+                <th>Unit of Measure</th>
+                <th>Requested Qty</th>
+                <th>Delivered Qty</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody style="font-size: 10pt;">
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tbody>
+    </table>
+    <div class="my-notify-error">@TempData["ErrorMsg"]</div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <div>
+                <label style="font-size: 10pt;">Request Date:&nbsp;</label><label style="font-size: 10pt;">@dateNow</label>
+            </div>
+            @if (Session["Role"].ToString() == "Employee Representative")
+            {
+                <div>
+                    <label style="font-size: 10pt;">Requestor:&nbsp;</label><label style="font-size: 10pt;">@req.Requestor</label>
+                </div>
+            }
+            <div>
+                <label style="font-size: 10pt;">Representative:&nbsp;</label><label style="font-size: 10pt;">@req.RepName</label>
+            </div>
+
+            <div>
+                <label style="font-size: 10pt;">Delivery Status:&nbsp;</label><label style="font-size: 10pt;">@req.Status</label>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div>
+                <label style="font-size: 10pt;">Approval Status:&nbsp;</label><label style="font-size: 10pt;">@req.ApprovalStatus</label>
+            </div>
+
+            @if (req.ApprovalStatus != "Pending")
+            {
+                <div>
+                    <label style="font-size: 10pt;">Approved By:&nbsp;</label><label style="font-size: 10pt;">@req.ApproverName</label>
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+    <div style="float:left;">
+        @if (TempData["goBackToDelivery"] == null)
+        {
+            @Html.ActionLink("Back", "RequisitionHistory", "Dept", null, new { @class = "btn btn-info", style = "font-size: 10pt; color: #f4f4f4;" })
+        }
+        else
+        {
+            @Html.ActionLink("Back", "Requisition", "Dept", null, new { @class = "btn btn-info", style = "font-size: 10pt; color: #f4f4f4;" })
+        }
+    </div>
+
+</form>
 
 <div id="dialog-edit-req-zero-input-alert" class="hidden" title="New Order Qty cannot be 0 (Edit Requisition)">
     <br />
