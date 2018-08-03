@@ -290,14 +290,16 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult DisplayStoreBinDetails(string maintenanceBinId)
         {
             Session["MaintenanceStoreBinPage"] = "2";
-            Session["MaintenanceBinId"] = maintenanceBinId;
+
 
             int binNumber = Int32.Parse(maintenanceBinId);
 
             using (SSISdbEntities e = new SSISdbEntities()) {
                 string itemCode = e.Bins.Where(x => x.Number == binNumber).Select(x => x.ItemCode).FirstOrDefault();
                 int countItemsWithQtyNotZero = e.Items.Where(x => x.ItemCode == itemCode && x.Quantity > 0).ToList().Count();
-
+                int num = Convert.ToInt32(maintenanceBinId);
+                Bin bin = e.Bins.Where(x => x.Number == num).FirstOrDefault();
+                Session["MaintenanceBinId"] = bin.Location;
                 if (countItemsWithQtyNotZero > 0)
                 {
                     TempData["countItemsWithQtyNotZero"] = true;
@@ -409,7 +411,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult UpdateSupplierPriceList(String[] arrItemCodes, String[] arrStatus)
+        public RedirectToRouteResult UpdateSupplierPriceList(String[] arrItemCodes, String[] arrStatus, String[] price)
         {
             Session["MaintenanceSuppliersPage"] = "2";
             String supplierCode = Session["MaintenanceSupplierCode"].ToString();
@@ -420,6 +422,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 int index = 0;
                 foreach (string s in arrItemCodes) {
                     SupplierPriceList spl = e.SupplierPriceLists.Where(x => x.SupplierCode == supplierCode && x.ItemCode == s).FirstOrDefault();
+                    spl.UnitCost = float.Parse(price[index]);
                     if (arrStatus[index] == "true") {
                         spl.Active = 1;
                     }

@@ -39,7 +39,9 @@
                             @*if ('@editMode' == 'true') {
                                 return '$ ' + parseFloat(data).toFixed(2);
                             } else {*@
-                                 return '<input id="input-supplier-company-name" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            var value = $('<div/>').text(data).html();
+                            value = twoDP(value);
+                            return '<input id="input-suppliercost" type="number" style="text-align: center;" min = "0.01" max = "1000" step="0.01" pattern="[0-9]" value="' + value + '">';
                             //}
                         }
                     },
@@ -70,6 +72,11 @@
         });
     });
 
+    // Format into 2 DP
+    function twoDP(value) {
+        return parseFloat(Math.round(value * 100) / 100).toFixed(2);
+    }
+
     $(function () {
         $("#dialog-submit-edit-supplier").dialog({
             autoOpen: false,
@@ -89,10 +96,14 @@
 
             var arrItemCodes = []; //item code
             var arrStatus = [];  //price status
+            var price = []; //unit cost
+
 
             for (var i = 0; i < table.rows().data().length; i++) {
                 var dataToSend = table.rows(i).data();
-                
+                var val = table.cell(i, 3).nodes().to$().find('input').val()
+                price.push(val);
+
                 arrItemCodes.push(dataToSend[0].ItemCode);
 
                 var rowChecked =
@@ -111,7 +122,7 @@
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 async: false,
-                data: JSON.stringify({ arrItemCodes: arrItemCodes, arrStatus: arrStatus })
+                data: JSON.stringify({ arrItemCodes: arrItemCodes, arrStatus: arrStatus, price: price })
             });
 
             window.location.href = '@Url.Action("Maintenance", "Store")';
@@ -137,7 +148,7 @@
             <th>Item Code</th>
             <th>Description</th>
             <th>Unit of Measure</th>
-            <th>Unit Price</th>
+            <th>Unit Price ($)</th>
             <th>Active</th>
         </tr>
     </thead>

@@ -17,7 +17,9 @@
             d = data;
 
             table = $('#dataTable-store-bins-details').DataTable({
-                paging: true,
+                paging: false,
+                scrollY: 200,
+                "bLengthChange": false,
                 sort: true,
                 searching: false,
                 "iDisplayLength": 5,
@@ -30,7 +32,7 @@
                     {
                         'data': 'Location',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-bin-location" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-bin-location" style = "text-align: center;" type="text" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     { 'data': 'ItemDesc' },

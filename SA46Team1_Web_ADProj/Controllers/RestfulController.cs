@@ -508,7 +508,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities m = new SSISdbEntities())
             {
                 m.Configuration.ProxyCreationEnabled = false;
-                List<Bin> item = m.Bins.Where(x => x.Number.ToString() == id).ToList();
+                List<Bin> item = m.Bins.Where(x => x.Location.ToString() == id).ToList();
                 List<FullBinModel> list2 = item.ConvertAll(x => new FullBinModel
                 {
                     Number = x.Number,
