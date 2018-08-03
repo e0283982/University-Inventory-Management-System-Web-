@@ -130,7 +130,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [HttpPost]
         [Route("Items/EditItem")]
-        public RedirectToRouteResult EditItem(String[] suppliers, String[] desc, String[] status)
+        public RedirectToRouteResult EditItem(String[] suppliers, String[] desc, String[] status, string[] reorderlvl, string[] reorderqty)
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
@@ -148,7 +148,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                         item.Active = 0;
                     }
                 }
-
+                item.ReOrderLevel = Convert.ToInt32(reorderlvl[0]);
+                item.ReOrderQuantity = Convert.ToInt32(reorderqty[0]);
                 item.Description = desc[0];
                 item.Supplier1 = suppliers[0];
                 item.Supplier2 = suppliers[1];

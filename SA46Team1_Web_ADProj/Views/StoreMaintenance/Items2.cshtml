@@ -36,7 +36,7 @@
                     {
                         'data': 'Description',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-item-desc" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-item-desc" style="text-align: center;" type="text" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     { 'data': 'CategoryName'},
@@ -44,13 +44,13 @@
                     {
                         'data': null,
                         "render": function (data, type, full, meta) {
-                            return '@TempData["ReorderLvl"]';
+                            return '<input id="input-reorderlvl" style="text-align: center;" type = "number" step="1" pattern="[0-9]" min = "1" max = "2000" value="' + '@TempData["ReorderLvl"]' + '" />';
                         }
                     },
                      {
                         'data': null,
-                        "render": function (data, type, full, meta) {
-                            return '@TempData["ReorderQty"]';
+                         "render": function (data, type, full, meta) {
+                             return '<input id="input-reorderqty" style="text-align: center;" type = "number" step ="1" pattern="[0-9]" min = "1" max = "2000" value="' + '@TempData["ReorderQty"]' + '" />';
                         }
                     },
                     {
@@ -137,7 +137,7 @@
                                 } else {
                                     return data != 0 ? 'Active' : 'Inactive';
                                 }
-                                
+
                             }
                             //if (data != 0) {
                             //    //active status
@@ -174,12 +174,16 @@
             var desc = [];
             var suppliers = [];
             var status = [];
+            var reorderlvl = [];
+            var reorderqty = [];
 
             dataToSend = table.rows(0).data();
             for (var i = 0; i < Object.keys(d).length; i++) {
-                
+
                 var rowData = dataToSend[i];
                 itemDesc = $("#input-item-desc").val();
+                reorderlvl = $("#input-reorderlvl").val();
+                reorderqty = $("#input-reorderqty").val();
                 supplier1 = $("#select-item-s1").val();
                 supplier2 = $("#select-item-s2").val();
                 supplier3 = $("#select-item-s3").val();
@@ -192,18 +196,16 @@
 
                 if (active != null) {
                     status.push(active);
-                } else {
-
                 }
             }
-            
+
             $.ajax({
                 type: 'POST',
                 url: '/Store/StoreMaintenance/Items/EditItem',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 async: false,
-                data: JSON.stringify({ suppliers: suppliers, desc: desc, status:status })
+                data: JSON.stringify({ suppliers: suppliers, desc: desc, status: status, reorderlvl: reorderlvl, reorderqty: reorderqty })
             });
 
             $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
@@ -219,47 +221,50 @@
     <div>
         <h5>Item Code: @Session["MaintenanceItemCode"]</h5>
     </div>
+    <form>
+    @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+    {
 
+        <table id="dataTable-store-items-details" class="display" style="width:80%;">
+            <thead style="font-size: 10pt;">
+                <tr>
+                    <th>Item Code</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Unit of Measure</th>
+                    <th>Reorder Level</th>
+                    <th>Reorder Quantity</th>
+                    <th>Supplier 1</th>
+                    <th>Supplier 2</th>
+                    <th>Supplier 3</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 10pt;"></tbody>
+        </table>
 
-    <table id="dataTable-store-items-details" class="display" style="width:80%;">
-        <thead style="font-size: 10pt;">
-            <tr>
-                <th>Item Code</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Unit of Measure</th>
-                <th>Reorder Level</th>
-                <th>Reorder Quantity</th>
-                <th>Supplier 1</th>
-                <th>Supplier 2</th>
-                <th>Supplier 3</th>
-                <th>Active</th>
-            </tr>
-        </thead>
-        <tbody style="font-size: 10pt;"></tbody>
-    </table>
+        <hr />
 
-    <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <span>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div>
-                <span>
-                    @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-                    {
                         <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                    }
-                </span>
+
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div style="float:right;">
+                    <span>
+                        <button id="btn-edit-item" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+                    </span>
+                </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div style="float:right;">
-                <span>
-                    <button id="btn-edit-item" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-                </span>
-            </div>
-        </div>
-    </div>
+    }
+    </form>
 
     <div id="dialog-submit-edit-item" class="hidden" @*title="Edit Item Successful (Maintenance)"*@>
         <br />
