@@ -46,36 +46,39 @@
     });
 </script>
 
-<div>
-    <h5>Inventory - Stock Adjustment</h5>
-</div>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+
+    <div>
+        <h5>Inventory - Stock Adjustment</h5>
+    </div>
 
 
-<table id="dataTable-storeInventoryAdj" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Request ID</th>
-            <th>Date</th>
-            <th>Item Description</th>
-            <th>Quantity</th>
-            <th>Missing/Damaged</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
+    <table id="dataTable-storeInventoryAdj" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Request ID</th>
+                <th>Date</th>
+                <th>Item Description</th>
+                <th>Quantity</th>
+                <th>Missing/Damaged</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-12">
-        <div style="float: right">
-            <span>
-                @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
-                {
-                    <input class="btn btn-lu-blue" type="submit" value="Create New Stock Adjustment" style="font-size: 10pt;"/>
-                }
-            </span>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right">
+                <span>
+                    @using (Html.BeginForm("CreateNewStockAdj", "StoreInventory", FormMethod.Post))
+                    {
+                        <input class="btn btn-lu-blue" type="submit" value="Create New Stock Adjustment" style="font-size: 10pt;" />
+                    }
+                </span>
+            </div>
         </div>
     </div>
 </div>

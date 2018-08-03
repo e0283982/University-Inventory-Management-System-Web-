@@ -51,53 +51,55 @@
         });
     });
 </script>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h5>Requisition Form # @Session["storeReqFormId"]</h5>
-</div>
+    <div>
+        <h5>Requisition Form # @Session["storeReqFormId"]</h5>
+    </div>
 
-<div class="row">
-    <div class="col-md-3">
-        <div>
-            <label style="font-size: 10pt;">Department Name:&nbsp;</label><label id="deptName" style="font-size: 10pt;" />
+    <div class="row">
+        <div class="col-md-3">
+            <div>
+                <label style="font-size: 10pt;">Department Name:&nbsp;</label><label id="deptName" style="font-size: 10pt;" />
+            </div>
+            <div>
+                <label style="font-size: 10pt;">Request Date:&nbsp;</label><label id="requestedDate" style="font-size: 10pt;" />
+            </div>
         </div>
-        <div>
-            <label style="font-size: 10pt;">Request Date:&nbsp;</label><label id="requestedDate" style="font-size: 10pt;" />
+        <div class="col-md-4">
+            <div>
+                <label style="font-size: 10pt;">Employee:&nbsp;</label><label id="empName" style="font-size: 10pt;" />
+            </div>
+            <div>
+                <label style="font-size: 10pt;">Approved By:&nbsp;</label><label id="approverName" style="font-size: 10pt;" />
+            </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div>
-            <label style="font-size: 10pt;">Employee:&nbsp;</label><label id="empName" style="font-size: 10pt;" />
-        </div>
-        <div>
-            <label style="font-size: 10pt;">Approved By:&nbsp;</label><label id="approverName" style="font-size: 10pt;" />
-        </div>
-    </div>
-</div>
 
-<table id="dataTable-storeDisbursementReqList-details" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Item Code</th>
-            <th>Description</th>
-            <th>Ordered Qty</th>
-            <th>Delivered Qty</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
+    <table id="dataTable-storeDisbursementReqList-details" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Ordered Qty</th>
+                <th>Delivered Qty</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-12">
-        <div>
-            <span>
-                @using (Html.BeginForm("BackToRequisitionsList", "StoreDisbursements", FormMethod.Post))
-                {
-                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                }
-            </span>
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <span>
+                    @using (Html.BeginForm("BackToRequisitionsList", "StoreDisbursements", FormMethod.Post))
+                    {
+                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                    }
+                </span>
+            </div>
         </div>
     </div>
 </div>

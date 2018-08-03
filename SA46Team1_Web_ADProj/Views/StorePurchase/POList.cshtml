@@ -1,22 +1,24 @@
 ﻿@{
     Layout = null;
 }
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h5>Purchase Orders</h5>
+    <div>
+        <h5>Purchase Orders</h5>
+    </div>
+
+    <table id="dataTable-poList" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>PO Number</th>
+                <th>Supplier</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
 </div>
-
-<table id="dataTable-poList" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>PO Number</th>
-            <th>Supplier</th>
-            <th>Date</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
 
 <script>
     var table;
@@ -74,7 +76,6 @@
 
     });
 </script>
-
 
 <style>
     #dataTable-poList span {

@@ -36,7 +36,11 @@
                     {
                         'data': 'UnitCost',
                         render: function (data, type, row) {
-                            return '$ '+parseFloat(data).toFixed(2);
+                            @*if ('@editMode' == 'true') {
+                                return '$ ' + parseFloat(data).toFixed(2);
+                            } else {*@
+                                 return '<input id="input-supplier-company-name" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            //}
                         }
                     },
                     {
