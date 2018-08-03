@@ -9,9 +9,9 @@
 <div>
     <h5>Department Usage Cost Report</h5>
     <div  style="float:right;">
-        <div  class="row">
+        @*<div  class="row">
             <label id="lbl-filter-info2">Filter results: All</label>
-        </div>
+        </div>*@
         <div  class="row">
             <label id="lbl-cost-info2"></label>
         </div>
@@ -245,7 +245,7 @@
                                     .columns().search('')
                                     .draw();
 
-                                $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+                                $("#lbl-cost-info2").text("Total cost ($): " + parseFloat(initialSum).toFixed(2));
 
                                 return;
                             }
@@ -276,7 +276,7 @@
                                 sum += rowData;
                             }
 
-                            $("#lbl-cost-info2").text("Total cost ($): " + sum);
+                            $("#lbl-cost-info2").text("Total cost ($): " + parseFloat(sum).toFixed(2));
                             $("#lbl-filter-info2").text("Filter results: " + search + " , " + category);
 
                         });
@@ -317,7 +317,7 @@
             .columns().search('')
             .draw();
 
-        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+        $("#lbl-cost-info2").text("Total cost ($): " + parseFloat(initialSum).toFixed(2));
 
     });
 
