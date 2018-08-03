@@ -17,9 +17,9 @@
             d = data;
 
             table = $('#dataTable-store-supplier-price-details').DataTable({
-                paging: true,
-                sort: true,
-                searching: true,
+                paging: false,
+                sort: false,
+                searching: false,
                 "iDisplayLength": 5,
                 "bInfo": false,
                 //scrollX: 1000,
@@ -36,7 +36,11 @@
                     {
                         'data': 'UnitCost',
                         render: function (data, type, row) {
-                            return '<input id ="input-sup-price" type="number" pattern = "[0-9]" min="0.01" style="text-align: center;" value="' + parseFloat(data).toFixed(2) + '" step="0.01"/>';
+                            @*if ('@editMode' == 'true') {
+                                return '$ ' + parseFloat(data).toFixed(2);
+                            } else {*@
+                                 return '<input id="input-supplier-company-name" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            //}
                         }
                     },
                     {
@@ -133,7 +137,7 @@
             <th>Item Code</th>
             <th>Description</th>
             <th>Unit of Measure</th>
-            <th>Unit Price ($)</th>
+            <th>Unit Price</th>
             <th>Active</th>
         </tr>
     </thead>

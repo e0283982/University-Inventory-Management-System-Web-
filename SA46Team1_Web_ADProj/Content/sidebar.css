@@ -9,7 +9,7 @@
     background-color: #342D34; /*not black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     /*padding-top: 10px;*/
-    box-shadow: 20px;
+    box-shadow: 5px 0px 19px #8888A8;
 }
 
 /* The navigation menu links */

@@ -196,6 +196,17 @@
         window.location.href = '@Url.Action("Purchase", "Store")';
         //return false;
     });
+    
+    $('#btn-back-to-po-list').click(function () {
+
+        $.ajax({
+            url: '/StorePurchase/BackToPOList',
+            type: 'POST',
+            async: false
+        });
+        window.location.href = '@Url.Action("Purchase", "Store")';
+
+    });
 
     // Cancel Edit Dialog
     $(function () {
@@ -309,6 +320,8 @@
     });
 
 </script>
+
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
 <div class="row">
     <div class="col-md-12">
@@ -446,35 +459,48 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
-        <hr style="margin-left:0px; width: 300px;" />
-        <div style="float:left;">
-            <label style="font-size: 10pt;">Gross Total</label>
-            <br />
-            <label style="font-size: 10pt;">GST</label>
-            <br />
-            <label style="font-size: 10pt;">Net Total</label>
-        </div>
-        <div style="float:left">
-            ($):&nbsp;<strong><input disabled id="displayPO-gross-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
-            <br />
-            ($):&nbsp;<strong><input disabled id="displayPO-gst" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
-            <br />
-            ($):&nbsp;<strong><input disabled id="displayPO-net-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
-        </div>
+    @*<hr style="margin-left:0px; width: 300px;" />*@
+    <br /><br /><br /><br />
+    <br /><br /><br /><br />
+    <br /><br /><br /><br />
 
-            <div><br /><br /><br /><br />
-                @using (Html.BeginForm("BackToPOList", "StorePurchase", FormMethod.Post))
-                {
-                    <div>
-                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                    </div>
-                }
+    <div style="float:left;">
+        <label style="font-size: 10pt;">Gross Total</label>
+        <br />
+        <label style="font-size: 10pt;">GST</label>
+        <br />
+        <label style="font-size: 10pt;">Net Total</label>
+
+        <div class="row">
+
+            <div>
+                <input id="btn-back-to-po-list" class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
             </div>
+            <br /><br /><br /><br />
 
+            @*}*@
+            @using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
+            {
+                <div>
+                    <input class="btn btn-lu-blue" type="submit" value="Print" style="font-size: 10pt;" />
+                </div>
+            }
+
+        </div>
     </div>
+    <div style="float:left">
+        ($):&nbsp;<strong><input disabled id="displayPO-gross-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+        <br />
+        ($):&nbsp;<strong><input disabled id="displayPO-gst" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+        <br />
+        ($):&nbsp;<strong><input disabled id="displayPO-net-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+    </div>
+    <br /><br /><br /><br />
+    <br /><br />
+
 
     <div class="col-md-6">
+
         <div style="float: right;">
             <div>
                 <p>Remarks:</p>
@@ -487,5 +513,10 @@
             }
         </div>
     </div>
+</div>
+
+
+</div>
+
 </div>
 

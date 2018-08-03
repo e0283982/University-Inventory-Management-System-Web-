@@ -840,7 +840,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 //Update Disbursement Header to completed
                 DisbursementHeader disbursementHeader = m.DisbursementHeaders
                     .Where(x => x.Id == disbursementDetailModel.DisbursementId).FirstOrDefault();
-                disbursementHeader.Status = "Completed";
+                disbursementHeader.Status = "Completed";               
 
                 //Update Disbursement Detail               
                 Item item = m.Items.Where(x => x.Description == disbursementDetailModel.ItemDescription).FirstOrDefault();
@@ -914,6 +914,8 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 }
 
+                
+
                 //To update the list of staff req headers to be completed, there would be multiple staff requisition headers combined
                 //To update the staff requisition details for quantity delivered
 
@@ -922,23 +924,37 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 int trailingQuantityReceivedByDepartment = disbursementDetailModel.QuantityReceived;
 
+                List<String> reqFormIdentified = new List<string>();
+
                 foreach (String reqForm in listOfReqFormId)
                 {
-                    StaffRequisitionHeader staffRequisitionHeader = m.StaffRequisitionHeaders.Where(x => x.FormID == reqForm && x.DepartmentCode == departmentCode).FirstOrDefault();
-                    StaffRequisitionDetail staffRequisitionDetail = m.StaffRequisitionDetails.Where(x => x.FormID == staffRequisitionHeader.FormID && x.ItemCode == itemCode).FirstOrDefault();
+                    String deptCode = m.StaffRequisitionHeaders.Where(x => x.FormID == reqForm).Select(x => x.DepartmentCode).FirstOrDefault();
+                    if (deptCode.Equals(departmentCode))
+                    {
+                        reqFormIdentified.Add(reqForm);
+                    }                    
 
-                    if(trailingQuantityReceivedByDepartment <= 0)
+                }
+
+
+                foreach (String reqForm in reqFormIdentified)
+                {                    
+
+                    StaffRequisitionHeader staffRequisitionHeader = m.StaffRequisitionHeaders.Where(x => x.FormID == reqForm && x.DepartmentCode == departmentCode).FirstOrDefault();                    
+                    StaffRequisitionDetail staffRequisitionDetail = m.StaffRequisitionDetails.Where(x => x.FormID == reqForm && x.ItemCode == itemCode).FirstOrDefault();                    
+
+                    if (trailingQuantityReceivedByDepartment <= 0)
                     {
                         break;
                     }
                     
                     //If trailing quantity received by department is more than the quantity backordered, then will be able to fulfill all the request
-                    if(staffRequisitionDetail.QuantityBackOrdered > 0 && trailingQuantityReceivedByDepartment >= staffRequisitionDetail.QuantityBackOrdered)
+                    else if(staffRequisitionDetail.QuantityBackOrdered > 0 && trailingQuantityReceivedByDepartment >= staffRequisitionDetail.QuantityBackOrdered)
                     {
                         staffRequisitionDetail.QuantityDelivered = staffRequisitionDetail.QuantityDelivered + staffRequisitionDetail.QuantityBackOrdered;
                         trailingQuantityReceivedByDepartment = trailingQuantityReceivedByDepartment - staffRequisitionDetail.QuantityBackOrdered;
                         staffRequisitionDetail.QuantityBackOrdered = 0;
-
+                        m.SaveChanges();
                     }
                     //This means that the trailing quantity cannot fulfill the entire backordered, so the quantity delivered will be the trailing request
                     else if (staffRequisitionDetail.QuantityBackOrdered > 0 && trailingQuantityReceivedByDepartment < staffRequisitionDetail.QuantityBackOrdered)
@@ -946,12 +962,15 @@ namespace SA46Team1_Web_ADProj.Controllers
                         staffRequisitionDetail.QuantityDelivered = staffRequisitionDetail.QuantityDelivered + trailingQuantityReceivedByDepartment;
                         trailingQuantityReceivedByDepartment = 0;
                         staffRequisitionDetail.QuantityBackOrdered = staffRequisitionDetail.QuantityBackOrdered - trailingQuantityReceivedByDepartment;
+                        m.SaveChanges();
                     }
                     
                 }
+
                 
+
                 //To update the status to completed for staff requisition
-                foreach (String reqForm in listOfReqFormId)
+                foreach (String reqForm in reqFormIdentified)
                 {
                     bool completedStaffRequisition = true;
 
@@ -969,10 +988,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     if (completedStaffRequisition)
                     {
                         staffRequisitionHeader.Status = "Completed";
+                        
                     }                                        
 
-                }                
-
+                }
 
                 m.SaveChanges();
 
