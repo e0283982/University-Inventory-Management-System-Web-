@@ -105,7 +105,7 @@
                 <label style="font-size: 10pt;">Goods Receipt Number:&nbsp;</label><label id="lbl-gr-grId">@Session["grId"]</label>
             </div>
             <div>
-                <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumberr" style="font-size: 10pt;" />
+                <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumberr" style="font-size: 10pt;">@Session["grPONumber"]</label>
             </div>
             <div>
                 <label style="font-size: 10pt;">Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
@@ -139,37 +139,47 @@
         </thead>
         <tbody style="font-size: 10pt;"></tbody>
     </table>
-
     <div class="row">
-        <div class="col-md-6">
-            <hr />
-            <label style="font-size: 10pt;">Gross Total ($):&nbsp;</label><strong><label id="lbl-gross-total" style="font-size: 10pt;" /></strong>
+        @*<hr style="margin-left:0px; width: 300px;" />*@
+        <br /><br />
+        <div style="float:left; margin-top:3vh;">
+            <label style="font-size: 10pt;">Gross Total</label>
             <br />
-            <label style="font-size: 10pt;">GST ($):&nbsp;</label><strong><label id="lbl-gst" style="font-size: 10pt;" /></strong>
+            <label style="font-size: 10pt;">GST</label>
             <br />
-            <label style="font-size: 10pt;">Net Total ($):&nbsp;</label><strong><label id="lbl-net-total" style="font-size: 10pt;" /></strong>
+            <label style="font-size: 10pt;">Net Total</label>
         </div>
-        <div class="col-md-6">
-            <div style="float:right; margin-top:3vh;">
-                <div style="font-size: 10pt;">
-                    <p>Remarks:</p>
-                    <textarea id="ta-remarks" rows="3" cols="50" disabled></textarea>
+
+        <div class="col-md-6" style="float:left; margin-top:3vh;">
+            ($):&nbsp;<strong><input disabled id="lbl-gross-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+            <br />
+            ($):&nbsp;<strong><input disabled id="lbl-gst" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+            <br />
+            ($):&nbsp;<strong><input disabled id="lbl-net-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+
+        </div>
+
+        @*<div class="col-md-6">*@
+        <div style="float:right; margin-top:3vh;">
+            <div style="font-size: 10pt;">
+                <p>Remarks:</p>
+                <textarea id="ta-remarks" rows="3" cols="50" disabled></textarea>
+            </div>
+        </div>
+        @*</div>*@
+    </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <div id="details-back-btn">
+
+                            @using (Html.BeginForm("BackToGRList", "StorePurchase", FormMethod.Post))
+                            {
+                                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div>
-                <div id="details-back-btn">
-
-                    @using (Html.BeginForm("BackToGRList", "StorePurchase", FormMethod.Post))
-                    {
-                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
