@@ -469,21 +469,24 @@
         <label style="font-size: 10pt;">Net Total</label>
 
         <br /><br />
-        <div class="row">
+              <div class="row">
 
-            <div>
-                <input id="btn-back-to-po-list" class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-            </div>
+                  <div>
+                      <input id="btn-back-to-po-list" class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                  </div>
 
-            @*}*@
-            @using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
-            {
-                <div>
-                    <input class="btn btn-lu-blue" type="submit" value="Print" style="font-size: 10pt;" />
-                </div>
-            }
+                  @if (Session["poStatus"].ToString() != "Outstanding")
+                  {
+                      using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
+                      {
+                          <div>
+                              <input class="btn btn-lu-blue" type="submit" value="Print" style="font-size: 10pt;" />
+                          </div>
+                      }
+                  }
 
-        </div>
+
+              </div>
     </div>
 
 
