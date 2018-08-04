@@ -30,7 +30,20 @@ namespace SA46Team1_Web_ADProj.Controllers
                 double gst = 0;
 
                 foreach (POFullDetail p in poFullDetailsList) {
-                    var itemTotal = p.QuantityOrdered * p.UnitCost;
+                    var itemTotal=0F;
+                    if (p.CompanyName == p.Supplier1Code)
+                    {
+                        itemTotal = p.Supplier1UnitCost * p.QuantityOrdered;
+                    }
+                    else if (p.CompanyName == p.Supplier2Code)
+                    {
+                        itemTotal = p.Supplier2UnitCost * p.QuantityOrdered;
+                    }
+                    else if (p.CompanyName == p.Supplier3Code)
+                    {
+                        itemTotal = p.Supplier3UnitCost * p.QuantityOrdered;
+                    }
+
                     grossTotal += itemTotal;
                 }
 
@@ -273,6 +286,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                     pod.Supplier1Code = itemToAdd.Supplier1;
                     pod.Supplier2Code = itemToAdd.Supplier2;
                     pod.Supplier3Code = itemToAdd.Supplier3;
+                    pod.Supplier1UnitCost = m.SupplierPriceLists.Where(x => x.SupplierCode == itemToAdd.Supplier1 && x.ItemCode == itemToAdd.ItemCode).Select(x => x.UnitCost).FirstOrDefault();
+                    pod.Supplier2UnitCost = m.SupplierPriceLists.Where(x => x.SupplierCode == itemToAdd.Supplier2 && x.ItemCode == itemToAdd.ItemCode).Select(x => x.UnitCost).FirstOrDefault();
+                    pod.Supplier3UnitCost = m.SupplierPriceLists.Where(x => x.SupplierCode == itemToAdd.Supplier3 && x.ItemCode == itemToAdd.ItemCode).Select(x => x.UnitCost).FirstOrDefault();
+
                     poFullDetailsList.Add(pod);
                 }
 

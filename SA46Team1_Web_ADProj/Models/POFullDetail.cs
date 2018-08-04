@@ -35,5 +35,14 @@ namespace SA46Team1_Web_ADProj.Models
 
         [NotMapped]
         public string Supplier3Code { get; set; }
+
+        [NotMapped]
+        public float Supplier1UnitCost { get; set; }
+
+        [NotMapped]
+        public float Supplier2UnitCost { get; set; }
+
+        [NotMapped]
+        public float Supplier3UnitCost { get; set; }
     }
 }

@@ -207,45 +207,68 @@
 
         @foreach (var item in poDetailList)
         {
-            <tr>
-                <td style="font-size: 10pt;">@item.ItemCode</td>
-                <td style="font-size: 10pt;">@item.Description</td>
-                <td style="font-size: 10pt;">
-                    <select id="select-supplier">
-                        @if (item.Supplier1Code == item.CompanyName)
-                        {
-                            <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Supplier1Code">@item.Supplier1Code</option>
-                        }
+        <tr>
+            <td style="font-size: 10pt;">@item.ItemCode</td>
+            <td style="font-size: 10pt;">@item.Description</td>
+            <td style="font-size: 10pt;">
+                <select id="select-supplier">
+                    @if (item.Supplier1Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier1Code">@item.Supplier1Code</option>
+                    }
 
-                        @if (item.Supplier2Code == item.CompanyName)
-                        {
-                            <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Supplier2Code">@item.Supplier2Code</option>
-                        }
-                        @if (item.Supplier3Code == item.CompanyName)
-                        {
-                            <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Supplier3Code">@item.Supplier3Code</option>
-                        }
-                    </select>
-                </td>
-                <td><input id="input-qty" style="font-size: 10pt;" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
-                <td style="font-size: 10pt;">@item.UoM</td>
-                <td style="font-size: 10pt;">@item.UnitCost.ToString("0.00")</td>
-                <td style="font-size: 10pt;">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-                <td style="font-size: 10pt;">7%</td>
-                <td style="font-size: 10pt;"></td>
-            </tr>
+                    @if (item.Supplier2Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier2Code">@item.Supplier2Code</option>
+                    }
+                    @if (item.Supplier3Code == item.CompanyName)
+                    {
+                        <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Supplier3Code">@item.Supplier3Code</option>
+                    }
+                </select>
+            </td>
+            <td><input id="input-qty" style="font-size: 10pt;" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
+            <td style="font-size: 10pt;">@item.UoM</td>
+            @if (item.Supplier1Code == item.CompanyName)
+            {
+                <td style="font-size: 10pt;">@item.Supplier1UnitCost.ToString("0.00")</td>
+            }
+            else if (item.Supplier2Code == item.CompanyName)
+            {
+                <td style="font-size: 10pt;">@item.Supplier2UnitCost.ToString("0.00")</td>
+            }
+            else if (item.Supplier3Code == item.CompanyName)
+            {
+                <td style="font-size: 10pt;">@item.Supplier3UnitCost.ToString("0.00")</td>
+            }
+
+            @if (item.Supplier1Code == item.CompanyName)
+            {
+                <td style="font-size: 10pt;">@((item.Supplier1UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+            }
+            else if (item.Supplier2Code == item.CompanyName)
+            {
+                <td style="font-size: 10pt;">@((item.Supplier2UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+            }
+            else if (item.Supplier3Code == item.CompanyName)
+            {
+                <td style="font-size: 10pt;">@((item.Supplier3UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+            }
+            <td style="font-size: 10pt;">7%</td>
+            <td style="font-size: 10pt;"></td>
+        </tr>
         }
         <tbody style="font-size: 10pt;"></tbody>
     </table>
