@@ -309,6 +309,25 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [CustomAuthorize(Roles = "Store Clerk")]
         [HttpPost]
+        public RedirectToRouteResult EditNewAdjReason(string data, int index)
+        {
+            using (SSISdbEntities e = new SSISdbEntities())
+            {
+                List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
+                StockAdjItemModel item = list.ElementAt(index);
+                item.Reason = data;
+                Session["newAdjList"] = list;
+
+                Session["StockAdjPage"] = "2";
+
+
+                return RedirectToAction("Requisition", "Dept");
+            }
+        }
+
+
+        [CustomAuthorize(Roles = "Store Clerk")]
+        [HttpPost]
         public RedirectToRouteResult DiscardNewAdjItem(string data, int index)
         {
             using (SSISdbEntities e = new SSISdbEntities())

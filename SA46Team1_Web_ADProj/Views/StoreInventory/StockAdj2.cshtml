@@ -124,6 +124,26 @@
         window.location.href = '@Url.Action("Inventory", "Store")';
     });
 
+    $('#dataTable-new-adj tbody').on('change', '#selectAdjReason', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var index = table.row($(this).parents('tr')).index();
+
+        var reason = table.cell(index, 2).nodes().to$().find('option:selected').text();
+       
+        $.ajax({
+            url: '/StoreInventory/EditNewAdjReason',
+            data: JSON.stringify({ data: reason, index: index }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            async: false
+        });
+
+        table.draw(false);
+
+        window.location.href = '@Url.Action("Inventory", "Store")';
+    });
+
     //form sub btn click
     $('#btn-submit-new-adj').on('click', function () {
         $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
@@ -220,24 +240,38 @@
             </thead>
             @foreach (var item in list)
             {
-                <tr>
-                    <td style="font-size: 10pt;">@item.ItemCode</td>
-                    <td style="font-size: 10pt;">@item.ItemDesc</td>
-                    <td style="font-size: 10pt;">@item.Reason</td>
-                    <td>
-                        <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" pattern="[0-9]" step="1" />
-                    </td>
-                    <td>
-                        <label id="input-adj-cost" style="font-size: 10pt;">@item.AdjCost.ToString("0.00")</label>
-                    </td>
-                    <td>
-                        <span>
-                            <button class="btn btn-lu-red" id="btn-discard-new-adj">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                        </span>
-                    </td>
-                </tr>
+            <tr>
+                <td style="font-size: 10pt;">@item.ItemCode</td>
+                <td style="font-size: 10pt;">@item.ItemDesc</td>
+                @*<td style="font-size: 10pt;">@item.Reason</td>*@
+                <td style="font-size: 10pt;">
+                    <select id="selectAdjReason">
+                        @if (item.Reason == "Damaged")
+                        {
+                            <option value="Damaged" selected>Damaged</option>
+                            <option value="Missing">Missing</option>
+                        }
+                        else
+                        {
+                            <option value="Damaged">Damaged</option>
+                            <option value="Missing" selected>Missing</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" pattern="[0-9]" step="1" />
+                </td>
+                <td>
+                    <label id="input-adj-cost" style="font-size: 10pt;">@item.AdjCost.ToString("0.00")</label>
+                </td>
+                <td>
+                    <span>
+                        <button class="btn btn-lu-red" id="btn-discard-new-adj">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </span>
+                </td>
+            </tr>
             }
             <tbody style="font-size: 10pt;"></tbody>
         </table>
