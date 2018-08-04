@@ -100,75 +100,77 @@
         $('#dialog-submit-add-bin').dialog('open');
     });
 </script>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h5>Maintenance - Bin</h5>
-</div>
+    <div>
+        <h5>Maintenance - Bin</h5>
+    </div>
 
 
-<table id="dataTable-store-bins" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Bin Number</th>
-            <th>Bin Name</th>
-            <th>Item</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
+    <table id="dataTable-store-bins" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Bin Number</th>
+                <th>Bin Name</th>
+                <th>Item</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-12">
-        <div style="float: right">
-            <span>
-                <button id="btn-add-new-bin" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Bin</button>
-            </span>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right">
+                <span>
+                    <button id="btn-add-new-bin" class="btn btn-lu-blue" style="font-size: 10pt;">Add New Bin</button>
+                </span>
+            </div>
         </div>
     </div>
-</div>
 
 
-<div id="dialog-add-new-bin" class="hidden" @*title="Add Bin (Maintenance)"*@>
-    @using (Html.BeginForm("AddNewBin", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-bin" }))
-    {
-        <div>
-            <hr />
-            <div style="text-align:center;">
-                <h5>Add Bin</h5>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-md-3">
-                    <label>Location: </label>
+    <div id="dialog-add-new-bin" class="hidden" style="overflow-x:hidden;">
+        @using (Html.BeginForm("AddNewBin", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-bin" }))
+        {
+            <div>
+                <hr />
+                <div style="text-align:center;">
+                    <h5>Add Bin</h5>
                 </div>
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bin Location", @id = "new-bin-location" }, })
+                <hr />
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Location: </label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bin Location", @id = "new-bin-location" }, })
+                    </div>
                 </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-3">
-                    <label>Item Code: </label>
+                <br />
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Item Code: </label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.DropDownList("SelectBinItem", ViewBag.ItemsList as SelectList)
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    @Html.DropDownList("SelectBinItem", ViewBag.ItemsList as SelectList)
-                </div>      
+
+                <hr />
+
+                <input id="btn-submit-add-bin" class="btn btn-lu-green btn-block" type="submit" value="Add" />
             </div>
-
-            <hr />
-
-            <input id="btn-submit-add-bin" class="btn btn-lu-green btn-block" type="submit" value="Add" />
-        </div>
-    }
-</div>
-
-<div id="dialog-submit-add-bin" class="hidden" @*title="Add Bin Successful (Maintenance)"*@>
-    <br />
-    <div style="text-align:center;">
-        <p>New Bin has been successfully added.</p>
+        }
     </div>
-    <hr /> 
+
+    <div id="dialog-submit-add-bin" class="hidden" style="overflow-x:hidden;">
+        <br />
+        <div style="text-align:center;">
+            <p>New Bin has been successfully added.</p>
+        </div>
+        <hr />
+    </div>
 </div>

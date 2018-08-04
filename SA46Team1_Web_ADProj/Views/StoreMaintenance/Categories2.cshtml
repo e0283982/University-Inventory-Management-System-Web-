@@ -107,46 +107,48 @@
     });
 
 </script>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h5>Category: @Session["MaintenanceCategoryId"]</h5>
-</div>
-
-<table id="dataTable-store-categories-details" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Category Id</th>
-            <th>Name</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-6">
-        <span>
-            @using (Html.BeginForm("BackToCategoriesMaintenanceList", "StoreMaintenance", FormMethod.Post))
-            {
-                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
-            }
-        </span>           
+    <div>
+        <h5>Category: @Session["MaintenanceCategoryId"]</h5>
     </div>
-    <div class="col-md-6">
-        <div style="float: right;">
-            <span>
-                <button id="btn-edit-category" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-            </span>
-        </div>    
-    </div>
-</div>
 
-<div id="dialog-submit-edit-category" class="hidden" @*title="Edit Category Successful (Maintenance)"*@>
-    <br />
-    <div style="text-align:center;">
-        <h5>Category has been successfully edited!</h5>
-    </div>
+    <table id="dataTable-store-categories-details" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Category Id</th>
+                <th>Name</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+
     <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <span>
+                @using (Html.BeginForm("BackToCategoriesMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                }
+            </span>
+        </div>
+        <div class="col-md-6">
+            <div style="float: right;">
+                <span>
+                    <button id="btn-edit-category" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-submit-edit-category" class="hidden" style="overflow-x:hidden;">
+        <br />
+        <div style="text-align:center;">
+            <h5>Category has been successfully edited!</h5>
+        </div>
+        <hr />
+    </div>
 </div>

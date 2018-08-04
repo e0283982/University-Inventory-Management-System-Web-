@@ -134,51 +134,53 @@
         });
     });
 </script>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h4>Supplier Price List</h4>
-    <h5>Supplier: @Session["MaintenanceSupplierCode"]</h5>
-</div>
-
-<hr />
-
-<table id="dataTable-store-supplier-price-details" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Item Code</th>
-            <th>Description</th>
-            <th>Unit of Measure</th>
-            <th>Unit Price ($)</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-6">
-        <span>
-            @using (Html.BeginForm("BackToSupplierDetails", "StoreMaintenance", FormMethod.Post))
-            {
-                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
-            }
-        </span>
+    <div>
+        <h4>Supplier Price List</h4>
+        <h5>Supplier: @Session["MaintenanceSupplierCode"]</h5>
     </div>
-    <div class="col-md-6">
-        <div style="text-align:center;">
-            <div style="float: right;">
-                <button id="btn-save-supplier-price-list" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-            </div>
-        </div>        
-    </div>
-</div>
 
-<div id="dialog-submit-edit-supplier" class="hidden" @*title="Edit Supplier Successful (Maintenance)"*@>
-    <br />
-    <div style="text-align:center;">
-        <h5>Supplier has been successfully edited!</h5>
-    </div>
     <hr />
+
+    <table id="dataTable-store-supplier-price-details" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Unit of Measure</th>
+                <th>Unit Price ($)</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <span>
+                @using (Html.BeginForm("BackToSupplierDetails", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                }
+            </span>
+        </div>
+        <div class="col-md-6">
+            <div style="text-align:center;">
+                <div style="float: right;">
+                    <button id="btn-save-supplier-price-list" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-submit-edit-supplier" class="hidden" @*title="Edit Supplier Successful (Maintenance)"*@>
+        <br />
+        <div style="text-align:center;">
+            <h5>Supplier has been successfully edited!</h5>
+        </div>
+        <hr />
+    </div>
 </div>

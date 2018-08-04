@@ -103,63 +103,65 @@
         $('#dialog-submit-add-category').dialog('close');
     });
 </script>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h5>Maintenance - Category</h5>
-</div>
-
-
-<table id="dataTable-store-categories" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Category ID</th>
-            <th>Item</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;"></tbody>
-</table>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-12">
-        <div style="float: right">
-            <span>
-                <button id="btn-add-new-category" class="btn btn-lu-blue" style="font-size: 10pt;">Add</button>
-            </span>
-        </div>
+    <div>
+        <h5>Maintenance - Category</h5>
     </div>
-</div>
 
-<div id="dialog-add-new-category" class="hidden" @*title="Add Category (Maintenance)"*@>
-    @using (Html.BeginForm("AddNewCategory", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-category" }))
-    {
-        <div>
-            <br />
-                <div style="text-align:center"><h5>Add New Category</h5></div>
-            <hr />
-            <div class="row">
-                <div class="col-md-3">
-                    <label>Category Name: </label>
-                </div>
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
-                </div>      
+
+    <table id="dataTable-store-categories" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Category ID</th>
+                <th>Item</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right">
+                <span>
+                    <button id="btn-add-new-category" class="btn btn-lu-blue" style="font-size: 10pt;">Add</button>
+                </span>
             </div>
-
-            <hr />
-
-            <input id="btn-submit-add-category" class="btn btn-lu-green btn-block" type="submit" value="Add" />
-
         </div>
-    }
-</div>
-
-<div id="dialog-submit-add-category" class="hidden" @*title="Add Category Successful (Maintenance)"*@>
-    <br />
-    <div style="text-align:center;">
-        <h5>New Category has been successfully added!</h5>
     </div>
-    <hr />     
+
+    <div id="dialog-add-new-category" class="hidden" style="overflow-x:hidden;">
+        @using (Html.BeginForm("AddNewCategory", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-category" }))
+        {
+            <div>
+                <br />
+                <div style="text-align:center"><h5>Add New Category</h5></div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Category Name: </label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
+                    </div>
+                </div>
+
+                <hr />
+
+                <input id="btn-submit-add-category" class="btn btn-lu-green btn-block" type="submit" value="Add" />
+
+            </div>
+        }
+    </div>
+
+    <div id="dialog-submit-add-category" class="hidden" style="overflow-x:hidden;">
+        <br />
+        <div style="text-align:center;">
+            <h5>New Category has been successfully added!</h5>
+        </div>
+        <hr />
+    </div>
 </div>

@@ -116,56 +116,58 @@
         });
     });
 </script>
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-<div>
-    <h5>Bin: @Session["MaintenanceBinId"]</h5>
-</div>
+    <div>
+        <h5>Bin: @Session["MaintenanceBinId"]</h5>
+    </div>
 
 
-<table id="dataTable-store-bins-details" class="display" style="width:80%;">
-    <thead style="font-size: 10pt;">
-        <tr>
-            <th>Bin Number</th>
-            <th>Bin Name</th>
-            <th>Item</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody style="font-size: 10pt;">
+    <table id="dataTable-store-bins-details" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Bin Number</th>
+                <th>Bin Name</th>
+                <th>Item</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;">
             @*<tr>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>*@
-    </tbody>
-</table>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>*@
+        </tbody>
+    </table>
 
-<hr />
+    <hr />
 
-<div class="row">
-    <div class="col-md-6">
-        <div>
-            <span>
-                @using (Html.BeginForm("BackToBinsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-                {
-                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
-                }
-            </span>
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <span>
+                    @using (Html.BeginForm("BackToBinsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+                    {
+                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                    }
+                </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div style="float: right">
+                <span>
+                    <button id="btn-edit-bin" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+                </span>
+            </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div style="float: right">
-            <span>
-                <button id="btn-edit-bin" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-            </span>
-        </div>   
-    </div>
-</div>
 
-<div id="dialog-submit-edit-bin" class="hidden" @*title="Edit Item Successful (Maintenance)"*@>
-    <br />
-    <div style="text-align:center;">
-        <h5>Bin has been successfully edited.</h5>
+    <div id="dialog-submit-edit-bin" class="hidden" @*title="Edit Item Successful (Maintenance)"*@>
+        <br />
+        <div style="text-align:center;">
+            <h5>Bin has been successfully edited.</h5>
+        </div>
+        <hr />
     </div>
-    <hr />
 </div>
