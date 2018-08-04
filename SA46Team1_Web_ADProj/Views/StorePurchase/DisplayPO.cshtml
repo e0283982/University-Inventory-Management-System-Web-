@@ -150,7 +150,7 @@
 
     // Goods Receipt Dialog
     $(function () {
-        $("#dialog-GR-displayPO").dialog({
+        $("#dialog-gr-submitted").dialog({
             autoOpen: false
         });
     });
@@ -173,6 +173,18 @@
             data: JSON.stringify({ arrQty: arrQty })
         });
 
+        $("#dialog-gr-submitted").dialog('open');
+
+        @*window.location.href = '@Url.Action("Purchase", "Store")';*@
+    });
+
+    $("#dialog-gr-submitted").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        window.location.href = '@Url.Action("Purchase", "Store")';
+    });
+
+    $('#btn-gr-submitted-ok').on('click', function () {
+        $('#dialog-gr-submitted').dialog('close');
         window.location.href = '@Url.Action("Purchase", "Store")';
     });
 
@@ -186,7 +198,11 @@
 
     // Cancel PO Button
     $('#btn-cancelPO').click(function () {
-        //$('#dialog-cancelPO').dialog('open');
+        $('#dialog-cancel-displayPO').dialog('open');
+    });
+
+    $('#btn-confirm-submit-submit').click(function () {
+        $('#dialog-cancel-displayPO').dialog('close');
 
         $.ajax({
             url: '/StorePurchase/CancelPO',
@@ -194,8 +210,12 @@
             async: false
         });
         window.location.href = '@Url.Action("Purchase", "Store")';
-        //return false;
     });
+
+    $('#btn-confirm-submit-cancel').click(function () {
+        $('#dialog-cancel-displayPO').dialog('close');
+    });
+
     
     $('#btn-back-to-po-list').click(function () {
 
@@ -287,9 +307,11 @@
 
         var gst = total * 0.07;
         var netTotal = total * 1.07;
-        $("#displayPO-gross-total").text(twoDP(total));
-        $("#displayPO-net-total").text(twoDP(netTotal));
-        $("#displayPO-gst").text(twoDP(gst));
+        
+        $("#displayPO-gross-total").val(twoDP(total));
+        $("#displayPO-net-total").val(twoDP(netTotal));
+        $("#displayPO-gst").val(twoDP(gst));
+
 
         table.draw(false);
     });
@@ -301,20 +323,20 @@
         var qty = table.cell(index, 4).nodes().to$().find('input').val();
         var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
 
-        var newTotal = qty * unitCost;
-        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+        //var newTotal = qty * unitCost;
+        //table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
 
-        var total = 0
-        for (var i = 0; i < table.data().length; i++) {
-            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
-            total += parseFloat(number);
-        }
+        //var total = 0
+        //for (var i = 0; i < table.data().length; i++) {
+        //    var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
+        //    total += parseFloat(number);
+        //}
 
-        var gst = total * 0.07;
-        var netTotal = total * 1.07;
-        $("#displayPO-gross-total").text(twoDP(total));
-        $("#displayPO-net-total").text(twoDP(netTotal));
-        $("#displayPO-gst").text(twoDP(gst));
+        //var gst = total * 0.07;
+        //var netTotal = total * 1.07;
+        //$("#displayPO-gross-total").val(twoDP(total));
+        //$("#displayPO-net-total").val(twoDP(netTotal));
+        //$("#displayPO-gst").val(twoDP(gst));
 
         table.draw(false);
     });
@@ -378,13 +400,29 @@
                         <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Receipt</button>
                     }
 
-                    <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
+                    <div id="dialog-cancel-displayPO" class="hidden" style="overflow:hidden;">
                         <br />
                         <div style="text-align:center;">
-                            <h5>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</h5>
+                            <h5>Cancel current Purchase Order?</h5>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div style="float:right">
+                                    <span>
+                                        <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <span>
+                                    <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+                                </span>
+                            </div>
                         </div>
                         <hr />
                     </div>
+
                     <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
                         <br />
                         <div style="text-align:center;">
@@ -392,11 +430,17 @@
                         </div>
                         <hr />
                     </div>
-                    <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
+
+                    <div id="dialog-gr-submitted" class="hidden">
                         <br />
                         <div>
-                            <h5>Goods receipt btn.</h5>
+                            <h5>New goods receipt has been submitted.</h5>
                         </div>
+
+                        <span>
+                            <button class="btn btn-lu-blue" id="btn-gr-submitted-ok" style="width:100%;">Ok</button>
+                        </span>
+                        
                         <hr />
                     </div>
                 </div>

@@ -20,8 +20,6 @@
                         sort: true,
                         order: [[1, "desc"]],
                         searching: true,
-                        scrollY: 200,
-                        "iDisplayLength": 5,
                         data: data,
                         columns: [
                             { 'data': 'RequestId' },
@@ -47,7 +45,7 @@
                             className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
                             targets: [-1], render: function (data, type, row) {
                                 switch (data) {
-                                    case 'Pending': return '<button type ="submit" class="btn btn-lu-green" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-lu-red" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
+                                    case 'Pending': return '<button type ="submit" class="btn btn-lu-green" id="Approve"  style="width: 8vw;" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-lu-red"  style="width: 8vw;" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
                                     case 'Approved': return 'Approved'; break;
                                     default: return 'Rejected';
                                 }
@@ -79,8 +77,6 @@
                             sort: true,
                             order: [[1, "desc"]],
                             searching: true,
-                            "iDisplayLength": 5,
-                            scrollY: 250,
                             data: data,
                             columns: [
                                 { 'data': 'RequestId' },
@@ -110,7 +106,7 @@
                             columnDefs: [{
                                 targets: [-1], render: function (data, type, row) {
                                     switch (data) {
-                                        case 'Pending': return '<button type ="submit" class="btn btn-lu-green" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-lu-red" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
+                                        case 'Pending': return '<button type ="submit" class="btn btn-lu-green" style="width: 8vw;" id="Approve" onclick="approveFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Approve</button><button id ="Reject" class="btn btn-lu-red"  style="width: 8vw;" onclick="rejectFunction(\'' + row["RequestId"] + '\', \'' + row["ItemCode"] + '\')">Reject</button>'; break;
                                         case 'Approved': return 'Approved'; break;
                                         default: return 'Rejected';
                                     }
@@ -158,16 +154,16 @@
     <table id="dataTable-storeManagerInventoryReviewAdj" class="display" style="width:80%;">
         <thead style="font-size: 10pt;">
             <tr>
-                <th>RequestID</th>
+                <th>Adjustment #</th>
                 <th>Date</th>
-                <th>Requestor</th>
+                <th>Employee</th>
                 <th>Item Code</th>
                 <th>Item Description</th>
                 <th>Category</th>
-                <th>Missing Count</th>
-                <th>Amount</th>
+                <th>Adjusted Quantity</th>
+                <th>Adjusted Amount</th>
                 <th>Remark</th>
-                <th>Adjustment Request Status</th>
+                <th>Approval Status</th>
             </tr>
         </thead>
         <tbody style="font-size: 10pt;"></tbody>

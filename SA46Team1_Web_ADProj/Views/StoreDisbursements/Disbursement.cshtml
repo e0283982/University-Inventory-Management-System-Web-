@@ -17,7 +17,7 @@ var table;
                 sort: true,
                 searching: true,
                 "order": [[2, "desc"]],
-                "iDisplayLength": 5,                
+                "iDisplayLength": 5,
                 data: data,
                 columns: [
                     {
@@ -26,7 +26,7 @@ var table;
 
                              var date = new Date(jsonDate.substr(0));
                              var month = date.getMonth() + 1;
-                             return date.getDate() + "/" + month + "/" + date.getFullYear();
+                            return '<td><span>' + jsonDate + '</span>' + date.getDate() + "/" + month + "/" + date.getFullYear() + '</td>';
                         }
 
                     },
@@ -40,7 +40,7 @@ var table;
                 drawCallback: function (settings) {
                     $('#dataTable-storeDisbursementList tbody').off().on('click', 'tr', function () {
                         var data = table.row(this).data();
-                      
+
                         $.ajax({
                             url: '/StoreDisbursements/DisplayDisbursementDetails',
                             data: { storeDisbursementFormId: data["Id"] },
@@ -56,7 +56,7 @@ var table;
         }
         });
     });
-    
+
 </script>
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
@@ -78,3 +78,10 @@ var table;
         <tbody style="font-size: 10pt;"></tbody>
     </table>
 </div>
+
+
+<style>
+    #dataTable-storeDisbursementList span {
+        display: none;
+    }
+</style>

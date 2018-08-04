@@ -46,7 +46,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
             Session["StockAdjPage"] = 2;
-            Session["StoreInventoryTabIndex"] = "3";
+            Session["StoreInventoryTabIndex"] = "1";
 
             return RedirectToAction("Inventory", "Store");
         }
@@ -65,7 +65,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     TransactionType = "Reject Stock Adjustment",
                     Quantity = stockadjdet.ItemQuantity,
                     Amount = stockadjdet.Amount,
-                    UnitCost = stockadjdet.ItemQuantity / stockadjdet.Amount
+                    UnitCost = stockadjdet.Amount / stockadjdet.ItemQuantity
                 };
                 itemRepo.InsertItemTransaction(itemTrans);
                 itemRepo.Save();
@@ -73,6 +73,8 @@ namespace SA46Team1_Web_ADProj.Controllers
             stockadjdet.Status = "Rejected";
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
+
+            Session["StoreInventoryTabIndex"] = "1";
             Session["StockAdjPage"] = 2;
             return RedirectToAction("Inventory", "Store", new { area = "" });
         }

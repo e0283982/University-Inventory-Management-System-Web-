@@ -45,8 +45,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 sad.NotificationStatus = "Read";
                 e.SaveChanges();
             }
-            Session["StoreInventoryTabIndex"] = 3;
-            return RedirectToAction("StoreInventory", "StockAdj");
+            //Session["StoreInventoryTabIndex"] = 3;
+            return RedirectToAction("Store", "Approval");
         }
     }
 }

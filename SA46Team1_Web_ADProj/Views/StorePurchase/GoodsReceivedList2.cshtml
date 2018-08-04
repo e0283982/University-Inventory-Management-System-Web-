@@ -59,13 +59,13 @@
                 $(function () {
                     $('#ta-remarks').val(data[0]["Remarks"]);
 
-                    $("#lbl-poNumber").append(data[0]["PONumber"]);
-                    $("#lbl-del-date").append(newDate);
-                    $("#lbl-companyName").append(data[0]["CompanyName"]);
-                    $("#lbl-emp").append(data[0]["EmployeeName"]);
-                    $("#lbl-gross-total").append(twoDP(total));
-                    $("#lbl-gst").append(twoDP(gst));
-                    $("#lbl-net-total").append(twoDP(netTotal));
+                    $("#lbl-poNumber").val(data[0]["PONumber"]);
+                    $("#lbl-del-date").val(newDate);
+                    $("#lbl-companyName").val(data[0]["CompanyName"]);
+                    $("#lbl-emp").val(data[0]["EmployeeName"]);
+                    $("#lbl-gross-total").val(twoDP(total));
+                    $("#lbl-gst").val(twoDP(gst));
+                    $("#lbl-net-total").val(twoDP(netTotal));
                 });
 
                 function twoDP(value) {
@@ -105,7 +105,7 @@
                 <label style="font-size: 10pt;">Goods Receipt Number:&nbsp;</label><label id="lbl-gr-grId">@Session["grId"]</label>
             </div>
             <div>
-                <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumberr" style="font-size: 10pt;">@Session["grPONumber"]</label>
+                <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumberr" style="font-size: 10pt;">@Session["poNumber"]</label>
             </div>
             <div>
                 <label style="font-size: 10pt;">Date:&nbsp;</label><label id="lbl-del-date" style="font-size: 10pt;" />
