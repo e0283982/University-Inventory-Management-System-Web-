@@ -65,7 +65,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     TransactionType = "Reject Stock Adjustment",
                     Quantity = stockadjdet.ItemQuantity,
                     Amount = stockadjdet.Amount,
-                    UnitCost = stockadjdet.ItemQuantity / stockadjdet.Amount
+                    UnitCost = stockadjdet.Amount / stockadjdet.ItemQuantity
                 };
                 itemRepo.InsertItemTransaction(itemTrans);
                 itemRepo.Save();
