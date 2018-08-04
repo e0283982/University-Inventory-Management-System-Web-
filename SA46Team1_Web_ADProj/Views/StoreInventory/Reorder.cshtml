@@ -93,7 +93,9 @@
             $('#dialog-create-po').dialog('open');
         }
         else {
-            // error message
+            $('#errormessage').html("<div class=\"alert alert-danger col-md-3\" id=\"errormessage\">"+
+            "Invalid Quantity" +
+    "</div>");
         }
     });
 
@@ -169,10 +171,8 @@
             </div>
         </div>
     </form>
-    <div class="alert alert-danger col-md-3">
-        @TempData["ErrorMsg"]
-    </div>
 
+    <div id="errormessage" class="col-md-12" />
 
     <div id="dialog-create-po" class="hidden" style="text-align:center;">
         <p>Purchase order(s) have been created.</p>
