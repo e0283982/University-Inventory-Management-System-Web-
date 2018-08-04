@@ -320,6 +320,11 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 Session["StockAdjPage"] = "2";
 
+                //add to list meant for already added items
+                List<String> tempList = (List<String>)Session["tempList"];
+                int tempListIndex = tempList.FindIndex(x=>x==data);
+                tempList.RemoveAt(tempListIndex);
+                Session["tempList"] = tempList;
 
                 return RedirectToAction("Inventory", "Store");
             }
