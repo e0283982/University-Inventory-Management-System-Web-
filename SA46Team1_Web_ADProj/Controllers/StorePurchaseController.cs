@@ -514,6 +514,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["GRListPage"] = "2";
             string rNo = data["ReceiptNo"];
             Session["grId"] = rNo;
+            using (SSISdbEntities e = new SSISdbEntities()) {
+                Session["poNumber"] = e.GoodsReceivedLists.Where(x => x.ReceiptNo == rNo).Select(x => x.PONumber).FirstOrDefault();
+            }
 
             return RedirectToAction("Purchase", "Store");
         }
