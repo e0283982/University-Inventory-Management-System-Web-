@@ -97,17 +97,40 @@
         });
     });
 
-    $('#btn-submit-add-item').on('click', function () {
-        $('#dialog-add-new-item').dialog('close');
-        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
-        $('#dialog-submit-add-item').dialog('open');
+    $(function () {
+        $("#dialog-submit-same-supplier-error").dialog({
+            autoOpen: false,
+            width: "40%",
+            maxWidth: "40%"
+        });
     });
+
+    
+    //$('#btn-submit-add-item').on('click', function () {
+    //    $('#dialog-add-new-item').dialog('close');
+    //    $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+    //    $('#dialog-submit-add-item').dialog('open');
+    //});
 
     $("#dialog-submit-add-item").on("dialogclose", function (event, ui) {
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-submit-add-item').dialog('close');
     });
 
+    $(function () {
+        $("#form-submit-add-new-item").submit(function (event) {
+            if ($('#SelectSupplier1 :selected').text() == $('#SelectSupplier2 :selected').text() ||
+                $('#SelectSupplier1 :selected').text() == $('#SelectSupplier3 :selected').text() ||
+                $('#SelectSupplier2 :selected').text() == $('#SelectSupplier3 :selected').text()) {
+                event.preventDefault();
+                $("#dialog-submit-same-supplier-error").dialog('open');
+            } else {
+                $('#dialog-add-new-item').dialog('close');
+                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+                $('#dialog-submit-add-item').dialog('open');
+            }
+        });
+    });
 </script>
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
@@ -236,6 +259,10 @@
 
     <div id="dialog-submit-add-item" class="hidden" title="Add Item Successful (Maintenance)" style="overflow-x:hidden;">
         <p>New Item has been successfully added.</p>
+    </div>
+
+    <div id="dialog-submit-same-supplier-error" class="hidden" title="Add Item Error (Maintenance)" style="overflow-x:hidden;">
+        <p>Supplier choices cannot be duplicated.</p>
     </div>
 
 </div>
