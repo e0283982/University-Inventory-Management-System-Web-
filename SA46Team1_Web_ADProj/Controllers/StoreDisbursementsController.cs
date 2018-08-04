@@ -305,7 +305,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                             itemTransaction.TransDateTime = localDate;
                             itemTransaction.DocumentRefNo = newDD.Id;
                             itemTransaction.ItemCode = newDD.ItemCode;
-                            itemTransaction.TransactionType = "Stock Disbursement";
+                            itemTransaction.TransactionType = "Disbursement";
                             itemTransaction.Quantity = newDD.QuantityReceived;
                             itemTransaction.UnitCost = itemUnitCost;
                             itemTransaction.Amount = newDD.QuantityReceived * itemUnitCost;
