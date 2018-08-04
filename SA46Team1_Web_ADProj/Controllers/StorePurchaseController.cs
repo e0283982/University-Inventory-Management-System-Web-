@@ -515,11 +515,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             string rNo = data["ReceiptNo"];
             Session["grId"] = rNo;
 
-            using (SSISdbEntities e = new SSISdbEntities()) {
-                string poNumber = e.GoodsReceivedLists.Where(x => x.ReceiptNo == rNo).Select(x => x.PONumber).FirstOrDefault();
-                Session["grPONumber"] = poNumber;
-            }
-
             return RedirectToAction("Purchase", "Store");
         }
         
@@ -702,7 +697,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["POItems"] = poFullDetailList;
             Session["poDetailsEditMode"] = false;
             Session["grId"] = receiptNo;
-
             Session["StorePurchaseTabIndex"] = "3";
 
             return RedirectToAction("DisplayGR", "StorePurchase");

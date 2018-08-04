@@ -150,7 +150,7 @@
 
     // Goods Receipt Dialog
     $(function () {
-        $("#dialog-GR-displayPO").dialog({
+        $("#dialog-gr-submitted").dialog({
             autoOpen: false
         });
     });
@@ -173,6 +173,18 @@
             data: JSON.stringify({ arrQty: arrQty })
         });
 
+        $("#dialog-gr-submitted").dialog('open');
+
+        @*window.location.href = '@Url.Action("Purchase", "Store")';*@
+    });
+
+    $("#dialog-gr-submitted").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        window.location.href = '@Url.Action("Purchase", "Store")';
+    });
+
+    $('#btn-gr-submitted-ok').on('click', function () {
+        $('#dialog-gr-submitted').dialog('close');
         window.location.href = '@Url.Action("Purchase", "Store")';
     });
 
@@ -418,11 +430,17 @@
                         </div>
                         <hr />
                     </div>
-                    <div id="dialog-GR-displayPO" class="hidden" title="Basic dialog">
+
+                    <div id="dialog-gr-submitted" class="hidden">
                         <br />
                         <div>
-                            <h5>Goods receipt btn.</h5>
+                            <h5>New goods receipt has been submitted.</h5>
                         </div>
+
+                        <span>
+                            <button class="btn btn-lu-blue" id="btn-gr-submitted-ok" style="width:100%;">Ok</button>
+                        </span>
+                        
                         <hr />
                     </div>
                 </div>
