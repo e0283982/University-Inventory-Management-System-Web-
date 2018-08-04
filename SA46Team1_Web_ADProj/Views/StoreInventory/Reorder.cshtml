@@ -54,6 +54,7 @@
         }
 
         var validation = 0;
+        var error = false;
 
         for (var i = 0; i < table.rows().data().length; i++) {
             var rowChecked =
@@ -62,7 +63,13 @@
                 var dataToSend = table.rows(i).data();
 
                 var rowItemQty = table.cell(i, 4).nodes().to$().find('input').val();
-                validation += parseFloat(rowItemQty);
+                if (rowItemQty > 0) {
+                    validation += parseFloat(rowItemQty);
+                }
+                else {
+                    error = true;
+                }
+
                 arr1.push(rowItemQty);
 
                 var json = dataToSend[0];
@@ -73,7 +80,7 @@
             }
         }
 
-        if (validation > 0 && validation % 1 == 0) {
+        if (validation > 0 && validation % 1 == 0 && error == false) {
             $.ajax({
                 url: '/StoreInventory/AddToPO',
                 type: 'POST',
@@ -84,10 +91,10 @@
             });
 
             $('#dialog-create-po').dialog('open');
-        } else {
-            $('#dialog-create-po-error').dialog('open');
         }
-
+        else {
+            // error message
+        }
     });
 
 
@@ -113,56 +120,59 @@
 
 </script>
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
+    <form>
+        <table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
+            <thead style="font-size: 10pt;">
+                <tr>
+                    <th>Item Description</th>
+                    <th>Quantity On Hand</th>
+                    <th>Reorder Level</th>
+                    <th>Suggested Reorder Qty</th>
+                    <th>Actual Order Qty</th>
+                    <th>Unit of Measure</th>
+                    <th>Supplier</th>
+                    <th>Include in PO <br /><input type="checkbox" checked id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
+                </tr>
+            </thead>
 
-    <table id="dataTable-storeManagerInventoryReorder" class="display" style="width:80%;">
-        <thead style="font-size: 10pt;">
-            <tr>
-                <th>Item Description</th>
-                <th>Quantity On Hand</th>
-                <th>Reorder Level</th>
-                <th>Suggested Reorder Qty</th>
-                <th>Actual Order Qty</th>
-                <th>Unit of Measure</th>
-                <th>Supplier</th>
-                <th>Include in PO <br /><input type="checkbox" checked id="mass_select_all" data-to-table="dataTable-storeManagerInventoryReorder"></th>
-            </tr>
-        </thead>
+            @foreach (var item in list)
+            {
+                <tr style="font-size: 10pt;">
+                    <th>@item.Description</th>
+                    <th>@item.Quantity</th>
+                    <th>@item.ReOrderLevel</th>
+                    <th>@item.ActualReorder</th>
+                    <th><input type="number" id="input-qty" min="1" max="2000" pattern="[0-9]" style="text-align: center;" value=@item.ActualReorder /></th>
+                    <th>@item.UoM</th>
+                    <th>
+                        <select width="50px">
+                            <option value="@item.s1">@item.s1</option>
+                            <option value="@item.s2">@item.s2</option>
+                            <option value="@item.s3">@item.s3</option>
+                        </select>
+                    </th>
+                    <th></th>
+                </tr>
+            }
 
-        @foreach (var item in list)
-        {
-            <tr style="font-size: 10pt;">
-                <th>@item.Description</th>
-                <th>@item.Quantity</th>
-                <th>@item.ReOrderLevel</th>
-                <th>@item.ActualReorder</th>
-                <th><input type="number" id="input-qty" min="1" pattern="[0-9]" style="text-align: center;" value=@item.ActualReorder /></th>
-                <th>@item.UoM</th>
-                <th>
-                    <select width="50px">
-                        <option value="@item.s1">@item.s1</option>
-                        <option value="@item.s2">@item.s2</option>
-                        <option value="@item.s3">@item.s3</option>
-                    </select>
-                </th>
-                <th></th>
-            </tr>
-        }
+        </table>
 
-    </table>
+        <hr />
 
-    <hr />
-
-    <div class="row">
-        <div class="col-md-12">
-            <div style="float: right">
-                <span>
-                    <button class="btn btn-lu-blue" id="btn-create-POs" style="font-size: 10pt;">Create Purchase Order</button>
-                </span>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="float: right">
+                    <span>
+                        <button class="btn btn-lu-blue" id="btn-create-POs" style="font-size: 10pt;">Create Purchase Order</button>
+                    </span>
+                </div>
             </div>
         </div>
+    </form>
+    <div class="alert alert-danger col-md-3">
+        @TempData["ErrorMsg"]
     </div>
 
-    @TempData["ErrorMsg"]
 
     <div id="dialog-create-po" class="hidden" style="text-align:center;">
         <p>Purchase order(s) have been created.</p>

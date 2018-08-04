@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using SA46Team1_Web_ADProj.DAL;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace SA46Team1_Web_ADProj.Controllers
 {
@@ -311,8 +312,16 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                m.Configuration.ProxyCreationEnabled = false;
-                return m.RequisitionListDetails.Where(x => x.FormID == id).ToList();
+                try
+                {
+                    m.Configuration.ProxyCreationEnabled = false;
+                    return m.RequisitionListDetails.Where(x => x.FormID == id).ToList();
+                }
+                catch(Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    return new List<RequisitionListDetail>();
+                }
             }
         }
 

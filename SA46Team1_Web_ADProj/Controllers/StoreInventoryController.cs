@@ -184,6 +184,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 TempData["ErrorMsg"] = "Please key in a valid quantity";
             }
 
