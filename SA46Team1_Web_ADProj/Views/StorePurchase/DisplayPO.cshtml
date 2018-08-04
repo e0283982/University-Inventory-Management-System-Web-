@@ -186,7 +186,11 @@
 
     // Cancel PO Button
     $('#btn-cancelPO').click(function () {
-        //$('#dialog-cancelPO').dialog('open');
+        $('#dialog-cancel-displayPO').dialog('open');
+    });
+
+    $('#btn-confirm-submit-submit').click(function () {
+        $('#dialog-cancel-displayPO').dialog('close');
 
         $.ajax({
             url: '/StorePurchase/CancelPO',
@@ -194,8 +198,12 @@
             async: false
         });
         window.location.href = '@Url.Action("Purchase", "Store")';
-        //return false;
     });
+
+    $('#btn-confirm-submit-cancel').click(function () {
+        $('#dialog-cancel-displayPO').dialog('close');
+    });
+
     
     $('#btn-back-to-po-list').click(function () {
 
@@ -380,13 +388,29 @@
                         <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Receipt</button>
                     }
 
-                    <div id="dialog-cancel-displayPO" class="hidden" title="Basic dialog">
+                    <div id="dialog-cancel-displayPO" class="hidden" style="overflow:hidden;">
                         <br />
                         <div style="text-align:center;">
-                            <h5>Cancel Edit Mode of PO- can only be seen / used if PO is 'open'</h5>
+                            <h5>Cancel current Purchase Order?</h5>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div style="float:right">
+                                    <span>
+                                        <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <span>
+                                    <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+                                </span>
+                            </div>
                         </div>
                         <hr />
                     </div>
+
                     <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
                         <br />
                         <div style="text-align:center;">
