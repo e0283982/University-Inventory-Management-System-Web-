@@ -21,7 +21,7 @@
         }
 
         table = $('#dataTable-new-adj').DataTable({
-            scrollY: 200,
+            scrollY: 300,
             "iDisplayLength": 5,
             searching: false,
             scrollCollapse: false,
@@ -33,10 +33,10 @@
                     "targets": [0],
                     "visible": false,
                     "searchable": false
-                    
+
                 }, {
                     className: 'text-center', targets: [0, 1, 2, 3, 4],
-                }     
+                }
             ]
         });
     });
@@ -105,29 +105,43 @@
     });
 
     $('#dataTable-new-adj tbody').on('change', '#input-adj-qty', function () {
-        var data = table.row($(this).parents('tr')).data();
-        var index = table.row($(this).parents('tr')).index();
 
-        var qty = table.cell(index, 3).nodes().to$().find('input').val();
-       
-        $.ajax({
-            url: '/StoreInventory/EditNewAdjQty',
-            data: JSON.stringify({ data: qty, index: index }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            type: 'POST',
-            async: false
-        });
+               $.ajax({
+                    url: '/StoreInventory/EditNewAdjQty',
+                    data: JSON.stringify({ data: qty, index: index }),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    type: 'POST',
+                    async: false
+                });
 
-        table.draw(false);
+                table.draw(false);
 
-        window.location.href = '@Url.Action("Inventory", "Store")';
+                window.location.href = '@Url.Action("Inventory", "Store")';
     });
 
     //form sub btn click
     $('#btn-submit-new-adj').on('click', function () {
-        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
-        $('#dialog-confirm-submit-new-adj').dialog('open');
+        var validation = 0;
+        var qty = 0;
+        var error = false;
+        var $frm = $('#form-id');
+        $frm.validate();
+        if (!$frm.valid())
+            return;
+        for (var i = 0; i < table.rows().data().length; i++) {
+            qty = table.cell(i, 3).nodes().to$().find('input').val();
+            if (qty > 0 && qty > 2000 && qty % 1 == 0) {
+                validation += qty;
+            } else {
+                error = true;
+            }
+        }
+        
+        if (error == false) {
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+            $('#dialog-confirm-submit-new-adj').dialog('open');
+        }
     });
 
     $("#dialog-confirm-submit-new-adj").on("dialogclose", function (event, ui) {
@@ -139,7 +153,7 @@
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-submit-new-adj').dialog('close');
     });
-   
+
     $('#btn-confirm-submit-submit').on('click', function () {
         $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
 
@@ -191,165 +205,170 @@
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
-    <div class="row">
-        <div class="col-md-6" @*style="padding: -30px;"*@>
-            <h5>Stock Adjustment</h5>
-        </div>
-        <div class="col-md-6">
-            <div style="float: right; padding-top:10px;">
-                <span>
-                    <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <br />
-
-    <div id="loading" style="font-family: 'Oxygen', sans-serif;">
-        <table id="dataTable-new-adj" class="display" style="width:80%;">
-            <thead style="font-size: 10pt;">
-                <tr>
-                    <th>Item Code</th>
-                    <th>Item Description</th>
-                    <th>Damaged/Missing</th>
-                    <th>Quantity</th>
-                    <th>Adjustment Cost ($)</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            @foreach (var item in list)
-            {
-                <tr>
-                    <td style="font-size: 10pt;">@item.ItemCode</td>
-                    <td style="font-size: 10pt;">@item.ItemDesc</td>
-                    <td style="font-size: 10pt;">@item.Reason</td>
-                    <td>
-                        <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" pattern="[0-9]" step="1" />
-                    </td>
-                    <td>
-                        <label id="input-adj-cost" style="font-size: 10pt;">@item.AdjCost.ToString("0.00")</label>
-                    </td>
-                    <td>
-                        <span>
-                            <button class="btn btn-lu-red" id="btn-discard-new-adj">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                        </span>
-                    </td>
-                </tr>
-            }
-            <tbody style="font-size: 10pt;"></tbody>
-        </table>
-
-        <hr />
-
         <div class="row">
-            <div class="col-md-6">
-                <button class="btn btn-lu-blue" id="btn-back-stock-adj" style="font-size: 10pt;">Back</button>
+            <div class="col-md-6" @*style="padding: -30px;"*@>
+                <h5>Stock Adjustment</h5>
             </div>
             <div class="col-md-6">
-                <div style="float: right;">
-                    @*<span>
-                            <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
-                        </span>*@
+                <div style="float: right; padding-top:10px;">
                     <span>
-                        <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;" disabled>Clear</button>
-                    </span>
-                    <span>
-                        <button class="btn btn-lu-green" id="btn-submit-new-adj" style="font-size: 10pt;" disabled>Submit</button>
+                        <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
                     </span>
                 </div>
             </div>
         </div>
 
-        <div id="dialog-add-adj-item" class="hidden" style="text-align:center;">
-            @using (Html.BeginForm("AddNewAdjItem", "StoreInventory", FormMethod.Post, new { id = "form-submit-add-new-adj" }))
-            {
-                <div>
-                    <div>
-                        <h5>Add Item</h5>
+        <br />
+
+        <div id="loading" style="font-family: 'Oxygen', sans-serif;">
+            <form onsubmit="event.preventDefault(); validateMyForm();">
+                <table id="dataTable-new-adj" class="display" style="width:80%;">
+                    <thead style="font-size: 10pt;">
+                        <tr>
+                            <th>Item Code</th>
+                            <th>Item Description</th>
+                            <th>Damaged/Missing</th>
+                            <th>Quantity</th>
+                            <th>Adjustment Cost ($)</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in list)
+                    {
+                        <tr>
+                            <td style="font-size: 10pt;">@item.ItemCode</td>
+                            <td style="font-size: 10pt;">@item.ItemDesc</td>
+                            <td style="font-size: 10pt;">@item.Reason</td>
+                            <td>
+                                <input id="input-adj-qty" style="font-size: 10pt; text-align: center;" value="@item.AdjQty" type="number" min="1" max="2000" pattern="[0-9]" step="1" />
+                            </td>
+                            <td>
+                                <label id="input-adj-cost" style="font-size: 10pt;">@item.AdjCost.ToString("0.00")</label>
+                            </td>
+                            <td>
+                                <span>
+                                    <button class="btn btn-lu-red" id="btn-discard-new-adj">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                    <tbody style="font-size: 10pt;"></tbody>
+                </table>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-lu-blue" id="btn-back-stock-adj" style="font-size: 10pt;">Back</button>
                     </div>
-
-                    <hr />
-
-                    <div>
-                        <label>Item Description: </label>
-                        <br />
-                        @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { style = "width: 100%;" })
+                    <div class="col-md-6">
+                        <div style="float: right;">
+                            @*<span>
+                        <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
+                    </span>*@
+                            <span>
+                                <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;" disabled>Clear</button>
+                            </span>
+                            <span>
+                                <button class="btn btn-lu-green" id="btn-submit-new-adj" style="font-size: 10pt;" disabled>Submit</button>
+                            </span>
+                        </div>
                     </div>
+                </div>
 
-                    <div>
-                        <br />
-                        <label>Adjustment Qty: </label>
-                        @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @Value = "1" }, })
-                    </div>
 
+                <div id="dialog-confirm-submit-new-adj" class="hidden" style="text-align:center; overflow:hidden;">
                     <br />
-
                     <div>
-                        <label>Reason: </label>
-                        @Html.DropDownList("SelectAdjReason", ViewBag.AdjustmentReasons as SelectList)
+                        <h5>Confirm Submission</h5>
                     </div>
-
                     <hr />
-
                     <div>
-                        <input id="btn-submit-add-adj-item" class="btn btn-lu-green btn-block" type="submit" value="Add" />
+                        <h6>Are you sure you want to submit the adjustment?</h6>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="margin-left:10vw">
+                                <span>
+                                    <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div style="margin-left:3vw">
+                            <span>
+                                <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            }
-        </div>
+            </form>
 
-        <div id="dialog-confirm-submit-new-adj" class="hidden" style="text-align:center; overflow:hidden;">
-            <br />
-            <div>
-                <h5>Confirm Submission</h5>
-            </div>
-            <hr />
-            <div>
-                <h6>Are you sure you want to submit the adjustment?</h6>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-md-6">
-                    <div style="margin-left:10vw">
-                        <span>
-                            <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
-                        </span>
+            <div id="dialog-add-adj-item" class="hidden" style="text-align:center;">
+                @using (Html.BeginForm("AddNewAdjItem", "StoreInventory", FormMethod.Post, new { id = "form-submit-add-new-adj" }))
+                {
+                    <div>
+                        <div>
+                            <h5>Add Item</h5>
+                        </div>
+
+                        <hr />
+
+                        <div>
+                            <label>Item Description: </label>
+                            <br />
+                            @Html.DropDownList("SelectItemDesc", ViewBag.ItemsList as SelectList, new { style = "width: 100%;" })
+                        </div>
+
+                        <div>
+                            <br />
+                            <label>Adjustment Qty: </label>
+                            @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @max= "2000", @Value = "1" }, })
+                        </div>
+
+                        <br />
+
+                        <div>
+                            <label>Reason: </label>
+                            @Html.DropDownList("SelectAdjReason", ViewBag.AdjustmentReasons as SelectList)
+                        </div>
+
+                        <hr />
+
+                        <div>
+                            <input id="btn-submit-add-adj-item" class="btn btn-lu-green btn-block" type="submit" value="Add" />
+                        </div>
                     </div>
+                }
+            </div>
+
+
+            <div id="dialog-new-adj-submited" class="hidden" style="text-align:center;">
+                <hr />
+                <div>
+                    <h5>New adjustment request has been submitted for approval.</h5>
                 </div>
-                <div style="margin-left:3vw">
-                    <span>
-                        <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
-                    </span>
+
+                <span>
+                    <button class="btn btn-lu-blue" id="btn-dialog-submitted-ok">ok</button>
+                </span>
+                <br />
+            </div>
+
+
+            <div id="dialog-new-req-edit-no-item" class="hidden" style="text-align:center;">
+                <hr />
+                <div>
+                    <h5>There are no items to edit.</h5>
                 </div>
+
+                <span>
+                    <button class="btn btn-lu-blue" id="btn-dialog-no-item-ok">ok</button>
+                </span>
+                <br />
             </div>
         </div>
 
-        <div id="dialog-new-adj-submited" class="hidden" style="text-align:center;">
-            <hr />
-            <div>
-                <h5>New adjustment request has been submitted for approval.</h5>
-            </div>
-
-            <span>
-                <button class="btn btn-lu-blue" id="btn-dialog-submitted-ok">ok</button>
-            </span>
-            <br />
-        </div>
-
-
-        <div id="dialog-new-req-edit-no-item" class="hidden" style="text-align:center;">
-            <hr />
-            <div>
-                <h5>There are no items to edit.</h5>
-            </div>
-
-            <span>
-                <button class="btn btn-lu-blue" id="btn-dialog-no-item-ok">ok</button>
-            </span>
-            <br />
-        </div>
-    </div>
 </div>
