@@ -158,7 +158,7 @@
                             <label>Supplier Code:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.SupplierCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Supplier Code", @id = "new-supplier-code" }, })
+                            @Html.EditorFor(model => model.SupplierCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "12", @placeholder = "Supplier Code", @id = "new-supplier-code" }, })
                         </div>
                     </div>
 
@@ -167,7 +167,7 @@
                             <label>Company Name:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Company Name", @id = "new-supplier-company-name" }, })
+                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @maxlength = "255", @placeholder = "Company Name", @id = "new-supplier-company-name" }, })
                         </div>
                     </div>
 
@@ -176,7 +176,7 @@
                             <label>Contact Name:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact Name", @id = "new-supplier-contact-name" }, })
+                            @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control", @maxlength = "255", @placeholder = "Contact Name", @id = "new-supplier-contact-name" }, })
                         </div>
                     </div>
 
@@ -185,7 +185,7 @@
                             <label>Phone Number:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone No", @id = "new-supplier-phone" }, })
+                            @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @min="1", @step="1", @type="number", @placeholder = "Phone No", @id = "new-supplier-phone" }, })
                         </div>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
                             <label>Fax Number:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Fax No", @id = "new-supplier-fax" }, })
+                            @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control",@type="number", @maxlength = "10", @min="1", @step="1", @placeholder = "Fax No", @id = "new-supplier-fax" }, })
                         </div>
                     </div>
 
@@ -204,7 +204,7 @@
                             <label>Supplier Address:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address", @id = "new-supplier-address" }, })
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @maxlength = "255", @placeholder = "Address", @id = "new-supplier-address" }, })
                         </div>
                     </div>
 
@@ -213,7 +213,7 @@
                             <label>GST Reg No:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.GSTRegistrationNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "GST Reg No", @id = "new-supplier-gst-no" }, })
+                            @Html.EditorFor(model => model.GSTRegistrationNo, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @placeholder = "GST Reg No", @id = "new-supplier-gst-no" }, })
                         </div>
                     </div>
 
@@ -222,7 +222,7 @@
                             <label>Email:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @id = "new-supplier-email" }, })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @maxlength = "255", @placeholder = "Email", @id = "new-supplier-email" }, })
                         </div>
                     </div>
                 </div>

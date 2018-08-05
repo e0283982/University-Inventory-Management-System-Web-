@@ -146,7 +146,7 @@
                         <label>Location: </label>
                     </div>
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bin Location", @id = "new-bin-location" }, })
+                        @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @maxlength = "60", @placeholder = "Bin Location", @id = "new-bin-location" }, })
                     </div>
                 </div>
                 <br />

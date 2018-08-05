@@ -29,37 +29,37 @@
                     {
                         'data': 'CompanyName',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-supplier-company-name" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-supplier-company-name" type="text" maxlength="255" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     {
                         'data': 'ContactName',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-supplier-contact-name" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-supplier-contact-name" type="text" maxlength="255" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     {
                         'data': 'PhoneNo',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-supplier-phone-no" type="number" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-supplier-phone-no" type="number" min="1" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     {
                         'data': 'FaxNo',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-supplier-fax-no" type="number" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-supplier-fax-no" type="number" min="1" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     {
                         'data': 'Email',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-supplier-email" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-supplier-email" type="text" maxlength="255" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     {
                         'data': 'Address',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-supplier-address" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-supplier-address" type="text" maxlength="255" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     {

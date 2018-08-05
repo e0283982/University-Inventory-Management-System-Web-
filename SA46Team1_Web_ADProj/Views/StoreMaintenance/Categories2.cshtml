@@ -28,7 +28,7 @@
                         {
                             'data': 'CategoryName',
                             "render": function (data, type, full, meta) {
-                                return '<input id="input-category-name" type="text" value="' + $('<div/>').text(data).html() + '">';
+                                return '<input id="input-category-name" maxlength="255" style="text-align: center;" type="text" value="' + $('<div/>').text(data).html() + '">';
                             }},
                         {
                             'data': 'Active',

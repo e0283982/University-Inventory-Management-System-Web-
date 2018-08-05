@@ -145,7 +145,7 @@
                         <label>Category Name: </label>
                     </div>
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @id = "new-category-name" }, })
+                        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Category Name", @maxlength = "255", @id = "new-category-name" }, })
                     </div>
                 </div>
 

@@ -36,7 +36,7 @@
                     {
                         'data': 'Description',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-item-desc" style="text-align: center;" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-item-desc" maxlength="255" style="text-align: center;" type="text" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     { 'data': 'CategoryName'},

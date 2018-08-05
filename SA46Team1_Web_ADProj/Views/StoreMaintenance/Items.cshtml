@@ -179,7 +179,7 @@
                         <label>Item Description: </label>
                     </div>
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @id = "new-item-desc" }, })
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @maxlength = "255", @id = "new-item-desc" }, })
                     </div>
                 </div>
                 <hr />

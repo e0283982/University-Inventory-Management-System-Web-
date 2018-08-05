@@ -32,7 +32,7 @@
                     {
                         'data': 'Location',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-bin-location" style = "text-align: center;" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-bin-location" style = "text-align: center;" maxlength="60" type="text" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     { 'data': 'ItemDesc' },
