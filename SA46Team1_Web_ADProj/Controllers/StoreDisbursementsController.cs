@@ -270,12 +270,17 @@ namespace SA46Team1_Web_ADProj.Controllers
                             foreach(String reqF in reqFormIDList)
                             {
                                 StaffRequisitionDetail staffReqDet = m.StaffRequisitionDetails.Where(x => x.FormID == reqF && x.ItemCode == newDD.ItemCode).FirstOrDefault();
+                                StaffRequisitionHeader staffReqHeader = m.StaffRequisitionHeaders.Where(x => x.FormID == reqF).FirstOrDefault();
 
                                 int reqQtyOrdered = 0;
 
-                                if (staffReqDet != null)
+                                if (staffReqDet != null && staffReqHeader != null)
                                 {
-                                    reqQtyOrdered = staffReqDet.QuantityOrdered;
+                                    if (staffReqHeader.DepartmentCode.Equals(newDH.DepartmentCode))
+                                    {
+                                        reqQtyOrdered = staffReqDet.QuantityOrdered;
+                                    }
+                                    
                                 }
                                 
                                 quantityOrdered = quantityOrdered + reqQtyOrdered;
