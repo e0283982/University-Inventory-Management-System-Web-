@@ -8,12 +8,16 @@
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
 
 <script>
+
+            if (@list.Count()> 0) {
+                $("#btn-create-POs").prop('disabled', false);
+        }
     var table;
     // Load Datatable
     $(document).ready(function () {
         table = $('#dataTable-storeManagerInventoryReorder').DataTable({
             "iDisplayLength": 5,
-            scrollCollapse: true,
+            scrollCollapse: false,
             searching: true,
             info: true,
             paging: true,
@@ -23,7 +27,7 @@
                 "defaultContent": "<input id='selectall' type='checkbox' checked/>"
             },
                 {
-                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 7]
+                    className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7]
                 }
             ]
         });
@@ -63,11 +67,16 @@
                 var dataToSend = table.rows(i).data();
 
                 var rowItemQty = table.cell(i, 4).nodes().to$().find('input').val();
-                if (rowItemQty > 0) {
+                if (rowItemQty > 0 && rowItemQty % 1 == 0 && rowItemQty <= 2000) {
                     validation += parseFloat(rowItemQty);
                 }
                 else {
+                    $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
+                        JSON.stringify(dataToSend[0][0]) + ": Qty " +
+                        rowItemQty + " is an invalid quantity" +
+                        "</div>");
                     error = true;
+                    return false;
                 }
 
                 arr1.push(rowItemQty);
@@ -80,7 +89,7 @@
             }
         }
 
-        if (validation > 0 && validation % 1 == 0 && error == false) {
+        if (error == false) {
             $.ajax({
                 url: '/StoreInventory/AddToPO',
                 type: 'POST',
@@ -91,11 +100,6 @@
             });
 
             $('#dialog-create-po').dialog('open');
-        }
-        else {
-            $('#errormessage').html("<div class=\"alert alert-danger col-md-3\" id=\"errormessage\">"+
-            "Invalid Quantity" +
-    "</div>");
         }
     });
 
@@ -165,13 +169,14 @@
             <div class="col-md-12">
                 <div style="float: right">
                     <span>
-                        <button class="btn btn-lu-blue" id="btn-create-POs" style="font-size: 10pt;">Create Purchase Order</button>
+                        <button class="btn btn-lu-blue" id="btn-create-POs" disabled style="font-size: 10pt;">Create Purchase Order</button>
                     </span>
                 </div>
             </div>
         </div>
     </form>
 
+    
     <div id="errormessage" class="col-md-12" />
 
     <div id="dialog-create-po" class="hidden" style="text-align:center;">

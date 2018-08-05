@@ -21,7 +21,7 @@
         }
 
         table = $('#dataTable-new-adj').DataTable({
-            scrollY: 200,
+            scrollY: 300,
             "iDisplayLength": 5,
             searching: false,
             scrollCollapse: false,
@@ -109,19 +109,21 @@
         var index = table.row($(this).parents('tr')).index();
 
         var qty = table.cell(index, 3).nodes().to$().find('input').val();
-       
-        $.ajax({
-            url: '/StoreInventory/EditNewAdjQty',
-            data: JSON.stringify({ data: qty, index: index }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            type: 'POST',
-            async: false
-        });
+        if (qty > 0 && qty % 1 == 0 && qty <= 2000) {
+            $.ajax({
+                url: '/StoreInventory/EditNewAdjQty',
+                data: JSON.stringify({ data: qty, index: index }),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                async: false
+            });
 
-        table.draw(false);
+            table.draw(false);
 
-        window.location.href = '@Url.Action("Inventory", "Store")';
+            window.location.href = '@Url.Action("Inventory", "Store")';
+        
+        }
     });
 
     $('#dataTable-new-adj tbody').on('change', '#selectAdjReason', function () {
@@ -146,8 +148,27 @@
 
     //form sub btn click
     $('#btn-submit-new-adj').on('click', function () {
-        $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
-        $('#dialog-confirm-submit-new-adj').dialog('open');
+        var error = false;
+        for (var i = 0; i < table.rows().data().length; i++) {
+            var index = table.row($(this).parents('tr')).index();
+
+            var qty = table.cell(index, 3).nodes().to$().find('input').val();
+            if (qty > 0 && qty % 1 == 0 && qty <= 2000) {
+
+            } else {
+                $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
+                    JSON.stringify(dataToSend[0][0]) + ": Qty " +
+                    rowItemQty + " is an invalid quantity" +
+                    "</div>");
+                error = true;
+                return false;
+            }
+        }
+
+        if (error == false) {
+            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
+            $('#dialog-confirm-submit-new-adj').dialog('open');
+        }
     });
 
     $("#dialog-confirm-submit-new-adj").on("dialogclose", function (event, ui) {
@@ -227,6 +248,7 @@
     <br />
 
     <div id="loading" style="font-family: 'Oxygen', sans-serif;">
+        <form onsubmit="event.preventDefault(); validateMyForm();">
         <table id="dataTable-new-adj" class="display" style="width:80%;">
             <thead style="font-size: 10pt;">
                 <tr>
@@ -259,7 +281,7 @@
                     </select>
                 </td>
                 <td>
-                    <input id="input-adj-qty" style="font-size: 10pt;" value="@item.AdjQty" type="number" min="1" pattern="[0-9]" step="1" />
+                    <input id="input-adj-qty" style="font-size: 10pt; text-align: center;" value="@item.AdjQty" type="number" min="1" max="2000" pattern="[0-9]" step="1" />
                 </td>
                 <td>
                     <label id="input-adj-cost" style="font-size: 10pt;">@item.AdjCost.ToString("0.00")</label>
@@ -296,7 +318,7 @@
                 </div>
             </div>
         </div>
-
+            </form>
         <div id="dialog-add-adj-item" class="hidden" style="text-align:center;">
             @using (Html.BeginForm("AddNewAdjItem", "StoreInventory", FormMethod.Post, new { id = "form-submit-add-new-adj" }))
             {
