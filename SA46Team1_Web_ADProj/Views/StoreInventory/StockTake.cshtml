@@ -30,7 +30,7 @@
                         {
                             'data': 'QuantityAdjusted',
                             "render": function (data, type, full, meta) {
-                                return '<input id="input-qc' + i++ + '" type="number" min="1" max="2000" style="text-align: center;" pattern="[0-9]" step="1"  value="' + $('<div/>').text(data).html() + '">';
+                                return '<input id="input-qc' + i++ + '" type="number"  min="0" max="2000" style="text-align: center;" pattern="[0-9]" step="1"  value="' + $('<div/>').text(data).html() + '">';
                             }
                         },
                         { 'data': 'UoM' }
@@ -59,7 +59,7 @@
         for (var i = 0; i < Object.keys(d).length; i++) {
             dataToSend = table.rows(i).data();
             var qty = table.cell(i, 4).nodes().to$().find('input').val();
-            if (qty > 0 && qty % 1 == 0 && qty <= 2000) {
+            if (qty >= 0 && qty % 1 == 0 && qty <= 2000) {
                 arr1.push(qty);
                 arr.push(dataToSend[0]);
             }
@@ -69,7 +69,6 @@
                     qty + " is an invalid quantity" +
                     "</div>");
                 error = true;
-                return false;
             }
         }
 
@@ -86,7 +85,6 @@
             $('#dialog-new-stock-take-updated').dialog('open');
         }
         else {
-            alert('test');
             return false;
         }
     });

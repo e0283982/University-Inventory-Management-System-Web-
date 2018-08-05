@@ -179,6 +179,7 @@
             var error = false;
             var validateqty = 0;
             var validatelvl = 0;
+            var error2 = false;
 
             dataToSend = table.rows(0).data();
             for (var i = 0; i < Object.keys(d).length; i++) {
@@ -186,31 +187,38 @@
                 var rowData = dataToSend[i];
                 validateqty = $("#input-reorderqty").val();
                 validatelvl = $("#input-reorderlvl").val();
-
+                var s1 = $("#select-item-s1").val();
+                var s2 = $("#select-item-s2").val();
+                var s3 = $("#select-item-s3").val();
                 if (validatelvl > 0 && validatelvl % 1 == 0 && validatelvl <= 2000 && validateqty > 0 && validateqty % 1 == 0 && validateqty <= 2000) {
-                    itemDesc = $("#input-item-desc").val();
-                    reorderlvl =
-                        reorderqty =
-                        supplier1 = $("#select-item-s1").val();
-                    supplier2 = $("#select-item-s2").val();
-                    supplier3 = $("#select-item-s3").val();
-                    active = $("#input-item-active").prop('checked');
+                    if (s1 == s2 || s2 == s3 || s3 == s1) {
+                        error2 = true;
+                    } else {
+                        itemDesc = $("#input-item-desc").val();
+                        reorderlvl = $("#input-reorderlvl").val();
+                        reorderqty = $("#input-reorderqty").val();
+                        supplier1 = s1;
+                        supplier2 = s2;
+                        supplier3 = s3;
+                            active = $("#input-item-active").prop('checked');
 
-                    desc.push(itemDesc);
-                    suppliers.push(supplier1);
-                    suppliers.push(supplier2);
-                    suppliers.push(supplier3);
+                        desc.push(itemDesc);
+                        suppliers.push(supplier1);
+                        suppliers.push(supplier2);
+                        suppliers.push(supplier3);
 
-                    if (active != null) {
-                        status.push(active);
+                        if (active != null) {
+                            status.push(active);
+                        }
                     }
+
                 }
                 else {
                     error = true;
                 }
                 
             }
-            if (error == false) {
+            if (error == false && error2 == false) {
                 $.ajax({
                     type: 'POST',
                     url: '/Store/StoreMaintenance/Items/EditItem',
@@ -225,11 +233,17 @@
                 table.draw(false); //this line needed, if not upon save, table does not auto display updated data (until next refresh)
                 window.location.href = '@Url.Action("Maintenance", "Store")';
             }
-            else {
+            else if (error == true) {
                 $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
                     $("#input-item-desc").val() + ": Qty entered is invalid!" +
                     "</div>");
 
+            }
+            else {
+                $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
+                    "Suppliers cannot be duplicates!" + 
+                    "</div>");
+                return false;
             }
 
 

@@ -61,7 +61,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             List<ReorderList> reorderLists;
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                reorderLists = m.ReorderLists.ToList();
+                reorderLists = m.ReorderLists.Where(x => x.ActualReorder > 0).ToList();
                 Session["ReorderList"] = reorderLists;
             }
             return View();

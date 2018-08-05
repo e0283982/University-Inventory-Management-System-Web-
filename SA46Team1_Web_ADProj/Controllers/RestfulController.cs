@@ -714,7 +714,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                return m.ReorderLists.ToList();
+                return m.ReorderLists.Where(x => x.ActualReorder > 0).ToList();
             }
         }
 
