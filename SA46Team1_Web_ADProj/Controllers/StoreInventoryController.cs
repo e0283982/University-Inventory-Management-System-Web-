@@ -259,30 +259,40 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 string itemCode = Request.Form["SelectItemDesc"].ToString();
-                string itemDesc = e.Items.Where(x => x.ItemCode == itemCode).Select(x => x.Description).FirstOrDefault();
-                float avgUnitCost = e.Items.Where(x => x.ItemCode == itemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
-                string reason = Request.Form["SelectAdjReason"].ToString();
+                int qtyOnHand = e.Items.Where(x => x.ItemCode == itemCode).Select(x => x.Quantity).FirstOrDefault();
+                if(item.AdjQty > qtyOnHand)
+                {
+                    TempData["ErrorMsg"] = "Quantity cannot be larger than quantity on hand! Please check value entered.";
+                }
+                else
+                {
+                    string itemDesc = e.Items.Where(x => x.ItemCode == itemCode).Select(x => x.Description).FirstOrDefault();
+                    float avgUnitCost = e.Items.Where(x => x.ItemCode == itemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                    string reason = Request.Form["SelectAdjReason"].ToString();
 
-                List<StockAdjItemModel> list = new List<StockAdjItemModel>();
-                list = (List<StockAdjItemModel>)Session["newAdjList"];
-                StockAdjItemModel sad = new StockAdjItemModel();
-                sad.ItemCode = itemCode;
-                sad.ItemDesc = itemDesc;
-                sad.AdjQty = item.AdjQty;
-                sad.Reason = reason;
-                sad.AdjCost = (avgUnitCost * item.AdjQty);
-                sad.AvgUnitCost = avgUnitCost;
+                    List<StockAdjItemModel> list = new List<StockAdjItemModel>();
+                    list = (List<StockAdjItemModel>)Session["newAdjList"];
+                    StockAdjItemModel sad = new StockAdjItemModel();
+                    sad.ItemCode = itemCode;
+                    sad.ItemDesc = itemDesc;
+                    sad.AdjQty = item.AdjQty;
+                    sad.Reason = reason;
+                    sad.AdjCost = (avgUnitCost * item.AdjQty);
+                    sad.AvgUnitCost = avgUnitCost;
 
-                list.Add(sad);
-                Session["newAdjList"] = list;
+                    list.Add(sad);
+                    Session["newAdjList"] = list;
 
-                //add to list meant for already added items
-                List<String> tempList = (List<String>)Session["tempList"];
-                tempList.Add(itemCode);
-                Session["tempList"] = tempList;
+                    //add to list meant for already added items
+                    List<String> tempList = (List<String>)Session["tempList"];
+                    tempList.Add(itemCode);
+                    Session["tempList"] = tempList;
 
+
+
+
+                }
                 Session["StockAdjPage"] = "2";
-
                 return RedirectToAction("Inventory", "Store");
             }
         }
@@ -299,14 +309,20 @@ namespace SA46Team1_Web_ADProj.Controllers
                     //data is item desc, index is list index
                     List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
                     StockAdjItemModel item = list.ElementAt(index);
-                    item.AdjQty = Int32.Parse(data);
-                    item.AdjCost = Int32.Parse(data) * item.AvgUnitCost;
-                    Session["newAdjList"] = list;
+                    int qtyOnHand = e.Items.Where(x => x.ItemCode == item.ItemCode).Select(x => x.Quantity).FirstOrDefault();
+                    if(item.AdjQty > qtyOnHand)
+                    {
+                        TempData["ErrorMsg"] = "Quantity cannot be larger than quantity on hand! Please check value entered.";
+                    }
+                    else
+                    {
+                        item.AdjQty = Int32.Parse(data);
+                        item.AdjCost = Int32.Parse(data) * item.AvgUnitCost;
+                        Session["newAdjList"] = list;
+                    }
+
 
                     Session["StockAdjPage"] = "2";
-
-
-
                 }
             }
             catch(FormatException fe)
@@ -465,7 +481,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                 }
 
                 e.SaveChanges();
-
+                List<String> tempList = (List<String>)Session["tempList"];
+                tempList.Clear();
+                Session["tempList"] = tempList;
                 Session["NewAdjList"] = new List<StockAdjItemModel>();
 
                 return RedirectToAction("Inventory", "Store");

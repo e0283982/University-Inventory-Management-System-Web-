@@ -570,6 +570,10 @@ namespace SA46Team1_Web_ADProj.Controllers
                         {
                             invalid = true;
                         }
+                        if(Convert.ToInt32(arrQty[c]) < 0)
+                        {
+                            invalid = true;
+                        }
                         c++;
                     }
 
@@ -694,7 +698,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
                     else
                     {
-                        // ---------------------------- Need some sort of error message here -------------------------------------------
+                        Debug.WriteLine("invalid qty");
                         ViewBag.ErrorAmt = "Invalid Quantity!";
                         Session["StorePurchaseTabIndex"] = "2";
                         return View("DisplayPO");

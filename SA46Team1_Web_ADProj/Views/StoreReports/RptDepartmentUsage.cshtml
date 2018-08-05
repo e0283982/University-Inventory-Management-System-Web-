@@ -64,7 +64,7 @@
             </div>
             <br />
             <div style="float:right;">
-                <label id="lbl-filter-info">Filter results: All</label>
+                @*<label id="lbl-filter-info">Filter results: All</label>*@
             </div>
         </div>
     </div>
@@ -188,19 +188,19 @@
                             }
                         }
                     ],
-                    "initComplete": function (settings, json) {
-                        //reset datatable results
+                    //"initComplete": function (settings, json) {
+                    //    //reset datatable results
 
-                        initialSum = 0;
-                        for (var i = 0; i < table.rows().data().length; i++) {
-                            var rowData = data[i].TotalCost;
-                            initialSum += rowData;
-                        }
+                    //    initialSum = 0;
+                    //    for (var i = 0; i < table.rows().data().length; i++) {
+                    //        var rowData = data[i].TotalCost;
+                    //        initialSum += rowData;
+                    //    }
 
-                        initialSum = parseFloat(initialSum).toFixed(2);
-                        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
-                    }
-                    , drawCallback: function (settings) {
+                    //    initialSum = parseFloat(initialSum).toFixed(2);
+                    //    $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+                    //},
+                    drawCallback: function (settings) {
 
                         $('#btn-submit-filter2').on('click', function () {
                             var selYears = [];
@@ -255,7 +255,7 @@
                                     .columns().search('')
                                     .draw();
 
-                                $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+                                //$("#lbl-cost-info2").text("Total cost ($): " + initialSum);
 
                                 return;
                             }
@@ -324,8 +324,8 @@
             .search('')
             .columns().search('')
             .draw();
-
-        $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+        $("#lbl-cost-info2").hide();
+        //$("#lbl-cost-info2").text("Total cost ($): " + initialSum);
         $("#SelectCategory").val("All");
 
     });

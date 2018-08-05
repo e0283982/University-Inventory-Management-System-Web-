@@ -189,14 +189,32 @@
 
         var arrQty = [];
         var error = false;
+        var validation = 0;
         for (var i = 0; i < table.rows().data().length; i++) {
             var qty = table.cell(i, 4).nodes().to$().find('input').val();
-            if (qty > 0 && qty % 1 == 0 && qty <= 2000) {
+            var prevqty = table.cell(i, 3).nodes().to$().find('input').val();
+            var initqty = table.cell(i, 2).nodes().to$().find('input').val();
+            if (qty >= 0 && qty % 1 == 0 && qty <= 2000) {
+                validation += qty;
                 arrQty.push(qty);
             }
             else {
                 error = true;
             }
+            if (qty > (initqty - prevqty)) {
+                $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
+                    "Quantity delivered cannot be more than ordered." +
+                    "</div>");
+                error = true;
+            }
+        }
+
+        if (validation == 0) {
+            $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
+                "Total delivered quantity cannot be 0." + 
+                "</div>");
+
+            error = true;
         }
 
         if (error == false) {
@@ -543,7 +561,8 @@
     </form>
 <div class="row">
     @*<hr style="margin-left:0px; width: 300px;" />*@
-    <br /><br />
+    <div id="errormessage" class="col-md-12" />
+
     <div style="float:left;">
         <label style="font-size: 10pt;">Gross Total</label>
         <br />
@@ -604,5 +623,5 @@
 
 </div>
 
-</div>
+
 
