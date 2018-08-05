@@ -49,7 +49,11 @@
                             {
                                 'data': null,
                                 'render': function (data, type, row) {
-                                    return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Id"] + '\', \'' + data["Description"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval" class="btn btn-lu-blue"><i class="far fa-edit"></i></button>';
+                                    if ('@Session["Role"]' == "Store Manager" || '@Session["Role"]' == "Store Supervisor") {
+                                        return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Id"] + '\', \'' + data["Description"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval" class="btn btn-lu-blue" disabled><i class="far fa-edit"></i></button>';
+                                    } else {
+                                        return '<button id="btn-adjust-quantity" onclick="myFunction(\'' + data["Id"] + '\', \'' + data["Description"] + '\')" data-toggle="modal" data-target="#dialog-adjust-retrieval" class="btn btn-lu-blue"><i class="far fa-edit"></i></button>';
+                                    }
                                 }
                             },
                             {
@@ -57,9 +61,18 @@
                                 'render': function (data, type, row) {
 
                                     if (data["Collected"] == 0) {
-                                        return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox"/>';
+                                        if ('@Session["Role"]'=="Store Manager" || '@Session["Role"]' == "Store Supervisor") {
+                                            return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox" disabled/>';
+                                        } else {
+                                            return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox"/>';
+                                        }
+
                                     } else {
-                                        return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox" checked/>';
+                                        if ('@Session["Role"]' == "Store Manager" || '@Session["Role"]' == "Store Supervisor") {
+                                            return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox" checked disabled/>';
+                                        } else {
+                                            return '<input id="selectall" onclick="myCollectedFunction(\'' + data["Bin"] + '\', \'' + data["CollectionPointDescription"] + '\')" type="checkbox" checked/>';
+                                        }
                                     }
                                     
                                 }
