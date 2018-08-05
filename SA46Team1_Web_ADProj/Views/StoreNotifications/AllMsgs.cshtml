@@ -55,8 +55,12 @@
                                 type: 'POST',
                                 async: false
                             });
+                             if ('@Session["Role"].ToString()' == 'Store Clerk') {
+                                 window.location.href = '@Url.Action("Inventory", "Store")';
+                             } else {
+                                window.location.href = '@Url.Action("Approval", "Store")';
+                             }
 
-                            window.location.href = '@Url.Action("Approval", "Store")';
                         });
                     }
 

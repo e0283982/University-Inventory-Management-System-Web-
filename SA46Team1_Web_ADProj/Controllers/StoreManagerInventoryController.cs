@@ -46,6 +46,14 @@ namespace SA46Team1_Web_ADProj.Controllers
             stockadjdet.StockAdjustmentHeader.DateProcessed = DateTime.Now;
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
+
+            string title = "[LogicUniversity] Stock Adjustment Approval: " + requestid;
+            string message = "Item Code: " + itemcode + " has been approved.";
+
+            // Send to Employee
+            CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+
+
             Session["StockAdjPage"] = 2;
             Session["StoreInventoryTabIndex"] = "1";
 
@@ -75,6 +83,13 @@ namespace SA46Team1_Web_ADProj.Controllers
             stockadjdet.NotificationStatus = "Unread";
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
+
+            string title = "[LogicUniversity] Stock Adjustment Approval: " + requestid;
+            string message = "Item Code: " + itemcode + " has been rejected.";
+
+            // Send to Employee
+            CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+
 
             Session["StoreInventoryTabIndex"] = "1";
             Session["StockAdjPage"] = 2;

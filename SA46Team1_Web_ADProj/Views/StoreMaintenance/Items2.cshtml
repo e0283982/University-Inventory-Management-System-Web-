@@ -176,42 +176,62 @@
             var status = [];
             var reorderlvl = [];
             var reorderqty = [];
+            var error = false;
+            var validateqty = 0;
+            var validatelvl = 0;
 
             dataToSend = table.rows(0).data();
             for (var i = 0; i < Object.keys(d).length; i++) {
 
                 var rowData = dataToSend[i];
-                itemDesc = $("#input-item-desc").val();
-                reorderlvl = $("#input-reorderlvl").val();
-                reorderqty = $("#input-reorderqty").val();
-                supplier1 = $("#select-item-s1").val();
-                supplier2 = $("#select-item-s2").val();
-                supplier3 = $("#select-item-s3").val();
-                active = $("#input-item-active").prop('checked');
+                validateqty = $("#input-reorderqty").val();
+                validatelvl = $("#input-reorderlvl").val();
 
-                desc.push(itemDesc);
-                suppliers.push(supplier1);
-                suppliers.push(supplier2);
-                suppliers.push(supplier3);
+                if (validatelvl > 0 && validatelvl % 1 == 0 && validatelvl <= 2000 && validateqty > 0 && validateqty % 1 == 0 && validateqty <= 2000) {
+                    itemDesc = $("#input-item-desc").val();
+                    reorderlvl =
+                        reorderqty =
+                        supplier1 = $("#select-item-s1").val();
+                    supplier2 = $("#select-item-s2").val();
+                    supplier3 = $("#select-item-s3").val();
+                    active = $("#input-item-active").prop('checked');
 
-                if (active != null) {
-                    status.push(active);
+                    desc.push(itemDesc);
+                    suppliers.push(supplier1);
+                    suppliers.push(supplier2);
+                    suppliers.push(supplier3);
+
+                    if (active != null) {
+                        status.push(active);
+                    }
                 }
+                else {
+                    error = true;
+                }
+                
+            }
+            if (error == false) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Store/StoreMaintenance/Items/EditItem',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    async: false,
+                    data: JSON.stringify({ suppliers: suppliers, desc: desc, status: status, reorderlvl: reorderlvl, reorderqty: reorderqty })
+                });
+
+                $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
+                $('#dialog-submit-edit-item').dialog('open');
+                table.draw(false); //this line needed, if not upon save, table does not auto display updated data (until next refresh)
+                window.location.href = '@Url.Action("Maintenance", "Store")';
+            }
+            else {
+                $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
+                    $("#input-item-desc").val() + ": Qty entered is invalid!" +
+                    "</div>");
+
             }
 
-            $.ajax({
-                type: 'POST',
-                url: '/Store/StoreMaintenance/Items/EditItem',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                async: false,
-                data: JSON.stringify({ suppliers: suppliers, desc: desc, status: status, reorderlvl: reorderlvl, reorderqty: reorderqty })
-            });
-
-            $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
-            $('#dialog-submit-edit-item').dialog('open');
-            table.draw(false); //this line needed, if not upon save, table does not auto display updated data (until next refresh)
-            window.location.href = '@Url.Action("Maintenance", "Store")';
 
         });
     });
@@ -222,48 +242,50 @@
         <h5>Item Code: @Session["MaintenanceItemCode"]</h5>
     </div>
     <form>
-    @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
-    {
+        @using (Html.BeginForm("BackToItemsMaintenanceList", "StoreMaintenance", FormMethod.Post))
+        {
 
-        <table id="dataTable-store-items-details" class="display" style="width:80%;">
-            <thead style="font-size: 10pt;">
-                <tr>
-                    <th>Item Code</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Unit of Measure</th>
-                    <th>Reorder Level</th>
-                    <th>Reorder Quantity</th>
-                    <th>Supplier 1</th>
-                    <th>Supplier 2</th>
-                    <th>Supplier 3</th>
-                    <th>Active</th>
-                </tr>
-            </thead>
-            <tbody style="font-size: 10pt;"></tbody>
-        </table>
+            <table id="dataTable-store-items-details" class="display" style="width:80%;">
+                <thead style="font-size: 10pt;">
+                    <tr>
+                        <th>Item Code</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Unit of Measure</th>
+                        <th>Reorder Level</th>
+                        <th>Reorder Quantity</th>
+                        <th>Supplier 1</th>
+                        <th>Supplier 2</th>
+                        <th>Supplier 3</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 10pt;"></tbody>
+            </table>
 
-        <hr />
+            <hr />
 
-        <div class="row">
-            <div class="col-md-6">
-                <div>
-                    <span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <span>
 
-                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                            <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
 
-                    </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div style="float:right;">
+                        <span>
+                            <button id="btn-edit-item" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
+                        </span>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div style="float:right;">
-                    <span>
-                        <button id="btn-edit-item" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-                    </span>
-                </div>
-            </div>
-        </div>
-    }
+            <br />
+            <div id="errormessage" class="col-md-12" />
+        }
     </form>
 
     <div id="dialog-submit-edit-item" class="hidden" @*title="Edit Item Successful (Maintenance)"*@>

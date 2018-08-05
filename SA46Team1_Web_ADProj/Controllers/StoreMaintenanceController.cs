@@ -134,33 +134,44 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities e = new SSISdbEntities())
             {
-                string itemCode = Session["MaintenanceItemCode"].ToString();
-                Item item = e.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
-                DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
-                if (status!=null)
+                try
                 {
-                    if (status[0].ToLower() == "true")
+                    string itemCode = Session["MaintenanceItemCode"].ToString();
+                    Item item = e.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
+                    DAL.ItemsRepositoryImpl dal = new DAL.ItemsRepositoryImpl(e);
+                    if (status != null)
                     {
-                        item.Active = 1;
+                        if (status[0].ToLower() == "true")
+                        {
+                            item.Active = 1;
+                        }
+                        else
+                        {
+                            item.Active = 0;
+                        }
                     }
-                    else
-                    {
-                        item.Active = 0;
-                    }
+                    item.ReOrderLevel = Convert.ToInt32(reorderlvl[0]);
+                    item.ReOrderQuantity = Convert.ToInt32(reorderqty[0]);
+                    item.Description = desc[0];
+                    item.Supplier1 = suppliers[0];
+                    item.Supplier2 = suppliers[1];
+                    item.Supplier3 = suppliers[2];
+
+                    dal.UpdateItem(item);
+                    e.SaveChanges();
+
+                    Session["MaintenanceItemsPage"] = "1";
+                    return RedirectToAction("Maintenance", "Store");
                 }
-                item.ReOrderLevel = Convert.ToInt32(reorderlvl[0]);
-                item.ReOrderQuantity = Convert.ToInt32(reorderqty[0]);
-                item.Description = desc[0];
-                item.Supplier1 = suppliers[0];
-                item.Supplier2 = suppliers[1];
-                item.Supplier3 = suppliers[2];
+                catch(FormatException fe)
+                {
+                    Debug.WriteLine(fe.Message);
+                }catch(Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
 
-                dal.UpdateItem(item);
-                e.SaveChanges();
-
-                Session["MaintenanceItemsPage"] = "1";
-
-                return RedirectToAction("Maintenance", "Store");
+                return null;
             }
         }
 
@@ -413,31 +424,53 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult UpdateSupplierPriceList(String[] arrItemCodes, String[] arrStatus, String[] price)
         {
-            Session["MaintenanceSuppliersPage"] = "2";
-            String supplierCode = Session["MaintenanceSupplierCode"].ToString();
+            try
+            {
+                Session["MaintenanceSuppliersPage"] = "2";
+                String supplierCode = Session["MaintenanceSupplierCode"].ToString();
+                if(arrItemCodes.Count() > 0 && arrStatus.Count() > 0 && price.Count() > 0)
+                {
+                    using (SSISdbEntities e = new SSISdbEntities())
+                    {
+                        DAL.SupplierPriceListRepositoryImpl dal = new DAL.SupplierPriceListRepositoryImpl(e);
 
-            using (SSISdbEntities e = new SSISdbEntities()) {
-                DAL.SupplierPriceListRepositoryImpl dal = new DAL.SupplierPriceListRepositoryImpl(e);
+                        int index = 0;
+                        foreach (string s in arrItemCodes)
+                        {
+                            SupplierPriceList spl = e.SupplierPriceLists.Where(x => x.SupplierCode == supplierCode && x.ItemCode == s).FirstOrDefault();
+                            spl.UnitCost = float.Parse(price[index]);
+                            if (arrStatus[index] == "true")
+                            {
+                                spl.Active = 1;
+                            }
+                            else
+                            {
+                                spl.Active = 0;
+                            }
 
-                int index = 0;
-                foreach (string s in arrItemCodes) {
-                    SupplierPriceList spl = e.SupplierPriceLists.Where(x => x.SupplierCode == supplierCode && x.ItemCode == s).FirstOrDefault();
-                    spl.UnitCost = float.Parse(price[index]);
-                    if (arrStatus[index] == "true") {
-                        spl.Active = 1;
+                            dal.UpdateSupplierPriceList(spl);
+                            index++;
+                        }
+
+                        e.SaveChanges();
                     }
-                    else {
-                        spl.Active = 0;
-                    }
 
-                    dal.UpdateSupplierPriceList(spl);
-                    index++;
+                }
+                else
+                {
+                    Debug.Write("Empty input detected.");
                 }
 
-                e.SaveChanges();
-
             }
-
+            catch (FormatException fe)
+            {
+                Debug.WriteLine(fe.Message);
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            
             return RedirectToAction("Maintenance", "Store");
         }
 

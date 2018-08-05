@@ -394,6 +394,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 //data is item desc, index is list index
                 int adjCount = e.StockAdjustmentHeaders.ToList().Count() + 1;
                 string newAdjHeaderId = CommonLogic.SerialNo(adjCount, "SA");
+                bool mgrEmail = false;
+                bool supEmail = false;
 
                 StockAdjustmentHeader sah = new StockAdjustmentHeader();
                 sah.RequestId = newAdjHeaderId;
@@ -420,6 +422,14 @@ namespace SA46Team1_Web_ADProj.Controllers
                     sad.NotificationStatus = "Unread";
 
                     dalDetails.InsertStockAdjustmentDetail(sad);
+                    if(sad.Amount < 250)
+                    {
+                        supEmail = true;
+                    }
+                    else
+                    {
+                        mgrEmail = true;
+                    }
 
                     //Create new Item Transaction
                     ItemTransaction itemTransaction = new ItemTransaction();
@@ -439,6 +449,19 @@ namespace SA46Team1_Web_ADProj.Controllers
                     Item item = e.Items.Where(x => x.ItemCode == sad.ItemCode).FirstOrDefault();
                     item.Quantity = item.Quantity - sad.ItemQuantity;
 
+                }
+
+                string title = "[LogicUniversity] Stock Adjustment Request: " + newAdjHeaderId;
+                string message = "There are stock adjustment items pending for your approval.";
+
+                if (mgrEmail == true)
+                {
+                    CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+                }
+                
+                if(supEmail == true)
+                {
+                    CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
                 }
 
                 e.SaveChanges();

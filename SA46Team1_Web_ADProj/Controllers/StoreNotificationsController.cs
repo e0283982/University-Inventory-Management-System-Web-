@@ -45,8 +45,16 @@ namespace SA46Team1_Web_ADProj.Controllers
                 sad.NotificationStatus = "Read";
                 e.SaveChanges();
             }
-            //Session["StoreInventoryTabIndex"] = 3;
-            return RedirectToAction("Store", "Approval");
+            if (Session["Role"].ToString() == "Store Manager" || Session["Role"].ToString() == "Store Supervsor")
+            {
+                return RedirectToAction("Store", "Approval");
+            }
+            else
+            {
+                Session["StoreInventoryTabIndex"] = 3;
+                return RedirectToAction("Store", "Inventory");
+            }
+
         }
     }
 }

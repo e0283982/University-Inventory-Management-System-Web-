@@ -41,13 +41,19 @@
                     {
                         'data': 'PhoneNo',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-supplier-phone-no" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-supplier-phone-no" type="number" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     {
                         'data': 'FaxNo',
                         "render": function (data, type, full, meta) {
-                            return '<input id="input-supplier-fax-no" type="text" value="' + $('<div/>').text(data).html() + '">';
+                            return '<input id="input-supplier-fax-no" type="number" value="' + $('<div/>').text(data).html() + '">';
+                        }
+                    },
+                    {
+                        'data': 'Email',
+                        "render": function (data, type, full, meta) {
+                            return '<input id="input-supplier-email" type="text" value="' + $('<div/>').text(data).html() + '">';
                         }
                     },
                     {
@@ -75,7 +81,7 @@
                         "visible": false,
                         "searchable": false                     
                     }, {
-                        className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6]
+                        className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7]
                     }
                 ],
             });
@@ -108,6 +114,7 @@
                 rowData.ContactName = $("#input-supplier-contact-name").val();
                 rowData.PhoneNo = $("#input-supplier-phone-no").val();
                 rowData.FaxNo = $("#input-supplier-fax-no").val();
+                rowData.Email = $("#input-supplier-email").val();
                 rowData.Address = $("#input-supplier-address").val();
                 rowData.Active = $("#input-supplier-active").prop('checked');
 
@@ -149,6 +156,7 @@
                 <th>Contact</th>
                 <th>Phone No.</th>
                 <th>Fax No.</th>
+                <th>Email</th>
                 <th>Address</th>
                 <th>Active</th>
             </tr>
