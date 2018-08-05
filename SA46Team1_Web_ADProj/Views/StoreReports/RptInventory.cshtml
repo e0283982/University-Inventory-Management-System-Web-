@@ -147,7 +147,8 @@
 
                         //alert(initialSum);
                         initialSum = parseFloat(initialSum).toFixed(2);
-                        $("#lbl-cost-info").text("Total cost ($): " + initialSum);
+
+                        $("#lbl-cost-info").text("Total cost ($): " + addCommas(initialSum));
                     },
                     drawCallback: function (settings) {
 
@@ -188,7 +189,7 @@
                                     .search('')
                                     .columns().search('')
                                     .draw();
-                                $("#lbl-cost-info").text("Total cost ($): " + initialSum);
+                                $("#lbl-cost-info").text("Total cost ($): " + addCommas(initialSum));
 
                                 return;
                             }
@@ -229,7 +230,7 @@
                             }
 
                             //alert(sum);
-                            $("#lbl-cost-info").text("Total cost ($): " + sum.toFixed(2));
+                            $("#lbl-cost-info").text("Total cost ($): " + addCommas(sum.toFixed(2)));
 
                         });
 
@@ -243,6 +244,22 @@
       //  $('#btn-submit-export').hide();
 
    // });
+
+    //Format currency with commas on every thousandth place
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+
+
+
     $(function () {
         $("#dialog-no-data").dialog({
             autoOpen: false
@@ -288,7 +305,7 @@
             $("#selectItemDesc").prop('disabled', true);
             $("#selectCategory").prop('disabled', true);
             $('#btn-submit-export').css("pointer-events", "auto");
-            $("#lbl-cost-info").text("Total cost ($): " + initialSum);
+            $("#lbl-cost-info").text("Total cost ($): " + addCommas(initialSum));
         }
 
     });
