@@ -49,7 +49,12 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult ExportRptInventory()
         {
             List<InventoryValuationReport> allRptInventory = (List<InventoryValuationReport>)TempData["allRptInventory"];
-
+            if (allRptInventory == null) {
+                using (SSISdbEntities e = new SSISdbEntities()) {
+                    allRptInventory = e.InventoryValuationReports.ToList();
+                }
+            }
+            
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "RptInventoryValuation.rpt"));
             rd.SetDataSource(allRptInventory);
