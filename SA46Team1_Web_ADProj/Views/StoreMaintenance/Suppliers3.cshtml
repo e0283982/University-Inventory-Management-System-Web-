@@ -44,18 +44,18 @@
                             //}
                         }
                     },
-                    {
-                        'data': 'Active',
-                        render: function (data, type, row) {
+                    //{
+                    //    'data': 'Active',
+                    //    render: function (data, type, row) {
 
-                            if (data != 0) {
-                                //active status
-                                return '<input id="input-supplier-active" type="checkbox" checked>';
-                            } else {
-                                return '<input id="input-supplier-active" type="checkbox">';
-                            }
-                        }
-                    },
+                    //        if (data != 0) {
+                    //            //active status
+                    //            return '<input id="input-supplier-active" type="checkbox" checked>';
+                    //        } else {
+                    //            return '<input id="input-supplier-active" type="checkbox">';
+                    //        }
+                    //    }
+                    //},
                 ],
                 columnDefs: [
                     {
@@ -63,7 +63,8 @@
                         "visible": false,
                         "searchable": false
                     }, {
-                        className: 'text-center', targets: [0, 1, 2, 3, 4]
+                        //className: 'text-center', targets: [0, 1, 2, 3, 4]
+                        className: 'text-center', targets: [0, 1, 2, 3]
                     }
                 ]
             });
@@ -166,7 +167,7 @@
                     <th>Description</th>
                     <th>Unit of Measure</th>
                     <th>Unit Price ($)</th>
-                    <th>Active</th>
+                    @*<th>Active</th>*@
                 </tr>
             </thead>
             <tbody style="font-size: 10pt;"></tbody>

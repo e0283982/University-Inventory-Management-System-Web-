@@ -63,15 +63,17 @@
                         }
                     },
                     {
-                        'data': 'Active',
+                        //'data': 'Active',
                         render: function (data, type, row) {
 
-                            if (data != 0) {
-                                //active status
-                                return '<input id="input-supplier-active" type="checkbox" checked>';
-                            } else {
-                                return '<input id="input-supplier-active" type="checkbox">';
-                            }
+                            return 'Active';
+
+                            //if (data != 0) {
+                            //    //active status
+                            //    return '<input id="input-supplier-active" type="checkbox" checked>';
+                            //} else {
+                            //    return '<input id="input-supplier-active" type="checkbox">';
+                            //}
                         }
                     },
                 ],
