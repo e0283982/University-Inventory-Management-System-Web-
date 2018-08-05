@@ -128,6 +128,13 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult ExportRptReorder()
         {
             List<ReorderReport> allRptReorders = (List<ReorderReport>)TempData["allRptReorders"];
+            if (allRptReorders == null)
+            {
+                using (SSISdbEntities e = new SSISdbEntities())
+                {
+                    allRptReorders = e.ReorderReports.ToList();
+                }
+            }
 
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "RptReorder.rpt"));

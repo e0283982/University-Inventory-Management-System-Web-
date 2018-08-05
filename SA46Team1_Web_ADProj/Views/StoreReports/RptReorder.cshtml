@@ -10,6 +10,7 @@
 
     <div>
         <h5>Reorder Report</h5>
+
         <span>
             <label>Filter by:</label>
             <select id="chosenToggle1">
@@ -71,12 +72,25 @@
     </table>
 </div>
 
+
+<div id="dialog-no-data1" class="hidden">
+    <br />
+    <div style="text-align:center;">
+        <h5>No data found.</h5>
+    </div>
+    <span>
+        <button class="btn btn-lu-blue" id="btn-dialog-no-data-ok1" style="margin-left:40%;">ok</button>
+    </span>
+    <hr />
+</div>
+
 <script>
     var table;
     var searchItems = [];
     var searchCategories = [];
+    var initialSum;
 
-    $('#btn-submit-export1').hide();
+    //$('#btn-submit-export1').hide();
 
     $(document).ready(function () {
         $("#selectCategory1").prop('disabled', true);
@@ -114,11 +128,12 @@
                             //check if 'all'
                             var filter = $('#chosenToggle1').val();
 
+                            table
+                                .search('')
+                                .columns().search('')
+                                .draw();
+
                             if (filter == "all") {
-                                table
-                                    .search('')
-                                    .columns().search('')
-                                    .draw();
                                 return;
                             }
 
@@ -162,8 +177,12 @@
                                 arr.push(JSON.stringify(rowData));
                             }
 
+                            //alert(arr);
+
                             if (arr.length == 0) {
-                                $('#btn-submit-export1').hide();
+                                //$('#btn-submit-export1').hide();
+                                $('#dialog-no-data1').dialog('open');
+                                $('#btn-submit-export1').css("pointer-events", "none");
                                 return;
                             }
 
@@ -177,7 +196,7 @@
                             });
 
                             table.draw(false);
-                            $('#btn-submit-export1').show();
+                           // $('#btn-submit-export1').show();
 
                         });
 
@@ -187,9 +206,14 @@
         });
     });
 
-    $('#btn-export-pdf1').on('click', function () {
-        $('#btn-submit-export1').hide();
+    $(function () {
+        $("#dialog-no-data1").dialog({
+            autoOpen: false
+        });
+    });
 
+    $('#btn-dialog-no-data-ok1').on('click', function () {
+        $('#dialog-no-data1').dialog('close');
     });
 
     $('#chosenToggle1').on('change', function (e) {
@@ -200,20 +224,40 @@
             $("#selectCategory1").val([]);
             $("#selectCategory1").prop('disabled', true);
             $("#selectItemDesc1").prop('disabled', false);
+            //check if no item selected, then disable export btn
+            if (searchItems.length == 0) {
+                $('#btn-submit-export1').css("pointer-events", "none");
+            }
 
         } else if (valueSelected == "category") {
             $("#selectItemDesc1").val([]);
             $("#selectItemDesc1").prop('disabled', true);
             $("#selectCategory1").prop('disabled', false);
+            if (searchCategories.length == 0) {
+                $('#btn-submit-export1').css("pointer-events", "none");
+            }
+
         } else {
             //clear filter on table
+            table
+                .search('')
+                .columns().search('')
+                .draw();
+
             $("#selectCategory1").val([]);
             $("#selectItemDesc1").val([]);
             $("#selectItemDesc1").prop('disabled', true);
             $("#selectCategory1").prop('disabled', true);
+            $('#btn-submit-export1').css("pointer-events", "auto");
         }
 
-        $('#btn-submit-export1').hide();
+    });
 
+    $('#selectItemDesc1').on('change', function (e) {
+        $('#btn-submit-export1').css("pointer-events", "auto");
+    });
+
+    $('#selectCategory1').on('change', function (e) {
+        $('#btn-submit-export1').css("pointer-events", "auto");
     });
 </script>
