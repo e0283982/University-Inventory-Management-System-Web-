@@ -349,18 +349,24 @@ namespace SA46Team1_Web_ADProj.Controllers
                 m.Configuration.ProxyCreationEnabled = false;
 
                 itemCode = m.Items.Where(x => x.Description == item2.Description).FirstOrDefault().ItemCode;
-
+                int qtyOnHand = m.Items.Where(x => x.ItemCode == itemCode).Select(x => x.Quantity).FirstOrDefault();
                 StockRetrievalDetail srd = m.StockRetrievalDetails.Where(x => x.ItemCode == itemCode && x.Id == item1.Id).FirstOrDefault();
 
                 int qtyAdjusted = item1.QuantityAdjusted;
 
-                srd.QuantityAdjusted = srd.QuantityAdjusted + qtyAdjusted;
-                srd.QuantityRetrieved = srd.QuantityRetrieved - qtyAdjusted;
+                if(qtyOnHand < qtyAdjusted)
+                {
+                    TempData["ErrorMsg"] = "Quantity adjusted cannot be more than quantity on hand. Please check the value.";
+                }
+                else
+                {
+                    srd.QuantityAdjusted = srd.QuantityAdjusted + qtyAdjusted;
+                    srd.QuantityRetrieved = srd.QuantityRetrieved - qtyAdjusted;
 
-                srd.Remarks = item1.Remarks;
+                    srd.Remarks = item1.Remarks;
 
-                m.SaveChanges();
-
+                    m.SaveChanges();
+                }
             }
 
             return RedirectToAction("Disbursements", "Store");
