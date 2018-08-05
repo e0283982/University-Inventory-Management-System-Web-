@@ -297,7 +297,14 @@
             }
             <tbody style="font-size: 10pt;"></tbody>
         </table>
+            @if(TempData["ErrorMsg"] == null){
 
+            }
+            else
+            {
+                <div class="alert alert-danger col-md-6" id="errormessage">@TempData["ErrorMsg"]</div>
+
+            }
         <hr />
 
         <div class="row">
