@@ -338,7 +338,7 @@
                     <div>
                         <br />
                         <label>Adjustment Qty: </label>
-                        @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @Value = "1" }, })
+                        @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @max="2000", @Value = "1" }, })
                     </div>
 
                     <br />
