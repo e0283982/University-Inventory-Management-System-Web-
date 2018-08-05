@@ -80,12 +80,24 @@
     </table>
 </div>
 
+<div id="dialog-no-data" class="hidden">
+    <br />
+    <div style="text-align:center;">
+        <h5>No data found.</h5>
+    </div>
+    <span>
+        <button class="btn btn-lu-blue" id="btn-dialog-no-data-ok" style="margin-left:40%;">ok</button>
+    </span>
+    <hr />
+</div>
+
 <script>
     var table;
     var searchItems = [];
     var searchCategories = [];
+    var initialSum;
 
-    $('#btn-submit-export').hide();
+    //$('#btn-submit-export').hide();
 
     $(document).ready(function () {
         $("#selectCategory").prop('disabled', true);
@@ -124,19 +136,30 @@
                             }
                         }
                     ],
+                    "initComplete": function (settings, json) {
+                        //reset datatable results
+
+                        initialSum = 0;
+                        for (var i = 0; i < $('#dataTable-storeInventoryVal').DataTable().rows().data().length; i++) {
+                            var rowData = data[i].TotalCost;
+                            initialSum += rowData;
+                        }
+
+                        //alert(initialSum);
+                        initialSum = parseFloat(initialSum).toFixed(2);
+                        $("#lbl-cost-info").text("Total cost ($): " + initialSum);
+                    },
                     drawCallback: function (settings) {
 
                         $('#btn-submit-filter').on('click', function () {
                             //check if 'all'
                             var filter = $('#chosenToggle').val();
-
-                            if (filter == "all") {
-                                table
-                                    .search('')
-                                    .columns().search('')
-                                    .draw();
-                                return;
-                            }
+                            
+                            table
+                                .search('')
+                                .columns().search('')
+                                .draw();
+                           
 
                             searchItems = [];
                             searchCategories = [];
@@ -165,7 +188,7 @@
                                     .search('')
                                     .columns().search('')
                                     .draw();
-                                $("#lbl-cost-info").text("");
+                                $("#lbl-cost-info").text("Total cost ($): " + initialSum);
 
                                 return;
                             }
@@ -180,10 +203,13 @@
                             }
 
                             if (arr.length == 0) {
-                                $('#btn-submit-export').hide();
+                                $('#dialog-no-data').dialog('open');
+                                $('#btn-submit-export').css("pointer-events", "none");
                                 return;
                             }
 
+                            //alert(arr);
+                            
                             $.ajax({
                                 url: '/StoreReports/ExportRptInventory2',
                                 data: JSON.stringify({ arr: arr }),
@@ -194,7 +220,7 @@
                             });
 
                             table.draw(false);
-                            $('#btn-submit-export').show();
+                           // $('#btn-submit-export').show();
 
                             var sum = 0;
                             for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
@@ -202,6 +228,7 @@
                                 sum += rowData;
                             }
 
+                            //alert(sum);
                             $("#lbl-cost-info").text("Total cost ($): " + sum.toFixed(2));
 
                         });
@@ -212,9 +239,18 @@
         });
     });
 
-    $('#btn-export-pdf').on('click', function () {
-        $('#btn-submit-export').hide();
+   // $('#btn-export-pdf').on('click', function () {
+      //  $('#btn-submit-export').hide();
 
+   // });
+    $(function () {
+        $("#dialog-no-data").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-dialog-no-data-ok').on('click', function () {
+        $('#dialog-no-data').dialog('close');
     });
 
     $('#chosenToggle').on('change', function (e) {
@@ -225,21 +261,43 @@
             $("#selectCategory").val([]);
             $("#selectCategory").prop('disabled', true);
             $("#selectItemDesc").prop('disabled', false);
+            //check if no item selected, then disable export btn
+            if (searchItems.length == 0) {
+                $('#btn-submit-export').css("pointer-events", "none");
+            }
+            $("#lbl-cost-info").text("");
 
         } else if (valueSelected == "category") {
             $("#selectItemDesc").val([]);
             $("#selectItemDesc").prop('disabled', true);
             $("#selectCategory").prop('disabled', false);
+            if (searchCategories.length == 0) {
+                $('#btn-submit-export').css("pointer-events", "none");
+            }
+            $("#lbl-cost-info").text("");
+
         } else {
             //clear filter on table
+            table
+                .search('')
+                .columns().search('')
+                .draw();
+
             $("#selectCategory").val([]);
             $("#selectItemDesc").val([]);
             $("#selectItemDesc").prop('disabled', true);
             $("#selectCategory").prop('disabled', true);
+            $('#btn-submit-export').css("pointer-events", "auto");
+            $("#lbl-cost-info").text("Total cost ($): " + initialSum);
         }
 
-        $('#btn-submit-export').hide();
-        $("#lbl-cost-info").text("");
+    });
 
+    $('#selectItemDesc').on('change', function (e) {
+        $('#btn-submit-export').css("pointer-events", "auto");
+    });
+
+    $('#selectCategory').on('change', function (e) {
+        $('#btn-submit-export').css("pointer-events", "auto");
     });
 </script>
