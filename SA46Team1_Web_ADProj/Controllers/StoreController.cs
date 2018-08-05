@@ -162,7 +162,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     newsrh.Disbursed = 0;
                     newsrh.AllItemsRetrieved = 0;
                     m.StockRetrievalHeaders.Add(newsrh);
-                    m.SaveChanges();
+                    //m.SaveChanges();
                     #endregion
 
                     #region Confirming how many Items & quantity to collate
