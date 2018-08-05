@@ -60,7 +60,7 @@
         </div>
         <div class="col-md-3">
             <div style="float:right;">
-                <label id="lbl-cost-info2"></label>
+                <label id="lbl-cost-info2" style="font-size: 10pt; font-weight: bold;"></label>
             </div>
             <br />
             <div style="float:right;">
@@ -227,7 +227,7 @@
                                 });
                             });
 
-                            search = search.join(',');
+                            search = search.join('|');
 
                             table
                                 .columns(6)
@@ -240,10 +240,12 @@
                                 .columns(0)
                                 .search(dept, true, false, true).draw();
 
-                            table
-                                .columns(3)
-                                .search(category, true, false, true).draw();
-
+                            if (category != "All") {
+                                table
+                                    .columns(3)
+                                    .search(category, true, false, true).draw();
+                            }
+                            
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
                                 $('#dialog-no-data').dialog('open');
                                 $('#btn-submit-export2').hide();
@@ -324,6 +326,7 @@
             .draw();
 
         $("#lbl-cost-info2").text("Total cost ($): " + initialSum);
+        $("#SelectCategory").val("All");
 
     });
 
