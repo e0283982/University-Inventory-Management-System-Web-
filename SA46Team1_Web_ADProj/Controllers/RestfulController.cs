@@ -289,8 +289,9 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
+                List<String> approvedSRHs = m.StaffRequisitionHeaders.Where(x => x.ApprovalStatus == "Approved").Select(x => x.FormID).ToList();
                 m.Configuration.ProxyCreationEnabled = false;
-                return m.RequisitionLists.ToList();
+                return m.RequisitionLists.Where(x=>approvedSRHs.Contains(x.FormID)).ToList();
             }
         }
 
