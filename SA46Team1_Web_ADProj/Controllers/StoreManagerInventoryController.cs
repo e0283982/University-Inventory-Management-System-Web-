@@ -42,6 +42,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             StockAdjustmentDetail stockadjdet = repo.GetStockAdjustmentDetailById(requestid, itemcode);
             stockadjdet.Status = "Approved";
+            stockadjdet.NotificationStatus = "Unread";
             stockadjdet.StockAdjustmentHeader.DateProcessed = DateTime.Now;
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
@@ -71,6 +72,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 itemRepo.Save();
             }
             stockadjdet.Status = "Rejected";
+            stockadjdet.NotificationStatus = "Unread";
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
 
