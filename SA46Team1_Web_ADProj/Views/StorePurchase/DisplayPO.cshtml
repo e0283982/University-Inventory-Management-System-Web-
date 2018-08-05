@@ -524,11 +524,11 @@
                 <th>
                     @if (item.QuantityOrdered - item.QuantityDelivered == 0)
                     {
-                        <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="0" disabled />
+                        <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="0" pattern="[0-9]" step="1" value="0" disabled />
                     }
                     else
                     {
-                        <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="0" />
+                        <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="0" pattern="[0-9]" step="1" value="0" />
                     }
 
                 </th>
