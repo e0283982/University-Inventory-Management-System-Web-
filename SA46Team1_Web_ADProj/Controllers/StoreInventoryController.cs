@@ -291,21 +291,33 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult EditNewAdjQty(string data, int index)
         {
-            using (SSISdbEntities e = new SSISdbEntities())
+            try
             {
-                //edit sad item on qty text change
-                //data is item desc, index is list index
-                List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
-                StockAdjItemModel item = list.ElementAt(index);
-                item.AdjQty = Int32.Parse(data);
-                item.AdjCost = Int32.Parse(data) * item.AvgUnitCost;
-                Session["newAdjList"] = list;
+                using (SSISdbEntities e = new SSISdbEntities())
+                {
+                    //edit sad item on qty text change
+                    //data is item desc, index is list index
+                    List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
+                    StockAdjItemModel item = list.ElementAt(index);
+                    item.AdjQty = Int32.Parse(data);
+                    item.AdjCost = Int32.Parse(data) * item.AvgUnitCost;
+                    Session["newAdjList"] = list;
 
-                Session["StockAdjPage"] = "2";
+                    Session["StockAdjPage"] = "2";
 
 
-                return RedirectToAction("Requisition", "Dept");
+
+                }
             }
+            catch(FormatException fe)
+            {
+                Debug.WriteLine(fe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            return RedirectToAction("Requisition", "Dept");
         }
 
         [CustomAuthorize(Roles = "Store Clerk")]
