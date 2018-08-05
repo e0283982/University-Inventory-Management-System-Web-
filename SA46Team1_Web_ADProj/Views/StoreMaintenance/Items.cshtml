@@ -168,7 +168,7 @@
     </div>
 
     <div id="dialog-add-new-item" class="hidden" style="overflow-x:hidden;">
-        @using (Html.BeginForm("AddNewItem", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-item" }))
+        @using (Html.BeginForm("AddNewItem", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-item", autocomplete = "off" }))
         {
             <div>
                 <br />

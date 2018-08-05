@@ -134,7 +134,7 @@
     </div>
 
     <div id="dialog-add-new-category" class="hidden" style="overflow-x:hidden;">
-        @using (Html.BeginForm("AddNewCategory", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-category" }))
+        @using (Html.BeginForm("AddNewCategory", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-category", autocomplete = "off" }))
         {
             <div>
                 <br />

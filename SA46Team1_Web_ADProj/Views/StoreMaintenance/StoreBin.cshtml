@@ -133,7 +133,7 @@
 
 
     <div id="dialog-add-new-bin" class="hidden" style="overflow-x:hidden;">
-        @using (Html.BeginForm("AddNewBin", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-bin" }))
+        @using (Html.BeginForm("AddNewBin", "StoreMaintenance", FormMethod.Post, new { id = "form-submit-add-new-bin", autocomplete = "off" }))
         {
             <div>
                 <hr />
