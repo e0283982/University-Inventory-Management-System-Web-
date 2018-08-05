@@ -364,27 +364,38 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult UpdateItemCollection(int bin, string collectionPointDescription)
         {
-            string retId = (String) Session["RetrievalId"];
-
-            using (SSISdbEntities m = new SSISdbEntities())
+            try
             {
-                m.Configuration.ProxyCreationEnabled = false;
+                string retId = (String)Session["RetrievalId"];
 
-                string collectionPointId = m.CollectionPoints.Where(x => x.CollectionPointDescription == collectionPointDescription).Select(x => x.CollectionPointID).FirstOrDefault();
-
-                StockRetrievalDetail stockRetrievalDetail = m.StockRetrievalDetails.Where(x => x.Id == retId && x.Bin == bin && x.CollectionPointID == collectionPointId).FirstOrDefault();
-
-                if(stockRetrievalDetail.Collected == 0)
+                using (SSISdbEntities m = new SSISdbEntities())
                 {
-                    stockRetrievalDetail.Collected = 1;
-                }
-                else
-                {
-                    stockRetrievalDetail.Collected = 0;
-                }
+                    m.Configuration.ProxyCreationEnabled = false;
 
-                m.SaveChanges();
+                    string collectionPointId = m.CollectionPoints.Where(x => x.CollectionPointDescription == collectionPointDescription).Select(x => x.CollectionPointID).FirstOrDefault();
+
+                    StockRetrievalDetail stockRetrievalDetail = m.StockRetrievalDetails.Where(x => x.Id == retId && x.Bin == bin && x.CollectionPointID == collectionPointId).FirstOrDefault();
+
+                    if (stockRetrievalDetail.Collected == 0)
+                    {
+                        stockRetrievalDetail.Collected = 1;
+                    }
+                    else
+                    {
+                        stockRetrievalDetail.Collected = 0;
+                    }
+
+                    m.SaveChanges();
+                }
             }
+            catch(FormatException fe)
+            {
+                Debug.WriteLine(fe.Message);
+            }catch(Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
 
 
             return RedirectToAction("Disbursements", "Store");

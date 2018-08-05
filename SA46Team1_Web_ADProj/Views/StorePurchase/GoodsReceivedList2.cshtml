@@ -60,9 +60,9 @@
                     $('#ta-remarks').val(data[0]["Remarks"]);
 
                     $("#lbl-poNumber").val(data[0]["PONumber"]);
-                    $("#lbl-del-date").val(newDate);
-                    $("#lbl-companyName").val(data[0]["CompanyName"]);
-                    $("#lbl-emp").val(data[0]["EmployeeName"]);
+                    $("#lbl-del-date").append(newDate);
+                    $("#lbl-companyName").append(data[0]["CompanyName"]);
+                    $("#lbl-emp").append(data[0]["EmployeeName"]);
                     $("#lbl-gross-total").val(twoDP(total));
                     $("#lbl-gst").val(twoDP(gst));
                     $("#lbl-net-total").val(twoDP(netTotal));
