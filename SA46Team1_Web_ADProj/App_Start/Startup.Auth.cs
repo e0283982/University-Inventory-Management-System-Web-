@@ -25,7 +25,7 @@ namespace SA46Team1_Web_ADProj
            {
                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                LoginPath = new PathString("/Main/login"),
-               ExpireTimeSpan = TimeSpan.FromMinutes(30),
+               ExpireTimeSpan = TimeSpan.FromMinutes(45),
                LogoutPath = new PathString("/Main/Logout")
            });
 
@@ -36,7 +36,7 @@ namespace SA46Team1_Web_ADProj
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(45),
                 Provider = new SimpleAuthorizationServerProvider()
             };
             // Token Generation
