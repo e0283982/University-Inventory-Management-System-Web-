@@ -321,26 +321,26 @@
         $('#btn-edit-displayPO').hide();
         $('#btn-cancel-displayPO').show();
 
-        var data = table.row($(this).parents('tr')).data();
-        var index = table.row($(this).parents('tr')).index();
 
-        var qty = table.cell(index, 3).nodes().to$().find('input').val();
-        var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
-
-        var newTotal = qty * parseFloat(unitCost);
-        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
 
         var total = 0
-        for (var i = 0; i < table.data().length; i++) {
-            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
+        for (var index = 0; index < table.data().length; index++) {
+            var iqty = table.cell(index, 3).nodes().to$().find('input').val();
+            var qty = table.cell(index, 4).nodes().to$().find('input').val();
+            var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
+
+            var newTotal = iqty * unitCost;
+            //alert(iqty); alert(qty); alert(unitCost); alert(newTotal);
+            table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+            var number = table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text();
             total += parseFloat(number);
         }
 
         var gst = total * 0.07;
         var netTotal = total * 1.07;
-        $("#displayPO-gross-total").text(twoDP(total));
-        $("#displayPO-net-total").text(twoDP(netTotal));
-        $("#displayPO-gst").text(twoDP(gst));
+        $("#displayPO-gross-total").val(twoDP(total));
+        $("#displayPO-net-total").val(twoDP(netTotal));
+        $("#displayPO-gst").val(twoDP(gst));
         $("#Title").text("Goods Receipt");
         table.draw(false);
         return false;
@@ -380,20 +380,20 @@
         var qty = table.cell(index, 4).nodes().to$().find('input').val();
         var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
 
-        //var newTotal = qty * unitCost;
-        //table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
+        var newTotal = qty * unitCost;
+        table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
 
-        //var total = 0
-        //for (var i = 0; i < table.data().length; i++) {
-        //    var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
-        //    total += parseFloat(number);
-        //}
+        var total = 0
+        for (var i = 0; i < table.data().length; i++) {
+            var number = table.cell(i, 7).nodes().to$().find('#lbl-total-cost').text();
+            total += parseFloat(number);
+        }
 
-        //var gst = total * 0.07;
-        //var netTotal = total * 1.07;
-        //$("#displayPO-gross-total").val(twoDP(total));
-        //$("#displayPO-net-total").val(twoDP(netTotal));
-        //$("#displayPO-gst").val(twoDP(gst));
+        var gst = total * 0.07;
+        var netTotal = total * 1.07;
+        $("#displayPO-gross-total").val(twoDP(total));
+        $("#displayPO-net-total").val(twoDP(netTotal));
+        $("#displayPO-gst").val(twoDP(gst));
 
         table.draw(false);
     });

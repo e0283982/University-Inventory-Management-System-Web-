@@ -211,7 +211,7 @@
                         <label>Reorder Level:</label>
                     </div>
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.ReOrderLevel, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Level", @id = "new-item-reorder-lvl" }, })
+                        @Html.EditorFor(model => model.ReOrderLevel, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Level", @step = "1", @min ="1", @max="2000", @id = "new-item-reorder-lvl" }, })
                     </div>
                 </div>
 
@@ -220,7 +220,7 @@
                         <label>Reorder Qty: </label>
                     </div>
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.ReOrderQuantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Quantity", @id = "new-item-reorder-qty" }, })
+                        @Html.EditorFor(model => model.ReOrderQuantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reorder Quantity", @step = "1", @min = "1", @max = "2000", @id = "new-item-reorder-qty" }, })
                     </div>
                 </div>
                 <hr />

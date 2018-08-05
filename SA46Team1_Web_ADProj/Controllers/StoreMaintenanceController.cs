@@ -344,7 +344,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string itemCode = Request.Form["SelectBinItem"].ToString();
                 //inactivate item's old bin
                 Bin oldBin = e.Bins.Where(x => x.ItemCode == itemCode).FirstOrDefault();
-                oldBin.Active = 0;
+                if(oldBin != null)
+                {
+                    oldBin.Active = 0;
+                }
+
 
                 int binCount = e.Bins.Count() + 1;
 
