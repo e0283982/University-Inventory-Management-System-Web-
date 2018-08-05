@@ -79,26 +79,42 @@
 
     // Submit
     $('#btn-submit-new-req').on('click', function () {
-        var dataToSend = "";
         var arrQty = [];
         var arrSupplier = [];
+        var error = false;
         for (var i = 0; i < table.rows().data().length; i++) {
-            arrQty.push(table.cell(i, 3).nodes().to$().find('input').val());
-            arrSupplier.push(table.cell(i, 2).nodes().to$().find('select').val());
+            var qty = table.cell(i, 3).nodes().to$().find('input').val();
+            if (qty > 0 && qty % 1 == 0 && qty <= 2000) {
+                arrQty.push(qty);
+                arrSupplier.push(table.cell(i, 2).nodes().to$().find('select').val());
+            }
+            else {
+                var data = table.rows(i).data()
+                $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
+                    JSON.stringify(data["0"]["1"]) + ": Qty " +
+                    qty + " is an invalid quantity" +
+                    "</div>");
+
+                error = true;
+            }
+
         }
 
-        var taData = $("#ta-remarks").val();
+        if (error == false) {
+            var taData = $("#ta-remarks").val();
 
-        $.ajax({
-            url: '/StorePurchase/SavePO',
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            async: false,
-            data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier, taData: taData })
-        });
-        //alert('Items Added');
-        $('#dialog-new-po-submitted').dialog('open');
+            $.ajax({
+                url: '/StorePurchase/SavePO',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false,
+                data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier, taData: taData })
+            });
+            //alert('Items Added');
+            $('#dialog-new-po-submitted').dialog('open');
+        }
+
 
     });
 
@@ -107,23 +123,21 @@
         var index = table.row($(this).parents('tr')).index();
 
         var qty = table.cell(index, 3).nodes().to$().find('input').val();
-        if (qty <= 0) {
-            alert("Order quantity cannot be <1.");
-            table.cell(index, 3).nodes().to$().find('input').val(1);
-            return;
+        if (qty > 0 && qty % 1 == 0 && qty <= 2000) {
+            $.ajax({
+                url: '/StorePurchase/EditNewPOQty',
+                data: JSON.stringify({ data: qty, index: index }),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                async: false
+            });
+
+            table.draw(false);
+
+            window.location.href = '@Url.Action("Purchase", "Store")';
         }
-        $.ajax({
-            url: '/StorePurchase/EditNewPOQty',
-            data: JSON.stringify({ data: qty, index: index }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            type: 'POST',
-            async: false
-        });
 
-        table.draw(false);
-
-        window.location.href = '@Url.Action("Purchase", "Store")';
     });
 
     $('#dataTable-newPO tbody').on('change', '#select-supplier', function () {
@@ -188,7 +202,7 @@
             </div>
         </div>
     </div>
-
+    <form onsubmit="event.preventDefault(); validateMyForm();">
     @*--- Table ---*@
     <table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
         <thead style="font-size: 10pt;">
@@ -207,73 +221,73 @@
 
         @foreach (var item in poDetailList)
         {
-        <tr>
-            <td style="font-size: 10pt;">@item.ItemCode</td>
-            <td style="font-size: 10pt;">@item.Description</td>
-            <td style="font-size: 10pt;">
-                <select id="select-supplier">
-                    @if (item.Supplier1Code == item.CompanyName)
-                    {
-                        <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
-                    }
-                    else
-                    {
-                        <option value="@item.Supplier1Code">@item.Supplier1Code</option>
-                    }
+            <tr>
+                <td style="font-size: 10pt;">@item.ItemCode</td>
+                <td style="font-size: 10pt;">@item.Description</td>
+                <td style="font-size: 10pt;">
+                    <select id="select-supplier">
+                        @if (item.Supplier1Code == item.CompanyName)
+                        {
+                            <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Supplier1Code">@item.Supplier1Code</option>
+                        }
 
-                    @if (item.Supplier2Code == item.CompanyName)
-                    {
-                        <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
-                    }
-                    else
-                    {
-                        <option value="@item.Supplier2Code">@item.Supplier2Code</option>
-                    }
-                    @if (item.Supplier3Code == item.CompanyName)
-                    {
-                        <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
-                    }
-                    else
-                    {
-                        <option value="@item.Supplier3Code">@item.Supplier3Code</option>
-                    }
-                </select>
-            </td>
-            <td><input id="input-qty" style="font-size: 10pt;" min="1" type="number" pattern="[0-9]" step="1" value="@item.QuantityOrdered" /></td>
-            <td style="font-size: 10pt;">@item.UoM</td>
-            @if (item.Supplier1Code == item.CompanyName)
-            {
-                <td style="font-size: 10pt;">@item.Supplier1UnitCost.ToString("0.00")</td>
-            }
-            else if (item.Supplier2Code == item.CompanyName)
-            {
-                <td style="font-size: 10pt;">@item.Supplier2UnitCost.ToString("0.00")</td>
-            }
-            else if (item.Supplier3Code == item.CompanyName)
-            {
-                <td style="font-size: 10pt;">@item.Supplier3UnitCost.ToString("0.00")</td>
-            }
+                        @if (item.Supplier2Code == item.CompanyName)
+                        {
+                            <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Supplier2Code">@item.Supplier2Code</option>
+                        }
+                        @if (item.Supplier3Code == item.CompanyName)
+                        {
+                            <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Supplier3Code">@item.Supplier3Code</option>
+                        }
+                    </select>
+                </td>
+                <td><input id="input-qty" style="font-size: 10pt; text-align: center;" min="1" type="number" pattern="[0-9]" step="1" max="2000" value="@item.QuantityOrdered" /></td>
+                <td style="font-size: 10pt;">@item.UoM</td>
+                @if (item.Supplier1Code == item.CompanyName)
+                {
+                    <td style="font-size: 10pt;">@item.Supplier1UnitCost.ToString("0.00")</td>
+                }
+                else if (item.Supplier2Code == item.CompanyName)
+                {
+                    <td style="font-size: 10pt;">@item.Supplier2UnitCost.ToString("0.00")</td>
+                }
+                else if (item.Supplier3Code == item.CompanyName)
+                {
+                    <td style="font-size: 10pt;">@item.Supplier3UnitCost.ToString("0.00")</td>
+                }
 
-            @if (item.Supplier1Code == item.CompanyName)
-            {
-                <td style="font-size: 10pt;">@((item.Supplier1UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-            }
-            else if (item.Supplier2Code == item.CompanyName)
-            {
-                <td style="font-size: 10pt;">@((item.Supplier2UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-            }
-            else if (item.Supplier3Code == item.CompanyName)
-            {
-                <td style="font-size: 10pt;">@((item.Supplier3UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-            }
-            <td style="font-size: 10pt;">7%</td>
-            <td style="font-size: 10pt;"></td>
-        </tr>
+                @if (item.Supplier1Code == item.CompanyName)
+                {
+                    <td style="font-size: 10pt;">@((item.Supplier1UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+                }
+                else if (item.Supplier2Code == item.CompanyName)
+                {
+                    <td style="font-size: 10pt;">@((item.Supplier2UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+                }
+                else if (item.Supplier3Code == item.CompanyName)
+                {
+                    <td style="font-size: 10pt;">@((item.Supplier3UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+                }
+                <td style="font-size: 10pt;">7%</td>
+                <td style="font-size: 10pt;"></td>
+            </tr>
         }
         <tbody style="font-size: 10pt;"></tbody>
     </table>
     @*--- End of Table ---*@
-
+    <div id="errormessage" class="col-md-12" style="position: absolute;"/>
     <div class="row">
         <div class="col-md-12">
             @*--- Dynamic boxes ---*@
@@ -322,7 +336,7 @@
             @*--- End of Dynamic boxes ---*@
         </div>
     </div>
-
+    </form>
     @*--- Dialog Box ---*@
     <div id="dialog-add-po-item" class="hidden" @*title="Add Item (Store PO)"*@>
         @using (Html.BeginForm("AddPOItem", "StorePurchase", FormMethod.Post, new { id = "form-submit-add-new-item" }))
@@ -340,7 +354,7 @@
                 <br />
                 <div>
                     <label>New Order Qty: </label>
-                    @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1" }, })
+                    @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @max = "2000", @min = "1", @step = "1", @Value = "1" }, })
                 </div>
                 <hr />
                 <div>
