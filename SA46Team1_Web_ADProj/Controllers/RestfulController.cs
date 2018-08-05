@@ -971,7 +971,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     {
                         staffRequisitionDetail.QuantityDelivered = staffRequisitionDetail.QuantityDelivered + trailingQuantityReceivedByDepartment;
                         trailingQuantityReceivedByDepartment = 0;
-                        staffRequisitionDetail.QuantityBackOrdered = staffRequisitionDetail.QuantityBackOrdered - trailingQuantityReceivedByDepartment;
+                        staffRequisitionDetail.QuantityBackOrdered = staffRequisitionDetail.QuantityBackOrdered - staffRequisitionDetail.QuantityDelivered;
                         m.SaveChanges();
                     }
                     
