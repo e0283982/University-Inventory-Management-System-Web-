@@ -95,8 +95,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string supplier2 = Request.Form["SelectSupplier2"].ToString();
                 string supplier3 = Request.Form["SelectSupplier3"].ToString();
 
-                string itemFirstChar = item.Description.Substring(0, 1).ToUpper();
-                int countWithItemFirstChar = e.Items.Where(x => x.Description.Substring(0, 1).ToUpper() == itemFirstChar).Count() + 1;
+                //string itemFirstChar = item.Description.Substring(0, 1).ToUpper();
+                //int countWithItemFirstChar = e.Items.Where(x => x.Description.Substring(0, 1).ToUpper() == itemFirstChar).Count() + 1;
+
+                string itemFirstChar = "Z";
+                int countWithItemFirstChar = e.Items.Where(x => x.ItemCode.Substring(0, 1).ToUpper() == itemFirstChar).Count() + 1;
 
                 switch (countWithItemFirstChar.ToString().Length)
                 {
