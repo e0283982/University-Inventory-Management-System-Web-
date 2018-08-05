@@ -44,7 +44,13 @@
         });
     });
 
-    $('#btn-update').click(function () {
+    $(function () {
+        $("#dialog-new-stock-take-updated").dialog({
+            autoOpen: false
+        });
+    });
+
+    $('#btn-stock-take-update').click(function () {
         var dataToSend = "";
         var arr = [];
         var arr1 = []
@@ -62,6 +68,19 @@
             async: false,
             data: JSON.stringify({ arr: arr, arr1: arr1 })
         });
+
+        $('#dialog-new-stock-take-updated').dialog('open');
+
+    });
+
+    $("#dialog-new-stock-take-updated").on("dialogclose", function (event, ui) {
+        $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
+        window.location.href = '@Url.Action("Inventory", "Store")';
+    });
+
+    $('#btn-dialog-ok').on('click', function () {
+        $('#dialog-new-stock-take-updated').dialog('close');
+        window.location.href = '@Url.Action("Inventory", "Store")';
     });
 </script>
 
@@ -82,13 +101,13 @@
     </thead>
     <tbody style="font-size: 10pt;">
         @*<tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>*@
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>*@
     </tbody>
 </table>
 
@@ -97,12 +116,21 @@
 <div class="row">
     <div class="col-md-12">
         <div style="float: right">
+            @*<span>
+                <button class="btn btn-lu-red" id="btn-stock-take-cancel">Cancel</button>*@
+                @*@Html.ActionLink("Cancel", "Home", "Store", null, new { @class = "btn btn-lu-red", @style = "color:#f4f4f4;" })*@
+            @*</span>*@
             <span>
-                @Html.ActionLink("Cancel", "Home", "Store", null, new { @class = "btn btn-lu-red", @style = "color:#f4f4f4;" })
-            </span>
-            <span>
-                @Html.ActionLink("Update", "Home", "Store", null, new { @class = "btn btn-lu-green", id = "btn-update", @style = "color:#f4f4f4;" })
+                <button class="btn btn-lu-green" id="btn-stock-take-update">Update</button>
+                @*@Html.ActionLink("Update", "Home", "Store", null, new { @class = "btn btn-lu-green", id = "btn-update", @style = "color:#f4f4f4;" })*@
             </span>
         </div>
     </div>
+</div>
+
+<div id="dialog-new-stock-take-updated" class="hidden" style="text-align:center;">
+    <p>Stock Take has been updated.</p>
+    <span>
+        <button class="btn btn-lu-blue" id="btn-dialog-ok">ok</button>
+    </span>
 </div>
