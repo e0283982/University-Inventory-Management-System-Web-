@@ -158,7 +158,6 @@
 
     // Edit PO Button
     $('#btn-edit-displayPO').click(function () {
-        //$('#dialog-edit-displayPO').dialog('open');
         $('#btn-save-displayPO').show();
         $('#btn-edit-displayPO').hide();
         $('#btn-cancelPO').hide();
@@ -176,7 +175,6 @@
         }
 
         table.draw(false);
-        @*window.location.href = '@Url.Action("Purchase", "Store")';*@
 
         return true;
     });
@@ -222,7 +220,6 @@
         }
 
         if (error == false) {
-            //alert(arrQty);
             $.ajax({
                 url: '/StorePurchase/GoodsReceipt',
                 type: 'POST',
@@ -233,8 +230,6 @@
             });
 
             $("#dialog-gr-submitted").dialog('open');
-
-            @* window.location.href = '@Url.Action("Purchase", "Store")';*@
         }
 
     });
@@ -334,7 +329,6 @@
             var unitCost = table.cell(index, 6).nodes().to$().find('#lbl-unit-cost').text();
 
             var newTotal = iqty * unitCost;
-            //alert(iqty); alert(qty); alert(unitCost); alert(newTotal);
             table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text(twoDP(newTotal));
             var number = table.cell(index, 7).nodes().to$().find('#lbl-total-cost').text();
             total += parseFloat(number);
@@ -429,7 +423,6 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        @*--buttons--*@
                         <div style="float:right;">
 
                             @if (Session["poStatus"].ToString() == "Open")
@@ -508,9 +501,6 @@
                     </div>
                 </div>
             </div>
-            @*<div class="col-md-3">
-
-                </div>*@
         </div>
         <br />
         <div class="row">
@@ -564,7 +554,6 @@
         </div>
     </form>
     <div class="row">
-        @*<hr style="margin-left:0px; width: 300px;" />*@
         <div id="errormessage" class="col-md-12" />
 
         <div style="float:left;">

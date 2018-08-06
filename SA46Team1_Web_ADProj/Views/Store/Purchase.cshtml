@@ -8,9 +8,6 @@
 
 <script>
 
-    @*var pageIndex = @Session["GRListPage"].ToString();
-    var backFlag = @Session["BackToGRList"].ToString().ToLower();*@
-
     $(function () {
          var pageIndex =@Session["StorePurchaseTabIndex"].ToString();
 
@@ -27,12 +24,7 @@
             default:
                 $("#tabs-min").tabs();
                 break;
-        }
-        //if (pageIndex == "2" || backFlag == true) {
-        //    $("#tabs-min").tabs({ active: 2 });
-        //} else {
-        //    $("#tabs-min").tabs();
-        //}
+        }        
     });
 </script>
 

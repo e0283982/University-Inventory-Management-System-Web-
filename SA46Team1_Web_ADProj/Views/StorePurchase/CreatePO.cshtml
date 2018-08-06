@@ -47,8 +47,6 @@
             async: false,
             data: JSON.stringify({ data: data[0] })
         });
-
-        //table.row($(this).parents('tr')).remove().draw();
         window.location.href = '@Url.Action("Purchase", "Store")';
     });
 
@@ -115,7 +113,6 @@
                 async: false,
                 data: JSON.stringify({ arrQty: arrQty, arrSupplier: arrSupplier, taData: taData })
             });
-            //alert('Items Added');
             $('#dialog-new-po-submitted').dialog('open');
         }
 
@@ -186,15 +183,7 @@
             <div class="create-PO-dates">
                 <label style="font-size: 10pt;">Date: @DateTime.Now</label>
             </div>
-        </div>
-        @*<div class="col-md-6">
-                <div style="float:right;">
-                    <div style="font-size: 10pt;">
-                        <p>Remarks: </p>
-                        <textarea id="ta-remarks" rows="3" cols="50" />
-                    </div>
-                </div>
-            </div>*@
+        </div>       
     </div>
 
     <div class="row">
@@ -342,7 +331,7 @@
         </div>
     </form>
     @*--- Dialog Box ---*@
-    <div id="dialog-add-po-item" class="hidden" @*title="Add Item (Store PO)"*@>
+    <div id="dialog-add-po-item" class="hidden">
         @using (Html.BeginForm("AddPOItem", "StorePurchase", FormMethod.Post, new { id = "form-submit-add-new-item" }))
         {
             <br />

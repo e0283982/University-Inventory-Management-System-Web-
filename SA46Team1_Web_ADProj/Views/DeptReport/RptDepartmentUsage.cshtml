@@ -12,10 +12,7 @@
 
 <div>
     <h5>Department Usage Cost Report</h5>
-    <div style="float:right;">
-        @*<div  class="row">
-                <label id="lbl-filter-info2">Filter results: All</label>
-            </div>*@
+    <div style="float:right;">        
         <div class="row">
             <label id="lbl-cost-info2"></label>
         </div>
@@ -138,7 +135,6 @@
                     sort: true,
                     search: false,
                     dom: 'lrtip',
-                    //scrollY: 200,
                     "iDisplayLength": 5,
                     data: data,
                     columns: [
@@ -202,7 +198,6 @@
                             });
 
                             if (selMonths.length == 0 || selYears.length == 0) {
-                                //alert("Please select at least 1 valid month and year.");
                                 $('#dialog-invalid-report-date').dialog('open');
                                 return;
                             }
@@ -219,11 +214,6 @@
                             table
                                 .columns(6)
                                 .search(search, true, false, true).draw();
-
-                            //var deptArray = [];
-                            //var categoryArray = [];
-                            //deptArray.push(dept);
-                            //categoryArray.push(category);
 
                             var dept = $('#lbl-dept').text();
                             var category = $('#SelectCategory :selected').text();
@@ -288,8 +278,6 @@
                     },
                     columnDefs: [
                         {
-                            //"targets": [0,1,2],
-                            //"visible": false,
                             className: 'text-center', targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     ]
@@ -312,7 +300,6 @@
         $("#chosenYear").val([]);
 
         $("#lbl-filter-info2").text("Filter results: All");
-        //$('#SelectCategory :selected').text("All");
         $("#SelectCategory").val($("#SelectCategory option:first").val());
 
         //reset datatable results

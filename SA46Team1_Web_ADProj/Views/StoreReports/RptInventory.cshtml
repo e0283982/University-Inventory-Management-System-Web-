@@ -101,8 +101,6 @@
     var searchCategories = [];
     var initialSum;
 
-    //$('#btn-submit-export').hide();
-
     $(document).ready(function () {
         $("#selectCategory").prop('disabled', true);
         $("#selectItemDesc").prop('disabled', true);
@@ -149,7 +147,6 @@
                             initialSum += rowData;
                         }
 
-                        //alert(initialSum);
                         initialSum = parseFloat(initialSum).toFixed(2);
 
                         $("#lbl-cost-info").text("Total cost ($): " + addCommas(initialSum));
@@ -213,8 +210,6 @@
                                 return;
                             }
 
-                            //alert(arr);
-
                             $.ajax({
                                 url: '/StoreReports/ExportRptInventory2',
                                 data: JSON.stringify({ arr: arr }),
@@ -225,7 +220,6 @@
                             });
 
                             table.draw(false);
-                            // $('#btn-submit-export').show();
 
                             var sum = 0;
                             for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
@@ -244,11 +238,6 @@
         });
     });
 
-    // $('#btn-export-pdf').on('click', function () {
-    //  $('#btn-submit-export').hide();
-
-    // });
-
     //Format currency with commas on every thousandth place
     function addCommas(nStr) {
         nStr += '';
@@ -261,9 +250,7 @@
         }
         return x1 + x2;
     }
-
-
-
+    
     $(function () {
         $("#dialog-no-data").dialog({
             autoOpen: false

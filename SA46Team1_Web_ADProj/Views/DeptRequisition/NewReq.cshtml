@@ -165,14 +165,12 @@
         });
 
         $('#dialog-new-req-submited').dialog('open');
-        //table.draw(false);
 
     });
 
     $("#dialog-new-req-submited").on("dialogclose", function (event, ui) {
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         window.location.href = '@Url.Action("Requisition", "Dept")';
-        //$('#dialog-confirm-submit-new-req').dialog('close');
     });
 
 
@@ -239,31 +237,6 @@
 
      });
 
-    @*$('#dataTable-newReq tbody').on('change', '#input-edit-order-qty', function () {
-        var data = table.row($(this).parents('tr')).data();
-        var index = table.row($(this).parents('tr')).index();
-
-        var qty = table.cell(index, 2).nodes().to$().find('input').val();
-        if (qty <= 0) {
-            alert("Order quantity cannot be <1.");
-            table.cell(index, 2).nodes().to$().find('input').val(1);
-            return;
-        } else if (qty % 1 != 0) {
-            alert("Order quantity must be whole number.");
-            table.cell(index, 2).nodes().to$().find('input').val(1);
-            return;
-        }
-
-        table.draw(false);
-
-        @*window.location.href = '@Url.Action("Purchase", "Store")';*@
-    //});*
-
-    //$('#closeWindow').on('click', function () {
-    //    $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
-    //    $('#dialog-confirm-submit-new-req').dialog('close');
-    //    $('#dialog-add-req-item').dialog('close');
-    //})
 </script>
 
 
@@ -347,7 +320,7 @@
 
 
 
-<div id="dialog-add-req-item" class="hidden" style="overflow:hidden;" @*title="Add Item (New Requisition)"*@>
+<div id="dialog-add-req-item" class="hidden" style="overflow:hidden;">
     @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
     {
         <div>
@@ -366,18 +339,10 @@
 
             <hr />
 
-            <div class="row">
-                @*<div class="col-md-6">
-                        <div style="float:right">
-                            <span>
-                                <button class="btn btn-lu-red" id="btn-submit-cancel">Cancel</button>
-                            </span>
-                        </div>
-                    </div>*@
+            <div class="row">              
                 <div class="col-md-12">
                     <div>
                         <button class="btn btn-lu-green btn-block" id="btn-submit-add-items">Add</button>
-                        @*<input id="btn-submit-add-item" class="btn btn-lu-green" type="submit" value="Add" />*@
                     </div>
                 </div>
             </div>
@@ -385,7 +350,7 @@
     }
 </div>
 
-<div id="dialog-confirm-submit-new-req" class="hidden" style="overflow:hidden;" @*title="Confirm Submission (New Requisition)"*@>
+<div id="dialog-confirm-submit-new-req" class="hidden" style="overflow:hidden;">
     <div style="text-align:center;">
         <h4>Confirm Submission</h4>
         <h6>Are you sure you want to submit the requisition?</h6>

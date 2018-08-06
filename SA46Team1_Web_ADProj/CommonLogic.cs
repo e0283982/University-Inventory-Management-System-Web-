@@ -63,7 +63,6 @@ namespace SA46Team1_Web_ADProj
                 }
                 catch (Exception)
                 {
-                    // Add some message here
                 }
 
             }
@@ -88,41 +87,9 @@ namespace SA46Team1_Web_ADProj
                 }
                 catch (Exception)
                 {
-                    // Add some message here
                 }
 
-            }
-
-            //[HttpPost]
-            //public static void sendNiceEmail(string fromEmail, string toEmail, string subj, string body, string filepath)
-            //{
-            //    try
-            //    {
-            //        //< img src = "~/Content/images/logic1.png" />
-            //        MailMessage mail = new MailMessage();
-            //        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            //        mail.From = new MailAddress(fromEmail);
-            //        mail.To.Add(toEmail);
-            //        mail.Subject = subj;
-            //        mail.Body = @"" + body + "";
-            //        mail.IsBodyHtml = true;
-
-            //        Attachment attachment;
-            //        attachment = new Attachment(filepath);
-            //        mail.Attachments.Add(attachment);
-
-            //        SmtpServer.Port = 587;
-            //        SmtpServer.Credentials = new NetworkCredential("stationerylogicuniversity@gmail.com", "adproj01");
-            //        SmtpServer.EnableSsl = true;
-
-            //        SmtpServer.Send(mail);
-            //    }
-            //    catch (Exception)
-            //    {
-            //        // Add some message here
-            //    }
-
-            //}
+            }            
         }
     }
 }

@@ -194,7 +194,6 @@
             async: false
         });
 
-        //table.draw(false);
         $('#dialog-confirm-submit-new-adj').dialog('close');
         $("#dialog-new-adj-submited").dialog('open');
     });
@@ -237,7 +236,7 @@
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
 
     <div class="row">
-        <div class="col-md-6" @*style="padding: -30px;"*@>
+        <div class="col-md-6">
             <h5>Stock Adjustment</h5>
         </div>
         <div class="col-md-6">
@@ -269,7 +268,6 @@
                     <tr>
                         <td style="font-size: 10pt;">@item.ItemCode</td>
                         <td style="font-size: 10pt;">@item.ItemDesc</td>
-                        @*<td style="font-size: 10pt;">@item.Reason</td>*@
                         <td style="font-size: 10pt;">
                             <select id="selectAdjReason">
                                 @if (item.Reason == "Damaged")
@@ -318,9 +316,6 @@
                 </div>
                 <div class="col-md-6">
                     <div style="float: right;">
-                        @*<span>
-                                <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
-                            </span>*@
                         <span>
                             <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;" disabled>Clear</button>
                         </span>

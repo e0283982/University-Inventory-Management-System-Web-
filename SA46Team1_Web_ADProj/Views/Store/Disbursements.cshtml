@@ -8,9 +8,6 @@
 
 
 <script>
-    @*var pageIndex = @Session["DisbursementListPage"].ToString();
-    var pageIndexStr = @Session["RetrievalListPage"].ToString();
-    var backFlag = @Session["BackToDisbursementList"].ToString().ToLower();*@
     $(function () {
          var pageIndex =@Session["StoreDisbursementTabIndex"].ToString();
 
@@ -27,15 +24,7 @@
             default:
                 $("#tabs-min").tabs();
                 break;
-        }
-        //if (pageIndexStr == "2") {
-        //    $("#tabs-min").tabs({ active: 1 });
-        //}
-        //else if (pageIndex == "2" || backFlag == true) {
-        //    $("#tabs-min").tabs({ active: 2 });
-        //} else {
-        //    $("#tabs-min").tabs();
-        //}
+        }        
     });
 </script>
 

@@ -28,36 +28,7 @@
                 $("#tabs-min").tabs();
                 break;
             }
-        });
-        @*var tabsCurrentPageIndexes = [];
-        var pageVariablesArray = [@Session["MaintenanceItemsPage"].ToString(),@Session["MaintenanceCategoriesPage"].ToString(),
-            @Session["MaintenanceStoreBinPage"].ToString(),@Session["MaintenanceCollectionPointsPage"].ToString(),
-            @Session["MaintenanceSuppliersPage"].ToString(),@Session["MaintenanceDepartmentsPage"].ToString()];
-
-
-        for (i = 0; i < 6; i++) {
-            var item = pageVariablesArray[i];
-
-            tabsCurrentPageIndexes.push(item);
-        }
-
-        var finalIndex = index;
-        var pageIndex = @Session["MaintenanceBackFlagPage"].ToString();
-
-        var index = tabsCurrentPageIndexes.findIndex(x => x == "2");
-        if (index > 0) {
-            finalIndex = index.toString();
-        } else if (pageIndex != "0") {
-            finalIndex = pageIndex;
-        }
-
-        if (finalIndex > 0) {
-            $("#tabs-min").tabs({ active: finalIndex })
-        } else {
-            $("#tabs-min").tabs();
-        }*@
-
-   // });
+        });        
 </script>
 
 <div id="tabs-min">
@@ -65,9 +36,7 @@
         <li style="font-size: 10pt;"><a href="/Store/StoreMaintenance/Items">Items</a></li>
         <li style="font-size: 10pt;"><a href="/Store/StoreMaintenance/Categories">Categories</a></li>
         <li style="font-size: 10pt;"><a href="/Store/StoreMaintenance/StoreBin">Bin</a></li>
-        @*<li style="font-size: 10pt;"><a href="/Store/StoreMaintenance/CollectionPoints">Collection Points</a></li>*@
         <li style="font-size: 10pt;"><a href="/Store/StoreMaintenance/Suppliers">Supplier List</a></li>
-        @*<li style="font-size: 10pt;"><a href="/Store/StoreMaintenance/Departments">Departments</a></li>*@
     </ul>
 </div>
 

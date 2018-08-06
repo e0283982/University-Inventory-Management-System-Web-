@@ -107,14 +107,7 @@
             width: "40%",
             maxWidth: "40%"
         });
-    });
-
-
-    //$('#btn-submit-add-item').on('click', function () {
-    //    $('#dialog-add-new-item').dialog('close');
-    //    $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
-    //    $('#dialog-submit-add-item').dialog('open');
-    //});
+    });   
 
     $("#dialog-submit-add-item").on("dialogclose", function (event, ui) {
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
@@ -205,10 +198,6 @@
                     </div>
                 </div>
                 <hr />
-                @*<div>
-                        <label>Quantity:</label>
-                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Quantity", @id = "new-item-qty" }, })
-                    </div>*@
 
                 <div class="row">
                     <div class="col-md-3">

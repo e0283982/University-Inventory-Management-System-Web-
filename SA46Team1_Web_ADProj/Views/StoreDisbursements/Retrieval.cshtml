@@ -139,7 +139,6 @@
             async: false
         });
 
-        //table.draw(false);
         window.location.href = '@Url.Action("Disbursements", "Store")';
 
         return false;
@@ -159,9 +158,6 @@
     });
 
     function myCollectedFunction(param1, param2) {
-
-        //alert(param1 + param2);
-
         $.ajax({
             url: '/StoreDisbursements/UpdateItemCollection',
             type: 'POST',

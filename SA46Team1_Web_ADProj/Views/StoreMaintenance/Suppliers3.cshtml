@@ -25,7 +25,6 @@
                 sort: false,
                 searching: true,
                 "iDisplayLength": 5,
-                //scrollX: 1000,
                 scrollY: 250,
                 data: data,
                 columns: [
@@ -39,27 +38,11 @@
                     {
                         'data': 'UnitCost',
                         render: function (data, type, row) {
-                            @*if ('@editMode' == 'true') {
-                                return '$ ' + parseFloat(data).toFixed(2);
-                            } else {*@
                             var value = $('<div/>').text(data).html();
                             value = twoDP(value);
                             return '<input id="input-suppliercost" type="number" style="text-align: center;" min = "0.01" max = "1000" step="0.01" pattern="[0-9]" value="' + value + '">';
-                            //}
                         }
-                    },
-                    //{
-                    //    'data': 'Active',
-                    //    render: function (data, type, row) {
-
-                    //        if (data != 0) {
-                    //            //active status
-                    //            return '<input id="input-supplier-active" type="checkbox" checked>';
-                    //        } else {
-                    //            return '<input id="input-supplier-active" type="checkbox">';
-                    //        }
-                    //    }
-                    //},
+                    },                    
                 ],
                 columnDefs: [
                     {
@@ -67,7 +50,6 @@
                         "visible": false,
                         "searchable": false
                     }, {
-                        //className: 'text-center', targets: [0, 1, 2, 3, 4]
                         className: 'text-center', targets: [0, 1, 2, 3]
                     }
                 ]
@@ -143,7 +125,6 @@
                 });
 
                 window.location.href = '@Url.Action("Maintenance", "Store")';
-                //alert('Supplier Price List Updated');
 
                 $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' });
                 $('#dialog-submit-edit-supplier').dialog('open');
@@ -171,7 +152,6 @@
                 <th>Description</th>
                 <th>Unit of Measure</th>
                 <th>Unit Price ($)</th>
-                @*<th>Active</th>*@
             </tr>
         </thead>
         <tbody style="font-size: 10pt;"></tbody>
@@ -198,7 +178,7 @@
 
 
     <div id="errormessage" class="col-md-12" style="position: absolute;" />
-    <div id="dialog-submit-edit-supplier" class="hidden" @*title="Edit Supplier Successful (Maintenance)"*@>
+    <div id="dialog-submit-edit-supplier" class="hidden">
         <br />
         <div style="text-align:center;">
             <h5>Supplier has been successfully edited!</h5>

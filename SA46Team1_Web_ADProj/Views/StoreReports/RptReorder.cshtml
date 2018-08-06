@@ -94,8 +94,6 @@
     var searchCategories = [];
     var initialSum;
 
-    //$('#btn-submit-export1').hide();
-
     $(document).ready(function () {
         $("#selectCategory1").prop('disabled', true);
         $("#selectItemDesc1").prop('disabled', true);
@@ -164,7 +162,6 @@
                                     .columns(1)
                                     .search(searchItems, true, false, true).draw();
                             } else {
-                                //alert("No item selected.");
                                 table
                                     .search('')
                                     .columns().search('')
@@ -181,10 +178,7 @@
                                 arr.push(JSON.stringify(rowData));
                             }
 
-                            //alert(arr);
-
                             if (arr.length == 0) {
-                                //$('#btn-submit-export1').hide();
                                 $('#dialog-no-data1').dialog('open');
                                 $('#btn-submit-export1').css("pointer-events", "none");
                                 return;
@@ -200,8 +194,6 @@
                             });
 
                             table.draw(false);
-                            // $('#btn-submit-export1').show();
-
                         });
 
                     },

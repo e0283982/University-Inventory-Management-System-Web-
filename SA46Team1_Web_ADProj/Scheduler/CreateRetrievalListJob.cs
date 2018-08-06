@@ -327,12 +327,6 @@ namespace SA46Team1_Web_ADProj.Scheduler
                 }
             }
             return null;
-        }
-
-        // To Test Cron works, put this in MyScheduler class & watch the print out in Output (Debug):
-        //ITrigger trigger = TriggerBuilder.Create()
-        //.WithCronSchedule("* * * * * ?")
-        //.Build();
-        //Debug.WriteLine("test2 success");
+        }        
     }
 }
