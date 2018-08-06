@@ -47,23 +47,3 @@ if (Session["Role"].ToString() == "Store Manager")
         position: relative;">
     </div>
 }
-
-<div>
-    <button id="test">
-        Test
-    </button>
-</div>
-
-<script type="text/javascript">
-    // Edit PO Button
-    $('#test').click(function () {
-        //$('#dialog-edit-displayPO').dialog('open');
-        $.ajax({
-            url: '/Store/Test',
-            type: 'POST'
-        });
-        alert('test');
-    });
-
-
-</script> 

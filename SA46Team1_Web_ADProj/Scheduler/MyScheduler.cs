@@ -23,8 +23,7 @@ namespace SA46Team1_Web_ADProj.Scheduler
 
             // Trigger Daily at 12am
             ITrigger trigger = TriggerBuilder.Create()
-            //.WithCronSchedule("	0 0 0 1/1 * ? *") // Every day 12am
-            .WithCronSchedule("	0 0/2 * 1/1 * ? *") // Every 2 Minute
+            .WithCronSchedule("	0 0 0 1/1 * ? *") // Every day 12am
             .Build();
 
             // Execute Codes in CreateDisbursementListJob
