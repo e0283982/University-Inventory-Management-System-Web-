@@ -766,64 +766,73 @@ namespace SA46Team1_Web_ADProj.Controllers
         {
             using (SSISdbEntities m = new SSISdbEntities())
             {
-                //Adding new StockAdjustmentHeader            
-                StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
-
-                int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
-
-                stockAdjustmentHeader.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderCount, "SA");
-
-                //DateTime
-                DateTime localDate = DateTime.Now;
-                stockAdjustmentHeader.DateRequested = localDate;
-                stockAdjustmentHeader.Requestor = stockAdjustmentModel.RequestorId;
-                stockAdjustmentHeader.TransactionType = "Stock Adjustment";
-                m.StockAdjustmentHeaders.Add(stockAdjustmentHeader);
-
-                //Adding new StockAdjustmentDetails
-                StockAdjustmentDetail stockAdjustmentDetail = new StockAdjustmentDetail();
-                stockAdjustmentDetail.RequestId = stockAdjustmentHeader.RequestId;
-
-                String itemDescription = stockAdjustmentModel.ItemDescription;
-                String itemCode = m.Items.Where(x => x.Description == itemDescription).Select(x => x.ItemCode).FirstOrDefault();
-                stockAdjustmentDetail.ItemCode = itemCode;
-                stockAdjustmentDetail.ItemQuantity = stockAdjustmentModel.AdjustedQuantity;
-
-                float itemUnitCost = m.Items.Where(x => x.ItemCode == stockAdjustmentDetail.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
-                stockAdjustmentDetail.Amount = itemUnitCost * stockAdjustmentDetail.ItemQuantity;
-                stockAdjustmentDetail.Remarks = stockAdjustmentModel.Remarks;
-                stockAdjustmentDetail.Status = "Pending";
-                m.StockAdjustmentDetails.Add(stockAdjustmentDetail);
 
                 //Update Stock Retrieval Details
-                //If it is from item screen then there will not be any stock retrieval
+                //If it is from item screen then there will not be any stock retrieval and will not do any stock adjustment
                 if (!stockAdjustmentModel.StockRetrievalId.Equals("NoStockRetrieval"))
                 {
+                    String itemDescription = stockAdjustmentModel.ItemDescription;
+                    String itemCode = m.Items.Where(x => x.Description == itemDescription).Select(x => x.ItemCode).FirstOrDefault();
+
                     StockRetrievalDetail stockRetrievalDetail = new StockRetrievalDetail();
                     stockRetrievalDetail = m.StockRetrievalDetails
                         .Where(x => x.Id == stockAdjustmentModel.StockRetrievalId && x.ItemCode == itemCode).FirstOrDefault();
                     stockRetrievalDetail.QuantityRetrieved = stockRetrievalDetail.QuantityRetrieved - stockAdjustmentModel.AdjustedQuantity;
                     stockRetrievalDetail.QuantityAdjusted = stockRetrievalDetail.QuantityAdjusted + stockAdjustmentModel.AdjustedQuantity;
                     stockRetrievalDetail.Remarks = stockAdjustmentModel.Remarks;
+
+                    m.SaveChanges();
                 }
+                //Case of new stock adjustment
+                else
+                {
+                    //Adding new StockAdjustmentHeader            
+                    StockAdjustmentHeader stockAdjustmentHeader = new StockAdjustmentHeader();
 
+                    int stockAdjustmentHeaderCount = m.StockAdjustmentHeaders.Count() + 1;
 
-                //Create new Item Transaction
-                ItemTransaction itemTransaction = new ItemTransaction();
-                itemTransaction.TransDateTime = localDate;
-                itemTransaction.DocumentRefNo = stockAdjustmentHeader.RequestId;
-                itemTransaction.ItemCode = stockAdjustmentDetail.ItemCode;
-                itemTransaction.TransactionType = "Stock Adjustment";
-                itemTransaction.Quantity = stockAdjustmentDetail.ItemQuantity;
-                itemTransaction.UnitCost = itemUnitCost;
-                itemTransaction.Amount = itemTransaction.Quantity * itemTransaction.UnitCost;
-                m.ItemTransactions.Add(itemTransaction);
+                    stockAdjustmentHeader.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderCount, "SA");
 
-                //Update Item Quantity
-                Item item = m.Items.Where(x => x.Description == itemDescription).FirstOrDefault();
-                item.Quantity = item.Quantity - stockAdjustmentDetail.ItemQuantity;
+                    //DateTime
+                    DateTime localDate = DateTime.Now;
+                    stockAdjustmentHeader.DateRequested = localDate;
+                    stockAdjustmentHeader.Requestor = stockAdjustmentModel.RequestorId;
+                    stockAdjustmentHeader.TransactionType = "Stock Adjustment";
+                    m.StockAdjustmentHeaders.Add(stockAdjustmentHeader);
 
-                m.SaveChanges();
+                    //Adding new StockAdjustmentDetails
+                    StockAdjustmentDetail stockAdjustmentDetail = new StockAdjustmentDetail();
+                    stockAdjustmentDetail.RequestId = stockAdjustmentHeader.RequestId;
+
+                    String itemDescription = stockAdjustmentModel.ItemDescription;
+                    String itemCode = m.Items.Where(x => x.Description == itemDescription).Select(x => x.ItemCode).FirstOrDefault();
+                    stockAdjustmentDetail.ItemCode = itemCode;
+                    stockAdjustmentDetail.ItemQuantity = stockAdjustmentModel.AdjustedQuantity;
+
+                    float itemUnitCost = m.Items.Where(x => x.ItemCode == stockAdjustmentDetail.ItemCode).Select(x => x.AvgUnitCost).FirstOrDefault();
+                    stockAdjustmentDetail.Amount = itemUnitCost * stockAdjustmentDetail.ItemQuantity;
+                    stockAdjustmentDetail.Remarks = stockAdjustmentModel.Remarks;
+                    stockAdjustmentDetail.Status = "Pending";
+                    m.StockAdjustmentDetails.Add(stockAdjustmentDetail);                    
+
+                    //Create new Item Transaction
+                    ItemTransaction itemTransaction = new ItemTransaction();
+                    itemTransaction.TransDateTime = localDate;
+                    itemTransaction.DocumentRefNo = stockAdjustmentHeader.RequestId;
+                    itemTransaction.ItemCode = stockAdjustmentDetail.ItemCode;
+                    itemTransaction.TransactionType = "Stock Adjustment";
+                    itemTransaction.Quantity = stockAdjustmentDetail.ItemQuantity;
+                    itemTransaction.UnitCost = itemUnitCost;
+                    itemTransaction.Amount = itemTransaction.Quantity * itemTransaction.UnitCost;
+                    m.ItemTransactions.Add(itemTransaction);
+
+                    //Update Item Quantity
+                    Item item = m.Items.Where(x => x.Description == itemDescription).FirstOrDefault();
+                    item.Quantity = item.Quantity - stockAdjustmentDetail.ItemQuantity;
+
+                    m.SaveChanges();
+                }
+                
             }
         }
 

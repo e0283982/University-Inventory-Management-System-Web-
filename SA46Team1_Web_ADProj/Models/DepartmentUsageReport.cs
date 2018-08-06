@@ -21,9 +21,9 @@ namespace SA46Team1_Web_ADProj.Models
         public float AvgUnitCost { get; set; }
         public System.DateTime Date { get; set; }
         public int QuantityReceived { get; set; }
-        public Nullable<float> TotalCost { get; set; }
+        public float TotalCost { get; set; }
         public string DepartmentName { get; set; }
-        public Nullable<int> Year { get; set; }
-        public Nullable<int> Month { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
     }
 }
