@@ -953,6 +953,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                     StaffRequisitionHeader staffRequisitionHeader = m.StaffRequisitionHeaders.Where(x => x.FormID == reqForm && x.DepartmentCode == departmentCode).FirstOrDefault();                    
                     StaffRequisitionDetail staffRequisitionDetail = m.StaffRequisitionDetails.Where(x => x.FormID == reqForm && x.ItemCode == itemCode).FirstOrDefault();                    
 
+                    if(staffRequisitionDetail == null || staffRequisitionHeader == null)
+                    {
+                        continue;
+                    }
+
                     if (trailingQuantityReceivedByDepartment <= 0)
                     {
                         break;
