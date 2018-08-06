@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
@@ -30,7 +34,7 @@
             @Session["MaintenanceStoreBinPage"].ToString(),@Session["MaintenanceCollectionPointsPage"].ToString(),
             @Session["MaintenanceSuppliersPage"].ToString(),@Session["MaintenanceDepartmentsPage"].ToString()];
 
-       
+
         for (i = 0; i < 6; i++) {
             var item = pageVariablesArray[i];
 
@@ -52,7 +56,7 @@
         } else {
             $("#tabs-min").tabs();
         }*@
-    
+
    // });
 </script>
 
@@ -65,5 +69,5 @@
         <li style="font-size: 10pt;"><a href="/Store/StoreMaintenance/Suppliers">Supplier List</a></li>
         @*<li style="font-size: 10pt;"><a href="/Store/StoreMaintenance/Departments">Departments</a></li>*@
     </ul>
-</div> 
+</div>
 

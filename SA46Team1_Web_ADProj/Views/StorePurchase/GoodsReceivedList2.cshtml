@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Wong Wei Jie
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -9,7 +13,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetGoodsReceivedLists/' + $('#lbl-gr-grId').text() ,
+            url: 'http://localhost:49921/api/Restful/GetGoodsReceivedLists/' + $('#lbl-gr-grId').text(),
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -90,7 +94,7 @@
         $('#dialog-print-displayGR').dialog('open');
         return false;
     });
-   
+
 </script>
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
@@ -169,17 +173,17 @@
         @*</div>*@
     </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div>
-                        <div id="details-back-btn">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <div id="details-back-btn">
 
-                            @using (Html.BeginForm("BackToGRList", "StorePurchase", FormMethod.Post))
-                            {
-                                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                            }
-                        </div>
-                    </div>
+                    @using (Html.BeginForm("BackToGRList", "StorePurchase", FormMethod.Post))
+                    {
+                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                    }
                 </div>
             </div>
         </div>
+    </div>
+</div>

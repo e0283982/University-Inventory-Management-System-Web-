@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -93,7 +97,7 @@
     $("#dialog-submit-add-supplier").on("dialogclose", function (event, ui) {
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-submit-add-supplier').dialog('close');
-    });  
+    });
 
     $(function () {
         $("#dialog-submit-add-supplier").dialog({
@@ -185,7 +189,7 @@
                             <label>Phone Number:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @min="1", @step="1", @type="number", @placeholder = "Phone No", @id = "new-supplier-phone" }, })
+                            @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @min = "1", @step = "1", @type = "number", @placeholder = "Phone No", @id = "new-supplier-phone" }, })
                         </div>
                     </div>
                 </div>
@@ -195,7 +199,7 @@
                             <label>Fax Number:&nbsp;</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control",@type="number", @maxlength = "10", @min="1", @step="1", @placeholder = "Fax No", @id = "new-supplier-fax" }, })
+                            @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control", @type = "number", @maxlength = "10", @min = "1", @step = "1", @placeholder = "Fax No", @id = "new-supplier-fax" }, })
                         </div>
                     </div>
 

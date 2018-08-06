@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -155,12 +159,12 @@
                         $('#btn-submit-filter').on('click', function () {
                             //check if 'all'
                             var filter = $('#chosenToggle').val();
-                            
+
                             table
                                 .search('')
                                 .columns().search('')
                                 .draw();
-                           
+
 
                             searchItems = [];
                             searchCategories = [];
@@ -210,7 +214,7 @@
                             }
 
                             //alert(arr);
-                            
+
                             $.ajax({
                                 url: '/StoreReports/ExportRptInventory2',
                                 data: JSON.stringify({ arr: arr }),
@@ -221,7 +225,7 @@
                             });
 
                             table.draw(false);
-                           // $('#btn-submit-export').show();
+                            // $('#btn-submit-export').show();
 
                             var sum = 0;
                             for (var i = 0; i < table.rows({ filter: 'applied' }).data().length; i++) {
@@ -240,10 +244,10 @@
         });
     });
 
-   // $('#btn-export-pdf').on('click', function () {
-      //  $('#btn-submit-export').hide();
+    // $('#btn-export-pdf').on('click', function () {
+    //  $('#btn-submit-export').hide();
 
-   // });
+    // });
 
     //Format currency with commas on every thousandth place
     function addCommas(nStr) {

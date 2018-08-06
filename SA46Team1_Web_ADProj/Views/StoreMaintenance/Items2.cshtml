@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -216,7 +220,7 @@
                 else {
                     error = true;
                 }
-                
+
             }
             if (error == false && error2 == false) {
                 $.ajax({
@@ -241,7 +245,7 @@
             }
             else {
                 $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
-                    "Suppliers cannot be duplicates!" + 
+                    "Suppliers cannot be duplicates!" +
                     "</div>");
                 return false;
             }

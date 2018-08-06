@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -245,7 +249,7 @@
                                     .columns(3)
                                     .search(category, true, false, true).draw();
                             }
-                            
+
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
                                 $('#dialog-no-data').dialog('open');
                                 $('#btn-submit-export2').hide();

@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -82,7 +86,7 @@
         <span>
             @using (Html.BeginForm("BackToDeptsMaintenanceList", "StoreMaintenance", FormMethod.Post))
             {
-                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;"/>
+                <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
             }
         </span>
     </div>
@@ -91,6 +95,6 @@
             <span>
                 <button class="btn btn-lu-green" style="font-size: 10pt;">@Html.ActionLink("Save", "Home", "Store")</button>
             </span>
-        </div>      
+        </div>
     </div>
 </div>

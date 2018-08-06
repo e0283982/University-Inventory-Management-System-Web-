@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -89,7 +93,7 @@
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $('#dialog-submit-edit-supplier').dialog('close');
     });
-    
+
 
     $(document).ajaxComplete(function () {
         $('#btn-save-supplier-price-list').click(function () {
@@ -159,38 +163,38 @@
     </div>
 
     <hr />
-  
-        <table id="dataTable-store-supplier-price-details" class="display" style="width:80%;">
-            <thead style="font-size: 10pt;">
-                <tr>
-                    <th>Item Code</th>
-                    <th>Description</th>
-                    <th>Unit of Measure</th>
-                    <th>Unit Price ($)</th>
-                    @*<th>Active</th>*@
-                </tr>
-            </thead>
-            <tbody style="font-size: 10pt;"></tbody>
-        </table>
 
-        <hr />
-        <div class="row">
-            <div class="col-md-6">
-                <span>
-                    @using (Html.BeginForm("BackToSupplierDetails", "StoreMaintenance", FormMethod.Post))
-                    {
-                        <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                    }
-                </span>
-            </div>
-            <div class="col-md-6">
-                <div style="text-align:center;">
-                    <div style="float: right;">
-                        <button id="btn-save-supplier-price-list" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
-                    </div>
+    <table id="dataTable-store-supplier-price-details" class="display" style="width:80%;">
+        <thead style="font-size: 10pt;">
+            <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Unit of Measure</th>
+                <th>Unit Price ($)</th>
+                @*<th>Active</th>*@
+            </tr>
+        </thead>
+        <tbody style="font-size: 10pt;"></tbody>
+    </table>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <span>
+                @using (Html.BeginForm("BackToSupplierDetails", "StoreMaintenance", FormMethod.Post))
+                {
+                    <input class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                }
+            </span>
+        </div>
+        <div class="col-md-6">
+            <div style="text-align:center;">
+                <div style="float: right;">
+                    <button id="btn-save-supplier-price-list" class="btn btn-lu-green" style="font-size: 10pt;">Save</button>
                 </div>
             </div>
         </div>
+    </div>
 
 
     <div id="errormessage" class="col-md-12" style="position: absolute;" />

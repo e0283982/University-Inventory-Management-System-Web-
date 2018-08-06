@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -56,7 +60,7 @@
                             "targets": [0],
                             "visible": false,
                             "searchable": false
-                            
+
                         }, {
                             className: 'text-center', targets: [0, 1, 2, 3, 4, 5]
                         }
@@ -86,7 +90,7 @@
             dateFormat: 'dd-mm-yy',
             minDate: new Date()
         }).datepicker("setDate", new Date());
-        
+
 
         $(function () {
             $("#dialog-saved-employee-auth-edit").dialog({
@@ -95,7 +99,7 @@
                 maxWidth: "40%"
             });
         });
-        
+
         $("#form-submit-new-auth").submit(function () {
             $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
             $('#dialog-show-employee-auth').dialog('close');
@@ -163,15 +167,15 @@
 <div id="dialog-show-employee-auth" class="hidden" @*title="Update Employee Role"*@>
     @using (Html.BeginForm("SubmitNewDelegation", "DeptAuthorisation", FormMethod.Post, new { id = "form-submit-new-auth" }))
     {
-    <br />
-    <div style="text-align:center;">
-        <h4>Update Employee Role</h4>
-    </div>     
-    <hr />
+        <br />
+        <div style="text-align:center;">
+            <h4>Update Employee Role</h4>
+        </div>
+        <hr />
         <div>
             <div>
                 <label>Employee Name: </label>
-                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName", @id = "assign-emp-role-name" ,@readonly="readonly"}, })
+                @Html.EditorFor(tuple => tuple.Item2.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "EmployeeName", @id = "assign-emp-role-name", @readonly = "readonly" }, })
             </div>
             <br />
             <div>

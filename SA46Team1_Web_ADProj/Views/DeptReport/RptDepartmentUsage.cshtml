@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -8,114 +12,114 @@
 
 <div>
     <h5>Department Usage Cost Report</h5>
-    <div  style="float:right;">
+    <div style="float:right;">
         @*<div  class="row">
-            <label id="lbl-filter-info2">Filter results: All</label>
-        </div>*@
-        <div  class="row">
+                <label id="lbl-filter-info2">Filter results: All</label>
+            </div>*@
+        <div class="row">
             <label id="lbl-cost-info2"></label>
         </div>
     </div>
 </div>
 
-    <div class="row">
-        <div class="col-md-3">
-            <div>
-                <label style="font-size: 10pt;">Department: </label>
-                <label id="lbl-dept">@ViewBag.Department</label>
-            </div>
-            <div>
-                <label style="font-size: 10pt;">Category: </label>
-                @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
-            </div>
+<div class="row">
+    <div class="col-md-3">
+        <div>
+            <label style="font-size: 10pt;">Department: </label>
+            <label id="lbl-dept">@ViewBag.Department</label>
         </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-2">
-                    <span>
-                        <label style="font-size: 10pt;">Year</label>
-                    </span>
-                    <span>
-                        <select id="chosenYear" multiple>
-                            <option value="2017">2017</option>
-                            <option value="2018">2018</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="col-md-2">
-                    <span>
-                        <label style="font-size: 10pt;">Month(s)</label>
-                    </span>
-                    <span>
-                        <select id="chosenMonths" multiple>
-                            <option value="jan">Jan</option>
-                            <option value="feb">Feb</option>
-                            <option value="mar">Mar</option>
-                            <option value="apr">Apr</option>
-                            <option value="may">May</option>
-                            <option value="jun">Jun</option>
-                            <option value="jul">Jul</option>
-                            <option value="aug">Aug</option>
-                            <option value="sep">Sep</option>
-                            <option value="oct">Oct</option>
-                            <option value="nov">Nov</option>
-                            <option value="dec">Dec</option>
-                        </select>
-                    </span>
-                </div>
-            </div>
+        <div>
+            <label style="font-size: 10pt;">Category: </label>
+            @Html.DropDownList("SelectCategory", ViewBag.CategoryList as SelectList)
         </div>
     </div>
-
-    <br />
-
-    <div class="row">
-        <div class="col-md-12">
-            <div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-2">
                 <span>
-                    <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
-                </span>
-                <span id="btn-submit-export2">
-                    @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "DeptReport", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
+                    <label style="font-size: 10pt;">Year</label>
                 </span>
                 <span>
-                    <input class="btn btn-lu-red" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
+                    <select id="chosenYear" multiple>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                    </select>
+                </span>
+            </div>
+            <div class="col-md-2">
+                <span>
+                    <label style="font-size: 10pt;">Month(s)</label>
+                </span>
+                <span>
+                    <select id="chosenMonths" multiple>
+                        <option value="jan">Jan</option>
+                        <option value="feb">Feb</option>
+                        <option value="mar">Mar</option>
+                        <option value="apr">Apr</option>
+                        <option value="may">May</option>
+                        <option value="jun">Jun</option>
+                        <option value="jul">Jul</option>
+                        <option value="aug">Aug</option>
+                        <option value="sep">Sep</option>
+                        <option value="oct">Oct</option>
+                        <option value="nov">Nov</option>
+                        <option value="dec">Dec</option>
+                    </select>
                 </span>
             </div>
         </div>
     </div>
+</div>
 
-    <hr />
+<br />
 
-    <table id="dataTable-deptUsage2" class="table">
-
-        <thead style="font-size: 10pt;">
-            <tr>
-                <th>Dept Name</th>
-                <th>Year</th>
-                <th>Month</th>
-                <th>Category</th>
-                <th>Item Code</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Unit of Measure</th>
-                <th>Quantity</th>
-                <th>Avg Unit Cost ($)</th>
-                <th>Total Cost ($)</th>
-            </tr>
-        </thead>
-        <tbody style="font-size: 10pt;"></tbody>
-    </table>
-
-    <div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
-        <h5>Please select at least 1 valid month and year.</h5>
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <span>
+                <input class="btn btn-lu-green" type="submit" id="btn-submit-filter2" style="font-size: 10pt;" value="Submit" />
+            </span>
+            <span id="btn-submit-export2">
+                @Html.ActionLink("Export to PDF", "ExportRptDepartmentUsage", "DeptReport", null, new { @class = "btn btn-lu-blue", @id = "btn-export-pdf2", style = "font-size: 10pt;" })
+            </span>
+            <span>
+                <input class="btn btn-lu-red" type="submit" id="btn-clear-filter2" style="font-size: 10pt;" value="Clear" />
+            </span>
+        </div>
     </div>
+</div>
 
-    <div id="dialog-no-data" class="hidden" title="Information">
-        <h5>No data found.</h5>
-    </div>
+<hr />
 
-    <script>
+<table id="dataTable-deptUsage2" class="table">
+
+    <thead style="font-size: 10pt;">
+        <tr>
+            <th>Dept Name</th>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Category</th>
+            <th>Item Code</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Unit of Measure</th>
+            <th>Quantity</th>
+            <th>Avg Unit Cost ($)</th>
+            <th>Total Cost ($)</th>
+        </tr>
+    </thead>
+    <tbody style="font-size: 10pt;"></tbody>
+</table>
+
+<div id="dialog-invalid-report-date" class="hidden" title="Invalid report date filter">
+    <h5>Please select at least 1 valid month and year.</h5>
+</div>
+
+<div id="dialog-no-data" class="hidden" title="Information">
+    <h5>No data found.</h5>
+</div>
+
+<script>
     var table;
     var initialSum;
 
@@ -228,13 +232,13 @@
                                 .columns(0)
                                 .search(dept, true, false, true).draw();
 
-                            
+
                             if ($.trim(category) != "All") {
                                 table
                                     .columns(3)
                                     .search(category, true, false, true).draw();
                             }
-                            
+
 
                             if (table.rows({ filter: 'applied' }).data().length == 0) {
                                 $('#dialog-no-data').dialog('open');
@@ -360,4 +364,4 @@
             return x1 + x2;
         }
 
-    </script>
+</script>

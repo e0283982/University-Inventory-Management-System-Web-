@@ -1,10 +1,14 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Hendri Setia Wardana
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
 <script>
     $(document).ready(function () {
-        
+
         $.ajax({
             url: 'http://localhost:49921/api/Restful/GetRequisitionListDetails/' + '@Session["storeReqFormId"]',
             method: 'get',
@@ -36,12 +40,12 @@
                 var newDate = date.getDate() + "/" + month + "/" + date.getFullYear();
 
                 $(function () {
-                    
+
                     var deptName = data[0]["DepartmentName"];
                     var empName = data[0]["EmployeeName"]
                     var approverName = data[0]["Manager"];
                     var requestedDate = newDate;
-                    
+
                     $("#deptName").append(deptName);
                     $("#empName").append(empName);
                     $("#approverName").append(approverName);

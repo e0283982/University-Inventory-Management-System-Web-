@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Hendri Setia Wardana
+    --------------------------------*@
+
+@{
     Layout = null;
     List<StockAdjItemModel> list = (List<StockAdjItemModel>)Session["newAdjList"];
     bool editMode = (bool)Session["newAdjEditMode"];
@@ -33,10 +37,10 @@
                     "targets": [0],
                     "visible": false,
                     "searchable": false
-                    
+
                 }, {
                     className: 'text-center', targets: [0, 1, 2, 3, 4],
-                }     
+                }
             ]
         });
     });
@@ -122,7 +126,7 @@
             table.draw(false);
 
             window.location.href = '@Url.Action("Inventory", "Store")';
-        
+
         }
     });
 
@@ -131,7 +135,7 @@
         var index = table.row($(this).parents('tr')).index();
 
         var reason = table.cell(index, 2).nodes().to$().find('option:selected').text();
-       
+
         $.ajax({
             url: '/StoreInventory/EditNewAdjReason',
             data: JSON.stringify({ data: reason, index: index }),
@@ -180,7 +184,7 @@
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-submit-new-adj').dialog('close');
     });
-   
+
     $('#btn-confirm-submit-submit').on('click', function () {
         $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
 
@@ -249,55 +253,56 @@
 
     <div id="loading" style="font-family: 'Oxygen', sans-serif;">
         <form onsubmit="event.preventDefault(); validateMyForm();">
-        <table id="dataTable-new-adj" class="display" style="width:80%;">
-            <thead style="font-size: 10pt;">
-                <tr>
-                    <th>Item Code</th>
-                    <th>Item Description</th>
-                    <th>Damaged/Missing</th>
-                    <th>Quantity</th>
-                    <th>Adjustment Cost ($)</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            @foreach (var item in list)
+            <table id="dataTable-new-adj" class="display" style="width:80%;">
+                <thead style="font-size: 10pt;">
+                    <tr>
+                        <th>Item Code</th>
+                        <th>Item Description</th>
+                        <th>Damaged/Missing</th>
+                        <th>Quantity</th>
+                        <th>Adjustment Cost ($)</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                @foreach (var item in list)
+                {
+                    <tr>
+                        <td style="font-size: 10pt;">@item.ItemCode</td>
+                        <td style="font-size: 10pt;">@item.ItemDesc</td>
+                        @*<td style="font-size: 10pt;">@item.Reason</td>*@
+                        <td style="font-size: 10pt;">
+                            <select id="selectAdjReason">
+                                @if (item.Reason == "Damaged")
+                                {
+                                    <option value="Damaged" selected>Damaged</option>
+                                    <option value="Missing">Missing</option>
+                                }
+                                else
+                                {
+                                    <option value="Damaged">Damaged</option>
+                                    <option value="Missing" selected>Missing</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input id="input-adj-qty" style="font-size: 10pt; text-align: center;" value="@item.AdjQty" type="number" min="1" max="2000" pattern="[0-9]" step="1" />
+                        </td>
+                        <td>
+                            <label id="input-adj-cost" style="font-size: 10pt;">@item.AdjCost.ToString("0.00")</label>
+                        </td>
+                        <td>
+                            <span>
+                                <button class="btn btn-lu-red" id="btn-discard-new-adj">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                }
+                <tbody style="font-size: 10pt;"></tbody>
+            </table>
+            @if (TempData["ErrorMsg"] == null)
             {
-            <tr>
-                <td style="font-size: 10pt;">@item.ItemCode</td>
-                <td style="font-size: 10pt;">@item.ItemDesc</td>
-                @*<td style="font-size: 10pt;">@item.Reason</td>*@
-                <td style="font-size: 10pt;">
-                    <select id="selectAdjReason">
-                        @if (item.Reason == "Damaged")
-                        {
-                            <option value="Damaged" selected>Damaged</option>
-                            <option value="Missing">Missing</option>
-                        }
-                        else
-                        {
-                            <option value="Damaged">Damaged</option>
-                            <option value="Missing" selected>Missing</option>
-                        }
-                    </select>
-                </td>
-                <td>
-                    <input id="input-adj-qty" style="font-size: 10pt; text-align: center;" value="@item.AdjQty" type="number" min="1" max="2000" pattern="[0-9]" step="1" />
-                </td>
-                <td>
-                    <label id="input-adj-cost" style="font-size: 10pt;">@item.AdjCost.ToString("0.00")</label>
-                </td>
-                <td>
-                    <span>
-                        <button class="btn btn-lu-red" id="btn-discard-new-adj">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                    </span>
-                </td>
-            </tr>
-            }
-            <tbody style="font-size: 10pt;"></tbody>
-        </table>
-            @if(TempData["ErrorMsg"] == null){
 
             }
             else
@@ -305,27 +310,27 @@
                 <div class="alert alert-danger col-md-6" id="errormessage">@TempData["ErrorMsg"]</div>
 
             }
-        <hr />
+            <hr />
 
-        <div class="row">
-            <div class="col-md-6">
-                <button class="btn btn-lu-blue" id="btn-back-stock-adj" style="font-size: 10pt;">Back</button>
-            </div>
-            <div class="col-md-6">
-                <div style="float: right;">
-                    @*<span>
-                            <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
-                        </span>*@
-                    <span>
-                        <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;" disabled>Clear</button>
-                    </span>
-                    <span>
-                        <button class="btn btn-lu-green" id="btn-submit-new-adj" style="font-size: 10pt;" disabled>Submit</button>
-                    </span>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-lu-blue" id="btn-back-stock-adj" style="font-size: 10pt;">Back</button>
+                </div>
+                <div class="col-md-6">
+                    <div style="float: right;">
+                        @*<span>
+                                <button class="btn btn-lu-blue" id="btn-add-adj-item" style="font-size: 10pt;">Add</button>
+                            </span>*@
+                        <span>
+                            <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;" disabled>Clear</button>
+                        </span>
+                        <span>
+                            <button class="btn btn-lu-green" id="btn-submit-new-adj" style="font-size: 10pt;" disabled>Submit</button>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-            </form>
+        </form>
         <div id="dialog-add-adj-item" class="hidden" style="text-align:center;">
             @using (Html.BeginForm("AddNewAdjItem", "StoreInventory", FormMethod.Post, new { id = "form-submit-add-new-adj" }))
             {
@@ -345,7 +350,7 @@
                     <div>
                         <br />
                         <label>Adjustment Qty: </label>
-                        @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @max="2000", @Value = "1" }, })
+                        @Html.EditorFor(model => model.AdjQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Adjustment Quantity", @id = "new-item-adj-qty", @min = "1", @step = "1", @max = "2000", @Value = "1" }, })
                     </div>
 
                     <br />

@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
 
     Layout = null;
     string url = null;
@@ -9,7 +13,8 @@
         var id = Session["DepartmentCode"];
         url = "http://localhost:49921/api/Restful/GetBackOrdersByDept/" + id;
     }
-    else {
+    else
+    {
         var id = Session["LoginEmployeeID"];
         url = "http://localhost:49921/api/Restful/GetBackOrdersByEmployee/" + id;
     }
@@ -58,13 +63,13 @@
                         {
                             "targets": [1],
                             "visible": false,
-                            "searchable": false,   
+                            "searchable": false,
                         }, {
                             className: 'text-center', targets: [0, 1, 2, 3, 4, 5]
                         }
                     ],
                     drawCallback: function (settings) {
-                        
+
                     //    $('#dataTable-backOrders tbody').on('click', 'tr', function () {
                     //        $(this).toggleClass('selected');
                     //    });
@@ -149,7 +154,7 @@
     });
 
     $('#btn-confirm-discard-yes').click(function () {
-        
+
         var dataToSend = "";
         var arr = [];
         var arr1 = [];
@@ -162,7 +167,7 @@
             if (rowChecked == true) {
                 arr.push(dataToSend[0].ItemCode);
                 arr1.push(dataToSend[0].ReqId);
-            }          
+            }
 
         }
 
@@ -182,7 +187,7 @@
         $('#dialog-confirm-discard-backorder-item').dialog('close');
         //table.draw(false);
         $('#dialog-discard-backorder-item-submitted').dialog('open');
-        
+
     });
 
     $('#dialog-discard-backorder-item-submitted').on('dialogclose', function (event) {
@@ -218,19 +223,19 @@
 <hr />
 
 <div class="row">
-   
-        <span class="col-md-12">
-            <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;" disabled>
-                Discard Selected Items
-            </button>
-        </span>
-    
+
+    <span class="col-md-12">
+        <button id="btn-submit-discard-backorder-items" class="btn btn-lu-red" type="submit" style="float: right; font-size: 10pt;" disabled>
+            Discard Selected Items
+        </button>
+    </span>
+
 </div>
 
-<div id="dialog-confirm-discard-backorder-item" class="hidden"  style="overflow:hidden;"@*title="Confirm Discard Selected (BackOrder)"*@>
+<div id="dialog-confirm-discard-backorder-item" class="hidden" style="overflow:hidden;" @*title="Confirm Discard Selected (BackOrder)"*@>
     <div style="text-align: center;">
         <h5>Are you sure you want to discard the selected back order?</h5>
-    </div>    
+    </div>
     <hr />
     <div class="row">
         <div class="col-md-6">
@@ -244,19 +249,19 @@
             <span>
                 <button class="btn btn-lu-red" id="btn-confirm-discard-yes" style="font-size: 10pt;">Yes</button>
             </span>
-        </div>      
-    </div>    
+        </div>
+    </div>
 </div>
 
-<div id="dialog-discard-backorder-item-submitted" class="hidden"  style="overflow:hidden;"@*title="Backorder Item Discarded"*@>
+<div id="dialog-discard-backorder-item-submitted" class="hidden" style="overflow:hidden;" @*title="Backorder Item Discarded"*@>
     <br />
     <div style="text-align:center;">
         <h5>Selected back order has been cancelled.</h5>
-    </div>   
+    </div>
     <hr />
 </div>
 
-<div id="dialog-discard-backorder-no-item-selected" class="hidden"  style="overflow:hidden;" @*title="No Item Selected (BackOrder)"*@>
+<div id="dialog-discard-backorder-no-item-selected" class="hidden" style="overflow:hidden;" @*title="No Item Selected (BackOrder)"*@>
     <br />
     <div style="text-align:center;">
         <h5>No item was selected for discard.</h5>

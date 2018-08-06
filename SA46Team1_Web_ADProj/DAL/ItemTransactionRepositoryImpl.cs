@@ -4,6 +4,10 @@ using System.Data.Entity;
 using System.Linq;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Authors: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.DAL
 {
     class ItemTransactionRepositoryImpl : IItemTransactionRepository, IDisposable

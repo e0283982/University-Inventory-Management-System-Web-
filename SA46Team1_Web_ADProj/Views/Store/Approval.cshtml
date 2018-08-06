@@ -1,31 +1,35 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Chirag Shetty
+    --------------------------------*@
+
+@{
     Layout = "~/Views/Shared/_LayoutStore.cshtml";
 }
 
 <script>
 
     $(function () {
-       
+
         $("#tabs-min").tabs();
-        
+
     });
 
 </script>
 
-    @if (User.IsInRole("Store Manager"))
-    {
-        <div id="tabs-min">
-            <ul>
-                <li style="font-size: 10pt;"><a href="/Store/StoreInventoryManager/ReviewAdj">Adjustment Approval</a></li>
-            </ul>
-        </div>
-    }
+@if (User.IsInRole("Store Manager"))
+{
+    <div id="tabs-min">
+        <ul>
+            <li style="font-size: 10pt;"><a href="/Store/StoreInventoryManager/ReviewAdj">Adjustment Approval</a></li>
+        </ul>
+    </div>
+}
 
-    else if (User.IsInRole("Store Supervisor"))
-        {
-            <div id="tabs-min">
-                <ul>
-                    <li style="font-size: 10pt;"><a href="/Store/StoreInventoryManager/ReviewAdj">Adjustment Approval</a></li>
-                </ul>
-            </div>
-        }
+else if (User.IsInRole("Store Supervisor"))
+{
+    <div id="tabs-min">
+        <ul>
+            <li style="font-size: 10pt;"><a href="/Store/StoreInventoryManager/ReviewAdj">Adjustment Approval</a></li>
+        </ul>
+    </div>
+}

@@ -1,4 +1,8 @@
-﻿@using SA46Team1_Web_ADProj.Models;
+﻿@*--------------------------------
+    Author: Wong Wei Jie
+    --------------------------------*@
+
+@using SA46Team1_Web_ADProj.Models;
 @model POFullDetail
 
 @{
@@ -63,7 +67,7 @@
 
                     $("#lbl-supplier").append(data[0]["CompanyName"]);
                     $("#lbl-dateCreated").append(newDate);
-                    $("#lbl-del-date").append(newDateRec); 
+                    $("#lbl-del-date").append(newDateRec);
                     $("#lbl-status").append(data[0]["Status"]);
                     $("#displayPO-gross-total").val(twoDP(total));
                     $("#displayPO-net-total").val(twoDP(netTotal));
@@ -211,7 +215,7 @@
 
         if (validation == 0) {
             $('#errormessage').html("<div class=\"alert alert-danger col-md-6\" id=\"errormessage\">" +
-                "Total delivered quantity cannot be 0." + 
+                "Total delivered quantity cannot be 0." +
                 "</div>");
 
             error = true;
@@ -273,7 +277,7 @@
         $('#dialog-cancel-displayPO').dialog('close');
     });
 
-    
+
     $('#btn-back-to-po-list').click(function () {
 
         $.ajax({
@@ -364,7 +368,7 @@
 
         var gst = total * 0.07;
         var netTotal = total * 1.07;
-        
+
         $("#displayPO-gross-total").val(twoDP(total));
         $("#displayPO-net-total").val(twoDP(netTotal));
         $("#displayPO-gst").val(twoDP(gst));
@@ -402,221 +406,221 @@
 
 <div id="loading" style="font-family: 'Oxygen', sans-serif;">
     <form onsubmit="event.preventDefault(); validateMyForm();">
-<div class="row">
-    <div class="col-md-12">
-        <div>
-            <h5 id="Title">Display/Edit Purchase Order</h5>
-        </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div>
-                    <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumber" style="font-size: 10pt;">@Session["poNumber"]</label>
+                    <h5 id="Title">Display/Edit Purchase Order</h5>
                 </div>
-                <div>
-                    <label style="font-size: 10pt;">PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 10pt;" /></strong>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-supplier" style="font-size: 10pt;" />
-                </div>
-                <div>
-                    <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                @*--buttons--*@
-                <div style="float:right;">
-
-                    @if (Session["poStatus"].ToString() == "Open")
-                    {
-                        <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;" disabled>Edit</button>
-                    }
-                    <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
-                        <p>Should change color if Goods Receipt / status is completed</p>
-                    </div>
-
-                    @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
-                    {
-                        <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt</button>
-                    }
-
-                    <button type="reset" class="hidden btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
-
-                    <button class="hidden btn btn-lu-green" id="btn-save-displayPO" style="font-size: 10pt;">Save</button>
-                    <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
-                        <p>Changes to PO - can only be seen / used if PO is 'open'</p>
-                    </div>
-
-                    @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
-                    {
-                        <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Receipt</button>
-                    }
-
-                    <div id="dialog-cancel-displayPO" class="hidden" style="overflow:hidden;">
-                        <br />
-                        <div style="text-align:center;">
-                            <h5>Cancel current Purchase Order?</h5>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div style="float:right">
-                                    <span>
-                                        <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <span>
-                                    <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
-                                </span>
-                            </div>
-                        </div>
-                        <hr />
-                    </div>
-
-                    <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
-                        <br />
-                        <div style="text-align:center;">
-                            <h5>Prep GR</h5>
-                        </div>
-                        <hr />
-                    </div>
-
-                    <div id="dialog-gr-submitted" class="hidden">
-                        <br />
+                <div class="row">
+                    <div class="col-md-4">
                         <div>
-                            <h5>New goods receipt has been submitted.</h5>
+                            <label style="font-size: 10pt;">PO Number:&nbsp;</label><label id="lbl-poNumber" style="font-size: 10pt;">@Session["poNumber"]</label>
                         </div>
+                        <div>
+                            <label style="font-size: 10pt;">PO Status:&nbsp;</label><strong><label id="lbl-status" style="font-size: 10pt;" /></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label style="font-size: 10pt;">Supplier:&nbsp;</label><label id="lbl-supplier" style="font-size: 10pt;" />
+                        </div>
+                        <div>
+                            <label style="font-size: 10pt;">Date Created: &nbsp;</label><label id="lbl-dateCreated" style="font-size: 10pt;" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        @*--buttons--*@
+                        <div style="float:right;">
 
-                        <span>
-                            <button class="btn btn-lu-blue" id="btn-gr-submitted-ok" style="width:100%;">Ok</button>
-                        </span>
-                        
-                        <hr />
+                            @if (Session["poStatus"].ToString() == "Open")
+                            {
+                                <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;">Edit</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-lu-blue" id="btn-edit-displayPO" style="font-size: 10pt;" disabled>Edit</button>
+                            }
+                            <div id="dialog-edit-displayPO" class="hidden" title="Basic dialog">
+                                <p>Should change color if Goods Receipt / status is completed</p>
+                            </div>
+
+                            @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
+                            {
+                                <button class="btn btn-lu-blue" id="btn-edit-GR" style="font-size: 10pt;">Goods Receipt</button>
+                            }
+
+                            <button type="reset" class="hidden btn btn-lu-red" id="btn-cancel-displayPO" style="font-size: 10pt;">Cancel</button>
+
+                            <button class="hidden btn btn-lu-green" id="btn-save-displayPO" style="font-size: 10pt;">Save</button>
+                            <div id="dialog-save-displayPO" class="hidden" title="Basic dialog">
+                                <p>Changes to PO - can only be seen / used if PO is 'open'</p>
+                            </div>
+
+                            @if (Session["poStatus"].ToString() == "Outstanding" || Session["poStatus"].ToString() == "Open")
+                            {
+                                <button class="hidden btn btn-lu-green" id="btn-GR-displayPO" style="font-size: 10pt;">Submit Goods Receipt</button>
+                            }
+
+                            <div id="dialog-cancel-displayPO" class="hidden" style="overflow:hidden;">
+                                <br />
+                                <div style="text-align:center;">
+                                    <h5>Cancel current Purchase Order?</h5>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div style="float:right">
+                                            <span>
+                                                <button class="btn btn-lu-red" id="btn-confirm-submit-cancel">Cancel</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span>
+                                            <button class="btn btn-lu-green" id="btn-confirm-submit-submit">Submit</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
+
+                            <div id="dialog-edit-GR" class="hidden" title="Basic dialog">
+                                <br />
+                                <div style="text-align:center;">
+                                    <h5>Prep GR</h5>
+                                </div>
+                                <hr />
+                            </div>
+
+                            <div id="dialog-gr-submitted" class="hidden">
+                                <br />
+                                <div>
+                                    <h5>New goods receipt has been submitted.</h5>
+                                </div>
+
+                                <span>
+                                    <button class="btn btn-lu-blue" id="btn-gr-submitted-ok" style="width:100%;">Ok</button>
+                                </span>
+
+                                <hr />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            @*<div class="col-md-3">
+
+                </div>*@
         </div>
-    </div>
-    @*<div class="col-md-3">
+        <br />
+        <div class="row">
 
-        </div>*@
-</div>
-<br />
-<div class="row">
+        </div>
 
-</div>
+        <div id="datatableDisplayPO">
+            <table id="dataTable-displayPO" class="display" style="width:80%;">
+                <thead style="font-size: 10pt;">
+                    <tr>
+                        <th>Item Code</th>
+                        <th>Item Description</th>
+                        <th>Quantity Ordered</th>
+                        <th>Quantity Delivered</th>
+                        <th>New Quantity Received</th>
+                        <th>Unit of Measure</th>
+                        <th>Unit Price ($)</th>
+                        <th>Total ($)</th>
+                        <th>GST ($)</th>
+                    </tr>
+                </thead>
+                @foreach (var item in poFullDetailList)
+                {
+                    <tr style="font-size: 10pt;">
+                        <th style="font-size: 10pt;">@item.ItemCode</th>
+                        <th style="font-size: 10pt;">@item.Description</th>
+                        <th style="font-size: 10pt;">
+                            <input id="input-qty-ordered" class="inputEditOrd" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityOrdered" disabled />
+                        </th>
+                        <th style="font-size: 10pt;">
+                            <input id="input-qty-delivered" class="inputEditDel" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityDelivered" disabled />
+                        </th>
+                        <th>
+                            @if (item.QuantityOrdered - item.QuantityDelivered == 0)
+                            {
+                                <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="0" pattern="[0-9]" step="1" value="0" disabled />
+                            }
+                            else
+                            {
+                                <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="0" pattern="[0-9]" step="1" value="0" />
+                            }
 
-<div id="datatableDisplayPO">
-    <table id="dataTable-displayPO" class="display" style="width:80%;">
-        <thead style="font-size: 10pt;">
-            <tr>
-                <th>Item Code</th>
-                <th>Item Description</th>
-                <th>Quantity Ordered</th>
-                <th>Quantity Delivered</th>
-                <th>New Quantity Received</th>
-                <th>Unit of Measure</th>
-                <th>Unit Price ($)</th>
-                <th>Total ($)</th>
-                <th>GST ($)</th>
-            </tr>
-        </thead>
-        @foreach (var item in poFullDetailList)
-        {
-            <tr style="font-size: 10pt;">
-                <th style="font-size: 10pt;">@item.ItemCode</th>
-                <th style="font-size: 10pt;">@item.Description</th>
-                <th style="font-size: 10pt;">
-                    <input id="input-qty-ordered" class="inputEditOrd" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityOrdered" disabled />
-                </th>
-                <th style="font-size: 10pt;">
-                    <input id="input-qty-delivered" class="inputEditDel" style="text-align:center" type="number" min="1" pattern="[0-9]" step="1" value="@item.QuantityDelivered" disabled />
-                </th>
-                <th>
-                    @if (item.QuantityOrdered - item.QuantityDelivered == 0)
-                    {
-                        <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="0" pattern="[0-9]" step="1" value="0" disabled />
-                    }
-                    else
-                    {
-                        <input id="input-qty-received" class="inputEditRec" style="text-align:center" type="number" min="0" pattern="[0-9]" step="1" value="0" />
-                    }
-
-                </th>
-                <th style="font-size: 10pt;">@item.UoM</th>
-                <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost.ToString("0.00")</label></th>
-                <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
-                <th style="font-size: 10pt;">7%</th>
-            </tr>
-        }
-    </table>
-</div>
+                        </th>
+                        <th style="font-size: 10pt;">@item.UoM</th>
+                        <th style="font-size: 10pt;"><label id="lbl-unit-cost" class="lbl-unit-cost">@item.UnitCost.ToString("0.00")</label></th>
+                        <th style="font-size: 10pt;"><label id="lbl-total-cost">@((item.UnitCost * item.QuantityOrdered).ToString("0.00"))</label></th>
+                        <th style="font-size: 10pt;">7%</th>
+                    </tr>
+                }
+            </table>
+        </div>
     </form>
-<div class="row">
-    @*<hr style="margin-left:0px; width: 300px;" />*@
-    <div id="errormessage" class="col-md-12" />
+    <div class="row">
+        @*<hr style="margin-left:0px; width: 300px;" />*@
+        <div id="errormessage" class="col-md-12" />
 
-    <div style="float:left;">
-        <label style="font-size: 10pt;">Gross Total</label>
-        <br />
-        <label style="font-size: 10pt;">GST</label>
-        <br />
-        <label style="font-size: 10pt;">Net Total</label>
+        <div style="float:left;">
+            <label style="font-size: 10pt;">Gross Total</label>
+            <br />
+            <label style="font-size: 10pt;">GST</label>
+            <br />
+            <label style="font-size: 10pt;">Net Total</label>
 
-        <br /><br />
-              <div class="row">
+            <br /><br />
+            <div class="row">
 
-                  <div>
-                      <input id="btn-back-to-po-list" class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
-                  </div>
+                <div>
+                    <input id="btn-back-to-po-list" class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
+                </div>
 
-                      @using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
-                      {
-                          <div>
-                              <input id="btn-print-po" class="btn btn-lu-blue" type="submit" value="Print" style="font-size: 10pt;" />
-                          </div>
-                      }
-                  
-
-
-              </div>
-    </div>
+                @using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
+                {
+                    <div>
+                        <input id="btn-print-po" class="btn btn-lu-blue" type="submit" value="Print" style="font-size: 10pt;" />
+                    </div>
+                }
 
 
-    <div style="float:right; margin-left:2vw">
-        ($):&nbsp;<strong><input disabled id="displayPO-gross-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
-        <br />
-        ($):&nbsp;<strong><input disabled id="displayPO-gst" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
-        <br />
-        ($):&nbsp;<strong><input disabled id="displayPO-net-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
-    </div>
 
-    <br /><br /><br /><br />
-    <br /><br />
-
-
-    <div class="col-md-6">
-
-        <div style="float:left; margin-left:30vw">
-            <div>
-                <p>Remarks:</p>
-                <textarea id="ta-remarks" maxlength="255" rows="3" cols="50" disabled>@Session["PORemarks"]</textarea>
             </div>
-            @if (Session["poStatus"].ToString() == "Open")
-            {
-                <button class="btn btn-lu-red" id="btn-cancelPO" style="float: right; margin:3px; font-size: 10pt;">Cancel Purchase Order</button>
-                <br /><br />
-            }
+        </div>
+
+
+        <div style="float:right; margin-left:2vw">
+            ($):&nbsp;<strong><input disabled id="displayPO-gross-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+            <br />
+            ($):&nbsp;<strong><input disabled id="displayPO-gst" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+            <br />
+            ($):&nbsp;<strong><input disabled id="displayPO-net-total" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;" /></strong>
+        </div>
+
+        <br /><br /><br /><br />
+        <br /><br />
+
+
+        <div class="col-md-6">
+
+            <div style="float:left; margin-left:30vw">
+                <div>
+                    <p>Remarks:</p>
+                    <textarea id="ta-remarks" maxlength="255" rows="3" cols="50" disabled>@Session["PORemarks"]</textarea>
+                </div>
+                @if (Session["poStatus"].ToString() == "Open")
+                {
+                    <button class="btn btn-lu-red" id="btn-cancelPO" style="float: right; margin:3px; font-size: 10pt;">Cancel Purchase Order</button>
+                    <br /><br />
+                }
+            </div>
         </div>
     </div>
-</div>
 
 
 </div>

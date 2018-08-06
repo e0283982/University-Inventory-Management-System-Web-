@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Hendri Setia Wardana
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 
@@ -17,7 +21,7 @@
                 sort: true,
                 searching: true,
                 "order": [[3, "desc"], [1, "desc"]],
-                "iDisplayLength": 5,                
+                "iDisplayLength": 5,
                 data: data,
                 columns: [
                     {
@@ -40,7 +44,7 @@
                  drawCallback: function (settings) {
                         $('#dataTable-storeDisbursementReqList tbody').off().on('click', 'tr', function () {
                         var data = table.row(this).data();
-                      
+
                         $.ajax({
                             url: '/StoreDisbursements/DisplayReqDetails',
                             data: { storeReqFormId: data["FormID"] },

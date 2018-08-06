@@ -1,4 +1,8 @@
-﻿@using SA46Team1_Web_ADProj.Models;
+﻿@*--------------------------------
+    Author: Wong Wei Jie
+    --------------------------------*@
+
+@using SA46Team1_Web_ADProj.Models;
 @model Tuple<Item, POFullDetail>
 @{
     Layout = null;
@@ -203,139 +207,139 @@
         </div>
     </div>
     <form onsubmit="event.preventDefault(); validateMyForm();">
-    @*--- Table ---*@
-    <table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
-        <thead style="font-size: 10pt;">
-            <tr>
-                <th>Item Code</th>
-                <th>Item Description</th>
-                <th>Supplier</th>
-                <th>Qty</th>
-                <th>Unit of Measure</th>
-                <th>Unit Price ($)</th>
-                <th>Total ($)</th>
-                <th>GST ($)</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
+        @*--- Table ---*@
+        <table id="dataTable-newPO" class="display" style="width:80%; font-family: 'Oxygen', sans-serif;">
+            <thead style="font-size: 10pt;">
+                <tr>
+                    <th>Item Code</th>
+                    <th>Item Description</th>
+                    <th>Supplier</th>
+                    <th>Qty</th>
+                    <th>Unit of Measure</th>
+                    <th>Unit Price ($)</th>
+                    <th>Total ($)</th>
+                    <th>GST ($)</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
 
-        @foreach (var item in poDetailList)
-        {
-            <tr>
-                <td style="font-size: 10pt;">@item.ItemCode</td>
-                <td style="font-size: 10pt;">@item.Description</td>
-                <td style="font-size: 10pt;">
-                    <select id="select-supplier">
-                        @if (item.Supplier1Code == item.CompanyName)
-                        {
-                            <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Supplier1Code">@item.Supplier1Code</option>
-                        }
+            @foreach (var item in poDetailList)
+            {
+                <tr>
+                    <td style="font-size: 10pt;">@item.ItemCode</td>
+                    <td style="font-size: 10pt;">@item.Description</td>
+                    <td style="font-size: 10pt;">
+                        <select id="select-supplier">
+                            @if (item.Supplier1Code == item.CompanyName)
+                            {
+                                <option value="@item.Supplier1Code" selected="selected">@item.Supplier1Code</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Supplier1Code">@item.Supplier1Code</option>
+                            }
 
-                        @if (item.Supplier2Code == item.CompanyName)
-                        {
-                            <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Supplier2Code">@item.Supplier2Code</option>
-                        }
-                        @if (item.Supplier3Code == item.CompanyName)
-                        {
-                            <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Supplier3Code">@item.Supplier3Code</option>
-                        }
-                    </select>
-                </td>
-                <td><input id="input-qty" style="font-size: 10pt; text-align: center;" min="1" type="number" pattern="[0-9]" step="1" max="2000" value="@item.QuantityOrdered" /></td>
-                <td style="font-size: 10pt;">@item.UoM</td>
-                @if (item.Supplier1Code == item.CompanyName)
-                {
-                    <td style="font-size: 10pt;">@item.Supplier1UnitCost.ToString("0.00")</td>
-                }
-                else if (item.Supplier2Code == item.CompanyName)
-                {
-                    <td style="font-size: 10pt;">@item.Supplier2UnitCost.ToString("0.00")</td>
-                }
-                else if (item.Supplier3Code == item.CompanyName)
-                {
-                    <td style="font-size: 10pt;">@item.Supplier3UnitCost.ToString("0.00")</td>
-                }
+                            @if (item.Supplier2Code == item.CompanyName)
+                            {
+                                <option value="@item.Supplier2Code" selected="selected">@item.Supplier2Code</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Supplier2Code">@item.Supplier2Code</option>
+                            }
+                            @if (item.Supplier3Code == item.CompanyName)
+                            {
+                                <option value="@item.Supplier3Code" selected="selected">@item.Supplier3Code</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Supplier3Code">@item.Supplier3Code</option>
+                            }
+                        </select>
+                    </td>
+                    <td><input id="input-qty" style="font-size: 10pt; text-align: center;" min="1" type="number" pattern="[0-9]" step="1" max="2000" value="@item.QuantityOrdered" /></td>
+                    <td style="font-size: 10pt;">@item.UoM</td>
+                    @if (item.Supplier1Code == item.CompanyName)
+                    {
+                        <td style="font-size: 10pt;">@item.Supplier1UnitCost.ToString("0.00")</td>
+                    }
+                    else if (item.Supplier2Code == item.CompanyName)
+                    {
+                        <td style="font-size: 10pt;">@item.Supplier2UnitCost.ToString("0.00")</td>
+                    }
+                    else if (item.Supplier3Code == item.CompanyName)
+                    {
+                        <td style="font-size: 10pt;">@item.Supplier3UnitCost.ToString("0.00")</td>
+                    }
 
-                @if (item.Supplier1Code == item.CompanyName)
-                {
-                    <td style="font-size: 10pt;">@((item.Supplier1UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-                }
-                else if (item.Supplier2Code == item.CompanyName)
-                {
-                    <td style="font-size: 10pt;">@((item.Supplier2UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-                }
-                else if (item.Supplier3Code == item.CompanyName)
-                {
-                    <td style="font-size: 10pt;">@((item.Supplier3UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
-                }
-                <td style="font-size: 10pt;">7%</td>
-                <td style="font-size: 10pt;"></td>
-            </tr>
-        }
-        <tbody style="font-size: 10pt;"></tbody>
-    </table>
-    @*--- End of Table ---*@
-    <div id="errormessage" class="col-md-12" style="position: absolute;"/>
-    <div class="row">
-        <div class="col-md-12">
-            @*--- Dynamic boxes ---*@
-            <div class="row">
-                <div class="hidden col-md-6">
-                    <hr style="margin-left:0px; width: 300px;" />
-                    <div style="float: left;">
-                        <label style="font-size: 10pt; margin: 5px; ">Gross Total</label>
-                        <br />
-                        <label style="font-size: 10pt; margin: 5px;">GST</label>
-                        <br />
-                        <label style="font-size: 10pt; margin: 5px;">Net Total</label>
+                    @if (item.Supplier1Code == item.CompanyName)
+                    {
+                        <td style="font-size: 10pt;">@((item.Supplier1UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+                    }
+                    else if (item.Supplier2Code == item.CompanyName)
+                    {
+                        <td style="font-size: 10pt;">@((item.Supplier2UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+                    }
+                    else if (item.Supplier3Code == item.CompanyName)
+                    {
+                        <td style="font-size: 10pt;">@((item.Supplier3UnitCost * item.QuantityOrdered).ToString("0.00"))</td>
+                    }
+                    <td style="font-size: 10pt;">7%</td>
+                    <td style="font-size: 10pt;"></td>
+                </tr>
+            }
+            <tbody style="font-size: 10pt;"></tbody>
+        </table>
+        @*--- End of Table ---*@
+        <div id="errormessage" class="col-md-12" style="position: absolute;" />
+        <div class="row">
+            <div class="col-md-12">
+                @*--- Dynamic boxes ---*@
+                <div class="row">
+                    <div class="hidden col-md-6">
+                        <hr style="margin-left:0px; width: 300px;" />
+                        <div style="float: left;">
+                            <label style="font-size: 10pt; margin: 5px; ">Gross Total</label>
+                            <br />
+                            <label style="font-size: 10pt; margin: 5px;">GST</label>
+                            <br />
+                            <label style="font-size: 10pt; margin: 5px;">Net Total</label>
+                        </div>
+                        <div style="float: left;">
+                            ($):&nbsp;<input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                            <br />
+                            ($):&nbsp;<input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                            <br />
+                            ($):&nbsp;<input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                        </div>
                     </div>
-                    <div style="float: left;">
-                        ($):&nbsp;<input type="number" id="displayPO-gross-total" disabled readonly="readonly" value="@String.Format("{0:0.00}", TempData["grossTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
-                        <br />
-                        ($):&nbsp;<input type="text" disabled id="displayPO-gst" value="@String.Format("{0:0.00}", TempData["gst"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
-                        <br />
-                        ($):&nbsp;<input type="number" disabled id="displayPO-net-total" readonly="readonly" value="@String.Format("{0:0.00}", TempData["netTotal"])" style="font-size: 10pt; font-weight: bold; margin: 2px; padding-left:10px; width: 100px;">
+                    <div class="col-md-6">
+                        <div style="float:left; margin-left:47vw;">
+                            <div style="font-size: 10pt;">
+                                <p>Remarks: </p>
+                                <textarea id="ta-remarks" maxlength="255" rows="3" cols="50" />
+                            </div>
+
+                            @*--- Buttons ---*@
+                            <div style="float: right;">
+                                <span>
+                                    @if (poDetailList.Count == 0)
+                                    {
+                                        <button class="btn btn-lu-green" id="btn-submit-new-req" disabled style="font-size: 10pt;">Submit</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
+                                    }
+                                </span>
+                            </div>
+                            @*--- End of Buttons ---*@
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div style="float:left; margin-left:47vw;">
-                        <div style="font-size: 10pt;">
-                            <p>Remarks: </p>
-                            <textarea id="ta-remarks" maxlength="255" rows="3" cols="50" />
-                        </div>
-
-                        @*--- Buttons ---*@
-                        <div style="float: right;">
-                            <span>
-                                @if (poDetailList.Count == 0)
-                                {
-                                    <button class="btn btn-lu-green" id="btn-submit-new-req" disabled style="font-size: 10pt;">Submit</button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;">Submit</button>
-                                }
-                            </span>
-                        </div>
-                        @*--- End of Buttons ---*@
-                    </div>
-                </div>
+                @*--- End of Dynamic boxes ---*@
             </div>
-            @*--- End of Dynamic boxes ---*@
         </div>
-    </div>
     </form>
     @*--- Dialog Box ---*@
     <div id="dialog-add-po-item" class="hidden" @*title="Add Item (Store PO)"*@>

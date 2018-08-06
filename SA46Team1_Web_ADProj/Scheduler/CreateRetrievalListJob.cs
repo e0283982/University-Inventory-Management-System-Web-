@@ -7,6 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
+//-----------------------------------------------------------------
+//   Author: Wong Wei Jie
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Scheduler
 {
     public class CreateRetrievalListJob : IJob

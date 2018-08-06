@@ -1,4 +1,8 @@
-﻿@if (Session["Role"].ToString() == "Department Head" && Session["DepartmentCode"].ToString() == "ENGL")
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@if (Session["Role"].ToString() == "Department Head" && Session["DepartmentCode"].ToString() == "ENGL")
 {
     @*Dashboard for Department Head - English Department*@
     <iframe width="1000" height="650" src="https://app.powerbi.com/view?r=eyJrIjoiZjZlMjZlMDktNDAzNC00YzhjLTk3MjQtNjk4YmFjN2VlOGYyIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>

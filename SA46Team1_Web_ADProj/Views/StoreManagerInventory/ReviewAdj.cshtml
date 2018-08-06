@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Chirag Shetty
+    --------------------------------*@
+
+@{
     Layout = null;
 }
 <link href="@Url.Content("~/Content/common.css")" rel="stylesheet" type="text/css" />
@@ -133,7 +137,7 @@
                 'itemCode': itemCode
             }
         });
-       
+
        window.location.href = '@Url.Action("Approval", "Store")';
 
     }

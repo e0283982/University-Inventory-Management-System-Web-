@@ -8,6 +8,10 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Author: Wong Wei Jie
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj
 {
     public static class CommonLogic

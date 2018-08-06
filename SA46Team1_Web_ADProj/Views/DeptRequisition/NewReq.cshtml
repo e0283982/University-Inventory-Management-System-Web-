@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
     List<StaffRequisitionDetail> list = (List<StaffRequisitionDetail>)Session["newReqList"];
     List<int> rowIndexes = (List<int>)TempData["RowIndexesToDiscard"];
@@ -106,7 +110,7 @@
             maxWidth: "40%"
         });
 
-   
+
     });
 
     $('#btn-add-item').on('click', function () {
@@ -271,79 +275,79 @@
 
 
 
-    <div id="loading" style="font-family: 'Oxygen', sans-serif;">
-        <form onsubmit="event.preventDefault(); validateMyForm();">
-            <div class="row">
-                <div class="col-md-12">
-                    <div style="float: right">
-                        <span>
-                            <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
-                        </span>
-                        <span>
-                            <button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>
-                            <button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>
-                        </span>
-                    </div>
-
-                </div>
-            </div>
-            <table id="dataTable-newReq" class="display" style="width:80%;">
-                <thead style="font-size: 10pt;">
-                    <tr>
-                        <th>Item Description</th>
-                        <th>Unit of Measure</th>
-                        <th>New Order Qty</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                @foreach (var item in list)
-                {
-                    <tr>
-                        <td style="font-size: 10pt;">@item.Item.Description</td>
-                        <td style="font-size: 10pt;">@item.Item.UoM</td>
-                        <td style="font-size: 10pt;">
-                            @if (editMode == true)
-                            {
-                                <input id="input-edit-order-qty" style="text-align:center; width: 100px;" value=@item.QuantityOrdered type="number" step="1" min="1" max="200" pattern="[0-9]" />
-                            }
-                            else
-                            {
-                                @item.QuantityOrdered
-                            }
-                        </td>
-                        <td>
-                            <span>
-                                <button class="btn btn-lu-red" id="btn-discard-items" style="font-size: 10pt;">
-                                    <i class="far fa-trash-alt"></i>
-                                </button>
-                            </span>
-                        </td>
-                    </tr>
-                }
-                <tbody style="font-size: 10pt;"></tbody>
-            </table>
-        </form>
-        <div class="my-notify-error">@TempData["ErrorMsg"]</div>
-        <hr />
-
+<div id="loading" style="font-family: 'Oxygen', sans-serif;">
+    <form onsubmit="event.preventDefault(); validateMyForm();">
         <div class="row">
             <div class="col-md-12">
                 <div style="float: right">
                     <span>
-                        <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;">Clear</button>
+                        <button class="btn btn-lu-blue" id="btn-add-item" style="font-size: 10pt;">Add</button>
                     </span>
                     <span>
-                       <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;" disabled>Submit</button>
+                        <button class="btn btn-lu-blue" id="btn-edit-items" style="font-size: 10pt;" disabled>Edit</button>
+                        <button class="btn btn-lu-green" id="btn-save-items" style="font-size: 10pt;">Save</button>
                     </span>
                 </div>
+
             </div>
         </div>
+        <table id="dataTable-newReq" class="display" style="width:80%;">
+            <thead style="font-size: 10pt;">
+                <tr>
+                    <th>Item Description</th>
+                    <th>Unit of Measure</th>
+                    <th>New Order Qty</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in list)
+            {
+                <tr>
+                    <td style="font-size: 10pt;">@item.Item.Description</td>
+                    <td style="font-size: 10pt;">@item.Item.UoM</td>
+                    <td style="font-size: 10pt;">
+                        @if (editMode == true)
+                        {
+                            <input id="input-edit-order-qty" style="text-align:center; width: 100px;" value=@item.QuantityOrdered type="number" step="1" min="1" max="200" pattern="[0-9]" />
+                        }
+                        else
+                        {
+                            @item.QuantityOrdered
+                        }
+                    </td>
+                    <td>
+                        <span>
+                            <button class="btn btn-lu-red" id="btn-discard-items" style="font-size: 10pt;">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+            }
+            <tbody style="font-size: 10pt;"></tbody>
+        </table>
+    </form>
+    <div class="my-notify-error">@TempData["ErrorMsg"]</div>
+    <hr />
 
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float: right">
+                <span>
+                    <button class="btn btn-lu-red" id="btn-clear-items" style="font-size: 10pt;">Clear</button>
+                </span>
+                <span>
+                    <button class="btn btn-lu-green" id="btn-submit-new-req" style="font-size: 10pt;" disabled>Submit</button>
+                </span>
+            </div>
+        </div>
     </div>
 
+</div>
 
 
-<div id="dialog-add-req-item" class="hidden" style="overflow:hidden;"@*title="Add Item (New Requisition)"*@>
+
+<div id="dialog-add-req-item" class="hidden" style="overflow:hidden;" @*title="Add Item (New Requisition)"*@>
     @using (Html.BeginForm("AddNewReqItem", "DeptRequisition", FormMethod.Post, new { id = "form-submit-add-new-item" }))
     {
         <div>
@@ -357,7 +361,7 @@
 
             <div>
                 <label>New Order Qty: </label>
-                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1",@max="200" }, })
+                @Html.EditorFor(tuple => tuple.Item2.QuantityOrdered, new { htmlAttributes = new { @class = "form-control", @placeholder = "QuantityOrdered", @id = "new-item-order-qty", @min = "1", @step = "1", @Value = "1", @max = "200" }, })
             </div>
 
             <hr />
@@ -381,7 +385,7 @@
     }
 </div>
 
-<div id="dialog-confirm-submit-new-req" class="hidden"  style="overflow:hidden;"@*title="Confirm Submission (New Requisition)"*@>
+<div id="dialog-confirm-submit-new-req" class="hidden" style="overflow:hidden;" @*title="Confirm Submission (New Requisition)"*@>
     <div style="text-align:center;">
         <h4>Confirm Submission</h4>
         <h6>Are you sure you want to submit the requisition?</h6>

@@ -1,4 +1,8 @@
-﻿@{
+﻿@*--------------------------------
+    Author: Ong Wei Ting
+    --------------------------------*@
+
+@{
     Layout = null;
     ReqHistoryModel req = (ReqHistoryModel)Session["CurrentReqHistory"];
     bool editMode = (bool)Session["existingReqEditMode"];
@@ -18,7 +22,7 @@
             $("#btn-save-req-history").show();
             $("#btn-edit-req-history").hide();
             $("#btn-submit-discard-req-items").show();
-            
+
         } else {
             $("#btn-save-req-history").hide();
             $("#btn-edit-req-history").show();
@@ -89,7 +93,7 @@
                                 } else {
                                     return "";
                                 }
-                                
+
                             }
                         },
                     ],
@@ -97,7 +101,7 @@
                         { className: 'text-center', targets: [0, 1, 2, 3] },
                     ],
                     "initComplete": function (settings, json) {
-                        
+
                     }
                 });
             }
@@ -174,20 +178,20 @@
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-discard-req-item').dialog('close');
     });
-    
+
      $('#btn-edit-req-history').on('click', function () {
-         
+
         $.ajax({
             url: '/DeptRequisitionHistory/EditExisitingOrderQty',
             type: 'POST',
             async: false
         });
-         
+
         table.draw(false);
         window.location.href = '@Url.Action("RequisitionHistory", "Dept")';
 
     });
-    
+
     $('#btn-confirm-discard-no').on('click', function () {
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' })
         $('#dialog-confirm-discard-req-item').dialog('close');
@@ -257,13 +261,13 @@
 
                     //alert('success');
                 }
-            });     
+            });
             $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
             $("#dialog-update-req-items-success").dialog('open');
             editMode = false;
             table.draw(false);
         }
-        
+
     });
 
     $('#dialog-update-req-items-success').on('dialogclose', function (event) {
@@ -324,7 +328,7 @@
             <button id="btn-edit-req-history" class="btn btn-lu-blue" type="submit" style="font-size: 10pt;">Edit</button>
             @*<button id="btn-submit-discard-req-items" class="btn btn-lu-red" type="submit" style="font-size: 10pt;">Discard</button>*@
             <button id="btn-save-req-history" class="btn btn-lu-green" type="submit" style="font-size: 10pt;">Save</button>
-           
+
         </div>
     </div>
 </div>
@@ -430,7 +434,7 @@
                 <button class="btn btn-lu-red" id="btn-confirm-discard-yes">Yes</button>
             </span>
         </div>
-    </div> 
+    </div>
 </div>
 
 
@@ -454,7 +458,7 @@
     <br />
     <div style="text-align:center;">
         <h5>No request item is selected for removal.</h5>
-    </div>   
+    </div>
     <hr />
 </div>
 
@@ -477,6 +481,6 @@
                 <button class="btn btn-lu-red" id="btn-confirm-withdrawal-yes">Yes</button>
             </span>
         </div>
-    </div> 
+    </div>
 </div>
 
