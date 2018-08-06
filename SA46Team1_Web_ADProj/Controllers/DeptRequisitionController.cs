@@ -168,6 +168,8 @@ namespace SA46Team1_Web_ADProj.Controllers
         //[Route("NewReq/SubmitNewRequestForm")]
         public RedirectToRouteResult SubmitNewRequestForm()
         {
+            string deptCode = Session["DepartmentCode"].ToString();
+            string employeeCode = Session["LoginEmployeeID"].ToString();
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 DAL.StaffRequisitionDetailsRepositoryImpl dalDetails = new DAL.StaffRequisitionDetailsRepositoryImpl(e);
@@ -175,8 +177,8 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 StaffRequisitionHeader srh = new StaffRequisitionHeader();
                 srh.FormID = Session["currentFormId"].ToString();
-                srh.DepartmentCode = Session["DepartmentCode"].ToString();
-                srh.EmployeeID = Session["LoginEmployeeID"].ToString();
+                srh.DepartmentCode = deptCode;
+                srh.EmployeeID = employeeCode;
                 srh.DateRequested = System.DateTime.Now;
                 srh.Status = "Open"; 
                 srh.ApprovalStatus = "Pending"; 
@@ -198,10 +200,13 @@ namespace SA46Team1_Web_ADProj.Controllers
                 noUnreadRequests++;
                 Session["NoUnreadRequests"] = noUnreadRequests;
 
+                Employee current = e.Employees.Where(x => x.EmployeeID == employeeCode).FirstOrDefault();
+                Employee head = e.Employees.Where(x => x.EmployeeID == current.ReportsTo).FirstOrDefault();
+
                 string title = "[LogicUniversity] New Requisition: " + srh.FormID;
                 string message = Session["EmpName"].ToString() + " has raised a new requisition.";
 
-                CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+                CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", head.EmployeeEmail, title, message);
             }
 
             Session["tempList"] = new List<String>();

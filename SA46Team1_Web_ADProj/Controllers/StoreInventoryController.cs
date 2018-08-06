@@ -467,17 +467,21 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 }
 
+                Employee current = e.Employees.Where(x => x.EmployeeID == Session["LoginEmployeeID"].ToString()).FirstOrDefault();
+                Employee sup = e.Employees.Where(x => x.EmployeeID == current.ReportsTo).FirstOrDefault();
+                Employee mgr = e.Employees.Where(x => x.EmployeeID == sup.ReportsTo).FirstOrDefault();
+
                 string title = "[LogicUniversity] Stock Adjustment Request: " + newAdjHeaderId;
                 string message = "There are stock adjustment items pending for your approval.";
 
                 if (mgrEmail == true)
                 {
-                    CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+                    CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", mgr.EmployeeEmail, title, message);
                 }
                 
                 if(supEmail == true)
                 {
-                    CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+                    CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", sup.EmployeeEmail, title, message);
                 }
 
                 e.SaveChanges();
@@ -498,61 +502,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
             return RedirectToAction("Inventory", "Store");
         }
-
-        //[HttpPost]
-        //public RedirectToRouteResult AddNewItem(StockAdjustmentDetail stockAdjustmentDetail)
-        //{
-        //    StockAdjustmentDetail sad = new StockAdjustmentDetail();
-        //    sad.ItemCode = "C002";
-        //    sad.RequestId = "SA/2000";
-        //    sad.ItemQuantity = 1100;
-        //    sad.Amount = 1010;
-        //    sad.Remarks = "Damaged";
-        //    //sad.Reason = "nil";
-
-        //    stockAdjustmentDetail.StockAdjustmentDetails.Add(sad);
-
-        //    TempData["ItemList"] = stockAdjustmentDetail;
-
-        //    Session["StockAdjPage"] = "2";
-        //    return RedirectToAction("Inventory", "Store");
-        //}
-
-        //[CustomAuthorize(Roles = "Store Clerk")]
-        //[HttpPost]
-        //public RedirectToRouteResult SubmitNewStockAdj(StockAdjustmentDetail stockAdjustmentDetail)
-        //{
-        //    StockAdjustmentHeader sah = new StockAdjustmentHeader();
-        //    sah.DateRequested = DateTime.Now;
-        //    sah.Requestor = (string) Session["LoginEmployeeID"];
-        //    //sah.Status = "Pending";
-        //    sah.TransactionType = "Stock Adjustment";
-
-        //    using(SSISdbEntities m = new SSISdbEntities())
-        //    {
-        //        m.StockAdjustmentHeaders.Add(sah);
-        //        m.SaveChanges();
-
-        //        foreach(StockAdjustmentDetail sad in stockAdjustmentDetail.StockAdjustmentDetails)
-        //        {
-        //            StockAdjustmentDetail sadDb = new StockAdjustmentDetail();
-        //            sadDb.RequestId = sah.RequestId;
-        //            sadDb.ItemCode = sad.ItemCode;
-        //            sadDb.ItemQuantity = sad.ItemQuantity;
-        //            sadDb.Remarks = sad.Remarks;
-        //            //sadDb.Reason = sad.Reason;
-        //            //Temporary
-        //            sadDb.Amount = 1000;
-
-        //            m.StockAdjustmentDetails.Add(sadDb);
-        //            m.SaveChanges();
-
-        //        }
-
-        //    }
-
-        //    return RedirectToAction("Inventory", "Store");
-        //}
 
         /************Action methods belonging to Store Inventory - Stock Take *******************/
 

@@ -47,13 +47,19 @@ namespace SA46Team1_Web_ADProj.Controllers
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
 
-            string title = "[LogicUniversity] Stock Adjustment Approval: " + requestid;
-            string message = "Item Code: " + itemcode + " has been approved.";
 
-            // Send to Employee
-            CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+            using(SSISdbEntities m = new SSISdbEntities())
+            {
+                StockAdjustmentHeader sjh = m.StockAdjustmentHeaders.Where(x => x.RequestId == requestid).FirstOrDefault();
+                Employee emp = m.Employees.Where(x => x.EmployeeID == sjh.Requestor).FirstOrDefault();
 
+                string title = "[LogicUniversity] Stock Adjustment Approved: " + requestid;
+                string message = "Item Code: " + itemcode + " has been approved.";
 
+                // Send to Employee
+                CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", emp.EmployeeEmail, title, message);
+            }
+            
             Session["StockAdjPage"] = 2;
             Session["StoreInventoryTabIndex"] = "1";
 
@@ -84,11 +90,19 @@ namespace SA46Team1_Web_ADProj.Controllers
             repo.UpdateStockAdjustmentDetail(stockadjdet);
             repo.Save();
 
-            string title = "[LogicUniversity] Stock Adjustment Approval: " + requestid;
-            string message = "Item Code: " + itemcode + " has been rejected.";
+            using (SSISdbEntities m = new SSISdbEntities())
+            {
+                StockAdjustmentHeader sjh = m.StockAdjustmentHeaders.Where(x => x.RequestId == requestid).FirstOrDefault();
+                Employee emp = m.Employees.Where(x => x.EmployeeID == sjh.Requestor).FirstOrDefault();
 
-            // Send to Employee
-            CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", "e0284020@u.nus.edu", title, message);
+                // Send to Employee
+                string title = "[LogicUniversity] Stock Adjustment Rejected: " + requestid;
+                string message = "Item Code: " + itemcode + " has been rejected.";
+
+                // Send to Employee
+                CommonLogic.Email.sendEmail("stationerylogicuniversity@gmail.com", emp.EmployeeEmail, title, message);
+            }
+
 
 
             Session["StoreInventoryTabIndex"] = "1";
