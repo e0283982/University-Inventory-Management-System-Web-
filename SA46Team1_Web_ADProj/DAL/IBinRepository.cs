@@ -2,9 +2,13 @@
 using System;
 using System.Collections.Generic;
 
+//-----------------------------------------------------------------
+//   Authors: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.DAL
-{
-    interface IBinRepository: IDisposable
+{    
+    interface IBinRepository : IDisposable
     {
         IEnumerable<Bin> GetBins();
         Bin GetBinById(int binId);

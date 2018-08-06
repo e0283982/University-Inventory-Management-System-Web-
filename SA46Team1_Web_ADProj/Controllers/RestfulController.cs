@@ -10,8 +10,12 @@ using SA46Team1_Web_ADProj.DAL;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 
+//--------------------------------------------------------------------------------
+//   Authors: Chirag Shetty, Hendri Setia Wardana, Ong Wei Ting, Wong Wei Jie
+//--------------------------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
-{
+{    
     [System.Web.Mvc.RoutePrefix("api/Restful")]
     public class RestfulController : ApiController
     {

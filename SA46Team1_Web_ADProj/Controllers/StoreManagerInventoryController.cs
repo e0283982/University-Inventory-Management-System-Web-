@@ -7,8 +7,12 @@ using System.Web.Mvc;
 using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Authors: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
-{
+{    
     [CustomAuthorize(Roles = "Store Manager, Store Supervisor")]
     [RoutePrefix("Store/StoreInventoryManager")]
     public class StoreManagerInventoryController : Controller

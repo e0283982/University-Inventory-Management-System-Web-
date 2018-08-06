@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Authors: Hendri Setia Wardana
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
-{
+{    
     [CustomAuthorize(Roles = "Store Manager, Store Supervisor, Store Clerk")]
     [RoutePrefix("Store/StoreDisbursements")]
     public class StoreDisbursementsController : Controller //Tabs: Requisition, Retrieval, Disbursement

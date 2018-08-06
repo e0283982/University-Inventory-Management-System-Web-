@@ -8,6 +8,10 @@ using System.Web.Security;
 using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Author: Hendri Setia Wardana
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
 {
     public class StoreController : Controller

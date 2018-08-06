@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Author: Ong Wei Ting
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
 {
     [RoutePrefix("Dept/DeptNotifications")]

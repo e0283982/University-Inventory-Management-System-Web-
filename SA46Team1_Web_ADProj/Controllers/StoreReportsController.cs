@@ -9,6 +9,10 @@ using SA46Team1_Web_ADProj.Models;
 using System.IO;
 using Newtonsoft.Json;
 
+//-----------------------------------------------------------------
+//   Authors: Peh Guek Lan
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
 {
     [CustomAuthorize(Roles = "Store Manager, Store Supervisor, Store Clerk")]

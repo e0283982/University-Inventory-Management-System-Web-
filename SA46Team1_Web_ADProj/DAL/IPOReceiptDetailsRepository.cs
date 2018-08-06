@@ -2,6 +2,10 @@
 using System;
 using System.Collections.Generic;
 
+//-----------------------------------------------------------------
+//   Authors: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.DAL
 {
     interface IPOReceiptDetailsRepository : IDisposable

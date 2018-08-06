@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//-----------------------------------------------------------------
+//   Authors: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.DAL
 {
     interface IStaffRequisitionDetailsRepository : IDisposable

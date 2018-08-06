@@ -7,9 +7,12 @@ using System.Web.Mvc;
 using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Authors: Hendri Setia Wardana, Wong Wei Jie
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
 {
-
     [RoutePrefix("Store/StoreInventory")]
     public class StoreInventoryController : Controller //Tabs: Inventory, Reorder, Stock adj, Stock take
     {

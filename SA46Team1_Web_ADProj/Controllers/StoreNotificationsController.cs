@@ -5,8 +5,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+//-----------------------------------------------------------------
+//   Authors: Ong Wei Ting, Wong Wei Jie
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
-{
+{    
     [RoutePrefix("Store/StoreNotifications")]
     public class StoreNotificationsController : Controller
     {

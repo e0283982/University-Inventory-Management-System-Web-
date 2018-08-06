@@ -5,9 +5,12 @@ using System.Linq;
 using System.Web;
 using SA46Team1_Web_ADProj.Models;
 
-namespace SA46Team1_Web_ADProj.DAL
-{
+//-----------------------------------------------------------------
+//   Authors: Chirag Shetty
+//-----------------------------------------------------------------
 
+namespace SA46Team1_Web_ADProj.DAL
+{   
     public class BinRepositoryImpl : IBinRepository, IDisposable
     {
 

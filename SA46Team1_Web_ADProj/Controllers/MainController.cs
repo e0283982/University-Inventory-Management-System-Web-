@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -11,8 +10,12 @@ using Microsoft.Owin.Security;
 using SA46Team1_Web_ADProj.DAL;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Author: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
-{
+{    
     public class MainController : Controller
     {
         IEmployeeRepository emplRepo;
@@ -62,7 +65,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         Session["access-token"] = token.AccessToken;
                     }
                 }
-// ------------------------------------------- SANDY SEE HERE ---------------------------------------------------------------------
+
                 Session["LoginEmployeeID"] = employee.EmployeeID;
                 Session["UserId"] = employee.EmployeeID;
                 Session["Role"] = employee.Designation;
@@ -100,7 +103,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult Logout()
         {
             HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            Session.Abandon(); //fixed bug
+            Session.Abandon(); 
             return RedirectToAction("Login", "Main", new { area = "" });
         }
     }

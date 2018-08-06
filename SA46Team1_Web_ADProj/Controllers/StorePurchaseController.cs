@@ -8,8 +8,12 @@ using System.Web.Mvc;
 using CrystalDecisions.CrystalReports.Engine;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Authors: Wong Wei Jie
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
-{
+{    
     [CustomAuthorize(Roles = "Store Manager, Store Supervisor, Store Clerk")]
     [RoutePrefix("Store/StorePurchase")]
     public class StorePurchaseController : Controller //tabs: PO list, Create PO, Goods Received

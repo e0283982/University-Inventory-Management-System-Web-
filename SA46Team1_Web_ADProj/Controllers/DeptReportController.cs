@@ -9,8 +9,12 @@ using CrystalDecisions.CrystalReports.Engine;
 using Newtonsoft.Json;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Author: Peh Guek Lan
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
-{
+{    
     [RoutePrefix("Dept/DeptReport")]
     public class DeptReportController : Controller
     {

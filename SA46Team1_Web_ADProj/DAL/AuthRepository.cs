@@ -7,9 +7,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
+//-----------------------------------------------------------------
+//   Authors: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.DAL
-{
-        public class AuthRepository : IDisposable
+{    
+    public class AuthRepository : IDisposable
         {
             private SSISdbEntities _ctx;
 

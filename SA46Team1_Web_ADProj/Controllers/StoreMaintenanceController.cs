@@ -7,6 +7,10 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using SA46Team1_Web_ADProj.Models;
 
+//-----------------------------------------------------------------
+//   Authors: Ong Wei Ting
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
 {
     [CustomAuthorize(Roles = "Store Manager, Store Supervisor")]

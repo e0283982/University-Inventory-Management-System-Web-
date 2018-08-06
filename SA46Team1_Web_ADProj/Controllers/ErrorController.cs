@@ -4,12 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+//-----------------------------------------------------------------
+//   Author: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.Controllers
 {
     [CustomAuthorize]
     public class ErrorController : Controller
     {
-        // GET: Error
         public ActionResult AccessDenied()
         {
             Response.StatusCode = 403;

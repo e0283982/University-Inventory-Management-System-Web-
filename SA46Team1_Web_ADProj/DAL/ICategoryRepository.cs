@@ -5,9 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//-----------------------------------------------------------------
+//   Authors: Chirag Shetty
+//-----------------------------------------------------------------
+
 namespace SA46Team1_Web_ADProj.DAL
-{
-    interface ICategoryRepository: IDisposable
+{    
+    interface ICategoryRepository : IDisposable
     {
         IEnumerable<Category> GetCategories();
 
