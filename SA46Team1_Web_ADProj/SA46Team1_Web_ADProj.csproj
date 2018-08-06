@@ -207,7 +207,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CommonLogic.cs" />
-    <Compile Include="Controllers\DefaultCollectionPointController.cs" />
     <Compile Include="Controllers\DeptApprovalController.cs" />
     <Compile Include="Controllers\DeptNotificationsController.cs" />
     <Compile Include="Controllers\DeptReportController.cs" />
@@ -778,8 +777,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DefaultCollectionPoint\" />
-    <Folder Include="Views\DeptCollectionPoint\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
