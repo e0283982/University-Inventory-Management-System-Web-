@@ -609,7 +609,7 @@
         <div style="float:left; margin-left:30vw">
             <div>
                 <p>Remarks:</p>
-                <textarea id="ta-remarks" rows="3" cols="50" disabled>@Session["PORemarks"]</textarea>
+                <textarea id="ta-remarks" maxlength="255" rows="3" cols="50" disabled>@Session["PORemarks"]</textarea>
             </div>
             @if (Session["poStatus"].ToString() == "Open")
             {
