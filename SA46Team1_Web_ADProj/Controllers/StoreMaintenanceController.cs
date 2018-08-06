@@ -280,7 +280,9 @@ namespace SA46Team1_Web_ADProj.Controllers
             if (Session["MaintenanceStoreBinPage"].ToString() == "1")
             {
                 using (SSISdbEntities e = new SSISdbEntities()) {
-                    ViewBag.ItemsList = new SelectList((from s in e.Items.ToList()
+                    List<String> binnedItemCodes = e.Bins.Where(x => x.Active == 1).Select(x => x.ItemCode).ToList();
+
+                    ViewBag.ItemsList = new SelectList((from s in e.Items.Where(x=> !binnedItemCodes.Contains(x.ItemCode)).ToList()
                                                         select new
                                                         {
                                                             ItemCode = s.ItemCode,
