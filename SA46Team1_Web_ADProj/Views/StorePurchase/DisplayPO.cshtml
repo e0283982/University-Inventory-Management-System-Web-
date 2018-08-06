@@ -320,7 +320,7 @@
         $('#btn-save-displayPO').hide();
         $('#btn-edit-displayPO').hide();
         $('#btn-cancel-displayPO').show();
-
+        $('#btn-print-po').hide();
 
 
         var total = 0
@@ -577,15 +577,13 @@
                       <input id="btn-back-to-po-list" class="btn btn-lu-blue" type="submit" value="Back" style="font-size: 10pt;" />
                   </div>
 
-                  @if (Session["poStatus"].ToString() != "Outstanding")
-                  {
-                      using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
+                      @using (Html.BeginForm("ExportPO", "StorePurchase", FormMethod.Post))
                       {
                           <div>
-                              <input class="btn btn-lu-blue" type="submit" value="Print" style="font-size: 10pt;" />
+                              <input id="btn-print-po" class="btn btn-lu-blue" type="submit" value="Print" style="font-size: 10pt;" />
                           </div>
                       }
-                  }
+                  
 
 
               </div>
