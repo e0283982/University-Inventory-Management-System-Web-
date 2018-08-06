@@ -876,7 +876,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 if (disbursementDetail.QuantityAdjusted > 0)
                 {
 
-                    //Only when id is 1
+                    //Only when id is 1 then add new stock adjustment header
                     if (disbursementDetailModel.DisbursementAndroidId == 1)
                     {
                         //Adding new StockAdjustmentHeader            
@@ -935,13 +935,9 @@ namespace SA46Team1_Web_ADProj.Controllers
                     itemTransaction2.Amount = itemTransaction2.Quantity * itemTransaction2.UnitCost;
                     m.ItemTransactions.Add(itemTransaction2);
 
-                }
+                }                
 
-                
-
-                //To update the list of staff req headers to be completed, there would be multiple staff requisition headers combined
-                //To update the staff requisition details for quantity delivered
-
+                //To update the staff requisition details for quantity delivered                
                 List<String> listOfReqFormId = m.StockRetrievalReqForms.OrderBy(x => x.Id).Where(x => x.StockRetrievalID == disbursementHeader.StockRetrievalId).Select(x => x.ReqFormID).ToList<String>();
                 String departmentCode = disbursementHeader.DepartmentCode;
 
@@ -958,7 +954,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }                    
 
                 }
-
 
                 foreach (String reqForm in reqFormIdentified)
                 {                    
@@ -993,9 +988,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         m.SaveChanges();
                     }
                     
-                }
-
-                
+                }                
 
                 //To update the status to completed for staff requisition
                 foreach (String reqForm in reqFormIdentified)
@@ -1262,14 +1255,7 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 m.Configuration.ProxyCreationEnabled = false;
                 return m.Employees.Where(x => x.EmployeeEmail == email).FirstOrDefault();
-            }
-
-
-                //using (IEmployeeRepository empRepo = new EmployeeRepositoryImpl(new SSISdbEntities()))
-                //{
-                //    Employee employee = empRepo.FindEmployeeEmailId(email);
-                //    return employee.Designation;
-                //}
+            }                
 
         }
 
@@ -1283,7 +1269,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 return m.CollectionLists.Where(x => x.DepartmentCode == id).ToList();
             }
         }
-
 
     }
 }

@@ -40,11 +40,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         public ActionResult ExportRptDepartmentUsage()
         {
             List<DepartmentUsageReport> allDeptUsage = (List<DepartmentUsageReport>)TempData["allDeptUsage"];
-            //string dept = (string) TempData["dept"];
-            //string category = (string)TempData["category"];
-
-            //List<DepartmentUsageReport> list = allDeptUsage.Where(x => x.DepartmentName == dept && x.CategoryName == category).ToList();
-
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "RptDepartmentUsage.rpt"));
             rd.SetDataSource(allDeptUsage);
@@ -65,9 +60,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 throw;
             }
         }
-
-
-
+        
         [HttpPost]
         public RedirectToRouteResult ExportRptDepartmentUsage2(String[] arr)
         {
@@ -80,8 +73,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
 
             TempData["allDeptUsage"] = allDeptUsage;
-            //TempData["dept"] = deptArray[0];
-            //TempData["category"] = categoryArray[0];
 
             return RedirectToAction("Report", "Dept");
 

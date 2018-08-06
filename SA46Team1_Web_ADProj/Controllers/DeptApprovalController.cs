@@ -34,7 +34,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         [CustomAuthorize(Roles = "Department Head, Approver")]
         [HttpPost]
-        //[Route("DisplayApprovalDetails")]
         public RedirectToRouteResult DisplayApprovalDetails(string ReqFormId)
         {
             Session["ReqApprovalPage"] = "2";
@@ -52,7 +51,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         }
 
         [CustomAuthorize(Roles = "Department Head, Approver")]
-        //[HttpPost]
         public RedirectToRouteResult BackToApprovalList()
         {
             Session["ReqApprovalPage"] = "1";
@@ -78,7 +76,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
-                    //srh.NotificationStatus = "Read";
                 }
 
                 srh.NotificationStatus = "Unread";
@@ -117,7 +114,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                     int noUnreadRequests = (int)Session["NoUnreadRequests"];
                     noUnreadRequests--;
                     Session["NoUnreadRequests"] = noUnreadRequests;
-                    //srh.NotificationStatus = "Read";
                 }
 
                 srh.NotificationStatus = "Unread";

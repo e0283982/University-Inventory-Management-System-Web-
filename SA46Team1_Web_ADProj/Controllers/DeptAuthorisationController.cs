@@ -30,7 +30,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             }
         }
         [CustomAuthorize(Roles = "Department Head")]
-        //[HttpPost]
         [Route("RoleDelegation/SubmitNewDelegation")]
         public RedirectToRouteResult SubmitNewDelegation(ApprovalDelegation item1, Employee item2)
         {
@@ -131,7 +130,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                         deptDetails.RepresentativeID = emp.EmployeeID;
                        
-
                         //4. Update rep in Disbursement Header (with status 'Open')
                         List<DisbursementHeader> openDisbursements = e.DisbursementHeaders.Where(x => x.DepartmentCode == deptCode && x.Status == "Open").ToList();
                         foreach (DisbursementHeader d in openDisbursements)

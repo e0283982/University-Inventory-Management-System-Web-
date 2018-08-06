@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using SA46Team1_Web_ADProj.Models;
 
 //-----------------------------------------------------------------
-//   Authors: Ong Wei Ting
+//   Author: Ong Wei Ting
 //-----------------------------------------------------------------
 
 namespace SA46Team1_Web_ADProj.Controllers
@@ -98,10 +98,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 string supplier1 = Request.Form["SelectSupplier1"].ToString();
                 string supplier2 = Request.Form["SelectSupplier2"].ToString();
                 string supplier3 = Request.Form["SelectSupplier3"].ToString();
-
-                //string itemFirstChar = item.Description.Substring(0, 1).ToUpper();
-                //int countWithItemFirstChar = e.Items.Where(x => x.Description.Substring(0, 1).ToUpper() == itemFirstChar).Count() + 1;
-
                 string itemFirstChar = "Z";
                 int countWithItemFirstChar = e.Items.Where(x => x.ItemCode.Substring(0, 1).ToUpper() == itemFirstChar).Count() + 1;
 
@@ -348,14 +344,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             using (SSISdbEntities e = new SSISdbEntities())
             {
                 string itemCode = Request.Form["SelectBinItem"].ToString();
-                //inactivate item's old bin
-                //Bin oldBin = e.Bins.Where(x => x.ItemCode == itemCode).FirstOrDefault();
-                //if(oldBin != null)
-                //{
-                //    oldBin.Active = 0;
-                //}
-
-
                 int binCount = e.Bins.Count() + 1;
 
                 bin.Number = binCount;
@@ -381,7 +369,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                 FullBinModel model = arr[0];
                 Bin bin = new Bin();
                 bin.Number = model.Number;
-                //bin.Active = model.Active;
                 bin.Active = 1;
                 bin.Location = model.Location;
                 bin.ItemCode = e.Items.Where(x => x.Description == model.ItemDesc).Select(x => x.ItemCode).FirstOrDefault();
@@ -575,9 +562,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         [Route("CollectionPoints/AddNewCollectionPoint")]
         public RedirectToRouteResult AddNewCollectionPoint(CollectionPoint cp)
-        {
-            //Item itemToAdd = new Item();
-
+        {       
             using (SSISdbEntities e = new SSISdbEntities())
             {
 

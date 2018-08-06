@@ -85,7 +85,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                     }
                 }
 
-
                 if (enteredQty > 0)
                 {
                     List<ReorderList> poDetailsList = (List<ReorderList>)Session["ReorderList"];
@@ -131,10 +130,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                             newPOHeader.ContactName = s.ContactName;
                             newPOHeader.DeliverTo = "Logic University";
                             newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
-                            // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
                             newPOHeader.Remarks = "";
-                            // ------------------------------------------------------------------------------------------------------------------------------------//
-
                             newPOHeader.Status = "Open";
                             newPOHeader.TransactionType = "PO";
                             m.POHeaders.Add(newPOHeader);
@@ -169,7 +165,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                             poDetailToAdd.CancelledBackOrdered = 0;
                                             m.PODetails.Add(poDetailToAdd);
                                         }
-
 
                                         m.SaveChanges();
                                         itemAdded.Add(i);
@@ -289,11 +284,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     //add to list meant for already added items
                     List<String> tempList = (List<String>)Session["tempList"];
                     tempList.Add(itemCode);
-                    Session["tempList"] = tempList;
-
-
-
-
+                    Session["tempList"] = tempList;                   
                 }
                 Session["StockAdjPage"] = "2";
                 return RedirectToAction("Inventory", "Store");

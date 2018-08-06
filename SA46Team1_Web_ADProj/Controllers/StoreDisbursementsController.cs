@@ -126,10 +126,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     m.SaveChanges();
                 }
 
-                ViewBag.AllItemsRetrieved = stockRetrievalHeader.AllItemsRetrieved;
-
-                
-
+                ViewBag.AllItemsRetrieved = stockRetrievalHeader.AllItemsRetrieved;                
             }
 
             var tuple = new Tuple<StockRetrievalDetail, Item>(new StockRetrievalDetail(), new Item());
@@ -166,13 +163,9 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                             StockAdjustmentHeader sah = new StockAdjustmentHeader();
                             int stockAdjustmentHeaderId = m.StockAdjustmentHeaders.Count() + 1;
-                            sah.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderId, "SA");
-                            
+                            sah.RequestId = CommonLogic.SerialNo(stockAdjustmentHeaderId, "SA");                            
                             sah.DateRequested = localDate;
-
-                            //TODO, Temporary put the requestor as E1
                             sah.Requestor = (string) Session["LoginEmployeeID"];                            
-
                             sah.TransactionType = "Stock Adjustment";
 
                             m.StockAdjustmentHeaders.Add(sah);
@@ -216,8 +209,7 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 }                
 
-                //Creating list of new disbursements
-
+                //Creating list of new disbursements            
                 //To order by id so the earlier id will mean that the req form was submitted earlier
                 List<String> reqFormIDList = m.StockRetrievalReqForms.OrderBy(x => x.Id).Where(x => x.StockRetrievalID == id).Select(x => x.ReqFormID).ToList<String>();
 
@@ -306,7 +298,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                             m.DisbursementDetails.Add(newDD);
 
-
                             //To add the item transactions
                             DateTime localDate = DateTime.Now;
 
@@ -324,10 +315,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                             //To update the quantity of the item table
                             Item itemDisbursed = m.Items.Where(x => x.ItemCode == itemTransaction.ItemCode).FirstOrDefault();
                             itemDisbursed.Quantity -= itemTransaction.Quantity;
-
-                        }
-
-                        
+                        }                        
 
                     }
 
@@ -411,12 +399,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 Debug.WriteLine(e.Message);
             }
 
-
-
             return RedirectToAction("Disbursements", "Store");
-        }
-
-
+        }        
 
     }
 }

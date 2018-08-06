@@ -10,7 +10,6 @@ using SA46Team1_Web_ADProj.Models;
 //   Author: Ong Wei Ting
 //-----------------------------------------------------------------
 
-
 namespace SA46Team1_Web_ADProj.Controllers
 {
     public class DeptController : Controller

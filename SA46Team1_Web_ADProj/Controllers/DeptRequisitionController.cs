@@ -51,7 +51,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                                         "ItemCode", "Description", null);
                 }
                 
-
                 TempData["RowIndexesToDiscard"] = new List<int>();
 
                 return View(tuple);
@@ -103,7 +102,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                     switch (backOrderStatus) {
                         case true: //backorder exists for current SR
-                            //srh.Status = disbursedStatus == 1 ? "Outstanding" : "Open";
                             break;
                         case false:
                             srh.Status = "Cancelled";
@@ -160,8 +158,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
                 List<Item> newItemList = new List<Item>();
               
-
-
                 return RedirectToAction("Requisition", "Dept");
             }
         }
@@ -186,7 +182,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                 srh.DateRequested = System.DateTime.Now;
                 srh.Status = "Open"; 
                 srh.ApprovalStatus = "Pending"; 
-                srh.DateProcessed = null; //to change to null (default)
+                srh.DateProcessed = null; 
                 srh.Approver = e.Employees.Where(x => x.EmployeeID == srh.EmployeeID).Select(x => x.ReportsTo).FirstOrDefault();
                 srh.NotificationStatus = "Unread";
 
@@ -360,10 +356,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                     ViewBag.CollectionTime = m.DepartmentDetails.Where(x => x.DepartmentCode == deptCode).Select(x => x.CollectionPoint.CollectionTime).FirstOrDefault();
                     ViewBag.ExpectedDelivery = displayedCollectionDate;
                 }
-
                
             }
-
 
             return View();
         }

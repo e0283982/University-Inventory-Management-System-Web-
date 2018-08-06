@@ -182,10 +182,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                             newPOHeader.ContactName = s.ContactName;
                             newPOHeader.DeliverTo = "Logic University";
                             newPOHeader.EmployeeID = (string)Session["LoginEmployeeID"];
-                            // --------------------------------------------- IMPORTANT : Need to change this ------------------------------------------------------//
                             newPOHeader.Remarks = taData;
-                            // ------------------------------------------------------------------------------------------------------------------------------------//
-
                             newPOHeader.Status = "Open";
                             newPOHeader.TransactionType = "PO";
                             m.POHeaders.Add(newPOHeader);
@@ -200,8 +197,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                 if (supplier == s)
                                 {
                                     // Only add if the item has not been added
-                                    // if (!itemAdded.Contains(pod.Item))
-                                    //{
                                     PODetail poDetailToAdd = new PODetail();
                                     float itemUnitPrice = m.SupplierPriceLists.Where(x => x.SupplierCode == s.SupplierCode
                                         && x.ItemCode == pod.ItemCode).Select(y => y.UnitCost).FirstOrDefault();
@@ -209,7 +204,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                     poDetailToAdd.ItemCode = pod.ItemCode;
                                     int qty = Convert.ToInt32(arrQty[poDetailsList.IndexOf(pod)]);
                                     poDetailToAdd.QuantityOrdered = qty;
-                                    poDetailToAdd.QuantityBackOrdered = qty;   //this?
+                                    poDetailToAdd.QuantityBackOrdered = qty;   
                                     poDetailToAdd.QuantityDelivered = 0;
                                     poDetailToAdd.UnitCost = itemUnitPrice;
                                     poDetailToAdd.CancelledBackOrdered = 0;
@@ -219,7 +214,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                     Item item = new Item();
                                     item = m.Items.Where(x => x.ItemCode == pod.ItemCode && pod.CompanyName == supplier.CompanyName).FirstOrDefault();
                                     itemAdded.Add(item);
-                                    //  }
                                 }
                             }
                         }
@@ -271,10 +265,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                         existingItem = true;
                         // Create new item so that we can remove old qty & add back new qty
                         existingPoD = p;
-
-// ---------------------------------- IMPORTANT : Need to change this qty based on JSON of array ---------------------------------------------//
                         existingPoD.QuantityOrdered += item2.QuantityOrdered;
-//--------------------------------------------------------------------------------------------------------------------------------------------//
 
                         poFullDetailsList.Remove(p);
                         poFullDetailsList.Add(existingPoD);
@@ -287,13 +278,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                     // Creating the new item with these 
                     itemToAdd = m.Items.Where(x => x.ItemCode == itemCode).FirstOrDefault();
                     pod.ItemCode = itemToAdd.ItemCode;
-
-// ---------------------------------- IMPORTANT : Need to change this qty based on JSON of array ---------------------------------------------//
-                    pod.QuantityOrdered = item2.QuantityOrdered;
-// -------------------------------------------------------------------------------------------------------------------------------------------//
-
-                    //pod.Item = m.Items.Where(x => x.ItemCode == itemToAdd.ItemCode).FirstOrDefault();
-
+                    pod.QuantityOrdered = item2.QuantityOrdered;                
                     pod.Description = itemToAdd.Description;
                     pod.UoM = itemToAdd.UoM;
                     pod.CompanyName = itemToAdd.Supplier1; //default ddl at supplier 1's
@@ -399,7 +384,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult EditMode()
         {
             Session["poDetailsEditMode"] = true;
-            // ----------------------------- Should we add Viewbag for title to differentiate GR / edit ? -------------------------------------------
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -407,7 +391,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         public RedirectToRouteResult GREditMode()
         {
             Session["grEditMode"] = true;
-            // ----------------------------- Should we add Viewbag for title to differentiate GR / edit ? -------------------------------------------
             return RedirectToAction("Purchase", "Store");
         }
 
@@ -429,7 +412,6 @@ namespace SA46Team1_Web_ADProj.Controllers
         [HttpPost]
         public RedirectToRouteResult SaveEdit(string[] arrQty, string taData)
         {
-// --------------------- Validation required ----------------------
             Session["poDetailsEditMode"] = false;
 
             List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
@@ -506,7 +488,6 @@ namespace SA46Team1_Web_ADProj.Controllers
 
         /************Action methods belonging to Store Purchase - GR *******************/
 
-
         [Route("GoodsReceivedList")]
         public ActionResult GoodsReceivedList()
         {
@@ -547,13 +528,7 @@ namespace SA46Team1_Web_ADProj.Controllers
         
         [HttpPost]
         public ActionResult GoodsReceipt(string[] arrQty)
-        {
-            // Need to check if whole PO backorder = 0 -> status = "Completed"
-            // Update qty
-            // Update POHeader status
-            // Update PO Details
-            // Create new PORH if null
-            // POReceiptDetails
+        {            
             List<POFullDetail> poFullDetailList = (List<POFullDetail>)Session["POItems"];
             string poNumber = (string)Session["poNumber"];
             int arrayCount = 0;
@@ -567,7 +542,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 using (SSISdbEntities m = new SSISdbEntities())
                 {
-                    // Validation
                     foreach (POFullDetail p in poFullDetailList)
                     {
                         if ((p.QuantityOrdered - p.QuantityDelivered) < Convert.ToInt32(arrQty[c]) || Convert.ToInt32(arrQty[c]) < 0)
@@ -604,12 +578,11 @@ namespace SA46Team1_Web_ADProj.Controllers
                                 totalInventoryValue += pod.UnitCost;
                             }
 
-                            // Create PO Receipt Header first (Due to Foreign Key exceptions)
+                            // Create PO Receipt Header first 
                             POReceiptHeader porh = new POReceiptHeader();
                             porh.ReceiptNo = receiptNo;
                             porh.PONumber = poNumber;
-                            // ---------------------------------------------------- Need to change this --------------------------------------
-                            porh.DeliveryOrderNo = "Hardcode first";
+                            porh.DeliveryOrderNo = "";
                             porh.ReceivedDate = DateTime.Now;
                             porh.Receiver = (string)Session["LoginEmployeeID"];
                             porh.Remarks = "";
@@ -640,8 +613,6 @@ namespace SA46Team1_Web_ADProj.Controllers
                                     }
                                     pod.QuantityDelivered += qty;
                                     m.SaveChanges();
-
-                                    //totalInventoryValue += qty * p.UnitCost;
 
                                     // Update Item on Hand 
                                     Item item = m.Items.Where(x => x.ItemCode == p.ItemCode).FirstOrDefault();
@@ -722,7 +693,6 @@ namespace SA46Team1_Web_ADProj.Controllers
             Session["StorePurchaseTabIndex"] = "3";
 
             return RedirectToAction("DisplayGR", "StorePurchase");
-
         }
 
         public ActionResult ExportPO()
