@@ -345,11 +345,11 @@ namespace SA46Team1_Web_ADProj.Controllers
             {
                 string itemCode = Request.Form["SelectBinItem"].ToString();
                 //inactivate item's old bin
-                Bin oldBin = e.Bins.Where(x => x.ItemCode == itemCode).FirstOrDefault();
-                if(oldBin != null)
-                {
-                    oldBin.Active = 0;
-                }
+                //Bin oldBin = e.Bins.Where(x => x.ItemCode == itemCode).FirstOrDefault();
+                //if(oldBin != null)
+                //{
+                //    oldBin.Active = 0;
+                //}
 
 
                 int binCount = e.Bins.Count() + 1;
@@ -377,7 +377,8 @@ namespace SA46Team1_Web_ADProj.Controllers
                 FullBinModel model = arr[0];
                 Bin bin = new Bin();
                 bin.Number = model.Number;
-                bin.Active = model.Active;
+                //bin.Active = model.Active;
+                bin.Active = 1;
                 bin.Location = model.Location;
                 bin.ItemCode = e.Items.Where(x => x.Description == model.ItemDesc).Select(x => x.ItemCode).FirstOrDefault();
 
