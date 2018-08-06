@@ -757,6 +757,7 @@
     <Content Include="Views\Dept\Notifications.cshtml" />
     <Content Include="Views\DeptNotifications\ReadMsgs.cshtml" />
     <Content Include="Views\DeptNotifications\UnreadMsgs.cshtml" />
+    <Content Include="SQLData\SSISdb.bak" />
     <None Include="Views\DeptNotifications\AllMsgs.cshtml" />
     <Content Include="Views\StoreReports\RptInventory.cshtml" />
     <Content Include="Views\StoreReports\RptReorder.cshtml" />
@@ -777,7 +778,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="SQLData\" />
     <Folder Include="Views\DefaultCollectionPoint\" />
     <Folder Include="Views\DeptCollectionPoint\" />
   </ItemGroup>
