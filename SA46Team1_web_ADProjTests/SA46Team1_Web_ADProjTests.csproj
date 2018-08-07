@@ -70,7 +70,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Controllers\DeptApprovalTests.cs" />
-    <Compile Include="Controllers\DeptRequisitionTests.cs" />
+    <Compile Include="Controllers\DeptRequisitionControllerTests.cs" />
     <Compile Include="Controllers\LoginTests.cs" />
     <Compile Include="Controllers\RestfulControllerTests.cs" />
     <Compile Include="MockSession.cs" />
