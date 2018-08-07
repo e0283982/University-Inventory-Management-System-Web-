@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using SA46Team1_Web_ADProj.Controllers;
 using System;
 using System.Collections.Generic;
@@ -17,9 +16,9 @@ namespace SA46Team1_Web_ADProj.Controllers.Tests
     public class DeptRequisitionControllerTests
     {
         [TestMethod()]
-        public void NewReqTest()
+        public void SubmitNewReqTest()
         {
-            var controller = new DeptRequisitionController();
+
             using (Models.SSISdbEntities e = new Models.SSISdbEntities())
             {
                 Models.Item item1 = e.Items.Where(x => x.Description == "File Separator").FirstOrDefault();
@@ -36,27 +35,33 @@ namespace SA46Team1_Web_ADProj.Controllers.Tests
                 List<Models.StaffRequisitionDetail> list = new List<Models.StaffRequisitionDetail>();
                 var itemCode = new NameValueCollection { { "SelectItemDesc", "F020" } };
 
-                var context = new Mock<HttpContextBase>();
-                var mockControllerContext = new Mock<ControllerContext>();
-                var mockHttpContext = new Mock<HttpContextBase>();
-                var controllerContext = new Mock<ControllerContext>();
-               
-                var request = new Mock<HttpRequestBase>();
+                HttpContext.Current = SA46Team1_Web_ADProjTests.MockSession.FakeHttpContext();
 
-                request.SetupGet(x => x.Headers).Returns(
-                    new System.Net.WebHeaderCollection {
-                        {"X-Requested-With", "XMLHttpRequest"}
-                    });
-                request.Setup(r => r.Form).Returns(itemCode);
-                context.SetupGet(x => x.Request).Returns(request.Object);
-
-
-                mockControllerContext.Setup(c => c.HttpContext).Returns(mockHttpContext.Object);
-                controller.ControllerContext = new ControllerContext(context.Object, new RouteData(), controller);
+                var wrapper = new HttpContextWrapper(HttpContext.Current);
+                DeptRequisitionController controller = new DeptRequisitionController();
+                HttpContext.Current.Session["DepartmentCode"] = "ZOOL";
+                HttpContext.Current.Session["LoginEmployeeID"] = "E25";
+                HttpContext.Current.Session["currentFormId"] = "SR-1001";
+                HttpContext.Current.Session["newReqList"] = list;
+                HttpContext.Current.Session["NoUnreadRequests"] = 10;
+                HttpContext.Current.Session["tempList"] = new List<String>();
+                HttpContext.Current.Session["EmpName"] = "Keith Ho";
+                controller.ControllerContext = new ControllerContext(wrapper, new RouteData(), controller);
                 
-                var result1 = controller.AddNewReqItem(item1, srd1);
+                var result1 = controller.SubmitNewRequestForm();
                 
                 Assert.IsNotNull(result1);
+
+                DAL.StaffRequisitionRepositoryImpl dal = new DAL.StaffRequisitionRepositoryImpl(e);
+                Models.StaffRequisitionHeader srh = dal.GetStaffRequisitionHeaderById("SR-1000");
+                string emp = srh.EmployeeID;
+                string deptCode = srh.DepartmentCode;
+
+                Assert.AreEqual(emp, "E25");
+                Assert.AreEqual(deptCode, "ZOOL");
+
+                dal.DeleteStaffRequisitionHeader("SR-1001");
+                e.SaveChanges();
             }
 
 
@@ -64,13 +69,13 @@ namespace SA46Team1_Web_ADProj.Controllers.Tests
     }
 }
 
-public class MockHttpSession : HttpSessionStateBase
-{
-    Dictionary<string, object> m_SessionStorage = new Dictionary<string, object>();
+//public class MockHttpSession : HttpSessionStateBase
+//{
+//    Dictionary<string, object> m_SessionStorage = new Dictionary<string, object>();
 
-    public override object this[string name]
-    {
-        get { return m_SessionStorage[name]; }
-        set { m_SessionStorage[name] = value; }
-    }
-}
+//    public override object this[string name]
+//    {
+//        get { return m_SessionStorage[name]; }
+//        set { m_SessionStorage[name] = value; }
+//    }
+//}
