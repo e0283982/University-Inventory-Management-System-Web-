@@ -9,7 +9,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetDisbursementListDetails/' + '@Session["storeDisbursementFormId"]',
+            url: 'http://localhost/lu/api/Restful/GetDisbursementListDetails/' + '@Session["storeDisbursementFormId"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {

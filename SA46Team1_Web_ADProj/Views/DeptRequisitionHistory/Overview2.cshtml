@@ -40,7 +40,7 @@
         }
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetRequisitionHistoryDetail/' + '@Session["id"]',
+            url: 'http://localhost/lu/api/Restful/GetRequisitionHistoryDetail/' + '@Session["id"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -181,7 +181,7 @@
      $('#btn-edit-req-history').on('click', function () {
 
         $.ajax({
-            url: '/DeptRequisitionHistory/EditExisitingOrderQty',
+            url: '/lu/DeptRequisitionHistory/EditExisitingOrderQty',
             type: 'POST',
             async: false
         });
@@ -199,7 +199,7 @@
     $('#btn-confirm-discard-yes').click(function () {
 
         $.ajax({
-            url: '/DeptRequisitionHistory/DiscardSelReqItems',
+            url: '/lu/DeptRequisitionHistory/DiscardSelReqItems',
             data: JSON.stringify({ data: passData, index: passIndex }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -250,7 +250,7 @@
             $("#btn-edit-req-history").show();
 
             $.ajax({
-                url: '/DeptRequisitionHistory/ExitEditExistingOrderQty',
+                url: '/lu/DeptRequisitionHistory/ExitEditExistingOrderQty',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -280,7 +280,7 @@
     $('#btn-confirm-withdrawal-yes').click(function () {
 
         $.ajax({
-            url: '/DeptRequisitionHistory/DiscardSelReqItems',
+            url: '/lu/DeptRequisitionHistory/DiscardSelReqItems',
             data: JSON.stringify({ data: passData, index: passIndex }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',

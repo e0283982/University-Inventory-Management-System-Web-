@@ -13,7 +13,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetGoodsReceivedLists/' + $('#lbl-gr-grId').text(),
+            url: 'http://localhost/lu/api/Restful/GetGoodsReceivedLists/' + $('#lbl-gr-grId').text(),
             type: 'get',
             dataType: 'json',
             success: function (data) {

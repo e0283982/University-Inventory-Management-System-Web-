@@ -15,7 +15,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetStockTakeList',
+            url: 'http://localhost/lu/api/Restful/GetStockTakeList',
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -79,7 +79,7 @@
         if (error == false) {
             $.ajax({
                 type: 'POST',
-                url: '/StoreInventory/StockTakeUpdate',
+                url: '/lu/StoreInventory/StockTakeUpdate',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 async: false,

@@ -13,7 +13,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetUnreadPendingApprovals/'+ '@Session["LoginEmployeeID"]',
+            url: 'http://localhost/lu/api/Restful/GetUnreadPendingApprovals/'+ '@Session["LoginEmployeeID"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -57,7 +57,7 @@
 
                                if (data["ApprovalStatus"] == "Pending") {
                                          $.ajax({
-                                             url: '/DeptNotifications/MsgClicked',
+                                             url: '/lu/DeptNotifications/MsgClicked',
                                              data: { reqFormId: data["FormID"] },
                                              type: 'POST',
                                              async: false,
@@ -67,7 +67,7 @@
                                    }
                                      else {
                                          $.ajax({
-                                         url: '/DeptNotifications/MsgClicked',
+                                         url: '/lu/DeptNotifications/MsgClicked',
                                          data: { reqFormId: data["FormID"] },
                                          type: 'POST',
                                          async: false

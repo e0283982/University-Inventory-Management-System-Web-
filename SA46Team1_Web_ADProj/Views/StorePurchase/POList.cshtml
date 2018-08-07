@@ -29,7 +29,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/getpolist',
+            url: 'http://localhost/lu/api/Restful/getpolist',
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -69,7 +69,7 @@
 
             jQuery.ajax({
                 type: 'POST',
-                url: '/StorePurchase/DisplayPO',
+                url: '/lu/StorePurchase/DisplayPO',
                 data: data,
                 async: false
             });

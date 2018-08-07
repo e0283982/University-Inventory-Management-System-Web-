@@ -14,7 +14,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetCategoryList/'+ '@Session["MaintenanceCategoryId"]',
+            url: 'http://localhost/lu/api/Restful/GetCategoryList/'+ '@Session["MaintenanceCategoryId"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -97,7 +97,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/Store/StoreMaintenance/Categories/EditCategory',
+                url: '/lu/Store/StoreMaintenance/Categories/EditCategory',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 async: false,

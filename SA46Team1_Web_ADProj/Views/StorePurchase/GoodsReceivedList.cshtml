@@ -11,7 +11,7 @@
     var table;
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetGROverview',
+            url: 'http://localhost/lu/api/Restful/GetGROverview',
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -50,7 +50,7 @@
             var data = table.row(this).data();
 
             jQuery.ajax({
-                url: '/StorePurchase/DisplayGR',
+                url: '/lu/StorePurchase/DisplayGR',
                 data: data,
                 type: 'POST',
                 async: false

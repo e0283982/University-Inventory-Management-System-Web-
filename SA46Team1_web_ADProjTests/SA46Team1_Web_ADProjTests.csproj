@@ -41,7 +41,7 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="EntityFramework.SqlServer">
-      <HintPath>C:\GDip SA\C# Projects\LINQ Tutorial\LINQ Tutorial\bin\Debug\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">

@@ -31,7 +31,7 @@
         });
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetPOFullDetails/' + $('#lbl-poNumber').text(),
+            url: 'http://localhost/lu/api/Restful/GetPOFullDetails/' + $('#lbl-poNumber').text(),
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -115,7 +115,7 @@
 
         if (error == false) {
             $.ajax({
-                url: '/StorePurchase/SaveEdit',
+                url: '/lu/StorePurchase/SaveEdit',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -221,7 +221,7 @@
 
         if (error == false) {
             $.ajax({
-                url: '/StorePurchase/GoodsReceipt',
+                url: '/lu/StorePurchase/GoodsReceipt',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -261,7 +261,7 @@
         $('#dialog-cancel-displayPO').dialog('close');
 
         $.ajax({
-            url: '/StorePurchase/CancelPO',
+            url: '/lu/StorePurchase/CancelPO',
             type: 'POST',
             async: false
         });
@@ -276,7 +276,7 @@
     $('#btn-back-to-po-list').click(function () {
 
         $.ajax({
-            url: '/StorePurchase/BackToPOList',
+            url: '/lu/StorePurchase/BackToPOList',
             type: 'POST',
             async: false
         });
@@ -294,7 +294,7 @@
     // Cancel Edit Button
     $('#btn-cancel-displayPO').click(function () {
         jQuery.ajax({
-            url: '/StorePurchase/ExitEditMode',
+            url: '/lu/StorePurchase/ExitEditMode',
             type: 'POST',
             async: false
         })

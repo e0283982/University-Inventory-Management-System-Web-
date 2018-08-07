@@ -99,7 +99,7 @@
         $("#selectItemDesc1").prop('disabled', true);
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetRptReorder',
+            url: 'http://localhost/lu/api/Restful/GetRptReorder',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -185,7 +185,7 @@
                             }
 
                             $.ajax({
-                                url: '/StoreReports/ExportRptReorder2',
+                                url: '/lu/StoreReports/ExportRptReorder2',
                                 data: JSON.stringify({ arr: arr }),
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',

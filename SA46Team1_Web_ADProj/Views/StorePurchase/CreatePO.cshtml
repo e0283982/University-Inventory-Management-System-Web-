@@ -39,7 +39,7 @@
         var data = table.row($(this).parents('tr')).data();
 
         $.ajax({
-            url: '/StorePurchase/DeletePOItem',
+            url: '/lu/StorePurchase/DeletePOItem',
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -106,7 +106,7 @@
             var taData = $("#ta-remarks").val();
 
             $.ajax({
-                url: '/StorePurchase/SavePO',
+                url: '/lu/StorePurchase/SavePO',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -126,7 +126,7 @@
         var qty = table.cell(index, 3).nodes().to$().find('input').val();
         if (qty > 0 && qty % 1 == 0 && qty <= 2000) {
             $.ajax({
-                url: '/StorePurchase/EditNewPOQty',
+                url: '/lu/StorePurchase/EditNewPOQty',
                 data: JSON.stringify({ data: qty, index: index }),
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
@@ -148,7 +148,7 @@
         var qty = table.cell(index, 2).nodes().to$().find(":selected").text();
 
         $.ajax({
-            url: '/StorePurchase/EditNewPOSupplier',
+            url: '/lu/StorePurchase/EditNewPOSupplier',
             data: JSON.stringify({ data: qty, index: index }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',

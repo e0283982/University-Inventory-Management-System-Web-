@@ -13,7 +13,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetPendingApprovalsById/' + '@Session["ReviewNewRequisitionId"]',
+            url: 'http://localhost/lu/api/Restful/GetPendingApprovalsById/' + '@Session["ReviewNewRequisitionId"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -50,7 +50,7 @@
         var data = $('#txt-srh-remarks').val();
 
         $.ajax({
-            url: '/DeptApproval/Approve',
+            url: '/lu/DeptApproval/Approve',
             type: 'POST',
             data: { data: data },
             async: false
@@ -75,7 +75,7 @@
         var data = $('#txt-srh-remarks').val();
 
         $.ajax({
-            url: '/DeptApproval/Reject',
+            url: '/lu/DeptApproval/Reject',
             type: 'POST',
             data: { data: data },
             async: false

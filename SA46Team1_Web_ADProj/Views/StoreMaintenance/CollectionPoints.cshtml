@@ -19,7 +19,7 @@
     var table;
 
     $.ajax({
-        url: 'http://localhost:49921/api/Restful/GetCollectionPointList',
+        url: 'http://localhost/lu/api/Restful/GetCollectionPointList',
         method: 'get',
         dataType: 'json',
         success: function (data) {
@@ -46,7 +46,7 @@
                         var data = table.row(this).data();
 
                         $.ajax({
-                            url: '/StoreMaintenance/DisplayCollectionPointDetails',
+                            url: '/lu/StoreMaintenance/DisplayCollectionPointDetails',
                             data: { maintenanceCollectionPtCode: data["CollectionPointID"] },
                             type: 'POST',
                             async: false

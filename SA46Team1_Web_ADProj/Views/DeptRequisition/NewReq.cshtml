@@ -57,7 +57,7 @@
         var index = table.row($(this).parents('tr')).index();
 
         $.ajax({
-            url: '/DeptRequisition/DiscardNewItems',
+            url: '/lu/DeptRequisition/DiscardNewItems',
             data: JSON.stringify({ data: data[0], index: index }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -136,7 +136,7 @@
     $('#btn-submit-add-item').on('click', function () {
         $('#parent_page').css({ 'opacity': 1, 'pointer-events': 'auto' });
         $.ajax({
-            url: '/DeptRequisition/AddReqItem',
+            url: '/lu/DeptRequisition/AddReqItem',
             type: 'POST',
             async: false
         });
@@ -144,7 +144,7 @@
 
     $('#btn-clear-items').on('click', function () {
         $.ajax({
-            url: '/DeptRequisition/ClearNewReqItems',
+            url: '/lu/DeptRequisition/ClearNewReqItems',
             type: 'POST',
             async: false
         });
@@ -159,7 +159,7 @@
         $('#dialog-confirm-submit-new-req').dialog('close');
 
         $.ajax({
-            url: '/DeptRequisition/SubmitNewRequestForm',
+            url: '/lu/DeptRequisition/SubmitNewRequestForm',
             type: 'POST',
             async: false
         });
@@ -186,7 +186,7 @@
         $("#btn-edit-items").hide();
 
         $.ajax({
-            url: '/DeptRequisition/EditNewOrderQty',
+            url: '/lu/DeptRequisition/EditNewOrderQty',
             type: 'POST',
             async: false
         });
@@ -218,7 +218,7 @@
                 $("#btn-edit-items").show();
 
                 $.ajax({
-                    url: '/DeptRequisition/ExitEditNewOrderQty',
+                    url: '/lu/DeptRequisition/ExitEditNewOrderQty',
                     type: 'POST',
                     async: false,
                     contentType: 'application/json; charset=utf-8',

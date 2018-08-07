@@ -13,7 +13,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetStoreAllNotifications/' + '@Session["LoginEmployeeID"]',
+            url: 'http://localhost/lu/api/Restful/GetStoreAllNotifications/' + '@Session["LoginEmployeeID"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -54,7 +54,7 @@
                             var data = table.row(this).data();
 
                             $.ajax({
-                                url: '/StoreNotifications/MsgClicked',
+                                url: '/lu/StoreNotifications/MsgClicked',
                                 data: { reqFormId: data["RequestId"], item: data["ItemCode"] },
                                 type: 'POST',
                                 async: false

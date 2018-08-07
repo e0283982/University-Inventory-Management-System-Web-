@@ -19,7 +19,7 @@
     var table;
 
     $.ajax({
-        url: 'http://localhost:49921/api/Restful/GetSuppliersList',
+        url: 'http://localhost/lu/api/Restful/GetSuppliersList',
         method: 'get',
         dataType: 'json',
         success: function (data) {
@@ -50,7 +50,7 @@
                         var data = table.row(this).data();
 
                         $.ajax({
-                            url: '/StoreMaintenance/DisplaySupplierDetails',
+                            url: '/lu/StoreMaintenance/DisplaySupplierDetails',
                             data: { maintenanceSupplierCode: data["SupplierCode"] },
                             type: 'POST',
                             async: false

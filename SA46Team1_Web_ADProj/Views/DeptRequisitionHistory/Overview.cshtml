@@ -13,9 +13,9 @@
         var url = '';
 
         if ('@Session["Role"].ToString()' == 'Employee Representative') {
-            url = 'http://localhost:49921/api/Restful/GetDeptRequisitionHistory/' + '@Session["DepartmentCode"]'
+            url = 'http://localhost/lu/api/Restful/GetDeptRequisitionHistory/' + '@Session["DepartmentCode"]'
         } else {
-            url = 'http://localhost:49921/api/Restful/GetRequisitionHistory/' + '@Session["LoginEmployeeID"]'
+            url = 'http://localhost/lu/api/Restful/GetRequisitionHistory/' + '@Session["LoginEmployeeID"]'
         }
 
 
@@ -53,7 +53,7 @@
                 }).on('click', 'tbody tr', function () {
                     var datum = table.row(this).data();
                     jQuery.ajax({
-                        url: '/DeptRequisitionHistory/DisplayReqHistoryDetails',
+                        url: '/lu/DeptRequisitionHistory/DisplayReqHistoryDetails',
                         data: datum,
                         type: 'POST',
                         async: false

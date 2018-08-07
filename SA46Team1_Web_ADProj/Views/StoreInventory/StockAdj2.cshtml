@@ -95,7 +95,7 @@
         var index = table.row($(this).parents('tr')).index();
 
         $.ajax({
-            url: '/StoreInventory/DiscardNewAdjItem',
+            url: '/lu/StoreInventory/DiscardNewAdjItem',
             data: JSON.stringify({ data: data[0], index: index }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -115,7 +115,7 @@
         var qty = table.cell(index, 3).nodes().to$().find('input').val();
         if (qty > 0 && qty % 1 == 0 && qty <= 2000) {
             $.ajax({
-                url: '/StoreInventory/EditNewAdjQty',
+                url: '/lu/StoreInventory/EditNewAdjQty',
                 data: JSON.stringify({ data: qty, index: index }),
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
@@ -137,7 +137,7 @@
         var reason = table.cell(index, 2).nodes().to$().find('option:selected').text();
 
         $.ajax({
-            url: '/StoreInventory/EditNewAdjReason',
+            url: '/lu/StoreInventory/EditNewAdjReason',
             data: JSON.stringify({ data: reason, index: index }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -189,7 +189,7 @@
         $('#parent_page').css({ 'opacity': 0.2, 'pointer-events': 'none' })
 
         $.ajax({
-            url: '/StoreInventory/SubmitNewAdj',
+            url: '/lu/StoreInventory/SubmitNewAdj',
             type: 'POST',
             async: false
         });
@@ -211,7 +211,7 @@
 
     $('#btn-back-stock-adj').on('click', function () {
         $.ajax({
-            url: '/StoreInventory/BackToStockAdjList',
+            url: '/lu/StoreInventory/BackToStockAdjList',
             type: 'POST',
             async: false
         });
@@ -222,7 +222,7 @@
 
     $('#btn-clear-items').on('click', function () {
         $.ajax({
-            url: '/StoreInventory/ClearNewAdjItems',
+            url: '/lu/StoreInventory/ClearNewAdjItems',
             type: 'POST',
             async: false
         });

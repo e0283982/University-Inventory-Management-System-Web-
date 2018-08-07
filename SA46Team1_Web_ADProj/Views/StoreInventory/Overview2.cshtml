@@ -14,7 +14,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetItemsById/' + '@Session["MaintenanceItemCode"]',
+            url: 'http://localhost/lu/api/Restful/GetItemsById/' + '@Session["MaintenanceItemCode"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {

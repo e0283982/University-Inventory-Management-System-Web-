@@ -32,7 +32,7 @@
         if (disbursed == 0) {
 
             $.ajax({
-                url: 'http://localhost:49921/api/Restful/GetStockRetrievalList/' + '@ViewBag.IdCount',
+                url: 'http://localhost/lu/api/Restful/GetStockRetrievalList/' + '@ViewBag.IdCount',
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -134,7 +134,7 @@
     $('#btn-confirm-submit-submit').on('click', function () {
 
         $.ajax({
-            url: '/StoreDisbursements/DisburseItems',
+            url: '/lu/StoreDisbursements/DisburseItems',
             type: 'POST',
             async: false
         });
@@ -159,7 +159,7 @@
 
     function myCollectedFunction(param1, param2) {
         $.ajax({
-            url: '/StoreDisbursements/UpdateItemCollection',
+            url: '/lu/StoreDisbursements/UpdateItemCollection',
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',

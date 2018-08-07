@@ -57,7 +57,7 @@ namespace SA46Team1_Web_ADProj.Controllers
                                 new KeyValuePair<string, string>("password", user.Password)
                             };
                     HttpContent encodedRequest = new FormUrlEncodedContent(tokenRequest);
-                    HttpResponseMessage response = client.PostAsync("http://localhost:49921/token", encodedRequest).Result;
+                    HttpResponseMessage response = client.PostAsync("http://localhost/lu/token", encodedRequest).Result;
                     token = response.Content.ReadAsAsync<BearerTokenModel>().Result;
 
                     if (response.IsSuccessStatusCode)

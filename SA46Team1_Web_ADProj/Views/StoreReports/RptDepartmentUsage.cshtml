@@ -144,7 +144,7 @@
         $('#btn-submit-export2').hide();
 
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetRptDepartmentUsage',
+            url: 'http://localhost/lu/api/Restful/GetRptDepartmentUsage',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -259,7 +259,7 @@
                             }
 
                             $.ajax({
-                                url: '/StoreReports/ExportRptDepartmentUsage2',
+                                url: '/lu/StoreReports/ExportRptDepartmentUsage2',
                                 data: JSON.stringify({ arr: arr }),
                                 dataType: "json",
                                 contentType: 'application/json; charset=utf-8',

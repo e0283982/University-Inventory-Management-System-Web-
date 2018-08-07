@@ -15,7 +15,7 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                url: 'http://localhost:49921/api/Restful/GetStockAdjustmentManagerApproval',
+                url: 'http://localhost/lu/api/Restful/GetStockAdjustmentManagerApproval',
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
@@ -72,7 +72,7 @@
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    url: 'http://localhost:49921/api/Restful/GetStockAdjustmentSupervisorApproval',
+                    url: 'http://localhost/lu/api/Restful/GetStockAdjustmentSupervisorApproval',
                     type: 'get',
                     dataType: 'json',
                     success: function (data) {
@@ -129,7 +129,7 @@
     }
     function approveFunction(requestId, itemCode) {
         $.ajax({
-            url: '/Store/StoreInventoryManager/Approve',
+            url: '/lu/Store/StoreInventoryManager/Approve',
             method: 'POST',
             async: false,
             data: {
@@ -143,7 +143,7 @@
     }
     function rejectFunction(requestId, itemCode) {
         $.ajax({
-            url: '/StoreManagerInventory/Reject',
+            url: '/lu/StoreManagerInventory/Reject',
             method: 'POST',
             async: false,
             data: {

@@ -14,7 +14,7 @@
     $(document).ready(function () {
 
     $.ajax({
-        url: 'http://localhost:49921/api/Restful/GetSupplierPriceList/'+ '@Session["MaintenanceSupplierCode"]',
+        url: 'http://localhost/lu/api/Restful/GetSupplierPriceList/'+ '@Session["MaintenanceSupplierCode"]',
         method: 'get',
         dataType: 'json',
         success: function (data) {
@@ -116,7 +116,7 @@
             if (error == false) {
 
                 $.ajax({
-                    url: '/StoreMaintenance/UpdateSupplierPriceList',
+                    url: '/lu/StoreMaintenance/UpdateSupplierPriceList',
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',

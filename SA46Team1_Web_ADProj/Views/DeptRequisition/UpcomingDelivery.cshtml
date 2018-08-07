@@ -13,7 +13,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:49921/api/Restful/GetDeptStaffReqs/'+ '@Session["DepartmentCode"]',
+            url: 'http://localhost/lu/api/Restful/GetDeptStaffReqs/'+ '@Session["DepartmentCode"]',
             method: 'get',
             dataType: 'json',
             success: function (data) {
@@ -47,7 +47,7 @@
                             var data = table.row(this).data();
 
                             $.ajax({
-                                url: '/DeptRequisitionHistory/DisplayReqHistoryDetails2',
+                                url: '/lu/DeptRequisitionHistory/DisplayReqHistoryDetails2',
                                 data: { formId: data["FormId"] },
                                 type: 'POST',
                                 async: false

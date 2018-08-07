@@ -21,7 +21,7 @@
     $(document).ready(function () {
 
     $.ajax({
-        url: 'http://localhost:49921/api/Restful/GetItemsById/' + '@Session["MaintenanceItemCode"]',
+        url: 'http://localhost/lu/api/Restful/GetItemsById/' + '@Session["MaintenanceItemCode"]',
         method: 'get',
         dataType: 'json',
         success: function (data) {
@@ -218,7 +218,7 @@
             if (error == false && error2 == false) {
                 $.ajax({
                     type: 'POST',
-                    url: '/Store/StoreMaintenance/Items/EditItem',
+                    url: '/lu/Store/StoreMaintenance/Items/EditItem',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     async: false,

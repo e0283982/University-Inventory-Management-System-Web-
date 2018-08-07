@@ -14,7 +14,7 @@
 
      $(document).ready(function () {
     $.ajax({
-        url: 'http://localhost:49921/api/Restful/GetBinsList/'+ '@Session["MaintenanceBinId"]',
+        url: 'http://localhost/lu/api/Restful/GetBinsList/'+ '@Session["MaintenanceBinId"]',
         method: 'get',
         dataType: 'json',
         success: function (data) {
@@ -102,7 +102,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/Store/StoreMaintenance/StoreBin/EditBin',
+                url: '/lu/Store/StoreMaintenance/StoreBin/EditBin',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 async: false,

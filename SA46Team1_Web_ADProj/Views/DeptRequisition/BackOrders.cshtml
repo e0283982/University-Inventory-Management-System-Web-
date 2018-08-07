@@ -11,12 +11,12 @@
     if (Session["Role"].ToString() == "Employee Representative")
     {
         var id = Session["DepartmentCode"];
-        url = "http://localhost:49921/api/Restful/GetBackOrdersByDept/" + id;
+        url = "http://localhost/lu/api/Restful/GetBackOrdersByDept/" + id;
     }
     else
     {
         var id = Session["LoginEmployeeID"];
-        url = "http://localhost:49921/api/Restful/GetBackOrdersByEmployee/" + id;
+        url = "http://localhost/lu/api/Restful/GetBackOrdersByEmployee/" + id;
     }
 
 }
@@ -165,7 +165,7 @@
         }
 
         $.ajax({
-            url: '/DeptRequisition/DiscardSelBackorders',
+            url: '/lu/DeptRequisition/DiscardSelBackorders',
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',

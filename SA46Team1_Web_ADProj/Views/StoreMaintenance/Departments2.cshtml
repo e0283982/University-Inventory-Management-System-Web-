@@ -14,7 +14,7 @@
     var table;
 
     $.ajax({
-        url: 'http://localhost:49921/api/Restful/GetDeptsList/'+ '@Session["MaintenanceDeptCode"]',
+        url: 'http://localhost/lu/api/Restful/GetDeptsList/'+ '@Session["MaintenanceDeptCode"]',
         method: 'get',
         dataType: 'json',
         success: function (data) {
